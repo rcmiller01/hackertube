@@ -128,7 +128,8 @@
   line-height: 1.4;
 }
 
-.hackertube .ht-interest-list {
+.hackertube .ht-interest-list,
+.hackertube .ht-signals {
   margin: 0.2rem 0 0;
   padding-left: 1.2rem;
 }

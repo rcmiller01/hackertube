@@ -1,0 +1,121 @@
+command NODE_PATH=/tmp/pw/node_modules node docs/receipts/feed/capture.js
+pluginCommit b923b93c0301599e30c15d6f8cbfc284972b1a21
+hermesVersion Hermes Agent v0.23.0 (2026.9.24) · stable · local 2bd378ed1b8d
+base http://127.0.0.1:9119/hackertube
+FEED07 sections {"videos":{"heading":"Videos 0","cards":0},"podcasts":{"heading":"Podcasts 4","cards":4},"books":{"heading":"Books 4","cards":4},"audiobooks":{"heading":"Audiobooks 4","cards":4}}
+UI01 heading "HackerTube" nav /hackertube
+UI02 videos heading "Videos 0" cards 0
+UI02 podcasts heading "Podcasts 4" cards 4
+UI02 books heading "Books 4" cards 4
+UI02 audiobooks heading "Audiobooks 4" cards 4
+FEED03 books are source candidates
+key Tab from BODY "HERMES AGENT CHAT SESSIONS FILES MODELS LOGS CRON SKILLS PLUGINS MCP CHANNELS WEBHOOKS PAIRING PROFILES CONFIG KEYS SYSTEM DOCUMENTATION Plugins KANBAN HACKERTU"
+key Tab from BUTTON "Collapse"
+key Tab from A "CHAT"
+key Tab from A "SESSIONS"
+key Tab from A "FILES"
+key Tab from A "MODELS"
+key Tab from A "LOGS"
+key Tab from A "CRON"
+key Tab from A "SKILLS"
+key Tab from A "PLUGINS"
+key Tab from A "MCP"
+key Tab from A "CHANNELS"
+key Tab from A "WEBHOOKS"
+key Tab from A "PAIRING"
+key Tab from A "PROFILES"
+key Tab from A "CONFIG"
+key Tab from A "KEYS"
+key Tab from A "SYSTEM"
+key Tab from A "DOCUMENTATION"
+key Tab from A "KANBAN"
+key Tab from A "HACKERTUBE"
+key Tab from A "ACHIEVEMENTS"
+key Tab from A "Gateway Status: Off Active Sessions: 0"
+key Tab from BUTTON "Restart Gateway"
+key Tab from BUTTON "Update Hermes"
+key Tab from BUTTON "HERMES TEAL"
+key Tab from BUTTON "EN"
+key Tab from A "Nous Research"
+focus A "Discover"
+key Tab from A "Discover"
+key Tab from A "Library (0 saved)"
+key Tab from A "About"
+key Tab from INPUT ""
+key Tab from BUTTON "Add interest"
+focus BUTTON "Focused search"
+key Tab from INPUT "What can I read or listen to by Jane Austen?"
+focus BUTTON "Search"
+key Tab from H2 "Search results"
+key Tab from BUTTON "Back to discovery"
+key Tab from A "Videos"
+key Tab from A "Podcasts"
+key Tab from A "Books"
+key Tab from A "Audiobooks"
+key Tab from BUTTON "Refresh prepared catalog"
+key Tab from A "Open at source"
+focus BUTTON "Save"
+LIB01 second save kept one library record
+key Shift+Tab from BUTTON "Saved"
+focus A "Open at source"
+UI04 opened https://podcasts.apple.com/us/podcast/jane-austen-stories/id1840669662?uo=4
+key Shift+Tab from A "Open at source"
+key Shift+Tab from BUTTON "Refresh prepared catalog"
+key Shift+Tab from A "Audiobooks"
+key Shift+Tab from A "Books"
+key Shift+Tab from A "Podcasts"
+key Shift+Tab from A "Videos"
+key Shift+Tab from BUTTON "Back to discovery"
+key Shift+Tab from BUTTON "Close search"
+key Shift+Tab from BUTTON "Search"
+key Shift+Tab from INPUT "What can I read or listen to by Jane Austen?"
+key Shift+Tab from BUTTON "Focused search"
+key Shift+Tab from BUTTON "Add interest"
+key Shift+Tab from INPUT ""
+focus A "About"
+UI03 credit box {"x":310.4375,"y":156.765625,"width":185.265625,"height":44}
+key Tab from H1 "About"
+key Tab from A "original HackerTube post"
+key Tab from A "hackertube.org"
+key Tab from A "Discover"
+focus A "Library (1 saved)"
+LIB03 open recorded and completion unchanged
+a11y empty alert
+a11y alert focus {"tag":"P","text":"Enter a question before searching.","id":"","inside":true,"outlineStyle":"solid","outlineWidth":"2px","outlineColor":"color(srgb 1 0.901961 0.796078)","ariaDisabled":null}
+a11y section heading
+a11y section focus {"tag":"H2","text":"Podcasts 4","id":"podcasts-heading","inside":true,"outlineStyle":"solid","outlineWidth":"2px","outlineColor":"color(srgb 1 0.901961 0.796078)","ariaDisabled":null}
+a11y text links
+a11y link style {"height":44,"decoration":"underline","className":"ht-text-link"}
+a11y evidence text links 0
+FEED04 refresh
+FEED04 new hosts []
+LIB02 catalog refresh reload
+LIB02 reload kept the save and the open
+UI05 scheme true private true badLinks 0
+FEED06 store AI
+FEED06 AI has no seeded match and did not fill the catalog
+FEED06 store C++
+FEED06 C++ has no seeded match and did not fill the catalog
+FEED06 add gardening
+FEED06 gardening has no seeded match
+FEED01 store the demo question
+FEED01 counts Videos 0, Podcasts 2, Books 4, Audiobooks 4.
+FEED01 ranked feed dropped the two Python records
+FEED04 show more
+FEED04 ranked cards 4 then 10
+show more activeElement {"tag":"H3","text":"Sense and Sensibility","id":"ht-expanded-ranked","inside":true,"outlineStyle":"solid","outlineWidth":"2px","outlineColor":"color(srgb 1 0.901961 0.796078)","ariaDisabled":null}
+show more live "10 of 10"
+FEED05 dismiss Jane Austen Stories
+FEED05 dismissed show left the discovery feed
+FEED05 dismissal survived a page reload and the save stayed in the library
+UI06 savedFocus {"tag":"BUTTON","text":"Saved","id":"","inside":true,"outlineStyle":"solid","outlineWidth":"2px","outlineColor":"color(srgb 1 0.901961 0.796078)","ariaDisabled":"true"}
+UI06 outline solid 2px
+wrote report.json
+command NODE_PATH=/tmp/pw/node_modules node docs/receipts/feed/capture.js --after-restart
+pluginCommit b923b93c0301599e30c15d6f8cbfc284972b1a21
+hermesVersion Hermes Agent v0.23.0 (2026.9.24) · stable · local 2bd378ed1b8d
+base http://127.0.0.1:9119/hackertube
+PREF01 gardening and the demo question retained after Hermes restart
+LIB02 saved item and open event retained after Hermes restart
+FEED05 dismissed item stayed out of the discovery feed after restart
+wrote report.json restart

@@ -5,14 +5,16 @@ plugin context, so ``ctx.llm`` and ``ctx.dispatch_tool`` are not available
 here. Profile data belongs under the plugin data root. The declared secret
 is read through ``agent.secret_scope.get_secret`` and is not written here.
 
-``/catalog`` returns the seed ``hackertube_core`` loads. It does not rank
-the feed and does not call a model or a search provider. ``/profile``
-reads and writes the profile store in the plugin data root. The view
-module is loaded by path because the host loads this file as a script,
-not as a package.
+``/catalog`` returns the seed ``hackertube_core`` loads. ``/feed`` reads
+that seed through ``Catalog.feed`` and ``Catalog.section``, using the
+interests and dismissals in the profile store. It does not call a model
+or a search provider. ``/profile`` reads and writes the profile store in
+the plugin data root. The view modules are loaded by path because the
+host loads this file as a script, not as a package.
 """
 
 import importlib.util
+import sys
 from pathlib import Path
 
 from fastapi import APIRouter, Request
@@ -23,12 +25,21 @@ from plugins.plugin_storage import plugin_data_dir
 
 router = APIRouter()
 
-_VIEW_PATH = Path(__file__).with_name("catalog_view.py")
-_view_spec = importlib.util.spec_from_file_location("hackertube_catalog_view", _VIEW_PATH)
-if _view_spec is None or _view_spec.loader is None:
-    raise ImportError("catalog view")
-_catalog_view = importlib.util.module_from_spec(_view_spec)
-_view_spec.loader.exec_module(_catalog_view)
+
+def _load_module(path, name):
+    spec = importlib.util.spec_from_file_location(name, path)
+    if spec is None or spec.loader is None:
+        raise ImportError(name)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+_catalog_view = _load_module(Path(__file__).with_name("catalog_view.py"), "hackertube_catalog_view")
+_repo = str(_catalog_view.repo_root())
+if _repo not in sys.path:
+    sys.path.insert(0, _repo)
+_discovery = _load_module(Path(__file__).with_name("discovery.py"), "hackertube_discovery")
 
 _MODEL_KEY = "HACKERTUBE_MODEL_KEY"
 
@@ -53,6 +64,16 @@ def status():
 @router.get("/catalog")
 def catalog():
     return _catalog_view.load_view()
+
+
+@router.get("/feed")
+def feed():
+    """Ranked opening feed and format sections. Local reads only."""
+    from hackertube_core.profile import utc_now
+
+    store, _known_ids, _apply = _profile_binding()
+    catalog = _catalog_view.load_catalog()
+    return _discovery.discovery_dict(catalog, store.snapshot(), utc_now())
 
 
 def _profile_binding():

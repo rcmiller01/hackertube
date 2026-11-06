@@ -3,10 +3,11 @@
  * Catalog rows come from GET /api/plugins/hackertube/catalog. That route
  * returns the seed hackertube_core loads. This file does not read a local
  * catalog file. Saves, dismissals, opens, and interests are profile
- * records from GET /api/plugins/hackertube/profile. Feed order is capture
- * order (task 3.2). Search renders the question, disclosure, and results
- * area and does not call a model, search provider, or paid API (tasks 4.1
- * and 4.2).
+ * records from GET /api/plugins/hackertube/profile. GET /feed is
+ * Catalog.feed for the opening feed and Catalog.section for each format.
+ * The page does not rank on its own. Search renders the question,
+ * disclosure, and results area and does not call a model, search
+ * provider, or paid API (tasks 4.1 and 4.2).
  */
 (function (factory) {
   "use strict";
@@ -43,6 +44,12 @@
   ];
   var DISCLOSURE = "Configured sources and the broader web may be searched. Model, search, and provider credits or quota may be used. Browsing is free.";
   var ORDER_NOTE = "Seeded catalog, in capture order.";
+  var DISCOVERY_SCHEMA = "hackertube.discovery/1";
+  var FEED06_NOTE = "No seeded record matches these interests. Coverage is limited to the titles and contributors in this catalog.";
+  var FEED07_NOTE = "Nothing here is ranked for you yet. Add an interest to rank the seeded catalog. Refresh prepared catalog reads the saved catalog again and does not start a search.";
+  var RANK_NOTE = "Dismissed and completed items stay out of this feed. Opening an item does not change the order. A source candidate is not a community recommendation.";
+  var SECTION_NOTE = "These sections follow the ranked feed. An item is hidden when its catalog evidence has expired.";
+  var SECTION_CATALOG_NOTE = "An item is hidden when its catalog evidence has expired. This list is not a personalized feed.";
 
   function destinationDecision(value) {
     if (typeof value !== "string" || !value.trim()) {
@@ -501,6 +508,38 @@
     return map;
   }
 
+  function excludedMap(profile) {
+    var map = {};
+    ((profile && profile.items) || []).forEach(function (row) {
+      if (row && (row.dismissed || row.completed)) map[row.item_id] = true;
+    });
+    return map;
+  }
+
+  function itemsInOrder(items, ids) {
+    var byId = itemsById(items);
+    var rows = [];
+    (ids || []).forEach(function (id) {
+      if (byId[id] && !rows.some(function (item) { return item.item_id === id; })) rows.push(byId[id]);
+    });
+    return rows;
+  }
+
+  function countLine(items) {
+    var counts = { videos: 0, podcasts: 0, books: 0, audiobooks: 0 };
+    (items || []).forEach(function (item) {
+      SECTIONS.forEach(function (section) {
+        if (section.formats.indexOf(item.format) !== -1) counts[section.id] += 1;
+      });
+    });
+    return "Videos " + counts.videos + ", Podcasts " + counts.podcasts + ", Books " + counts.books + ", Audiobooks " + counts.audiobooks + ".";
+  }
+
+  function acceptDiscovery(body) {
+    if (!body || body.schema !== DISCOVERY_SCHEMA || !Array.isArray(body.feed) || !body.sections) return null;
+    return body;
+  }
+
   function hashValue() {
     if (typeof location === "undefined") return "";
     return String(location.hash || "").replace(/^#/, "");
@@ -575,6 +614,15 @@
       var profileStatusState = useState("loading");
       var profileStatus = profileStatusState[0];
       var setProfileStatus = profileStatusState[1];
+      var preparedState = useState(0);
+      var preparedNonce = preparedState[0];
+      var setPreparedNonce = preparedState[1];
+      var discoveryState = useState(null);
+      var discovery = discoveryState[0];
+      var setDiscovery = discoveryState[1];
+      var discoveryErrorState = useState(false);
+      var discoveryError = discoveryErrorState[0];
+      var setDiscoveryError = discoveryErrorState[1];
       var artState = useState({});
       var artFailed = artState[0];
       var setArtFailed = artState[1];
@@ -596,6 +644,10 @@
       var sectionTickState = useState(0);
       var sectionTick = sectionTickState[0];
       var setSectionTick = sectionTickState[1];
+      var expandLiveState = useState("");
+      var expandLive = expandLiveState[0];
+      var setExpandLive = expandLiveState[1];
+      var pendingExpand = useRef("");
       var profileRef = useRef(emptyProfile());
       var profileEpoch = useRef(0);
       var seenView = useRef(null);
@@ -611,15 +663,43 @@
         SDK.fetchJSON("/api/plugins/hackertube/catalog").then(function (body) {
           if (cancelled) return;
           if (!body || !body.catalog || !body.catalog.items) {
-            setLoadError(true);
+            if (preparedNonce === 0) setLoadError(true);
+            else setStatus("The prepared catalog could not be read again.");
             return;
           }
+          setLoadError(false);
           setCatalog(body.catalog);
         }).catch(function () {
-          if (!cancelled) setLoadError(true);
+          if (cancelled) return;
+          if (preparedNonce === 0) setLoadError(true);
+          else setStatus("The prepared catalog could not be read again.");
         });
         return function () { cancelled = true; };
-      }, []);
+      }, [preparedNonce]);
+
+      useEffect(function () {
+        var cancelled = false;
+        if (!SDK.fetchJSON) {
+          setDiscoveryError(true);
+          return function () { cancelled = true; };
+        }
+        SDK.fetchJSON("/api/plugins/hackertube/feed").then(function (body) {
+          if (cancelled) return;
+          var next = acceptDiscovery(body);
+          if (!next) {
+            if (preparedNonce === 0) setDiscoveryError(true);
+            else setStatus("The prepared feed could not be read again.");
+            return;
+          }
+          setDiscoveryError(false);
+          setDiscovery(next);
+        }).catch(function () {
+          if (cancelled) return;
+          if (preparedNonce === 0) setDiscoveryError(true);
+          else setStatus("The prepared feed could not be read again.");
+        });
+        return function () { cancelled = true; };
+      }, [preparedNonce]);
 
       useEffect(function () {
         function onHash() {
@@ -671,7 +751,16 @@
         node.focus();
         if (node.scrollIntoView) node.scrollIntoView();
         pendingSection.current = "";
-      }, [view, catalog, sectionTick]);
+      }, [view, catalog, discovery, sectionTick]);
+
+      useEffect(function () {
+        var key = pendingExpand.current;
+        if (!key || typeof document === "undefined") return;
+        var node = document.getElementById("ht-expanded-" + key);
+        if (!node || !node.focus) return;
+        node.focus();
+        pendingExpand.current = "";
+      }, [expanded]);
 
       useEffect(function () {
         profileRef.current = profile;
@@ -767,6 +856,7 @@
           profileRef.current = next;
           setProfile(next);
           setProfileStatus("ready");
+          setPreparedNonce(function (nonce) { return nonce + 1; });
         }).catch(function () {
           if (profileEpoch.current !== epoch) return;
           if (revert) {
@@ -793,7 +883,7 @@
         if (next === current) return;
         profileRef.current = next;
         setProfile(next);
-        setStatus("Dismissed " + item.title + ". The feed is unchanged.");
+        setStatus("Dismissed " + item.title + ". It stays out of the discovery feed.");
         postProfile("/api/plugins/hackertube/profile/dismissals", { item_id: item.item_id }, current);
       }
 
@@ -937,20 +1027,25 @@
         return h("div", { className: "ht-actions" }, openControl, saveButton, dismissButton);
       }
 
-      function renderCard(item, byId, evidence, sources, editions, inLibrary) {
+      function renderCard(item, byId, evidence, sources, editions, inLibrary, focusId) {
         var note = editionNote(item, editions, byId);
         var length = lengthLine(item);
         var format = FORMAT_LABEL[item.format] || item.format;
         var titleProps = { className: "ht-title" };
+        if (focusId) {
+          titleProps.id = focusId;
+          titleProps.tabIndex = -1;
+        }
+        var title = focusId || !CardTitle
+          ? h("h3", titleProps, item.title)
+          : h(CardTitle, titleProps, item.title);
         return h("article", { key: item.item_id },
           h(Card, { className: "ht-card" },
             h(CardContent, null,
               Badge
                 ? h(Badge, { tone: "secondary", className: "ht-format" }, format)
                 : h("p", { className: "ht-format" }, format),
-              CardTitle
-                ? h(CardTitle, titleProps, item.title)
-                : h("h3", titleProps, item.title),
+              title,
               h("p", { className: "ht-creator" }, creatorLine(item, byId)),
               renderArt(item),
               h("p", { className: "ht-destination" }, destinationLabel(item)),
@@ -969,6 +1064,48 @@
         );
       }
 
+      function reloadPrepared() {
+        setPreparedNonce(function (nonce) { return nonce + 1; });
+      }
+
+      function openFocusedSearch() {
+        setSearchOpen(true);
+      }
+
+      function showMore(key, total) {
+        return h(Button, {
+          type: "button",
+          outlined: true,
+          className: "ht-action",
+          onClick: function () {
+            pendingExpand.current = key;
+            setExpandLive(total + " of " + total);
+            setExpanded(function (prev) {
+              var next = Object.assign({}, prev);
+              next[key] = true;
+              return next;
+            });
+          },
+        }, "Show more");
+      }
+
+      function renderSectionBlock(section, rows, byId, inLibrary, empty) {
+        var shown = visibleSlice(rows, !!expanded[section.id], INITIAL_CARDS);
+        return h("section", { className: "ht-section", id: section.id, key: section.id, "aria-labelledby": section.id + "-heading" },
+          h("h2", { id: section.id + "-heading", tabIndex: -1 },
+            section.label,
+            h("span", { className: "ht-count" }, " " + rows.length)
+          ),
+          rows.length
+            ? h("div", { className: "ht-grid" }, shown.map(function (item, index) {
+                var focusId = expanded[section.id] && index === INITIAL_CARDS ? "ht-expanded-" + section.id : "";
+                return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, inLibrary, focusId);
+              }))
+            : h("p", null, empty),
+          rows.length > shown.length ? showMore(section.id, rows.length) : null
+        );
+      }
+
       function renderSections(inLibrary) {
         var items = catalog && catalog.items ? catalog.items : [];
         var byId = itemsById(items);
@@ -976,33 +1113,67 @@
           h("p", { className: "ht-note" }, ORDER_NOTE),
           SECTIONS.map(function (section) {
             var rows = sectionItems(items, section, inLibrary ? savedMap(profile) : null);
-            var shown = visibleSlice(rows, !!expanded[section.id], INITIAL_CARDS);
-            var empty = sectionEmpty(section.label, inLibrary);
-            return h("section", { className: "ht-section", id: section.id, key: section.id, "aria-labelledby": section.id + "-heading" },
-              h("h2", { id: section.id + "-heading", tabIndex: -1 },
-                section.label,
-                h("span", { className: "ht-count" }, " " + rows.length)
-              ),
-              rows.length
-                ? h("div", { className: "ht-grid" }, shown.map(function (item) {
-                    return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, inLibrary);
-                  }))
-                : h("p", null, empty),
-              rows.length > shown.length
-                ? h(Button, {
-                    type: "button",
-                    outlined: true,
-                    className: "ht-action",
-                    onClick: function () {
-                      setExpanded(function (prev) {
-                        var next = Object.assign({}, prev);
-                        next[section.id] = true;
-                        return next;
-                      });
-                    },
-                  }, "Show more")
-                : null
-            );
+            return renderSectionBlock(section, rows, byId, inLibrary, sectionEmpty(section.label, inLibrary));
+          })
+        );
+      }
+
+      function visibleDiscoveryRows(ids) {
+        var excluded = excludedMap(profile);
+        return itemsInOrder(catalog.items, ids).filter(function (item) {
+          return !excluded[item.item_id];
+        });
+      }
+
+      function renderRanked(rows) {
+        var shown = visibleSlice(rows, !!expanded.ranked, INITIAL_CARDS);
+        var byId = itemsById(catalog.items);
+        var signals = discovery.signals || [];
+        return h("section", { className: "ht-section", id: "ranked-feed", "aria-labelledby": "ranked-heading" },
+          h("h2", { id: "ranked-heading", tabIndex: -1 },
+            "Ranked feed",
+            h("span", { className: "ht-count" }, " " + rows.length)
+          ),
+          discovery.personalized
+            ? rows.length
+              ? h("div", null,
+                  h("p", { id: "hackertube-ranked-counts" }, countLine(rows)),
+                  signals.length
+                    ? h("ul", { id: "hackertube-signals", className: "ht-signals" }, signals.map(function (text) {
+                        return h("li", { key: text }, text);
+                      }))
+                    : null,
+                  h("p", { className: "ht-note" }, RANK_NOTE),
+                  h("div", { className: "ht-grid" }, shown.map(function (item, index) {
+                    var focusId = expanded.ranked && index === INITIAL_CARDS ? "ht-expanded-ranked" : "";
+                    return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, false, focusId);
+                  })),
+                  rows.length > shown.length ? showMore("ranked", rows.length) : null
+                )
+              : h("div", null,
+                  h("p", { id: "hackertube-coverage" }, FEED06_NOTE),
+                  h(Button, { type: "button", className: "ht-action", onClick: openFocusedSearch }, "Open focused search")
+                )
+            : h("div", null,
+                h("p", { id: "hackertube-feed-note" }, FEED07_NOTE),
+                h(Button, { type: "button", className: "ht-action", onClick: reloadPrepared }, "Refresh prepared catalog")
+              )
+        );
+      }
+
+      function renderDiscoverSections() {
+        var byId = itemsById(catalog.items);
+        var personalized = !!(discovery && discovery.personalized);
+        return h("div", null,
+          h("p", { className: "ht-note" }, ORDER_NOTE),
+          h("p", { className: "ht-note", id: "hackertube-section-note" }, personalized ? SECTION_NOTE : SECTION_CATALOG_NOTE),
+          SECTIONS.map(function (section) {
+            var ids = discovery.sections && discovery.sections[section.id];
+            var rows = visibleDiscoveryRows(ids);
+            var empty = personalized
+              ? "No " + section.label.toLowerCase() + " match these interests."
+              : sectionEmpty(section.label, false);
+            return renderSectionBlock(section, rows, byId, false, empty);
           })
         );
       }
@@ -1081,7 +1252,14 @@
             ? h("p", { role: "alert" }, "No prepared feed is available. The catalog did not load. Browsing does not start a search.")
             : null,
           !catalog && !loadError ? h("p", { role: "status" }, "Loading the seeded catalog.") : null,
-          catalog ? renderSections(false) : null,
+          catalog && discoveryError
+            ? h("p", { role: "alert" }, "The prepared feed could not be loaded. Browsing does not start a search.")
+            : null,
+          catalog && !discovery && !discoveryError
+            ? h("p", { role: "status" }, "Loading the prepared feed.")
+            : null,
+          catalog && discovery ? renderRanked(visibleDiscoveryRows(discovery.feed)) : null,
+          catalog && discovery ? renderDiscoverSections() : null,
           unsafeCheckRequested() ? renderUnsafeCheck() : null
         );
       }
@@ -1125,7 +1303,7 @@
                   onChange: function (event) { setInterestDraft(event.target.value); },
                 }),
                 h("p", { id: "hackertube-interest-note", className: "ht-note" },
-                  "Interests can be any subject. They are not limited to technology. Up to 80 characters. This page still lists the seeded catalog in capture order."
+                  "Interests can be any subject. They are not limited to technology. Up to 80 characters. Saved interests rank the opening feed by a word match."
                 ),
                 h(Button, { type: "submit", className: "ht-action" }, "Add interest")
               )
@@ -1172,7 +1350,7 @@
           h("p", null, "The seeded page shows podcasts from Apple Podcasts, books from Open Library, and audiobooks from LibriVox. Hacker News is evidence on a media card. It is not a fifth format. Reddit is not used."),
           h("p", null, "Book covers load from Open Library only when the catalog marks them as hotlinks. This page does not cache those images. Apple artwork is not loaded."),
           h("h2", null, "Coverage"),
-          h("p", null, "This catalog is a small set of records in capture order. Ranking is not applied. A format can be empty. Unknown duration and unknown length stay unknown. Saves and interests stay in this profile. Opening a source records that open and does not mark the item completed."),
+          h("p", null, "The opening feed ranks saved interests by a word match in the title or a contributor name, then lists matches in capture order. An item needs catalog evidence that has not passed its refresh time. Dismissed and completed items stay out of that feed. The match does not use community mention counts. This catalog has no established Hacker News endorsement to rank. Coverage is the seeded titles and contributors. A subject outside that set has no match. A format can be empty. Unknown duration and unknown length stay unknown. Saves and interests stay in this profile. Opening a source records that open and does not mark the item completed."),
           h("h2", null, "Opening a source"),
           h("p", null, "Open at source leaves this page and opens the public destination in the browser. HackerTube does not download the media and does not play it. A destination that is not public https is refused.")
         );
@@ -1183,6 +1361,11 @@
       }
 
       return h("div", { className: "hackertube" },
+        h("div", {
+          id: "hackertube-expand-live",
+          className: "ht-note",
+          "aria-live": "polite",
+        }, expandLive),
         view === "library" ? renderLibrary() : view === "about" ? renderAbout() : renderDiscover()
       );
     }
@@ -1194,6 +1377,11 @@
     DEMO_QUESTION: DEMO_QUESTION,
     DISCLOSURE: DISCLOSURE,
     ORDER_NOTE: ORDER_NOTE,
+    FEED06_NOTE: FEED06_NOTE,
+    FEED07_NOTE: FEED07_NOTE,
+    RANK_NOTE: RANK_NOTE,
+    SECTION_NOTE: SECTION_NOTE,
+    DISCOVERY_SCHEMA: DISCOVERY_SCHEMA,
     sectionEmpty: sectionEmpty,
     INITIAL_CARDS: INITIAL_CARDS,
     SECTIONS: SECTIONS,
@@ -1206,6 +1394,10 @@
     presentEvidence: presentEvidence,
     sectionItems: sectionItems,
     visibleSlice: visibleSlice,
+    excludedMap: excludedMap,
+    itemsInOrder: itemsInOrder,
+    countLine: countLine,
+    acceptDiscovery: acceptDiscovery,
     applySave: applySave,
     applyDismiss: applyDismiss,
     applyOpen: applyOpen,

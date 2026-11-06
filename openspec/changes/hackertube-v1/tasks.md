@@ -1,6 +1,6 @@
 # Tasks
 
-Tasks 1.1, 1.2, 1.4, 2.1, 2.2, and 3.1 are complete. Tasks 1.3 and 2.4 are not: YouTube oEmbed is disabled (`unresolved-terms`), so the seed has no displayable video cards. PREF02, PREF03, and HCKT18 were not exercised. The other implementation tasks are not complete. Group 1 establishes integration feasibility before dependent product work. Scenario IDs refer to specs in this change. "Demo" means the November 11 hackathon cut in PRD section 13. "Post-demo" tasks preserve the later requirements but do not block the demo video. No public release or external submission is authorized by a checkbox.
+Tasks 1.1, 1.2, 1.4, 2.1, 2.2, 3.1, and 3.2 are complete. Tasks 1.3 and 2.4 are not: YouTube oEmbed is disabled (`unresolved-terms`), so the seed has no displayable video cards. PREF02, PREF03, and HCKT18 were not exercised. The other implementation tasks are not complete. Group 1 establishes integration feasibility before dependent product work. Scenario IDs refer to specs in this change. "Demo" means the November 11 hackathon cut in PRD section 13. "Post-demo" tasks preserve the later requirements but do not block the demo video. No public release or external submission is authorized by a checkbox.
 
 ## 1. Verify host and source integration
 
@@ -19,7 +19,7 @@ Tasks 1.1, 1.2, 1.4, 2.1, 2.2, and 3.1 are complete. Tasks 1.3 and 2.4 are not: 
 ## 3. Deliver the dashboard and local discovery
 
 - [x] 3.1 Build the supported web page, four sections, library, About view, and source-opening controls. Verify UI01 through UI06 in the real web dashboard with a keyboard for the six-step cut and record accessibility evidence. Add Karpathy credit to the README, About view, and prepared marketplace description. Demo.
-- [ ] 3.2 Implement prepared-feed ranking against the seeded catalog and basic feedback exclusions. Verify FEED01 through FEED07 with a fixed catalog. FEED08 strict duration filtering moves to task 6.3. Document the ranking policy and its limited subject coverage. Demo.
+- [x] 3.2 Implement prepared-feed ranking against the seeded catalog and basic feedback exclusions. Verify FEED01 through FEED07 with a fixed catalog. FEED08 strict duration filtering moves to task 6.3. Document the ranking policy and its limited subject coverage. Demo.
 - [ ] 3.3 Instrument request boundaries and verify zero paid calls across ordinary browsing, local reranking, library operations, and reopening. Record FEED04, PREF08, JOB02, and JOB04 receipts. Demo.
 
 ## 4. Deliver the explicit demo search and submission candidate
