@@ -4,19 +4,21 @@ The catalog document does not hold this data. One SQLite file in the
 serving profile's plugin data directory does. Rows store an item id,
 flags, save order, and open-event times. They do not store titles,
 destinations, art, excerpts, or account names.
+
+The dashboard opens that file with Hermes ``plugin_db``. This module
+does not connect and does not set journal mode, busy timeout, or
+foreign keys. Those belong to the host helper.
 """
 
 from __future__ import annotations
 
-import sqlite3
 from datetime import datetime, timezone
-from pathlib import Path
 
 from hackertube_core.errors import ProfileError, RecordError
 from hackertube_core.records import Interest, UserItemState
 
 SCHEMA = "hackertube.profile/1"
-_DB_NAME = "profile.db"
+DB_NAME = "profile.db"
 
 
 def utc_now():
@@ -27,13 +29,28 @@ def _fail(code):
     raise ProfileError(code)
 
 
+def open_profile_db():
+    """Open the profile database through Hermes.
+
+    ``plugins.plugin_storage.plugin_db`` (Hermes v0.23.0, line 36) calls
+    ``hermes_cli.sqlite_util.open_db`` and owns journal mode, busy timeout,
+    and foreign keys. The returned connection uses ``row_factory`` None, so
+    this sets ``sqlite3.Row`` for named columns and does not change durability.
+    """
+    from plugins.plugin_storage import plugin_db
+
+    conn = plugin_db("hackertube", filename=DB_NAME)
+    import sqlite3
+
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
 class ProfileStore:
     """Transactional profile store. Each call opens and closes its connection."""
 
-    def __init__(self, root, clock=None):
-        self.root = Path(root)
-        self.root.mkdir(parents=True, exist_ok=True)
-        self.path = self.root / _DB_NAME
+    def __init__(self, connect, clock=None):
+        self._connect = connect
         self.clock = clock or utc_now
         conn = self._connect()
         try:
@@ -42,15 +59,7 @@ class ProfileStore:
         finally:
             conn.close()
 
-    def _connect(self):
-        conn = sqlite3.connect(self.path)
-        conn.row_factory = sqlite3.Row
-        conn.execute("PRAGMA foreign_keys=ON")
-        conn.execute("PRAGMA busy_timeout=4000")
-        return conn
-
     def _ensure(self, conn):
-        conn.execute("PRAGMA journal_mode=WAL")
         conn.executescript(
             """
             CREATE TABLE IF NOT EXISTS profile_meta (

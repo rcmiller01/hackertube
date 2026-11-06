@@ -58,10 +58,10 @@ def catalog():
 def _profile_binding():
     """Open the profile after the catalog view has put the repo on ``sys.path``."""
     catalog = _catalog_view.catalog_dict()
-    from hackertube_core.profile import ProfileStore, apply_action
+    from hackertube_core.profile import ProfileStore, apply_action, open_profile_db
 
     known_ids = {item["item_id"] for item in catalog["items"]}
-    return ProfileStore(plugin_data_dir("hackertube")), known_ids, apply_action
+    return ProfileStore(open_profile_db), known_ids, apply_action
 
 
 def _profile_response(status, payload):

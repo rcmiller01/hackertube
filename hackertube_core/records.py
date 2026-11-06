@@ -187,13 +187,9 @@ class Interest:
         if not isinstance(self.text, str):
             raise RecordError("interest")
         text = self.text.strip()
-        if (
-            render_untrusted(text) != text
-            or not text
-            or len(text) > INTEREST_MAX
-            or "<" in text
-            or ">" in text
-        ):
+        if not text or len(text) > INTEREST_MAX:
+            raise RecordError("interest")
+        if any(ord(ch) < 32 or ch in "<>" for ch in text):
             raise RecordError("interest")
         object.__setattr__(self, "text", text)
 

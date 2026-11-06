@@ -433,10 +433,23 @@
     return profileWithItems(current, items);
   }
 
+  function codePointLength(text) {
+    var count = 0;
+    for (var i = 0; i < text.length; i += 1) {
+      var unit = text.charCodeAt(i);
+      if (unit >= 0xD800 && unit <= 0xDBFF && i + 1 < text.length) {
+        var next = text.charCodeAt(i + 1);
+        if (next >= 0xDC00 && next <= 0xDFFF) i += 1;
+      }
+      count += 1;
+    }
+    return count;
+  }
+
   function cleanInterest(text) {
     if (typeof text !== "string") return "";
     var cleaned = text.trim();
-    if (!cleaned || cleaned.length > INTEREST_MAX) return "";
+    if (!cleaned || codePointLength(cleaned) > INTEREST_MAX) return "";
     if (/[<>]/.test(cleaned) || /[\u0000-\u001f]/.test(cleaned)) return "";
     return cleaned;
   }
@@ -794,9 +807,14 @@
 
       function onAddInterest(event) {
         event.preventDefault();
+        var raw = String(interestDraft || "").trim();
+        if (!raw) {
+          setStatus("Enter an interest before adding it.");
+          return;
+        }
         var text = cleanInterest(interestDraft);
         if (!text) {
-          setStatus("Enter an interest before adding it.");
+          setStatus("That interest was not saved. Use up to 80 characters, with no line breaks or angle brackets.");
           return;
         }
         var current = profileRef.current;
@@ -1107,7 +1125,7 @@
                   onChange: function (event) { setInterestDraft(event.target.value); },
                 }),
                 h("p", { id: "hackertube-interest-note", className: "ht-note" },
-                  "Interests can be any subject. They are not limited to technology. This page still lists the seeded catalog in capture order."
+                  "Interests can be any subject. They are not limited to technology. Up to 80 characters. This page still lists the seeded catalog in capture order."
                 ),
                 h(Button, { type: "submit", className: "ht-action" }, "Add interest")
               )

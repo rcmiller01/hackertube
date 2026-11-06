@@ -128,6 +128,15 @@ test("PREF01 gardening interest is accepted and kept", () => {
   assert.deepEqual(once.interests, ["gardening"]);
   assert.equal(page.addInterest(page.emptyProfile(), "<b>gardening</b>").interests.length, 0);
   assert.equal(page.addInterest(page.emptyProfile(), "").interests.length, 0);
+  const eighty = "a".repeat(80);
+  assert.deepEqual(page.addInterest(page.emptyProfile(), eighty).interests, [eighty]);
+  assert.equal(page.addInterest(page.emptyProfile(), "a".repeat(81)).interests.length, 0);
+  const plants = "🌱".repeat(80);
+  assert.equal(page.addInterest(page.emptyProfile(), plants).interests[0], plants);
+  assert.equal(page.addInterest(page.emptyProfile(), "🌱".repeat(81)).interests.length, 0);
+  assert.equal(page.addInterest(page.emptyProfile(), "gardening\nbeds").interests.length, 0);
+  assert.equal(page.addInterest(page.emptyProfile(), "gardening\rbeds").interests.length, 0);
+  assert.deepEqual(page.addInterest(page.emptyProfile(), "&lt;b&gt;").interests, ["&lt;b&gt;"]);
 });
 
 test("section order is capture order and library is newest save first", () => {
