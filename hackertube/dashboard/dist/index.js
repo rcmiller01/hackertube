@@ -438,6 +438,13 @@
       var inputRef = useRef(null);
       var resultsRef = useRef(null);
       var alertRef = useRef(null);
+      var pendingSection = useRef("");
+      var alertNonceState = useState(0);
+      var alertNonce = alertNonceState[0];
+      var setAlertNonce = alertNonceState[1];
+      var sectionTickState = useState(0);
+      var sectionTick = sectionTickState[0];
+      var setSectionTick = sectionTickState[1];
       var saveClock = useRef(0);
       var savedRef = useRef({});
       var seenView = useRef(null);
@@ -472,9 +479,9 @@
             return;
           }
           if (value === "videos" || value === "podcasts" || value === "books" || value === "audiobooks") {
+            pendingSection.current = value;
             setView("discover");
-            var node = document.getElementById(value);
-            if (node && node.scrollIntoView) node.scrollIntoView();
+            setSectionTick(function (tick) { return tick + 1; });
           }
         }
         window.addEventListener("hashchange", onHash);
@@ -500,6 +507,21 @@
         if (submitCount === 0) return;
         if (resultsRef.current) resultsRef.current.focus();
       }, [submitCount]);
+
+      useEffect(function () {
+        if (alertNonce === 0) return;
+        if (alertRef.current && alertRef.current.focus) alertRef.current.focus();
+      }, [alertNonce]);
+
+      useEffect(function () {
+        var id = pendingSection.current;
+        if (!id || typeof document === "undefined") return;
+        var node = document.getElementById(id + "-heading");
+        if (!node || !node.focus) return;
+        node.focus();
+        if (node.scrollIntoView) node.scrollIntoView();
+        pendingSection.current = "";
+      }, [view, catalog, sectionTick]);
 
       useEffect(function () {
         savedRef.current = saved;
@@ -530,7 +552,7 @@
         var value = question.trim();
         if (!value) {
           setFormAlert("Enter a question before searching.");
-          if (alertRef.current) alertRef.current.focus();
+          setAlertNonce(function (nonce) { return nonce + 1; });
           return;
         }
         setFormAlert("");
@@ -610,6 +632,7 @@
           var linkDecision = destinationDecision(presented.href);
           if (linkDecision.ok) {
             body = h("a", {
+              className: "ht-text-link",
               href: linkDecision.href,
               target: "_blank",
               rel: "noopener noreferrer",
@@ -713,7 +736,7 @@
               ? "No saved " + section.label.toLowerCase() + "."
               : "No " + section.label.toLowerCase() + " in this fixture.";
             return h("section", { className: "ht-section", id: section.id, key: section.id, "aria-labelledby": section.id + "-heading" },
-              h("h2", { id: section.id + "-heading" },
+              h("h2", { id: section.id + "-heading", tabIndex: -1 },
                 section.label,
                 h("span", { className: "ht-count" }, " " + rows.length)
               ),
@@ -858,9 +881,9 @@
           h("h1", { id: "about", tabIndex: -1, ref: headingRef }, "About"),
           h("p", null,
             "Andrej Karpathy created the original HackerTube and inspired this project. Read his ",
-            h("a", { href: "https://karpathy.bearblog.dev/hacker-tube/", target: "_blank", rel: "noopener noreferrer" }, "original HackerTube post"),
+            h("a", { className: "ht-text-link", href: "https://karpathy.bearblog.dev/hacker-tube/", target: "_blank", rel: "noopener noreferrer" }, "original HackerTube post"),
             " and visit ",
-            h("a", { href: "https://hackertube.org/", target: "_blank", rel: "noopener noreferrer" }, "hackertube.org"),
+            h("a", { className: "ht-text-link", href: "https://hackertube.org/", target: "_blank", rel: "noopener noreferrer" }, "hackertube.org"),
             "."
           ),
           h("p", null, "This is an independent Hermes adaptation. It extends the original community-curated discovery idea across several media formats."),

@@ -195,3 +195,243 @@ test("demo question and disclosure text are the approved lines", () => {
   assert.match(page.DISCLOSURE, /broader web/);
   assert.match(page.DISCLOSURE, /Browsing is free/);
 });
+
+function mountPage(catalogBody) {
+  const previous = {
+    window: global.window,
+    document: global.document,
+    location: global.location,
+  };
+  const listeners = {};
+  const location = { hash: "", search: "" };
+  global.location = location;
+  global.window = {
+    location,
+    addEventListener(type, fn) {
+      listeners[type] = listeners[type] || [];
+      listeners[type].push(fn);
+    },
+    removeEventListener(type, fn) {
+      listeners[type] = (listeners[type] || []).filter((item) => item !== fn);
+    },
+    sessionStorage: { getItem() { return null; } },
+  };
+  const focused = { current: null };
+  let states = [];
+  let effects = [];
+  let hookIndex = 0;
+  let effectIndex = 0;
+  let tree = null;
+  let rendering = false;
+  let flushing = false;
+  let queued = false;
+
+  function walk(node, visit) {
+    if (Array.isArray(node)) {
+      node.forEach((child) => walk(child, visit));
+      return;
+    }
+    if (!node || typeof node !== "object") return;
+    visit(node);
+    walk(node.children, visit);
+  }
+
+  global.document = {
+    getElementById(id) {
+      let found = null;
+      walk(tree, (node) => {
+        if (!found && node.props && node.props.id === id) found = node;
+      });
+      if (found) {
+        found.focus = () => { focused.current = found; };
+        found.scrollIntoView = () => {};
+      }
+      return found;
+    },
+  };
+
+  function commit(node) {
+    walk(node, (item) => {
+      if (item.props && item.props.ref) {
+        item.focus = () => { focused.current = item; };
+        item.props.ref.current = item;
+      }
+    });
+  }
+
+  function flush() {
+    flushing = true;
+    effects.forEach((slot) => {
+      if (!slot || !slot.changed) return;
+      if (typeof slot.cleanup === "function") slot.cleanup();
+      const cleanup = slot.fn();
+      slot.cleanup = typeof cleanup === "function" ? cleanup : null;
+      slot.changed = false;
+    });
+    flushing = false;
+    if (queued) {
+      queued = false;
+      rerender();
+    }
+  }
+
+  function schedule() {
+    if (rendering || flushing) {
+      queued = true;
+      return;
+    }
+    rerender();
+  }
+
+  const React = {
+    createElement(type, props, ...children) {
+      return { type, props: props || {}, children };
+    },
+    useState(init) {
+      const index = hookIndex++;
+      if (states.length <= index) states.push(typeof init === "function" ? init() : init);
+      return [states[index], (value) => {
+        states[index] = typeof value === "function" ? value(states[index]) : value;
+        schedule();
+      }];
+    },
+    useEffect(fn, deps) {
+      const index = effectIndex++;
+      const prev = effects[index] || {};
+      const changed = !prev.deps || !deps || deps.length !== prev.deps.length || deps.some((dep, i) => !Object.is(dep, prev.deps[i]));
+      effects[index] = { fn, deps, changed, cleanup: prev.cleanup };
+    },
+    useRef(init) {
+      const index = hookIndex++;
+      if (states.length <= index) states.push({ current: init });
+      return states[index];
+    },
+  };
+
+  function Stub() {}
+  const Page = page.createPage({
+    React,
+    fetchJSON() {
+      return {
+        then(onOk) {
+          if (catalogBody) onOk(catalogBody);
+          return { catch() { return this; } };
+        },
+      };
+    },
+    components: {
+      Card: Stub,
+      CardContent: Stub,
+      CardTitle: Stub,
+      Badge: Stub,
+      Button: Stub,
+      Input: Stub,
+      Label: Stub,
+      Separator: Stub,
+    },
+  });
+
+  function rerender() {
+    rendering = true;
+    hookIndex = 0;
+    effectIndex = 0;
+    tree = Page();
+    rendering = false;
+    commit(tree);
+    flush();
+  }
+
+  rerender();
+
+  function find(pred) {
+    let hit = null;
+    walk(tree, (node) => {
+      if (!hit && pred(node)) hit = node;
+    });
+    return hit;
+  }
+
+  return {
+    focused,
+    listeners,
+    location,
+    find,
+    restore() {
+      global.window = previous.window;
+      global.document = previous.document;
+      global.location = previous.location;
+    },
+  };
+}
+
+const SAMPLE_CATALOG = {
+  fixture: true,
+  catalog: {
+    items: [{
+      item_id: "b1",
+      format: "book",
+      title: "Emma",
+      destination: "https://openlibrary.org/works/OL66513W",
+      capture_order: 1,
+      contributors: ["Jane Austen"],
+      duration_seconds: null,
+      art_url: null,
+      art_hotlink: false,
+    }],
+    evidence: [{
+      item_id: "b1",
+      source_id: "hn",
+      kind: "community",
+      endorsement: "established",
+      display_line: "Recommended in Hacker News",
+      destination: "https://news.ycombinator.com/item?id=26188584",
+      retrieved_at: "2026-11-06T12:22:22Z",
+    }],
+    sources: [{ source_id: "hn", name: "Hacker News" }],
+    editions: [],
+  },
+};
+
+test("empty question alert receives focus after it mounts", () => {
+  const ui = mountPage(SAMPLE_CATALOG);
+  try {
+    const trigger = ui.find((node) => (node.children || []).some((child) => child === "Focused search"));
+    trigger.props.onClick();
+    const form = ui.find((node) => node.type === "form");
+    form.props.onSubmit({ preventDefault() {} });
+    assert.equal(ui.focused.current.props.role, "alert");
+    assert.equal(ui.focused.current.props.tabIndex, -1);
+    assert.equal(ui.focused.current.children[0], "Enter a question before searching.");
+  } finally {
+    ui.restore();
+  }
+});
+
+test("section navigation focuses the section heading", () => {
+  const ui = mountPage(SAMPLE_CATALOG);
+  try {
+    ui.location.hash = "#podcasts";
+    ui.listeners.hashchange.forEach((fn) => fn());
+    assert.equal(ui.focused.current.props.id, "podcasts-heading");
+    assert.equal(ui.focused.current.props.tabIndex, -1);
+    assert.equal(ui.focused.current.type, "h2");
+  } finally {
+    ui.restore();
+  }
+});
+
+test("evidence and about links use the text link class", () => {
+  const ui = mountPage(SAMPLE_CATALOG);
+  try {
+    const evidence = ui.find((node) => node.type === "a" && node.props.href === "https://news.ycombinator.com/item?id=26188584");
+    assert.equal(evidence.props.className, "ht-text-link");
+    ui.location.hash = "#about";
+    ui.listeners.hashchange.forEach((fn) => fn());
+    const credit = ui.find((node) => node.type === "a" && node.props.href === "https://karpathy.bearblog.dev/hacker-tube/");
+    const site = ui.find((node) => node.type === "a" && node.props.href === "https://hackertube.org/");
+    assert.equal(credit.props.className, "ht-text-link");
+    assert.equal(site.props.className, "ht-text-link");
+  } finally {
+    ui.restore();
+  }
+});
