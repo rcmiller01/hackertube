@@ -1,6 +1,6 @@
 # Tasks
 
-Tasks 1.1, 1.2, 1.4, 2.1, and 3.1 are complete. Tasks 1.3 and 2.4 are not: YouTube oEmbed is disabled (`unresolved-terms`), so the seed has no displayable video cards. PREF02, PREF03, and HCKT18 were not exercised. The other implementation tasks are not complete. Group 1 establishes integration feasibility before dependent product work. Scenario IDs refer to specs in this change. "Demo" means the November 11 hackathon cut in PRD section 13. "Post-demo" tasks preserve the later requirements but do not block the demo video. No public release or external submission is authorized by a checkbox.
+Tasks 1.1, 1.2, 1.4, 2.1, 2.2, and 3.1 are complete. Tasks 1.3 and 2.4 are not: YouTube oEmbed is disabled (`unresolved-terms`), so the seed has no displayable video cards. PREF02, PREF03, and HCKT18 were not exercised. The other implementation tasks are not complete. Group 1 establishes integration feasibility before dependent product work. Scenario IDs refer to specs in this change. "Demo" means the November 11 hackathon cut in PRD section 13. "Post-demo" tasks preserve the later requirements but do not block the demo video. No public release or external submission is authorized by a checkbox.
 
 ## 1. Verify host and source integration
 
@@ -12,7 +12,7 @@ Tasks 1.1, 1.2, 1.4, 2.1, and 3.1 are complete. Tasks 1.3 and 2.4 are not: YouTu
 ## 2. Establish catalog and persistent state
 
 - [x] 2.1 Implement normalized item, evidence, source, and edition records with boundary checks. Verify CAT01 through CAT11 on real captured source samples and hostile/invalid fixtures. Document adapter contracts and unknown fields. Demo: implement only fields used by the seeded records and one search. Limited source samples do not change the demo status of the CAT scenarios.
-- [ ] 2.2 Implement profile-local interests and library state for the seeded feed and demo save. Verify LIB01, LIB02, LIB03, and PREF01 across their respective save, restart, refresh, source-opening, and interest-persistence steps. Demo. LIB04 through LIB06 and PREF07 remain for post-demo tasks 6.3 and 6.4.
+- [x] 2.2 Implement profile-local interests and library state for the seeded feed and demo save. Verify LIB01, LIB02, LIB03, and PREF01 across their respective save, restart, refresh, source-opening, and interest-persistence steps. Demo. LIB04 through LIB06 and PREF07 remain for post-demo tasks 6.3 and 6.4.
 - [ ] 2.3 Implement source ingestion and status for the selected demo adapters. Verify PREF02 through PREF04, PREF14, and CAT05, including a failed source and duplicate identities. Document supported source setup and source-control semantics. Reddit scenarios stay unimplemented until approval. Demo source coverage may be smaller than the proposed matrix.
 - [ ] 2.4 Prepare a small seeded catalog from real, licensed-for-display records with the evidence needed by the demo. Include refresh and retention metadata required by each source. Verify UI02, FEED01, CAT03, CAT04, CAT10, and CAT11. Demo. Open while YouTube cards are unusable: the seed keeps video ids and links only, and the videos section is empty.
 
