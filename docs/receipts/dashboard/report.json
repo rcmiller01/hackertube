@@ -1,5 +1,5 @@
 {
-  "pluginCommit": "8e0da8fac87769b975dcfed2f3e2fb60ae38cec2",
+  "pluginCommit": "ae5837db5e519884f12537fe69d4668c50731d0f",
   "hermesVersion": "Hermes Agent v0.23.0 (2026.9.24) · stable · local 2bd378ed1b8d\nInstall directory: /tmp/hermes-src/hermes-v023\nInstall method: git\nPython: 3.14.10\nOpenAI SDK: 2.54.0\nUp to date",
   "captureCommand": "NODE_PATH=/tmp/pw/node_modules node docs/receipts/dashboard/capture.js",
   "reloadedHeading": "HackerTube",
@@ -46,7 +46,9 @@
     "columns": "327.5px"
   },
   "columns768": "683px",
-  "notes": [],
+  "notes": [
+    "dismissed host shared-metrics banner with the keyboard"
+  ],
   "axe": [
     "search-open",
     "about",
