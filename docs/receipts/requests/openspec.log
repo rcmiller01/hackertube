@@ -1,14 +1,2 @@
-$ OPENSPEC_TELEMETRY=0 npx --yes --package @fission-ai/openspec@1.16.0 openspec validate --all --strict --no-interactive
 ✓ change/hackertube-v1
 Totals: 1 passed, 0 failed (1 items)
-
-$ .venv/bin/python scripts/check_spec_coverage.py
-PASS: 32 PRD IDs; 31 delivery-mapped; 1 deferred (R16); 8 demo rows with post-demo subsets (R03, R04, R05, R07, R08, R12, R14, R27); 1 fully post-demo rows (R13); 21 post-demo scenarios; 8 capabilities; 49 requirements; 95 scenarios. Runtime checks not run.
-
-$ .venv/bin/python -m pytest tests -q
-125 passed, 1 warning in 0.28s
-
-$ PLAYWRIGHT_BROWSERS_PATH=$HOME/.hermes/tools node --test tests/test_dashboard_page.js
-tests 38 / pass 38 / fail 0
-
-Recorded at code commit 078014f on CPython 3.14.7 (node 26.7.0).

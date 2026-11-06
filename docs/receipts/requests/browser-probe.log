@@ -1,0 +1,58 @@
+{
+  "counters": {
+    "local": 18,
+    "free": 9,
+    "metered": 0,
+    "paid": 0,
+    "refused": 0
+  },
+  "phases": [
+    {
+      "phase": "feed load",
+      "local": 6,
+      "free": 4,
+      "outside": 0
+    },
+    {
+      "phase": "show more",
+      "local": 0,
+      "free": 1,
+      "outside": 0
+    },
+    {
+      "phase": "section browse",
+      "local": 0,
+      "free": 0,
+      "outside": 0
+    },
+    {
+      "phase": "save",
+      "local": 3,
+      "free": 0,
+      "outside": 0
+    },
+    {
+      "phase": "dismiss",
+      "local": 3,
+      "free": 0,
+      "outside": 0
+    },
+    {
+      "phase": "reopen",
+      "local": 6,
+      "free": 4,
+      "outside": 0
+    },
+    {
+      "phase": "library",
+      "local": 0,
+      "free": 0,
+      "outside": 0
+    }
+  ],
+  "reopened": {
+    "ranked_mentions_dismissed_item": false,
+    "library_mentions_saved_item": true,
+    "library_mentions_dismissed_item": false
+  }
+}
