@@ -25,12 +25,17 @@ def test_ui02_sections_are_honest_without_youtube_titles():
     assert all(row[1] == f"https://www.youtube.com/watch?v={row[0]}" for row in catalog.unavailable_videos)
 
 
-def test_feed01_is_deterministic_and_local():
+def test_feed01_is_deterministic_and_local(monkeypatch):
+    from hackertube_core import outbound
+
+    outbound.install_guard(monkeypatch)
+    outbound.reset()
     catalog = load_seed()
     first = catalog.feed(["jane austen"], NOW)
     second = catalog.feed(["Jane Austen"], NOW)
     assert first == second
-    assert first.paid_calls == 0 and first.personalized is True
+    assert outbound.counters() == {"free": 0, "paid": 0}
+    assert first.personalized is True
     assert len(first.why) == len(first.items)
     assert {item.format for item in first.items} == {"podcast_show", "book", "audiobook"}
     assert catalog.feed([], NOW).personalized is False

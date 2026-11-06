@@ -158,14 +158,13 @@ def visible_item_ids(evidence, now):
 
 @dataclass(frozen=True)
 class Feed:
+    """A local ranking of the stored catalog. No request is made to build it."""
+
     items: tuple
     personalized: bool
-    paid_calls: int = 0
     why: tuple = ()
 
     def __post_init__(self):
-        if self.paid_calls != 0:
-            raise RecordError("paid")
         if len(self.why) != len(self.items):
             raise RecordError("why")
 

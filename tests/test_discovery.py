@@ -109,10 +109,10 @@ def test_feed03_publisher_records_stay_source_candidates():
 
 
 def test_feed04_browse_actions_make_no_paid_call(monkeypatch):
-    def explode(*_args, **_kwargs):
-        raise AssertionError("network")
+    from hackertube_core import outbound
 
-    monkeypatch.setattr("urllib.request.urlopen", explode)
+    outbound.install_guard(monkeypatch)
+    outbound.reset()
     catalog = load_seed()
     discovery = _discovery()
     opened = discovery.discovery_dict(catalog, {"interests": ["jane austen"], "items": []}, NOW)
@@ -129,7 +129,10 @@ def test_feed04_browse_actions_make_no_paid_call(monkeypatch):
         NOW,
     )
     reopened = discovery.discovery_dict(catalog, {"interests": ["jane austen"], "items": []}, NOW)
+    assert opened["request_counts"] == {"free": 0, "paid": 0}
     assert opened["paid_calls"] == saved["paid_calls"] == dismissed["paid_calls"] == reopened["paid_calls"] == 0
+    assert reopened["request_counts"] == {"free": 0, "paid": 0}
+    assert outbound.counters() == {"free": 0, "paid": 0}
     assert paged
     assert books
     assert PRIDE in saved["feed"]

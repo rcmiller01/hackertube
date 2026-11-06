@@ -137,7 +137,11 @@ def test_lib03_open_records_an_event_and_leaves_completion_unchanged(tmp_path):
     assert again["opens"] == [OPENED, OPENED_AGAIN]
 
 
-def test_pref01_gardening_interest_persists_across_restart_and_is_available_for_ranking(tmp_path):
+def test_pref01_gardening_interest_persists_across_restart_and_is_available_for_ranking(tmp_path, monkeypatch):
+    from hackertube_core import outbound
+
+    outbound.install_guard(monkeypatch)
+    outbound.reset()
     store = store_at(tmp_path)
     store.add_interest(" gardening ")
     store.add_interest("gardening")
@@ -147,7 +151,7 @@ def test_pref01_gardening_interest_persists_across_restart_and_is_available_for_
     assert restarted.snapshot()["interests"] == ["gardening"]
     feed = load_seed().feed(interests, NOW)
     assert feed.personalized is True
-    assert feed.paid_calls == 0
+    assert outbound.counters() == {"free": 0, "paid": 0}
 
 
 def test_pref01_interest_is_not_limited_to_technology(tmp_path):
