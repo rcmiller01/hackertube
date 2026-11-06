@@ -3,6 +3,10 @@
 Artwork is not copied. A show's trackTimeMillis is not an episode duration.
 """
 
+ENABLED = True
+BLOCKED_REASON = None
+
+
 from hackertube_core.adapters.base import ParseResult
 from hackertube_core.errors import RecordError
 from hackertube_core.records import Evidence, MediaItem, blank_art

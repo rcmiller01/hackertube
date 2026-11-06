@@ -7,6 +7,9 @@ from hackertube_core.errors import RecordError
 from hackertube_core.records import Evidence, MediaItem, blank_art
 from hackertube_core.text import public_https_url
 
+ENABLED = True
+BLOCKED_REASON = None
+
 _WORK = re.compile(r"^/works/OL\d+W$")
 ART_REASON = "Cover use is decided when the seed is frozen."
 POLICY = {

@@ -174,10 +174,10 @@ def test_seed_cards_cat03_cat04_cat06_cat10_cat11(catalog):
 
 
 def test_cat05_duplicate_identity_keeps_every_evidence(catalog):
-    video = next(item for item in catalog.items if item.format == "video")
-    extra = next(row for row in catalog.evidence if row.item_id == video.item_id)
-    copy_item = replace(video, title=video.title + " copy")
-    items, evidence = dedupe_items((video, copy_item), (extra, extra))
+    show = next(item for item in catalog.items if item.format == "podcast_show")
+    extra = next(row for row in catalog.evidence if row.item_id == show.item_id)
+    copy_item = replace(show, title=show.title + " copy")
+    items, evidence = dedupe_items((show, copy_item), (extra, extra))
     assert len(items) == 1
     assert len(evidence) == 2
 

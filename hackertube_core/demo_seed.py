@@ -20,10 +20,11 @@ BOOK_KEYS = (
     "/works/OL66562W",
     "/works/OL66534W",
 )
-VIDEOS = (
-    ("oembed_LCEmiRjPEtQ.json", "LCEmiRjPEtQ", "hn_comment_44314766.json"),
-    ("oembed_Dr20f19czeE.json", "Dr20f19czeE", "hn_comment_19628894.json"),
-    ("oembed_gm0b_ijaYMQ.json", "gm0b_ijaYMQ", None),
+IDENTIFIED_VIDEOS = ("LCEmiRjPEtQ", "Dr20f19czeE", "gm0b_ijaYMQ")
+VIDEO_UNUSABLE = (
+    "YouTube oEmbed is disabled because no cited page grants storage of its responses. "
+    "A displayable card needs a title, and that title is not stored. "
+    "Only the video id and watch link are kept."
 )
 PODCAST_FILES = (
     "itunes_austen_stories.json",
@@ -105,25 +106,18 @@ def _row(record):
 def build(root):
     root = Path(root)
     manifest = _read(root, "manifest.json")
+    if youtube.ENABLED:
+        raise RecordError("youtube")
     items = []
     evidence = []
-
-    for oembed_name, video_id, comment_name in VIDEOS:
-        captured = _request_time(manifest, oembed_name)
-        parsed = youtube.parse_oembed(_read(root, oembed_name), video_id, captured)
-        if len(parsed.items) != 1 or parsed.items[0].duration_seconds is not None:
-            raise RecordError(video_id)
-        items.append(parsed.items[0])
-        evidence.extend(parsed.evidence)
-        if comment_name is None:
-            continue
-        comment_time = _request_time(manifest, comment_name)
-        comments = hn.parse_verified_comment(_read(root, comment_name), video_id, comment_time)
-        if len(comments.evidence) != 1 or comments.evidence[0].item_id != f"youtube:{video_id}":
-            raise RecordError(comment_name)
-        if comments.evidence[0].display_line is None or comments.evidence[0].excerpt is not None:
-            raise RecordError(comment_name)
-        evidence.append(comments.evidence[0])
+    unavailable_videos = [
+        {
+            "video_id": video_id,
+            "destination": f"https://www.youtube.com/watch?v={video_id}",
+            "reason": VIDEO_UNUSABLE,
+        }
+        for video_id in IDENTIFIED_VIDEOS
+    ]
 
     for name in PODCAST_FILES:
         captured = _request_time(manifest, name)
@@ -168,9 +162,15 @@ def build(root):
 
     ordered = tuple(replace(item, capture_order=index) for index, item in enumerate(items, start=1))
     sources = (
-        _source(youtube.POLICY, enabled=True, blocked_reason=None, last_success_at=ordered[0].captured_at, last_error=None),
-        _source(hn.POLICY, enabled=True, blocked_reason=None, last_success_at=evidence[1].retrieved_at, last_error=None),
-        _source(itunes.POLICY, enabled=True, blocked_reason=None, last_success_at=ordered[3].captured_at, last_error=None),
+        _source(
+            youtube.POLICY,
+            enabled=False,
+            blocked_reason=youtube.BLOCKED_REASON,
+            last_success_at=None,
+            last_error="unresolved-terms",
+        ),
+        _source(hn.POLICY, enabled=True, blocked_reason=None, last_success_at=None, last_error=None),
+        _source(itunes.POLICY, enabled=True, blocked_reason=None, last_success_at=ordered[0].captured_at, last_error=None),
         _source(
             openlibrary.POLICY,
             enabled=True,
@@ -198,6 +198,7 @@ def build(root):
         "schema": SCHEMA,
         "demo_question": QUESTION,
         "formats_may_be_empty": list(MAY_BE_EMPTY),
+        "unavailable_videos": unavailable_videos,
         "items": [_row(item) for item in ordered],
         "evidence": [_row(row) for row in evidence],
         "sources": [_row(source) for source in sources],

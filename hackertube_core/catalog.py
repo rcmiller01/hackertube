@@ -15,11 +15,13 @@ from hackertube_core.boundaries import (
 )
 from hackertube_core.errors import RecordError
 from hackertube_core.records import SECTIONS, EditionLink, Evidence, MediaItem, SourceRecord
+from hackertube_core.text import public_https_url, youtube_video_id
 
 _ROOT_KEYS = {
     "schema",
     "demo_question",
     "formats_may_be_empty",
+    "unavailable_videos",
     "items",
     "evidence",
     "sources",
@@ -45,6 +47,7 @@ class Catalog:
     editions: tuple
     demo_question: str
     formats_may_be_empty: tuple
+    unavailable_videos: tuple
 
     def source_map(self):
         return {source.source_id: source for source in self.sources}
@@ -73,6 +76,7 @@ def load_catalog(data):
     empty = tuple(data["formats_may_be_empty"])
     if any(section not in SECTIONS for section in empty):
         raise RecordError("formats_may_be_empty")
+    unavailable = tuple(_unavailable(row) for row in data["unavailable_videos"])
     items = tuple(MediaItem(**_tuple_fields(row, ("contributors", "identifiers"))) for row in data["items"])
     evidence = tuple(Evidence(**row) for row in data["evidence"])
     sources = tuple(
@@ -80,7 +84,18 @@ def load_catalog(data):
     )
     editions = tuple(EditionLink(**row) for row in data["editions"])
     _check(items, evidence, sources, editions)
-    return Catalog(items, evidence, sources, editions, data["demo_question"], empty)
+    return Catalog(items, evidence, sources, editions, data["demo_question"], empty, unavailable)
+
+
+def _unavailable(row):
+    if set(row) != {"video_id", "destination", "reason"}:
+        raise RecordError("unavailable_videos")
+    if youtube_video_id(row["destination"]) != row["video_id"]:
+        raise RecordError("unavailable_videos")
+    if not isinstance(row["reason"], str) or not row["reason"].strip():
+        raise RecordError("unavailable_videos")
+    public_https_url(row["destination"])
+    return (row["video_id"], row["destination"], row["reason"])
 
 
 def _check(items, evidence, sources, editions):

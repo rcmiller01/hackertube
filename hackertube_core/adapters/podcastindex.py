@@ -1,5 +1,8 @@
 """Podcast Index stays blocked. This module does not send a request."""
 
+ENABLED = False
+BLOCKED_REASON = "missing_api_key"
+
 POLICY = {
     "source_id": "podcastindex",
     "name": "Podcast Index",

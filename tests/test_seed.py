@@ -16,13 +16,13 @@ def test_seed_file_matches_the_builder():
     assert json.loads(SEED.read_text()) == build(CAPTURED)
 
 
-def test_ui02_each_format_has_two_to_four_real_records():
+def test_ui02_sections_are_honest_without_youtube_titles():
     catalog = load_seed()
     counts = {section: len(catalog.section(section, NOW)) for section in ("videos", "podcasts", "books", "audiobooks")}
-    assert counts == {"videos": 3, "podcasts": 4, "books": 4, "audiobooks": 4}
-    assert all(2 <= count <= 4 for count in counts.values())
-    assert {item.format for item in catalog.items} <= {"video", "podcast_episode", "podcast_show", "book", "audiobook"}
-    assert [item.capture_order for item in catalog.items] == list(range(1, 16))
+    assert counts == {"videos": 0, "podcasts": 4, "books": 4, "audiobooks": 4}
+    assert [item.capture_order for item in catalog.items] == list(range(1, 13))
+    assert [row[0] for row in catalog.unavailable_videos] == ["LCEmiRjPEtQ", "Dr20f19czeE", "gm0b_ijaYMQ"]
+    assert all(row[1] == f"https://www.youtube.com/watch?v={row[0]}" for row in catalog.unavailable_videos)
 
 
 def test_feed01_is_deterministic_and_local():
@@ -49,8 +49,7 @@ def test_demo_question_names_the_empty_format():
 
 def test_art_policy_and_no_estimated_duration():
     catalog = load_seed()
-    black_hole = next(item for item in catalog.items if item.item_id == "youtube:Dr20f19czeE")
-    assert black_hole.duration_seconds is None
+    assert all(item.format != "video" for item in catalog.items)
     for item in catalog.items:
         if item.format in {"video", "podcast_show", "book"}:
             assert item.duration_seconds is None
@@ -66,41 +65,23 @@ def test_art_policy_and_no_estimated_duration():
     assert "<iframe" not in text
     assert "loved the analogies" not in text
     assert "artworkUrl" not in text
-    assert "~30m" not in text
-
-
-def test_hn_line_only_on_the_video_the_comment_names():
-    catalog = load_seed()
-    endorsed = {
-        "youtube:LCEmiRjPEtQ": "44314766",
-        "youtube:Dr20f19czeE": "19628894",
-    }
-    for item in catalog.items:
-        card = catalog.explain(item)
-        lines = [row for row in card["retrievals"] if row["display_line"]]
-        if item.item_id in endorsed:
-            assert lines[0]["display_line"] == "Recommended in Hacker News"
-            assert lines[0]["destination"].endswith(endorsed[item.item_id])
-        else:
-            assert lines == []
-        assert item.format != "hn"
-    landing = catalog.explain(next(item for item in catalog.items if item.item_id == "youtube:gm0b_ijaYMQ"))
-    assert all(row["display_line"] is None for row in landing["retrievals"])
+    assert "Software Is Changing" not in text
     assert all(item.art_url is None for item in catalog.items if item.format == "audiobook")
 
 
-def test_youtube_metadata_expires_and_other_sections_remain():
+def test_seed_does_not_claim_hacker_news_on_a_card():
     catalog = load_seed()
-    refresh = next(row.refresh_after for row in catalog.evidence if row.source_id == "youtube")
-    assert catalog.section("videos", refresh) == ()
-    assert len(catalog.section("books", refresh)) == 4
-    assert len(catalog.section("audiobooks", refresh)) == 4
+    for item in catalog.items:
+        card = catalog.explain(item)
+        assert all(row["display_line"] is None for row in card["retrievals"])
+        assert item.format != "hn"
 
 
 def test_blocked_sources_have_no_records():
     catalog = load_seed()
     blocked = {source.source_id: source for source in catalog.sources if not source.enabled}
-    assert set(blocked) == {"podcastindex", "reddit"}
+    assert set(blocked) == {"youtube", "podcastindex", "reddit"}
+    assert blocked["youtube"].blocked_reason == "unresolved-terms"
     assert blocked["reddit"].blocked_reason == "approval_absent"
     assert blocked["podcastindex"].blocked_reason == "missing_api_key"
     assert all(row.source_id not in blocked for row in catalog.evidence)

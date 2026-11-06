@@ -1,5 +1,8 @@
 """Reddit stays disabled. This module does not send a request."""
 
+ENABLED = False
+BLOCKED_REASON = "approval_absent"
+
 POLICY = {
     "source_id": "reddit",
     "name": "Reddit",

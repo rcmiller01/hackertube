@@ -1,8 +1,9 @@
 """YouTube catalog metadata.
 
-The Data API live call is blocked without a key. oEmbed captures are a separate
-no-key read used for video titles. Embed HTML and thumbnails are not stored.
-Duration is taken only from a Data API ISO 8601 field, never estimated.
+Disabled. No cited page grants storage of oEmbed responses, and the Data API
+needs a key this package does not have. fetch_oembed does not call the network
+and the seed does not store oEmbed fields. The 30-day refresh on Data API
+evidence stays in place for a later enablement.
 """
 
 from urllib.parse import urlencode
@@ -14,21 +15,19 @@ from hackertube_core.records import Evidence, MediaItem, blank_art
 from hackertube_core.text import iso_duration_seconds, plus_days
 
 DATA_API = "https://www.googleapis.com/youtube/v3/videos"
-ART_REASON = (
-    "No YouTube page was found that grants storage of oEmbed JSON. "
-    "The seed keeps the title and channel only, drops the player HTML and thumbnail, "
-    "and expires that metadata after 30 days."
-)
+ENABLED = False
+BLOCKED_REASON = "unresolved-terms"
+ART_REASON = "YouTube art is not stored while the adapter is disabled."
 POLICY = {
     "source_id": "youtube",
     "name": "YouTube",
     "role": "catalog",
-    "attribution": "YouTube. The card links to the watch page on youtube.com.",
+    "attribution": "YouTube. A later enabled card would link to the watch page.",
     "retention": (
-        "oEmbed is a no-key read, not a Data API receipt. Title and channel are kept "
-        "no longer than 30 days because a longer grant was not found. Player HTML and thumbnails are not stored."
+        "Disabled. oEmbed title, channel, player HTML, and thumbnails are not stored. "
+        "Data API evidence, if a key is later supplied, still expires after 30 days."
     ),
-    "deletion": "Delete or refresh the stored oEmbed title and channel within 30 calendar days.",
+    "deletion": "Nothing from oEmbed is stored. Data API metadata would be deleted or refreshed within 30 calendar days.",
     "formats": ("video",),
 }
 
@@ -131,8 +130,13 @@ def parse_data_api(payload, retrieved_at):
     return ParseResult(tuple(items), tuple(evidence), tuple(sorted(ignored - mapped)), tuple(rejected))
 
 
+def fetch_oembed(video_id, *, opener=None):
+    """Disabled. Does not request https://www.youtube.com/oembed."""
+    return {"called": False, "enabled": False, "blocked_reason": BLOCKED_REASON}
+
+
 def parse_oembed(payload, video_id, retrieved_at):
-    """Parse a captured oEmbed document. Width, height, and HTML are not duration."""
+    """Parser kept for a later grant. The seed does not call it while disabled."""
     if not isinstance(payload, dict) or not isinstance(payload.get("title"), str):
         return ParseResult((), (), (), ("payload",))
     author = payload.get("author_name")
@@ -156,4 +160,3 @@ def fetch_data_api(video_id, api_key, *, opener=None):
         raise RecordError("credential")
     payload = read_json(url, opener=opener, headers={"X-Goog-Api-Key": api_key})
     return {"called": True, "blocked_reason": None, "payload": payload}
-

@@ -5,6 +5,10 @@ comment permalink, a timestamp, and our display line. Comment text and
 usernames are not kept.
 """
 
+ENABLED = True
+BLOCKED_REASON = None
+
+
 from hackertube_core.adapters.base import ParseResult
 from hackertube_core.boundaries import recommendation_line
 from hackertube_core.records import Evidence

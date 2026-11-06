@@ -68,12 +68,29 @@ def test_youtube_doc_sample_and_unknown_duration():
     assert parsed.items[0].duration_seconds is None
 
 
-def test_oembed_does_not_invent_duration_or_keep_the_player():
+def test_oembed_fetch_is_disabled():
+    seen = {}
+
+    class Opener:
+        def open(self, request, timeout=None):
+            seen["called"] = True
+            raise AssertionError("network")
+
+    blocked = youtube.fetch_oembed("LCEmiRjPEtQ", opener=Opener())
+    assert blocked == {"called": False, "enabled": False, "blocked_reason": "unresolved-terms"}
+    assert "called" not in seen
+    from hackertube_core.adapters import REGISTRY
+
+    assert REGISTRY["youtube"]["blocked_reason"] == "unresolved-terms"
+    assert REGISTRY["youtube"]["enabled"] is False
+
+
+def test_oembed_parser_keeps_thirty_day_expiry_for_later():
     parsed = youtube.parse_oembed(_load("oembed_LCEmiRjPEtQ.json"), "LCEmiRjPEtQ", NOW)
     item = parsed.items[0]
     assert item.duration_seconds is None
-    assert item.title == "Andrej Karpathy: Software Is Changing (Again)"
     assert item.art_url is None
+    assert parsed.evidence[0].refresh_after == "2026-12-06T12:22:23Z"
     assert "html" in parsed.ignored_fields
     assert "thumbnail_url" in parsed.ignored_fields
     assert "width" in parsed.ignored_fields
