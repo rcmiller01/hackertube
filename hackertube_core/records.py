@@ -174,6 +174,58 @@ class EditionLink:
         _identifier(self.audio_item_id, "audio_item_id")
 
 
+INTEREST_MAX = 80
+
+
+@dataclass(frozen=True)
+class Interest:
+    """A subject the user typed. It is not a catalog item and not a source."""
+
+    text: str
+
+    def __post_init__(self):
+        if not isinstance(self.text, str):
+            raise RecordError("interest")
+        text = self.text.strip()
+        if (
+            render_untrusted(text) != text
+            or not text
+            or len(text) > INTEREST_MAX
+            or "<" in text
+            or ">" in text
+        ):
+            raise RecordError("interest")
+        object.__setattr__(self, "text", text)
+
+
+@dataclass(frozen=True)
+class UserItemState:
+    """One profile record for a canonical item.
+
+    Saves, dismissal, completion, and opens stay separate fields. This
+    record does not copy the item's title, destination, or evidence.
+    """
+
+    item_id: str
+    saved: bool
+    dismissed: bool
+    completed: bool
+    opens: tuple
+    saved_order: object
+
+    def __post_init__(self):
+        _identifier(self.item_id, "item_id")
+        if type(self.saved) is not bool or type(self.dismissed) is not bool or type(self.completed) is not bool:
+            raise RecordError("state")
+        opens = tuple(canon_time(stamp) for stamp in self.opens)
+        object.__setattr__(self, "opens", opens)
+        if self.saved:
+            if type(self.saved_order) is not int or self.saved_order < 1:
+                raise RecordError("saved_order")
+        elif self.saved_order is not None:
+            raise RecordError("saved_order")
+
+
 def blank_art(reason):
     return {
         "art_url": None,

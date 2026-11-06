@@ -110,6 +110,16 @@
   max-width: 44rem;
 }
 
+.hackertube .ht-interests {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  max-width: 44rem;
+}
+
+.hackertube .ht-interests label,
 .hackertube .ht-search label {
   font-family: inherit;
   font-size: 1rem;
@@ -118,7 +128,13 @@
   line-height: 1.4;
 }
 
+.hackertube .ht-interest-list {
+  margin: 0.2rem 0 0;
+  padding-left: 1.2rem;
+}
+
 .hackertube .ht-search input,
+.hackertube .ht-interests input,
 .hackertube .ht-input {
   align-self: stretch;
   width: 100%;
@@ -260,7 +276,9 @@
   }
 
   .hackertube .ht-search,
-  .hackertube .ht-search input {
+  .hackertube .ht-search input,
+  .hackertube .ht-interests,
+  .hackertube .ht-interests input {
     width: 100%;
     max-width: none;
   }
