@@ -32,17 +32,24 @@ class CatalogAdapterTest(unittest.TestCase):
             self.assertFalse(item["item_id"].startswith("hn:"))
             self.assertNotEqual(item["format"], "hn")
             formats[item["format"]] = formats.get(item["format"], 0) + 1
-        self.assertEqual(formats["video"], 3)
+        self.assertNotIn("video", formats)
         self.assertEqual(formats["book"], 4)
         self.assertEqual(formats["audiobook"], 4)
         self.assertEqual(formats["podcast_show"] + formats["podcast_episode"], 4)
-        self.assertEqual(len(catalog["items"]), 15)
+        self.assertEqual(len(catalog["items"]), 12)
+        self.assertEqual(catalog["formats_may_be_empty"], ["videos"])
+        unavailable = catalog["unavailable_videos"]
+        self.assertEqual(len(unavailable), 3)
+        for row in unavailable:
+            self.assertEqual(set(row), {"video_id", "destination", "reason"})
+            self.assertNotIn("title", row)
+            self.assertTrue(row["destination"].startswith("https://www.youtube.com/watch?v="))
+            self.assertIn(row["video_id"], row["destination"])
         endorsed = [
             row for row in catalog["evidence"]
             if row.get("display_line") == "Recommended in Hacker News"
         ]
-        self.assertEqual(len(endorsed), 3)
-        self.assertTrue(all(row["source_id"] == "hn" and row["endorsement"] == "established" for row in endorsed))
+        self.assertEqual(endorsed, [])
 
 
 if __name__ == "__main__":

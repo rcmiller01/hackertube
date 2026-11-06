@@ -3,9 +3,9 @@ const assert = require("node:assert/strict");
 const page = require("../hackertube/dashboard/dist/index.js");
 
 test("public https destinations are allowed", () => {
-  const decision = page.destinationDecision("https://www.youtube.com/watch?v=LCEmiRjPEtQ");
+  const decision = page.destinationDecision("https://openlibrary.org/works/OL66554W");
   assert.equal(decision.ok, true);
-  assert.equal(decision.href, "https://www.youtube.com/watch?v=LCEmiRjPEtQ");
+  assert.equal(decision.href, "https://openlibrary.org/works/OL66554W");
 });
 
 test("unsafe schemes are refused", () => {
@@ -53,10 +53,10 @@ test("save is idempotent", () => {
 });
 
 test("dismiss does not duplicate and does not remove the id", () => {
-  const once = page.applyDismiss({}, "youtube:LCEmiRjPEtQ");
-  const twice = page.applyDismiss(once, "youtube:LCEmiRjPEtQ");
+  const once = page.applyDismiss({}, "ol:OL66554W");
+  const twice = page.applyDismiss(once, "ol:OL66554W");
   assert.equal(twice, once);
-  assert.equal(once["youtube:LCEmiRjPEtQ"], true);
+  assert.equal(once["ol:OL66554W"], true);
 });
 
 test("section order is capture order and library is newest save first", () => {
@@ -78,6 +78,25 @@ test("show more keeps the first four until expanded", () => {
   assert.equal(page.visibleSlice(items, false, page.INITIAL_CARDS).length, 4);
   assert.equal(page.visibleSlice(items, true, page.INITIAL_CARDS).length, 5);
   assert.equal(page.visibleSlice([1, 2, 3], false, page.INITIAL_CARDS).length, 3);
+});
+
+test("hacker news evidence stays on the item it names", () => {
+  const sources = [{ source_id: "hn", name: "Hacker News" }];
+  const evidence = [{
+    item_id: "youtube:W0NakShgbHY",
+    source_id: "hn",
+    kind: "community",
+    endorsement: "established",
+    display_line: "Recommended in Hacker News",
+    destination: "https://news.ycombinator.com/item?id=26188584",
+    retrieved_at: "2026-11-06T12:22:22Z",
+  }];
+  const named = page.presentEvidence({ item_id: "youtube:W0NakShgbHY", captured_at: "2026-11-06T12:22:22Z" }, evidence, sources);
+  const other = page.presentEvidence({ item_id: "itunes:podcast:1840669662", captured_at: "2026-11-06T12:22:22Z" }, evidence, sources);
+  assert.equal(named.kind, "endorsement");
+  assert.equal(named.text, "Recommended in Hacker News");
+  assert.equal(named.href, "https://news.ycombinator.com/item?id=26188584");
+  assert.notEqual(other.kind, "endorsement");
 });
 
 test("hacker news endorsement is a link line and catalog evidence is a source candidate", () => {

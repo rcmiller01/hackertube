@@ -24,78 +24,6 @@
   ],
   "evidence": [
     {
-      "destination": "https://www.youtube.com/watch?v=LCEmiRjPEtQ",
-      "display_line": null,
-      "endorsement": "not_applicable",
-      "evidence_id": "youtube:LCEmiRjPEtQ",
-      "excerpt": null,
-      "item_id": "youtube:LCEmiRjPEtQ",
-      "kind": "catalog",
-      "refresh_after": "2026-12-06T12:22:23Z",
-      "retrieved_at": "2026-11-06T12:22:23Z",
-      "source_id": "youtube"
-    },
-    {
-      "destination": "https://news.ycombinator.com/item?id=44314766",
-      "display_line": "Recommended in Hacker News",
-      "endorsement": "established",
-      "evidence_id": "hn:44314766",
-      "excerpt": null,
-      "item_id": "youtube:LCEmiRjPEtQ",
-      "kind": "community",
-      "refresh_after": null,
-      "retrieved_at": "2026-11-06T12:22:22Z",
-      "source_id": "hn"
-    },
-    {
-      "destination": "https://www.youtube.com/watch?v=Dr20f19czeE",
-      "display_line": null,
-      "endorsement": "not_applicable",
-      "evidence_id": "youtube:Dr20f19czeE",
-      "excerpt": null,
-      "item_id": "youtube:Dr20f19czeE",
-      "kind": "catalog",
-      "refresh_after": "2026-12-06T12:22:23Z",
-      "retrieved_at": "2026-11-06T12:22:23Z",
-      "source_id": "youtube"
-    },
-    {
-      "destination": "https://news.ycombinator.com/item?id=19628894",
-      "display_line": "Recommended in Hacker News",
-      "endorsement": "established",
-      "evidence_id": "hn:19628894",
-      "excerpt": null,
-      "item_id": "youtube:Dr20f19czeE",
-      "kind": "community",
-      "refresh_after": null,
-      "retrieved_at": "2026-11-06T12:22:22Z",
-      "source_id": "hn"
-    },
-    {
-      "destination": "https://www.youtube.com/watch?v=gm0b_ijaYMQ",
-      "display_line": null,
-      "endorsement": "not_applicable",
-      "evidence_id": "youtube:gm0b_ijaYMQ",
-      "excerpt": null,
-      "item_id": "youtube:gm0b_ijaYMQ",
-      "kind": "catalog",
-      "refresh_after": "2026-12-06T12:22:23Z",
-      "retrieved_at": "2026-11-06T12:22:23Z",
-      "source_id": "youtube"
-    },
-    {
-      "destination": "https://news.ycombinator.com/item?id=26188584",
-      "display_line": "Recommended in Hacker News",
-      "endorsement": "established",
-      "evidence_id": "hn:26188584",
-      "excerpt": null,
-      "item_id": "youtube:gm0b_ijaYMQ",
-      "kind": "community",
-      "refresh_after": null,
-      "retrieved_at": "2026-11-06T12:22:23Z",
-      "source_id": "hn"
-    },
-    {
       "destination": "https://podcasts.apple.com/us/podcast/jane-austen-stories/id1840669662?uo=4",
       "display_line": null,
       "endorsement": "not_applicable",
@@ -249,79 +177,10 @@
       "art_checked_at": null,
       "art_hotlink": false,
       "art_http_status": null,
-      "art_reason": "The oEmbed response included a thumbnail URL. It was not copied. This catalog does not hotlink or cache i.ytimg.com images, and the Data API client remains blocked without a key.",
-      "art_url": null,
-      "availability": null,
-      "capture_order": 1,
-      "captured_at": "2026-11-06T12:22:23Z",
-      "contributors": [
-        "Y Combinator"
-      ],
-      "destination": "https://www.youtube.com/watch?v=LCEmiRjPEtQ",
-      "duration_seconds": null,
-      "format": "video",
-      "identifiers": [
-        "youtube:LCEmiRjPEtQ"
-      ],
-      "item_id": "youtube:LCEmiRjPEtQ",
-      "show_id": null,
-      "title": "Andrej Karpathy: Software Is Changing (Again)"
-    },
-    {
-      "art_cache": false,
-      "art_checked_at": null,
-      "art_hotlink": false,
-      "art_http_status": null,
-      "art_reason": "The oEmbed response included a thumbnail URL. It was not copied. This catalog does not hotlink or cache i.ytimg.com images, and the Data API client remains blocked without a key.",
-      "art_url": null,
-      "availability": null,
-      "capture_order": 2,
-      "captured_at": "2026-11-06T12:22:23Z",
-      "contributors": [
-        "European Commission"
-      ],
-      "destination": "https://www.youtube.com/watch?v=Dr20f19czeE",
-      "duration_seconds": null,
-      "format": "video",
-      "identifiers": [
-        "youtube:Dr20f19czeE"
-      ],
-      "item_id": "youtube:Dr20f19czeE",
-      "show_id": null,
-      "title": "Breakthrough discovery in astronomy: first ever image of a black hole"
-    },
-    {
-      "art_cache": false,
-      "art_checked_at": null,
-      "art_hotlink": false,
-      "art_http_status": null,
-      "art_reason": "The oEmbed response included a thumbnail URL. It was not copied. This catalog does not hotlink or cache i.ytimg.com images, and the Data API client remains blocked without a key.",
-      "art_url": null,
-      "availability": null,
-      "capture_order": 3,
-      "captured_at": "2026-11-06T12:22:23Z",
-      "contributors": [
-        "NASA"
-      ],
-      "destination": "https://www.youtube.com/watch?v=gm0b_ijaYMQ",
-      "duration_seconds": null,
-      "format": "video",
-      "identifiers": [
-        "youtube:gm0b_ijaYMQ"
-      ],
-      "item_id": "youtube:gm0b_ijaYMQ",
-      "show_id": null,
-      "title": "Watch NASA\u2019s Perseverance Rover Land on Mars!"
-    },
-    {
-      "art_cache": false,
-      "art_checked_at": null,
-      "art_hotlink": false,
-      "art_http_status": null,
       "art_reason": "Apple album art is promotional and may be shown only beside an approved store badge. This catalog has no badge, so the artwork URL is omitted and is neither hotlinked nor cached.",
       "art_url": null,
       "availability": null,
-      "capture_order": 4,
+      "capture_order": 1,
       "captured_at": "2026-11-06T12:22:22Z",
       "contributors": [
         "NOISER"
@@ -344,7 +203,7 @@
       "art_reason": "Apple album art is promotional and may be shown only beside an approved store badge. This catalog has no badge, so the artwork URL is omitted and is neither hotlinked nor cached.",
       "art_url": null,
       "availability": null,
-      "capture_order": 5,
+      "capture_order": 2,
       "captured_at": "2026-11-06T12:22:22Z",
       "contributors": [
         "Jane Austen's House"
@@ -367,7 +226,7 @@
       "art_reason": "Apple album art is promotional and may be shown only beside an approved store badge. This catalog has no badge, so the artwork URL is omitted and is neither hotlinked nor cached.",
       "art_url": null,
       "availability": null,
-      "capture_order": 6,
+      "capture_order": 3,
       "captured_at": "2026-11-06T12:24:15Z",
       "contributors": [
         "Learning about Python together"
@@ -390,7 +249,7 @@
       "art_reason": "Apple album art is promotional and may be shown only beside an approved store badge. This catalog has no badge, so the artwork URL is omitted and is neither hotlinked nor cached.",
       "art_url": null,
       "availability": null,
-      "capture_order": 7,
+      "capture_order": 4,
       "captured_at": "2026-11-06T12:24:15Z",
       "contributors": null,
       "destination": "https://podcasts.apple.com/us/podcast/the-future-of-python-security-trends/id1501905538?i=1000797776212&uo=4",
@@ -411,7 +270,7 @@
       "art_reason": "Open Library asks callers to hotlink covers and not to crawl or cache the image files. The work page is the courtesy link. The image returned HTTP 200.",
       "art_url": "https://covers.openlibrary.org/b/olid/OL47044678M-M.jpg",
       "availability": null,
-      "capture_order": 8,
+      "capture_order": 5,
       "captured_at": "2026-11-06T12:22:21Z",
       "contributors": [
         "Jane Austen"
@@ -437,7 +296,7 @@
       "art_reason": "Open Library asks callers to hotlink covers and not to crawl or cache the image files. The work page is the courtesy link. The image returned HTTP 200.",
       "art_url": "https://covers.openlibrary.org/b/olid/OL13573615M-M.jpg",
       "availability": null,
-      "capture_order": 9,
+      "capture_order": 6,
       "captured_at": "2026-11-06T12:22:21Z",
       "contributors": [
         "Jane Austen"
@@ -461,7 +320,7 @@
       "art_reason": "Open Library asks callers to hotlink covers and not to crawl or cache the image files. The work page is the courtesy link. The image returned HTTP 200.",
       "art_url": "https://covers.openlibrary.org/b/olid/OL14041582M-M.jpg",
       "availability": null,
-      "capture_order": 10,
+      "capture_order": 7,
       "captured_at": "2026-11-06T12:22:21Z",
       "contributors": [
         "Jane Austen"
@@ -487,7 +346,7 @@
       "art_reason": "Open Library asks callers to hotlink covers and not to crawl or cache the image files. The work page is the courtesy link. The image returned HTTP 200.",
       "art_url": "https://covers.openlibrary.org/b/olid/OL36684152M-M.jpg",
       "availability": null,
-      "capture_order": 11,
+      "capture_order": 8,
       "captured_at": "2026-11-06T12:22:21Z",
       "contributors": [
         "Jane Austen"
@@ -505,13 +364,13 @@
     },
     {
       "art_cache": false,
-      "art_checked_at": "2026-11-06T12:22:23Z",
-      "art_hotlink": true,
-      "art_http_status": 200,
-      "art_reason": "LibriVox publishes coverart_jpg on the catalog record. The seed hotlinks that URL and does not cache the file. Public-domain status of the recording is not treated as permission to copy the image.",
-      "art_url": "https://archive.org/download/pride_and_prejudice_librivox/Pride_Prejudice_1104.jpg",
+      "art_checked_at": null,
+      "art_hotlink": false,
+      "art_http_status": null,
+      "art_reason": "LibriVox dedicates its recordings to the public domain. The API names coverart_jpg but does not grant display or hotlinking of cover images, so the card is text.",
+      "art_url": null,
       "availability": null,
-      "capture_order": 12,
+      "capture_order": 9,
       "captured_at": "2026-11-06T12:22:21Z",
       "contributors": [
         "Jane Austen"
@@ -529,13 +388,13 @@
     },
     {
       "art_cache": false,
-      "art_checked_at": "2026-11-06T12:22:24Z",
-      "art_hotlink": true,
-      "art_http_status": 200,
-      "art_reason": "LibriVox publishes coverart_jpg on the catalog record. The seed hotlinks that URL and does not cache the file. Public-domain status of the recording is not treated as permission to copy the image.",
-      "art_url": "https://archive.org/download/emma_solo_librivox/Emma_Solo_1105.jpg",
+      "art_checked_at": null,
+      "art_hotlink": false,
+      "art_http_status": null,
+      "art_reason": "LibriVox dedicates its recordings to the public domain. The API names coverart_jpg but does not grant display or hotlinking of cover images, so the card is text.",
+      "art_url": null,
       "availability": null,
-      "capture_order": 13,
+      "capture_order": 10,
       "captured_at": "2026-11-06T12:22:21Z",
       "contributors": [
         "Jane Austen"
@@ -553,13 +412,13 @@
     },
     {
       "art_cache": false,
-      "art_checked_at": "2026-11-06T12:22:25Z",
-      "art_hotlink": true,
-      "art_http_status": 200,
-      "art_reason": "LibriVox publishes coverart_jpg on the catalog record. The seed hotlinks that URL and does not cache the file. Public-domain status of the recording is not treated as permission to copy the image.",
-      "art_url": "https://www.archive.org/download/LibrivoxCdCoverArt9/Sense_Sensibility_1107.jpg",
+      "art_checked_at": null,
+      "art_hotlink": false,
+      "art_http_status": null,
+      "art_reason": "LibriVox dedicates its recordings to the public domain. The API names coverart_jpg but does not grant display or hotlinking of cover images, so the card is text.",
+      "art_url": null,
       "availability": null,
-      "capture_order": 14,
+      "capture_order": 11,
       "captured_at": "2026-11-06T12:22:21Z",
       "contributors": [
         "Jane Austen"
@@ -577,13 +436,13 @@
     },
     {
       "art_cache": false,
-      "art_checked_at": "2026-11-06T12:22:26Z",
-      "art_hotlink": true,
-      "art_http_status": 200,
-      "art_reason": "LibriVox publishes coverart_jpg on the catalog record. The seed hotlinks that URL and does not cache the file. Public-domain status of the recording is not treated as permission to copy the image.",
-      "art_url": "https://archive.org/download/northanger_abbey_librivox/Northanger_Abbey_1104.jpg",
+      "art_checked_at": null,
+      "art_hotlink": false,
+      "art_http_status": null,
+      "art_reason": "LibriVox dedicates its recordings to the public domain. The API names coverart_jpg but does not grant display or hotlinking of cover images, so the card is text.",
+      "art_url": null,
       "availability": null,
-      "capture_order": 15,
+      "capture_order": 12,
       "captured_at": "2026-11-06T12:22:21Z",
       "contributors": [
         "Jane Austen"
@@ -603,32 +462,32 @@
   "schema": "hackertube.catalog/1",
   "sources": [
     {
-      "attribution": "YouTube. The card links to the watch page on youtube.com.",
-      "blocked_reason": null,
-      "deletion": "Delete or refresh stored YouTube title and channel metadata within 30 calendar days.",
-      "enabled": true,
+      "attribution": "YouTube. A later enabled card would link to the watch page.",
+      "blocked_reason": "unresolved-terms",
+      "deletion": "Nothing from oEmbed is stored. Data API metadata would be deleted or refreshed within 30 calendar days.",
+      "enabled": false,
       "formats": [
         "video"
       ],
-      "last_error": null,
-      "last_success_at": "2026-11-06T12:22:23Z",
+      "last_error": "unresolved-terms",
+      "last_success_at": null,
       "name": "YouTube",
       "refresh_after": null,
-      "retention": "Stored oEmbed title and channel are deleted or refreshed within 30 days. Player HTML and thumbnails are not stored. The Data API was not called successfully.",
+      "retention": "Disabled. oEmbed title, channel, player HTML, and thumbnails are not stored. Data API evidence, if a key is later supplied, still expires after 30 days.",
       "role": "catalog",
       "source_id": "youtube"
     },
     {
-      "attribution": "Hacker News. Endorsement links open the comment on news.ycombinator.com.",
+      "attribution": "Hacker News. The line links to the comment on news.ycombinator.com.",
       "blocked_reason": null,
-      "deletion": "No Hacker News deletion API was found. Bodies and usernames are not stored, so there is no comment archive to delete.",
+      "deletion": "No deletion API was found. Comment text is not stored, so there is no comment archive to delete.",
       "enabled": true,
       "formats": [],
       "last_error": null,
-      "last_success_at": "2026-11-06T12:22:22Z",
+      "last_success_at": null,
       "name": "Hacker News",
       "refresh_after": null,
-      "retention": "Comment and story bodies are not stored. Evidence keeps the permalink, time, and endorsement label.",
+      "retention": "No reuse license is stated. Stored fields are the comment id, permalink, retrieval time, and the display line. Comment text and usernames are not stored.",
       "role": "community",
       "source_id": "hn"
     },
@@ -712,6 +571,23 @@
       "retention": "Disabled until explicit Data API approval. No Reddit content is stored.",
       "role": "community",
       "source_id": "reddit"
+    }
+  ],
+  "unavailable_videos": [
+    {
+      "destination": "https://www.youtube.com/watch?v=LCEmiRjPEtQ",
+      "reason": "YouTube oEmbed is disabled because no cited page grants storage of its responses. A displayable card needs a title, and that title is not stored. Only the video id and watch link are kept.",
+      "video_id": "LCEmiRjPEtQ"
+    },
+    {
+      "destination": "https://www.youtube.com/watch?v=Dr20f19czeE",
+      "reason": "YouTube oEmbed is disabled because no cited page grants storage of its responses. A displayable card needs a title, and that title is not stored. Only the video id and watch link are kept.",
+      "video_id": "Dr20f19czeE"
+    },
+    {
+      "destination": "https://www.youtube.com/watch?v=gm0b_ijaYMQ",
+      "reason": "YouTube oEmbed is disabled because no cited page grants storage of its responses. A displayable card needs a title, and that title is not stored. Only the video id and watch link are kept.",
+      "video_id": "gm0b_ijaYMQ"
     }
   ]
 }

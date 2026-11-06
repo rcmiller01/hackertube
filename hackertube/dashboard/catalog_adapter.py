@@ -16,11 +16,13 @@ ROOT_KEYS = {
     "schema",
     "demo_question",
     "formats_may_be_empty",
+    "unavailable_videos",
     "items",
     "evidence",
     "sources",
     "editions",
 }
+UNAVAILABLE_KEYS = {"video_id", "destination", "reason"}
 FORMATS = {"video", "podcast_episode", "podcast_show", "book", "audiobook"}
 FIXTURE_PATH = Path(__file__).with_name("fixture") / "catalog.json"
 
@@ -69,3 +71,16 @@ def _check(data: dict) -> None:
         seen.add(item_id)
     if any(row.get("format") == "hn" for row in data["items"]):
         raise CatalogFixtureError("format")
+    unavailable = data.get("unavailable_videos")
+    if not isinstance(unavailable, list):
+        raise CatalogFixtureError("unavailable_videos")
+    for row in unavailable:
+        if not isinstance(row, dict) or set(row) != UNAVAILABLE_KEYS:
+            raise CatalogFixtureError("unavailable_videos")
+        if not isinstance(row.get("video_id"), str) or not row["video_id"]:
+            raise CatalogFixtureError("unavailable_videos")
+        destination = row.get("destination")
+        if not isinstance(destination, str) or not destination.startswith("https://"):
+            raise CatalogFixtureError("unavailable_videos")
+        if row["video_id"] not in destination:
+            raise CatalogFixtureError("unavailable_videos")
