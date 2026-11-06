@@ -18,7 +18,7 @@ Tasks 1.1, 1.2, and 1.4 are complete. The other implementation tasks are not. Gr
 
 ## 3. Deliver the dashboard and local discovery
 
-- [x] 3.1 Build the supported web page, four sections, library, About view, and source-opening controls. Verify UI01 through UI06 in the real web dashboard with a keyboard for the six-step cut and record accessibility evidence. Add Karpathy credit to the README, About view, and prepared marketplace description. Demo.
+- [ ] 3.1 Build the supported web page, four sections, library, About view, and source-opening controls. Verify UI01 through UI06 in the real web dashboard with a keyboard for the six-step cut and record accessibility evidence. Add Karpathy credit to the README, About view, and prepared marketplace description. Demo.
 - [ ] 3.2 Implement prepared-feed ranking against the seeded catalog and basic feedback exclusions. Verify FEED01 through FEED07 with a fixed catalog. FEED08 strict duration filtering moves to task 6.3. Document the ranking policy and its limited subject coverage. Demo.
 - [ ] 3.3 Instrument request boundaries and verify zero paid calls across ordinary browsing, local reranking, library operations, and reopening. Record FEED04, PREF08, JOB02, and JOB04 receipts. Demo.
 

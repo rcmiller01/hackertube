@@ -5,7 +5,7 @@ HackerTube uses [OpenSpec](https://github.com/Fission-AI/OpenSpec) and its built
 ## Authority and current state
 
 - `docs/PRD.md` records product intent and confirmed scope.
-- `openspec/changes/hackertube-v1/` contains proposed behavior, design, and tasks. Tasks 1.1, 1.2, 1.4, and 3.1 are checked. The other implementation tasks are not.
+- `openspec/changes/hackertube-v1/` contains proposed behavior, design, and tasks. Tasks 1.1, 1.2, and 1.4 are checked. Task 3.1 stays unchecked until the merged catalog package replaces the local fixture. The other implementation tasks are not.
 - `openspec/specs/` holds delivered behavior after a verified change is archived. It is empty because the host shell has not been archived as a delivered capability.
 
 A complete artifact graph means the documents exist, not that implementation or integration checks passed.

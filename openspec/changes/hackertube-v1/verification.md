@@ -17,7 +17,7 @@ Checked November 5, 2026 on the box with Node.js v24.22.1, OpenSpec 1.16.0, and 
 | Coverage checker fixtures | Missing PRD ID, dangling scenario, deferred P0, missing post-demo subset, non-P0 post-demo, unmapped scenario, partial subset under whole-row post-demo status, demo row deferring all scenarios, duplicate subset entry, out-of-row subset entry, missing subset reason, non-array subset, stale `specified` status, and reason without post-demo scenarios all rejected; the valid mixed-disposition R04 mapping accepted | Pass for 14 error paths and 1 positive fixture |
 | Script syntax | `python3 -m py_compile scripts/check_spec_coverage.py scripts/check_spec_coverage_fixtures.py` exited 0 | Pass |
 | Diff whitespace | `git diff --check` exited 0 | Pass |
-| Implementation progress | As of 2026-11-06, tasks 1.1, 1.2, 1.4, and 3.1 have receipts. Every other implementation task is open. | Dashboard page added. Search execution, ranking, and library persistence remain open. |
+| Implementation progress | As of 2026-11-06, tasks 1.1, 1.2, and 1.4 are checked. Task 3.1 has a fixture receipt and stays unchecked until the catalog package is wired. | Dashboard page reads the local fixture. Search execution, ranking, and library persistence remain open. |
 
 The machine-readable strict validation output is saved in planning-validation.json. Traceability.json maps the PRD IDs to scenario IDs. Its `demo` and `post-demo` statuses describe planning scope, not implementation results. Every delivery-mapped row has an explicit `post_demo_scenarios` array, including `[]` when all its scenarios remain in the demo. A `demo` row has at least one demo scenario. A `post-demo` row defers every mapped scenario. The checks do not establish runtime correctness, recommendation quality, source rights, or hackathon eligibility.
 
@@ -181,18 +181,18 @@ Tasks 1.1, 1.2, and 1.4 have receipts below. The other scenarios have no impleme
 |---|---|
 | Date | 2026-11-06 |
 | Host | Hermes Agent v0.23.0 (2026.9.24), commit `2bd378ed1b8d6bf2192cb26e0a55ff3091e6bd19`, Python 3.14.10, disposable profile `HERMES_HOME=/tmp/ht-profile` |
-| Scenarios | UI01, UI02, UI03, UI04, UI05, and UI06 pass on the running web dashboard. SEARCH01 is not executed. LIB02 persistence is not implemented. FEED ranking is not implemented. |
-| Procedure | Symlink `hackertube/` into the disposable profile, `hermes plugins validate hackertube --install-deps`, `hermes plugins enable hackertube`, `hermes dashboard --host 127.0.0.1 --port 9119 --no-open --skip-build`. Playwright drives Chromium at 1280x720 against `http://127.0.0.1:9119/hackertube`. The walk uses Tab, Shift+Tab, type, Enter, and Escape only. Axe runs on `.hackertube`. |
-| Result | Pass for UI01 through UI06. See the scenario notes below. |
+| Scenarios | UI01, UI02, UI03, UI04, UI05, and UI06 pass on the running web dashboard against the be50886 fixture. SEARCH01 is not executed. LIB02 persistence is not implemented. FEED ranking is not implemented. The task checkbox stays open until `hackertube_core` replaces this fixture. |
+| Procedure | Symlink `hackertube/` into the disposable profile, `hermes plugins validate hackertube --install-deps`, `hermes plugins enable hackertube`, restart `hermes dashboard --host 127.0.0.1 --port 9119 --no-open --skip-build`. Playwright drives Chromium at 1280x720 against `http://127.0.0.1:9119/hackertube`. The walk uses Tab, Shift+Tab, type, Enter, and Escape only. Axe runs on `.hackertube`. |
+| Result | Pass for UI01 through UI06 on this fixture. Task 3.1 remains unchecked. See the scenario notes below. |
 | Artifacts | [docs/receipts/dashboard/](../../../docs/receipts/dashboard/) |
 
 UI01. The host nav link `HackerTube` points at `/hackertube`. After `location.reload` the page heading is `HackerTube`. Screenshot: [02-after-reload.png](../../../docs/receipts/dashboard/02-after-reload.png).
 
-UI02. Videos 3, Podcasts 4, Books 4, and Audiobooks 4 render from the local fixture. There is no Hacker News card. Screenshots: [03-videos.png](../../../docs/receipts/dashboard/03-videos.png), [04-podcasts.png](../../../docs/receipts/dashboard/04-podcasts.png), [05-books.png](../../../docs/receipts/dashboard/05-books.png), [06-audiobooks.png](../../../docs/receipts/dashboard/06-audiobooks.png).
+UI02. Videos shows `Videos 0` and `No videos in this fixture.` Stored YouTube rows are ids and watch links in `unavailable_videos`, and the page does not render them as cards. Podcasts 4, Books 4, and Audiobooks 4 render from the fixture. There is no Hacker News card. Screenshots: [03-videos.png](../../../docs/receipts/dashboard/03-videos.png), [04-podcasts.png](../../../docs/receipts/dashboard/04-podcasts.png), [05-books.png](../../../docs/receipts/dashboard/05-books.png), [06-audiobooks.png](../../../docs/receipts/dashboard/06-audiobooks.png).
 
-UI03. The README credit, the About view, and [docs/marketplace-description.md](../../../docs/marketplace-description.md) name Andrej Karpathy and link to `https://karpathy.bearblog.dev/hacker-tube/`. About also says this is an independent Hermes adaptation. The credit is in the first viewport at 1280x720. Screenshot: [11-about.png](../../../docs/receipts/dashboard/11-about.png).
+UI03. The README credit, the About view, and [docs/marketplace-description.md](../../../docs/marketplace-description.md) name Andrej Karpathy and link to `https://karpathy.bearblog.dev/hacker-tube/`. About also says this is an independent Hermes adaptation. About names podcasts, books, and audiobooks, and does not say the page shows videos from YouTube. The credit is in the first viewport at 1280x720. Screenshot: [11-about.png](../../../docs/receipts/dashboard/11-about.png).
 
-UI04. Keyboard activation of Open at source opened `https://www.youtube.com/watch?v=LCEmiRjPEtQ`. The dashboard contained no `video`, `audio`, or `iframe`.
+UI04. Keyboard activation of Open at source opened `https://podcasts.apple.com/us/podcast/jane-austen-stories/id1840669662?uo=4`. The dashboard contained no `video`, `audio`, or `iframe`.
 
 UI05. With `?ht_unsafe=1` the page shows the refusal text for `javascript:alert(1)` and `https://127.0.0.1/private` and renders no link with those destinations. The same `destinationDecision` function gates every card. The default page does not show this check. Screenshot: [13-unsafe.png](../../../docs/receipts/dashboard/13-unsafe.png).
 
@@ -206,8 +206,8 @@ Ran 2 tests in 0.002s
 OK
 
 node --test tests/test_dashboard_page.js
-ℹ tests 11
-ℹ pass 11
+ℹ tests 12
+ℹ pass 12
 ℹ fail 0
 
 python3 scripts/check_spec_coverage.py
@@ -232,7 +232,7 @@ Not done in this task, and not claimed by the checkbox:
 
 - Focused search does not call a model, a search provider, or any host outside the dashboard. Submitting Search only reveals the results area. Tasks 4.1 and 4.2 own execution. During the walk, Search added no new network hosts.
 - Save, dismiss, and opened state live in the page visit. Reload clears them. Task 2.2 owns persistence. Dismiss does not remove a card. Task 3.2 owns ranking and feed exclusion.
-- The catalog is the local fixture behind `catalog_adapter.py`. It is not an import of `hackertube_core`. Book and audiobook covers are hotlinked to Open Library and LibriVox (`covers.openlibrary.org` and `archive.org`). YouTube and Apple art stay text fallbacks. Those image requests are not paid model or search calls, and Reddit was not called.
+- The catalog is the local fixture behind `catalog_adapter.py`, copied from pull request #3 at `be5088629f804239c96c891b23881366f416a6c5`. It is not an import of `hackertube_core`. Open Library book covers are hotlinked and the browser follows those URLs to cover files on archive.org. Audiobook covers and Apple artwork stay text fallbacks. Those image requests are not paid model or search calls, and Reddit was not called. Hacker News evidence in this fixture is not attached to a card. A unit test checks that an endorsement line stays on the item id it names.
 
 ## Release measurements
 
