@@ -288,6 +288,20 @@ Not done in this task, and not claimed by the checkbox:
 | Result | Pass at code commit `b923b93c0301599e30c15d6f8cbfc284972b1a21`. With no interests the ranked feed is empty and the sections are Videos 0, Podcasts 4, Books 4, Audiobooks 4. Stored interests `AI` and `C++` stay personalized, show the coverage limit, and do not fill unrelated titles. The demo question still ranks Videos 0, Podcasts 2, Books 4, Audiobooks 4. Show more moves focus to the Sense and Sensibility heading and announces `10 of 10`. A dismissed show stays out of discovery after reload and restart. `paid_calls` stayed 0. Axe reported 0 violations. |
 | Artifacts | [docs/receipts/feed/](../../../docs/receipts/feed/) |
 
+### Task 3.7 — weighted ranking and section browse
+
+| Field | Record |
+|---|---|
+| Date | 2026-11-06 |
+| Plugin revision | Code commit `b09714354a7ae4685b5fb5874025285ad75d723c`. Receipt commit `e644a4d2dd3ed4e0a9cc13f783ea14955e6fc73b` changes `docs/receipts/ranking/` only. `git diff --stat b09714354a7ae4685b5fb5874025285ad75d723c e644a4d2dd3ed4e0a9cc13f783ea14955e6fc73b -- hackertube hackertube_core tests` is empty. |
+| Host | Hermes Agent v0.23.0 (2026.9.24), commit `2bd378ed1b8d6bf2192cb26e0a55ff3091e6bd19`, Python 3.14.10, disposable profile `HERMES_HOME=/tmp/ht-rank-profile` |
+| Scenarios | FEED02, FEED06, FEED07, FEED09, and FEED10. The browse group is not presented as a SEARCH07 verified match. FEED08 was not run. |
+| Procedure | `hermes plugins validate hackertube --install-deps`, then `NODE_PATH=/tmp/pw/node_modules node docs/receipts/ranking/capture.js` against `http://127.0.0.1:9119/hackertube`. |
+| Result | Pass at code commit `b09714354a7ae4685b5fb5874025285ad75d723c`. With no stored interests the page keeps the unranked catalog and does not use a not-matched heading. Stored interest `AI` stays personalized, the ranked feed is empty, the coverage note is shown, and Podcasts shows `0 matches` plus `More in Podcasts, not matched to your interests` with 4 browse items and no why-lines. Stored interest `Jane Austen` ranks 10 items. Every why-line is `Matched interest. Recent.` None name community evidence or Hacker News. Podcasts shows `2 matches`, then the not-matched group with the two Python records and no why-lines. `paid_calls` stayed 0. The page does not show ranking scores. |
+| Artifacts | [docs/receipts/ranking/](../../../docs/receipts/ranking/) |
+
+The weights are module constants in `hackertube_core/ranking.py`: community evidence 1000, freshness 1 point per day remaining in a 366-day window, variety penalties 40 for a consecutive same catalog source and 20 for a consecutive same format. Interest match is the gate and is not a weight. `Recent` is the why-line word only when the catalog age is 30 days or less. Tie-break is item id.
+
 ## Release measurements
 
 All values are unmeasured. Freeze the post-demo evaluation workload, rubric, source snapshots, provider configuration, and request limits before collecting results. Use PRD section 9 for proposed targets and report adjustments explicitly. The demo video length is measured under task 4.3, not inferred from the six-step outline.

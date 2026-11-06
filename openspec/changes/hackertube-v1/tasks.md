@@ -20,7 +20,7 @@ Tasks 1.1, 1.2, 1.4, 2.1, 2.2, 3.1, and 3.2 are complete. Tasks 1.3 and 2.4 are 
 
 - [x] 3.1 Build the supported web page, four sections, library, About view, and source-opening controls. Verify UI01 through UI06 in the real web dashboard with a keyboard for the six-step cut and record accessibility evidence. Add Karpathy credit to the README, About view, and prepared marketplace description. Demo.
 - [x] 3.2 Implement prepared-feed ranking against the seeded catalog and basic feedback exclusions. Verify FEED01 through FEED07 with a fixed catalog. FEED08 strict duration filtering moves to task 6.3. Document the ranking policy and its limited subject coverage. Demo.
-- [ ] 3.7 Rank interest matches with fixed weights for community evidence, freshness, and variety, and list the rest of each format as a labeled browse group. Verify FEED02, FEED06, FEED07, FEED09, and FEED10. Interest match stays the gate. Browse items are not recommendations and are not in the ranked feed. Demo.
+- [x] 3.7 Rank interest matches with fixed weights for community evidence, freshness, and variety, and list the rest of each format as a labeled browse group. Verify FEED02, FEED06, FEED07, FEED09, and FEED10. Interest match stays the gate. Browse items are not recommendations and are not in the ranked feed. Demo.
 - [ ] 3.3 Instrument request boundaries and verify zero paid calls across ordinary browsing, local reranking, library operations, and reopening. Record FEED04, PREF08, JOB02, and JOB04 receipts. Demo.
 
 ## 4. Deliver the explicit demo search and submission candidate
