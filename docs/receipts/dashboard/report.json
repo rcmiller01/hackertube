@@ -1,0 +1,61 @@
+{
+  "reloadedHeading": "HackerTube",
+  "hostTabsBeforePlugin": [
+    "HERMES AGENT CHAT SESSIONS FILES MODELS LOGS CRON SKILLS PLUGINS MCP CHANNELS WEBHOOKS PAIRING PROFILES CONFIG KEYS SYSTEM DOCUMENTATION Plugins KANBAN HACKERTU",
+    "Collapse",
+    "CHAT",
+    "SESSIONS",
+    "FILES",
+    "MODELS",
+    "LOGS",
+    "CRON",
+    "SKILLS",
+    "PLUGINS",
+    "MCP",
+    "CHANNELS"
+  ],
+  "discoverOutline": {
+    "tag": "A",
+    "text": "Discover",
+    "id": "",
+    "inside": true,
+    "outlineStyle": "solid",
+    "outlineWidth": "2px",
+    "outlineColor": "color(srgb 1 0.901961 0.796078)",
+    "ariaDisabled": null
+  },
+  "openedUrl": "https://www.youtube.com/watch?v=LCEmiRjPEtQ",
+  "afterSearchNewHosts": [],
+  "hosts": [
+    "127.0.0.1:9119",
+    "archive.org",
+    "covers.openlibrary.org",
+    "dn601303.us.archive.org",
+    "dn710607.ca.archive.org",
+    "dn710802.ca.archive.org",
+    "dn710808.ca.archive.org",
+    "dn801301.us.archive.org",
+    "ia600505.us.archive.org",
+    "ia601601.us.archive.org",
+    "ia800505.us.archive.org",
+    "ia801601.us.archive.org",
+    "ia802806.us.archive.org",
+    "ia803200.us.archive.org",
+    "ia903200.us.archive.org",
+    "www.archive.org"
+  ],
+  "overflow390": {
+    "rootWider": false,
+    "docWider": false,
+    "columns": "327.5px"
+  },
+  "columns768": "683px",
+  "notes": [],
+  "axe": [
+    "search-open",
+    "about",
+    "library",
+    "discover",
+    "width-390"
+  ]
+}
