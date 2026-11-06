@@ -3,6 +3,7 @@
 import re
 from urllib.parse import urlencode
 
+from hackertube_core import outbound
 from hackertube_core.adapters.base import ParseResult
 from hackertube_core.errors import RecordError
 from hackertube_core.http import read_json
@@ -99,4 +100,4 @@ def fetch_search(query, *, limit=20, opener=None, resolve=None):
     if not isinstance(query, str) or not query.strip():
         raise RecordError("query")
     url = SEARCH_API + "?" + urlencode({"q": query.strip(), "limit": limit, "fields": FIELDS})
-    return read_json(url, opener=opener, resolve=resolve)
+    return read_json(url, classification=outbound.FREE, opener=opener, resolve=resolve)

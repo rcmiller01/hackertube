@@ -14,6 +14,11 @@ records its own short error and the pass continues, so one failed source
 does not hide the others. A disabled source is never fetched: Reddit,
 YouTube, and Podcast Index stay blocked and make no request.
 
+A ``TypeError`` is the one exception that is not treated as a source
+failure. It is a mis-wired call in our own code (a read with no
+classification, a wrong argument), so it is re-raised and fails loudly
+rather than being stored as a source-down status that would hide the bug.
+
 Storage is the profile database opened by ``ProfileStore``. This module
 does not import ``sqlite3`` and does not connect to a file.
 
@@ -236,6 +241,11 @@ def ingest(store, now, query, *, fetchers=None, registry=None):
             continue
         try:
             parsed = fetch(query, now)
+        except TypeError:
+            # A TypeError is a mis-wired call (a read with no classification,
+            # a wrong argument), not a source outage. Let it surface: a
+            # source-down status here would hide a bug in our own code.
+            raise
         except Exception as exc:  # one source must not stop the pass
             store.record_source_result(source_id, ok=False, at=now, error=_error_code(exc))
             continue

@@ -9,6 +9,7 @@ BLOCKED_REASON = None
 
 from urllib.parse import urlencode
 
+from hackertube_core import outbound
 from hackertube_core.adapters.base import ParseResult
 from hackertube_core.errors import RecordError
 from hackertube_core.http import read_json
@@ -151,4 +152,4 @@ def fetch_search(term, *, media="podcast", limit=20, opener=None, resolve=None):
     if not isinstance(term, str) or not term.strip():
         raise RecordError("query")
     url = SEARCH_API + "?" + urlencode({"term": term.strip(), "media": media, "limit": limit})
-    return read_json(url, opener=opener, resolve=resolve)
+    return read_json(url, classification=outbound.FREE, opener=opener, resolve=resolve)

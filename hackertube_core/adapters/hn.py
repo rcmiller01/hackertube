@@ -11,6 +11,7 @@ BLOCKED_REASON = None
 
 from urllib.parse import urlencode
 
+from hackertube_core import outbound
 from hackertube_core.adapters.base import ParseResult
 from hackertube_core.boundaries import recommendation_line
 from hackertube_core.errors import RecordError
@@ -118,4 +119,4 @@ def fetch_search(query, *, tags="story", hits_per_page=20, opener=None, resolve=
     url = SEARCH_API + "?" + urlencode(
         {"query": query.strip(), "tags": tags, "hitsPerPage": hits_per_page}
     )
-    return read_json(url, opener=opener, resolve=resolve)
+    return read_json(url, classification=outbound.FREE, opener=opener, resolve=resolve)

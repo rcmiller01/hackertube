@@ -280,12 +280,17 @@ def test_ingestion_goes_through_the_boundary_and_makes_no_paid_call(tmp_path, mo
     store = store_at(tmp_path)
 
     def fetch(query, now):
-        assert read_json("https://example.com/data", opener=_opener(), resolve=_resolve) == {"ok": True}
+        assert read_json(
+            "https://example.com/data",
+            classification=outbound.FREE,
+            opener=_opener(),
+            resolve=_resolve,
+        ) == {"ok": True}
         return ParseResult((), (), (), ())
 
     report = ingest(store, NOW, "jane austen", fetchers={"hn": fetch}, registry={"hn": REGISTRY["hn"]})
-    assert report["request_counts"] == {"free": 1, "paid": 0}
-    assert outbound.counters() == {"free": 1, "paid": 0}
+    assert report["request_counts"] == {"free": 1, "paid": 0, "metered": 0}
+    assert outbound.counters() == {"free": 1, "paid": 0, "metered": 0}
     assert outbound.usage()["cost_usd"] == 0.0
 
 
@@ -363,7 +368,7 @@ def test_each_enabled_adapter_fetch_goes_through_the_boundary(module, args):
     payload = module.fetch_search(*args, opener=Opener(), resolve=_resolve)
     assert payload == {"ok": True}
     assert seen["url"].startswith("https://")
-    assert outbound.counters() == {"free": 1, "paid": 0}
+    assert outbound.counters() == {"free": 1, "paid": 0, "metered": 0}
 
 
 def test_librivox_and_openlibrary_fetch_use_the_captured_endpoints():
