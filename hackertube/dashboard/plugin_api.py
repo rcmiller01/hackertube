@@ -7,8 +7,9 @@ is read through ``agent.secret_scope.get_secret`` and is not written here.
 
 ``/catalog`` returns the seed ``hackertube_core`` loads. ``/feed`` reads
 that seed through ``Catalog.feed`` and ``Catalog.section``, using the
-interests and dismissals in the profile store. It does not call a model
-or a search provider. ``/profile`` reads and writes the profile store in
+interests and dismissals in the profile store. Ranking receives this
+request's reference time and does not read the clock itself. The route
+does not call a model or a search provider. ``/profile`` reads and writes the profile store in
 the plugin data root. The view modules are loaded by path because the
 host loads this file as a script, not as a package.
 """

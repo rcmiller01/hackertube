@@ -31,7 +31,7 @@ def test_feed01_is_deterministic_and_local():
     second = catalog.feed(["Jane Austen"], NOW)
     assert first == second
     assert first.paid_calls == 0 and first.personalized is True
-    assert [item.capture_order for item in first.items] == sorted(item.capture_order for item in first.items)
+    assert len(first.why) == len(first.items)
     assert {item.format for item in first.items} == {"podcast_show", "book", "audiobook"}
     assert catalog.feed([], NOW).personalized is False
 

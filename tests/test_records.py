@@ -201,8 +201,10 @@ def test_prepared_feed_orders_by_capture_and_makes_no_paid_call(catalog, monkeyp
 
     monkeypatch.setattr("urllib.request.urlopen", explode)
     feed = prepared_feed(catalog.items, catalog.evidence, ["jane austen"], NOW)
+    again = prepared_feed(catalog.items, catalog.evidence, ["jane austen"], NOW)
+    assert feed == again
     assert feed.paid_calls == 0 and feed.personalized is True
-    assert [item.capture_order for item in feed.items] == sorted(item.capture_order for item in feed.items)
+    assert len(feed.why) == len(feed.items)
     assert feed.items
     empty = prepared_feed(catalog.items, catalog.evidence, [], NOW)
     assert empty.items == () and empty.personalized is False

@@ -5,7 +5,7 @@
  * catalog file. Saves, dismissals, opens, and interests are profile
  * records from GET /api/plugins/hackertube/profile. GET /feed is
  * Catalog.feed for the opening feed and Catalog.section for each format.
- * The page does not rank on its own. Search renders the question,
+ * The page does not rank on its own and does not show scores. Search renders the question,
  * disclosure, and results area and does not call a model, search
  * provider, or paid API (tasks 4.1 and 4.2).
  */
@@ -48,8 +48,17 @@
   var FEED06_NOTE = "No seeded record matches these interests. Coverage is limited to the titles and contributors in this catalog.";
   var FEED07_NOTE = "Nothing here is ranked for you yet. Add an interest to rank the seeded catalog. Refresh prepared catalog reads the saved catalog again and does not start a search.";
   var RANK_NOTE = "Dismissed and completed items stay out of this feed. Opening an item does not change the order. A source candidate is not a community recommendation.";
-  var SECTION_NOTE = "These sections follow the ranked feed. An item is hidden when its catalog evidence has expired.";
+  var POLICY_NOTE = "Interest match is required. Community evidence, freshness, and variety are the weighted components. The line on each recommendation names only the signals that applied to that item, and it says nothing about endorsement when the record has none. Scores are not shown.";
+  var SECTION_NOTE = "Matches are listed first. The group under the not-matched heading is the rest of this catalog for that format. Those items are not recommendations.";
   var SECTION_CATALOG_NOTE = "An item is hidden when its catalog evidence has expired. This list is not a personalized feed.";
+
+  function browseHeading(label) {
+    return "More in " + label + ", not matched to your interests";
+  }
+
+  function matchPhrase(count) {
+    return count + (count === 1 ? " match" : " matches");
+  }
 
   function destinationDecision(value) {
     if (typeof value !== "string" || !value.trim()) {
@@ -537,6 +546,13 @@
 
   function acceptDiscovery(body) {
     if (!body || body.schema !== DISCOVERY_SCHEMA || !Array.isArray(body.feed) || !body.sections) return null;
+    if (!body.why || typeof body.why !== "object" || Array.isArray(body.why)) return null;
+    var names = ["videos", "podcasts", "books", "audiobooks"];
+    for (var i = 0; i < names.length; i += 1) {
+      var section = body.sections[names[i]];
+      if (!section || !Array.isArray(section.matches) || !Array.isArray(section.browse)) return null;
+      if (section.match_count !== section.matches.length || section.browse_count !== section.browse.length) return null;
+    }
     return body;
   }
 
@@ -1027,7 +1043,12 @@
         return h("div", { className: "ht-actions" }, openControl, saveButton, dismissButton);
       }
 
-      function renderCard(item, byId, evidence, sources, editions, inLibrary, focusId) {
+      function whyText(lines) {
+        if (!lines || !lines.length) return null;
+        return h("p", { className: "ht-why" }, lines.join(". ") + ".");
+      }
+
+      function renderCard(item, byId, evidence, sources, editions, inLibrary, focusId, whyLines) {
         var note = editionNote(item, editions, byId);
         var length = lengthLine(item);
         var format = FORMAT_LABEL[item.format] || item.format;
@@ -1046,6 +1067,7 @@
                 ? h(Badge, { tone: "secondary", className: "ht-format" }, format)
                 : h("p", { className: "ht-format" }, format),
               title,
+              whyText(whyLines),
               h("p", { className: "ht-creator" }, creatorLine(item, byId)),
               renderArt(item),
               h("p", { className: "ht-destination" }, destinationLabel(item)),
@@ -1125,10 +1147,18 @@
         });
       }
 
+      function cardGrid(rows, key, byId, withWhy) {
+        var shown = visibleSlice(rows, !!expanded[key], INITIAL_CARDS);
+        return h("div", { className: "ht-grid" }, shown.map(function (item, index) {
+          var focusId = expanded[key] && index === INITIAL_CARDS ? "ht-expanded-" + key : "";
+          var lines = withWhy && discovery.why ? discovery.why[item.item_id] : null;
+          return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, false, focusId, lines);
+        }));
+      }
+
       function renderRanked(rows) {
         var shown = visibleSlice(rows, !!expanded.ranked, INITIAL_CARDS);
         var byId = itemsById(catalog.items);
-        var signals = discovery.signals || [];
         return h("section", { className: "ht-section", id: "ranked-feed", "aria-labelledby": "ranked-heading" },
           h("h2", { id: "ranked-heading", tabIndex: -1 },
             "Ranked feed",
@@ -1138,15 +1168,12 @@
             ? rows.length
               ? h("div", null,
                   h("p", { id: "hackertube-ranked-counts" }, countLine(rows)),
-                  signals.length
-                    ? h("ul", { id: "hackertube-signals", className: "ht-signals" }, signals.map(function (text) {
-                        return h("li", { key: text }, text);
-                      }))
-                    : null,
+                  h("p", { id: "hackertube-signals", className: "ht-note" }, POLICY_NOTE),
                   h("p", { className: "ht-note" }, RANK_NOTE),
                   h("div", { className: "ht-grid" }, shown.map(function (item, index) {
                     var focusId = expanded.ranked && index === INITIAL_CARDS ? "ht-expanded-ranked" : "";
-                    return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, false, focusId);
+                    var lines = discovery.why ? discovery.why[item.item_id] : null;
+                    return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, false, focusId, lines);
                   })),
                   rows.length > shown.length ? showMore("ranked", rows.length) : null
                 )
@@ -1161,19 +1188,49 @@
         );
       }
 
+      function renderPersonalizedSection(section, matches, browse, byId) {
+        var matchKey = section.id + "-matches";
+        var browseKey = section.id + "-browse";
+        return h("section", { className: "ht-section", id: section.id, key: section.id, "aria-labelledby": section.id + "-heading" },
+          h("h2", { id: section.id + "-heading", tabIndex: -1 },
+            section.label,
+            h("span", { className: "ht-count", id: section.id + "-match-count" }, " " + matchPhrase(matches.length))
+          ),
+          matches.length
+            ? h("div", { id: matchKey }, cardGrid(matches, matchKey, byId, true))
+            : h("p", null, "No " + section.label.toLowerCase() + " match these interests."),
+          matches.length > visibleSlice(matches, !!expanded[matchKey], INITIAL_CARDS).length
+            ? showMore(matchKey, matches.length)
+            : null,
+          h("div", { className: "ht-browse", id: browseKey },
+            h("h3", { id: section.id + "-browse-heading" },
+              browseHeading(section.label),
+              h("span", { className: "ht-count" }, " " + browse.length)
+            ),
+            browse.length
+              ? cardGrid(browse, browseKey, byId, false)
+              : h("p", null, "Nothing else from this catalog is in this section."),
+            browse.length > visibleSlice(browse, !!expanded[browseKey], INITIAL_CARDS).length
+              ? showMore(browseKey, browse.length)
+              : null
+          )
+        );
+      }
+
       function renderDiscoverSections() {
         var byId = itemsById(catalog.items);
         var personalized = !!(discovery && discovery.personalized);
         return h("div", null,
-          h("p", { className: "ht-note" }, ORDER_NOTE),
+          personalized ? null : h("p", { className: "ht-note" }, ORDER_NOTE),
           h("p", { className: "ht-note", id: "hackertube-section-note" }, personalized ? SECTION_NOTE : SECTION_CATALOG_NOTE),
           SECTIONS.map(function (section) {
-            var ids = discovery.sections && discovery.sections[section.id];
-            var rows = visibleDiscoveryRows(ids);
-            var empty = personalized
-              ? "No " + section.label.toLowerCase() + " match these interests."
-              : sectionEmpty(section.label, false);
-            return renderSectionBlock(section, rows, byId, false, empty);
+            var group = discovery.sections && discovery.sections[section.id];
+            var matches = visibleDiscoveryRows(group && group.matches);
+            var browse = visibleDiscoveryRows(group && group.browse);
+            if (!personalized) {
+              return renderSectionBlock(section, browse, byId, false, sectionEmpty(section.label, false));
+            }
+            return renderPersonalizedSection(section, matches, browse, byId);
           })
         );
       }
@@ -1303,7 +1360,7 @@
                   onChange: function (event) { setInterestDraft(event.target.value); },
                 }),
                 h("p", { id: "hackertube-interest-note", className: "ht-note" },
-                  "Interests can be any subject. They are not limited to technology. Up to 80 characters. Saved interests rank the opening feed by a word match."
+                  "Interests can be any subject. They are not limited to technology. Up to 80 characters. A word match is required before an item is recommended."
                 ),
                 h(Button, { type: "submit", className: "ht-action" }, "Add interest")
               )
@@ -1350,7 +1407,7 @@
           h("p", null, "The seeded page shows podcasts from Apple Podcasts, books from Open Library, and audiobooks from LibriVox. Hacker News is evidence on a media card. It is not a fifth format. Reddit is not used."),
           h("p", null, "Book covers load from Open Library only when the catalog marks them as hotlinks. This page does not cache those images. Apple artwork is not loaded."),
           h("h2", null, "Coverage"),
-          h("p", null, "The opening feed ranks saved interests by a word match in the title or a contributor name, then lists matches in capture order. An item needs catalog evidence that has not passed its refresh time. Dismissed and completed items stay out of that feed. The match does not use community mention counts. This catalog has no established Hacker News endorsement to rank. Coverage is the seeded titles and contributors. A subject outside that set has no match. A format can be empty. Unknown duration and unknown length stay unknown. Saves and interests stay in this profile. Opening a source records that open and does not mark the item completed."),
+          h("p", null, "The opening feed recommends an item only after a word match in the title or a contributor name. Matching items are ordered with fixed weights for community evidence, freshness, and variety. The line on each recommendation names only the signals that applied to that item. This page does not show scores. Community evidence means an established endorsement on the record. A mention is not an endorsement. This catalog has no established Hacker News endorsement to rank. An item needs catalog evidence that has not passed its refresh time. Dismissed and completed items stay out of the ranked feed and the section lists. Each format section lists matches first. The not-matched group stays in capture order and is not a recommendation. Coverage is the seeded titles and contributors. A subject outside that set has no ranked match. A format can be empty. Unknown duration and unknown length stay unknown. Saves and interests stay in this profile. Opening a source records that open and does not mark the item completed."),
           h("h2", null, "Opening a source"),
           h("p", null, "Open at source leaves this page and opens the public destination in the browser. HackerTube does not download the media and does not play it. A destination that is not public https is refused.")
         );
@@ -1380,7 +1437,10 @@
     FEED06_NOTE: FEED06_NOTE,
     FEED07_NOTE: FEED07_NOTE,
     RANK_NOTE: RANK_NOTE,
+    POLICY_NOTE: POLICY_NOTE,
     SECTION_NOTE: SECTION_NOTE,
+    browseHeading: browseHeading,
+    matchPhrase: matchPhrase,
     DISCOVERY_SCHEMA: DISCOVERY_SCHEMA,
     sectionEmpty: sectionEmpty,
     INITIAL_CARDS: INITIAL_CARDS,

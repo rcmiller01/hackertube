@@ -71,6 +71,12 @@ If an integration cannot meet the specs, revise the design and affected tasks be
 
 Use a disposable Hermes profile for integration probes and clean-install validation. Ship code and dependency versions only after those paths are verified. Verify disable/re-enable and update without losing library data. Document uninstall retention and explicit owned-data cleanup before release. Roll back to the prior reviewed plugin commit while preserving compatible private data.
 
+## Ranking weights (Robert, November 6, 2026)
+
+Robert approved weighted ranking in the catalog core before the demo, and a section browse group that is not a recommendation. The constants are in `hackertube_core/ranking.py`.
+
+Interest match is a gate, not a weight. Community evidence adds 1000 only for an unexpired established community endorsement. Freshness adds one point per day remaining in a 366-day window, measured from the item's `captured_at` to the reference time passed into ranking. Variety subtracts 40 for a consecutive same catalog source and 20 for a consecutive same format, then breaks ties by item id. The why-line says "Recent" only when that age is 30 days or less. The page does not show these numbers. A mention, a criticism, or missing endorsement data does not add the community-evidence weight and does not appear on the why-line.
+
 ## Deferrable details
 
-Ranking weights, catalog refresh volume, and presentation density can be calibrated within the specs. The PRD's latency and relevance figures are proposed targets. Freeze the workload, rubric, limits, and reference setup before measuring and make any target adjustment explicit.
+Ranking weights, catalog refresh volume, and presentation density can be calibrated within the specs. The November 6 constants above are that calibration for the demo. The PRD's latency and relevance figures are proposed targets. Freeze the workload, rubric, limits, and reference setup before measuring and make any target adjustment explicit.

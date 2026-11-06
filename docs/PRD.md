@@ -226,6 +226,12 @@ Robert confirmed this demo slice:
 
 The video must fit this sequence in under 90 seconds. It must show the running plugin, not a mockup.
 
+Robert confirmed two further demo decisions on November 6, 2026:
+
+Weighted ranking. The prepared feed stays gated on a stored interest match. Among matches, ranking uses three named components with fixed weights: community evidence (an established endorsement only), freshness relative to an explicit reference time, and a deterministic variety re-rank. The page does not show scores. A recommendation's explanation names only the signals that applied to that item. It does not mention endorsement when the record has none.
+
+Section browse. Each format section lists interest matches first, then the other items of that format under a heading that says they are not matched. The match count and the browse count stay separate. Browse items are not in the ranked feed, have no explanation line, and are not described as recommendations. With no stored interests, the page keeps the existing unranked catalog list. A profile whose interests match nothing still shows the coverage limit.
+
 The following scenarios remain specified but are post-demo. PRD rows retain their full requirement mappings in traceability.json. A row has status `demo` when at least one mapped scenario belongs to the cut, and `post-demo` only when every mapped scenario is deferred. The exact subsets are:
 
 - Memory opt-in and revocation in PREF06, plus the memory-consent disclosure in PREF13. Default memory-disabled behavior in PREF05 and read-only privacy in PREF08 remain in the demo.
