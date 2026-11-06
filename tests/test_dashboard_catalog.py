@@ -1,32 +1,40 @@
-"""Shape checks for the dashboard catalog fixture adapter."""
+"""The dashboard catalog is the seed hackertube_core loads."""
 
 import importlib.util
+import json
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ADAPTER = ROOT / "hackertube" / "dashboard" / "catalog_adapter.py"
+VIEW = ROOT / "hackertube" / "dashboard" / "catalog_view.py"
+SEED = ROOT / "hackertube_core" / "seed" / "catalog.json"
 
 
-def load_adapter():
-    spec = importlib.util.spec_from_file_location("hackertube_catalog_adapter_test", ADAPTER)
+def load_view_module():
+    spec = importlib.util.spec_from_file_location("hackertube_catalog_view_test", VIEW)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
 
 
-class CatalogAdapterTest(unittest.TestCase):
+class DashboardCatalogTest(unittest.TestCase):
     def setUp(self):
-        self.adapter = load_adapter()
+        self.view_module = load_view_module()
 
-    def test_view_is_marked_fixture(self):
-        view = self.adapter.load_view()
-        self.assertTrue(view["fixture"])
+    def test_page_catalog_matches_the_core_seed(self):
+        view = self.view_module.load_view()
+        self.assertEqual(set(view), {"catalog"})
+        self.assertNotIn("fixture", view)
+        seed = json.loads(SEED.read_text(encoding="utf-8"))
+        self.assertEqual(view["catalog"], seed)
         self.assertEqual(view["catalog"]["schema"], "hackertube.catalog/1")
+        self.assertEqual(
+            view["catalog"]["demo_question"],
+            "What can I read or listen to by Jane Austen?",
+        )
 
     def test_seed_shape_has_four_formats_and_no_hn_card(self):
-        catalog = self.adapter.load_catalog()
-        self.assertEqual(catalog["demo_question"], "What can I read or listen to by Jane Austen?")
+        catalog = self.view_module.catalog_dict()
         formats = {}
         for item in catalog["items"]:
             self.assertFalse(item["item_id"].startswith("hn:"))
@@ -37,6 +45,10 @@ class CatalogAdapterTest(unittest.TestCase):
         self.assertEqual(formats["audiobook"], 4)
         self.assertEqual(formats["podcast_show"] + formats["podcast_episode"], 4)
         self.assertEqual(len(catalog["items"]), 12)
+        self.assertEqual(
+            [item["capture_order"] for item in catalog["items"]],
+            list(range(1, 13)),
+        )
         self.assertEqual(catalog["formats_may_be_empty"], ["videos"])
         unavailable = catalog["unavailable_videos"]
         self.assertEqual(len(unavailable), 3)
@@ -48,6 +60,7 @@ class CatalogAdapterTest(unittest.TestCase):
         endorsed = [
             row for row in catalog["evidence"]
             if row.get("display_line") == "Recommended in Hacker News"
+            or row.get("endorsement") == "established"
         ]
         self.assertEqual(endorsed, [])
 

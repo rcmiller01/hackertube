@@ -5,9 +5,10 @@ plugin context, so ``ctx.llm`` and ``ctx.dispatch_tool`` are not available
 here. Profile data belongs under the plugin data root. The declared secret
 is read through ``agent.secret_scope.get_secret`` and is not written here.
 
-``/catalog`` returns the local fixture through ``catalog_adapter``. It does
-not import ``hackertube_core``, does not rank the feed, and does not call a
-model or a search provider.
+``/catalog`` returns the seed ``hackertube_core`` loads. It does not rank
+the feed and does not call a model or a search provider. The view module is
+loaded by path because the host loads this file as a script, not as a
+package.
 """
 
 import importlib.util
@@ -20,14 +21,12 @@ from plugins.plugin_storage import plugin_data_dir
 
 router = APIRouter()
 
-_ADAPTER_PATH = Path(__file__).with_name("catalog_adapter.py")
-_adapter_spec = importlib.util.spec_from_file_location(
-    "hackertube_catalog_adapter", _ADAPTER_PATH
-)
-if _adapter_spec is None or _adapter_spec.loader is None:
-    raise ImportError("catalog adapter")
-_catalog_adapter = importlib.util.module_from_spec(_adapter_spec)
-_adapter_spec.loader.exec_module(_catalog_adapter)
+_VIEW_PATH = Path(__file__).with_name("catalog_view.py")
+_view_spec = importlib.util.spec_from_file_location("hackertube_catalog_view", _VIEW_PATH)
+if _view_spec is None or _view_spec.loader is None:
+    raise ImportError("catalog view")
+_catalog_view = importlib.util.module_from_spec(_view_spec)
+_view_spec.loader.exec_module(_catalog_view)
 
 _MODEL_KEY = "HACKERTUBE_MODEL_KEY"
 
@@ -51,4 +50,4 @@ def status():
 
 @router.get("/catalog")
 def catalog():
-    return _catalog_adapter.load_view()
+    return _catalog_view.load_view()

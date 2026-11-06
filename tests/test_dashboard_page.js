@@ -194,6 +194,11 @@ test("demo question and disclosure text are the approved lines", () => {
   assert.equal(page.DEMO_QUESTION, "What can I read or listen to by Jane Austen?");
   assert.match(page.DISCLOSURE, /broader web/);
   assert.match(page.DISCLOSURE, /Browsing is free/);
+  assert.equal(page.ORDER_NOTE, "Seeded catalog, in capture order.");
+  assert.equal(page.sectionEmpty("Videos", false), "No videos in this catalog.");
+  assert.equal(page.sectionEmpty("Videos", true), "No saved videos.");
+  assert.equal(page.ORDER_NOTE.includes("fixture"), false);
+  assert.equal(page.sectionEmpty("Podcasts", false).includes("fixture"), false);
 });
 
 function mountPage(catalogBody) {

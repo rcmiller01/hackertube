@@ -12,7 +12,7 @@ This is an independent Hermes adaptation. It extends the original community-cura
 
 ## Status
 
-The Hermes host probe is in [docs/feasibility.md](docs/feasibility.md). The installable plugin is `hackertube/`. The web page has Discover, Library, and About. Discover reads a local fixture of schema `hackertube.catalog/1` until it imports `hackertube_core/`. Saves last for the page visit. Focused search shows the question and the credit disclosure and does not call a model or a search provider. Source feasibility and the seeded catalog are in [docs/feasibility-sources.md](docs/feasibility-sources.md). The prepared marketplace description is [docs/marketplace-description.md](docs/marketplace-description.md).
+The Hermes host probe is in [docs/feasibility.md](docs/feasibility.md). The installable plugin is `hackertube/`. The web page has Discover, Library, and About. Discover reads the seed `hackertube_core` loads, schema `hackertube.catalog/1`. Saves last for the page visit. Focused search shows the question and the credit disclosure and does not call a model or a search provider. Source feasibility and the seeded catalog are in [docs/feasibility-sources.md](docs/feasibility-sources.md). The prepared marketplace description is [docs/marketplace-description.md](docs/marketplace-description.md).
 
 The [product requirements document](docs/PRD.md) records the agreed scope, acceptance criteria, and remaining technical investigations.
 
