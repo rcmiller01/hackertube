@@ -213,6 +213,59 @@ def test_cat05_duplicate_identities_collapse_and_keep_evidence():
     assert all(row.item_id == "ol:OL1W" for row in evidence)
 
 
+def test_cat05_ingest_merges_duplicate_identities_across_sources(tmp_path):
+    """The merge has to run in the ingest path, not only when called directly.
+
+    Calling ``merge_duplicates`` on its own stays green if ``ingest`` stops
+    calling it, so this test drives two sources returning the same identity
+    through ``ingest`` and asserts the single merged item plus both evidence
+    rows. Removing the merge call from ``ingest`` makes it fail.
+    """
+    store = store_at(tmp_path)
+    itunes_book = _item(
+        "itunes:audiobook:9",
+        "book",
+        "Pride and Prejudice",
+        ("Jane Austen",),
+        ("itunes:audiobook:9", "gutenberg:1342"),
+    )
+    openlibrary_book = _item(
+        "ol:OL1W", "book", "Pride and Prejudice", ("Jane Austen",), ("ol:OL1W", "gutenberg:1342")
+    )
+    two_sources = {"itunes": REGISTRY["itunes"], "openlibrary": REGISTRY["openlibrary"]}
+
+    def itunes_fetch(query, now):
+        return ParseResult(
+            (itunes_book,), (_evidence("itunes:audiobook:9", "itunes:audiobook:9", "itunes"),), (), ()
+        )
+
+    def openlibrary_fetch(query, now):
+        return ParseResult(
+            (openlibrary_book,), (_evidence("ol:OL1W", "ol:OL1W", "openlibrary"),), (), ()
+        )
+
+    report = ingest(
+        store,
+        NOW,
+        "jane austen",
+        fetchers={"itunes": itunes_fetch, "openlibrary": openlibrary_fetch},
+        registry=two_sources,
+    )
+
+    rows = {row["source_id"]: row for row in report["sources"]}
+    assert rows["itunes"]["last_success_at"] == NOW
+    assert rows["openlibrary"]["last_success_at"] == NOW
+
+    assert len(report["items"]) == 1
+    kept = report["items"][0]
+    assert kept.item_id == "itunes:audiobook:9"
+    assert kept.capture_order == 1
+
+    assert len(report["evidence"]) == 2
+    assert {row.source_id for row in report["evidence"]} == {"itunes", "openlibrary"}
+    assert all(row.item_id == kept.item_id for row in report["evidence"])
+
+
 def test_cat05_does_not_collapse_a_book_and_its_audiobook():
     book = _item("ol:OL1W", "book", "Pride and Prejudice", ("Jane Austen",), ("ol:OL1W", "gutenberg:1342"))
     audio = _item("lv:86", "audiobook", "Pride and Prejudice", ("Jane Austen",), ("lv:86", "gutenberg:1342"))
