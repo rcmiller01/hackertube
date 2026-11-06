@@ -1,17 +1,24 @@
-"""Task 3.3 red check: a request outside the boundary fails the suite.
+"""Task 3.3 red check: a request outside the boundary fails.
 
-Copies ``hackertube/dashboard/discovery.py`` to a temporary module, adds a
-direct ``urllib.request.urlopen`` call to the feed path, and runs it under
-the boundary guard. The expected outcome is ``NetworkOutsideBoundary`` —
-the same failure the driven tests in ``tests/test_request_boundary.py``
-raise when a module bypasses the boundary.
+Two checks, both with the production guard installed and no external traffic:
+
+1. A copy of ``hackertube/dashboard/discovery.py`` with a direct
+   ``urllib.request.urlopen`` added to the feed path must raise
+   ``NetworkOutsideBoundary``.
+2. A direct ``socket.socket().connect_ex`` to a loopback listener — the
+   sibling of ``connect`` that the first version of the guard missed — must
+   raise too.
+
+It also shows the gate is a gate: the same loopback ``connect_ex`` inside a
+boundary request succeeds and is counted.
 
 Run from the repository root:
 
-    python3 docs/receipts/requests/bypass_probe.py
+    .venv/bin/python docs/receipts/requests/bypass_probe.py
 """
 
 import importlib.util
+import socket
 import sys
 import tempfile
 from contextlib import ExitStack
@@ -51,9 +58,19 @@ def _bypassed_module():
     return module
 
 
+def _listener():
+    server = socket.socket()
+    server.bind(("127.0.0.1", 0))
+    server.listen(1)
+    return server
+
+
 def main():
+    failures = []
     module = _bypassed_module()
     catalog = load_seed()
+    server = _listener()
+    address = server.getsockname()
     with ExitStack() as stack:
         for owner, attribute in outbound.guard_targets():
             stack.enter_context(patch.object(owner, attribute, outbound.guarded(owner, attribute)))
@@ -61,11 +78,37 @@ def main():
         try:
             module.discovery_dict(catalog, {"interests": ["jane austen"], "items": []}, NOW)
         except outbound.NetworkOutsideBoundary as exc:
-            print(f"refused as expected: {exc}")
-            print(f"counters after refusal: {outbound.counters()}")
-            return 0
-        print("FAILED: the bypass reached the network and was not refused")
+            print(f"urlopen on the feed path refused as expected: {exc}")
+        else:
+            failures.append("urlopen on the feed path was not refused")
+
+        outbound.reset()
+        try:
+            rc = socket.socket().connect_ex(address)
+        except outbound.NetworkOutsideBoundary as exc:
+            print(f"connect_ex outside the boundary refused as expected: {exc}")
+        else:
+            failures.append(f"connect_ex reached the listener (rc={rc}) and was not refused")
+        print(f"counters after refusals: {outbound.counters()}")
+
+        # The gate is passable when the request goes through the boundary.
+        outbound.reset()
+        client = socket.socket()
+        try:
+            rc = outbound.dispatch(outbound.FREE, client.connect_ex, address)
+            print(f"connect_ex inside a boundary request connected: rc={rc}")
+            print(f"counters after an allowed request: {outbound.counters()}")
+            if rc != 0:
+                failures.append("the allowed loopback connect_ex did not connect")
+        finally:
+            client.close()
+    server.close()
+
+    if failures:
+        for failure in failures:
+            print(f"FAILED: {failure}")
         return 1
+    return 0
 
 
 if __name__ == "__main__":
