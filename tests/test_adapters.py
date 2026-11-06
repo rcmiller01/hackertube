@@ -1,6 +1,7 @@
 """Adapters against captured responses, doc samples, and hostile payloads."""
 
 import json
+import socket
 from pathlib import Path
 
 import pytest
@@ -129,7 +130,10 @@ def test_youtube_key_stays_out_of_the_url():
             return Response()
 
     opener = Opener()
-    result = youtube.fetch_data_api("docSampleId", "test-key", opener=opener)
+    def resolve(host, port, *args, **kwargs):
+        return [(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("1.1.1.1", 0))]
+
+    result = youtube.fetch_data_api("docSampleId", "test-key", opener=opener, resolve=resolve)
     assert result["called"] is True
     assert "test-key" not in opener.request.full_url
     assert opener.request.get_header("X-goog-api-key") == "test-key"
