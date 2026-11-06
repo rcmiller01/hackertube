@@ -1,6 +1,7 @@
 """LIB01, LIB02, LIB03, and PREF01. Profile rows survive a new store and a catalog reread."""
 
 import importlib.util
+import socket
 import sqlite3
 import sys
 import types
@@ -283,6 +284,39 @@ def test_open_profile_db_calls_plugin_db_not_sqlite_connect(tmp_path, monkeypatc
     assert conn is ready
     assert calls == [("hackertube", "profile.db")]
     assert conn.row_factory is sqlite3.Row
+    ready.close()
+
+
+def test_profile_store_and_plugin_db_opener_do_not_resolve_dns(tmp_path, monkeypatch):
+    lookups = []
+
+    def refuse(*args, **kwargs):
+        lookups.append(args)
+        raise AssertionError("live DNS is disabled in tests")
+
+    monkeypatch.setattr(socket, "getaddrinfo", refuse)
+    store = store_at(tmp_path)
+    store.save_item(ITEM, known_ids={ITEM})
+    store.record_open(ITEM, known_ids={ITEM}, opened_at=OPENED)
+    store.add_interest("gardening")
+    assert store.interest_texts() == ("gardening",)
+    ready = sqlite3.connect(tmp_path / "helper.db")
+    calls = []
+
+    def fake(name, filename="data.db"):
+        calls.append((name, filename))
+        return ready
+
+    storage = types.ModuleType("plugins.plugin_storage")
+    storage.plugin_db = fake
+    package = types.ModuleType("plugins")
+    package.plugin_storage = storage
+    monkeypatch.setitem(sys.modules, "plugins", package)
+    monkeypatch.setitem(sys.modules, "plugins.plugin_storage", storage)
+    conn = open_profile_db()
+    assert conn is ready
+    assert calls == [("hackertube", "profile.db")]
+    assert lookups == []
     ready.close()
 
 
