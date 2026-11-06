@@ -1,5 +1,5 @@
 command NODE_PATH=/tmp/pw/node_modules node docs/receipts/dashboard/capture.js
-pluginCommit 233fcdbacbc7fd199e1f788ac23001a8d8e2b66e
+pluginCommit 8e0da8fac87769b975dcfed2f3e2fb60ae38cec2
 hermesVersion Hermes Agent v0.23.0 (2026.9.24) · stable · local 2bd378ed1b8d
 Install directory: /tmp/hermes-src/hermes-v023
 Install method: git
@@ -69,12 +69,19 @@ key Shift+Tab from BUTTON "Search"
 key Shift+Tab from INPUT "What can I read or listen to by Jane Austen?"
 key Shift+Tab from BUTTON "Focused search"
 focus A "About"
-UI03 credit box {"x":310.4375,"y":156.765625,"width":185.265625,"height":22}
+UI03 credit box {"x":310.4375,"y":156.765625,"width":185.265625,"height":44}
 key Tab from H1 "About"
 key Tab from A "original HackerTube post"
 key Tab from A "hackertube.org"
 key Tab from A "Discover"
 focus A "Library (1 saved)"
+a11y empty alert
+a11y alert focus {"tag":"P","text":"Enter a question before searching.","id":"","inside":true,"outlineStyle":"solid","outlineWidth":"2px","outlineColor":"color(srgb 1 0.901961 0.796078)","ariaDisabled":null}
+a11y section heading
+a11y section focus {"tag":"H2","text":"Podcasts 4","id":"podcasts-heading","inside":true,"outlineStyle":"solid","outlineWidth":"2px","outlineColor":"color(srgb 1 0.901961 0.796078)","ariaDisabled":null}
+a11y text links
+a11y link style {"height":44,"decoration":"underline","className":"ht-text-link"}
+a11y evidence text links 0
 UI05 scheme true private true badLinks 0
 UI06 savedFocus {"tag":"BUTTON","text":"Saved","id":"","inside":true,"outlineStyle":"solid","outlineWidth":"2px","outlineColor":"color(srgb 1 0.901961 0.796078)","ariaDisabled":"true"}
 UI06 outline solid 2px

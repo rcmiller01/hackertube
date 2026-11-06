@@ -180,11 +180,11 @@ Tasks 1.1, 1.2, and 1.4 have receipts below. The other scenarios have no impleme
 | Field | Record |
 |---|---|
 | Date | 2026-11-06 |
-| Plugin revision | `233fcdbacbc7fd199e1f788ac23001a8d8e2b66e` |
+| Plugin revision | `8e0da8fac87769b975dcfed2f3e2fb60ae38cec2` |
 | Host | Hermes Agent v0.23.0 (2026.9.24), commit `2bd378ed1b8d6bf2192cb26e0a55ff3091e6bd19`, Python 3.14.10, disposable profile `HERMES_HOME=/tmp/ht-profile` |
-| Scenarios | UI01, UI02, UI03, UI04, UI05, and UI06 pass on the running web dashboard against plugin commit `233fcdbacbc7fd199e1f788ac23001a8d8e2b66e` and the be50886 fixture. SEARCH01 is not executed. LIB02 persistence is not implemented. FEED ranking is not implemented. The task checkbox stays open until `hackertube_core` replaces this fixture. |
+| Scenarios | UI01, UI02, UI03, UI04, UI05, and UI06 pass on the running web dashboard against plugin commit `8e0da8fac87769b975dcfed2f3e2fb60ae38cec2` and the be50886 fixture. SEARCH01 is not executed. LIB02 persistence is not implemented. FEED ranking is not implemented. The task checkbox stays open until `hackertube_core` replaces this fixture. |
 | Procedure | `NODE_PATH=/tmp/pw/node_modules node docs/receipts/dashboard/capture.js` against `http://127.0.0.1:9119/hackertube` after `hermes plugins validate hackertube --install-deps`. The script is [capture.js](../../../docs/receipts/dashboard/capture.js). The raw walk is [walk.log](../../../docs/receipts/dashboard/walk.log). The validate output is [validate.log](../../../docs/receipts/dashboard/validate.log). |
-| Result | Pass for UI01 through UI06 on plugin commit `233fcdbacbc7fd199e1f788ac23001a8d8e2b66e`. Task 3.1 remains unchecked. See the scenario notes below. |
+| Result | Pass for UI01 through UI06 on plugin commit `8e0da8fac87769b975dcfed2f3e2fb60ae38cec2`. Task 3.1 remains unchecked. See the scenario notes below. |
 | Artifacts | [docs/receipts/dashboard/](../../../docs/receipts/dashboard/) |
 
 UI01. The host nav link `HackerTube` points at `/hackertube`. After `location.reload` the page heading is `HackerTube`. Screenshot: [02-after-reload.png](../../../docs/receipts/dashboard/02-after-reload.png).
@@ -197,7 +197,7 @@ UI04. Keyboard activation of Open at source opened `https://podcasts.apple.com/u
 
 UI05. With `?ht_unsafe=1` the page shows the refusal text for `javascript:alert(1)` and `https://127.0.0.1/private` and renders no link with those destinations. The same `destinationDecision` function gates every card. The default page does not show this check. Mapped IPv6 forms, including hex `::ffff:7f00:1` and `::ffff:a00:1`, are refused by the node tests at this plugin revision. Screenshot: [13-unsafe.png](../../../docs/receipts/dashboard/13-unsafe.png).
 
-UI06. Tab order reaches the host navigation before Discover. Discover's focus outline is `solid 2px` using the host ring color. Escape closes an idle search and returns focus to Focused search. The question `What can I read or listen to by Jane Austen?` is typed into the labelled field. The disclosure is visible and tied with `aria-describedby`. Enter on Search focuses `Search results` and shows that no search was started. Enter on Save changes that control to `Saved` with `aria-disabled="true"`, announces the save, and sets the nav to `Library (1 saved)`. A second Enter does not add another save. Shift+Tab returns to Open at source. About is opened from the keyboard and its heading receives focus. Axe reports 0 violations on discover, search open, library, about, and the 390px width. At 390px and 768px the card grid is one column and the plugin root does not scroll sideways. Screenshots: [07-search-disclosure.png](../../../docs/receipts/dashboard/07-search-disclosure.png), [08-search-results.png](../../../docs/receipts/dashboard/08-search-results.png), [09-saved-focus.png](../../../docs/receipts/dashboard/09-saved-focus.png), [10-library.png](../../../docs/receipts/dashboard/10-library.png), [12-keyboard-focus.png](../../../docs/receipts/dashboard/12-keyboard-focus.png), [14-width-390.png](../../../docs/receipts/dashboard/14-width-390.png), [15-width-768.png](../../../docs/receipts/dashboard/15-width-768.png). Machine summary: [report.json](../../../docs/receipts/dashboard/report.json).
+UI06. Tab order reaches the host navigation before Discover. Discover's focus outline is `solid 2px` using the host ring color. Escape closes an idle search and returns focus to Focused search. The question `What can I read or listen to by Jane Austen?` is typed into the labelled field. The disclosure is visible and tied with `aria-describedby`. Enter on Search focuses `Search results` and shows that no search was started. Enter on Save changes that control to `Saved` with `aria-disabled="true"`, announces the save, and sets the nav to `Library (1 saved)`. A second Enter does not add another save. Shift+Tab returns to Open at source. About is opened from the keyboard and its heading receives focus. An empty Search moves focus to the alert after it mounts, with a solid 2px ring: [16-focused-alert.png](../../../docs/receipts/dashboard/16-focused-alert.png). Activating Podcasts moves focus to that section `h2`: [17-focused-section.png](../../../docs/receipts/dashboard/17-focused-section.png). About links use `ht-text-link`, are underlined, and are 44px tall: [18-underlined-links.png](../../../docs/receipts/dashboard/18-underlined-links.png). This fixture has no evidence anchor to photograph. The same class is covered by the node test `evidence and about links use the text link class`. Axe reports 0 violations on discover, search open, library, about, and the 390px width. At 390px and 768px the card grid is one column and the plugin root does not scroll sideways. Screenshots: [07-search-disclosure.png](../../../docs/receipts/dashboard/07-search-disclosure.png), [08-search-results.png](../../../docs/receipts/dashboard/08-search-results.png), [09-saved-focus.png](../../../docs/receipts/dashboard/09-saved-focus.png), [10-library.png](../../../docs/receipts/dashboard/10-library.png), [12-keyboard-focus.png](../../../docs/receipts/dashboard/12-keyboard-focus.png), [14-width-390.png](../../../docs/receipts/dashboard/14-width-390.png), [15-width-768.png](../../../docs/receipts/dashboard/15-width-768.png). Machine summary: [report.json](../../../docs/receipts/dashboard/report.json).
 
 Checks quoted from this run:
 
@@ -207,8 +207,8 @@ Ran 2 tests in 0.002s
 OK
 
 node --test tests/test_dashboard_page.js
-ℹ tests 14
-ℹ pass 14
+ℹ tests 17
+ℹ pass 17
 ℹ fail 0
 
 python3 scripts/check_spec_coverage.py

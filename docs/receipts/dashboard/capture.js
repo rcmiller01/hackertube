@@ -271,6 +271,45 @@ async function dismissBanner(page) {
   await page.locator("text=Seeded fixture").waitFor();
   await axe(page, "discover");
 
+  log("a11y empty alert");
+  if (await page.locator("#hackertube-question").count() === 0) {
+    await page.getByRole("button", { name: "Focused search" }).click();
+    await page.locator("#hackertube-question").waitFor();
+  }
+  await page.locator("#hackertube-question").fill("");
+  await page.locator("#hackertube-search-panel").getByRole("button", { name: "Search", exact: true }).click();
+  await page.waitForFunction(() => {
+    const el = document.activeElement;
+    return el && el.getAttribute("role") === "alert" && (el.textContent || "").indexOf("Enter a question") !== -1;
+  });
+  log("a11y alert focus " + JSON.stringify(await activeInfo(page)));
+  await shot(page, "16-focused-alert");
+
+  log("a11y section heading");
+  await page.locator('.ht-sections a[href="#podcasts"]').focus();
+  await page.keyboard.press("Enter");
+  await page.waitForFunction(() => document.activeElement && document.activeElement.id === "podcasts-heading");
+  log("a11y section focus " + JSON.stringify(await activeInfo(page)));
+  await shot(page, "17-focused-section");
+
+  log("a11y text links");
+  await page.locator('.ht-nav a[href="#about"]').click();
+  const creditLink = page.locator('a.ht-text-link[href="https://karpathy.bearblog.dev/hacker-tube/"]');
+  await creditLink.waitFor();
+  const linkStyle = await creditLink.evaluate((el) => {
+    const cs = getComputedStyle(el);
+    return {
+      height: el.getBoundingClientRect().height,
+      decoration: cs.textDecorationLine,
+      className: el.className,
+    };
+  });
+  log("a11y link style " + JSON.stringify(linkStyle));
+  if (linkStyle.height < 40) throw new Error("text link shorter than 40px");
+  if (String(linkStyle.decoration).indexOf("underline") === -1) throw new Error("text link not underlined");
+  log("a11y evidence text links " + await page.locator(".ht-evidence a.ht-text-link").count());
+  await shot(page, "18-underlined-links");
+
   const narrowContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const narrow = await narrowContext.newPage();
   narrow.on("request", (req) => record(req.url()));
