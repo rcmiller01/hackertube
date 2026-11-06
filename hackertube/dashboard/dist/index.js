@@ -2,10 +2,11 @@
  *
  * Catalog rows come from GET /api/plugins/hackertube/catalog. That route
  * returns the seed hackertube_core loads. This file does not read a local
- * catalog file. Save, dismiss, and open state live in the page visit only
- * (task 2.2). Feed order is capture order (task 3.2). Search renders the
- * question, disclosure, and results area and does not call a model, search
- * provider, or paid API (tasks 4.1 and 4.2).
+ * catalog file. Saves, dismissals, opens, and interests are profile
+ * records from GET /api/plugins/hackertube/profile. Feed order is capture
+ * order (task 3.2). Search renders the question, disclosure, and results
+ * area and does not call a model, search provider, or paid API (tasks 4.1
+ * and 4.2).
  */
 (function (factory) {
   "use strict";
@@ -331,20 +332,167 @@
     return items.slice(0, cap);
   }
 
-  function applySave(saved, itemId, clock) {
-    if (saved[itemId]) return saved;
-    var at = clock.current + 1;
-    clock.current = at;
-    var next = Object.assign({}, saved);
-    next[itemId] = { at: at };
-    return next;
+  var PROFILE_SCHEMA = "hackertube.profile/1";
+  var INTEREST_MAX = 80;
+
+  function emptyProfile() {
+    return { schema: PROFILE_SCHEMA, interests: [], items: [] };
   }
 
-  function applyDismiss(dismissed, itemId) {
-    if (dismissed[itemId]) return dismissed;
-    var next = Object.assign({}, dismissed);
-    next[itemId] = true;
-    return next;
+  function blankItem(itemId) {
+    return {
+      item_id: itemId,
+      saved: false,
+      dismissed: false,
+      completed: false,
+      saved_order: null,
+      opens: [],
+    };
+  }
+
+  function copyItem(row) {
+    return {
+      item_id: row.item_id,
+      saved: row.saved === true,
+      dismissed: row.dismissed === true,
+      completed: row.completed === true,
+      saved_order: typeof row.saved_order === "number" ? row.saved_order : null,
+      opens: (row.opens || []).slice(),
+    };
+  }
+
+  function profileWithItems(profile, items) {
+    return {
+      schema: profile.schema || PROFILE_SCHEMA,
+      interests: (profile.interests || []).slice(),
+      items: items,
+    };
+  }
+
+  function findItem(profile, itemId) {
+    var items = (profile && profile.items) || [];
+    for (var i = 0; i < items.length; i += 1) {
+      if (items[i].item_id === itemId) return { index: i, row: items[i] };
+    }
+    return null;
+  }
+
+  function nextSavedOrder(items) {
+    var order = 0;
+    items.forEach(function (row) {
+      if (row.saved && row.saved_order > order) order = row.saved_order;
+    });
+    return order + 1;
+  }
+
+  function applySave(profile, itemId) {
+    var current = profile || emptyProfile();
+    var found = findItem(current, itemId);
+    if (found && found.row.saved) return current;
+    var items = (current.items || []).map(copyItem);
+    var order = nextSavedOrder(items);
+    if (found) {
+      items[found.index].saved = true;
+      items[found.index].saved_order = order;
+    } else {
+      var created = blankItem(itemId);
+      created.saved = true;
+      created.saved_order = order;
+      items.push(created);
+    }
+    return profileWithItems(current, items);
+  }
+
+  function applyDismiss(profile, itemId) {
+    var current = profile || emptyProfile();
+    var found = findItem(current, itemId);
+    if (found && found.row.dismissed) return current;
+    var items = (current.items || []).map(copyItem);
+    if (found) {
+      items[found.index].dismissed = true;
+    } else {
+      var created = blankItem(itemId);
+      created.dismissed = true;
+      items.push(created);
+    }
+    return profileWithItems(current, items);
+  }
+
+  function applyOpen(profile, itemId, openedAt) {
+    var current = profile || emptyProfile();
+    var items = (current.items || []).map(copyItem);
+    var found = findItem(current, itemId);
+    var row;
+    if (found) {
+      row = items[found.index];
+    } else {
+      row = blankItem(itemId);
+      items.push(row);
+    }
+    row.opens = row.opens.concat([openedAt]);
+    return profileWithItems(current, items);
+  }
+
+  function codePointLength(text) {
+    var count = 0;
+    for (var i = 0; i < text.length; i += 1) {
+      var unit = text.charCodeAt(i);
+      if (unit >= 0xD800 && unit <= 0xDBFF && i + 1 < text.length) {
+        var next = text.charCodeAt(i + 1);
+        if (next >= 0xDC00 && next <= 0xDFFF) i += 1;
+      }
+      count += 1;
+    }
+    return count;
+  }
+
+  function cleanInterest(text) {
+    if (typeof text !== "string") return "";
+    var cleaned = text.trim();
+    if (!cleaned || codePointLength(cleaned) > INTEREST_MAX) return "";
+    if (/[<>]/.test(cleaned) || /[\u0000-\u001f]/.test(cleaned)) return "";
+    return cleaned;
+  }
+
+  function addInterest(profile, text) {
+    var current = profile || emptyProfile();
+    var cleaned = cleanInterest(text);
+    if (!cleaned) return current;
+    var interests = (current.interests || []).slice();
+    if (interests.indexOf(cleaned) !== -1) return current;
+    interests.push(cleaned);
+    return {
+      schema: current.schema || PROFILE_SCHEMA,
+      interests: interests,
+      items: (current.items || []).map(copyItem),
+    };
+  }
+
+  function normalizeProfile(body) {
+    if (!body || body.schema !== PROFILE_SCHEMA || !Array.isArray(body.interests) || !Array.isArray(body.items)) {
+      return null;
+    }
+    return {
+      schema: PROFILE_SCHEMA,
+      interests: body.interests.filter(function (text) { return typeof text === "string"; }),
+      items: body.items.filter(function (row) {
+        return row && typeof row.item_id === "string";
+      }).map(copyItem),
+    };
+  }
+
+  function itemState(profile, itemId) {
+    var found = findItem(profile, itemId);
+    if (!found) return blankItem(itemId);
+    return found.row;
+  }
+
+  function savedMap(profile) {
+    var map = {};
+    ((profile && profile.items) || []).forEach(function (row) {
+      if (row.saved) map[row.item_id] = { at: row.saved_order };
+    });
+    return map;
   }
 
   function itemsById(items) {
@@ -418,15 +566,15 @@
       var alertState = useState("");
       var formAlert = alertState[0];
       var setFormAlert = alertState[1];
-      var savedState = useState({});
-      var saved = savedState[0];
-      var setSaved = savedState[1];
-      var dismissedState = useState({});
-      var dismissed = dismissedState[0];
-      var setDismissed = dismissedState[1];
-      var openedState = useState({});
-      var opened = openedState[0];
-      var setOpened = openedState[1];
+      var profileState = useState(emptyProfile);
+      var profile = profileState[0];
+      var setProfile = profileState[1];
+      var interestDraftState = useState("");
+      var interestDraft = interestDraftState[0];
+      var setInterestDraft = interestDraftState[1];
+      var profileStatusState = useState("loading");
+      var profileStatus = profileStatusState[0];
+      var setProfileStatus = profileStatusState[1];
       var artState = useState({});
       var artFailed = artState[0];
       var setArtFailed = artState[1];
@@ -448,8 +596,8 @@
       var sectionTickState = useState(0);
       var sectionTick = sectionTickState[0];
       var setSectionTick = sectionTickState[1];
-      var saveClock = useRef(0);
-      var savedRef = useRef({});
+      var profileRef = useRef(emptyProfile());
+      var profileEpoch = useRef(0);
       var seenView = useRef(null);
       var wasOpen = useRef(false);
       var searchBusy = false;
@@ -526,8 +674,31 @@
       }, [view, catalog, sectionTick]);
 
       useEffect(function () {
-        savedRef.current = saved;
-      }, [saved]);
+        profileRef.current = profile;
+      }, [profile]);
+
+      useEffect(function () {
+        var cancelled = false;
+        var epoch = profileEpoch.current;
+        if (!SDK.fetchJSON) {
+          setProfileStatus("error");
+          return function () { cancelled = true; };
+        }
+        SDK.fetchJSON("/api/plugins/hackertube/profile").then(function (body) {
+          if (cancelled || profileEpoch.current !== epoch) return;
+          var next = normalizeProfile(body);
+          if (!next) {
+            setProfileStatus("error");
+            return;
+          }
+          profileRef.current = next;
+          setProfile(next);
+          setProfileStatus("ready");
+        }).catch(function () {
+          if (!cancelled && profileEpoch.current === epoch) setProfileStatus("error");
+        });
+        return function () { cancelled = true; };
+      }, []);
 
       function onTrigger() {
         if (searchOpen) {
@@ -570,30 +741,98 @@
         }, 0);
       }
 
-      function onSave(item) {
-        var next = applySave(savedRef.current, item.item_id, saveClock);
-        if (next === savedRef.current) return;
-        savedRef.current = next;
-        setSaved(next);
-        setStatus("Saved " + item.title + ". Library has " + Object.keys(next).length + " saved.");
-      }
-
-      function onDismiss(item) {
-        setDismissed(function (prev) {
-          var next = applyDismiss(prev, item.item_id);
-          if (next !== prev) {
-            setStatus("Dismissed " + item.title + ". The feed is unchanged.");
+      function postProfile(path, body, revert) {
+        var epoch = profileEpoch.current + 1;
+        profileEpoch.current = epoch;
+        if (!SDK.fetchJSON) {
+          setProfileStatus("error");
+          return;
+        }
+        SDK.fetchJSON(path, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(body),
+        }).then(function (payload) {
+          if (profileEpoch.current !== epoch) return;
+          var next = normalizeProfile(payload);
+          if (!next) {
+            if (revert) {
+              profileRef.current = revert;
+              setProfile(revert);
+            }
+            setProfileStatus("error");
+            setStatus("The profile did not accept that change.");
+            return;
           }
-          return next;
+          profileRef.current = next;
+          setProfile(next);
+          setProfileStatus("ready");
+        }).catch(function () {
+          if (profileEpoch.current !== epoch) return;
+          if (revert) {
+            profileRef.current = revert;
+            setProfile(revert);
+          }
+          setStatus("The profile did not accept that change.");
         });
       }
 
+      function onSave(item) {
+        var current = profileRef.current;
+        var next = applySave(current, item.item_id);
+        if (next === current) return;
+        profileRef.current = next;
+        setProfile(next);
+        setStatus("Saved " + item.title + ". Library has " + Object.keys(savedMap(next)).length + " saved.");
+        postProfile("/api/plugins/hackertube/profile/saves", { item_id: item.item_id }, current);
+      }
+
+      function onDismiss(item) {
+        var current = profileRef.current;
+        var next = applyDismiss(current, item.item_id);
+        if (next === current) return;
+        profileRef.current = next;
+        setProfile(next);
+        setStatus("Dismissed " + item.title + ". The feed is unchanged.");
+        postProfile("/api/plugins/hackertube/profile/dismissals", { item_id: item.item_id }, current);
+      }
+
       function onOpen(item) {
-        setOpened(function (prev) { return applyOpen(prev, item.item_id); });
+        var current = profileRef.current;
+        var next = applyOpen(current, item.item_id, "pending");
+        profileRef.current = next;
+        setProfile(next);
+        postProfile("/api/plugins/hackertube/profile/opens", { item_id: item.item_id }, current);
+      }
+
+      function onAddInterest(event) {
+        event.preventDefault();
+        var raw = String(interestDraft || "").trim();
+        if (!raw) {
+          setStatus("Enter an interest before adding it.");
+          return;
+        }
+        var text = cleanInterest(interestDraft);
+        if (!text) {
+          setStatus("That interest was not saved. Use up to 80 characters, with no line breaks or angle brackets.");
+          return;
+        }
+        var current = profileRef.current;
+        var next = addInterest(current, text);
+        if (next === current) {
+          setInterestDraft("");
+          setStatus("Interest " + text + " is saved.");
+          return;
+        }
+        profileRef.current = next;
+        setProfile(next);
+        setInterestDraft("");
+        setStatus("Saved interest " + text + ".");
+        postProfile("/api/plugins/hackertube/profile/interests", { text: text }, current);
       }
 
       function renderNav(current) {
-        var count = Object.keys(saved).length;
+        var count = Object.keys(savedMap(profile)).length;
         return h("nav", { className: "ht-nav", "aria-label": "HackerTube" },
           h("a", { href: "#discover", "aria-current": current === "discover" ? "page" : undefined }, "Discover"),
           h("a", { href: "#library", "aria-current": current === "library" ? "page" : undefined },
@@ -658,8 +897,9 @@
 
       function renderActions(item) {
         var decision = destinationDecision(item.destination);
-        var isSaved = !!saved[item.item_id];
-        var isDismissed = !!dismissed[item.item_id];
+        var state = itemState(profile, item.item_id);
+        var isSaved = state.saved;
+        var isDismissed = state.dismissed;
         var openControl = decision.ok
           ? h("a", {
               className: "ht-action ht-open",
@@ -718,7 +958,10 @@
               length ? h("p", { className: "ht-length" }, length) : null,
               note ? h("p", { className: "ht-meta" }, note) : null,
               inLibrary
-                ? h("p", { className: "ht-meta" }, opened[item.item_id] ? "Opened" : "Not opened")
+                ? h("p", { className: "ht-meta" }, itemState(profile, item.item_id).opens.length ? "Opened" : "Not opened")
+                : null,
+              inLibrary
+                ? h("p", { className: "ht-meta" }, itemState(profile, item.item_id).completed ? "Completed" : "Not completed")
                 : null,
               renderActions(item)
             )
@@ -732,7 +975,7 @@
         return h("div", null,
           h("p", { className: "ht-note" }, ORDER_NOTE),
           SECTIONS.map(function (section) {
-            var rows = sectionItems(items, section, inLibrary ? saved : null);
+            var rows = sectionItems(items, section, inLibrary ? savedMap(profile) : null);
             var shown = visibleSlice(rows, !!expanded[section.id], INITIAL_CARDS);
             var empty = sectionEmpty(section.label, inLibrary);
             return h("section", { className: "ht-section", id: section.id, key: section.id, "aria-labelledby": section.id + "-heading" },
@@ -827,6 +1070,7 @@
           renderNav("discover"),
           h("div", { className: "ht-status", role: "status", "aria-live": "polite" }, statusMessage),
           Separator ? h(Separator, null) : null,
+          renderInterests(true),
           renderSearch(),
           h("nav", { className: "ht-sections", "aria-label": "Media sections" },
             SECTIONS.map(function (section) {
@@ -859,14 +1103,50 @@
         );
       }
 
+      function renderInterests(editable) {
+        var interests = profile.interests || [];
+        var list = interests.length
+          ? h("ul", { className: "ht-interest-list" }, interests.map(function (text) {
+              return h("li", { key: text }, text);
+            }))
+          : h("p", null, "No interests yet.");
+        return h("section", { className: "ht-interests", "aria-labelledby": "interests-heading" },
+          h("h2", { id: "interests-heading" }, "Interests"),
+          editable
+            ? h("form", { onSubmit: onAddInterest },
+                h(Label, { htmlFor: "hackertube-interest" }, "Interest"),
+                h(Input, {
+                  id: "hackertube-interest",
+                  className: "ht-input",
+                  type: "text",
+                  value: interestDraft,
+                  autoComplete: "off",
+                  "aria-describedby": "hackertube-interest-note",
+                  onChange: function (event) { setInterestDraft(event.target.value); },
+                }),
+                h("p", { id: "hackertube-interest-note", className: "ht-note" },
+                  "Interests can be any subject. They are not limited to technology. Up to 80 characters. This page still lists the seeded catalog in capture order."
+                ),
+                h(Button, { type: "submit", className: "ht-action" }, "Add interest")
+              )
+            : null,
+          profileStatus === "error"
+            ? h("p", { role: "alert" }, "The library could not be loaded.")
+            : null,
+          profileStatus === "loading" ? h("p", { role: "status" }, "Loading the library.") : null,
+          profileStatus === "ready" ? list : null
+        );
+      }
+
       function renderLibrary() {
-        var count = Object.keys(saved).length;
+        var count = Object.keys(savedMap(profile)).length;
         return h("div", null,
           h("h1", { id: "library", tabIndex: -1, ref: headingRef }, "Library"),
-          h("p", { className: "ht-lead" }, "Saved items stay in this list for this visit. Saving does not open this view."),
+          h("p", { className: "ht-lead" }, "Saved items stay in this profile after a refresh or a restart. Saving does not open this view."),
           renderNav("library"),
           h("div", { className: "ht-status", role: "status", "aria-live": "polite" }, statusMessage),
-          count === 0
+          renderInterests(false),
+          profileStatus === "ready" && count === 0
             ? h("p", null, "Nothing is saved yet. ", h("a", { className: "ht-text-link", href: "#discover" }, "Discover"))
             : null,
           catalog ? renderSections(true) : null,
@@ -892,7 +1172,7 @@
           h("p", null, "The seeded page shows podcasts from Apple Podcasts, books from Open Library, and audiobooks from LibriVox. Hacker News is evidence on a media card. It is not a fifth format. Reddit is not used."),
           h("p", null, "Book covers load from Open Library only when the catalog marks them as hotlinks. This page does not cache those images. Apple artwork is not loaded."),
           h("h2", null, "Coverage"),
-          h("p", null, "This catalog is a small set of records in capture order. Ranking is not applied. A format can be empty. Unknown duration and unknown length stay unknown. Saves last for this visit only."),
+          h("p", null, "This catalog is a small set of records in capture order. Ranking is not applied. A format can be empty. Unknown duration and unknown length stay unknown. Saves and interests stay in this profile. Opening a source records that open and does not mark the item completed."),
           h("h2", null, "Opening a source"),
           h("p", null, "Open at source leaves this page and opens the public destination in the browser. HackerTube does not download the media and does not play it. A destination that is not public https is refused.")
         );
@@ -908,13 +1188,6 @@
     }
 
     return HackerTubePage;
-  }
-
-  function applyOpen(opened, itemId) {
-    if (opened[itemId]) return opened;
-    var next = Object.assign({}, opened);
-    next[itemId] = true;
-    return next;
   }
 
   return {
@@ -936,6 +1209,11 @@
     applySave: applySave,
     applyDismiss: applyDismiss,
     applyOpen: applyOpen,
+    addInterest: addInterest,
+    emptyProfile: emptyProfile,
+    normalizeProfile: normalizeProfile,
+    savedMap: savedMap,
+    PROFILE_SCHEMA: PROFILE_SCHEMA,
     creatorLine: creatorLine,
     lengthLine: lengthLine,
     destinationLabel: destinationLabel,

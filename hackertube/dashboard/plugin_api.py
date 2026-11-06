@@ -6,15 +6,17 @@ here. Profile data belongs under the plugin data root. The declared secret
 is read through ``agent.secret_scope.get_secret`` and is not written here.
 
 ``/catalog`` returns the seed ``hackertube_core`` loads. It does not rank
-the feed and does not call a model or a search provider. The view module is
-loaded by path because the host loads this file as a script, not as a
-package.
+the feed and does not call a model or a search provider. ``/profile``
+reads and writes the profile store in the plugin data root. The view
+module is loaded by path because the host loads this file as a script,
+not as a package.
 """
 
 import importlib.util
 from pathlib import Path
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
+from fastapi.responses import JSONResponse
 
 from agent.secret_scope import get_secret
 from plugins.plugin_storage import plugin_data_dir
@@ -51,3 +53,58 @@ def status():
 @router.get("/catalog")
 def catalog():
     return _catalog_view.load_view()
+
+
+def _profile_binding():
+    """Open the profile after the catalog view has put the repo on ``sys.path``."""
+    catalog = _catalog_view.catalog_dict()
+    from hackertube_core.profile import ProfileStore, apply_action, open_profile_db
+
+    known_ids = {item["item_id"] for item in catalog["items"]}
+    return ProfileStore(open_profile_db), known_ids, apply_action
+
+
+def _profile_response(status, payload):
+    return JSONResponse(status_code=status, content=payload)
+
+
+@router.get("/profile")
+def profile():
+    store, _known_ids, _apply = _profile_binding()
+    return store.snapshot()
+
+
+async def _read_body(request: Request):
+    try:
+        body = await request.json()
+    except Exception:
+        return None
+    return body
+
+
+@router.post("/profile/saves")
+async def profile_save(request: Request):
+    store, known_ids, apply_action = _profile_binding()
+    status, payload = apply_action(store, "save", await _read_body(request), known_ids)
+    return _profile_response(status, payload)
+
+
+@router.post("/profile/dismissals")
+async def profile_dismiss(request: Request):
+    store, known_ids, apply_action = _profile_binding()
+    status, payload = apply_action(store, "dismiss", await _read_body(request), known_ids)
+    return _profile_response(status, payload)
+
+
+@router.post("/profile/opens")
+async def profile_open(request: Request):
+    store, known_ids, apply_action = _profile_binding()
+    status, payload = apply_action(store, "open", await _read_body(request), known_ids)
+    return _profile_response(status, payload)
+
+
+@router.post("/profile/interests")
+async def profile_interest(request: Request):
+    store, known_ids, apply_action = _profile_binding()
+    status, payload = apply_action(store, "interest", await _read_body(request), known_ids)
+    return _profile_response(status, payload)

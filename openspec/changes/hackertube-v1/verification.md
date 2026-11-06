@@ -17,7 +17,7 @@ Checked November 5, 2026 on the box with Node.js v24.22.1, OpenSpec 1.16.0, and 
 | Coverage checker fixtures | Missing PRD ID, dangling scenario, deferred P0, missing post-demo subset, non-P0 post-demo, unmapped scenario, partial subset under whole-row post-demo status, demo row deferring all scenarios, duplicate subset entry, out-of-row subset entry, missing subset reason, non-array subset, stale `specified` status, and reason without post-demo scenarios all rejected; the valid mixed-disposition R04 mapping accepted | Pass for 14 error paths and 1 positive fixture |
 | Script syntax | `python3 -m py_compile scripts/check_spec_coverage.py scripts/check_spec_coverage_fixtures.py` exited 0 | Pass |
 | Diff whitespace | `git diff --check` exited 0 | Pass |
-| Implementation progress | Tasks 1.1, 1.2, 1.4, 2.1, and 3.1 have receipts. Tasks 1.3 and 2.4 are open. | Host shell, catalog package, and dashboard page reading `hackertube_core`. |
+| Implementation progress | Tasks 1.1, 1.2, 1.4, 2.1, 2.2, and 3.1 have receipts. Tasks 1.3 and 2.4 are open. | Host shell, catalog package, dashboard page, and profile store. |
 
 The machine-readable strict validation output is saved in planning-validation.json. Traceability.json maps the PRD IDs to scenario IDs. Its `demo` and `post-demo` statuses describe planning scope, not implementation results. Every delivery-mapped row has an explicit `post_demo_scenarios` array, including `[]` when all its scenarios remain in the demo. A `demo` row has at least one demo scenario. A `post-demo` row defers every mapped scenario. The checks do not establish runtime correctness, recommendation quality, source rights, or hackathon eligibility.
 
@@ -137,7 +137,7 @@ Official source pages are cited in docs/sources.md. No API keys were used, no li
 
 ## Implementation receipts
 
-Tasks 1.1, 1.2, 1.4, and 2.1 have receipts below. Tasks 1.3 and 2.4 are open. Before marking a task complete, record its task ID, scenario IDs, exact host/code revision, test or manual procedure, observed result, date, and log/artifact location. Use pass, fail, not-run, or blocked with evidence. Keep full logs in files.
+Tasks 1.1, 1.2, 1.4, 2.1, and 2.2 have receipts below. Tasks 1.3 and 2.4 are open. Before marking a task complete, record its task ID, scenario IDs, exact host/code revision, test or manual procedure, observed result, date, and log/artifact location. Use pass, fail, not-run, or blocked with evidence. Keep full logs in files.
 
 ### Task 1.1 — host pin, page, auth, data root
 
@@ -260,9 +260,21 @@ exit 0
 Not done in this task, and not claimed by the checkbox:
 
 - Focused search does not call a model, a search provider, or any host outside the dashboard. Submitting Search only reveals the results area. Tasks 4.1 and 4.2 own execution. During the walk, Search added no new network hosts.
-- Save, dismiss, and opened state live in the page visit. Reload clears them. Task 2.2 owns persistence. Dismiss does not remove a card. Task 3.2 owns ranking and feed exclusion.
+- Save, dismiss, and opened state are profile records under task 2.2. Dismiss does not remove a card. Task 3.2 owns ranking and feed exclusion.
 - The page shows the seed in capture order. It does not call `Catalog.feed` or `Catalog.section`. On this seed those section counts match the page, because every item has catalog evidence and `refresh_after` is null. `Catalog.feed` for the demo question would omit the two Python podcast records. That ranking choice is task 3.2 and is left open.
 - The catalog is `hackertube_core.load_seed()`. Open Library book covers are hotlinked and the browser follows those URLs to cover files on archive.org. Audiobook covers and Apple artwork stay text fallbacks. Those image requests are not paid model or search calls, and Reddit was not called. Hacker News evidence on this seed is not attached to a card. A unit test checks that an endorsement line stays on the item id it names.
+
+### Task 2.2 — profile interests and library state
+
+| Field | Record |
+|---|---|
+| Date | 2026-11-06 |
+| Plugin revision | Code commit `4d1593e2c6a0d7f4fc7f8ff549cfecdf80e88649`, after merge `cb9d876b29529a6f50fa00afef8b04151b58db8a` of main `a73563eacdbfcf9c5fb75f8d900b1f42da327295`. Receipt commit `af532b76b425aabe5c2476339771578f900f5745` changes `docs/receipts/library/` only. `git diff --stat 4d1593e2c6a0d7f4fc7f8ff549cfecdf80e88649 af532b76b425aabe5c2476339771578f900f5745 -- hackertube hackertube_core tests` is empty. |
+| Host | Hermes Agent v0.23.0 (2026.9.24), commit `2bd378ed1b8d6bf2192cb26e0a55ff3091e6bd19`, Python 3.14.10, disposable profile `HERMES_HOME=/tmp/ht-lib-profile` |
+| Scenarios | LIB01, LIB02, LIB03, and PREF01. LIB04 through LIB06 and PREF07 were not run. |
+| Procedure | `hermes plugins validate hackertube --install-deps`, then `NODE_PATH=/tmp/pw/node_modules node docs/receipts/library/capture.js` against `http://127.0.0.1:9119/hackertube`. Stop the dashboard, start it again on the same profile, then `node docs/receipts/library/capture.js --after-restart`. |
+| Result | Pass at code commit `4d1593e2c6a0d7f4fc7f8ff549cfecdf80e88649`. The profile file is `$HERMES_HOME/plugin-data/hackertube/profile.db`, opened with `plugin_db`. It was absent before the walk and present after it. One save record survived a page reload and a dashboard restart on that same home. Opening the saved source stored one open event and left completion unset. The gardening interest was still listed after that restart, and `Catalog.feed` accepts the stored interest text. The page still lists the seed in capture order. |
+| Artifacts | [docs/receipts/library/](../../../docs/receipts/library/) |
 
 ## Release measurements
 

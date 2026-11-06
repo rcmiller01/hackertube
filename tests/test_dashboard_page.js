@@ -88,20 +88,55 @@ test("credentials in a destination are refused", () => {
   assert.equal(decision.reason, "invalid");
 });
 
-test("save is idempotent", () => {
-  const clock = { current: 0 };
-  const once = page.applySave({}, "ol:OL66554W", clock);
-  const twice = page.applySave(once, "ol:OL66554W", clock);
+test("LIB01 save twice keeps one saved record", () => {
+  const once = page.applySave(page.emptyProfile(), "ol:OL66554W");
+  const twice = page.applySave(once, "ol:OL66554W");
   assert.equal(twice, once);
-  assert.equal(Object.keys(once).length, 1);
-  assert.equal(clock.current, 1);
+  const saved = twice.items.filter((row) => row.saved);
+  assert.equal(saved.length, 1);
+  assert.equal(saved[0].item_id, "ol:OL66554W");
+  assert.equal(saved[0].completed, false);
+  assert.deepEqual(saved[0].opens, []);
 });
 
 test("dismiss does not duplicate and does not remove the id", () => {
-  const once = page.applyDismiss({}, "ol:OL66554W");
+  const once = page.applyDismiss(page.emptyProfile(), "ol:OL66554W");
   const twice = page.applyDismiss(once, "ol:OL66554W");
   assert.equal(twice, once);
-  assert.equal(once["ol:OL66554W"], true);
+  assert.equal(once.items.length, 1);
+  assert.equal(once.items[0].item_id, "ol:OL66554W");
+  assert.equal(once.items[0].dismissed, true);
+  assert.equal(once.items[0].saved, false);
+});
+
+test("LIB03 open records an event and leaves completion unchanged", () => {
+  const saved = page.applySave(page.emptyProfile(), "ol:OL66554W");
+  const opened = page.applyOpen(saved, "ol:OL66554W", "2026-11-06T15:00:00Z");
+  assert.equal(opened.items[0].saved, true);
+  assert.equal(opened.items[0].completed, false);
+  assert.deepEqual(opened.items[0].opens, ["2026-11-06T15:00:00Z"]);
+  const again = page.applyOpen(opened, "ol:OL66554W", "2026-11-06T15:05:00Z");
+  assert.deepEqual(again.items[0].opens, ["2026-11-06T15:00:00Z", "2026-11-06T15:05:00Z"]);
+  assert.equal(again.items[0].completed, false);
+  assert.equal(again.items[0].saved, true);
+});
+
+test("PREF01 gardening interest is accepted and kept", () => {
+  const once = page.addInterest(page.emptyProfile(), " gardening ");
+  const twice = page.addInterest(once, "gardening");
+  assert.equal(twice, once);
+  assert.deepEqual(once.interests, ["gardening"]);
+  assert.equal(page.addInterest(page.emptyProfile(), "<b>gardening</b>").interests.length, 0);
+  assert.equal(page.addInterest(page.emptyProfile(), "").interests.length, 0);
+  const eighty = "a".repeat(80);
+  assert.deepEqual(page.addInterest(page.emptyProfile(), eighty).interests, [eighty]);
+  assert.equal(page.addInterest(page.emptyProfile(), "a".repeat(81)).interests.length, 0);
+  const plants = "🌱".repeat(80);
+  assert.equal(page.addInterest(page.emptyProfile(), plants).interests[0], plants);
+  assert.equal(page.addInterest(page.emptyProfile(), "🌱".repeat(81)).interests.length, 0);
+  assert.equal(page.addInterest(page.emptyProfile(), "gardening\nbeds").interests.length, 0);
+  assert.equal(page.addInterest(page.emptyProfile(), "gardening\rbeds").interests.length, 0);
+  assert.deepEqual(page.addInterest(page.emptyProfile(), "&lt;b&gt;").interests, ["&lt;b&gt;"]);
 });
 
 test("section order is capture order and library is newest save first", () => {
@@ -201,7 +236,7 @@ test("demo question and disclosure text are the approved lines", () => {
   assert.equal(page.sectionEmpty("Podcasts", false).includes("fixture"), false);
 });
 
-function mountPage(catalogBody) {
+function mountPage(catalogBody, profileBody, respond) {
   const previous = {
     window: global.window,
     document: global.document,
@@ -316,10 +351,19 @@ function mountPage(catalogBody) {
   function Stub() {}
   const Page = page.createPage({
     React,
-    fetchJSON() {
+    fetchJSON(url, init) {
+      const target = String(url || "");
       return {
         then(onOk) {
-          if (catalogBody) onOk(catalogBody);
+          if (target.indexOf("/profile") !== -1) {
+            if (init && init.method === "POST" && respond) {
+              onOk(respond(target, JSON.parse(init.body)));
+            } else {
+              onOk(profileBody || page.emptyProfile());
+            }
+          } else if (catalogBody) {
+            onOk(catalogBody);
+          }
           return { catch() { return this; } };
         },
       };
@@ -402,7 +446,7 @@ test("empty question alert receives focus after it mounts", () => {
   try {
     const trigger = ui.find((node) => (node.children || []).some((child) => child === "Focused search"));
     trigger.props.onClick();
-    const form = ui.find((node) => node.type === "form");
+    const form = ui.find((node) => node.type === "form" && node.props.id === "hackertube-search-panel");
     form.props.onSubmit({ preventDefault() {} });
     assert.equal(ui.focused.current.props.role, "alert");
     assert.equal(ui.focused.current.props.tabIndex, -1);
@@ -420,6 +464,83 @@ test("section navigation focuses the section heading", () => {
     assert.equal(ui.focused.current.props.id, "podcasts-heading");
     assert.equal(ui.focused.current.props.tabIndex, -1);
     assert.equal(ui.focused.current.type, "h2");
+  } finally {
+    ui.restore();
+  }
+});
+
+test("LIB02 loaded profile shows the saved item after a fresh page", () => {
+  const ui = mountPage(SAMPLE_CATALOG, {
+    schema: "hackertube.profile/1",
+    interests: [],
+    items: [{
+      item_id: "b1",
+      saved: true,
+      dismissed: false,
+      completed: false,
+      saved_order: 1,
+      opens: ["2026-11-06T15:00:00Z"],
+    }],
+  });
+  try {
+    const saved = ui.find((node) => (node.children || []).some((child) => child === "Saved"));
+    assert.equal(saved.props["aria-disabled"], "true");
+    const count = ui.find((node) => node.type === "a" && node.props.href === "#library");
+    assert.equal(count.children[0], "Library (1 saved)");
+    ui.location.hash = "#library";
+    ui.listeners.hashchange.forEach((fn) => fn());
+    const opened = ui.find((node) => node.type === "p" && node.children && node.children[0] === "Opened");
+    const notCompleted = ui.find((node) => node.type === "p" && node.children && node.children[0] === "Not completed");
+    assert.ok(opened);
+    assert.ok(notCompleted);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("PREF01 loaded gardening interest stays on the page", () => {
+  const ui = mountPage(SAMPLE_CATALOG, {
+    schema: "hackertube.profile/1",
+    interests: ["gardening"],
+    items: [],
+  });
+  try {
+    const item = ui.find((node) => node.type === "li" && node.children && node.children[0] === "gardening");
+    assert.ok(item);
+    const note = ui.find((node) => node.props && node.props.id === "hackertube-interest-note");
+    assert.match(note.children[0], /not limited to technology/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("LIB01 page save posts only the item id", () => {
+  const posts = [];
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), (url, body) => {
+    posts.push({ url, body });
+    return {
+      schema: "hackertube.profile/1",
+      interests: [],
+      items: [{
+        item_id: body.item_id,
+        saved: true,
+        dismissed: false,
+        completed: false,
+        saved_order: 1,
+        opens: [],
+      }],
+    };
+  });
+  try {
+    const save = ui.find((node) => (node.children || []).some((child) => child === "Save"));
+    save.props.onClick({ preventDefault() {} });
+    assert.equal(posts.length, 1);
+    assert.equal(posts[0].url, "/api/plugins/hackertube/profile/saves");
+    assert.deepEqual(posts[0].body, { item_id: "b1" });
+    const saved = ui.find((node) => (node.children || []).some((child) => child === "Saved"));
+    assert.equal(saved.props["aria-disabled"], "true");
+    const count = ui.find((node) => node.type === "a" && node.props.href === "#library");
+    assert.equal(count.children[0], "Library (1 saved)");
   } finally {
     ui.restore();
   }
