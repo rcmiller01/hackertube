@@ -207,7 +207,7 @@ def test_prepared_feed_orders_by_capture_and_makes_no_paid_call(catalog, monkeyp
     feed = prepared_feed(catalog.items, catalog.evidence, ["jane austen"], NOW)
     again = prepared_feed(catalog.items, catalog.evidence, ["jane austen"], NOW)
     assert feed == again
-    assert outbound.counters() == {"free": 0, "paid": 0}
+    assert outbound.counters() == {"free": 0, "paid": 0, "metered": 0}
     assert feed.personalized is True
     assert len(feed.why) == len(feed.items)
     assert feed.items

@@ -8,6 +8,7 @@ evidence stays in place for a later enablement.
 
 from urllib.parse import urlencode
 
+from hackertube_core import outbound
 from hackertube_core.adapters.base import ParseResult
 from hackertube_core.errors import RecordError
 from hackertube_core.http import read_json
@@ -150,7 +151,12 @@ def parse_oembed(payload, video_id, retrieved_at):
 
 
 def fetch_data_api(video_id, api_key, *, opener=None, resolve=None):
-    """Call videos.list only when a key is passed in. The key is not read from disk."""
+    """Call videos.list only when a key is passed in. The key is not read from disk.
+
+    ``videos.list`` is a keyed Google Data API read that spends the project's
+    daily quota, so it is dispatched as ``metered`` rather than ``free``.
+    See ``docs/sources.md`` and ``docs/feasibility-sources.md``.
+    """
     if not isinstance(api_key, str) or not api_key.strip():
         return {"called": False, "blocked_reason": "missing_api_key"}
     if not isinstance(video_id, str) or not video_id:
@@ -158,5 +164,11 @@ def fetch_data_api(video_id, api_key, *, opener=None, resolve=None):
     url = DATA_API + "?" + urlencode({"part": "snippet,contentDetails,status", "id": video_id})
     if api_key in url:
         raise RecordError("credential")
-    payload = read_json(url, opener=opener, headers={"X-Goog-Api-Key": api_key}, resolve=resolve)
+    payload = read_json(
+        url,
+        classification=outbound.METERED,
+        opener=opener,
+        headers={"X-Goog-Api-Key": api_key},
+        resolve=resolve,
+    )
     return {"called": True, "blocked_reason": None, "payload": payload}

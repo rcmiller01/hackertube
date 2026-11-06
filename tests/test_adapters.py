@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 
 from hackertube_core.adapters import hn, itunes, librivox, openlibrary, podcastindex, reddit, youtube
+from hackertube_core import outbound
 from hackertube_core.errors import RecordError
 from hackertube_core.http import read_json
 from hackertube_core.text import public_https_url
@@ -137,6 +138,9 @@ def test_youtube_key_stays_out_of_the_url():
     assert result["called"] is True
     assert "test-key" not in opener.request.full_url
     assert opener.request.get_header("X-goog-api-key") == "test-key"
+    # The production caller of the keyed read spends Data API quota, so the
+    # boundary counts it as metered and never as a free read.
+    assert outbound.counters() == {"free": 0, "paid": 0, "metered": 1}
 
 
 def test_itunes_show_does_not_invent_episode_length():
@@ -199,6 +203,6 @@ def test_read_json_refuses_unsafe_urls_without_a_request():
             raise AssertionError("network")
 
     with pytest.raises(RecordError):
-        read_json("http://example.com/data", opener=Opener())
+        read_json("http://example.com/data", classification=outbound.FREE, opener=Opener())
     with pytest.raises(RecordError):
-        read_json("https://127.0.0.1/data", opener=Opener())
+        read_json("https://127.0.0.1/data", classification=outbound.FREE, opener=Opener())

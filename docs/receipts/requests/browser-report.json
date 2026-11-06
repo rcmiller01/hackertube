@@ -1,0 +1,341 @@
+{
+  "origin": "http://127.0.0.1:57980",
+  "counters": {
+    "local": 18,
+    "free": 9,
+    "metered": 0,
+    "paid": 0,
+    "refused": 0
+  },
+  "phases": [
+    {
+      "phase": "feed load",
+      "requests": [
+        {
+          "url": "http://127.0.0.1:57980/",
+          "label": "local"
+        },
+        {
+          "url": "http://127.0.0.1:57980/style.css",
+          "label": "local"
+        },
+        {
+          "url": "http://127.0.0.1:57980/bundle.js",
+          "label": "local"
+        },
+        {
+          "url": "http://127.0.0.1:57980/api/plugins/hackertube/catalog",
+          "label": "local"
+        },
+        {
+          "url": "http://127.0.0.1:57980/api/plugins/hackertube/feed",
+          "label": "local"
+        },
+        {
+          "url": "http://127.0.0.1:57980/api/plugins/hackertube/profile",
+          "label": "local"
+        },
+        {
+          "url": "https://covers.openlibrary.org/b/id/1001-M.jpg",
+          "label": "free"
+        },
+        {
+          "url": "https://covers.openlibrary.org/b/id/1002-M.jpg",
+          "label": "free"
+        },
+        {
+          "url": "https://covers.openlibrary.org/b/id/1003-M.jpg",
+          "label": "free"
+        },
+        {
+          "url": "https://covers.openlibrary.org/b/id/1004-M.jpg",
+          "label": "free"
+        }
+      ],
+      "served": [
+        {
+          "method": "GET",
+          "path": "/",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/style.css",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/bundle.js",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/plugins/hackertube/catalog",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/plugins/hackertube/feed",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/plugins/hackertube/profile",
+          "body": null
+        }
+      ],
+      "artwork": [
+        "https://covers.openlibrary.org/b/id/1001-M.jpg",
+        "https://covers.openlibrary.org/b/id/1002-M.jpg",
+        "https://covers.openlibrary.org/b/id/1003-M.jpg",
+        "https://covers.openlibrary.org/b/id/1004-M.jpg"
+      ],
+      "outside": []
+    },
+    {
+      "phase": "show more",
+      "requests": [
+        {
+          "url": "https://covers.openlibrary.org/b/id/1005-M.jpg",
+          "label": "free"
+        }
+      ],
+      "served": [],
+      "artwork": [
+        "https://covers.openlibrary.org/b/id/1005-M.jpg"
+      ],
+      "outside": []
+    },
+    {
+      "phase": "section browse",
+      "requests": [],
+      "served": [],
+      "artwork": [],
+      "outside": []
+    },
+    {
+      "phase": "save",
+      "requests": [
+        {
+          "url": "http://127.0.0.1:57980/api/plugins/hackertube/profile/saves",
+          "label": "local"
+        },
+        {
+          "url": "http://127.0.0.1:57980/api/plugins/hackertube/catalog",
+          "label": "local"
+        },
+        {
+          "url": "http://127.0.0.1:57980/api/plugins/hackertube/feed",
+          "label": "local"
+        }
+      ],
+      "served": [
+        {
+          "method": "POST",
+          "path": "/api/plugins/hackertube/profile/saves",
+          "body": "{\"item_id\":\"b2\"}"
+        },
+        {
+          "method": "GET",
+          "path": "/api/plugins/hackertube/catalog",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/plugins/hackertube/feed",
+          "body": null
+        }
+      ],
+      "artwork": [],
+      "outside": []
+    },
+    {
+      "phase": "dismiss",
+      "requests": [
+        {
+          "url": "http://127.0.0.1:57980/api/plugins/hackertube/profile/dismissals",
+          "label": "local"
+        },
+        {
+          "url": "http://127.0.0.1:57980/api/plugins/hackertube/catalog",
+          "label": "local"
+        },
+        {
+          "url": "http://127.0.0.1:57980/api/plugins/hackertube/feed",
+          "label": "local"
+        }
+      ],
+      "served": [
+        {
+          "method": "POST",
+          "path": "/api/plugins/hackertube/profile/dismissals",
+          "body": "{\"item_id\":\"b1\"}"
+        },
+        {
+          "method": "GET",
+          "path": "/api/plugins/hackertube/catalog",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/plugins/hackertube/feed",
+          "body": null
+        }
+      ],
+      "artwork": [],
+      "outside": []
+    },
+    {
+      "phase": "reopen",
+      "requests": [
+        {
+          "url": "http://127.0.0.1:57980/",
+          "label": "local"
+        },
+        {
+          "url": "http://127.0.0.1:57980/style.css",
+          "label": "local"
+        },
+        {
+          "url": "http://127.0.0.1:57980/bundle.js",
+          "label": "local"
+        },
+        {
+          "url": "http://127.0.0.1:57980/api/plugins/hackertube/catalog",
+          "label": "local"
+        },
+        {
+          "url": "http://127.0.0.1:57980/api/plugins/hackertube/feed",
+          "label": "local"
+        },
+        {
+          "url": "http://127.0.0.1:57980/api/plugins/hackertube/profile",
+          "label": "local"
+        },
+        {
+          "url": "https://covers.openlibrary.org/b/id/1002-M.jpg",
+          "label": "free"
+        },
+        {
+          "url": "https://covers.openlibrary.org/b/id/1003-M.jpg",
+          "label": "free"
+        },
+        {
+          "url": "https://covers.openlibrary.org/b/id/1004-M.jpg",
+          "label": "free"
+        },
+        {
+          "url": "https://covers.openlibrary.org/b/id/1005-M.jpg",
+          "label": "free"
+        }
+      ],
+      "served": [
+        {
+          "method": "GET",
+          "path": "/",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/style.css",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/bundle.js",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/plugins/hackertube/catalog",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/plugins/hackertube/feed",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/api/plugins/hackertube/profile",
+          "body": null
+        }
+      ],
+      "artwork": [
+        "https://covers.openlibrary.org/b/id/1002-M.jpg",
+        "https://covers.openlibrary.org/b/id/1003-M.jpg",
+        "https://covers.openlibrary.org/b/id/1004-M.jpg",
+        "https://covers.openlibrary.org/b/id/1005-M.jpg"
+      ],
+      "outside": []
+    },
+    {
+      "phase": "library",
+      "requests": [],
+      "served": [],
+      "artwork": [],
+      "outside": []
+    }
+  ],
+  "outside": [],
+  "artwork": [
+    "https://covers.openlibrary.org/b/id/1001-M.jpg",
+    "https://covers.openlibrary.org/b/id/1002-M.jpg",
+    "https://covers.openlibrary.org/b/id/1003-M.jpg",
+    "https://covers.openlibrary.org/b/id/1004-M.jpg",
+    "https://covers.openlibrary.org/b/id/1005-M.jpg",
+    "https://covers.openlibrary.org/b/id/1002-M.jpg",
+    "https://covers.openlibrary.org/b/id/1003-M.jpg",
+    "https://covers.openlibrary.org/b/id/1004-M.jpg",
+    "https://covers.openlibrary.org/b/id/1005-M.jpg"
+  ],
+  "requests": [
+    "http://127.0.0.1:57980/",
+    "http://127.0.0.1:57980/style.css",
+    "http://127.0.0.1:57980/bundle.js",
+    "http://127.0.0.1:57980/api/plugins/hackertube/catalog",
+    "http://127.0.0.1:57980/api/plugins/hackertube/feed",
+    "http://127.0.0.1:57980/api/plugins/hackertube/profile",
+    "https://covers.openlibrary.org/b/id/1001-M.jpg",
+    "https://covers.openlibrary.org/b/id/1002-M.jpg",
+    "https://covers.openlibrary.org/b/id/1003-M.jpg",
+    "https://covers.openlibrary.org/b/id/1004-M.jpg",
+    "https://covers.openlibrary.org/b/id/1005-M.jpg",
+    "http://127.0.0.1:57980/api/plugins/hackertube/profile/saves",
+    "http://127.0.0.1:57980/api/plugins/hackertube/catalog",
+    "http://127.0.0.1:57980/api/plugins/hackertube/feed",
+    "http://127.0.0.1:57980/api/plugins/hackertube/profile/dismissals",
+    "http://127.0.0.1:57980/api/plugins/hackertube/catalog",
+    "http://127.0.0.1:57980/api/plugins/hackertube/feed",
+    "http://127.0.0.1:57980/",
+    "http://127.0.0.1:57980/style.css",
+    "http://127.0.0.1:57980/bundle.js",
+    "http://127.0.0.1:57980/api/plugins/hackertube/catalog",
+    "http://127.0.0.1:57980/api/plugins/hackertube/feed",
+    "http://127.0.0.1:57980/api/plugins/hackertube/profile",
+    "https://covers.openlibrary.org/b/id/1002-M.jpg",
+    "https://covers.openlibrary.org/b/id/1003-M.jpg",
+    "https://covers.openlibrary.org/b/id/1004-M.jpg",
+    "https://covers.openlibrary.org/b/id/1005-M.jpg"
+  ],
+  "rendered": {
+    "at_load": [
+      "https://covers.openlibrary.org/b/id/1001-M.jpg",
+      "https://covers.openlibrary.org/b/id/1002-M.jpg",
+      "https://covers.openlibrary.org/b/id/1003-M.jpg",
+      "https://covers.openlibrary.org/b/id/1004-M.jpg"
+    ],
+    "after_reopen": [
+      "https://covers.openlibrary.org/b/id/1002-M.jpg",
+      "https://covers.openlibrary.org/b/id/1003-M.jpg",
+      "https://covers.openlibrary.org/b/id/1004-M.jpg",
+      "https://covers.openlibrary.org/b/id/1005-M.jpg"
+    ]
+  },
+  "reopened": {
+    "ranked_mentions_dismissed_item": false,
+    "library_mentions_saved_item": true,
+    "library_mentions_dismissed_item": false
+  },
+  "scope": "real page; stub API; offline artwork responses; browser request attempts, not live deliveries"
+}
