@@ -10,8 +10,10 @@ that seed through ``Catalog.feed`` and ``Catalog.section``, using the
 interests and dismissals in the profile store. Ranking receives this
 request's reference time and does not read the clock itself. The route
 does not call a model or a search provider. ``/profile`` reads and writes the profile store in
-the plugin data root. The view modules are loaded by path because the
-host loads this file as a script, not as a package.
+the plugin data root. ``/sources`` reads and writes the stored source
+choices and their last attempt, and ``/sources/refresh`` runs one bounded
+ingestion pass through the request boundary. The view modules are loaded
+by path because the host loads this file as a script, not as a package.
 """
 
 import importlib.util
@@ -130,3 +132,56 @@ async def profile_interest(request: Request):
     store, known_ids, apply_action = _profile_binding()
     status, payload = apply_action(store, "interest", await _read_body(request), known_ids)
     return _profile_response(status, payload)
+
+
+@router.get("/sources")
+def sources():
+    """Supported sources with their stored choice and last attempt."""
+    from hackertube_core.profile import ProfileStore, open_profile_db
+    from hackertube_core.sources import source_snapshot
+
+    return source_snapshot(ProfileStore(open_profile_db))
+
+
+@router.post("/sources")
+async def source_control(request: Request):
+    """Enable or disable one supported source. An unsupported id is refused."""
+    from hackertube_core.profile import ProfileStore, open_profile_db
+    from hackertube_core.sources import configure_source
+
+    body = await _read_body(request)
+    if not isinstance(body, dict):
+        return _profile_response(400, {"error": "body"})
+    status, payload = configure_source(
+        ProfileStore(open_profile_db), body.get("source_id"), body.get("enabled")
+    )
+    return _profile_response(status, payload)
+
+
+@router.post("/sources/refresh")
+async def source_refresh(request: Request):
+    """One bounded ingestion pass over the enabled sources.
+
+    Every read goes through the request boundary and is counted free. A
+    source that fails records its own error; the others still return. An
+    optional ``{"query": "..."}`` body overrides the demo question.
+    """
+    from dataclasses import asdict
+
+    from hackertube_core.profile import ProfileStore, open_profile_db, utc_now
+    from hackertube_core.sources import ingest
+
+    catalog = _catalog_view.load_catalog()
+    body = await _read_body(request)
+    query = body.get("query") if isinstance(body, dict) else None
+    if not isinstance(query, str) or not query.strip():
+        query = catalog.demo_question
+    report = ingest(ProfileStore(open_profile_db), utc_now(), query)
+    return {
+        "schema": report["schema"],
+        "query": report["query"],
+        "sources": report["sources"],
+        "items": [asdict(item) for item in report["items"]],
+        "evidence": [asdict(row) for row in report["evidence"]],
+        "request_counts": report["request_counts"],
+    }

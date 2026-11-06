@@ -9,10 +9,17 @@ ENABLED = True
 BLOCKED_REASON = None
 
 
+from urllib.parse import urlencode
+
+from hackertube_core import outbound
 from hackertube_core.adapters.base import ParseResult
 from hackertube_core.boundaries import recommendation_line
+from hackertube_core.errors import RecordError
+from hackertube_core.http import read_json
 from hackertube_core.records import Evidence
 from hackertube_core.text import youtube_video_id
+
+SEARCH_API = "https://hn.algolia.com/api/v1/search"
 
 POLICY = {
     "source_id": "hn",
@@ -103,3 +110,13 @@ def parse_verified_comment(payload, item_video_id, retrieved_at):
         return ParseResult((), (), (), (f"different-item:{endorsed}",))
     evidence = _evidence(object_id, endorsed, retrieved_at, "established", comment_url)
     return ParseResult((), (evidence,), (), ())
+
+
+def fetch_search(query, *, tags="story", hits_per_page=20, opener=None, resolve=None):
+    """One bounded Algolia search. ``read_json`` counts it free."""
+    if not isinstance(query, str) or not query.strip():
+        raise RecordError("query")
+    url = SEARCH_API + "?" + urlencode(
+        {"query": query.strip(), "tags": tags, "hitsPerPage": hits_per_page}
+    )
+    return read_json(url, classification=outbound.FREE, opener=opener, resolve=resolve)

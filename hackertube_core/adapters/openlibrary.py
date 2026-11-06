@@ -1,11 +1,18 @@
 """Open Library work lookups. Cover bytes are not downloaded."""
 
 import re
+from urllib.parse import urlencode
 
+from hackertube_core import outbound
 from hackertube_core.adapters.base import ParseResult
 from hackertube_core.errors import RecordError
+from hackertube_core.http import read_json
 from hackertube_core.records import Evidence, MediaItem, blank_art
 from hackertube_core.text import public_https_url
+
+SEARCH_API = "https://openlibrary.org/search.json"
+#: Only the fields the parser maps. The captured request used the same set.
+FIELDS = "key,title,author_name,cover_edition_key,first_publish_year,id_project_gutenberg"
 
 ENABLED = True
 BLOCKED_REASON = None
@@ -86,3 +93,11 @@ def parse_search(payload, retrieved_at):
         )
     ignored -= {"key", "title", "author_name", "id_project_gutenberg"}
     return ParseResult(tuple(items), tuple(evidence), tuple(sorted(ignored)), tuple(rejected))
+
+
+def fetch_search(query, *, limit=20, opener=None, resolve=None):
+    """One bounded search read. ``read_json`` counts it free."""
+    if not isinstance(query, str) or not query.strip():
+        raise RecordError("query")
+    url = SEARCH_API + "?" + urlencode({"q": query.strip(), "limit": limit, "fields": FIELDS})
+    return read_json(url, classification=outbound.FREE, opener=opener, resolve=resolve)

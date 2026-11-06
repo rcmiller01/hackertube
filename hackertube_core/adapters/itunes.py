@@ -7,10 +7,16 @@ ENABLED = True
 BLOCKED_REASON = None
 
 
+from urllib.parse import urlencode
+
+from hackertube_core import outbound
 from hackertube_core.adapters.base import ParseResult
 from hackertube_core.errors import RecordError
+from hackertube_core.http import read_json
 from hackertube_core.records import Evidence, MediaItem, blank_art
 from hackertube_core.text import millis_to_seconds, public_https_url
+
+SEARCH_API = "https://itunes.apple.com/search"
 
 ART_REASON = (
     "Apple album art is promotional and may be shown only beside an approved "
@@ -139,3 +145,11 @@ def parse_results(payload, retrieved_at):
     if items and all(item.format == "podcast_show" for item in items):
         ignored.add("trackTimeMillis")
     return ParseResult(tuple(items), tuple(evidence), tuple(sorted(ignored)), tuple(rejected))
+
+
+def fetch_search(term, *, media="podcast", limit=20, opener=None, resolve=None):
+    """One bounded Search API lookup. ``read_json`` counts it free."""
+    if not isinstance(term, str) or not term.strip():
+        raise RecordError("query")
+    url = SEARCH_API + "?" + urlencode({"term": term.strip(), "media": media, "limit": limit})
+    return read_json(url, classification=outbound.FREE, opener=opener, resolve=resolve)

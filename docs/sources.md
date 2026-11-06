@@ -29,3 +29,76 @@ Unresolved items are whether Nous or individual users count as commercial operat
 ## Hermes credential and update constraints
 
 The [catalog-submission guide](https://hermes-agent.nousresearch.com/docs/developer-guide/plugins/catalog-submission) requires public HTTPS cloning, review at an exact commit, public extension interfaces, matching declared capabilities, and disclosure of network and storage behavior. Credentials must use a declared `requires_env` or secret `config_schema` entry and Hermes secret scope, or a declared OAuth route. A plugin cannot read `.env`, `auth.json`, another tool's login, a browser profile, or a keychain directly. Plugin data is not a permitted alternative secret store. Catalog builds cannot self-update; a new reviewed SHA-bump PR distributes updates.
+
+## Source setup and controls
+
+Implemented in task 2.3. The supported set is the adapter registry in
+`hackertube_core/adapters/__init__.py`. A *feed* is a catalog-role source:
+enabling it adds that publisher's records to ingestion. A *community* is a
+community-evidence source; Hacker News is the only enabled one.
+
+| Source id | Role | Default | Setup needed | Ingestion |
+|---|---|---|---|---|
+| `hn` | community | enabled | None. Public Algolia search, no key. | `GET https://hn.algolia.com/api/v1/search` |
+| `itunes` | catalog | enabled | None. Public Search API, no key. | `GET https://itunes.apple.com/search` |
+| `openlibrary` | catalog | enabled | None. Public search API. The app identifies itself with the shared `User-Agent`. | `GET https://openlibrary.org/search.json` |
+| `librivox` | catalog | enabled | None. Public JSON feed. | `GET https://librivox.org/api/feed/audiobooks/` |
+| `youtube` | catalog | disabled, `unresolved-terms` | A cited storage grant and a Data API key. Neither exists. | None. oEmbed and `videos.list` are not called. |
+| `podcastindex` | catalog | disabled, `missing_api_key` | A registered key and secret. | None. |
+| `reddit` | community | disabled, `approval_absent` | Explicit Reddit Data API approval and OAuth. | None. |
+
+No enabled source needs a credential, so no secret is stored for source
+setup. A disabled source is never fetched: the ingestion pass skips it
+before any request, and the control refuses to enable it.
+
+### Controls
+
+The dashboard backend exposes three routes under
+`/api/plugins/hackertube/`:
+
+- `GET /sources` returns one row per supported source: `source_id`, `name`,
+  `role`, `formats`, `enabled`, `blocked_reason`, `last_attempt_at`,
+  `last_success_at`, `last_error`, the attribution/retention/deletion text,
+  and a `control_note`.
+- `POST /sources` with `{"source_id": "...", "enabled": true|false}` stores
+  the choice and returns the same view. An unsupported id returns HTTP 400
+  `{"error": "unsupported_source"}` and is not stored, so the view never
+  shows a false enabled state. A source the adapter marks blocked returns
+  HTTP 409 `{"error": "blocked", "blocked_reason": "..."}` and is not
+  enabled.
+- `POST /sources/refresh` runs one bounded ingestion pass and returns the
+  merged items, evidence, per-source status, and the request counts. An
+  optional `{"query": "..."}` body overrides the demo question. LibriVox
+  matches an author by surname, so `Austen` returns recordings while the
+  full demo question returns none.
+
+### Source-control semantics
+
+- **Disabling a feed stops ingestion.** Later refreshes skip it before any
+  request. The control note says broader-web search can still discover the
+  publisher; disabling a feed is not a claim that the publisher is
+  unreachable.
+- **A failed source is isolated.** A source that raises records a short
+  `last_error` (for example `http 500` or `destination`) and the pass
+  continues. Its `last_success_at` is unchanged. A later success clears
+  `last_error` and moves `last_success_at` forward.
+- **LibriVox no-match is not a failure.** The LibriVox author search
+  answers HTTP 404 when no recording matches. That is recorded as a
+  successful attempt with zero records, not as a source error. Any other
+  HTTP status is still an error.
+- **Status is per source.** `last_attempt_at` is the last pass that tried
+  the source. `last_success_at` is the last pass that returned records.
+  `last_error` is the current error, or null.
+- **Duplicate identities collapse.** Two sources that name the same work
+  produce one item that keeps every source's evidence. A shared
+  `gutenberg:` identifier is the strong key; without one the key is the
+  format plus the normalized title and contributor set. Format is part of
+  the key, so a book and its audiobook stay distinct records.
+- **Storage is the profile database.** Source choices and attempt status
+  live in `profile.db` through Hermes `plugin_db`, opened by
+  `ProfileStore`. The source module does not import `sqlite3` and does not
+  connect to a file.
+- **Every read is free.** Each fetch calls `hackertube_core.http.read_json`,
+  which sends the request through `hackertube_core.outbound` and counts it
+  `free`. Ingestion makes no paid call, and ordinary browsing still makes
+  no request at all.

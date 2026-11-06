@@ -315,6 +315,84 @@ The weights are module constants in `hackertube_core/ranking.py`: community evid
 | Result | Python: 134 collected, 134 passed/0 failed, one Starlette/httpx deprecation warning. Node: 41 passed/0 failed/0 skipped. Strict OpenSpec: 1/0; coverage checker: 95 scenarios (structural only). Default-resolver and response reading now run within one counted scope, including DNS/transport failures; eight new offline regression cases pass. Real catalog/feed/profile/interests/save/dismiss/open/reopen routes record backend `{free:0,metered:0,paid:0}` with on-disk persistence. Browser receipt: 18 local API/assets requests, 9 free artwork attempts, 27 total, no outside-inventory/paid/metered requests. Show more adds one free artwork attempt, not an SDK request. All external image responses are fulfilled offline; no live delivery/redirect count is claimed. Unknown destinations fail the observer assertion, calibrated with a rendered unapproved image URL. Browser fixture uses stub API/in-memory state, while actual persisted state is checked separately in Python. Keyed YouTube read counts metered=1; unmetered source read free=1; paid unknown cost remains null in the ledger, while the real `GET /feed` route reports the count only and carries no cost field (all injected controls). No live DNS or real paid/metered call. |
 | Artifacts | [docs/receipts/requests/](../../../docs/receipts/requests/): `notes.md` (scope and limitations), `dns-red.log`, `collect.log`, `pytest.log`, `node.log`, `report.json` (real routes), `browser-report.json` (raw Chromium events), `browser-probe.log` (generated phase counts), `boundary-red.log`, `openspec.log`. Browser attempt counts may vary by run; each event is reconciled with independent server/interception observations, not a fixed expected total. |
 
+### Task 2.3 — source ingestion, status, and controls
+
+| Field | Record |
+|---|---|
+| Date | 2026-11-06 |
+| Plugin revision | Code commit `735cb76c51b4dfe02ab36da0d4304d9138c80a0e` adds `hackertube_core/sources.py`, the four adapter `fetch_search` functions, the profile source tables, the `/sources` routes, and `tests/test_sources.py`. |
+| Host | None. The `hermes` CLI on this box still refuses to start (`run hermes pm repair`), so no host install/load or loopback browser walk was run. Counts come from CPython 3.13.13 in a scratch virtualenv. No host scheduler behavior is claimed. |
+| Scenarios | PREF02, PREF03, PREF04, PREF14, and CAT05 pass at the package boundary. PREF09 through PREF12 stay unimplemented because Reddit is disabled. |
+| Procedure | `/Users/robert/.hermes/cache/scratch/ht23-venv/bin/python -m pytest -q` from the worktree. Then one live ingestion pass over the four enabled sources with the default fetchers and a temporary profile database. |
+| Result | 134 passed, 0 failed (118 before; 16 new tests). The live pass for `Austen` made 4 free reads and 0 paid calls, returned 49 items (20 books, 9 audiobooks, 20 podcast shows), and set `last_success_at` on Hacker News, Apple, Open Library, and LibriVox with no error. The pass for `jane austen` returned 39 items and also succeeded on all four. Reddit, YouTube, and Podcast Index were never fetched. The live pass found two defects the unit tests could not: the LibriVox path 404s with a trailing slash, and LibriVox answers 404 when an author search has no match. The path is now pinned by a test and the no-match 404 is recorded as an empty result, not a source error. |
+| Artifacts | [tests/test_sources.py](../../../tests/test_sources.py), [docs/sources.md](../../../docs/sources.md) |
+
+The page suite was also run: `node --test tests/test_dashboard_page.js` reported 35 pass and 1 fail. The failure is `Show more Enter focuses the fifth item heading`, which requires `esbuild` and `playwright` at `/tmp/hermes-src/hermes-v023/node_modules` and `/tmp/pw/node_modules`; neither exists on this box. No page JavaScript or template changed in this task, so that failure is an environment gap, not a regression from this change.
+
+### Task 2.3 fix 1 — CAT05 ingest-path regression (#12)
+
+Test commit `70a7e80e1f9b12e4e4e32e2701183f6c81fd0e16` adds
+`tests/test_sources.py::test_cat05_ingest_merges_duplicate_identities_across_sources`.
+Two deterministic source fetchers return the same work identity through the real
+`ingest` function. The test asserts both sources succeeded, one item survives,
+and both source evidence rows point at that item. No production behavior changed.
+
+Verified on November 6, 2026 with CPython 3.13.13 at
+`/Users/robert/.hermes/cache/scratch/ht23-venv/bin/python`:
+
+- Collection: `-m pytest --collect-only -q` — 135 tests collected.
+- Mutation: replaced the single production merge call inside `ingest`,
+  `merged_items, merged_evidence = merge_duplicates(items, evidence)`, with
+  `merged_items, merged_evidence = tuple(items), tuple(evidence)`.
+  Full suite `-m pytest -q` returned **1 failed, 134 passed**. Only the new test
+  failed, at `len(report["items"]) == 1` (actual: 2).
+- Restored the merge call; full suite `-m pytest -q` returned **135 passed,
+  0 failed**. The mutation is not committed.
+
+Call-site audit found one production caller of `merge_duplicates` (`ingest`)
+and one production caller of `ingest` (the dashboard refresh route). The test
+covers the merge chokepoint without replacing it with a mock. Existing host/UI
+limitations above remain unchanged; this test-only follow-up does not claim a
+new host or browser integration check.
+
+### Task 2.3 fix 2 — classification on the free source reads (#12)
+
+The combined tree after merging #13 (`3e66d09`) into PR #12 failed 6 tests:
+`read_json` became a required-keyword `classification` call, and the four
+free source reads still omitted it, so each raised `TypeError`, which
+`ingest` swallowed into a per-source error. Code commit
+`175304d8f8b54c2e5f2e081aef56e11c155a6750` passes
+`classification=outbound.FREE` in `hn`, `itunes`, `openlibrary`, and
+`librivox`, passes it in the direct `read_json` call in
+`tests/test_sources.py`, adds `metered: 0` to the three counter assertions
+(#13 added `metered` to `outbound.counters()`), and re-raises `TypeError`
+from `ingest` so a mis-wired call fails loudly instead of storing a
+source-down status. Red test commit
+`ccb029fc0cb4c15cb3eecd43ee3842f950fd43f8` adds
+`tests/test_sources.py::test_ingest_surfaces_a_source_read_that_omits_its_classification`,
+which drives a classification-less read through `ingest`.
+
+Verified on November 6, 2026:
+
+- Before the fix, on the merge commit `603849f`: `-m pytest -q` returned
+  **6 failed, 140 passed, 1 skipped**; the red regression test failed with
+  `Failed: DID NOT RAISE TypeError`.
+- After the fix: `-m pytest -q` with CPython 3.13.13 (pytest 9.2.0,
+  fastapi 0.162.0, httpx 0.28.1) returned **152 passed, 0 failed**. The one
+  module-skip in the earlier count was `test_request_boundary_routes.py`
+  importing `fastapi`; with fastapi installed the five route tests run.
+- Node: `PLAYWRIGHT_BROWSERS_PATH=$HOME/.hermes/tools node --test
+  tests/test_dashboard_page.js tests/test_browser_requests.js` returned
+  **41 pass, 0 fail, 0 skipped**.
+- Plugin: `hermes plugins validate .` and `hermes plugins doctor . --ci`
+  from `hackertube/` both exit 0. Validate prints "Validation passed." The
+  only doctor flag is `install out of sync (ffmpeg: not installed or
+  outdated)` — a host install/dependency gap outside this job, reported,
+  not fixed.
+
+No production behavior changed beyond the four call labels and the
+`TypeError` disposition. No owner decision was made or claimed.
+
 ## Release measurements
 
 All values are unmeasured. Freeze the post-demo evaluation workload, rubric, source snapshots, provider configuration, and request limits before collecting results. Use PRD section 9 for proposed targets and report adjustments explicitly. The demo video length is measured under task 4.3, not inferred from the six-step outline.
