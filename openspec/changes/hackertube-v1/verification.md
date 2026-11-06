@@ -355,6 +355,44 @@ covers the merge chokepoint without replacing it with a mock. Existing host/UI
 limitations above remain unchanged; this test-only follow-up does not claim a
 new host or browser integration check.
 
+### Task 2.3 fix 2 — classification on the free source reads (#12)
+
+The combined tree after merging #13 (`3e66d09`) into PR #12 failed 6 tests:
+`read_json` became a required-keyword `classification` call, and the four
+free source reads still omitted it, so each raised `TypeError`, which
+`ingest` swallowed into a per-source error. Code commit
+`175304d8f8b54c2e5f2e081aef56e11c155a6750` passes
+`classification=outbound.FREE` in `hn`, `itunes`, `openlibrary`, and
+`librivox`, passes it in the direct `read_json` call in
+`tests/test_sources.py`, adds `metered: 0` to the three counter assertions
+(#13 added `metered` to `outbound.counters()`), and re-raises `TypeError`
+from `ingest` so a mis-wired call fails loudly instead of storing a
+source-down status. Red test commit
+`ccb029fc0cb4c15cb3eecd43ee3842f950fd43f8` adds
+`tests/test_sources.py::test_ingest_surfaces_a_source_read_that_omits_its_classification`,
+which drives a classification-less read through `ingest`.
+
+Verified on November 6, 2026:
+
+- Before the fix, on the merge commit `603849f`: `-m pytest -q` returned
+  **6 failed, 140 passed, 1 skipped**; the red regression test failed with
+  `Failed: DID NOT RAISE TypeError`.
+- After the fix: `-m pytest -q` with CPython 3.13.13 (pytest 9.2.0,
+  fastapi 0.162.0, httpx 0.28.1) returned **152 passed, 0 failed**. The one
+  module-skip in the earlier count was `test_request_boundary_routes.py`
+  importing `fastapi`; with fastapi installed the five route tests run.
+- Node: `PLAYWRIGHT_BROWSERS_PATH=$HOME/.hermes/tools node --test
+  tests/test_dashboard_page.js tests/test_browser_requests.js` returned
+  **41 pass, 0 fail, 0 skipped**.
+- Plugin: `hermes plugins validate .` and `hermes plugins doctor . --ci`
+  from `hackertube/` both exit 0. Validate prints "Validation passed." The
+  only doctor flag is `install out of sync (ffmpeg: not installed or
+  outdated)` — a host install/dependency gap outside this job, reported,
+  not fixed.
+
+No production behavior changed beyond the four call labels and the
+`TypeError` disposition. No owner decision was made or claimed.
+
 ## Release measurements
 
 All values are unmeasured. Freeze the post-demo evaluation workload, rubric, source snapshots, provider configuration, and request limits before collecting results. Use PRD section 9 for proposed targets and report adjustments explicitly. The demo video length is measured under task 4.3, not inferred from the six-step outline.
