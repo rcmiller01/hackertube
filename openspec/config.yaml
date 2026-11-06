@@ -1,0 +1,25 @@
+schema: spec-driven
+context: |
+  Product authority is docs/PRD.md. This independent Hermes web-dashboard
+  adaptation credits Andrej Karpathy for the original HackerTube idea.
+  V1 includes community discovery and focused web search across four media formats.
+  Content opens at its source. Browsing makes zero paid calls. Memory is opt-in.
+  Integrations are unverified until exercised against a pinned Hermes version.
+rules:
+  proposal:
+    - Identify affected PRD requirements and release scope.
+  specs:
+    - Describe observable behavior using SHALL requirements and WHEN/THEN scenarios.
+    - Keep implementation choices in design.md and identify deferred requirements.
+  design:
+    - Distinguish verified facts from provisional choices and feasibility gates.
+  tasks:
+    - Give each task an observable check and identify covered scenarios.
+operations:
+  apply:
+    guidance:
+      - Complete feasibility tasks before dependent implementation.
+      - Record checks in verification.md; document validation is not runtime proof.
+  archive:
+    guidance:
+      - Reconcile scenario receipts and unchecked tasks before syncing delivered specs.

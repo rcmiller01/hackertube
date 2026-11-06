@@ -15,3 +15,5 @@ This is an independent Hermes adaptation. It extends the original community-cura
 Planning. Implementation has not started.
 
 The [product requirements document](docs/PRD.md) records the agreed scope, acceptance criteria, and remaining technical investigations.
+
+The [OpenSpec workflow](openspec/README.md) guides development. Start with the [V1 proposal](openspec/changes/hackertube-v1/proposal.md), then read the capability specs, design, and tasks. All implementation tasks remain unchecked.

@@ -1,0 +1,38 @@
+## Purpose
+
+Keep a user-controlled media library with persistent, distinct records for saves, dismissals, completion, and destination opens.
+
+## ADDED Requirements
+
+### Requirement: Persistent idempotent saves
+Saving an item SHALL create one saved record per item in the serving profile. Saves SHALL survive restarts, source refreshes, and supported plugin updates.
+
+#### Scenario: LIB01 Save twice
+- **WHEN** the user saves the same canonical item twice
+- **THEN** the library contains one saved record
+
+#### Scenario: LIB02 Restart refresh and update
+- **WHEN** the serving process restarts, the catalog refreshes, or a supported plugin update runs
+- **THEN** saved items and their user states remain available
+
+### Requirement: Explicit completion and open history
+Only a user completion action SHALL mark an item completed. Opening its destination SHALL record an open event separately.
+
+#### Scenario: LIB03 Open without completion
+- **WHEN** the user opens a saved item's source
+- **THEN** its history records an open event and its completion state is unchanged
+
+#### Scenario: LIB04 Confirm completion
+- **WHEN** the user marks an item completed and reopens the library after restart
+- **THEN** its completed state is retained
+
+### Requirement: Reversible library actions
+The user SHALL be able to remove a save, dismiss an item, and undo a dismissal without deleting the underlying catalog item or changing unrelated state.
+
+#### Scenario: LIB05 Undo dismissal
+- **WHEN** the user dismisses an item and later undoes the action
+- **THEN** the dismissal is cleared and the item becomes eligible under the ordinary ranking rules
+
+#### Scenario: LIB06 Remove a save
+- **WHEN** the user removes a saved item
+- **THEN** its saved status is cleared while its source evidence and independent completion state remain unchanged

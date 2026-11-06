@@ -1,0 +1,145 @@
+{
+  "R01": {
+    "status": "specified",
+    "scenarios": [
+      "dashboard-shell/UI01",
+      "dashboard-shell/UI03",
+      "dashboard-shell/UI06"
+    ]
+  },
+  "R02": {
+    "status": "specified",
+    "scenarios": [
+      "personalization-sources/PREF01",
+      "discovery-feed/FEED07"
+    ]
+  },
+  "R03": {
+    "status": "specified",
+    "scenarios": [
+      "discovery-feed/FEED01",
+      "discovery-feed/FEED02",
+      "discovery-feed/FEED03",
+      "discovery-feed/FEED04",
+      "discovery-feed/FEED08"
+    ]
+  },
+  "R04": {
+    "status": "specified",
+    "scenarios": [
+      "focused-search/SEARCH01",
+      "focused-search/SEARCH02",
+      "focused-search/SEARCH03",
+      "focused-search/SEARCH04",
+      "focused-search/SEARCH05",
+      "focused-search/SEARCH06",
+      "focused-search/SEARCH07",
+      "focused-search/SEARCH08",
+      "focused-search/SEARCH09"
+    ]
+  },
+  "R05": {
+    "status": "specified",
+    "scenarios": [
+      "dashboard-shell/UI02",
+      "media-catalog/CAT03",
+      "media-catalog/CAT04",
+      "media-catalog/CAT06"
+    ]
+  },
+  "R06": {
+    "status": "specified",
+    "scenarios": [
+      "media-catalog/CAT01",
+      "media-catalog/CAT02",
+      "media-catalog/CAT07",
+      "media-catalog/CAT08",
+      "media-catalog/CAT09"
+    ]
+  },
+  "R07": {
+    "status": "specified",
+    "scenarios": [
+      "personal-library/LIB01",
+      "personal-library/LIB02",
+      "personal-library/LIB03",
+      "personal-library/LIB04",
+      "personal-library/LIB05",
+      "personal-library/LIB06"
+    ]
+  },
+  "R08": {
+    "status": "specified",
+    "scenarios": [
+      "personalization-sources/PREF05",
+      "personalization-sources/PREF06",
+      "personalization-sources/PREF07",
+      "personalization-sources/PREF08"
+    ]
+  },
+  "R09": {
+    "status": "specified",
+    "scenarios": [
+      "personalization-sources/PREF02",
+      "personalization-sources/PREF03",
+      "personalization-sources/PREF04"
+    ]
+  },
+  "R10": {
+    "status": "specified",
+    "scenarios": [
+      "dashboard-shell/UI04",
+      "dashboard-shell/UI05"
+    ]
+  },
+  "R11": {
+    "status": "specified",
+    "scenarios": [
+      "request-jobs/JOB01",
+      "request-jobs/JOB02",
+      "request-jobs/JOB03",
+      "request-jobs/JOB04",
+      "discovery-feed/FEED04"
+    ]
+  },
+  "R12": {
+    "status": "specified",
+    "scenarios": [
+      "request-jobs/JOB03",
+      "request-jobs/JOB05",
+      "request-jobs/JOB06",
+      "request-jobs/JOB07",
+      "request-jobs/JOB08"
+    ]
+  },
+  "R13": {
+    "status": "specified",
+    "scenarios": [
+      "focused-search/SEARCH01",
+      "focused-search/SEARCH02",
+      "personal-library/LIB01"
+    ]
+  },
+  "R14": {
+    "status": "specified",
+    "scenarios": [
+      "media-catalog/CAT05",
+      "media-catalog/CAT06",
+      "discovery-feed/FEED05",
+      "focused-search/SEARCH08"
+    ]
+  },
+  "R15": {
+    "status": "specified",
+    "scenarios": [
+      "discovery-feed/FEED06",
+      "discovery-feed/FEED07",
+      "focused-search/SEARCH07"
+    ]
+  },
+  "R16": {
+    "status": "deferred",
+    "reason": "PRD P1 follow-up. V1 retains explicit interest editing but omits the save-search-as-interest shortcut.",
+    "scenarios": []
+  }
+}
