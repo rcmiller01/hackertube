@@ -17,7 +17,7 @@ Checked November 5, 2026 on the box with Node.js v24.22.1, OpenSpec 1.16.0, and 
 | Coverage checker fixtures | Missing PRD ID, dangling scenario, deferred P0, missing post-demo subset, non-P0 post-demo, unmapped scenario, partial subset under whole-row post-demo status, demo row deferring all scenarios, duplicate subset entry, out-of-row subset entry, missing subset reason, non-array subset, stale `specified` status, and reason without post-demo scenarios all rejected; the valid mixed-disposition R04 mapping accepted | Pass for 14 error paths and 1 positive fixture |
 | Script syntax | `python3 -m py_compile scripts/check_spec_coverage.py scripts/check_spec_coverage_fixtures.py` exited 0 | Pass |
 | Diff whitespace | `git diff --check` exited 0 | Pass |
-| Implementation progress | As of the catalog review fix, tasks 1.1, 1.2, 1.4, and 2.1 have receipts. Tasks 1.3 and 2.4 are open. | Host shell plus the catalog package |
+| Implementation progress | Tasks 1.1, 1.2, 1.4, and 2.1 have receipts. Tasks 1.3 and 2.4 are open. Task 3.1 has a fixture receipt and stays unchecked until the catalog package replaces the local fixture. | Host shell, catalog package, and dashboard page on the local fixture. |
 
 The machine-readable strict validation output is saved in planning-validation.json. Traceability.json maps the PRD IDs to scenario IDs. Its `demo` and `post-demo` statuses describe planning scope, not implementation results. Every delivery-mapped row has an explicit `post_demo_scenarios` array, including `[]` when all its scenarios remain in the demo. A `demo` row has at least one demo scenario. A `post-demo` row defers every mapped scenario. The checks do not establish runtime correctness, recommendation quality, source rights, or hackathon eligibility.
 
@@ -186,12 +186,72 @@ Tasks 1.1, 1.2, 1.4, and 2.1 have receipts below. Tasks 1.3 and 2.4 are open. Be
 | Result | 2.1 passes. Tasks 1.3 and 2.4 stay open. YouTube oEmbed is disabled (`unresolved-terms`); the seed keeps three video ids and watch links and does not display those cards. The Austen question matches books, audiobooks, and two podcast shows. |
 | Artifacts | [pytest.log](../../../docs/receipts/catalog/pytest.log), [feasibility-sources.md](../../../docs/feasibility-sources.md) |
 
-Saved pytest output from that revision:
+Saved pytest output from that revision was 34 passed. After merging main, `python3 -m pytest tests -q` also collects the dashboard adapter tests. The refreshed log is [pytest.log](../../../docs/receipts/catalog/pytest.log):
 
 ```text
-..................................                                       [100%]
-34 passed in 0.05s
+....................................                                     [100%]
+36 passed in 0.06s
 ```
+
+### Task 3.1 — dashboard page, four sections, library, About, source opening
+
+| Field | Record |
+|---|---|
+| Date | 2026-11-06 |
+| Plugin revision | `8e0da8fac87769b975dcfed2f3e2fb60ae38cec2` |
+| Host | Hermes Agent v0.23.0 (2026.9.24), commit `2bd378ed1b8d6bf2192cb26e0a55ff3091e6bd19`, Python 3.14.10, disposable profile `HERMES_HOME=/tmp/ht-profile` |
+| Scenarios | UI01, UI02, UI03, UI04, UI05, and UI06 pass on the running web dashboard against plugin commit `8e0da8fac87769b975dcfed2f3e2fb60ae38cec2` and the be50886 fixture. SEARCH01 is not executed. LIB02 persistence is not implemented. FEED ranking is not implemented. The task checkbox stays open until `hackertube_core` replaces this fixture. |
+| Procedure | `NODE_PATH=/tmp/pw/node_modules node docs/receipts/dashboard/capture.js` against `http://127.0.0.1:9119/hackertube` after `hermes plugins validate hackertube --install-deps`. The script is [capture.js](../../../docs/receipts/dashboard/capture.js). The raw walk is [walk.log](../../../docs/receipts/dashboard/walk.log). The validate output is [validate.log](../../../docs/receipts/dashboard/validate.log). |
+| Result | Pass for UI01 through UI06 on plugin commit `8e0da8fac87769b975dcfed2f3e2fb60ae38cec2`. Task 3.1 remains unchecked. See the scenario notes below. |
+| Artifacts | [docs/receipts/dashboard/](../../../docs/receipts/dashboard/) |
+
+UI01. The host nav link `HackerTube` points at `/hackertube`. After `location.reload` the page heading is `HackerTube`. Screenshot: [02-after-reload.png](../../../docs/receipts/dashboard/02-after-reload.png).
+
+UI02. Videos shows `Videos 0` and `No videos in this fixture.` Stored YouTube rows are ids and watch links in `unavailable_videos`, and the page does not render them as cards. Podcasts 4, Books 4, and Audiobooks 4 render from the fixture. There is no Hacker News card. Screenshots: [03-videos.png](../../../docs/receipts/dashboard/03-videos.png), [04-podcasts.png](../../../docs/receipts/dashboard/04-podcasts.png), [05-books.png](../../../docs/receipts/dashboard/05-books.png), [06-audiobooks.png](../../../docs/receipts/dashboard/06-audiobooks.png).
+
+UI03. The README credit, the About view, and [docs/marketplace-description.md](../../../docs/marketplace-description.md) name Andrej Karpathy and link to `https://karpathy.bearblog.dev/hacker-tube/`. About also says this is an independent Hermes adaptation. About names podcasts, books, and audiobooks, and does not say the page shows videos from YouTube. The credit is in the first viewport at 1280x720. Screenshot: [11-about.png](../../../docs/receipts/dashboard/11-about.png).
+
+UI04. Keyboard activation of Open at source opened `https://podcasts.apple.com/us/podcast/jane-austen-stories/id1840669662?uo=4`. The dashboard contained no `video`, `audio`, or `iframe`.
+
+UI05. With `?ht_unsafe=1` the page shows the refusal text for `javascript:alert(1)` and `https://127.0.0.1/private` and renders no link with those destinations. The same `destinationDecision` function gates every card. The default page does not show this check. Mapped IPv6 forms, including hex `::ffff:7f00:1` and `::ffff:a00:1`, are refused by the node tests at this plugin revision. Screenshot: [13-unsafe.png](../../../docs/receipts/dashboard/13-unsafe.png).
+
+UI06. Tab order reaches the host navigation before Discover. Discover's focus outline is `solid 2px` using the host ring color. Escape closes an idle search and returns focus to Focused search. The question `What can I read or listen to by Jane Austen?` is typed into the labelled field. The disclosure is visible and tied with `aria-describedby`. Enter on Search focuses `Search results` and shows that no search was started. Enter on Save changes that control to `Saved` with `aria-disabled="true"`, announces the save, and sets the nav to `Library (1 saved)`. A second Enter does not add another save. Shift+Tab returns to Open at source. About is opened from the keyboard and its heading receives focus. An empty Search moves focus to the alert after it mounts, with a solid 2px ring: [16-focused-alert.png](../../../docs/receipts/dashboard/16-focused-alert.png). Activating Podcasts moves focus to that section `h2`: [17-focused-section.png](../../../docs/receipts/dashboard/17-focused-section.png). About links use `ht-text-link`, are underlined, and are 44px tall: [18-underlined-links.png](../../../docs/receipts/dashboard/18-underlined-links.png). This fixture has no evidence anchor to photograph. The same class is covered by the node test `evidence and about links use the text link class`. Axe reports 0 violations on discover, search open, library, about, and the 390px width. At 390px and 768px the card grid is one column and the plugin root does not scroll sideways. Screenshots: [07-search-disclosure.png](../../../docs/receipts/dashboard/07-search-disclosure.png), [08-search-results.png](../../../docs/receipts/dashboard/08-search-results.png), [09-saved-focus.png](../../../docs/receipts/dashboard/09-saved-focus.png), [10-library.png](../../../docs/receipts/dashboard/10-library.png), [12-keyboard-focus.png](../../../docs/receipts/dashboard/12-keyboard-focus.png), [14-width-390.png](../../../docs/receipts/dashboard/14-width-390.png), [15-width-768.png](../../../docs/receipts/dashboard/15-width-768.png). Machine summary: [report.json](../../../docs/receipts/dashboard/report.json).
+
+Checks quoted from this run:
+
+```text
+python3 -m unittest tests.test_dashboard_adapter -v
+Ran 2 tests in 0.002s
+OK
+
+node --test tests/test_dashboard_page.js
+ℹ tests 17
+ℹ pass 17
+ℹ fail 0
+
+python3 scripts/check_spec_coverage.py
+PASS: 32 PRD IDs; 31 delivery-mapped; 1 deferred (R16); 8 demo rows with post-demo subsets (R03, R04, R05, R07, R08, R12, R14, R27); 1 fully post-demo rows (R13); 21 post-demo scenarios; 8 capabilities; 49 requirements; 93 scenarios. Runtime checks not run.
+
+OPENSPEC_TELEMETRY=0 npx --yes --package @fission-ai/openspec@1.16.0 openspec validate --all --strict --no-interactive
+✓ change/hackertube-v1
+Totals: 1 passed, 0 failed (1 items)
+
+hermes plugins validate hackertube --install-deps
+Validation passed.
+security scan — safe
+
+git diff --check
+exit 0
+
+python3 -m py_compile hackertube/__init__.py hackertube/dashboard/plugin_api.py hackertube/dashboard/catalog_adapter.py
+exit 0
+```
+
+Not done in this task, and not claimed by the checkbox:
+
+- Focused search does not call a model, a search provider, or any host outside the dashboard. Submitting Search only reveals the results area. Tasks 4.1 and 4.2 own execution. During the walk, Search added no new network hosts.
+- Save, dismiss, and opened state live in the page visit. Reload clears them. Task 2.2 owns persistence. Dismiss does not remove a card. Task 3.2 owns ranking and feed exclusion.
+- The catalog is the local fixture behind `catalog_adapter.py`, copied from pull request #3 at `be5088629f804239c96c891b23881366f416a6c5`. It is not an import of `hackertube_core`. Open Library book covers are hotlinked and the browser follows those URLs to cover files on archive.org. Audiobook covers and Apple artwork stay text fallbacks. Those image requests are not paid model or search calls, and Reddit was not called. Hacker News evidence in this fixture is not attached to a card. A unit test checks that an endorsement line stays on the item id it names.
 
 ## Release measurements
 
