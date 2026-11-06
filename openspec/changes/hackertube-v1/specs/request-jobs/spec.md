@@ -5,11 +5,19 @@ Control explicit searches and refreshes with bounded costs, visible progress, ca
 ## ADDED Requirements
 
 ### Requirement: Explicit credit-consuming actions
-Only explicit focused searches or refreshes SHALL trigger paid model or search activity. Their controls SHALL disclose potential credit use. Installation and ordinary browsing SHALL NOT schedule recurring paid jobs.
+Only explicit focused searches or refreshes SHALL trigger paid model or search activity or metered third-party provider activity. Their controls SHALL disclose potential credit use. Installation and ordinary browsing SHALL NOT schedule recurring paid jobs.
 
 #### Scenario: JOB01 Start explicit work
 - **WHEN** the user submits Search or Refresh after the credit-use disclosure
 - **THEN** a visible job begins under the configured work limits
+
+#### Scenario: JOB09 Disclosure precedes first work
+- **WHEN** a new user selects Search or Refresh before any request has started
+- **THEN** the credit-or-quota disclosure is visible before model, paid-search, or metered provider activity begins
+
+#### Scenario: JOB10 Disclosure precedes later work
+- **WHEN** the user starts another Search or Refresh in the same or a later session
+- **THEN** the disclosure is visible at the action before the request runs, without relying on a prior job's completion screen
 
 #### Scenario: JOB02 No background paid refresh
 - **WHEN** the plugin installs, loads, or displays a stale feed

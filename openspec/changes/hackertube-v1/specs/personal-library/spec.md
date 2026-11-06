@@ -11,9 +11,13 @@ Saving an item SHALL create one saved record per item in the serving profile. Sa
 - **WHEN** the user saves the same canonical item twice
 - **THEN** the library contains one saved record
 
-#### Scenario: LIB02 Restart refresh and update
-- **WHEN** the serving process restarts, the catalog refreshes, or a supported plugin update runs
-- **THEN** saved items and their user states remain available
+#### Scenario: LIB02 Restart and refresh
+- **WHEN** the serving process restarts or the catalog refreshes
+- **THEN** saved items and the user states exercised in the demo remain available
+
+#### Scenario: LIB09 Supported update after demo
+- **WHEN** a supported plugin update runs after the demo
+- **THEN** saved items and all their user states remain available
 
 ### Requirement: Explicit completion and open history
 Only a user completion action SHALL mark an item completed. Opening its destination SHALL record an open event separately.
@@ -36,3 +40,14 @@ The user SHALL be able to remove a save, dismiss an item, and undo a dismissal w
 #### Scenario: LIB06 Remove a save
 - **WHEN** the user removes a saved item
 - **THEN** its saved status is cleared while its source evidence and independent completion state remain unchanged
+
+### Requirement: Explicit chat saves
+A user-authorized media request from an explicit agent invocation SHALL save selected retrieved results to the same profile-local library as the dashboard. This capability is post-demo.
+
+#### Scenario: LIB07 Save chat result on request
+- **WHEN** the user explicitly asks the HackerTube agent entry point to save an identified result from its media response
+- **THEN** the shared library stores that canonical item once and the dashboard shows the same saved state
+
+#### Scenario: LIB08 Ordinary chat does not save
+- **WHEN** a user mentions media in an ordinary chat request without invoking HackerTube or asking it to save
+- **THEN** no library record changes and no HackerTube search job starts

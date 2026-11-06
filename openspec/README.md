@@ -18,7 +18,7 @@ A complete artifact graph means the documents exist, not that implementation or 
 4. Record results, errors, and limitations in verification.md. Link covered scenarios to actual tests or manual receipts.
 5. Archive after release checks pass. Sync delta specs into delivered specs and verify the archive.
 
-Update behavior specs with each behavior change. Update the PRD when product intent changes. R16 is explicitly deferred from V1.
+Update behavior specs with each behavior change. Update the PRD when product intent changes. R16 is explicitly deferred from V1. Traceability separates specified, deferred, and post-demo rows. Post-demo rows retain scenario references and list the exact post-demo scenario subset.
 
 ## Validate planning artifacts
 
@@ -30,7 +30,7 @@ python3 scripts/check_spec_coverage.py
 OPENSPEC_TELEMETRY=0 npx --yes --package @fission-ai/openspec@1.16.0 openspec status --change hackertube-v1
 ```
 
-The first invocation can download the pinned CLI and its dependencies. It installs no global CLI or application dependencies. Strict validation checks OpenSpec structure. The coverage check ensures every PRD ID has real scenario references or an explicit deferral. Neither check evaluates runtime correctness or recommendation quality.
+The first invocation can download the pinned CLI and its dependencies. It installs no global CLI or application dependencies. Strict validation checks OpenSpec structure. The coverage check ensures every PRD ID has real scenario references or an explicit P1 deferral. Post-demo rows require P0, a reason, and a validated post-demo scenario subset. Every scenario must map to a PRD ID. Neither check evaluates runtime correctness or recommendation quality.
 
 ## References
 

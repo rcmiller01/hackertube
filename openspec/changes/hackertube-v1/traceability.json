@@ -1,31 +1,39 @@
 {
   "R01": {
-    "status": "specified",
+    "status": "demo",
     "scenarios": [
       "dashboard-shell/UI01",
       "dashboard-shell/UI03",
-      "dashboard-shell/UI06"
-    ]
+      "dashboard-shell/UI06",
+      "dashboard-shell/UI02",
+      "hackathon-submission/HCKT02"
+    ],
+    "post_demo_scenarios": []
   },
   "R02": {
-    "status": "specified",
+    "status": "demo",
     "scenarios": [
       "personalization-sources/PREF01",
       "discovery-feed/FEED07"
-    ]
+    ],
+    "post_demo_scenarios": []
   },
   "R03": {
-    "status": "specified",
+    "status": "demo",
     "scenarios": [
       "discovery-feed/FEED01",
       "discovery-feed/FEED02",
       "discovery-feed/FEED03",
       "discovery-feed/FEED04",
       "discovery-feed/FEED08"
-    ]
+    ],
+    "post_demo_scenarios": [
+      "discovery-feed/FEED08"
+    ],
+    "reason": "The seeded feed supports the demo; strict duration filtering is post-demo."
   },
   "R04": {
-    "status": "specified",
+    "status": "demo",
     "scenarios": [
       "focused-search/SEARCH01",
       "focused-search/SEARCH02",
@@ -35,111 +43,310 @@
       "focused-search/SEARCH06",
       "focused-search/SEARCH07",
       "focused-search/SEARCH08",
-      "focused-search/SEARCH09"
-    ]
+      "focused-search/SEARCH09",
+      "hackathon-submission/HCKT20",
+      "focused-search/SEARCH12"
+    ],
+    "post_demo_scenarios": [
+      "focused-search/SEARCH02",
+      "focused-search/SEARCH06",
+      "focused-search/SEARCH12",
+      "hackathon-submission/HCKT20"
+    ],
+    "reason": "The single dashboard search remains in the demo. Refinement, agent entry, and the 20-request relevance evaluation are post-demo."
   },
   "R05": {
-    "status": "specified",
+    "status": "demo",
     "scenarios": [
       "dashboard-shell/UI02",
       "media-catalog/CAT03",
       "media-catalog/CAT04",
-      "media-catalog/CAT06"
-    ]
+      "media-catalog/CAT06",
+      "discovery-feed/FEED08"
+    ],
+    "post_demo_scenarios": [
+      "discovery-feed/FEED08"
+    ],
+    "reason": "All four media sections remain in the demo; strict duration filtering is post-demo."
   },
   "R06": {
-    "status": "specified",
+    "status": "demo",
     "scenarios": [
       "media-catalog/CAT01",
       "media-catalog/CAT02",
       "media-catalog/CAT07",
       "media-catalog/CAT08",
-      "media-catalog/CAT09"
-    ]
+      "media-catalog/CAT09",
+      "media-catalog/CAT10",
+      "media-catalog/CAT11"
+    ],
+    "post_demo_scenarios": []
   },
   "R07": {
-    "status": "specified",
+    "status": "demo",
     "scenarios": [
       "personal-library/LIB01",
       "personal-library/LIB02",
       "personal-library/LIB03",
       "personal-library/LIB04",
       "personal-library/LIB05",
-      "personal-library/LIB06"
-    ]
+      "personal-library/LIB06",
+      "personal-library/LIB09"
+    ],
+    "post_demo_scenarios": [
+      "personal-library/LIB04",
+      "personal-library/LIB05",
+      "personal-library/LIB06",
+      "personal-library/LIB09"
+    ],
+    "reason": "Saving, deduplication, source opening, and restart/refresh persistence remain in the demo. Completion, undo, removal, and supported-update persistence are post-demo."
   },
   "R08": {
-    "status": "specified",
+    "status": "demo",
     "scenarios": [
       "personalization-sources/PREF05",
       "personalization-sources/PREF06",
       "personalization-sources/PREF07",
-      "personalization-sources/PREF08"
-    ]
+      "personalization-sources/PREF08",
+      "personalization-sources/PREF13"
+    ],
+    "post_demo_scenarios": [
+      "personalization-sources/PREF06",
+      "personalization-sources/PREF07",
+      "personalization-sources/PREF13"
+    ],
+    "reason": "Memory-disabled and read-only behavior remain in the demo. Enabling, inspecting, and revoking memory plus two-profile isolation are post-demo."
   },
   "R09": {
-    "status": "specified",
+    "status": "demo",
     "scenarios": [
       "personalization-sources/PREF02",
       "personalization-sources/PREF03",
-      "personalization-sources/PREF04"
-    ]
+      "personalization-sources/PREF04",
+      "personalization-sources/PREF09",
+      "personalization-sources/PREF10",
+      "personalization-sources/PREF11",
+      "personalization-sources/PREF12",
+      "personalization-sources/PREF14"
+    ],
+    "post_demo_scenarios": []
   },
   "R10": {
-    "status": "specified",
+    "status": "demo",
     "scenarios": [
       "dashboard-shell/UI04",
-      "dashboard-shell/UI05"
-    ]
+      "dashboard-shell/UI05",
+      "dashboard-shell/UI06"
+    ],
+    "post_demo_scenarios": []
   },
   "R11": {
-    "status": "specified",
+    "status": "demo",
     "scenarios": [
       "request-jobs/JOB01",
       "request-jobs/JOB02",
       "request-jobs/JOB03",
       "request-jobs/JOB04",
-      "discovery-feed/FEED04"
-    ]
+      "discovery-feed/FEED04",
+      "request-jobs/JOB09",
+      "request-jobs/JOB10"
+    ],
+    "post_demo_scenarios": []
   },
   "R12": {
-    "status": "specified",
+    "status": "demo",
     "scenarios": [
       "request-jobs/JOB03",
       "request-jobs/JOB05",
       "request-jobs/JOB06",
       "request-jobs/JOB07",
+      "request-jobs/JOB08",
+      "personalization-sources/PREF11",
+      "personalization-sources/PREF14"
+    ],
+    "post_demo_scenarios": [
+      "request-jobs/JOB05",
+      "request-jobs/JOB06",
+      "request-jobs/JOB07",
       "request-jobs/JOB08"
-    ]
+    ],
+    "reason": "Bounded single-search jobs and disclosures remain in the demo. Cancellation, interrupted-job recovery, and partial-failure recovery are post-demo."
   },
   "R13": {
-    "status": "specified",
+    "status": "post-demo",
     "scenarios": [
-      "focused-search/SEARCH01",
+      "focused-search/SEARCH12",
       "focused-search/SEARCH02",
-      "personal-library/LIB01"
-    ]
+      "personal-library/LIB07",
+      "personal-library/LIB08"
+    ],
+    "post_demo_scenarios": [
+      "focused-search/SEARCH12",
+      "focused-search/SEARCH02",
+      "personal-library/LIB07",
+      "personal-library/LIB08"
+    ],
+    "reason": "Every mapped scenario requires the chat or agent entry, so the entire row is post-demo."
   },
   "R14": {
-    "status": "specified",
+    "status": "demo",
     "scenarios": [
       "media-catalog/CAT05",
       "media-catalog/CAT06",
       "discovery-feed/FEED05",
-      "focused-search/SEARCH08"
-    ]
+      "focused-search/SEARCH08",
+      "focused-search/SEARCH06",
+      "focused-search/SEARCH10",
+      "focused-search/SEARCH11"
+    ],
+    "post_demo_scenarios": [
+      "focused-search/SEARCH06",
+      "focused-search/SEARCH10",
+      "focused-search/SEARCH11"
+    ],
+    "reason": "Deduplication, feed exclusions, and saved/completed labels remain in the demo. Search refinement and the include-dismissed control are post-demo."
   },
   "R15": {
-    "status": "specified",
+    "status": "demo",
     "scenarios": [
       "discovery-feed/FEED06",
       "discovery-feed/FEED07",
       "focused-search/SEARCH07"
-    ]
+    ],
+    "post_demo_scenarios": []
   },
   "R16": {
     "status": "deferred",
     "reason": "PRD P1 follow-up. V1 retains explicit interest editing but omits the save-search-as-interest shortcut.",
     "scenarios": []
+  },
+  "R17": {
+    "status": "demo",
+    "scenarios": [
+      "hackathon-submission/HCKT01"
+    ],
+    "post_demo_scenarios": []
+  },
+  "R18": {
+    "status": "demo",
+    "scenarios": [
+      "hackathon-submission/HCKT02"
+    ],
+    "post_demo_scenarios": []
+  },
+  "R19": {
+    "status": "demo",
+    "scenarios": [
+      "hackathon-submission/HCKT03"
+    ],
+    "post_demo_scenarios": []
+  },
+  "R20": {
+    "status": "demo",
+    "scenarios": [
+      "hackathon-submission/HCKT05",
+      "hackathon-submission/HCKT06"
+    ],
+    "post_demo_scenarios": []
+  },
+  "R21": {
+    "status": "demo",
+    "scenarios": [
+      "hackathon-submission/HCKT07",
+      "hackathon-submission/HCKT08",
+      "hackathon-submission/HCKT16"
+    ],
+    "post_demo_scenarios": []
+  },
+  "R22": {
+    "status": "demo",
+    "scenarios": [
+      "hackathon-submission/HCKT10",
+      "hackathon-submission/HCKT11"
+    ],
+    "post_demo_scenarios": []
+  },
+  "R23": {
+    "status": "demo",
+    "scenarios": [
+      "hackathon-submission/HCKT12"
+    ],
+    "post_demo_scenarios": []
+  },
+  "R24": {
+    "status": "demo",
+    "scenarios": [
+      "hackathon-submission/HCKT04"
+    ],
+    "post_demo_scenarios": []
+  },
+  "R25": {
+    "status": "demo",
+    "scenarios": [
+      "hackathon-submission/HCKT13"
+    ],
+    "post_demo_scenarios": []
+  },
+  "R26": {
+    "status": "demo",
+    "scenarios": [
+      "hackathon-submission/HCKT14",
+      "hackathon-submission/HCKT15"
+    ],
+    "post_demo_scenarios": []
+  },
+  "R27": {
+    "status": "demo",
+    "scenarios": [
+      "hackathon-submission/HCKT16",
+      "hackathon-submission/HCKT19",
+      "personal-library/LIB09"
+    ],
+    "post_demo_scenarios": [
+      "hackathon-submission/HCKT19",
+      "personal-library/LIB09"
+    ],
+    "reason": "The catalog contains no self-updater during the demo. Lifecycle rehearsal and library persistence through a supported update are post-demo."
+  },
+  "R28": {
+    "status": "demo",
+    "scenarios": [
+      "hackathon-submission/HCKT17"
+    ],
+    "post_demo_scenarios": []
+  },
+  "R29": {
+    "status": "demo",
+    "scenarios": [
+      "hackathon-submission/HCKT18",
+      "personalization-sources/PREF09",
+      "personalization-sources/PREF10",
+      "personalization-sources/PREF11",
+      "personalization-sources/PREF12",
+      "personalization-sources/PREF14"
+    ],
+    "post_demo_scenarios": []
+  },
+  "R30": {
+    "status": "demo",
+    "scenarios": [
+      "hackathon-submission/HCKT21"
+    ],
+    "post_demo_scenarios": []
+  },
+  "R31": {
+    "status": "demo",
+    "scenarios": [
+      "hackathon-submission/HCKT09",
+      "hackathon-submission/HCKT22"
+    ],
+    "post_demo_scenarios": []
+  },
+  "R32": {
+    "status": "demo",
+    "scenarios": [
+      "hackathon-submission/HCKT23"
+    ],
+    "post_demo_scenarios": []
   }
 }

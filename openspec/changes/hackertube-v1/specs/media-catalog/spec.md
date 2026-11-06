@@ -54,3 +54,14 @@ Remote titles, excerpts, and retrieved instructions SHALL be treated as untruste
 #### Scenario: CAT09 Malicious source excerpt
 - **WHEN** an excerpt contains markup or instructions to change configuration
 - **THEN** it renders safely and produces no configuration or permission changes
+
+### Requirement: Visible retrieval provenance
+Every recommendation card SHALL identify its retrieval source and retrieval time. Community evidence SHALL link to the source discussion rather than only naming the community.
+
+#### Scenario: CAT10 Retrieval source and time
+- **WHEN** a recommendation is displayed from a stored source record
+- **THEN** its explanation identifies the source and the time of retrieval
+
+#### Scenario: CAT11 Community evidence destination
+- **WHEN** a recommendation claims community endorsement
+- **THEN** the user can open the supporting discussion or comment and inspect its source
