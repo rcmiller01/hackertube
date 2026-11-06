@@ -11,9 +11,13 @@ Saving an item SHALL create one saved record per item in the serving profile. Sa
 - **WHEN** the user saves the same canonical item twice
 - **THEN** the library contains one saved record
 
-#### Scenario: LIB02 Restart refresh and update
-- **WHEN** the serving process restarts, the catalog refreshes, or a supported plugin update runs
-- **THEN** saved items and their user states remain available
+#### Scenario: LIB02 Restart and refresh
+- **WHEN** the serving process restarts or the catalog refreshes
+- **THEN** saved items and the user states exercised in the demo remain available
+
+#### Scenario: LIB09 Supported update after demo
+- **WHEN** a supported plugin update runs after the demo
+- **THEN** saved items and all their user states remain available
 
 ### Requirement: Explicit completion and open history
 Only a user completion action SHALL mark an item completed. Opening its destination SHALL record an open event separately.

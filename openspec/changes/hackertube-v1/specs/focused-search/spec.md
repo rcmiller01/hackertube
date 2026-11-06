@@ -5,7 +5,7 @@ Turn a user's explicit question into source-backed media recommendations across 
 ## ADDED Requirements
 
 ### Requirement: Explicit focused search
-An explicit dashboard media request SHALL invoke LLM-backed search. Ordinary chat questions SHALL NOT be intercepted automatically. The supported agent entry point is post-demo. Ordinary chat questions SHALL NOT be intercepted automatically.
+An explicit dashboard media request SHALL invoke LLM-backed search. Ordinary chat questions SHALL NOT be intercepted automatically. The supported agent entry point is post-demo.
 
 #### Scenario: SEARCH01 Request across formats
 - **WHEN** the user explicitly requests media for a topic through the page
@@ -60,11 +60,11 @@ Focused search SHALL report insufficient evidence for a format instead of invent
 - **THEN** the audiobook section reports no verified matches while other credible results remain available
 
 ### Requirement: Prior user state is visible
-Focused results that include previously saved, dismissed, or completed items SHALL display the recorded state. A question SHALL NOT change interests implicitly. Focused search SHALL expose an explicit include-dismissed control. Dismissed items SHALL remain excluded when that control is off.
+Focused results that include previously saved, dismissed, or completed items SHALL display the recorded state. A question SHALL NOT change interests implicitly. Focused search SHALL expose an explicit include-dismissed control. Dismissed items SHALL remain excluded from the focused result set when that control is off.
 
-#### Scenario: SEARCH08 Previously dismissed result
-- **WHEN** a focused search returns a relevant item dismissed from discovery
-- **THEN** the item is marked dismissed and remains excluded from the discovery feed
+#### Scenario: SEARCH08 Previously saved or completed result
+- **WHEN** a focused search returns a relevant item previously saved or completed
+- **THEN** the item shows that recorded state and opening it does not change completion
 
 #### Scenario: SEARCH09 Search does not edit interests
 - **WHEN** the user searches for a new subject

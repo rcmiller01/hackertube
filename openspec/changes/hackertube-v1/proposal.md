@@ -11,7 +11,7 @@ Hermes users need one place to discover worthwhile videos, podcasts, books, and 
 - Add explicit LLM-backed searches across selected sources and the broader web.
 - Preserve personal library state, source settings, and provenance.
 - Bound paid work to explicit searches and refreshes, with progress and cancellation.
-- Cover PRD R01 through R29. Defer P1 R16, the save-search-as-interest shortcut. Keep the identified post-demo scenarios specified, but exclude them from the November 11 demo delivery.
+- Cover PRD R01 through R32. Defer P1 R16, the save-search-as-interest shortcut. Keep the identified post-demo scenarios specified, but exclude them from the November 11 demo delivery.
 
 ## Capabilities
 

@@ -11,21 +11,21 @@ No implementation task is complete. Group 1 establishes integration feasibility 
 
 ## 2. Establish catalog and persistent state
 
-- [ ] 2.1 Implement normalized item, evidence, source, and edition records with boundary checks. Verify CAT01 through CAT11 on real captured source samples and hostile/invalid fixtures. Document adapter contracts and unknown fields. Demo: implement only fields used by the seeded records and one search. Broader captured coverage is post-demo.
-- [ ] 2.2 Implement profile-local interests and library state for the seeded feed and demo save. Verify LIB01 through LIB03 and PREF01 across restart and repeated operations. Demo. LIB04 through LIB06 and PREF07 remain for post-demo tasks 6.3 and 6.4.
+- [ ] 2.1 Implement normalized item, evidence, source, and edition records with boundary checks. Verify CAT01 through CAT11 on real captured source samples and hostile/invalid fixtures. Document adapter contracts and unknown fields. Demo: implement only fields used by the seeded records and one search. Limited source samples do not change the demo status of the CAT scenarios.
+- [ ] 2.2 Implement profile-local interests and library state for the seeded feed and demo save. Verify LIB01, LIB02, LIB03, and PREF01 across their respective save, restart, refresh, source-opening, and interest-persistence steps. Demo. LIB04 through LIB06 and PREF07 remain for post-demo tasks 6.3 and 6.4.
 - [ ] 2.3 Implement source ingestion and status for the selected demo adapters. Verify PREF02 through PREF04, PREF14, and CAT05, including a failed source and duplicate identities. Document supported source setup and source-control semantics. Reddit scenarios stay unimplemented until approval. Demo source coverage may be smaller than the proposed matrix.
 - [ ] 2.4 Prepare a small seeded catalog from real, licensed-for-display records with the evidence needed by the demo. Include refresh and retention metadata required by each source. Verify UI02, FEED01, CAT03, CAT04, CAT10, and CAT11. Demo.
 
 ## 3. Deliver the dashboard and local discovery
 
-- [ ] 3.1 Build the supported web page, four sections, library, About view, and source-opening controls. Verify UI01 through UI05 in the real web dashboard with a keyboard and record initial accessibility evidence. Add Karpathy credit to the README, About view, and prepared marketplace description. Demo. Full UI06 acceptance stays in task 6.3.
-- [ ] 3.2 Implement prepared-feed ranking against the seeded catalog and basic feedback exclusions. Verify FEED01 through FEED07 with a fixed catalog. Document the ranking policy and its limited subject coverage. Demo.
+- [ ] 3.1 Build the supported web page, four sections, library, About view, and source-opening controls. Verify UI01 through UI06 in the real web dashboard with a keyboard for the six-step cut and record accessibility evidence. Add Karpathy credit to the README, About view, and prepared marketplace description. Demo.
+- [ ] 3.2 Implement prepared-feed ranking against the seeded catalog and basic feedback exclusions. Verify FEED01 through FEED07 with a fixed catalog. FEED08 strict duration filtering moves to task 6.3. Document the ranking policy and its limited subject coverage. Demo.
 - [ ] 3.3 Instrument request boundaries and verify zero paid calls across ordinary browsing, local reranking, library operations, and reopening. Record FEED04, PREF08, JOB02, and JOB04 receipts. Demo.
 
 ## 4. Deliver the explicit demo search and submission candidate
 
 - [ ] 4.1 Implement the single explicit demo Search and the disclosure shown before any model, paid-search, or metered provider activity. Verify JOB01 through JOB04, JOB09, and JOB10 with the selected provider and bounded limits. Demo. JOB05 through JOB08 are post-demo.
-- [ ] 4.2 Implement question interpretation, retrieved candidate verification, hard constraints, source labels, and partial format coverage for one focused demo question. Verify the relevant SEARCH01 and SEARCH03 through SEARCH09 behavior using retrieved records. Demo. SEARCH02, SEARCH12, and HCKT20 are post-demo.
+- [ ] 4.2 Implement question interpretation, retrieved candidate verification, hard constraints, source labels, and partial format coverage for one focused demo question. Verify SEARCH01, SEARCH03 through SEARCH05, and SEARCH07 through SEARCH09 using retrieved records. Demo. SEARCH02, SEARCH06, SEARCH12, and HCKT20 are post-demo. SEARCH10 and SEARCH11 move to task 6.3.
 - [ ] 4.3 Record the six-step demo cut in a video under 90 seconds. Verify HCKT10 with the running plugin and prepare HCKT11. Publishing the X post is a separate explicit action.
 - [ ] 4.4 Prepare the public repository, exact commit pin, plugin manifest, README disclosure, screenshots, and one catalog-entry PR draft. Verify HCKT02 through HCKT09, HCKT13 through HCKT18, and HCKT21 through HCKT23 at the candidate commit. Run `hermes plugins validate /path/to/your-plugin --install-deps`. Making the repository public and opening the catalog PR are separate explicit actions.
 - [ ] 4.5 Prepare the entry form values and deadline checklist for HCKT01, HCKT12, and the native-payload HCKT22 check. Robert approves the external form submission separately. Record any still-unanswered eligibility, team, originality, license, or IP terms as blockers.
@@ -38,11 +38,11 @@ No implementation task is complete. Group 1 establishes integration feasibility 
 
 ## 6. Complete post-demo requirements
 
-- [ ] 6.1 Add the explicit agent entry and shared search/library behavior. Verify SEARCH02, SEARCH12, LIB07, and LIB08 and confirm ordinary chat is unchanged. Add memory consent and bounded context only through the verified API. Verify PREF05, PREF06, PREF08, and PREF13 with observed payloads before and after revocation. Post-demo.
-- [ ] 6.2 Complete bounded cancellation and restart behavior and source/model partial failure handling. Verify JOB05 through JOB08 and the full SEARCH refinement behavior. Post-demo.
-- [ ] 6.3 Complete remaining library actions, include-dismissed controls, full keyboard checks, and broader catalog coverage. Verify LIB04 through LIB06, SEARCH10, SEARCH11, UI06, and remaining CAT scenarios. Post-demo.
-- [ ] 6.4 Verify two-profile state isolation and secure source/profile handling across restart and supported profile switching. Verify PREF07 and the remaining state receipts. Post-demo.
-- [ ] 6.5 Rehearse clean install, reload, update, disable/re-enable, rollback, and documented uninstall retention on the pinned host. Verify HCKT19 and preserve library data through rollback. Post-demo.
+- [ ] 6.1 Add the explicit agent entry and shared search/library behavior. Verify SEARCH02, SEARCH12, LIB07, and LIB08 and confirm ordinary chat is unchanged. Add memory consent and bounded context only through the verified API. Verify PREF06 and PREF13 with observed payloads before and after revocation. Demo PREF05 and PREF08 use the same shared defaults and retain their receipts under tasks 1.2 and 3.3. Post-demo.
+- [ ] 6.2 Complete bounded cancellation and restart behavior and source/model partial failure handling. Verify JOB05 through JOB08 and SEARCH06. Post-demo.
+- [ ] 6.3 Complete remaining library actions, include-dismissed controls, and strict duration filtering. Verify LIB04 through LIB06, SEARCH10, SEARCH11, and FEED08. Post-demo.
+- [ ] 6.4 Verify two-profile state isolation and secure source/profile handling across restart and supported profile switching. Verify PREF07. Post-demo.
+- [ ] 6.5 Rehearse clean install, reload, update, disable/re-enable, rollback, and documented uninstall retention on the pinned host. Verify HCKT19 and LIB09, including library preservation through a supported update and rollback. Post-demo.
 - [ ] 6.6 Freeze 20 representative focused requests, a relevance rubric, source snapshots, budgets, and reference setup. Run HCKT20 and measure relevance, cached-render latency, progress latency, usage, and coverage. Report sample sizes, unknown costs, and missed proposed targets. Post-demo.
 
 ## Workflow follow-up

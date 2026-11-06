@@ -226,13 +226,19 @@ Robert confirmed this demo slice:
 
 The video must fit this sequence in under 90 seconds. It must show the running plugin, not a mockup.
 
-The following requirements and their scenarios remain specified but are post-demo:
+The following scenarios remain specified but are post-demo. PRD rows retain their full requirement mappings in traceability.json. A row has status `demo` when at least one mapped scenario belongs to the cut, and `post-demo` only when every mapped scenario is deferred. The exact subsets are:
 
-- Memory opt-in and revocation in PREF06. Default memory-disabled behavior in PREF05 and read-only privacy in PREF08 remain in the demo.
+- Memory opt-in and revocation in PREF06, plus the memory-consent disclosure in PREF13. Default memory-disabled behavior in PREF05 and read-only privacy in PREF08 remain in the demo.
 - Two-profile isolation in PREF07.
 - The chat and agent entry in SEARCH02, SEARCH12, LIB07, and LIB08. Dashboard SEARCH01 remains in the demo.
-- Rollback, update, disable/re-enable, and uninstall rehearsal in HCKT19 and the update branch of LIB02. The initial clean install and catalog validation still block submission.
+- Rollback, update, disable/re-enable, and uninstall rehearsal in HCKT19 and supported-update library persistence in LIB09. LIB02 restart/refresh persistence, initial clean installation, and catalog validation remain in the demo.
 - The 20-request relevance evaluation in HCKT20. The single demonstrated search and its hard constraints still need verification.
+- Strict duration filtering in FEED08. The seeded catalog feed remains in the demo.
+- Search refinement in SEARCH06 and the include-dismissed behavior in SEARCH10 and SEARCH11. The single focused search remains in the demo.
+- Completion, undo dismissal, and save removal in LIB04 through LIB06. The demo save and restart/refresh persistence remain in the demo.
+- Cancellation, interrupted-job recovery, and partial-failure recovery in JOB05 through JOB08. The bounded single demo search and its credit disclosure remain in the demo.
+
+Keyboard operation in UI06 remains in the demo because the six-step cut must be operable. All other scenarios remain in the demo unless an exact post-demo subset above or in traceability.json excludes them.
 
 ### Submission gates still open
 
