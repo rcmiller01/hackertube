@@ -269,11 +269,11 @@ Not done in this task, and not claimed by the checkbox:
 | Field | Record |
 |---|---|
 | Date | 2026-11-06 |
-| Plugin revision | Code commit `050c058d7fc62ae15908d6a1824d5081f089cd06` (merge of main `d8550b1477ad4e628feee5d34c1865972b59086b`). Receipt commit `d53ffafc0e960d6b839001dcaf3225db1cad19e8` changes `docs/receipts/library/` only. `git diff --stat 050c058d7fc62ae15908d6a1824d5081f089cd06 d53ffafc0e960d6b839001dcaf3225db1cad19e8 -- hackertube hackertube_core tests` is empty. |
+| Plugin revision | Code commit `4d1593e2c6a0d7f4fc7f8ff549cfecdf80e88649`, after merge `cb9d876b29529a6f50fa00afef8b04151b58db8a` of main `a73563eacdbfcf9c5fb75f8d900b1f42da327295`. Receipt commit `af532b76b425aabe5c2476339771578f900f5745` changes `docs/receipts/library/` only. `git diff --stat 4d1593e2c6a0d7f4fc7f8ff549cfecdf80e88649 af532b76b425aabe5c2476339771578f900f5745 -- hackertube hackertube_core tests` is empty. |
 | Host | Hermes Agent v0.23.0 (2026.9.24), commit `2bd378ed1b8d6bf2192cb26e0a55ff3091e6bd19`, Python 3.14.10, disposable profile `HERMES_HOME=/tmp/ht-lib-profile` |
 | Scenarios | LIB01, LIB02, LIB03, and PREF01. LIB04 through LIB06 and PREF07 were not run. |
 | Procedure | `hermes plugins validate hackertube --install-deps`, then `NODE_PATH=/tmp/pw/node_modules node docs/receipts/library/capture.js` against `http://127.0.0.1:9119/hackertube`. Stop the dashboard, start it again on the same profile, then `node docs/receipts/library/capture.js --after-restart`. |
-| Result | Pass at code commit `050c058d7fc62ae15908d6a1824d5081f089cd06`. One save record, kept across a page reload and a dashboard restart. Opening the saved source stored one open event and left completion unset. The gardening interest was still listed after that restart, and `Catalog.feed` accepts the stored interest text. The page still lists the seed in capture order. |
+| Result | Pass at code commit `4d1593e2c6a0d7f4fc7f8ff549cfecdf80e88649`. The profile file is `$HERMES_HOME/plugin-data/hackertube/profile.db`, opened with `plugin_db`. It was absent before the walk and present after it. One save record survived a page reload and a dashboard restart on that same home. Opening the saved source stored one open event and left completion unset. The gardening interest was still listed after that restart, and `Catalog.feed` accepts the stored interest text. The page still lists the seed in capture order. |
 | Artifacts | [docs/receipts/library/](../../../docs/receipts/library/) |
 
 ## Release measurements
