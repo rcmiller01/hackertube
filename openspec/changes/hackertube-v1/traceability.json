@@ -25,7 +25,8 @@
       "discovery-feed/FEED02",
       "discovery-feed/FEED03",
       "discovery-feed/FEED04",
-      "discovery-feed/FEED08"
+      "discovery-feed/FEED08",
+      "discovery-feed/FEED09"
     ],
     "post_demo_scenarios": [
       "discovery-feed/FEED08"
@@ -62,7 +63,8 @@
       "media-catalog/CAT03",
       "media-catalog/CAT04",
       "media-catalog/CAT06",
-      "discovery-feed/FEED08"
+      "discovery-feed/FEED08",
+      "discovery-feed/FEED10"
     ],
     "post_demo_scenarios": [
       "discovery-feed/FEED08"
@@ -78,7 +80,8 @@
       "media-catalog/CAT08",
       "media-catalog/CAT09",
       "media-catalog/CAT10",
-      "media-catalog/CAT11"
+      "media-catalog/CAT11",
+      "discovery-feed/FEED09"
     ],
     "post_demo_scenarios": []
   },
@@ -211,6 +214,7 @@
     "scenarios": [
       "discovery-feed/FEED06",
       "discovery-feed/FEED07",
+      "discovery-feed/FEED10",
       "focused-search/SEARCH07"
     ],
     "post_demo_scenarios": []

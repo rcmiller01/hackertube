@@ -85,7 +85,7 @@ P0 means required for the hackathon submission unless the delivery section expli
 | R12 | As a user, I want usable results when a service fails. | P0 | Source failures are named. Cached results remain available with age labels. Cancellation stops new work. A failed refresh preserves the last successful feed. |
 | R13 | As a chat user, I want to request and save media without manually navigating every page. | P0 | An explicit media recommendation request can invoke the same backend as HackerTube and save results to its library. Ordinary chat questions are not intercepted automatically. |
 | R14 | As a returning user, I want familiar items handled consistently. | P0 | Known duplicates are grouped without losing their source evidence. Dismissed items stay excluded from the discovery feed. Focused search may reveal them only with a clear state label or explicit include control. |
-| R15 | As a user, I want a useful empty state outside the catalog's coverage. | P0 | Unsupported interests show coverage limits and source controls. The product never substitutes unrelated recommendations to hide a gap. |
+| R15 | As a user, I want a useful empty state outside the catalog's coverage. | P0 | Unsupported interests show coverage limits and source controls. The product never presents unrelated items as recommendations to hide a gap. A clearly labeled, unranked 'not matched' browse group shown beside the coverage limit is allowed. |
 | R17 | As an entrant, I want the submission completed before the published deadline. | P0 | The catalog PR, X demo post, and entry form are complete by November 11, 2026 at 5 p.m. EST, which is 22:00 UTC and 5 p.m. Eastern on that date. |
 | R18 | As a reviewer, I want to inspect and clone the submitted plugin. | P0 | The plugin repository is publicly cloneable over HTTPS by the catalog-submission deadline. The pinned commit contains a supported manifest and loadable entry point. |
 | R19 | As an entrant, I want the catalog submission prepared in the required form. | P0 | A PR to NousResearch/hermes-agent adds one valid catalog entry, pins a full 40-character plugin commit, and quotes its version. |
@@ -225,6 +225,14 @@ Robert confirmed this demo slice:
 6. Show the Andrej Karpathy credit in the About view and prepared marketplace description.
 
 The video must fit this sequence in under 90 seconds. It must show the running plugin, not a mockup.
+
+Robert confirmed these further demo decisions on November 6, 2026:
+
+Weighted ranking. The prepared feed stays gated on a stored interest match. Among matches, ranking uses three named components with fixed weights: community evidence (an established endorsement only), freshness relative to an explicit reference time, and a deterministic variety re-rank. The page does not show scores. A recommendation's explanation names only the signals that applied to that item. It does not mention endorsement when the record has none.
+
+Section browse. Each format section lists interest matches first, then the other items of that format under a heading that says they are not matched. The match count and the browse count stay separate. Browse items are not in the ranked feed, have no explanation line, and are not described as recommendations. With no stored interests, the page keeps the existing unranked catalog list. A profile whose interests match nothing still shows the coverage limit.
+
+Labeled browse beside the coverage limit (Robert, November 6, 2026, 11:32 a.m. ET). The product never presents unrelated items as recommendations to hide a gap. A clearly labeled, unranked 'not matched' browse group shown beside the coverage limit is allowed.
 
 The following scenarios remain specified but are post-demo. PRD rows retain their full requirement mappings in traceability.json. A row has status `demo` when at least one mapped scenario belongs to the cut, and `post-demo` only when every mapped scenario is deferred. The exact subsets are:
 

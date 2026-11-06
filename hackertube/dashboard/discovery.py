@@ -1,27 +1,27 @@
 """Prepared-feed read for the dashboard.
 
-The opening feed is ``Catalog.feed``. Each format section is
-``Catalog.section``. Both calls hide evidence whose ``refresh_after`` has
-passed. This module does not score items, and it does not call a model
-or a search provider.
+The opening feed is ``Catalog.feed``. Interest match is the gate, and
+the core ranker orders matches by community evidence, freshness, and
+variety. Each format section is ``Catalog.section`` split into those
+matches and the other visible items of that format. Both calls hide
+evidence whose ``refresh_after`` has passed. This module does not score
+items, and it does not call a model or a search provider.
 
-``Catalog.feed`` matches interest words of at least four characters,
-excluding a fixed stopword list, against the title and contributor names.
-Matching items stay in capture order. A stored interest still counts as
-a profile when it yields no match token. Dismissed and completed profile
-rows are removed after those reads. An open is not a removal. When the
-feed is personalized, a section shows only the ranked items of that
-format, so an unmatched title is not used to fill a gap.
+``signals`` names the ranking components. It is not a claim that every
+component applied to every item. ``why`` is that per-item claim, and
+only for ranked ids. Browse ids are absent from ``why`` and from
+``feed``. A stored interest still counts as a profile when it yields
+no match token. Dismissed and completed profile rows are removed after
+those reads. An open is not a removal. With no stored interests the
+sections keep the unranked catalog list in ``browse`` and the page
+does not present it as a not-matched recommendation group.
 """
 
+from hackertube_core.ranking import COMPONENTS
 from hackertube_core.records import SECTIONS
 
 SCHEMA = "hackertube.discovery/1"
-SIGNALS = (
-    "interest word match in the title or a contributor name",
-    "capture order",
-    "unexpired catalog evidence",
-)
+SIGNALS = COMPONENTS
 
 
 def excluded_ids(profile):
@@ -37,6 +37,27 @@ def excluded_ids(profile):
     return frozenset(found)
 
 
+def _section_groups(catalog, ranked, excluded, now):
+    ranked_set = set(ranked)
+    sections = {}
+    for name in SECTIONS:
+        visible = [
+            item.item_id
+            for item in catalog.section(name, now)
+            if item.item_id not in excluded
+        ]
+        visible_set = set(visible)
+        matches = [item_id for item_id in ranked if item_id in visible_set]
+        browse = [item_id for item_id in visible if item_id not in ranked_set]
+        sections[name] = {
+            "matches": matches,
+            "browse": browse,
+            "match_count": len(matches),
+            "browse_count": len(browse),
+        }
+    return sections
+
+
 def discovery_dict(catalog, profile, now):
     """JSON object for ``GET /feed``. ``paid_calls`` is the core feed's value."""
     interests = tuple(
@@ -48,21 +69,20 @@ def discovery_dict(catalog, profile, now):
     # only when a match token exists, so a short interest such as "AI"
     # would otherwise look like an empty profile.
     personalized = bool(interests)
-    ranked = [item.item_id for item in feed.items if item.item_id not in excluded]
-    allowed = set(ranked) if personalized else None
-    sections = {}
-    for name in SECTIONS:
-        rows = catalog.section(name, now)
-        visible = [item.item_id for item in rows if item.item_id not in excluded]
-        if allowed is not None:
-            visible = [item_id for item_id in visible if item_id in allowed]
-        sections[name] = visible
+    ranked = []
+    why = {}
+    for item, reasons in zip(feed.items, feed.why):
+        if item.item_id in excluded:
+            continue
+        ranked.append(item.item_id)
+        why[item.item_id] = list(reasons)
     return {
         "schema": SCHEMA,
         "personalized": personalized,
         "paid_calls": feed.paid_calls,
         "interests": list(interests),
-        "signals": list(SIGNALS) if feed.personalized else [],
+        "signals": list(SIGNALS) if ranked else [],
         "feed": ranked,
-        "sections": sections,
+        "why": why,
+        "sections": _section_groups(catalog, ranked, excluded, now),
     }

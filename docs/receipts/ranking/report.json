@@ -1,0 +1,28 @@
+{
+  "codeCommit": "b09714354a7ae4685b5fb5874025285ad75d723c",
+  "pluginCommit": "b09714354a7ae4685b5fb5874025285ad75d723c",
+  "hermesVersion": "Hermes Agent v0.23.0 (2026.9.24) · stable · local 2bd378ed1b8d",
+  "paidCalls": 0,
+  "rankedCount": 10,
+  "why": [
+    "Matched interest",
+    "Recent"
+  ],
+  "podcasts": {
+    "match_count": 2,
+    "browse_count": 2
+  },
+  "sparsePodcasts": {
+    "match_count": 0,
+    "browse_count": 4
+  },
+  "hosts": [
+    "127.0.0.1:9119",
+    "archive.org",
+    "covers.openlibrary.org",
+    "ia601601.us.archive.org",
+    "ia800505.us.archive.org",
+    "ia803200.us.archive.org",
+    "ia903200.us.archive.org"
+  ]
+}

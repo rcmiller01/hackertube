@@ -4,6 +4,7 @@ import re
 from dataclasses import dataclass
 
 from hackertube_core.errors import RecordError
+from hackertube_core.ranking import rank_matches
 from hackertube_core.records import HN_RECOMMENDATION_LINE, SECTIONS
 from hackertube_core.text import render_untrusted, tokens
 
@@ -160,10 +161,13 @@ class Feed:
     items: tuple
     personalized: bool
     paid_calls: int = 0
+    why: tuple = ()
 
     def __post_init__(self):
         if self.paid_calls != 0:
             raise RecordError("paid")
+        if len(self.why) != len(self.items):
+            raise RecordError("why")
 
 
 def _matches(item, words):
@@ -174,13 +178,14 @@ def _matches(item, words):
 
 
 def prepared_feed(items, evidence, interests, now):
+    """Interest match is the gate. Weights and variety live in ``ranking``."""
     words = tokens(" ".join(interests))
     if not words:
         return Feed((), False)
     visible = visible_item_ids(evidence, now)
     matched = [item for item in items if item.item_id in visible and _matches(item, words)]
-    matched.sort(key=lambda item: item.capture_order)
-    return Feed(tuple(matched), True)
+    ordered, why = rank_matches(matched, evidence, now)
+    return Feed(ordered, True, why=why)
 
 
 def section_items(items, evidence, section, now):

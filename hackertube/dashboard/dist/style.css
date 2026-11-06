@@ -212,6 +212,15 @@
   margin-top: 1.75rem;
 }
 
+.hackertube .ht-why {
+  font-size: 1.05rem;
+  line-height: 1.45;
+}
+
+.hackertube .ht-browse {
+  margin-top: 1.25rem;
+}
+
 .hackertube .ht-card,
 .hackertube article {
   min-width: 0;
