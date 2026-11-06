@@ -328,6 +328,32 @@ The weights are module constants in `hackertube_core/ranking.py`: community evid
 
 The page suite was also run: `node --test tests/test_dashboard_page.js` reported 35 pass and 1 fail. The failure is `Show more Enter focuses the fifth item heading`, which requires `esbuild` and `playwright` at `/tmp/hermes-src/hermes-v023/node_modules` and `/tmp/pw/node_modules`; neither exists on this box. No page JavaScript or template changed in this task, so that failure is an environment gap, not a regression from this change.
 
+### Task 2.3 fix 1 — CAT05 ingest-path regression (#12)
+
+Test commit `70a7e80e1f9b12e4e4e32e2701183f6c81fd0e16` adds
+`tests/test_sources.py::test_cat05_ingest_merges_duplicate_identities_across_sources`.
+Two deterministic source fetchers return the same work identity through the real
+`ingest` function. The test asserts both sources succeeded, one item survives,
+and both source evidence rows point at that item. No production behavior changed.
+
+Verified on November 6, 2026 with CPython 3.13.13 at
+`/Users/robert/.hermes/cache/scratch/ht23-venv/bin/python`:
+
+- Collection: `-m pytest --collect-only -q` — 135 tests collected.
+- Mutation: replaced the single production merge call inside `ingest`,
+  `merged_items, merged_evidence = merge_duplicates(items, evidence)`, with
+  `merged_items, merged_evidence = tuple(items), tuple(evidence)`.
+  Full suite `-m pytest -q` returned **1 failed, 134 passed**. Only the new test
+  failed, at `len(report["items"]) == 1` (actual: 2).
+- Restored the merge call; full suite `-m pytest -q` returned **135 passed,
+  0 failed**. The mutation is not committed.
+
+Call-site audit found one production caller of `merge_duplicates` (`ingest`)
+and one production caller of `ingest` (the dashboard refresh route). The test
+covers the merge chokepoint without replacing it with a mock. Existing host/UI
+limitations above remain unchanged; this test-only follow-up does not claim a
+new host or browser integration check.
+
 ## Release measurements
 
 All values are unmeasured. Freeze the post-demo evaluation workload, rubric, source snapshots, provider configuration, and request limits before collecting results. Use PRD section 9 for proposed targets and report adjustments explicitly. The demo video length is measured under task 4.3, not inferred from the six-step outline.
