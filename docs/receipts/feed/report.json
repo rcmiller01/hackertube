@@ -1,0 +1,88 @@
+{
+  "pluginCommit": "5c32864c10fd8e65c9964728363ef2de261fa8d6",
+  "hermesVersion": "Hermes Agent v0.23.0 (2026.9.24) · stable · local 2bd378ed1b8d",
+  "captureCommand": "NODE_PATH=/tmp/pw/node_modules node docs/receipts/feed/capture.js",
+  "reloadedHeading": "HackerTube",
+  "hostTabsBeforePlugin": [
+    "HERMES AGENT CHAT SESSIONS FILES MODELS LOGS CRON SKILLS PLUGINS MCP CHANNELS WEBHOOKS PAIRING PROFILES CONFIG KEYS SYSTEM DOCUMENTATION Plugins KANBAN HACKERTU",
+    "Collapse",
+    "CHAT",
+    "SESSIONS",
+    "FILES",
+    "MODELS",
+    "LOGS",
+    "CRON",
+    "SKILLS",
+    "PLUGINS",
+    "MCP",
+    "CHANNELS"
+  ],
+  "discoverOutline": {
+    "tag": "A",
+    "text": "Discover",
+    "id": "",
+    "inside": true,
+    "outlineStyle": "solid",
+    "outlineWidth": "2px",
+    "outlineColor": "color(srgb 1 0.901961 0.796078)",
+    "ariaDisabled": null
+  },
+  "openedUrl": "https://podcasts.apple.com/us/podcast/jane-austen-stories/id1840669662?uo=4",
+  "afterSearchNewHosts": [],
+  "refreshHosts": [],
+  "noInterestSections": {
+    "videos": {
+      "heading": "Videos 0",
+      "cards": 0
+    },
+    "podcasts": {
+      "heading": "Podcasts 4",
+      "cards": 4
+    },
+    "books": {
+      "heading": "Books 4",
+      "cards": 4
+    },
+    "audiobooks": {
+      "heading": "Audiobooks 4",
+      "cards": 4
+    }
+  },
+  "rankedCounts": "Videos 0, Podcasts 2, Books 4, Audiobooks 4.",
+  "hosts": [
+    "127.0.0.1:9119",
+    "archive.org",
+    "covers.openlibrary.org",
+    "ia600505.us.archive.org",
+    "ia601601.us.archive.org",
+    "ia800505.us.archive.org",
+    "ia801601.us.archive.org",
+    "ia803200.us.archive.org",
+    "ia903200.us.archive.org"
+  ],
+  "paidHosts": [],
+  "overflow390": {
+    "rootWider": false,
+    "docWider": false,
+    "columns": "327.5px"
+  },
+  "columns768": "683px",
+  "notes": [
+    "dismissed host shared-metrics banner with the keyboard"
+  ],
+  "axe": [
+    "search-open",
+    "about",
+    "library",
+    "discover",
+    "width-390"
+  ],
+  "afterRestart": {
+    "pluginCommit": "5c32864c10fd8e65c9964728363ef2de261fa8d6",
+    "libraryCount": "Library (1 saved)",
+    "interest": "gardening What can I read or listen to by Jane Austen?",
+    "opened": true,
+    "notCompleted": true,
+    "dismissedKeptOut": true
+  }
+}
