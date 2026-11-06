@@ -179,12 +179,14 @@ def test_job02_loading_the_plugin_repeatedly_starts_no_paid_job(root):
     assert socket.getaddrinfo.__name__ == "_refuse_live_dns"
 
 
-def test_job04_a_paid_call_with_no_reported_cost_reaches_the_feed_as_unknown():
+def test_job04_a_paid_call_with_no_reported_cost_is_ledger_unknown():
     """JOB04 accounting only: an unknown cost is null, never zero.
 
-    The dashboard has no job display in 3.3 (the job surfaces are task 4.x),
-    so this verifies the accounting rule and the count the page receives. It
-    does not verify a rendered job cost, and no receipt here claims that.
+    This is **ledger-only** accounting: it reads the boundary ledger directly
+    and calls no route. The dashboard has no job display in 3.3 (the job
+    surfaces are task 4.x), so nothing here verifies a rendered job cost.
+    ``test_job04_the_feed_reports_the_count_but_not_the_cost`` separately
+    pins what ``GET /feed`` actually carries.
     """
     with outbound.guard():
         outbound.reset()
@@ -197,6 +199,28 @@ def test_job04_a_paid_call_with_no_reported_cost_reaches_the_feed_as_unknown():
         outbound.dispatch(outbound.METERED, lambda: "quota read")
         assert outbound.usage()["cost_usd"] is None
         assert outbound.counters() == {"free": 0, "paid": 1, "metered": 1}
+
+
+def test_job04_the_feed_reports_the_count_but_not_the_cost(root):
+    """JOB04: ``GET /feed`` carries the paid count, never the cost fields.
+
+    ``discovery_dict`` reports only counts, so an unknown cost is a ledger
+    fact the page does not receive as a value. This replaces an earlier claim
+    that the route propagated the unknown cost: the route propagates the
+    **count** (what the page's zero-charge check reads), not the cost.
+    """
+    with outbound.guard():
+        outbound.reset()
+        dashboard = _start(root, "hackertube_job04_feed")
+        try:
+            outbound.dispatch(outbound.PAID, lambda: "provider call", cost=None)
+            body = dashboard.get("/feed").json()
+        finally:
+            dashboard.close()
+        assert body["paid_calls"] == 1
+        assert body["request_counts"] == {"free": 0, "paid": 1, "metered": 0}
+        assert "cost_usd" not in body
+        assert "unknown_cost_calls" not in body
 
 
 def _row(snapshot, item_id):

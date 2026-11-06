@@ -161,11 +161,14 @@ host boundary.
 ### JOB04 — accounting only
 
 A stub paid dispatch without reported cost produces `cost_usd: null` and
-`unknown_cost_calls: 1`; a reported cost of 0.25 stays 0.25. The real `/feed`
-route preserves unknown cost. A stub keyed YouTube read counts metered=1;
-a stub unmetered source read counts free=1. These are positive classification
-controls, not actual billed deliveries. **Rendered job-cost display remains
-unverified**, belongs to 4.x, and is not claimed complete by this receipt.
+`unknown_cost_calls: 1`; a reported cost of 0.25 stays 0.25. This is
+**ledger-only** accounting: `GET /feed` carries the paid **count** only
+(`paid_calls` and `request_counts`), and neither `cost_usd` nor
+`unknown_cost_calls` reaches the page, so the unknown cost does not propagate
+as a value. A stub keyed YouTube read counts metered=1; a stub unmetered
+source read counts free=1. These are positive classification controls, not
+actual billed deliveries. **Rendered job-cost display remains unverified**,
+belongs to 4.x, and is not claimed complete by this receipt.
 
 ## Not run / not claimed
 
