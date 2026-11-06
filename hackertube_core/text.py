@@ -1,6 +1,7 @@
 """Plain-text and URL limits shared by records and adapters."""
 
 import re
+import socket
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from html import unescape
@@ -61,6 +62,52 @@ def http_date_to_z(value):
     return parsed.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+def _canonical_ipv4(host):
+    parts = host.split(".")
+    if len(parts) != 4:
+        return None
+    octets = []
+    for part in parts:
+        if not part.isascii() or not part.isdigit() or (len(part) > 1 and part.startswith("0")):
+            return None
+        number = int(part, 10)
+        if number > 255:
+            return None
+        octets.append(str(number))
+    return ip_address(".".join(octets))
+
+
+def _numeric_ip_form(host):
+    """True when inet_aton would accept a non-canonical IPv4 spelling."""
+    try:
+        socket.inet_aton(host)
+    except OSError:
+        return False
+    return True
+
+
+def host_address(host):
+    """Return a parsed IP, or None for a hostname. Non-canonical numeric forms are refused."""
+    if ":" in host:
+        try:
+            return ip_address(host)
+        except ValueError:
+            raise RecordError("destination") from None
+    canonical = _canonical_ipv4(host)
+    if canonical is not None:
+        return canonical
+    if _numeric_ip_form(host):
+        raise RecordError("destination")
+    return None
+
+
+def address_is_global(address):
+    mapped = getattr(address, "ipv4_mapped", None)
+    if mapped is not None:
+        return bool(mapped.is_global)
+    return bool(address.is_global)
+
+
 def public_https_url(value):
     if not isinstance(value, str) or not value.strip() or len(value) > 2000:
         raise RecordError("destination")
@@ -76,18 +123,8 @@ def public_https_url(value):
         or host.endswith(".local")
     ):
         raise RecordError("destination")
-    try:
-        address = ip_address(host)
-    except ValueError:
-        address = None
-    if address and (
-        address.is_private
-        or address.is_loopback
-        or address.is_link_local
-        or address.is_reserved
-        or address.is_multicast
-        or address.is_unspecified
-    ):
+    address = host_address(host)
+    if address is not None and not address_is_global(address):
         raise RecordError("destination")
     return value.strip()
 

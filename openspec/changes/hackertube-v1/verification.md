@@ -186,11 +186,11 @@ Tasks 1.1, 1.2, 1.4, and 2.1 have receipts below. Tasks 1.3 and 2.4 are open. Be
 | Result | 2.1 passes. Tasks 1.3 and 2.4 stay open. YouTube oEmbed is disabled (`unresolved-terms`); the seed keeps three video ids and watch links and does not display those cards. The Austen question matches books, audiobooks, and two podcast shows. |
 | Artifacts | [pytest.log](../../../docs/receipts/catalog/pytest.log), [feasibility-sources.md](../../../docs/feasibility-sources.md) |
 
-Saved pytest output from that revision was 34 passed. After merging main, `python3 -m pytest tests -q` also collects the dashboard adapter tests. The refreshed log is [pytest.log](../../../docs/receipts/catalog/pytest.log):
+Saved pytest output from that revision was 34 passed. After merging main, `python3 -m pytest tests -q` also collects the dashboard adapter tests. The URL guard added more cases. The refreshed log is [pytest.log](../../../docs/receipts/catalog/pytest.log):
 
 ```text
-....................................                                     [100%]
-36 passed in 0.06s
+............................................................             [100%]
+60 passed in 0.08s
 ```
 
 ### Task 3.1 — dashboard page, four sections, library, About, source opening
