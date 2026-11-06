@@ -1,0 +1,26 @@
+{
+  "plugin_revision": "6601ddf9e962510c6a11f880dc85262d032e541d",
+  "host_revision": "2bd378ed1b8d6bf2192cb26e0a55ff3091e6bd19",
+  "date": "2026-11-06",
+  "script": "docs/receipts/feasibility/job_probe.py",
+  "result": {
+    "ticks": 3,
+    "cancel_raised": true,
+    "ticks_after_cancel": 3,
+    "ticks_settled": 3,
+    "unload": {
+      "ticks_before": 2,
+      "ticks_after": 2,
+      "saw_cancel": true,
+      "done": true
+    },
+    "restart": {
+      "killed_ticks": 2,
+      "frozen_ticks": 2,
+      "frozen_phase": "running",
+      "inspect_code": 0,
+      "inspect": "{\"resumed\": false, \"receipt_phase\": \"running\", \"receipt_ticks\": 2}",
+      "resumed": false
+    }
+  }
+}

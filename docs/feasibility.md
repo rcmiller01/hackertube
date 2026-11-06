@@ -2,6 +2,8 @@
 
 Recorded 2026-11-06 against a disposable profile. This is the lane A receipt for tasks 1.1, 1.2, and 1.4. The shell in `hackertube/` is the layout later lanes build into. It is not the feed, search, library, or About view.
 
+Tested plugin revision: `6601ddf9e962510c6a11f880dc85262d032e541d`. That commit is the `hackertube/` tree these probes ran. Receipts added after it do not change those files. Host revision: `2bd378ed1b8d6bf2192cb26e0a55ff3091e6bd19`. Artifacts live in [docs/receipts/feasibility/](receipts/feasibility/).
+
 ## Version pin
 
 Pinned release: **Hermes Agent v0.23.0 (2026.9.24)**.
@@ -73,28 +75,24 @@ Checked on the disposable profile with `hermes plugins enable hackertube`.
 | Backend | `dashboard/plugin_api.py` module global `router` |
 | HTTP | `GET /api/plugins/hackertube/status` |
 
-`hermes plugins validate /workspace/hackertube --install-deps` exited 0. Every check passed, including manifest fields, `requires_hermes`, config schema, capability probe, security scan, and no core override. Warnings: none. The plugin declares no Python dependencies.
+`hermes plugins validate hackertube --install-deps` exited 0. Every check passed, including manifest fields, `requires_hermes`, config schema, capability probe, security scan, and no core override. Warnings: none. The plugin declares no Python dependencies. Log: [validate.log](receipts/feasibility/validate.log). The isolation line in that log is the validator's static "can run in the plugin host" verdict. The disposable profile does not set `plugins.isolation`.
 
 ## Data root
 
-`plugins.plugin_storage.plugin_data_dir("hackertube")` creates and returns `$HERMES_HOME/plugin-data/hackertube`. In the disposable profile that was `/tmp/hermes-probe/plugin-data/hackertube`. The status route returns that path and does not write a file. Secrets do not belong in this directory.
-
-The directory was still present after the dashboard process was killed and started again. Saved library items are not implemented, so LIB02's save behavior is not done. Task 2.2 owns that.
+`plugins.plugin_storage.plugin_data_dir("hackertube")` creates and returns `$HERMES_HOME/plugin-data/hackertube`. The status route returns that path and does not write a product file. Secrets do not belong in this directory. Saved library items are not implemented, so LIB02's save behavior is not done. Task 2.2 owns that. The status body after a process restart still named that data directory: [reload-restart.log](receipts/feasibility/reload-restart.log).
 
 ## Auth
 
 Loopback dashboard (`--host 127.0.0.1`): `/api/*` routes other than the public list require the process session token. The header name on this pin is `X-Hermes-Session-Token`. `Authorization: Bearer <token>` is also accepted by the server. The HTML shell injects the token so the page can call the API.
 
-Observed on `http://127.0.0.1:9120`:
+Observed on the loopback dashboard. Captures redact the session token and the profile home.
 
-| Call | Result |
-|---|---|
-| `GET /api/plugins/hackertube/status` with no token | `401` `{"detail":"Unauthorized"}` |
-| Same call with `X-Hermes-Session-Token` | `200` `{"name":"HackerTube","data_root":"/tmp/hermes-probe/plugin-data/hackertube"}` |
-| `GET /dashboard-plugins/hackertube/dist/index.js` | `200` |
-| Browser open ` /hackertube` | URL became `/hackertube?profile=default`. Nav link href `/hackertube`, text `HACKERTUBE`. Heading text `HackerTube`. |
-| Browser `location.reload()` | Heading `HackerTube` visible again |
-| Kill the server, start it again, open `/hackertube` | Heading visible again. Status route `200`. Unauthenticated status still `401`. |
+| Call | Result | Artifact |
+|---|---|---|
+| `GET /api/plugins/hackertube/status` with no token | `401` `{"detail":"Unauthorized"}` | [http-401.txt](receipts/feasibility/http-401.txt) |
+| Same call with `X-Hermes-Session-Token` and no key stored | `200`, `model_key` `absent`, data root under `plugin-data/hackertube` | [http-200-absent.txt](receipts/feasibility/http-200-absent.txt) |
+| Browser `location.reload()` on `/hackertube` | Heading `HackerTube`. Nav href `/hackertube`. | [reload-restart.log](receipts/feasibility/reload-restart.log), [hackertube-after-reload.png](receipts/feasibility/hackertube-after-reload.png) |
+| Kill the server, start it again, open `/hackertube` | Heading visible again. Authenticated status `200`, `model_key` `absent`. | [reload-restart.log](receipts/feasibility/reload-restart.log) |
 
 Non-loopback gated auth (cookie or OAuth provider) was not exercised. Do not treat the loopback token result as that mode.
 
@@ -113,9 +111,9 @@ On a real `PluginContext` for this plugin, at this pin:
 | `ctx.register_web_search_provider` | present. It registers a search backend. It does not run a search. |
 | `ctx.side_question` | present. Not called. The pin's docs say it sees the session, including memory, and it requires capability `llm.side_question` plus a turn token. This plugin does not declare that capability. |
 
-Memory-disabled payload: `complete(messages=[{"role":"user","content":"PROBE_MEMORY_DISABLED"}])` forwarded exactly that one message. The captured message JSON did not contain a memory field. This used an injected caller so no provider was contacted. `side_question` was not part of the payload.
+Memory-disabled payload: `complete(messages=[{"role":"user","content":"PROBE_MEMORY_DISABLED"}])` forwarded exactly that one message. The captured message JSON did not contain a memory field. This used an injected caller so no provider was contacted. `side_question` was not part of the payload. Artifact: [model-payload.json](receipts/feasibility/model-payload.json).
 
-Live `ctx.llm.complete(...)` did not complete. The host raised `AuxiliaryClientUnavailable`: `No LLM provider configured for task=None provider=auto. Run: hermes setup`. The probe did not read `auth.json`, `.env`, or any other credential file. The profile had no model provider.
+Live `ctx.llm.complete(...)` did not complete. The host raised `AuxiliaryClientUnavailable`: `No LLM provider configured for task=None provider=auto. Run: hermes setup`. The probe did not read `auth.json`, `.env`, or any other credential file. The profile had no model provider. The same artifact records that error.
 
 Search: there is no dashboard HTTP search route in the pinned `hermes_cli/web_server*.py` tree. `ctx.dispatch_tool("web_search", {"query": "site:nousresearch.com hermes agent", "limit": 1})` returned a JSON object with `"success": true` and a web result whose URL was `https://hermes-agent.nousresearch.com/`. The active provider at that moment was `exa` with `is_available()` false and `is_keyless_available()` true. An earlier resolution returned `keenable` with the same flags. That call needs `ctx`, which the dashboard route does not have. `tools.web_tools` is not in the pin's public plugin import list (`hermes_cli/plugin_validate_private_imports.py`). This shell does not import it.
 
@@ -133,9 +131,9 @@ config_schema:
     required: false
 ```
 
-Hermes stores `type: secret` values in the profile `.env` under `HACKERTUBE_MODEL_KEY` (`hermes_cli.plugins_settings.secret_env_name` uses the `env:` name). The plugin must read it only with `agent.secret_scope.get_secret("HACKERTUBE_MODEL_KEY")`.
+Hermes stores `type: secret` values in the profile `.env` under `HACKERTUBE_MODEL_KEY` (`hermes_cli.plugins_settings.secret_env_name` uses the `env:` name). `GET /status` calls `agent.secret_scope.get_secret("HACKERTUBE_MODEL_KEY")` and returns `present` or `absent`. It does not return the value.
 
-Checked inside `_config_profile_scope(None)` after `save_env_value`: `get_secret` returned the placeholder. The plugin data directory did not contain it. `remove_env_value` then removed it. The profile `.env` no longer has `HACKERTUBE_MODEL_KEY`. No key is in this repository.
+On the running dashboard, with the key unset, the status body said `absent`. After Hermes stored a placeholder and the same process served another authenticated status call, the body said `present`. The plugin data directory did not contain the placeholder. After Hermes removed the placeholder, the body said `absent` again. Artifacts: [secret-check.log](receipts/feasibility/secret-check.log), [http-200-absent.txt](receipts/feasibility/http-200-absent.txt), [http-200-present.txt](receipts/feasibility/http-200-present.txt), [http-200-after-remove.txt](receipts/feasibility/http-200-after-remove.txt). No key is in this repository.
 
 Plugin source mention of the word "credential" is the manifest description telling the reader not to open credential files. The shell does not open `.env`, `auth.json`, a keychain, or another tool's login.
 
@@ -143,7 +141,7 @@ SEARCH01 is not implemented. PREF05's product search is not implemented. The pay
 
 ## Jobs
 
-No product job runner was added. The probe used `ctx.spawn_task` and deterministic asyncio stubs on this pin.
+No product job runner was added. The probe script is [job_probe.py](receipts/feasibility/job_probe.py). Its redacted log is [job-probe.log](receipts/feasibility/job-probe.log). It used `ctx.spawn_task` and deterministic asyncio stubs on this pin.
 
 | Action | Observed |
 |---|---|

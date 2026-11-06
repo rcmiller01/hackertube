@@ -1,0 +1,20 @@
+plugin_revision: 6601ddf9e962510c6a11f880dc85262d032e541d
+host_revision: 2bd378ed1b8d6bf2192cb26e0a55ff3091e6bd19
+date: 2026-11-06
+screenshot: docs/receipts/feasibility/hackertube-after-reload.png
+
+Reload
+- Opened /hackertube in the loopback dashboard.
+- The address bar path became /hackertube with a profile query.
+- Called location.reload().
+- After reload the heading text was HackerTube.
+- A nav link with href /hackertube had text HackerTube.
+- Screenshot taken of that reloaded viewport.
+
+Restart
+- Stopped the dashboard process and started it again on the same loopback port.
+- Opened /hackertube again.
+- The heading text was HackerTube.
+- Authenticated GET /api/plugins/hackertube/status returned 200.
+- Body name was HackerTube, data_root ended in plugin-data/hackertube, model_key was absent.
+- The profile home prefix is redacted. The session token is not recorded.

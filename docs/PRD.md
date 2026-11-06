@@ -1,6 +1,6 @@
 # HackerTube PRD
 
-Version 0.3. November 5, 2026. Product scope is drafted from Robert's confirmed decisions and the official hackathon announcement and catalog guide. No implementation has been built or verified. Delivery estimates, integrations, and numerical quality targets remain provisional.
+Version 0.3. November 5, 2026. Product scope is drafted from Robert's confirmed decisions and the official hackathon announcement and catalog guide. The host shell is verified in docs/feasibility.md. Product behavior beyond that shell has not been built. Delivery estimates, integrations, and numerical quality targets remain provisional.
 
 ## 1. Product definition
 
