@@ -1,11 +1,11 @@
 /* HackerTube dashboard page.
  *
- * Catalog rows come from GET /api/plugins/hackertube/catalog, which reads the
- * local fixture through catalog_adapter.py. This file does not import
- * hackertube_core. Save, dismiss, and open state live in the page visit only
- * (task 2.2). Feed order is fixture capture order (task 3.2). Search renders
- * the question, disclosure, and results area and does not call a model,
- * search provider, or paid API (tasks 4.1 and 4.2).
+ * Catalog rows come from GET /api/plugins/hackertube/catalog. That route
+ * returns the seed hackertube_core loads. This file does not read a local
+ * catalog file. Save, dismiss, and open state live in the page visit only
+ * (task 2.2). Feed order is capture order (task 3.2). Search renders the
+ * question, disclosure, and results area and does not call a model, search
+ * provider, or paid API (tasks 4.1 and 4.2).
  */
 (function (factory) {
   "use strict";
@@ -41,6 +41,7 @@
     "July", "August", "September", "October", "November", "December",
   ];
   var DISCLOSURE = "Configured sources and the broader web may be searched. Model, search, and provider credits or quota may be used. Browsing is free.";
+  var ORDER_NOTE = "Seeded catalog, in capture order.";
 
   function destinationDecision(value) {
     if (typeof value !== "string" || !value.trim()) {
@@ -308,6 +309,11 @@
     return "Linked " + word + " edition: " + other.title;
   }
 
+  function sectionEmpty(label, inLibrary) {
+    if (inLibrary) return "No saved " + label.toLowerCase() + ".";
+    return "No " + label.toLowerCase() + " in this catalog.";
+  }
+
   function sectionItems(items, section, saved) {
     var chosen = (items || []).filter(function (item) {
       return section.formats.indexOf(item.format) !== -1;
@@ -391,9 +397,6 @@
       var catalogState = useState(null);
       var catalog = catalogState[0];
       var setCatalog = catalogState[1];
-      var fixtureState = useState(false);
-      var fixture = fixtureState[0];
-      var setFixture = fixtureState[1];
       var errorState = useState(false);
       var loadError = errorState[0];
       var setLoadError = errorState[1];
@@ -464,7 +467,6 @@
             return;
           }
           setCatalog(body.catalog);
-          setFixture(body.fixture === true);
         }).catch(function () {
           if (!cancelled) setLoadError(true);
         });
@@ -728,13 +730,11 @@
         var items = catalog && catalog.items ? catalog.items : [];
         var byId = itemsById(items);
         return h("div", null,
-          fixture ? h("p", { className: "ht-note" }, "Seeded fixture, in capture order.") : null,
+          h("p", { className: "ht-note" }, ORDER_NOTE),
           SECTIONS.map(function (section) {
             var rows = sectionItems(items, section, inLibrary ? saved : null);
             var shown = visibleSlice(rows, !!expanded[section.id], INITIAL_CARDS);
-            var empty = inLibrary
-              ? "No saved " + section.label.toLowerCase() + "."
-              : "No " + section.label.toLowerCase() + " in this fixture.";
+            var empty = sectionEmpty(section.label, inLibrary);
             return h("section", { className: "ht-section", id: section.id, key: section.id, "aria-labelledby": section.id + "-heading" },
               h("h2", { id: section.id + "-heading", tabIndex: -1 },
                 section.label,
@@ -834,9 +834,9 @@
             })
           ),
           loadError
-            ? h("p", { role: "alert" }, "No prepared feed is available. The local fixture did not load. Browsing does not start a search.")
+            ? h("p", { role: "alert" }, "No prepared feed is available. The catalog did not load. Browsing does not start a search.")
             : null,
-          !catalog && !loadError ? h("p", { role: "status" }, "Loading the seeded fixture.") : null,
+          !catalog && !loadError ? h("p", { role: "status" }, "Loading the seeded catalog.") : null,
           catalog ? renderSections(false) : null,
           unsafeCheckRequested() ? renderUnsafeCheck() : null
         );
@@ -871,7 +871,7 @@
             : null,
           catalog ? renderSections(true) : null,
           !catalog && loadError
-            ? h("p", { role: "alert" }, "No prepared feed is available. The local fixture did not load.")
+            ? h("p", { role: "alert" }, "No prepared feed is available. The catalog did not load.")
             : null
         );
       }
@@ -890,9 +890,9 @@
           renderNav("about"),
           h("h2", null, "Sources"),
           h("p", null, "The seeded page shows podcasts from Apple Podcasts, books from Open Library, and audiobooks from LibriVox. Hacker News is evidence on a media card. It is not a fifth format. Reddit is not used."),
-          h("p", null, "Book covers load from Open Library only when the fixture marks them as hotlinks. This page does not cache those images. Apple artwork is not loaded."),
+          h("p", null, "Book covers load from Open Library only when the catalog marks them as hotlinks. This page does not cache those images. Apple artwork is not loaded."),
           h("h2", null, "Coverage"),
-          h("p", null, "This fixture is a small set of records in capture order. Ranking is not applied. A format can be empty. Unknown duration and unknown length stay unknown. Saves last for this visit only."),
+          h("p", null, "This catalog is a small set of records in capture order. Ranking is not applied. A format can be empty. Unknown duration and unknown length stay unknown. Saves last for this visit only."),
           h("h2", null, "Opening a source"),
           h("p", null, "Open at source leaves this page and opens the public destination in the browser. HackerTube does not download the media and does not play it. A destination that is not public https is refused.")
         );
@@ -902,7 +902,7 @@
         return h("p", { role: "alert" }, "This Hermes build is missing dashboard components HackerTube needs.");
       }
 
-      return h("div", { className: "hackertube", "data-fixture": fixture ? "true" : "false" },
+      return h("div", { className: "hackertube" },
         view === "library" ? renderLibrary() : view === "about" ? renderAbout() : renderDiscover()
       );
     }
@@ -920,6 +920,8 @@
   return {
     DEMO_QUESTION: DEMO_QUESTION,
     DISCLOSURE: DISCLOSURE,
+    ORDER_NOTE: ORDER_NOTE,
+    sectionEmpty: sectionEmpty,
     INITIAL_CARDS: INITIAL_CARDS,
     SECTIONS: SECTIONS,
     createPage: createPage,

@@ -119,7 +119,7 @@ async function dismissBanner(page) {
   await page.goto(BASE, { waitUntil: "networkidle", timeout: 30000 });
   await page.locator(".hackertube h1").waitFor();
   await dismissBanner(page);
-  await page.locator("text=Seeded fixture, in capture order.").waitFor();
+  await page.locator("text=Seeded catalog, in capture order.").waitFor();
   await shot(page, "01-discover-top");
 
   await page.reload({ waitUntil: "networkidle" });
@@ -142,7 +142,7 @@ async function dismissBanner(page) {
     if (sections[i] === "videos") {
       if (cards !== 0) throw new Error("videos should be empty, got " + cards);
       const empty = await page.locator("#videos").innerText();
-      if (!empty.includes("No videos in this fixture.")) throw new Error(empty);
+      if (!empty.includes("No videos in this catalog.")) throw new Error(empty);
     } else if (cards < 2) {
       throw new Error(sections[i] + " cards " + cards);
     }
@@ -268,7 +268,7 @@ async function dismissBanner(page) {
 
   await page.keyboard.press("Shift+Tab");
   await page.locator('.ht-nav a[href="#discover"]').click();
-  await page.locator("text=Seeded fixture").waitFor();
+  await page.locator("text=Seeded catalog").waitFor();
   await axe(page, "discover");
 
   log("a11y empty alert");
