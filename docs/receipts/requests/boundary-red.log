@@ -1,0 +1,2 @@
+refused as expected: urllib.request.urlopen
+counters after refusal: {'free': 0, 'paid': 0}

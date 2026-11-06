@@ -1,0 +1,54 @@
+{
+  "task": "3.3",
+  "branch": "hermes/3.3-zero-paid-calls",
+  "base": "a3566679b157feecfe8ab1e9e1d6874839803143",
+  "codeCommit": "53963e1ac5f8e8868a91da83eb3183f827038d8c",
+  "interpreter": "CPython 3.14.7",
+  "boundary": "hackertube_core/outbound.py",
+  "labels": ["free", "paid"],
+  "pytest": {
+    "command": "python -m pytest tests -q",
+    "passed": 118,
+    "failed": 0,
+    "beforeThisChange": 107
+  },
+  "node": {
+    "command": "node --test tests/test_dashboard_page.js",
+    "tests": 36,
+    "passed": 36,
+    "failed": 0
+  },
+  "browsing": {
+    "request_counts": {"free": 0, "paid": 0},
+    "usage": {"free": 0, "paid": 0, "cost_usd": 0.0, "unknown_cost_calls": 0}
+  },
+  "source_read": {
+    "request_counts": {"free": 2, "paid": 0},
+    "usage": {"free": 2, "paid": 0, "cost_usd": 0.0, "unknown_cost_calls": 0}
+  },
+  "paid_call_without_reported_cost": {
+    "usage": {"free": 0, "paid": 1, "cost_usd": null, "unknown_cost_calls": 1}
+  },
+  "scenarios": {
+    "FEED04": "tests/test_request_boundary.py::test_feed04_browsing_paging_saving_dismissing_and_reopening_make_no_request; also tests/test_discovery.py::test_feed04_browse_actions_make_no_paid_call",
+    "PREF08": "tests/test_request_boundary.py::test_pref08_read_only_browsing_submits_nothing",
+    "JOB02": "tests/test_request_boundary.py::test_job02_reloading_and_displaying_a_stale_feed_starts_no_paid_job and tests/test_request_boundary.py::test_no_module_schedules_recurring_work",
+    "JOB04": "tests/test_request_boundary.py::test_job04_a_paid_call_with_no_reported_cost_is_unknown"
+  },
+  "detector": {
+    "guardTargets": [
+      "socket.create_connection",
+      "socket.socket.connect",
+      "http.client.HTTPConnection.connect",
+      "http.client.HTTPSConnection.connect",
+      "urllib.request.urlopen"
+    ],
+    "staticScan": "tests/test_request_boundary.py::test_every_network_import_is_inside_the_boundary",
+    "redCheck": "docs/receipts/requests/bypass_probe.py"
+  },
+  "liveDns": "refused suite-wide by tests/conftest.py; no live request was made in this run",
+  "notRun": [
+    "Hermes host install/load and the loopback browser walk. The hermes CLI on this box refused to run: 'hermes: no dependency environment is committed for this install; run hermes pm repair'. Plugin-level install/load/display is covered by the repeated-display test and the scheduler scan instead.",
+    "A real paid provider call. The demo makes none; JOB04 is exercised with an injected paid dispatch."
+  ]
+}

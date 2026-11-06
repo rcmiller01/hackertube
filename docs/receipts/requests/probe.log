@@ -1,0 +1,56 @@
+# interpreter: Python 3.14.7
+# repo: /Users/robert/Developer/hackertube-3.3
+# head: a3566679b157feecfe8ab1e9e1d6874839803143
+
+$ /Users/robert/.hermes/cache/scratch/ht-venv/bin/python docs/receipts/requests/probe.py
+{
+  "browsing": {
+    "dismissed_drops_pride": true,
+    "labels_seen": [
+      "no request dispatched"
+    ],
+    "opened_feed": 10,
+    "paged": 4,
+    "request_counts": {
+      "free": 0,
+      "paid": 0
+    },
+    "saved_keeps_pride": true
+  },
+  "browsing_counters": {
+    "free": 0,
+    "paid": 0
+  },
+  "browsing_usage": {
+    "cost_usd": 0.0,
+    "free": 0,
+    "paid": 0,
+    "unknown_cost_calls": 0
+  },
+  "paid_with_reported_cost_usage": {
+    "cost_usd": 0.25,
+    "free": 0,
+    "paid": 1,
+    "unknown_cost_calls": 0
+  },
+  "paid_without_cost_usage": {
+    "cost_usd": null,
+    "free": 0,
+    "paid": 1,
+    "unknown_cost_calls": 1
+  },
+  "source_read_counters": {
+    "free": 2,
+    "paid": 0
+  },
+  "source_read_usage": {
+    "cost_usd": 0.0,
+    "free": 2,
+    "paid": 0,
+    "unknown_cost_calls": 0
+  }
+}
+
+$ /Users/robert/.hermes/cache/scratch/ht-venv/bin/python docs/receipts/requests/bypass_probe.py
+refused as expected: urllib.request.urlopen
+counters after refusal: {'free': 0, 'paid': 0}
