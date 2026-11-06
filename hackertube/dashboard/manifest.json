@@ -1,0 +1,13 @@
+{
+  "name": "hackertube",
+  "label": "HackerTube",
+  "description": "Media discovery for videos, podcasts, books, and audiobooks.",
+  "icon": "Globe",
+  "version": "0.1.0",
+  "tab": {
+    "path": "/hackertube",
+    "position": "end"
+  },
+  "entry": "dist/index.js",
+  "api": "plugin_api.py"
+}

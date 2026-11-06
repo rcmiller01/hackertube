@@ -1,0 +1,25 @@
+{
+  "plugin_revision": "6601ddf9e962510c6a11f880dc85262d032e541d",
+  "host_revision": "2bd378ed1b8d6bf2192cb26e0a55ff3091e6bd19",
+  "date": "2026-11-06",
+  "ctx_llm_type": "agent.plugin_llm.PluginLlm",
+  "methods": [
+    "complete",
+    "complete_structured",
+    "acomplete",
+    "acomplete_structured"
+  ],
+  "messages": [
+    {
+      "role": "user",
+      "content": "PROBE_MEMORY_DISABLED"
+    }
+  ],
+  "memory_key_in_messages": false,
+  "injected_caller": true,
+  "live_completion": {
+    "ok": false,
+    "error_type": "AuxiliaryClientUnavailable",
+    "error": "No LLM provider configured for task=None provider=auto. Run: hermes setup"
+  }
+}

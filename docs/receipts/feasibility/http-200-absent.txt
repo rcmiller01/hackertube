@@ -1,0 +1,15 @@
+plugin_revision: 6601ddf9e962510c6a11f880dc85262d032e541d
+host_revision: 2bd378ed1b8d6bf2192cb26e0a55ff3091e6bd19
+request: GET /api/plugins/hackertube/status
+auth: session token
+date: 2026-11-06
+redaction: profile home prefix replaced with $HERMES_HOME. content-length is the server header before that replacement. The token is not included.
+
+HTTP/1.1 200 OK
+date: Fri, 06 Nov 2026 12:28:24 GMT
+server: uvicorn
+content-length: 97
+content-type: application/json
+vary: Origin
+
+{"name":"HackerTube","data_root":"$HERMES_HOME/plugin-data/hackertube","model_key":"absent"}

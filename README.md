@@ -12,8 +12,8 @@ This is an independent Hermes adaptation. It extends the original community-cura
 
 ## Status
 
-Lane B has a framework-neutral catalog package, `hackertube_core`, and a frozen seed of real records. The Hermes dashboard, plugin manifest, and routes are not part of this package.
+The Hermes host probe is in [docs/feasibility.md](docs/feasibility.md). The installable shell is `hackertube/`: a Python plugin with one web-dashboard page and one backend route. Source feasibility and the seeded catalog are in [docs/feasibility-sources.md](docs/feasibility-sources.md) and `hackertube_core/`.
 
 The [product requirements document](docs/PRD.md) records the agreed scope, acceptance criteria, and remaining technical investigations.
 
-The [OpenSpec workflow](openspec/README.md) guides development. Start with the [V1 proposal](openspec/changes/hackertube-v1/proposal.md), then read the capability specs, design, and tasks. Source feasibility and the seeded catalog are recorded in [docs/feasibility-sources.md](docs/feasibility-sources.md). Host integration and the dashboard remain open.
+The [OpenSpec workflow](openspec/README.md) guides development. Start with the [V1 proposal](openspec/changes/hackertube-v1/proposal.md), then read the capability specs, design, and tasks. Tasks 1.1, 1.2, 1.3, 1.4, 2.1, and 2.4 are checked. The other implementation tasks remain unchecked.
