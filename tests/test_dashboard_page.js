@@ -405,11 +405,17 @@ function mountPage(catalogBody, profileBody, respond, feedBody) {
 
   function Stub() {}
   const calls = [];
+  const requests = [];
   const Page = page.createPage({
     React,
     fetchJSON(url, init) {
       const target = String(url || "");
       calls.push(target);
+      requests.push({
+        url: target,
+        method: (init && init.method) || "GET",
+        body: init && init.body ? JSON.parse(init.body) : null,
+      });
       return {
         then(onOk) {
           if (target.indexOf("/profile") !== -1) {
@@ -465,6 +471,23 @@ function mountPage(catalogBody, profileBody, respond, feedBody) {
     location,
     find,
     calls,
+    requests,
+    all(pred) {
+      const hits = [];
+      walk(tree, (node) => {
+        if (pred(node)) hits.push(node);
+      });
+      return hits;
+    },
+    within(rootPred, pred) {
+      const root = find(rootPred);
+      if (!root) return null;
+      const hits = [];
+      walk(root.children, (node) => {
+        if (pred(node)) hits.push(node);
+      });
+      return hits;
+    },
     text(pred) {
       return textOf(find(pred));
     },
@@ -681,6 +704,47 @@ const RANKED_FEED = {
   },
 };
 
+const FIVE_BOOKS = {
+  catalog: {
+    items: ["k1", "k2", "k3", "k4", "k5"].map((id, index) => ({
+      item_id: id,
+      format: "book",
+      title: "Book " + (index + 1),
+      destination: "https://openlibrary.org/works/OL" + (66550 + index) + "W",
+      capture_order: index + 1,
+      contributors: ["Jane Austen"],
+      duration_seconds: null,
+      art_url: null,
+      art_hotlink: false,
+    })),
+    evidence: [],
+    sources: [{ source_id: "openlibrary", name: "Open Library" }],
+    editions: [],
+  },
+};
+
+const FIVE_FEED = {
+  schema: "hackertube.discovery/1",
+  personalized: true,
+  paid_calls: 0,
+  interests: ["jane austen"],
+  signals: ["matched interest"],
+  feed: ["k1", "k2", "k3", "k4", "k5"],
+  why: {
+    k1: ["Matched interest"],
+    k2: ["Matched interest"],
+    k3: ["Matched interest"],
+    k4: ["Matched interest"],
+    k5: ["Matched interest"],
+  },
+  sections: {
+    videos: group([], []),
+    podcasts: group([], []),
+    books: group(["k1", "k2", "k3", "k4", "k5"], []),
+    audiobooks: group([], []),
+  },
+};
+
 test("FEED01 ranked opening feed shows the interest match without a question", () => {
   const ui = mountPage(RANK_CATALOG, page.emptyProfile(), null, RANKED_FEED);
   try {
@@ -738,9 +802,82 @@ test("FEED04 refresh paging and save stay on local routes", () => {
       "/api/plugins/hackertube/feed",
     ]);
     assert.equal(ui.calls.some((url) => /openai|anthropic|generativelanguage|api\.search/.test(url)), false);
-    const five = [1, 2, 3, 4, 5];
-    assert.equal(page.visibleSlice(five, false, page.INITIAL_CARDS).length, 4);
-    assert.equal(page.visibleSlice(five, true, page.INITIAL_CARDS).length, 5);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("FEED04 Show more is the rendered control, and it dispatches no request", () => {
+  const ui = mountPage(FIVE_BOOKS, page.emptyProfile(), null, FIVE_FEED);
+  try {
+    const rankedCards = () => ui.within(
+      (node) => node.props && node.props.id === "ranked-feed",
+      (node) => node.props && node.props.className === "ht-actions",
+    ).length;
+    assert.equal(rankedCards(), page.INITIAL_CARDS, "the first screen holds back the fifth ranked card");
+    const before = ui.requests.length;
+    const showMore = ui.within(
+      (node) => node.props && node.props.id === "ranked-feed",
+      (node) => (node.children || []).some((child) => child === "Show more"),
+    );
+    assert.equal(showMore.length, 1, "the ranked feed offers one Show more control");
+    showMore[0].props.onClick();
+    assert.equal(rankedCards(), 5, "Show more revealed the fifth ranked card");
+    assert.deepEqual(ui.requests.slice(before), [], "Show more dispatched no request");
+  } finally {
+    ui.restore();
+  }
+});
+
+test("FEED04 Save, Dismiss, and Open controls post to the profile routes", () => {
+  // The page's own controls are activated. Each one must issue one POST to the
+  // backend route that owns the mutation, and the click path stays local.
+  let serverProfile = page.emptyProfile();
+  const respond = (url, body) => {
+    if (url.endsWith("/saves")) serverProfile = page.applySave(serverProfile, body.item_id);
+    else if (url.endsWith("/dismissals")) serverProfile = page.applyDismiss(serverProfile, body.item_id);
+    else if (url.endsWith("/opens")) serverProfile = page.applyOpen(serverProfile, body.item_id, "2026-11-06T12:00:00Z");
+    return serverProfile;
+  };
+  const ui = mountPage(FIVE_BOOKS, page.emptyProfile(), respond, FIVE_FEED);
+  try {
+    const action = (label) => ui.all((node) => (node.children || []).some((child) => child === label))[0];
+    const click = (node) => node.props.onClick({ preventDefault() {}, stopPropagation() {} });
+    // A profile write makes the page re-read its prepared catalog and feed, so
+    // the POST is asserted, and every request on the click path is local.
+    const posts = () => ui.requests.filter((request) => request.method === "POST");
+    const reset = () => { ui.requests.length = 0; };
+
+    reset();
+    const open = ui.find((node) => node.props && /(^|\s)ht-open(\s|$)/.test(node.props.className || ""));
+    assert.notEqual(open, null, "the first card offers an Open control");
+    open.props.onClick();
+    assert.deepEqual(posts(), [{
+      url: "/api/plugins/hackertube/profile/opens",
+      method: "POST",
+      body: { item_id: "k1" },
+    }]);
+
+    reset();
+    click(action("Save"));
+    assert.deepEqual(posts(), [{
+      url: "/api/plugins/hackertube/profile/saves",
+      method: "POST",
+      body: { item_id: "k1" },
+    }]);
+
+    reset();
+    click(action("Dismiss"));
+    assert.deepEqual(posts(), [{
+      url: "/api/plugins/hackertube/profile/dismissals",
+      method: "POST",
+      body: { item_id: "k1" },
+    }]);
+
+    // Every path on every click stays on the plugin's own local routes.
+    for (const request of ui.requests) {
+      assert.match(request.url, /^\/api\/plugins\/hackertube\//);
+    }
   } finally {
     ui.restore();
   }
@@ -906,15 +1043,26 @@ test("Show more Enter focuses the fifth item heading", async () => {
   const fs = require("fs");
   const os = require("os");
   const path = require("path");
-  function load(name, fallback) {
-    try {
-      return require(name);
-    } catch (err) {
-      return require(fallback);
+  // Module roots are discovered, not hardcoded: HACKERTUBE_NODE_MODULES, then
+  // NODE_PATH, then this box's Hermes install. A missing React dependency here
+  // fails the run with a resolution error instead of silently passing.
+  const moduleRoots = [
+    ...String(process.env.HACKERTUBE_NODE_MODULES || "").split(path.delimiter),
+    ...String(process.env.NODE_PATH || "").split(path.delimiter),
+    path.join(os.homedir(), ".hermes", "hermes-agent", "node_modules"),
+  ].filter(Boolean);
+  function load(name) {
+    for (const root of moduleRoots) {
+      try {
+        return require(require.resolve(name, { paths: [root] }));
+      } catch (err) {
+        // try the next root
+      }
     }
+    return require(name);
   }
-  const esbuild = load("esbuild", "/tmp/hermes-src/hermes-v023/node_modules/esbuild");
-  const { chromium } = load("playwright", "/tmp/pw/node_modules/playwright");
+  const esbuild = load("esbuild");
+  const { chromium } = load("playwright");
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "ht-show-more-"));
   const harness = path.join(dir, "harness.js");
   const bundle = path.join(dir, "bundle.js");
@@ -1004,7 +1152,7 @@ test("Show more Enter focuses the fifth item heading", async () => {
     outfile: bundle,
     platform: "browser",
     absWorkingDir: dir,
-    nodePaths: ["/tmp/hermes-src/hermes-v023/node_modules"],
+    nodePaths: moduleRoots,
   });
   fs.writeFileSync(htmlPath, "<!doctype html><html><body><div id=\"root\"></div><script src=\"" + bundle + "\"></script></body></html>");
   const browser = await chromium.launch({ headless: true });

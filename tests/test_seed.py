@@ -34,7 +34,7 @@ def test_feed01_is_deterministic_and_local(monkeypatch):
     first = catalog.feed(["jane austen"], NOW)
     second = catalog.feed(["Jane Austen"], NOW)
     assert first == second
-    assert outbound.counters() == {"free": 0, "paid": 0}
+    assert outbound.counters() == {"free": 0, "paid": 0, "metered": 0}
     assert first.personalized is True
     assert len(first.why) == len(first.items)
     assert {item.format for item in first.items} == {"podcast_show", "book", "audiobook"}

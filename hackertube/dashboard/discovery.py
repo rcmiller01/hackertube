@@ -62,9 +62,11 @@ def _section_groups(catalog, ranked, excluded, now):
 def discovery_dict(catalog, profile, now):
     """JSON object for ``GET /feed``.
 
-    ``request_counts`` is the outbound boundary's ledger for this process.
-    Opening, paging, and reranking read only local state, so both counts
-    are zero. ``paid_calls`` is the paid count, kept for the page.
+    ``request_counts`` is the outbound boundary's ledger for this process,
+    split into ``free``, ``paid``, and ``metered``. Opening, paging, and
+    reranking read only local state, so every count is zero.
+    ``paid_calls`` is the number of requests that spent money or a metered
+    allowance, kept for the page.
     """
     interests = tuple(
         text for text in (profile.get("interests") or ()) if isinstance(text, str)
@@ -85,7 +87,7 @@ def discovery_dict(catalog, profile, now):
     return {
         "schema": SCHEMA,
         "personalized": personalized,
-        "paid_calls": outbound.counters()["paid"],
+        "paid_calls": outbound.charged(),
         "request_counts": outbound.counters(),
         "interests": list(interests),
         "signals": list(SIGNALS) if ranked else [],

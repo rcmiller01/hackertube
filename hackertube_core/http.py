@@ -3,7 +3,10 @@
 ``public_https_url`` is a preliminary string check. ``read_json`` is the
 fetch boundary: it resolves once, keeps only allowed addresses, and connects
 the socket to one of those addresses. Every request goes through
-``hackertube_core.outbound``, which counts it and labels it ``free``.
+``hackertube_core.outbound``, which counts it under the label the calling
+adapter declares. ``read_json`` has no default label: a caller that omits
+it is a ``TypeError``, so a new adapter cannot inherit ``free`` by
+forgetting to classify a metered or paid read.
 """
 
 import json
@@ -143,22 +146,38 @@ def _pinned_opener(host, pinned_ips):
     )
 
 
-def read_json(url, *, timeout=15, opener=None, headers=None, resolve=None):
+def read_json(url, *, classification, cost=None, timeout=15, opener=None, headers=None, resolve=None):
+    """Fetch one JSON body through the outbound boundary.
+
+    ``classification`` is the caller's declaration of what the read costs:
+    ``outbound.FREE`` for a public source read, ``outbound.METERED`` for a
+    read that spends a provider quota, or ``outbound.PAID`` for a billed
+    call. It is keyword-only and required. ``cost`` is the provider cost in
+    US dollars for a paid call and is never accepted for a free or metered
+    one.
+    """
+    if classification not in outbound.LABELS:
+        raise ValueError(f"unknown request label: {classification!r}")
     public_https_url(url)
     host = (urlsplit(url.strip()).hostname or "").rstrip(".").lower()
-    pinned = connection_targets(host, resolve=resolve)
     merged = {"User-Agent": USER_AGENT, "Accept": "application/json"}
     if headers:
         merged.update(headers)
     request = Request(url, headers=merged)
-    download = opener or _pinned_opener(host, pinned)
-    try:
-        response = outbound.dispatch(outbound.FREE, download.open, request, timeout=timeout)
-        with response as opened:
+
+    def perform():
+        # Resolution, pinned connection, response read and close form ONE
+        # counted attempt, including failures. Nothing resolves before dispatch.
+        pinned = connection_targets(host, resolve=resolve)
+        download = opener or _pinned_opener(host, pinned)
+        with download.open(request, timeout=timeout) as opened:
             status = getattr(opened, "status", 200)
             if status != 200:
                 raise HttpError(f"http {status}")
-            body = opened.read(MAX_BYTES + 1)
+            return opened.read(MAX_BYTES + 1)
+
+    try:
+        body = outbound.dispatch(classification, perform, cost=cost)
     except RecordError:
         raise
     except HTTPError as exc:
