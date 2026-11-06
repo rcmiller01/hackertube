@@ -1,0 +1,10 @@
+
+
+
+{
+ "resultCount":1,
+ "results": [
+{"wrapperType":"track", "kind":"podcast", "collectionId":1501905538, "trackId":1501905538, "artistName":"Real Python", "collectionName":"The Real Python Podcast", "trackName":"The Real Python Podcast", "collectionCensoredName":"The Real Python Podcast", "trackCensoredName":"The Real Python Podcast", "collectionViewUrl":"https://podcasts.apple.com/us/podcast/the-real-python-podcast/id1501905538?uo=4", "feedUrl":"https://realpython.com/podcasts/rpp/feed", "trackViewUrl":"https://podcasts.apple.com/us/podcast/the-real-python-podcast/id1501905538?uo=4", "artworkUrl30":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts123/v4/3b/e2/6e/3be26e50-eb10-aee7-fd82-63d351127c77/mza_3921033404436162939.png/30x30bb.jpg", "artworkUrl60":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts123/v4/3b/e2/6e/3be26e50-eb10-aee7-fd82-63d351127c77/mza_3921033404436162939.png/60x60bb.jpg", "artworkUrl100":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts123/v4/3b/e2/6e/3be26e50-eb10-aee7-fd82-63d351127c77/mza_3921033404436162939.png/100x100bb.jpg", "collectionPrice":0.00, "trackPrice":0.00, "collectionHdPrice":0, "releaseDate":"2026-11-06T12:00:00Z", "collectionExplicitness":"notExplicit", "trackExplicitness":"cleaned", "trackCount":319, "trackTimeMillis":4085, "country":"USA", "currency":"USD", "primaryGenreName":"Technology", "contentAdvisoryRating":"Clean", "artworkUrl600":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts123/v4/3b/e2/6e/3be26e50-eb10-aee7-fd82-63d351127c77/mza_3921033404436162939.png/600x600bb.jpg", "genreIds":["1318", "26"], "genres":["Technology", "Podcasts"]}]
+}
+
+

@@ -1,0 +1,28 @@
+{
+  "kind": "youtube#videoListResponse",
+  "etag": "doc-sourced-not-a-live-response",
+  "pageInfo": {"totalResults": 1, "resultsPerPage": 1},
+  "items": [
+    {
+      "kind": "youtube#video",
+      "etag": "doc-sourced-not-a-live-response",
+      "id": "docSampleId",
+      "snippet": {
+        "publishedAt": "2020-01-02T03:04:05Z",
+        "channelId": "docChannelId",
+        "title": "Doc sample title",
+        "description": "Documented description field",
+        "channelTitle": "Doc channel",
+        "tags": ["ignored"],
+        "categoryId": "28"
+      },
+      "contentDetails": {
+        "duration": "PT15M33S",
+        "definition": "hd"
+      },
+      "statistics": {"viewCount": "10"},
+      "status": {"privacyStatus": "public", "embeddable": true},
+      "player": {"embedHtml": "<iframe src=\"https://www.youtube.com/embed/docSampleId\"></iframe>"}
+    }
+  ]
+}

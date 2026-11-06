@@ -137,7 +137,25 @@ Official source pages are cited in docs/sources.md. No API keys were used, no li
 
 ## Implementation receipts
 
-No scenario has an implementation receipt yet. Before marking a task complete, record its task ID, scenario IDs, exact host/code revision, test or manual procedure, observed result, date, and log/artifact location. Use pass, fail, not-run, or blocked with evidence. Keep full logs in files.
+Lane B, November 6, 2026. Host integration is not part of this receipt. The package is `hackertube_core` on the source-catalog branch. Captures are in `tests/fixtures/captured/`. Obligations are in `docs/feasibility-sources.md`.
+
+| Task | Scenarios | Procedure | Result |
+|---|---|---|---|
+| 1.3 | Source probes for CAT01–CAT08 and HCKT18. PREF09–PREF12 stay unimplemented because Reddit is disabled. | Live GETs recorded in `docs/feasibility-sources.md`. Reddit was not requested. YouTube Data API without a key returned HTTP 403. Podcast Index without a key returned HTTP 401. | Pass for the probed sources. YouTube Data API live metadata is blocked on a key. Podcast Index is blocked on a key. Reddit is blocked on approval. |
+| 2.1 | CAT01–CAT11 | `python3 -m pytest tests -q` against captured responses, the doc-shaped YouTube sample, and hostile fixtures. | Pass. 33 tests. |
+| 2.4 | UI02, FEED01, CAT03, CAT04, CAT10, CAT11 | The same test run loads `hackertube_core/seed/catalog.json`. Sections hold 3 videos, 4 podcasts, 4 books, and 4 audiobooks. The Austen question matches books, audiobooks, and 2 podcasts. Videos are empty for that question. | Pass. |
+
+Command and observed output:
+
+```text
+python3 -m pytest tests -q
+.................................                                        [100%]
+33 passed in 0.09s
+```
+
+`python3 scripts/check_spec_coverage.py` still passes. It does not prove runtime behavior. The UI02 and FEED01 checks are data-level: section lists and a local feed. The Hermes page is not in this package, so there is no browser receipt.
+
+Hacker News evidence lines are `Recommended in Hacker News` on the three video cards only. Comment bodies are not in the seed. YouTube title and channel metadata expire 30 days after the oEmbed capture; at that time the video section is empty and the book and audiobook sections remain.
 
 ## Release measurements
 

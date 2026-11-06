@@ -1,0 +1,12 @@
+
+
+
+{
+ "resultCount":1,
+ "results": [
+{"previewUrl":"https://dts.podtrac.com/redirect.mp3/files.realpython.com/podcasts/RPP_E316_02_Seth_Larson.0322945fcfb1.mp3", "episodeFileExtension":"mp3", "episodeContentType":"audio", "episodeUrl":"https://dts.podtrac.com/redirect.mp3/files.realpython.com/podcasts/RPP_E316_02_Seth_Larson.0322945fcfb1.mp3", "artworkUrl160":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/4d/bc/15/4dbc1593-a0b5-77a5-3ae0-753e3607b271/mza_2345063929434684455.jpg/160x160bb.jpg", "collectionId":1501905538, "collectionName":"The Real Python Podcast", "artistIds":[], "genres":[{"name":"Technology", "id":"1318"}], "episodeGuid":"0dd3d0d5-7e9a-44a2-8d98-7ea23a6b2961", 
+"shortDescription":"How is the Python ecosystem adapting to the modern landscape of software security and supply chain defense? This week on the show, we sit down with Seth Larson, the Python Software Foundation's Security Developer in Residence.", "closedCaptioning":"none", "releaseDate":"2026-10-23T12:00:00Z", "trackId":1000797776212, "trackName":"The Future of Python Security: Trends, Challenges, and Solutions", "feedUrl":"https://realpython.com/podcasts/rpp/feed", "kind":"podcast-episode", "wrapperType":"podcastEpisode", 
+"description":"How is the Python ecosystem adapting to the modern landscape of software security and supply chain defense? This week on the show, we sit down with Seth Larson, the Python Software Foundation's Security Developer in Residence.", "country":"USA", "artworkUrl600":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/4d/bc/15/4dbc1593-a0b5-77a5-3ae0-753e3607b271/mza_2345063929434684455.jpg/600x600bb.jpg", "collectionViewUrl":"https://itunes.apple.com/us/podcast/the-real-python-podcast/id1501905538?mt=2&uo=4", "trackViewUrl":"https://podcasts.apple.com/us/podcast/the-future-of-python-security-trends/id1501905538?i=1000797776212&uo=4", "artworkUrl60":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/4d/bc/15/4dbc1593-a0b5-77a5-3ae0-753e3607b271/mza_2345063929434684455.jpg/60x60bb.jpg", "trackTimeMillis":4257000, "contentAdvisoryRating":"Clean"}]
+}
+
+

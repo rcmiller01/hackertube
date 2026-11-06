@@ -1,0 +1,206 @@
+{
+  "requests": [
+    {
+      "file": "openlibrary_austen_search.json",
+      "url": "https://openlibrary.org/search.json?q=jane+austen&limit=15&fields=key%2Ctitle%2Cauthor_name%2Ccover_edition_key%2Cfirst_publish_year%2Cid_project_gutenberg",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:22:21 GMT",
+      "bytes": 2718,
+      "content_type": "application/json"
+    },
+    {
+      "file": "librivox_austen_search.json",
+      "url": "https://librivox.org/api/feed/audiobooks?format=json&author=Austen&limit=15&fields=%7Bid%2Ctitle%2Curl_librivox%2Curl_text_source%2Clanguage%2Ctotaltimesecs%2Cauthors%7D",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:22:21 GMT",
+      "bytes": 4766,
+      "content_type": "application/json"
+    },
+    {
+      "file": "librivox_253_cover.json",
+      "url": "https://librivox.org/api/feed/audiobooks?format=json&id=253&coverart=1&fields={id,title,coverart_jpg,coverart_thumbnail}",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:22:21 GMT",
+      "bytes": 276,
+      "content_type": "application/json"
+    },
+    {
+      "file": "librivox_86_cover.json",
+      "url": "https://librivox.org/api/feed/audiobooks?format=json&id=86&coverart=1&fields={id,title,coverart_jpg,coverart_thumbnail}",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:22:21 GMT",
+      "bytes": 228,
+      "content_type": "application/json"
+    },
+    {
+      "file": "librivox_620_cover.json",
+      "url": "https://librivox.org/api/feed/audiobooks?format=json&id=620&coverart=1&fields={id,title,coverart_jpg,coverart_thumbnail}",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:22:21 GMT",
+      "bytes": 272,
+      "content_type": "application/json"
+    },
+    {
+      "file": "librivox_219_cover.json",
+      "url": "https://librivox.org/api/feed/audiobooks?format=json&id=219&coverart=1&fields={id,title,coverart_jpg,coverart_thumbnail}",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:22:21 GMT",
+      "bytes": 269,
+      "content_type": "application/json"
+    },
+    {
+      "file": "itunes_austen_stories.json",
+      "url": "https://itunes.apple.com/lookup?id=1840669662",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:22:22 GMT",
+      "bytes": 1643,
+      "content_type": "text/javascript; charset=utf-8"
+    },
+    {
+      "file": "itunes_austen_year.json",
+      "url": "https://itunes.apple.com/lookup?id=1788168257",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:22:22 GMT",
+      "bytes": 1612,
+      "content_type": "text/javascript; charset=utf-8"
+    },
+    {
+      "file": "itunes_real_python_show.json",
+      "url": "https://itunes.apple.com/lookup?id=1501905538",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:22:22 GMT",
+      "bytes": 1626,
+      "content_type": "text/javascript; charset=utf-8"
+    },
+    {
+      "file": "hn_comment_44314766.json",
+      "url": "https://hn.algolia.com/api/v1/search?query=loved+the+analogies&tags=comment%2Cstory_44314423&hitsPerPage=1",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:22:22 GMT",
+      "bytes": 2028,
+      "content_type": "application/json"
+    },
+    {
+      "file": "hn_comment_19628894.json",
+      "url": "https://hn.algolia.com/api/v1/search?query=highly+recommend&tags=comment%2Cstory_19624226&hitsPerPage=1",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:22:22 GMT",
+      "bytes": 1982,
+      "content_type": "application/json"
+    },
+    {
+      "file": "hn_comment_26188584.json",
+      "url": "https://hn.algolia.com/api/v1/search?query=worth+watching&tags=comment%2Cstory_26184190&hitsPerPage=1",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:22:23 GMT",
+      "bytes": 1963,
+      "content_type": "application/json"
+    },
+    {
+      "file": "oembed_LCEmiRjPEtQ.json",
+      "url": "https://www.youtube.com/oembed?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DLCEmiRjPEtQ&format=json",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:22:23 GMT",
+      "bytes": 822,
+      "content_type": "application/json"
+    },
+    {
+      "file": "oembed_Dr20f19czeE.json",
+      "url": "https://www.youtube.com/oembed?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DDr20f19czeE&format=json",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:22:23 GMT",
+      "bytes": 884,
+      "content_type": "application/json"
+    },
+    {
+      "file": "oembed_gm0b_ijaYMQ.json",
+      "url": "https://www.youtube.com/oembed?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3Dgm0b_ijaYMQ&format=json",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:22:23 GMT",
+      "bytes": 817,
+      "content_type": "application/json"
+    },
+    {
+      "file": "itunes_podcast_lookup.json",
+      "url": "https://itunes.apple.com/lookup?id=1691189730",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:24:15 GMT",
+      "bytes": 1630,
+      "content_type": "text/javascript; charset=utf-8"
+    },
+    {
+      "file": "itunes_episode_search.json",
+      "url": "https://itunes.apple.com/search?term=The+Future+of+Python+Security&media=podcast&entity=podcastEpisode&limit=1",
+      "status": 200,
+      "date": "Fri, 06 Nov 2026 12:24:15 GMT",
+      "bytes": 2112,
+      "content_type": "text/javascript; charset=utf-8"
+    }
+  ],
+  "images": [
+    {
+      "id": "lv253",
+      "url": "https://archive.org/download/pride_and_prejudice_librivox/Pride_Prejudice_1104.jpg",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "date": "Fri, 06 Nov 2026 12:22:23 GMT",
+      "bytes": 161504
+    },
+    {
+      "id": "lv86",
+      "url": "https://archive.org/download/emma_solo_librivox/Emma_Solo_1105.jpg",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "date": "Fri, 06 Nov 2026 12:22:24 GMT",
+      "bytes": 120168
+    },
+    {
+      "id": "lv620",
+      "url": "https://www.archive.org/download/LibrivoxCdCoverArt9/Sense_Sensibility_1107.jpg",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "date": "Fri, 06 Nov 2026 12:22:25 GMT",
+      "bytes": 103063
+    },
+    {
+      "id": "lv219",
+      "url": "https://archive.org/download/northanger_abbey_librivox/Northanger_Abbey_1104.jpg",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "date": "Fri, 06 Nov 2026 12:22:26 GMT",
+      "bytes": 153884
+    },
+    {
+      "id": "OL47044678M",
+      "url": "https://covers.openlibrary.org/b/olid/OL47044678M-M.jpg",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "date": "Fri, 06 Nov 2026 12:22:27 GMT",
+      "bytes": 8814
+    },
+    {
+      "id": "OL13573615M",
+      "url": "https://covers.openlibrary.org/b/olid/OL13573615M-M.jpg",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "date": "Fri, 06 Nov 2026 12:22:27 GMT",
+      "bytes": 31627
+    },
+    {
+      "id": "OL14041582M",
+      "url": "https://covers.openlibrary.org/b/olid/OL14041582M-M.jpg",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "date": "Fri, 06 Nov 2026 12:22:35 GMT",
+      "bytes": 23776
+    },
+    {
+      "id": "OL36684152M",
+      "url": "https://covers.openlibrary.org/b/olid/OL36684152M-M.jpg",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "date": "Fri, 06 Nov 2026 12:22:36 GMT",
+      "bytes": 17173
+    }
+  ]
+}

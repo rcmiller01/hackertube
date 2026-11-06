@@ -1,0 +1,10 @@
+
+
+
+{
+ "resultCount":1,
+ "results": [
+{"wrapperType":"track", "kind":"podcast", "collectionId":1788168257, "trackId":1788168257, "artistName":"Jane Austen's House", "collectionName":"A Jane Austen Year", "trackName":"A Jane Austen Year", "collectionCensoredName":"A Jane Austen Year", "trackCensoredName":"A Jane Austen Year", "collectionViewUrl":"https://podcasts.apple.com/us/podcast/a-jane-austen-year/id1788168257?uo=4", "feedUrl":"https://rss.buzzsprout.com/2434395.rss", "trackViewUrl":"https://podcasts.apple.com/us/podcast/a-jane-austen-year/id1788168257?uo=4", "artworkUrl30":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/16/45/66/16456651-6ab1-e03f-dd89-8feb5bc38543/mza_16025838403736644112.jpg/30x30bb.jpg", "artworkUrl60":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/16/45/66/16456651-6ab1-e03f-dd89-8feb5bc38543/mza_16025838403736644112.jpg/60x60bb.jpg", "artworkUrl100":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/16/45/66/16456651-6ab1-e03f-dd89-8feb5bc38543/mza_16025838403736644112.jpg/100x100bb.jpg", "collectionPrice":0.00, "trackPrice":0.00, "collectionHdPrice":0, "releaseDate":"2026-07-10T23:00:00Z", "collectionExplicitness":"notExplicit", "trackExplicitness":"cleaned", "trackCount":15, "trackTimeMillis":1422, "country":"USA", "currency":"USD", "primaryGenreName":"Arts", "contentAdvisoryRating":"Clean", "artworkUrl600":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/16/45/66/16456651-6ab1-e03f-dd89-8feb5bc38543/mza_16025838403736644112.jpg/600x600bb.jpg", "genreIds":["1301", "26", "1483"], "genres":["Arts", "Podcasts", "Fiction"]}]
+}
+
+
