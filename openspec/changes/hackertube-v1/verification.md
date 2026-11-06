@@ -276,6 +276,18 @@ Not done in this task, and not claimed by the checkbox:
 | Result | Pass at code commit `4d1593e2c6a0d7f4fc7f8ff549cfecdf80e88649`. The profile file is `$HERMES_HOME/plugin-data/hackertube/profile.db`, opened with `plugin_db`. It was absent before the walk and present after it. One save record survived a page reload and a dashboard restart on that same home. Opening the saved source stored one open event and left completion unset. The gardening interest was still listed after that restart, and `Catalog.feed` accepts the stored interest text. The page still lists the seed in capture order. |
 | Artifacts | [docs/receipts/library/](../../../docs/receipts/library/) |
 
+### Task 3.2 — prepared-feed ranking
+
+| Field | Record |
+|---|---|
+| Date | 2026-11-06 |
+| Plugin revision | Code commit `5c32864c10fd8e65c9964728363ef2de261fa8d6`. Receipt commit `d7a5b457a3c7a88cdf4a2d05ef17b26980b764f4` changes `docs/receipts/feed/` only. `git diff --stat 5c32864c10fd8e65c9964728363ef2de261fa8d6 d7a5b457a3c7a88cdf4a2d05ef17b26980b764f4 -- hackertube hackertube_core tests` is empty. |
+| Host | Hermes Agent v0.23.0 (2026.9.24), commit `2bd378ed1b8d6bf2192cb26e0a55ff3091e6bd19`, Python 3.14.10, disposable profile `HERMES_HOME=/tmp/ht-feed-profile` |
+| Scenarios | FEED01, FEED02, FEED03, FEED04, FEED05, FEED06, and FEED07. FEED08 was not run. |
+| Procedure | `hermes plugins validate hackertube --install-deps`, then `NODE_PATH=/tmp/pw/node_modules node docs/receipts/feed/capture.js` against `http://127.0.0.1:9119/hackertube`. Stop the dashboard, start it again on the same profile, then `node docs/receipts/feed/capture.js --after-restart`. |
+| Result | Pass at code commit `5c32864c10fd8e65c9964728363ef2de261fa8d6`. With no interests the ranked feed is empty and the sections are Videos 0, Podcasts 4, Books 4, Audiobooks 4. Storing the demo question ranks Videos 0, Podcasts 2, Books 4, Audiobooks 4 and drops The Python Show and its episode. Gardening matches nothing and the page says so. A dismissed show stays out of discovery after reload and restart, and the save stays in the library. `paid_calls` stayed 0. Axe reported 0 violations. |
+| Artifacts | [docs/receipts/feed/](../../../docs/receipts/feed/) |
+
 ## Release measurements
 
 All values are unmeasured. Freeze the post-demo evaluation workload, rubric, source snapshots, provider configuration, and request limits before collecting results. Use PRD section 9 for proposed targets and report adjustments explicitly. The demo video length is measured under task 4.3, not inferred from the six-step outline.
