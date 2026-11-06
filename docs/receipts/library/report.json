@@ -1,5 +1,5 @@
 {
-  "pluginCommit": "050c058d7fc62ae15908d6a1824d5081f089cd06",
+  "pluginCommit": "4d1593e2c6a0d7f4fc7f8ff549cfecdf80e88649",
   "hermesVersion": "Hermes Agent v0.23.0 (2026.9.24) · stable · local 2bd378ed1b8d\nInstall directory: /tmp/hermes-src/hermes-v023\nInstall method: git\nPython: 3.14.10\nOpenAI SDK: 2.54.0\nUp to date",
   "captureCommand": "NODE_PATH=/tmp/pw/node_modules node docs/receipts/library/capture.js",
   "reloadedHeading": "HackerTube",
@@ -46,9 +46,7 @@
     "columns": "327.5px"
   },
   "columns768": "683px",
-  "notes": [
-    "dismissed host shared-metrics banner with the keyboard"
-  ],
+  "notes": [],
   "axe": [
     "search-open",
     "about",
@@ -57,7 +55,7 @@
     "width-390"
   ],
   "afterRestart": {
-    "pluginCommit": "050c058d7fc62ae15908d6a1824d5081f089cd06",
+    "pluginCommit": "4d1593e2c6a0d7f4fc7f8ff549cfecdf80e88649",
     "libraryCount": "Library (1 saved)",
     "interest": "gardening",
     "opened": true,

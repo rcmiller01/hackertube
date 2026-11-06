@@ -1,5 +1,5 @@
 command NODE_PATH=/tmp/pw/node_modules node docs/receipts/library/capture.js
-pluginCommit 050c058d7fc62ae15908d6a1824d5081f089cd06
+pluginCommit 4d1593e2c6a0d7f4fc7f8ff549cfecdf80e88649
 hermesVersion Hermes Agent v0.23.0 (2026.9.24) · stable · local 2bd378ed1b8d
 Install directory: /tmp/hermes-src/hermes-v023
 Install method: git
@@ -99,7 +99,7 @@ wrote report.json
 restart hermes dashboard --stop then hermes dashboard --host 127.0.0.1 --port 9119 --no-open
 HERMES_HOME unchanged so plugin-data/hackertube/profile.db stays
 command NODE_PATH=/tmp/pw/node_modules node docs/receipts/library/capture.js --after-restart
-pluginCommit 050c058d7fc62ae15908d6a1824d5081f089cd06
+pluginCommit 4d1593e2c6a0d7f4fc7f8ff549cfecdf80e88649
 hermesVersion Hermes Agent v0.23.0 (2026.9.24) · stable · local 2bd378ed1b8d
 Install directory: /tmp/hermes-src/hermes-v023
 Install method: git
