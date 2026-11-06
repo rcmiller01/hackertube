@@ -1,11 +1,17 @@
 """LibriVox public-domain recordings. Section counts are not turned into a duration."""
 
 import re
+from urllib.parse import urlencode
 
 from hackertube_core.adapters.base import ParseResult
 from hackertube_core.errors import RecordError
+from hackertube_core.http import read_json
 from hackertube_core.records import Evidence, MediaItem, blank_art
 from hackertube_core.text import public_https_url
+
+SEARCH_API = "https://librivox.org/api/feed/audiobooks"
+#: Only the fields the parser maps. The captured request used the same set.
+FIELDS = "{id,title,url_librivox,url_text_source,language,totaltimesecs,authors}"
 
 ENABLED = True
 BLOCKED_REASON = None
@@ -102,3 +108,13 @@ def parse_books(payload, retrieved_at):
         )
     ignored -= {"id", "title", "url_librivox", "url_text_source", "authors", "totaltimesecs"}
     return ParseResult(tuple(items), tuple(evidence), tuple(sorted(ignored)), tuple(rejected))
+
+
+def fetch_search(author, *, limit=20, opener=None, resolve=None):
+    """One bounded author search. ``read_json`` counts it free."""
+    if not isinstance(author, str) or not author.strip():
+        raise RecordError("query")
+    url = SEARCH_API + "?" + urlencode(
+        {"author": author.strip(), "format": "json", "limit": limit, "fields": FIELDS}
+    )
+    return read_json(url, opener=opener, resolve=resolve)

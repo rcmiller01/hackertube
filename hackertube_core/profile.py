@@ -12,13 +12,16 @@ foreign keys. Those belong to the host helper.
 
 from __future__ import annotations
 
+import re
 from datetime import datetime, timezone
 
 from hackertube_core.errors import ProfileError, RecordError
 from hackertube_core.records import Interest, UserItemState
+from hackertube_core.text import canon_time
 
 SCHEMA = "hackertube.profile/1"
 DB_NAME = "profile.db"
+_SOURCE_ID = re.compile(r"^[a-z0-9_]{1,40}$")
 
 
 def utc_now():
@@ -27,6 +30,19 @@ def utc_now():
 
 def _fail(code):
     raise ProfileError(code)
+
+
+def _source_id(value):
+    if not isinstance(value, str) or not _SOURCE_ID.fullmatch(value):
+        _fail("source_id")
+    return value
+
+
+def _stamp(value):
+    try:
+        return canon_time(value)
+    except RecordError:
+        _fail("time")
 
 
 def open_profile_db():
@@ -84,6 +100,17 @@ class ProfileStore:
                 PRIMARY KEY (item_id, event_no),
                 FOREIGN KEY (item_id) REFERENCES item_state(item_id)
             );
+            CREATE TABLE IF NOT EXISTS source_setting (
+                source_id TEXT PRIMARY KEY,
+                enabled INTEGER NOT NULL CHECK (enabled IN (0, 1)),
+                updated_at TEXT NOT NULL
+            );
+            CREATE TABLE IF NOT EXISTS source_status (
+                source_id TEXT PRIMARY KEY,
+                last_attempt_at TEXT,
+                last_success_at TEXT,
+                last_error TEXT
+            );
             """
         )
         conn.execute(
@@ -133,6 +160,53 @@ class ProfileStore:
         except RecordError:
             _fail("interest")
         return self._write(lambda conn: self._add_interest(conn, cleaned))
+
+    def source_settings(self):
+        """Stored source choices. A source with no row uses its default."""
+        conn = self._connect()
+        try:
+            return {
+                row["source_id"]: bool(row["enabled"])
+                for row in conn.execute("SELECT source_id, enabled FROM source_setting")
+            }
+        finally:
+            conn.close()
+
+    def set_source_enabled(self, source_id, enabled, updated_at=None):
+        """Persist one source choice. The caller checks the source is supported."""
+        _source_id(source_id)
+        if type(enabled) is not bool:
+            _fail("enabled")
+        stamp = _stamp(self.clock() if updated_at is None else updated_at)
+        return self._write(lambda conn: self._set_source_enabled(conn, source_id, enabled, stamp))
+
+    def record_source_result(self, source_id, *, ok, at=None, error=None):
+        """Record one ingestion attempt. A success clears the current error."""
+        _source_id(source_id)
+        if type(ok) is not bool:
+            _fail("ok")
+        if ok and error is not None:
+            _fail("error")
+        if not ok and not (isinstance(error, str) and error.strip()):
+            _fail("error")
+        stamp = _stamp(self.clock() if at is None else at)
+        return self._write(lambda conn: self._record_source_result(conn, source_id, ok, stamp, error))
+
+    def source_statuses(self):
+        conn = self._connect()
+        try:
+            return {
+                row["source_id"]: {
+                    "last_attempt_at": row["last_attempt_at"],
+                    "last_success_at": row["last_success_at"],
+                    "last_error": row["last_error"],
+                }
+                for row in conn.execute(
+                    "SELECT source_id, last_attempt_at, last_success_at, last_error FROM source_status"
+                )
+            }
+        finally:
+            conn.close()
 
     def _write(self, mutate):
         conn = self._connect()
@@ -200,6 +274,25 @@ class ProfileStore:
             return
         position = conn.execute("SELECT COALESCE(MAX(position), 0) + 1 FROM interests").fetchone()[0]
         conn.execute("INSERT INTO interests(text, position) VALUES (?, ?)", (cleaned, position))
+
+    def _set_source_enabled(self, conn, source_id, enabled, stamp):
+        conn.execute(
+            "INSERT INTO source_setting(source_id, enabled, updated_at) VALUES (?, ?, ?) "
+            "ON CONFLICT(source_id) DO UPDATE SET "
+            "enabled = excluded.enabled, updated_at = excluded.updated_at",
+            (source_id, 1 if enabled else 0, stamp),
+        )
+
+    def _record_source_result(self, conn, source_id, ok, stamp, error):
+        conn.execute(
+            "INSERT INTO source_status(source_id, last_attempt_at, last_success_at, last_error) "
+            "VALUES (?, ?, ?, ?) "
+            "ON CONFLICT(source_id) DO UPDATE SET "
+            "last_attempt_at = excluded.last_attempt_at, "
+            "last_success_at = COALESCE(excluded.last_success_at, source_status.last_success_at), "
+            "last_error = excluded.last_error",
+            (source_id, stamp, stamp if ok else None, None if ok else error),
+        )
 
     def _interest_rows(self):
         conn = self._connect()
