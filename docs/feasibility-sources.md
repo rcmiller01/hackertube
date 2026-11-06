@@ -35,9 +35,7 @@ The [quota calculator](https://developers.google.com/youtube/data/determine_quot
 - Stored data related to a user must be deletable and removed within 7 calendar days of a user request. The demo path does not request authorized user data.
 - On loss of access, API data must be deleted. Revocation deletions must happen within 30 days of the user revoking consent.
 
-[API Services Terms](https://developers.google.com/youtube/terms/api-services-terms-of-service) section 10.3 requires attribution that follows the YouTube Branding Guidelines when YouTube brand features are used. Seeded video cards link to `https://www.youtube.com/watch?v={id}` and name YouTube. They do not store the embed iframe.
-
-Those oEmbed evidence rows carry `refresh_after`. When that time is reached, the video card drops even if a Hacker News link is still present, because a card needs unexpired catalog evidence.
+[API Services Terms](https://developers.google.com/youtube/terms/api-services-terms-of-service) section 10.3 requires attribution that follows the YouTube Branding Guidelines when YouTube brand features are used. That rule is not applied to a seeded video card. The seed has no YouTube cards and no oEmbed evidence rows. If a storage grant is cited later, a card would link to the watch page, name YouTube, and expire stored Data API metadata after 30 days.
 
 ## Obligations
 
@@ -59,7 +57,7 @@ Missing art is allowed. A URL is stored only when the source terms allow a hotli
 |---|---|---|---|
 | Four Open Library books | Yes. Courtesy link is the work page. | No | HTTP 200, `image/jpeg`, 8–32 KB |
 | Four LibriVox recordings | No. An API URL and an HTTP 200 are not a display license. The About page covers the recordings, not the cover images. | No | Not displayed |
-| Three YouTube videos | No. Thumbnail URLs from oEmbed were not copied. | No | Not displayed |
+| Three YouTube ids | No. No thumbnail URL is stored. | No | Not displayed |
 | Four Apple podcasts | No. Artwork needs an approved store badge beside it. This package has no badge. | No | Not displayed |
 
 ## Frozen seed

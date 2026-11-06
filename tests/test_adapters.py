@@ -86,7 +86,8 @@ def test_oembed_fetch_is_disabled():
 
 
 def test_oembed_parser_keeps_thirty_day_expiry_for_later():
-    parsed = youtube.parse_oembed(_load("oembed_LCEmiRjPEtQ.json"), "LCEmiRjPEtQ", NOW)
+    payload = json.loads((ROOT / "tests" / "fixtures" / "synthetic" / "youtube_oembed.json").read_text())
+    parsed = youtube.parse_oembed(payload, "syntheticId", NOW)
     item = parsed.items[0]
     assert item.duration_seconds is None
     assert item.art_url is None

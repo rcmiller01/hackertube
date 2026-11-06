@@ -65,7 +65,8 @@ def test_art_policy_and_no_estimated_duration():
     assert "<iframe" not in text
     assert "loved the analogies" not in text
     assert "artworkUrl" not in text
-    assert "Software Is Changing" not in text
+    assert "i.ytimg.com" not in text
+    assert "thumbnail_url" not in text
     assert all(item.art_url is None for item in catalog.items if item.format == "audiobook")
 
 
