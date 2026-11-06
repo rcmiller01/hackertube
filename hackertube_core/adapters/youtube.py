@@ -149,7 +149,7 @@ def parse_oembed(payload, video_id, retrieved_at):
     return ParseResult((item,), (_evidence(video_id, retrieved_at),), ignored, ())
 
 
-def fetch_data_api(video_id, api_key, *, opener=None):
+def fetch_data_api(video_id, api_key, *, opener=None, resolve=None):
     """Call videos.list only when a key is passed in. The key is not read from disk."""
     if not isinstance(api_key, str) or not api_key.strip():
         return {"called": False, "blocked_reason": "missing_api_key"}
@@ -158,5 +158,5 @@ def fetch_data_api(video_id, api_key, *, opener=None):
     url = DATA_API + "?" + urlencode({"part": "snippet,contentDetails,status", "id": video_id})
     if api_key in url:
         raise RecordError("credential")
-    payload = read_json(url, opener=opener, headers={"X-Goog-Api-Key": api_key})
+    payload = read_json(url, opener=opener, headers={"X-Goog-Api-Key": api_key}, resolve=resolve)
     return {"called": True, "blocked_reason": None, "payload": payload}

@@ -5,7 +5,7 @@ import socket
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from html import unescape
-from ipaddress import ip_address
+from ipaddress import ip_address, ip_network
 from urllib.parse import parse_qs, urlsplit
 
 from hackertube_core.errors import RecordError
@@ -88,6 +88,8 @@ def _numeric_ip_form(host):
 
 def host_address(host):
     """Return a parsed IP, or None for a hostname. Non-canonical numeric forms are refused."""
+    if "%" in host:
+        raise RecordError("destination")
     if ":" in host:
         try:
             return ip_address(host)
@@ -101,14 +103,34 @@ def host_address(host):
     return None
 
 
-def address_is_global(address):
+_V4_COMPATIBLE = ip_network("::/96")
+_NAT64 = ip_network("64:ff9b::/96")
+
+
+def address_is_allowed(address):
+    """Shared allowlist for literals and DNS answers. ``is_global`` alone is not enough."""
     mapped = getattr(address, "ipv4_mapped", None)
     if mapped is not None:
-        return bool(mapped.is_global)
+        return address_is_allowed(mapped)
+    if address.version == 6 and address in _NAT64:
+        embedded = ip_address(int(address) & 0xFFFFFFFF)
+        return address_is_allowed(embedded)
+    if address.version == 6 and address in _V4_COMPATIBLE:
+        return False
+    if (
+        address.is_multicast
+        or address.is_unspecified
+        or address.is_loopback
+        or address.is_link_local
+        or getattr(address, "is_site_local", False)
+        or getattr(address, "is_reserved", False)
+    ):
+        return False
     return bool(address.is_global)
 
 
 def public_https_url(value):
+    """Preliminary screen for a URL string. ``read_json`` is the fetch boundary."""
     if not isinstance(value, str) or not value.strip() or len(value) > 2000:
         raise RecordError("destination")
     parts = urlsplit(value.strip())
@@ -124,7 +146,7 @@ def public_https_url(value):
     ):
         raise RecordError("destination")
     address = host_address(host)
-    if address is not None and not address_is_global(address):
+    if address is not None and not address_is_allowed(address):
         raise RecordError("destination")
     return value.strip()
 
