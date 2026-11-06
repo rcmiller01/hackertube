@@ -644,6 +644,10 @@
       var sectionTickState = useState(0);
       var sectionTick = sectionTickState[0];
       var setSectionTick = sectionTickState[1];
+      var expandLiveState = useState("");
+      var expandLive = expandLiveState[0];
+      var setExpandLive = expandLiveState[1];
+      var pendingExpand = useRef("");
       var profileRef = useRef(emptyProfile());
       var profileEpoch = useRef(0);
       var seenView = useRef(null);
@@ -748,6 +752,15 @@
         if (node.scrollIntoView) node.scrollIntoView();
         pendingSection.current = "";
       }, [view, catalog, discovery, sectionTick]);
+
+      useEffect(function () {
+        var key = pendingExpand.current;
+        if (!key || typeof document === "undefined") return;
+        var node = document.getElementById("ht-expanded-" + key);
+        if (!node || !node.focus) return;
+        node.focus();
+        pendingExpand.current = "";
+      }, [expanded]);
 
       useEffect(function () {
         profileRef.current = profile;
@@ -1014,20 +1027,25 @@
         return h("div", { className: "ht-actions" }, openControl, saveButton, dismissButton);
       }
 
-      function renderCard(item, byId, evidence, sources, editions, inLibrary) {
+      function renderCard(item, byId, evidence, sources, editions, inLibrary, focusId) {
         var note = editionNote(item, editions, byId);
         var length = lengthLine(item);
         var format = FORMAT_LABEL[item.format] || item.format;
         var titleProps = { className: "ht-title" };
+        if (focusId) {
+          titleProps.id = focusId;
+          titleProps.tabIndex = -1;
+        }
+        var title = focusId || !CardTitle
+          ? h("h3", titleProps, item.title)
+          : h(CardTitle, titleProps, item.title);
         return h("article", { key: item.item_id },
           h(Card, { className: "ht-card" },
             h(CardContent, null,
               Badge
                 ? h(Badge, { tone: "secondary", className: "ht-format" }, format)
                 : h("p", { className: "ht-format" }, format),
-              CardTitle
-                ? h(CardTitle, titleProps, item.title)
-                : h("h3", titleProps, item.title),
+              title,
               h("p", { className: "ht-creator" }, creatorLine(item, byId)),
               renderArt(item),
               h("p", { className: "ht-destination" }, destinationLabel(item)),
@@ -1054,12 +1072,14 @@
         setSearchOpen(true);
       }
 
-      function showMore(key) {
+      function showMore(key, total) {
         return h(Button, {
           type: "button",
           outlined: true,
           className: "ht-action",
           onClick: function () {
+            pendingExpand.current = key;
+            setExpandLive(total + " of " + total);
             setExpanded(function (prev) {
               var next = Object.assign({}, prev);
               next[key] = true;
@@ -1077,11 +1097,12 @@
             h("span", { className: "ht-count" }, " " + rows.length)
           ),
           rows.length
-            ? h("div", { className: "ht-grid" }, shown.map(function (item) {
-                return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, inLibrary);
+            ? h("div", { className: "ht-grid" }, shown.map(function (item, index) {
+                var focusId = expanded[section.id] && index === INITIAL_CARDS ? "ht-expanded-" + section.id : "";
+                return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, inLibrary, focusId);
               }))
             : h("p", null, empty),
-          rows.length > shown.length ? showMore(section.id) : null
+          rows.length > shown.length ? showMore(section.id, rows.length) : null
         );
       }
 
@@ -1123,10 +1144,11 @@
                       }))
                     : null,
                   h("p", { className: "ht-note" }, RANK_NOTE),
-                  h("div", { className: "ht-grid" }, shown.map(function (item) {
-                    return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, false);
+                  h("div", { className: "ht-grid" }, shown.map(function (item, index) {
+                    var focusId = expanded.ranked && index === INITIAL_CARDS ? "ht-expanded-ranked" : "";
+                    return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, false, focusId);
                   })),
-                  rows.length > shown.length ? showMore("ranked") : null
+                  rows.length > shown.length ? showMore("ranked", rows.length) : null
                 )
               : h("div", null,
                   h("p", { id: "hackertube-coverage" }, FEED06_NOTE),
@@ -1339,6 +1361,11 @@
       }
 
       return h("div", { className: "hackertube" },
+        h("div", {
+          id: "hackertube-expand-live",
+          className: "ht-note",
+          "aria-live": "polite",
+        }, expandLive),
         view === "library" ? renderLibrary() : view === "about" ? renderAbout() : renderDiscover()
       );
     }

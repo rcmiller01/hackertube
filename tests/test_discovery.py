@@ -164,6 +164,44 @@ def test_feed05_dismissed_and_completed_stay_excluded_after_refresh():
     assert PRIDE in opened["sections"]["books"]
 
 
+def _assert_sparse(view):
+    assert view["personalized"] is True
+    assert view["paid_calls"] == 0
+    assert view["feed"] == []
+    assert all(ids == [] for ids in view["sections"].values())
+
+
+def test_feed06_ai_interest_is_a_personalized_profile_with_no_unrelated_fill():
+    catalog = load_seed()
+    view = _discovery().discovery_dict(catalog, {"interests": ["AI"], "items": []}, NOW)
+    _assert_sparse(view)
+    core = catalog.feed(("AI",), NOW)
+    assert core.personalized is False and core.items == ()
+
+
+def test_feed06_cpp_interest_is_a_personalized_profile_with_no_unrelated_fill():
+    catalog = load_seed()
+    view = _discovery().discovery_dict(catalog, {"interests": ["C++"], "items": []}, NOW)
+    _assert_sparse(view)
+    core = catalog.feed(("C++",), NOW)
+    assert core.personalized is False and core.items == ()
+
+
+def test_short_interest_mixed_with_a_match_still_ranks_the_match():
+    catalog = load_seed()
+    discovery = _discovery()
+    mixed = discovery.discovery_dict(
+        catalog, {"interests": ["AI", "C++", "jane austen"], "items": []}, NOW
+    )
+    alone = discovery.discovery_dict(catalog, {"interests": ["jane austen"], "items": []}, NOW)
+    assert mixed["personalized"] is True
+    assert mixed["feed"] == alone["feed"]
+    assert mixed["sections"] == alone["sections"]
+    titles = _titles(catalog, mixed["feed"])
+    assert "Pride and Prejudice" in titles
+    assert "The Python Show" not in titles
+
+
 def test_feed06_gardening_interest_has_no_catalog_match():
     catalog = load_seed()
     view = _discovery().discovery_dict(catalog, {"interests": ["gardening"], "items": []}, NOW)

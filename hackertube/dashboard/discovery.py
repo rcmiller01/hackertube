@@ -7,8 +7,8 @@ or a search provider.
 
 ``Catalog.feed`` matches interest words of at least four characters,
 excluding a fixed stopword list, against the title and contributor names.
-Matching items stay in capture order. A stored interest that produces no
-such word is not a personalized feed. Dismissed and completed profile
+Matching items stay in capture order. A stored interest still counts as
+a profile when it yields no match token. Dismissed and completed profile
 rows are removed after those reads. An open is not a removal. When the
 feed is personalized, a section shows only the ranked items of that
 format, so an unmatched title is not used to fill a gap.
@@ -44,8 +44,12 @@ def discovery_dict(catalog, profile, now):
     )
     excluded = excluded_ids(profile)
     feed = catalog.feed(interests, now)
+    # Stored interests are the profile. Catalog.feed reports personalized
+    # only when a match token exists, so a short interest such as "AI"
+    # would otherwise look like an empty profile.
+    personalized = bool(interests)
     ranked = [item.item_id for item in feed.items if item.item_id not in excluded]
-    allowed = set(ranked) if feed.personalized else None
+    allowed = set(ranked) if personalized else None
     sections = {}
     for name in SECTIONS:
         rows = catalog.section(name, now)
@@ -55,7 +59,7 @@ def discovery_dict(catalog, profile, now):
         sections[name] = visible
     return {
         "schema": SCHEMA,
-        "personalized": feed.personalized,
+        "personalized": personalized,
         "paid_calls": feed.paid_calls,
         "interests": list(interests),
         "signals": list(SIGNALS) if feed.personalized else [],
