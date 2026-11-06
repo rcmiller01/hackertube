@@ -180,7 +180,7 @@ Tasks 1.1, 1.2, 1.4, and 2.1 have receipts below. Tasks 1.3 and 2.4 are open. Be
 | Field | Record |
 |---|---|
 | Date | 2026-11-06 |
-| Tested revision | `8a3eaca1eda9dd4bf5a147ff96cbbfc06a9e96c1` |
+| Tested revision | `745fedca96b88743b2eecacfe225acb328546eee` |
 | Scenarios | 2.1 covers CAT01–CAT11 on the package. UI02, FEED01, CAT03, CAT04, and CAT10 still run against the non-video seed. PREF02, PREF03, and HCKT18 are pending and are not claimed. PREF09–PREF12 stay unimplemented because Reddit is disabled. |
 | Procedure | `python3 -m pytest tests -q` on that revision. Captures and the redacted Hacker News fixtures are listed in `tests/fixtures/captured/manifest.json`, including `hn_search.json`, `youtube_videos_list_error.json`, and `podcastindex_401.txt`. |
 | Result | 2.1 passes. Tasks 1.3 and 2.4 stay open. YouTube oEmbed is disabled (`unresolved-terms`); the seed keeps three video ids and watch links and does not display those cards. The Austen question matches books, audiobooks, and two podcast shows. |
