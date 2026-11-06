@@ -17,6 +17,7 @@ sections keep the unranked catalog list in ``browse`` and the page
 does not present it as a not-matched recommendation group.
 """
 
+from hackertube_core import outbound
 from hackertube_core.ranking import COMPONENTS
 from hackertube_core.records import SECTIONS
 
@@ -59,7 +60,12 @@ def _section_groups(catalog, ranked, excluded, now):
 
 
 def discovery_dict(catalog, profile, now):
-    """JSON object for ``GET /feed``. ``paid_calls`` is the core feed's value."""
+    """JSON object for ``GET /feed``.
+
+    ``request_counts`` is the outbound boundary's ledger for this process.
+    Opening, paging, and reranking read only local state, so both counts
+    are zero. ``paid_calls`` is the paid count, kept for the page.
+    """
     interests = tuple(
         text for text in (profile.get("interests") or ()) if isinstance(text, str)
     )
@@ -79,7 +85,8 @@ def discovery_dict(catalog, profile, now):
     return {
         "schema": SCHEMA,
         "personalized": personalized,
-        "paid_calls": feed.paid_calls,
+        "paid_calls": outbound.counters()["paid"],
+        "request_counts": outbound.counters(),
         "interests": list(interests),
         "signals": list(SIGNALS) if ranked else [],
         "feed": ranked,

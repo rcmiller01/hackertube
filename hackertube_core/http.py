@@ -2,7 +2,8 @@
 
 ``public_https_url`` is a preliminary string check. ``read_json`` is the
 fetch boundary: it resolves once, keeps only allowed addresses, and connects
-the socket to one of those addresses.
+the socket to one of those addresses. Every request goes through
+``hackertube_core.outbound``, which counts it and labels it ``free``.
 """
 
 import json
@@ -14,6 +15,7 @@ from urllib.error import HTTPError
 from urllib.parse import urlsplit
 from urllib.request import HTTPSHandler, ProxyHandler, Request, build_opener
 
+from hackertube_core import outbound
 from hackertube_core.errors import RecordError
 from hackertube_core.text import address_is_allowed, host_address, public_https_url
 
@@ -151,11 +153,12 @@ def read_json(url, *, timeout=15, opener=None, headers=None, resolve=None):
     request = Request(url, headers=merged)
     download = opener or _pinned_opener(host, pinned)
     try:
-        with download.open(request, timeout=timeout) as response:
-            status = getattr(response, "status", 200)
+        response = outbound.dispatch(outbound.FREE, download.open, request, timeout=timeout)
+        with response as opened:
+            status = getattr(opened, "status", 200)
             if status != 200:
                 raise HttpError(f"http {status}")
-            body = response.read(MAX_BYTES + 1)
+            body = opened.read(MAX_BYTES + 1)
     except RecordError:
         raise
     except HTTPError as exc:

@@ -199,11 +199,16 @@ def test_prepared_feed_orders_by_capture_and_makes_no_paid_call(catalog, monkeyp
     def explode(*args, **kwargs):
         raise AssertionError("network")
 
+    from hackertube_core import outbound
+
     monkeypatch.setattr("urllib.request.urlopen", explode)
+    outbound.install_guard(monkeypatch)
+    outbound.reset()
     feed = prepared_feed(catalog.items, catalog.evidence, ["jane austen"], NOW)
     again = prepared_feed(catalog.items, catalog.evidence, ["jane austen"], NOW)
     assert feed == again
-    assert feed.paid_calls == 0 and feed.personalized is True
+    assert outbound.counters() == {"free": 0, "paid": 0}
+    assert feed.personalized is True
     assert len(feed.why) == len(feed.items)
     assert feed.items
     empty = prepared_feed(catalog.items, catalog.evidence, [], NOW)

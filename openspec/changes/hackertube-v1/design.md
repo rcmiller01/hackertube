@@ -52,6 +52,12 @@ Interests and hub activity are allowed by default. A separate memory setting gov
 
 Feed selection and source blocking are distinct. As proposed in the PRD, disabling a feed stops ingestion but does not promise to exclude the publisher from broader-web search. Explain this in source controls.
 
+### 7. Count every outbound request at one boundary
+
+Every outbound request passes through `hackertube_core.outbound`. Each call is counted and labeled `free` (a public source-adapter read) or `paid` (a model, paid-search, or metered provider call). `read_json` is the only fetch and it dispatches through the boundary, so the free counter is the number of source reads that actually ran. A paid call with no reported cost is recorded as unknown, never as zero, which is JOB04's rule. Browsing, local reranking, and library operations dispatch nothing, so both counters stay zero; the dashboard's `/feed` reports the ledger as `request_counts`.
+
+The boundary also supplies the detector for a request that does not use it. `outbound.install_guard` replaces `socket.create_connection`, `socket.socket.connect`, `http.client` connection `connect`, and `urllib.request.urlopen` so a connection made outside an active dispatch raises `NetworkOutsideBoundary`. A module that imports a network client outside the allowlisted boundary modules fails the import scan in `tests/test_request_boundary.py`. Alternative considered was trusting a code review to find a stray request; a test that fails on a bypass keeps the guarantee after the review.
+
 ## Feasibility gates
 
 Task group 1 must produce a committed feasibility receipt with the chosen host version/commit, exact public entry points, a clean-profile route probe, the proposed source matrix verified against the chosen implementation, and job lifecycle probe. Task 1.2 ends on day 1 with either a supported model/search route or the declared plugin-secret fallback. Dependent tasks remain unchecked until the required path is demonstrated. Probe scaffolding must not be reported as working product behavior.
