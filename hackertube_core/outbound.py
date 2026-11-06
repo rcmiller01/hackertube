@@ -1,7 +1,9 @@
-"""The single outbound request boundary.
+"""The single Python-process outbound request boundary.
 
-Every outbound network request HackerTube makes goes through
-``dispatch``. Each request is counted and labeled by its caller:
+Every backend outbound network request HackerTube makes goes through
+``dispatch``. Browser SDK requests and hotlinked artwork are not in this
+process ledger; the browser observation receipt inventories them separately.
+Each backend request is counted and labeled by its caller:
 
 - ``free`` is a source-adapter read of public catalog data that costs
   nothing and spends no quota. Its cost is known to be zero.
@@ -17,9 +19,17 @@ The label is a required argument at the transport boundary
 (``hackertube_core.http.read_json``), so a new caller cannot inherit
 ``free`` by omitting it.
 
-Ordinary browsing, local reranking, and library operations make no
-request at all, so every counter stays zero and ``usage`` reports a known
-zero cost.
+A request attempt is counted once before resolution, even if DNS, address
+validation after DNS, connection, or response reading fails. Resolution,
+pinned connection, body reading and closing all share that authorized scope.
+Pre-dispatch string validation refusals are not counted as requests.
+
+Ordinary browsing, local reranking, and library operations make no backend
+outbound request, so this ledger stays zero and ``usage`` reports known zero
+backend cost. That does not mean the browser makes zero requests: it reads
+local API routes and may load free external artwork. See
+``tests/test_browser_requests.js`` for observed browser attempts with offline
+artwork fulfillment, not production interception or live provider receipts.
 
 ``install_guard`` is the detector for a request that does not pass through
 the boundary. ``socket.socket.connect`` and ``connect_ex`` are the point

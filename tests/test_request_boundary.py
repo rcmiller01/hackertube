@@ -1,6 +1,6 @@
 """Task 3.3: the outbound request boundary.
 
-FEED04, PREF08, JOB02, and JOB04. Every outbound call goes through
+FEED04, PREF08, JOB02, and JOB04. Every backend outbound call goes through
 ``hackertube_core.outbound`` and is counted under the label its caller
 declares. A test here fails when code reaches the network around that
 boundary, when a metered read is counted as free, or when a connection

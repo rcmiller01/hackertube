@@ -160,19 +160,24 @@ def read_json(url, *, classification, cost=None, timeout=15, opener=None, header
         raise ValueError(f"unknown request label: {classification!r}")
     public_https_url(url)
     host = (urlsplit(url.strip()).hostname or "").rstrip(".").lower()
-    pinned = connection_targets(host, resolve=resolve)
     merged = {"User-Agent": USER_AGENT, "Accept": "application/json"}
     if headers:
         merged.update(headers)
     request = Request(url, headers=merged)
-    download = opener or _pinned_opener(host, pinned)
-    try:
-        response = outbound.dispatch(classification, download.open, request, timeout=timeout, cost=cost)
-        with response as opened:
+
+    def perform():
+        # Resolution, pinned connection, response read and close form ONE
+        # counted attempt, including failures. Nothing resolves before dispatch.
+        pinned = connection_targets(host, resolve=resolve)
+        download = opener or _pinned_opener(host, pinned)
+        with download.open(request, timeout=timeout) as opened:
             status = getattr(opened, "status", 200)
             if status != 200:
                 raise HttpError(f"http {status}")
-            body = opened.read(MAX_BYTES + 1)
+            return opened.read(MAX_BYTES + 1)
+
+    try:
+        body = outbound.dispatch(classification, perform, cost=cost)
     except RecordError:
         raise
     except HTTPError as exc:
