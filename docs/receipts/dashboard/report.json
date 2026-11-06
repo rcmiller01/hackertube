@@ -1,4 +1,7 @@
 {
+  "pluginCommit": "233fcdbacbc7fd199e1f788ac23001a8d8e2b66e",
+  "hermesVersion": "Hermes Agent v0.23.0 (2026.9.24) · stable · local 2bd378ed1b8d\nInstall directory: /tmp/hermes-src/hermes-v023\nInstall method: git\nPython: 3.14.10\nOpenAI SDK: 2.54.0\nUp to date",
+  "captureCommand": "NODE_PATH=/tmp/pw/node_modules node docs/receipts/dashboard/capture.js",
   "reloadedHeading": "HackerTube",
   "hostTabsBeforePlugin": [
     "HERMES AGENT CHAT SESSIONS FILES MODELS LOGS CRON SKILLS PLUGINS MCP CHANNELS WEBHOOKS PAIRING PROFILES CONFIG KEYS SYSTEM DOCUMENTATION Plugins KANBAN HACKERTU",
@@ -31,6 +34,7 @@
     "archive.org",
     "covers.openlibrary.org",
     "ia600505.us.archive.org",
+    "ia601601.us.archive.org",
     "ia800505.us.archive.org",
     "ia801601.us.archive.org",
     "ia803200.us.archive.org",

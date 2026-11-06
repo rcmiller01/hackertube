@@ -1,0 +1,81 @@
+command NODE_PATH=/tmp/pw/node_modules node docs/receipts/dashboard/capture.js
+pluginCommit 233fcdbacbc7fd199e1f788ac23001a8d8e2b66e
+hermesVersion Hermes Agent v0.23.0 (2026.9.24) · stable · local 2bd378ed1b8d
+Install directory: /tmp/hermes-src/hermes-v023
+Install method: git
+Python: 3.14.10
+OpenAI SDK: 2.54.0
+Up to date
+base http://127.0.0.1:9119/hackertube
+UI01 heading "HackerTube" nav /hackertube
+UI02 videos heading "Videos 0" cards 0
+UI02 podcasts heading "Podcasts 4" cards 4
+UI02 books heading "Books 4" cards 4
+UI02 audiobooks heading "Audiobooks 4" cards 4
+key Tab from BODY "HERMES AGENT CHAT SESSIONS FILES MODELS LOGS CRON SKILLS PLUGINS MCP CHANNELS WEBHOOKS PAIRING PROFILES CONFIG KEYS SYSTEM DOCUMENTATION Plugins KANBAN HACKERTU"
+key Tab from BUTTON "Collapse"
+key Tab from A "CHAT"
+key Tab from A "SESSIONS"
+key Tab from A "FILES"
+key Tab from A "MODELS"
+key Tab from A "LOGS"
+key Tab from A "CRON"
+key Tab from A "SKILLS"
+key Tab from A "PLUGINS"
+key Tab from A "MCP"
+key Tab from A "CHANNELS"
+key Tab from A "WEBHOOKS"
+key Tab from A "PAIRING"
+key Tab from A "PROFILES"
+key Tab from A "CONFIG"
+key Tab from A "KEYS"
+key Tab from A "SYSTEM"
+key Tab from A "DOCUMENTATION"
+key Tab from A "KANBAN"
+key Tab from A "HACKERTUBE"
+key Tab from A "ACHIEVEMENTS"
+key Tab from A "Gateway Status: Off Active Sessions: 0"
+key Tab from BUTTON "Restart Gateway"
+key Tab from BUTTON "Update Hermes"
+key Tab from BUTTON "HERMES TEAL"
+key Tab from BUTTON "EN"
+key Tab from A "Nous Research"
+focus A "Discover"
+key Tab from A "Discover"
+key Tab from A "Library (0 saved)"
+key Tab from A "About"
+focus BUTTON "Focused search"
+key Tab from INPUT "What can I read or listen to by Jane Austen?"
+focus BUTTON "Search"
+key Tab from H2 "Search results"
+key Tab from BUTTON "Back to discovery"
+key Tab from A "Videos"
+key Tab from A "Podcasts"
+key Tab from A "Books"
+key Tab from A "Audiobooks"
+key Tab from A "Open at source"
+focus BUTTON "Save"
+key Shift+Tab from BUTTON "Saved"
+focus A "Open at source"
+UI04 opened https://podcasts.apple.com/us/podcast/jane-austen-stories/id1840669662?uo=4
+key Shift+Tab from A "Open at source"
+key Shift+Tab from A "Audiobooks"
+key Shift+Tab from A "Books"
+key Shift+Tab from A "Podcasts"
+key Shift+Tab from A "Videos"
+key Shift+Tab from BUTTON "Back to discovery"
+key Shift+Tab from BUTTON "Close search"
+key Shift+Tab from BUTTON "Search"
+key Shift+Tab from INPUT "What can I read or listen to by Jane Austen?"
+key Shift+Tab from BUTTON "Focused search"
+focus A "About"
+UI03 credit box {"x":310.4375,"y":156.765625,"width":185.265625,"height":22}
+key Tab from H1 "About"
+key Tab from A "original HackerTube post"
+key Tab from A "hackertube.org"
+key Tab from A "Discover"
+focus A "Library (1 saved)"
+UI05 scheme true private true badLinks 0
+UI06 savedFocus {"tag":"BUTTON","text":"Saved","id":"","inside":true,"outlineStyle":"solid","outlineWidth":"2px","outlineColor":"color(srgb 1 0.901961 0.796078)","ariaDisabled":"true"}
+UI06 outline solid 2px
+wrote report.json
