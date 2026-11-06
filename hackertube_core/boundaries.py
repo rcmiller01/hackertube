@@ -18,14 +18,6 @@ _CRITICISM = (
     "terrible",
     "avoid",
 )
-_PRAISE = (
-    "highly recommend",
-    "worth watching",
-    "worth a watch",
-    "must watch",
-    "loved",
-    "recommend",
-)
 
 
 def _phrase(text, phrase):
@@ -33,14 +25,20 @@ def _phrase(text, phrase):
 
 
 def classify_endorsement(value):
-    """Mention and criticism are not positive endorsements."""
+    """Keyword praise is not an endorsement. Negation fails closed.
+
+    Established endorsement is not decided here. It requires a hand-verified
+    flag and a direct item link in the Hacker News adapter.
+    """
     text = render_untrusted(value).lower()
     if not text.strip():
         return "mention"
     if any(_phrase(text, phrase) for phrase in _CRITICISM):
         return "criticism"
-    if any(_phrase(text, phrase) for phrase in _PRAISE):
-        return "established"
+    if re.search(r"\brecommend\w*\b.{0,40}\bavoid", text):
+        return "criticism"
+    if re.search(r"\bnot\b.{0,40}\b(?:good|recommend)", text):
+        return "criticism"
     return "mention"
 
 

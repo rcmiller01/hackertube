@@ -21,9 +21,9 @@ BOOK_KEYS = (
     "/works/OL66534W",
 )
 VIDEOS = (
-    ("oembed_LCEmiRjPEtQ.json", "LCEmiRjPEtQ", "hn_comment_44314766.json", "44314766"),
-    ("oembed_Dr20f19czeE.json", "Dr20f19czeE", "hn_comment_19628894.json", "19628894"),
-    ("oembed_gm0b_ijaYMQ.json", "gm0b_ijaYMQ", "hn_comment_26188584.json", "26188584"),
+    ("oembed_LCEmiRjPEtQ.json", "LCEmiRjPEtQ", "hn_comment_44314766.json"),
+    ("oembed_Dr20f19czeE.json", "Dr20f19czeE", "hn_comment_19628894.json"),
+    ("oembed_gm0b_ijaYMQ.json", "gm0b_ijaYMQ", None),
 )
 PODCAST_FILES = (
     "itunes_austen_stories.json",
@@ -38,8 +38,8 @@ OL_ART = (
     "The work page is the courtesy link. The image returned HTTP 200."
 )
 LV_ART = (
-    "LibriVox publishes coverart_jpg on the catalog record. The seed hotlinks that URL and does not cache the file. "
-    "Public-domain status of the recording is not treated as permission to copy the image."
+    "LibriVox dedicates its recordings to the public domain. The API names coverart_jpg "
+    "but does not grant display or hotlinking of cover images, so the card is text."
 )
 
 
@@ -108,19 +108,21 @@ def build(root):
     items = []
     evidence = []
 
-    for oembed_name, video_id, comment_name, comment_id in VIDEOS:
+    for oembed_name, video_id, comment_name in VIDEOS:
         captured = _request_time(manifest, oembed_name)
         parsed = youtube.parse_oembed(_read(root, oembed_name), video_id, captured)
         if len(parsed.items) != 1 or parsed.items[0].duration_seconds is not None:
             raise RecordError(video_id)
         items.append(parsed.items[0])
         evidence.extend(parsed.evidence)
+        if comment_name is None:
+            continue
         comment_time = _request_time(manifest, comment_name)
-        comments = hn.parse_comment_search(_read(root, comment_name), comment_time)
-        if len(comments.evidence) != 1 or comments.evidence[0].evidence_id != f"hn:{comment_id}":
-            raise RecordError(comment_id)
+        comments = hn.parse_verified_comment(_read(root, comment_name), video_id, comment_time)
+        if len(comments.evidence) != 1 or comments.evidence[0].item_id != f"youtube:{video_id}":
+            raise RecordError(comment_name)
         if comments.evidence[0].display_line is None or comments.evidence[0].excerpt is not None:
-            raise RecordError(comment_id)
+            raise RecordError(comment_name)
         evidence.append(comments.evidence[0])
 
     for name in PODCAST_FILES:
@@ -157,9 +159,7 @@ def build(root):
         cover = f"https://covers.openlibrary.org/b/olid/{edition}-M.jpg" if edition else None
         items.append(_with_art(item, cover, manifest, OL_ART))
         evidence.append(next(row for row in book_parsed.evidence if row.item_id == item.item_id))
-        cover_payload = _read(root, f"librivox_{audio.item_id.split(':')[1]}_cover.json")
-        cover_url = cover_payload["books"][0].get("coverart_jpg")
-        chosen_audio.append(_with_art(audio, cover_url, manifest, LV_ART))
+        chosen_audio.append(replace(audio, **blank_art(LV_ART)))
     if len({item.item_id for item in chosen_audio}) != len(chosen_audio):
         raise RecordError("audiobook")
     for audio in chosen_audio:

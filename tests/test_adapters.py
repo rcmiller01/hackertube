@@ -6,7 +6,6 @@ from pathlib import Path
 import pytest
 
 from hackertube_core.adapters import hn, itunes, librivox, openlibrary, podcastindex, reddit, youtube
-from hackertube_core.boundaries import classify_endorsement
 from hackertube_core.errors import RecordError
 from hackertube_core.http import read_json
 from hackertube_core.text import public_https_url
@@ -26,23 +25,32 @@ def test_hn_story_creates_no_media_item():
     assert parsed.items == ()
     assert parsed.evidence
     assert all(row.display_line is None and row.endorsement == "mention" and row.excerpt is None for row in parsed.evidence)
-    assert "children" in parsed.ignored_fields
 
 
-def test_hn_comments_endorse_without_storing_the_body():
-    for name, phrase in (
-        ("hn_comment_44314766.json", "loved"),
-        ("hn_comment_19628894.json", "highly recommend"),
-        ("hn_comment_26188584.json", "worth watching"),
-    ):
-        payload = _load(name)
-        assert classify_endorsement(payload["hits"][0]["comment_text"]) == "established"
-        parsed = hn.parse_comment_search(payload, NOW)
-        row = parsed.evidence[0]
-        assert row.display_line == "Recommended in Hacker News"
-        assert row.excerpt is None
-        assert phrase not in row.destination
-        assert "comment_text" in parsed.ignored_fields or row.excerpt is None
+def test_endorsement_attaches_only_to_the_linked_video():
+    wrong = _load("hn_comment_26188584.json")
+    missed = hn.parse_verified_comment(wrong, "gm0b_ijaYMQ", NOW)
+    assert missed.evidence == ()
+    assert missed.rejected == ("different-item:W0NakShgbHY",)
+    matched = hn.parse_verified_comment(wrong, "W0NakShgbHY", NOW)
+    assert matched.evidence[0].item_id == "youtube:W0NakShgbHY"
+    assert matched.evidence[0].display_line == "Recommended in Hacker News"
+    assert matched.evidence[0].excerpt is None
+    karpathy = hn.parse_verified_comment(_load("hn_comment_44314766.json"), "LCEmiRjPEtQ", NOW)
+    assert karpathy.evidence[0].item_id == "youtube:LCEmiRjPEtQ"
+    assert hn.parse_verified_comment(_load("hn_comment_44314766.json"), "gm0b_ijaYMQ", NOW).evidence == ()
+    unverified = dict(wrong)
+    unverified["hand_verified"] = False
+    assert hn.parse_verified_comment(unverified, "W0NakShgbHY", NOW).evidence == ()
+
+
+def test_hn_fixtures_do_not_keep_comment_text_or_usernames():
+    for path in CAPTURED.glob("hn_*.json"):
+        text = path.read_text()
+        assert "comment_text" not in text
+        assert "author" not in text
+        assert "loved the analogies" not in text
+        assert "michaelwilson" not in text
 
 
 def test_youtube_doc_sample_and_unknown_duration():

@@ -21,7 +21,7 @@ No API key was stored. Reddit was not requested. One unauthenticated YouTube Dat
 | LibriVox | author search plus four `coverart=1` record reads | HTTP 200 at 12:22:21 UTC. |
 | Reddit | none | Disabled. No live call. |
 
-YouTube oEmbed is not the Data API. The Data API adapter still refuses to call `videos.list` unless a key is passed into that function, and the demo probe did not have one.
+YouTube oEmbed is not the Data API. No YouTube page was found that says responses from `https://www.youtube.com/oembed` may be stored as catalog metadata. The seed therefore keeps only the title and channel name, drops player HTML and thumbnails, and expires those fields after 30 days. That window is the non-authorized metadata ceiling in the developer policies, applied here because a longer oEmbed grant was not found. It is not a claim that oEmbed is YouTube API Data. The Data API adapter still refuses to call `videos.list` unless a key is passed into that function.
 
 ## Quota and YouTube terms
 
@@ -37,18 +37,18 @@ The [quota calculator](https://developers.google.com/youtube/data/determine_quot
 
 [API Services Terms](https://developers.google.com/youtube/terms/api-services-terms-of-service) section 10.3 requires attribution that follows the YouTube Branding Guidelines when YouTube brand features are used. Seeded video cards link to `https://www.youtube.com/watch?v={id}` and name YouTube. They do not store the embed iframe.
 
-The seed applies the 30-day delete-or-refresh rule to the stored oEmbed title and channel. Those evidence rows carry `refresh_after`. When that time is reached, the video card drops even if the Hacker News link is still present, because a card needs unexpired catalog evidence.
+Those oEmbed evidence rows carry `refresh_after`. When that time is reached, the video card drops even if a Hacker News link is still present, because a card needs unexpired catalog evidence.
 
 ## Obligations
 
 | Source | Attribution and display | Retention | Deletion | Seed decision |
 |---|---|---|---|---|
-| [Hacker News Algolia](https://hn.algolia.com/api) | The API page documents search and item reads and the hourly cap. It does not state a reuse license. Comment bodies are not stored. A card may say "Recommended in Hacker News" only when a retrieved comment endorses the item, and the line links to that comment. | Permalinks, ids, retrieval time, and the endorsement label. No comment text, no usernames. | No deletion API was found. There is no stored comment archive to delete. | Enabled as evidence only. Not a format. |
-| [YouTube Data API](https://developers.google.com/youtube/terms/developer-policies) and [terms](https://developers.google.com/youtube/terms/api-services-terms-of-service) | Link to the watch page and name YouTube. Do not download audiovisual content. | Title and channel from oEmbed: 30 days, then delete or refresh. No statistics, player HTML, or thumbnails. | 30-day refresh on stored metadata. User-data deletion does not apply to this demo path. | Data API live call blocked on a missing key. oEmbed titles are in the seed under the 30-day rule. |
+| [Hacker News Algolia](https://hn.algolia.com/api) | The API page documents search and item reads and the hourly cap. It states no reuse license, so `design.md` does not allow storing comment content. The display line is our text, `Recommended in Hacker News`, and only when a hand-verified fixture names that exact video URL. | Comment id, permalink, retrieval time, and the display line. Fixtures do not keep comment text, highlights, or usernames. | No deletion API was found. Comment text is not stored. | Enabled for that narrow evidence. Not a format. |
+| [YouTube Data API](https://developers.google.com/youtube/terms/developer-policies) and [terms](https://developers.google.com/youtube/terms/api-services-terms-of-service) | Link to the watch page and name YouTube. Do not download audiovisual content. oEmbed has no cited storage grant, so the same 30-day ceiling is used for the title and channel only. | Title and channel. No statistics, player HTML, or thumbnails. | Delete or refresh the stored title and channel within 30 calendar days. | Data API live call blocked on a missing key. |
 | [Apple iTunes Search API](https://performance-partners.apple.com/search-api) | The page says the API is for placing search fields and displaying results, and for ID lookups that map a library to the store. Promotional content, including album art, may be used only to promote the associated store content, next to an approved store badge, and not as independent entertainment. Song and music-video previews must be attributed "provided courtesy of iTunes" and must be streamed, not downloaded or cached. | Text identity fields are kept with `retrieved_at`. No maximum text-retention period was stated. Apple recommends caching for large sites. | Remove promotional assets immediately if Apple asks. None are stored. | Enabled for show and episode identity. Artwork omitted. |
 | [Podcast Index terms v2.0](https://api.podcastindex.org/tos_v2.0.html) (effective October 4, 2026) | Free for lawful use, including commercial use. Do not proxy the API or scrape it for bulk data. Requests need a key, a secret, and an honest User-Agent. Rate limits are unpublished. | Nothing stored. | Nothing stored. | Blocked. The no-key probe returned HTTP 401. |
 | [Open Library APIs](https://openlibrary.org/developers/api) and [data FAQ](https://openlibrary.org/help/faq/using) | Catalog data is dedicated to the public domain; contributions are requested under [CC0](https://creativecommons.org/publicdomain/zero/1.0/). Identify the app. Unidentified calls are limited to 1 per second; identified calls, 3 per second. Do not use the API as a bulk backend. [Cover guidance](https://openlibrary.org/dev/docs/api/covers) asks for hotlinked images, no cover crawling, and a courtesy link. | Metadata may be cached. Cover files are not cached. | No deletion window for CC0 metadata. | Enabled. Registration is requested by Open Library and has not been submitted. |
-| [LibriVox API](https://librivox.org/api/info), [About](https://librivox.org/pages/about-librivox/), and the [September 16, 2026 update](https://librivox.org/2026/09/16/librivox-api-update/) | Recordings are public domain and may be shared. The card links to the LibriVox catalog page. A text-source URL is not treated as proof that an unrelated edition is public domain. Default page size is 50 and the maximum is 500. Leave several seconds between large reads. A future limit may return HTTP 429. | Metadata is kept. Audio files are not stored. | No deletion window was stated. | Enabled for four recordings. |
+| [LibriVox API](https://librivox.org/api/info), [About](https://librivox.org/pages/about-librivox/), and the [September 16, 2026 update](https://librivox.org/2026/09/16/librivox-api-update/) | The About page dedicates recordings to the public domain. The API names `coverart_jpg` as a URL and does not grant display or hotlinking of cover images. Cards are text and link to the catalog page. | Metadata is kept. Audio files and cover files are not stored. | No deletion window was stated for the recordings. | Enabled for four recordings. Covers are not shown. |
 | [Reddit Data API terms](https://redditinc.com/policies/data-api-terms) and the [Responsible Builder Policy](https://support.reddithelp.com/hc/en-us/articles/42728983564564-Responsible-Builder-Policy) | Not re-fetched this lane. `docs/sources.md` records the November 5 read: OAuth, explicit approval, scoped subreddits, no model training, and limited display. | Would be short-lived and only after approval. The wiki recommends deleting stored user content within about 48 hours. | Nothing is stored. | Disabled. `reddit.fetch` sends no request. |
 
 ## Art
@@ -58,7 +58,7 @@ Missing art is allowed. A URL is stored only when the source terms allow a hotli
 | Records | Hotlink | Cache | Check |
 |---|---|---|---|
 | Four Open Library books | Yes. Courtesy link is the work page. | No | HTTP 200, `image/jpeg`, 8–32 KB |
-| Four LibriVox recordings (`coverart_jpg` on archive.org) | Yes. The catalog record publishes the URL. The public-domain statement covers the recording, so the image file is not copied. | No | HTTP 200, `image/jpeg` |
+| Four LibriVox recordings | No. An API URL and an HTTP 200 are not a display license. The About page covers the recordings, not the cover images. | No | Not displayed |
 | Three YouTube videos | No. Thumbnail URLs from oEmbed were not copied. | No | Not displayed |
 | Four Apple podcasts | No. Artwork needs an approved store badge beside it. This package has no badge. | No | Not displayed |
 
@@ -68,9 +68,9 @@ Capture order is the feed order. Times are the HTTP `Date` of the capture that s
 
 | Order | Format | Record | Catalog capture |
 |---|---|---|---|
-| 1 | video | Andrej Karpathy: Software Is Changing (Again) | oEmbed 12:22:23 UTC. Hacker News comment `44314766` endorses it. |
-| 2 | video | Breakthrough discovery in astronomy: first ever image of a black hole | oEmbed 12:22:23 UTC. Comment `19628894` endorses it. The comment's "~30m" is not stored and is not a duration. |
-| 3 | video | Watch NASA’s Perseverance Rover Land on Mars! | oEmbed 12:22:23 UTC. Comment `26188584` says the video is worth watching. |
+| 1 | video | Andrej Karpathy: Software Is Changing (Again) | oEmbed 12:22:23 UTC. Hand-verified comment `44314766` names `LCEmiRjPEtQ`. |
+| 2 | video | Breakthrough discovery in astronomy: first ever image of a black hole | oEmbed 12:22:23 UTC. Hand-verified comment `19628894` names `Dr20f19czeE`. |
+| 3 | video | Watch NASA’s Perseverance Rover Land on Mars! | oEmbed 12:22:23 UTC. No Hacker News line. Comment `26188584` names `W0NakShgbHY`, not this video. |
 | 4 | podcast show | Jane Austen Stories | iTunes lookup 12:22:22 UTC |
 | 5 | podcast show | A Jane Austen Year | iTunes lookup 12:22:22 UTC. `trackTimeMillis` of 1422 is ignored. |
 | 6 | podcast show | The Python Show | iTunes lookup 12:24:15 UTC. `trackTimeMillis` of 2571 is ignored. |
@@ -90,7 +90,7 @@ Media item: `item_id`, `format` (`video`, `podcast_episode`, `podcast_show`, `bo
 
 Evidence: `evidence_id`, `item_id`, `source_id`, `retrieved_at`, `destination`, `excerpt`, `endorsement` (`established`, `mention`, `criticism`, `none`, `not_applicable`), `kind` (`community`, `catalog`, `web`), `display_line`, `refresh_after`.
 
-The only allowed `display_line` is `Recommended in Hacker News`. It requires `source_id` `hn`, `kind` `community`, and `endorsement` `established`, plus an https comment URL. Hacker News search hits that only submit a link stay `mention` and create no media item.
+The only allowed `display_line` is `Recommended in Hacker News`. It requires `source_id` `hn`, `kind` `community`, `endorsement` `established`, and an https comment URL. Endorsement is established only when the fixture sets `hand_verified` and its `endorsed_url` is that video. Keyword praise is not enough. A story hit stays a mention and creates no media item.
 
 Source: `source_id`, `name`, `role`, `enabled`, `blocked_reason`, `attribution`, `retention`, `deletion`, `refresh_after`, `last_success_at`, `last_error`, `formats`.
 
@@ -102,7 +102,7 @@ Ignored fields stay out of the item. In particular:
 
 - YouTube Data API: description, tags, statistics, player HTML, and published time are ignored. Duration is parsed only from ISO 8601 `contentDetails.duration`. A private video is rejected. The doc-shaped sample is `tests/fixtures/doc/youtube_video_list.json`, not a live response.
 - YouTube oEmbed: `html`, `thumbnail_url`, `width`, and `height` are ignored. Height and width are not a duration.
-- Hacker News: comment text, author, points, and child ids are ignored. The classifier runs on the text in memory.
+- Hacker News: the stored fixture is an id, timestamps, the comment URL, and `endorsed_url` with `hand_verified`. Comment text and usernames are not in the fixture. The line is attached only when that URL is the card's video.
 - iTunes: artwork, preview, and episode media URLs are ignored. Show rows do not read `trackTimeMillis`.
 - Open Library: `first_publish_year`, `edition_count`, and the cover key are not metadata of the work's length or availability. The cover key is used only to build a hotlink after the image check.
 - LibriVox: `num_sections` and `copyright_year` are not a duration and not an availability flag.

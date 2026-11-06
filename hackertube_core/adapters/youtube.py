@@ -15,9 +15,9 @@ from hackertube_core.text import iso_duration_seconds, plus_days
 
 DATA_API = "https://www.googleapis.com/youtube/v3/videos"
 ART_REASON = (
-    "The oEmbed response included a thumbnail URL. It was not copied. "
-    "This catalog does not hotlink or cache i.ytimg.com images, and the "
-    "Data API client remains blocked without a key."
+    "No YouTube page was found that grants storage of oEmbed JSON. "
+    "The seed keeps the title and channel only, drops the player HTML and thumbnail, "
+    "and expires that metadata after 30 days."
 )
 POLICY = {
     "source_id": "youtube",
@@ -25,10 +25,10 @@ POLICY = {
     "role": "catalog",
     "attribution": "YouTube. The card links to the watch page on youtube.com.",
     "retention": (
-        "Stored oEmbed title and channel are deleted or refreshed within 30 days. "
-        "Player HTML and thumbnails are not stored. The Data API was not called successfully."
+        "oEmbed is a no-key read, not a Data API receipt. Title and channel are kept "
+        "no longer than 30 days because a longer grant was not found. Player HTML and thumbnails are not stored."
     ),
-    "deletion": "Delete or refresh stored YouTube title and channel metadata within 30 calendar days.",
+    "deletion": "Delete or refresh the stored oEmbed title and channel within 30 calendar days.",
     "formats": ("video",),
 }
 

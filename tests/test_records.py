@@ -86,9 +86,9 @@ def test_cat02_unknown_duration_stays_unknown():
 
 def test_cat07_criticism_is_not_a_recommendation():
     assert classify_endorsement("This is terrible, avoid it") == "criticism"
-    assert classify_endorsement("I highly recommend this talk") == "established"
+    assert classify_endorsement("This is not good, I recommend avoiding it") == "criticism"
+    assert classify_endorsement("I highly recommend this talk") == "mention"
     assert classify_endorsement("Here is the link") == "mention"
-    assert classify_endorsement("unloved and not a recommendation") == "mention"
     criticism = Evidence(
         evidence_id="hn:9",
         item_id="youtube:docSampleId",

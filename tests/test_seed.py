@@ -69,17 +69,24 @@ def test_art_policy_and_no_estimated_duration():
     assert "~30m" not in text
 
 
-def test_hn_line_only_on_endorsed_video_cards():
+def test_hn_line_only_on_the_video_the_comment_names():
     catalog = load_seed()
+    endorsed = {
+        "youtube:LCEmiRjPEtQ": "44314766",
+        "youtube:Dr20f19czeE": "19628894",
+    }
     for item in catalog.items:
         card = catalog.explain(item)
         lines = [row for row in card["retrievals"] if row["display_line"]]
-        if item.format == "video":
-            assert lines and lines[0]["display_line"] == "Recommended in Hacker News"
-            assert lines[0]["source_name"] == "Hacker News"
+        if item.item_id in endorsed:
+            assert lines[0]["display_line"] == "Recommended in Hacker News"
+            assert lines[0]["destination"].endswith(endorsed[item.item_id])
         else:
             assert lines == []
         assert item.format != "hn"
+    landing = catalog.explain(next(item for item in catalog.items if item.item_id == "youtube:gm0b_ijaYMQ"))
+    assert all(row["display_line"] is None for row in landing["retrievals"])
+    assert all(item.art_url is None for item in catalog.items if item.format == "audiobook")
 
 
 def test_youtube_metadata_expires_and_other_sections_remain():
