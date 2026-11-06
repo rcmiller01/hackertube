@@ -151,7 +151,7 @@ def test_pref01_gardening_interest_persists_across_restart_and_is_available_for_
     assert restarted.snapshot()["interests"] == ["gardening"]
     feed = load_seed().feed(interests, NOW)
     assert feed.personalized is True
-    assert outbound.counters() == {"free": 0, "paid": 0}
+    assert outbound.counters() == {"free": 0, "paid": 0, "metered": 0}
 
 
 def test_pref01_interest_is_not_limited_to_technology(tmp_path):

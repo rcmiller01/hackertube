@@ -5,6 +5,7 @@ import ssl
 
 import pytest
 
+from hackertube_core import outbound
 from hackertube_core.errors import RecordError
 from hackertube_core.http import (
     HttpError,
@@ -88,7 +89,7 @@ def test_read_json_rejects_a_hostname_that_resolves_privately():
             raise AssertionError("network")
 
     with pytest.raises(RecordError):
-        read_json("https://hn.algolia.com/search", opener=Opener(), resolve=resolve)
+        read_json("https://hn.algolia.com/search", opener=Opener(), resolve=resolve, classification=outbound.FREE)
 
 
 def test_read_json_allows_a_hostname_that_resolves_globally():
@@ -111,7 +112,7 @@ def test_read_json_allows_a_hostname_that_resolves_globally():
         def open(self, request, timeout=None):
             return Response()
 
-    assert read_json("https://example.com/data", opener=Opener(), resolve=resolve) == {"ok": True}
+    assert read_json("https://example.com/data", opener=Opener(), resolve=resolve, classification=outbound.FREE) == {"ok": True}
 
 
 def test_read_json_rejects_when_any_answer_is_private_and_none_remain():
@@ -123,7 +124,7 @@ def test_read_json_rejects_when_any_answer_is_private_and_none_remain():
             raise AssertionError("network")
 
     with pytest.raises(RecordError):
-        read_json("https://example.com/data", opener=Opener(), resolve=resolve)
+        read_json("https://example.com/data", opener=Opener(), resolve=resolve, classification=outbound.FREE)
 
 
 @pytest.mark.parametrize("ip", _POLICY_IPS)
@@ -136,7 +137,7 @@ def test_policy_addresses_are_refused_as_dns_answers(ip):
             raise AssertionError("network")
 
     with pytest.raises(RecordError):
-        read_json("https://example.com/data", opener=Opener(), resolve=resolve)
+        read_json("https://example.com/data", opener=Opener(), resolve=resolve, classification=outbound.FREE)
 
 
 def test_public_then_private_dns_does_not_connect_to_the_private_address(monkeypatch):
@@ -157,7 +158,7 @@ def test_public_then_private_dns_does_not_connect_to_the_private_address(monkeyp
     monkeypatch.setattr(socket, "create_connection", fake_create_connection)
     monkeypatch.setattr(ssl.SSLContext, "wrap_socket", fake_wrap)
     with pytest.raises(HttpError):
-        read_json("https://example.com/data", resolve=resolve)
+        read_json("https://example.com/data", resolve=resolve, classification=outbound.FREE)
     assert connects == [("1.1.1.1", 443)]
     assert sni == ["example.com"]
 
@@ -207,7 +208,7 @@ def test_nat64_with_a_public_embedded_ipv4_is_allowed():
         def open(self, request, timeout=None):
             return Response()
 
-    assert read_json("https://example.com/data", opener=Opener(), resolve=resolve) == {"ok": True}
+    assert read_json("https://example.com/data", opener=Opener(), resolve=resolve, classification=outbound.FREE) == {"ok": True}
 
 
 def test_literal_private_address_does_not_resolve():
@@ -216,4 +217,4 @@ def test_literal_private_address_does_not_resolve():
             raise AssertionError("network")
 
     with pytest.raises(RecordError):
-        read_json("https://10.1/", opener=Opener())
+        read_json("https://10.1/", opener=Opener(), classification=outbound.FREE)
