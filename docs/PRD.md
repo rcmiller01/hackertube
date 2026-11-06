@@ -237,7 +237,8 @@ The following requirements and their scenarios remain specified but are post-dem
 ### Submission gates still open
 
 - Confirm participant eligibility, team terms, originality terms, license expectations, and IP terms with Nous Research through its official Discord. The announcement does not answer them.
-- Decide who changes the private planning repository to public and when. Include a project license only after Robert chooses one; no license is prescribed by the reviewed sources.
+- Repository visibility (Robert, November 5, 2026): the repository stays private until right before the catalog PR is opened, then becomes public so the pinned commit is cloneable over HTTPS (R18).
+- License (Robert, November 5, 2026): MIT. The repository root contains the MIT `LICENSE`.
 - Obtain explicit Reddit Data API access for this use case before enabling Reddit. Subreddit scoping alone does not grant access or permission to retain data.
 - Verify source-specific display, privacy, retention, and deletion obligations against the exact implementation. Source notes are research, not legal clearance.
 
