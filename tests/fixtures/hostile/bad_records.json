@@ -1,0 +1,6 @@
+{
+  "format": "hn",
+  "title": "",
+  "destination": "http://169.254.169.254/latest/meta-data",
+  "duration_seconds": "about 10 minutes"
+}

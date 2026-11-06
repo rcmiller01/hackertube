@@ -2,7 +2,7 @@
 
 ## Planning state
 
-The proposal, eight capability specs, design, and tasks describe intended behavior. No product implementation, host integration, source ingestion, paid inference, or quality evaluation has been verified. The official event and source pages were read on November 5, 2026. Reading them does not establish provider approval, legal clearance, or that the hackathon submission is complete.
+The proposal, eight capability specs, design, and tasks describe intended behavior. This planning snapshot was written before implementation. Current receipts are in the implementation section below: tasks 1.1, 1.2, 1.4, and 2.1 have receipts, and tasks 1.3 and 2.4 are open. The official event and source pages were read on November 5, 2026. Reading them does not establish provider approval, legal clearance, or that the hackathon submission is complete.
 
 ## Planning checks
 
@@ -17,7 +17,7 @@ Checked November 5, 2026 on the box with Node.js v24.22.1, OpenSpec 1.16.0, and 
 | Coverage checker fixtures | Missing PRD ID, dangling scenario, deferred P0, missing post-demo subset, non-P0 post-demo, unmapped scenario, partial subset under whole-row post-demo status, demo row deferring all scenarios, duplicate subset entry, out-of-row subset entry, missing subset reason, non-array subset, stale `specified` status, and reason without post-demo scenarios all rejected; the valid mixed-disposition R04 mapping accepted | Pass for 14 error paths and 1 positive fixture |
 | Script syntax | `python3 -m py_compile scripts/check_spec_coverage.py scripts/check_spec_coverage_fixtures.py` exited 0 | Pass |
 | Diff whitespace | `git diff --check` exited 0 | Pass |
-| Implementation progress | As of 2026-11-06, tasks 1.1, 1.2, and 1.4 are checked. Task 3.1 has a fixture receipt and stays unchecked until the catalog package is wired. | Dashboard page reads the local fixture. Search execution, ranking, and library persistence remain open. |
+| Implementation progress | Tasks 1.1, 1.2, 1.4, and 2.1 have receipts. Tasks 1.3 and 2.4 are open. Task 3.1 has a fixture receipt and stays unchecked until the catalog package replaces the local fixture. | Host shell, catalog package, and dashboard page on the local fixture. |
 
 The machine-readable strict validation output is saved in planning-validation.json. Traceability.json maps the PRD IDs to scenario IDs. Its `demo` and `post-demo` statuses describe planning scope, not implementation results. Every delivery-mapped row has an explicit `post_demo_scenarios` array, including `[]` when all its scenarios remain in the demo. A `demo` row has at least one demo scenario. A `post-demo` row defers every mapped scenario. The checks do not establish runtime correctness, recommendation quality, source rights, or hackathon eligibility.
 
@@ -137,7 +137,7 @@ Official source pages are cited in docs/sources.md. No API keys were used, no li
 
 ## Implementation receipts
 
-Tasks 1.1, 1.2, and 1.4 have receipts below. The other scenarios have no implementation receipt. Before marking a task complete, record its task ID, scenario IDs, exact host/code revision, test or manual procedure, observed result, date, and log/artifact location. Use pass, fail, not-run, or blocked with evidence. Keep full logs in files.
+Tasks 1.1, 1.2, 1.4, and 2.1 have receipts below. Tasks 1.3 and 2.4 are open. Before marking a task complete, record its task ID, scenario IDs, exact host/code revision, test or manual procedure, observed result, date, and log/artifact location. Use pass, fail, not-run, or blocked with evidence. Keep full logs in files.
 
 ### Task 1.1 — host pin, page, auth, data root
 
@@ -174,6 +174,24 @@ Tasks 1.1, 1.2, and 1.4 have receipts below. The other scenarios have no impleme
 | Procedure | Run [job_probe.py](../../../docs/receipts/feasibility/job_probe.py). It cancels a `ctx.spawn_task` stub, unloads the plugin manager, kills a child process that was ticking a stub, and inspects the receipt from a new process. |
 | Result | Pass as a host observation, not as product job behavior. Cancel stopped the stub (`CancelledError`, ticks stayed at 3). Unload cancelled the second stub (ticks stayed at 2). After the process was killed, a new interpreter saw the frozen receipt at 2 ticks and did not resume the task. |
 | Artifacts | [job_probe.py](../../../docs/receipts/feasibility/job_probe.py), [job-probe.log](../../../docs/receipts/feasibility/job-probe.log) |
+
+### Tasks 1.3, 2.1, and 2.4 — sources and seeded catalog
+
+| Field | Record |
+|---|---|
+| Date | 2026-11-06 |
+| Tested revision | `4cb29b622b9f48b04a6a76065f7856323358e151` |
+| Scenarios | 2.1 covers CAT01–CAT11 on the package. UI02, FEED01, CAT03, CAT04, and CAT10 still run against the non-video seed. PREF02, PREF03, and HCKT18 are pending and are not claimed. PREF09–PREF12 stay unimplemented because Reddit is disabled. |
+| Procedure | `python3 -m pytest tests -q` on that revision. Captures and the redacted Hacker News fixtures are listed in `tests/fixtures/captured/manifest.json`, including `hn_search.json`, `youtube_videos_list_error.json`, and `podcastindex_401.txt`. |
+| Result | 2.1 passes. Tasks 1.3 and 2.4 stay open. YouTube oEmbed is disabled (`unresolved-terms`); the seed keeps three video ids and watch links and does not display those cards. The Austen question matches books, audiobooks, and two podcast shows. |
+| Artifacts | [pytest.log](../../../docs/receipts/catalog/pytest.log), [feasibility-sources.md](../../../docs/feasibility-sources.md) |
+
+Saved pytest output from that revision was 34 passed. After merging main, `python3 -m pytest tests -q` also collects the dashboard adapter tests. The refreshed log is [pytest.log](../../../docs/receipts/catalog/pytest.log):
+
+```text
+....................................                                     [100%]
+36 passed in 0.06s
+```
 
 ### Task 3.1 — dashboard page, four sections, library, About, source opening
 

@@ -1,0 +1,10 @@
+
+
+
+{
+ "resultCount":1,
+ "results": [
+{"wrapperType":"track", "kind":"podcast", "collectionId":1691189730, "trackId":1691189730, "artistName":"Learning about Python together", "collectionName":"The Python Show", "trackName":"The Python Show", "collectionCensoredName":"The Python Show", "trackCensoredName":"The Python Show", "collectionViewUrl":"https://podcasts.apple.com/us/podcast/the-python-show/id1691189730?uo=4", "feedUrl":"https://api.substack.com/feed/podcast/1662473.rss", "trackViewUrl":"https://podcasts.apple.com/us/podcast/the-python-show/id1691189730?uo=4", "artworkUrl30":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts126/v4/4a/9e/7b/4a9e7bdb-3d12-2fad-72d0-170b4ddd1edf/mza_12348228864483501429.jpg/30x30bb.jpg", "artworkUrl60":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts126/v4/4a/9e/7b/4a9e7bdb-3d12-2fad-72d0-170b4ddd1edf/mza_12348228864483501429.jpg/60x60bb.jpg", "artworkUrl100":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts126/v4/4a/9e/7b/4a9e7bdb-3d12-2fad-72d0-170b4ddd1edf/mza_12348228864483501429.jpg/100x100bb.jpg", "collectionPrice":0.00, "trackPrice":0.00, "collectionHdPrice":0, "releaseDate":"2026-08-27T17:02:00Z", "collectionExplicitness":"notExplicit", "trackExplicitness":"cleaned", "trackCount":57, "trackTimeMillis":2571, "country":"USA", "currency":"USD", "primaryGenreName":"Technology", "contentAdvisoryRating":"Clean", "artworkUrl600":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts126/v4/4a/9e/7b/4a9e7bdb-3d12-2fad-72d0-170b4ddd1edf/mza_12348228864483501429.jpg/600x600bb.jpg", "genreIds":["1318", "26", "1304"], "genres":["Technology", "Podcasts", "Education"]}]
+}
+
+

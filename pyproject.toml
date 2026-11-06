@@ -1,0 +1,9 @@
+[project]
+name = "hackertube-core"
+version = "0.1.0"
+description = "Framework-neutral catalog records and source adapters for HackerTube"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

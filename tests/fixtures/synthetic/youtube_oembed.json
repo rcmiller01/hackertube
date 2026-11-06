@@ -1,0 +1,13 @@
+{
+  "title": "Synthetic title",
+  "author_name": "Synthetic channel",
+  "author_url": "https://example.invalid/channel",
+  "type": "video",
+  "height": 1,
+  "width": 2,
+  "thumbnail_url": "https://example.invalid/thumb.jpg",
+  "thumbnail_width": 1,
+  "thumbnail_height": 1,
+  "html": "<iframe src=\"https://example.invalid/player\"></iframe>",
+  "provider_name": "Synthetic"
+}

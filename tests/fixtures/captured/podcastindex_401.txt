@@ -1,0 +1,1 @@
+Authorization header value either not set or blank.  Please see: https://podcastindex-org.github.io/docs-api/#overview--authentication-details
