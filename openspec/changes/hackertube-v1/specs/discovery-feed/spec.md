@@ -41,7 +41,7 @@ The discovery feed SHALL exclude dismissed and completed items by default and re
 - **THEN** it remains excluded from the default discovery feed
 
 ### Requirement: Honest sparse coverage
-The ranked feed SHALL disclose insufficient matches instead of filling the recommendation list with unrelated items. Other catalog items shown in a format section SHALL be labeled as not matched, kept out of the ranked feed, and given no why-line. With no stored interests the catalog list SHALL stay unranked.
+The ranked feed SHALL disclose insufficient matches and SHALL NOT present unrelated items as recommendations to hide a gap. A clearly labeled, unranked not-matched browse group beside the coverage limit is allowed. Those items SHALL stay out of the ranked feed and SHALL have no why-line. With no stored interests the catalog list SHALL stay unranked.
 
 #### Scenario: FEED06 No catalog matches
 - **WHEN** selected interests have no credible matches in the enabled sources

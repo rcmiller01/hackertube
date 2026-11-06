@@ -73,7 +73,7 @@ Use a disposable Hermes profile for integration probes and clean-install validat
 
 ## Ranking weights (Robert, November 6, 2026)
 
-Robert approved weighted ranking in the catalog core before the demo, and a section browse group that is not a recommendation. The constants are in `hackertube_core/ranking.py`.
+Robert approved weighted ranking in the catalog core before the demo, and a section browse group that is not a recommendation. On November 6, 2026 at 11:32 a.m. ET he allowed that labeled, unranked browse group beside the coverage limit. The constants are in `hackertube_core/ranking.py`.
 
 Interest match is a gate, not a weight. Community evidence adds 1000 only for an unexpired established community endorsement. Freshness adds one point per day remaining in a 366-day window, measured from the item's `captured_at` to the reference time passed into ranking. Variety subtracts 40 for a consecutive same catalog source and 20 for a consecutive same format, then breaks ties by item id. The why-line says "Recent" only when that age is 30 days or less. The page does not show these numbers. A mention, a criticism, or missing endorsement data does not add the community-evidence weight and does not appear on the why-line.
 
