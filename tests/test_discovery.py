@@ -129,10 +129,10 @@ def test_feed04_browse_actions_make_no_paid_call(monkeypatch):
         NOW,
     )
     reopened = discovery.discovery_dict(catalog, {"interests": ["jane austen"], "items": []}, NOW)
-    assert opened["request_counts"] == {"free": 0, "paid": 0}
+    assert opened["request_counts"] == {"free": 0, "paid": 0, "metered": 0}
     assert opened["paid_calls"] == saved["paid_calls"] == dismissed["paid_calls"] == reopened["paid_calls"] == 0
-    assert reopened["request_counts"] == {"free": 0, "paid": 0}
-    assert outbound.counters() == {"free": 0, "paid": 0}
+    assert reopened["request_counts"] == {"free": 0, "paid": 0, "metered": 0}
+    assert outbound.counters() == {"free": 0, "paid": 0, "metered": 0}
     assert paged
     assert books
     assert PRIDE in saved["feed"]
