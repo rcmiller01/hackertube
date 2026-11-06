@@ -1,5 +1,5 @@
 command NODE_PATH=/tmp/pw/node_modules node docs/receipts/feed/capture.js
-pluginCommit 5c32864c10fd8e65c9964728363ef2de261fa8d6
+pluginCommit b923b93c0301599e30c15d6f8cbfc284972b1a21
 hermesVersion Hermes Agent v0.23.0 (2026.9.24) · stable · local 2bd378ed1b8d
 base http://127.0.0.1:9119/hackertube
 FEED07 sections {"videos":{"heading":"Videos 0","cards":0},"podcasts":{"heading":"Podcasts 4","cards":4},"books":{"heading":"Books 4","cards":4},"audiobooks":{"heading":"Audiobooks 4","cards":4}}
@@ -92,6 +92,10 @@ FEED04 new hosts []
 LIB02 catalog refresh reload
 LIB02 reload kept the save and the open
 UI05 scheme true private true badLinks 0
+FEED06 store AI
+FEED06 AI has no seeded match and did not fill the catalog
+FEED06 store C++
+FEED06 C++ has no seeded match and did not fill the catalog
 FEED06 add gardening
 FEED06 gardening has no seeded match
 FEED01 store the demo question
@@ -99,6 +103,8 @@ FEED01 counts Videos 0, Podcasts 2, Books 4, Audiobooks 4.
 FEED01 ranked feed dropped the two Python records
 FEED04 show more
 FEED04 ranked cards 4 then 10
+show more activeElement {"tag":"H3","text":"Sense and Sensibility","id":"ht-expanded-ranked","inside":true,"outlineStyle":"solid","outlineWidth":"2px","outlineColor":"color(srgb 1 0.901961 0.796078)","ariaDisabled":null}
+show more live "10 of 10"
 FEED05 dismiss Jane Austen Stories
 FEED05 dismissed show left the discovery feed
 FEED05 dismissal survived a page reload and the save stayed in the library
@@ -106,7 +112,7 @@ UI06 savedFocus {"tag":"BUTTON","text":"Saved","id":"","inside":true,"outlineSty
 UI06 outline solid 2px
 wrote report.json
 command NODE_PATH=/tmp/pw/node_modules node docs/receipts/feed/capture.js --after-restart
-pluginCommit 5c32864c10fd8e65c9964728363ef2de261fa8d6
+pluginCommit b923b93c0301599e30c15d6f8cbfc284972b1a21
 hermesVersion Hermes Agent v0.23.0 (2026.9.24) · stable · local 2bd378ed1b8d
 base http://127.0.0.1:9119/hackertube
 PREF01 gardening and the demo question retained after Hermes restart

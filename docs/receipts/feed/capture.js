@@ -143,7 +143,10 @@ async function sectionCounts(page) {
     await page.locator(".hackertube h1").waitFor();
     await dismissBanner(page);
     const interest = await page.locator(".ht-interest-list").innerText();
-    if (!interest.includes("gardening")) throw new Error("PREF01 restart missing gardening " + interest);
+    const interestLines = interest.split("\n").map((line) => line.trim()).filter(Boolean);
+    if (!interestLines.includes("gardening")) throw new Error("PREF01 restart missing gardening " + interest);
+    if (!interestLines.includes("AI")) throw new Error("AI interest missing " + interest);
+    if (!interestLines.includes("C++")) throw new Error("C++ interest missing " + interest);
     if (!interest.includes(QUESTION)) throw new Error("demo question interest missing " + interest);
     const count = await page.locator('.ht-nav a[href="#library"]').innerText();
     if (!count.includes("(1 saved)")) throw new Error("LIB02 restart count " + count);
@@ -488,6 +491,43 @@ async function sectionCounts(page) {
   if (badLinks.length) throw new Error("unsafe link rendered " + badLinks.join(","));
   await shot(unsafe, "13-unsafe");
 
+  async function addInterest(text) {
+    await page.locator("#hackertube-interest").fill(text);
+    const done = page.waitForResponse((res) => res.url().includes("/profile/interests") && res.status() === 200);
+    await page.getByRole("button", { name: "Add interest" }).click();
+    await done;
+    await page.locator(".ht-interest-list li", { hasText: new RegExp("^" + text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "$") }).waitFor();
+  }
+
+  async function assertSparse(label) {
+    await page.locator("#hackertube-coverage").waitFor();
+    const coverage = await page.locator("#hackertube-coverage").innerText();
+    if (!coverage.includes("Coverage is limited")) throw new Error(label + " " + coverage);
+    if (await page.locator("#hackertube-feed-note").count()) throw new Error(label + " showed the empty-profile note");
+    const emptyPodcasts = await page.locator("#podcasts").innerText();
+    const emptyBooks = await page.locator("#books").innerText();
+    if (emptyPodcasts.includes("The Python Show") || emptyPodcasts.includes("Jane Austen Stories") || emptyBooks.includes("Pride and Prejudice")) {
+      throw new Error(label + " filled a section " + emptyPodcasts.slice(0, 180));
+    }
+    if (!emptyPodcasts.includes("No podcasts match these interests.")) throw new Error(emptyPodcasts.slice(0, 240));
+  }
+
+  log("FEED06 store AI");
+  await page.locator("#hackertube-interest").waitFor();
+  await addInterest("AI");
+  await assertSparse("FEED06 AI");
+  await page.locator("#ranked-feed").scrollIntoViewIfNeeded();
+  await shot(page, "35-feed06-ai");
+  log("FEED06 AI has no seeded match and did not fill the catalog");
+
+  log("FEED06 store C++");
+  await addInterest("C++");
+  await assertSparse("FEED06 C++");
+  await page.locator("#ranked-feed").scrollIntoViewIfNeeded();
+  await shot(page, "36-feed06-cpp");
+  await shot(page, "30-feed06-no-match");
+  log("FEED06 C++ has no seeded match and did not fill the catalog");
+
   log("FEED06 add gardening");
   await page.locator("#hackertube-interest").waitFor();
   await page.locator("#hackertube-interest").fill("gardening");
@@ -506,7 +546,6 @@ async function sectionCounts(page) {
   }
   if (!emptyPodcasts.includes("No podcasts match these interests.")) throw new Error(emptyPodcasts.slice(0, 240));
   await page.locator("#ranked-feed").scrollIntoViewIfNeeded();
-  await shot(page, "30-feed06-no-match");
   await shot(page, "23-pref01-gardening");
   log("FEED06 gardening has no seeded match");
 
@@ -545,11 +584,26 @@ async function sectionCounts(page) {
 
   log("FEED04 show more");
   const beforeMore = await page.locator("#ranked-feed article").count();
-  await page.locator("#ranked-feed").getByRole("button", { name: "Show more" }).click();
+  const showMore = page.locator("#ranked-feed").getByRole("button", { name: "Show more" });
+  await showMore.focus();
+  await page.keyboard.press("Enter");
+  await page.waitForFunction(() => {
+    const el = document.activeElement;
+    return el && el.tagName === "H3" && el.tabIndex === -1 && el.id === "ht-expanded-ranked";
+  });
   const afterMore = await page.locator("#ranked-feed article").count();
+  const moreFocus = await activeInfo(page);
+  const expandLive = await page.locator("#hackertube-expand-live").innerText();
   log("FEED04 ranked cards " + beforeMore + " then " + afterMore);
+  log("show more activeElement " + JSON.stringify(moreFocus));
+  log("show more live " + JSON.stringify(expandLive));
   if (!(beforeMore === 4 && afterMore === 10)) throw new Error("paging " + beforeMore + " " + afterMore);
-  await page.locator("#ranked-feed").scrollIntoViewIfNeeded();
+  if (moreFocus.tag !== "H3" || moreFocus.text !== "Sense and Sensibility") {
+    throw new Error("show more focus " + JSON.stringify(moreFocus));
+  }
+  if (expandLive !== "10 of 10") throw new Error("expand live " + expandLive);
+  await page.locator("#ht-expanded-ranked").scrollIntoViewIfNeeded();
+  await shot(page, "37-show-more-focus");
   await shot(page, "28-feed04-show-more");
 
   log("FEED05 dismiss Jane Austen Stories");

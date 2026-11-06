@@ -1,5 +1,5 @@
 {
-  "pluginCommit": "5c32864c10fd8e65c9964728363ef2de261fa8d6",
+  "pluginCommit": "b923b93c0301599e30c15d6f8cbfc284972b1a21",
   "hermesVersion": "Hermes Agent v0.23.0 (2026.9.24) · stable · local 2bd378ed1b8d",
   "captureCommand": "NODE_PATH=/tmp/pw/node_modules node docs/receipts/feed/capture.js",
   "reloadedHeading": "HackerTube",
@@ -53,7 +53,6 @@
     "127.0.0.1:9119",
     "archive.org",
     "covers.openlibrary.org",
-    "ia600505.us.archive.org",
     "ia601601.us.archive.org",
     "ia800505.us.archive.org",
     "ia801601.us.archive.org",
@@ -67,9 +66,7 @@
     "columns": "327.5px"
   },
   "columns768": "683px",
-  "notes": [
-    "dismissed host shared-metrics banner with the keyboard"
-  ],
+  "notes": [],
   "axe": [
     "search-open",
     "about",
@@ -78,9 +75,9 @@
     "width-390"
   ],
   "afterRestart": {
-    "pluginCommit": "5c32864c10fd8e65c9964728363ef2de261fa8d6",
+    "pluginCommit": "b923b93c0301599e30c15d6f8cbfc284972b1a21",
     "libraryCount": "Library (1 saved)",
-    "interest": "gardening What can I read or listen to by Jane Austen?",
+    "interest": "AI C++ gardening What can I read or listen to by Jane Austen?",
     "opened": true,
     "notCompleted": true,
     "dismissedKeptOut": true
