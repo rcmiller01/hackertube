@@ -186,11 +186,11 @@ Tasks 1.1, 1.2, 1.4, and 2.1 have receipts below. Tasks 1.3 and 2.4 are open. Be
 | Result | 2.1 passes. Tasks 1.3 and 2.4 stay open. YouTube oEmbed is disabled (`unresolved-terms`); the seed keeps three video ids and watch links and does not display those cards. The Austen question matches books, audiobooks, and two podcast shows. |
 | Artifacts | [pytest.log](../../../docs/receipts/catalog/pytest.log), [feasibility-sources.md](../../../docs/feasibility-sources.md) |
 
-Saved pytest output from that revision was 34 passed. After merging main, `python3 -m pytest tests -q` also collects the dashboard adapter tests. The refreshed log is [pytest.log](../../../docs/receipts/catalog/pytest.log):
+Saved pytest output from that revision was 34 passed. After merging main, `python3 -m pytest tests -q` also collects the dashboard catalog tests. The URL guard on code revision `77e9578834381b0b5e668c2301f86165609012bb` pins each `read_json` connection to an address that already passed the shared allowlist. `tests/conftest.py` replaces `socket.getaddrinfo` with a function that raises, so this run does no live DNS. Live source-host lookups are the manual receipt [dns-smoke.md](../../../docs/receipts/catalog/dns-smoke.md). `git diff 77e9578834381b0b5e668c2301f86165609012bb -- hackertube_core tests` is empty on the receipt commit that refreshes the log. `python3 -m pytest tests -q` on that tree reported 71 passed. Back-to-back runs took 0.12s and 0.13s. The refreshed log is [pytest.log](../../../docs/receipts/catalog/pytest.log):
 
 ```text
-....................................                                     [100%]
-36 passed in 0.06s
+.......................................................................  [100%]
+71 passed in 0.12s
 ```
 
 ### Task 3.1 — dashboard page, four sections, library, About, source opening
