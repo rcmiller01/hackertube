@@ -1,0 +1,13 @@
+name: hackertube
+version: 0.1.0
+description: HackerTube media discovery page in the Hermes web dashboard.
+requires_hermes: ">=0.23.0"
+config_schema:
+  model_key:
+    type: secret
+    env: HACKERTUBE_MODEL_KEY
+    required: false
+    description: >-
+      Plugin-owned model or search key. Hermes stores it. Read only this
+      declared name through agent.secret_scope.get_secret. Do not read
+      Hermes credential files.

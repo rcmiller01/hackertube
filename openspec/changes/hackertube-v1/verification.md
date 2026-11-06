@@ -17,7 +17,7 @@ Checked November 5, 2026 on the box with Node.js v24.22.1, OpenSpec 1.16.0, and 
 | Coverage checker fixtures | Missing PRD ID, dangling scenario, deferred P0, missing post-demo subset, non-P0 post-demo, unmapped scenario, partial subset under whole-row post-demo status, demo row deferring all scenarios, duplicate subset entry, out-of-row subset entry, missing subset reason, non-array subset, stale `specified` status, and reason without post-demo scenarios all rejected; the valid mixed-disposition R04 mapping accepted | Pass for 14 error paths and 1 positive fixture |
 | Script syntax | `python3 -m py_compile scripts/check_spec_coverage.py scripts/check_spec_coverage_fixtures.py` exited 0 | Pass |
 | Diff whitespace | `git diff --check` exited 0 | Pass |
-| Implementation progress | No implementation task is complete | Not started |
+| Implementation progress | As of 2026-11-06, tasks 1.1, 1.2, and 1.4 have receipts. Every other implementation task is open. | Host shell only |
 
 The machine-readable strict validation output is saved in planning-validation.json. Traceability.json maps the PRD IDs to scenario IDs. Its `demo` and `post-demo` statuses describe planning scope, not implementation results. Every delivery-mapped row has an explicit `post_demo_scenarios` array, including `[]` when all its scenarios remain in the demo. A `demo` row has at least one demo scenario. A `post-demo` row defers every mapped scenario. The checks do not establish runtime correctness, recommendation quality, source rights, or hackathon eligibility.
 
@@ -137,7 +137,40 @@ Official source pages are cited in docs/sources.md. No API keys were used, no li
 
 ## Implementation receipts
 
-No scenario has an implementation receipt yet. Before marking a task complete, record its task ID, scenario IDs, exact host/code revision, test or manual procedure, observed result, date, and log/artifact location. Use pass, fail, not-run, or blocked with evidence. Keep full logs in files.
+Tasks 1.1, 1.2, and 1.4 have receipts below. The other scenarios have no implementation receipt. Before marking a task complete, record its task ID, scenario IDs, exact host/code revision, test or manual procedure, observed result, date, and log/artifact location. Use pass, fail, not-run, or blocked with evidence. Keep full logs in files.
+
+### Task 1.1 — host pin, page, auth, data root
+
+| Field | Record |
+|---|---|
+| Date | 2026-11-06 |
+| Host | Hermes Agent v0.23.0 (2026.9.24), commit `2bd378ed1b8d6bf2192cb26e0a55ff3091e6bd19`, Python 3.14.9, disposable `HERMES_HOME=/tmp/hermes-probe` |
+| Scenarios | UI01 exercised for the shell page. LIB02's saved-item behavior is not implemented; the profile data directory survived a dashboard process restart. PREF07 was not run. |
+| Procedure | `hermes plugins validate /workspace/hackertube --install-deps`. Enable the user plugin. `hermes dashboard --no-open --skip-build --host 127.0.0.1 --port 9120`. Open `/hackertube`, reload, restart the server, open the page again. Call `GET /api/plugins/hackertube/status` with and without `X-Hermes-Session-Token`. |
+| Result | Pass for the shell. Validation ok, no warnings. Nav link `/hackertube` labeled HACKERTUBE. Heading text HackerTube visible after reload and after process restart. Unauthenticated status returned 401; authenticated status returned 200 and `data_root` `/tmp/hermes-probe/plugin-data/hackertube`. |
+| Detail | [docs/feasibility.md](../../../docs/feasibility.md) |
+
+### Task 1.2 — model and search binding
+
+| Field | Record |
+|---|---|
+| Date | 2026-11-06 |
+| Host | Same pin as task 1.1 |
+| Scenarios | SEARCH01, PREF05, HCKT14, HCKT15 are not product-complete. The day-one route decision and the memory-disabled payload check are recorded. No focused search is implemented. |
+| Procedure | Construct `PluginContext` for `hackertube` on the pinned checkout. Inspect `ctx.llm`. Capture `complete()` messages with an injected caller. Attempt one live `complete()`. Call `ctx.dispatch_tool("web_search", ...)` once. Store a placeholder `HACKERTUBE_MODEL_KEY` with `save_env_value`, read it with `get_secret` inside `_config_profile_scope(None)`, confirm the plugin data directory does not contain it, then `remove_env_value`. Review plugin source for credential-file reads. |
+| Result | Pass for the route decision. `ctx.llm` is `agent.plugin_llm.PluginLlm` on the native context. The dashboard module is not given `ctx`. Live `complete()` failed closed with `AuxiliaryClientUnavailable` (no host provider). The captured payload was only the plugin's user message. `ctx.dispatch_tool("web_search")` returned a real result through the host keyless provider; that call is not available on the dashboard router. Chosen path: `config_schema.model_key` secret `HACKERTUBE_MODEL_KEY`, read through secret scope. Scope read matched; plugin data did not contain the placeholder; the placeholder was removed. Plugin source does not open credential files. |
+| Detail | [docs/feasibility.md](../../../docs/feasibility.md) |
+
+### Task 1.4 — stub job lifecycle
+
+| Field | Record |
+|---|---|
+| Date | 2026-11-06 |
+| Host | Same pin as task 1.1 |
+| Scenarios | JOB03, JOB05, and JOB06 remain specified. Product cancellation and restart are still task 6.2. This receipt is the host observation only. |
+| Procedure | `ctx.spawn_task` on deterministic asyncio stubs. Cancel the task. Unload the plugin manager. Kill a child process that was ticking a stub and inspect the receipt from a new process. |
+| Result | Pass as a host observation, not as product job behavior. Cancel stopped the stub (`CancelledError`, ticks stayed at 3). Unload cancelled the second stub (ticks stayed at 2). After the process was killed, a new interpreter saw the frozen receipt at 2 ticks and did not resume the task. No host job store was written. |
+| Detail | [docs/feasibility.md](../../../docs/feasibility.md) |
 
 ## Release measurements
 
