@@ -175,7 +175,23 @@ Tasks 1.1, 1.2, 1.4, 1.3, 2.1, and 2.4 have receipts below. Before marking a tas
 | Result | Pass as a host observation, not as product job behavior. Cancel stopped the stub (`CancelledError`, ticks stayed at 3). Unload cancelled the second stub (ticks stayed at 2). After the process was killed, a new interpreter saw the frozen receipt at 2 ticks and did not resume the task. |
 | Artifacts | [job_probe.py](../../../docs/receipts/feasibility/job_probe.py), [job-probe.log](../../../docs/receipts/feasibility/job-probe.log) |
 
-Catalog receipts for tasks 1.3, 2.1, and 2.4 are recorded after the review fixes, with the tested revision and the saved pytest log.
+### Tasks 1.3, 2.1, and 2.4 — sources and seeded catalog
+
+| Field | Record |
+|---|---|
+| Date | 2026-11-06 |
+| Tested revision | `8a3eaca1eda9dd4bf5a147ff96cbbfc06a9e96c1` |
+| Scenarios | CAT01–CAT11, UI02, FEED01, CAT03, CAT04, CAT10, and CAT11 on the catalog package. PREF09–PREF12 stay unimplemented because Reddit is disabled. HCKT18 is the local expiry and blocked-adapter check, not a live deletion drill. |
+| Procedure | `python3 -m pytest tests -q` on that revision. Captures and the redacted Hacker News fixtures are listed in `tests/fixtures/captured/manifest.json`, including `hn_search.json`, `youtube_videos_list_error.json`, and `podcastindex_401.txt`. |
+| Result | Pass. 34 tests, 0 failed. The Austen question matches books, audiobooks, and two podcast shows. Videos are empty for that question. Comment `26188584` is not attached to `gm0b_ijaYMQ`. LibriVox covers are not hotlinked. oEmbed title and channel expire after 30 days. |
+| Artifacts | [pytest.log](../../../docs/receipts/catalog/pytest.log), [feasibility-sources.md](../../../docs/feasibility-sources.md) |
+
+Saved pytest output from that revision:
+
+```text
+..................................                                       [100%]
+34 passed in 0.05s
+```
 
 ## Release measurements
 
