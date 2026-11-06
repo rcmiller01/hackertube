@@ -137,7 +137,7 @@ Official source pages are cited in docs/sources.md. No API keys were used, no li
 
 ## Implementation receipts
 
-Tasks 1.1, 1.2, 1.4, 2.1, and 2.2 have receipts below. Tasks 1.3 and 2.4 are open. Before marking a task complete, record its task ID, scenario IDs, exact host/code revision, test or manual procedure, observed result, date, and log/artifact location. Use pass, fail, not-run, or blocked with evidence. Keep full logs in files.
+Tasks 1.1, 1.2, 1.4, 2.1, and 2.2 have receipts below, as do tasks 3.1, 3.2, 3.7, and 3.3. Tasks 1.3 and 2.4 are open. Before marking a task complete, record its task ID, scenario IDs, exact host/code revision, test or manual procedure, observed result, date, and log/artifact location. Use pass, fail, not-run, or blocked with evidence. Keep full logs in files.
 
 ### Task 1.1 — host pin, page, auth, data root
 
@@ -301,6 +301,18 @@ Not done in this task, and not claimed by the checkbox:
 | Artifacts | [docs/receipts/ranking/](../../../docs/receipts/ranking/) |
 
 The weights are module constants in `hackertube_core/ranking.py`: community evidence 1000, freshness 1 point per day remaining in a 366-day window, variety penalties 40 for a consecutive same catalog source and 20 for a consecutive same format. Interest match is the gate and is not a weight. `Recent` is the why-line word only when the catalog age is 30 days or less. Tie-break is item id.
+
+### Task 3.3 — request boundaries and zero paid calls
+
+| Field | Record |
+|---|---|
+| Date | 2026-11-06 |
+| Plugin revision | Code commit `53963e1ac5f8e8868a91da83eb3183f827038d8c` adds `hackertube_core/outbound.py` and its tests. Receipt commit `b535b398f48253fafc90ed34c4d6b6b2af742261` changes `docs/receipts/requests/` only. `git diff --stat 53963e1ac5f8e8868a91da83eb3183f827038d8c b535b398f48253fafc90ed34c4d6b6b2af742261 -- hackertube hackertube_core tests` is empty. |
+| Host | None. The `hermes` CLI on this box refused to run with `no dependency environment is committed for this install; run hermes pm repair`, so no host install/load or loopback browser walk was run. Counts come from CPython 3.14.7 directly. No host scheduler behavior is claimed. |
+| Scenarios | FEED04, PREF08, JOB02, and JOB04 pass at the plugin boundary. A real paid provider call and live DNS were not run. |
+| Procedure | `python -m pytest tests -q` and `node --test tests/test_dashboard_page.js`. Then `python docs/receipts/requests/probe.py` for the counts and `python docs/receipts/requests/bypass_probe.py` for the red check. |
+| Result | 118 passed, 0 failed (107 before). `node --test` reported 36 pass, 0 fail. Browsing open, page, rerank, save, dismiss, and reopen dispatched nothing: `{"free": 0, "paid": 0}` with a known zero cost. Two source reads through the boundary counted `free` 2. A paid call with no reported cost reported `cost_usd` null, not zero. A direct `urllib.request.urlopen` on the feed path was refused with `NetworkOutsideBoundary`. |
+| Artifacts | [docs/receipts/requests/](../../../docs/receipts/requests/) |
 
 ## Release measurements
 

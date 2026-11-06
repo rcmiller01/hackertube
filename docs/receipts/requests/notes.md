@@ -35,7 +35,11 @@ NODE_PATH=~/.hermes/hermes-agent/node_modules \
 | Bypass red check | `python docs/receipts/requests/bypass_probe.py` | refused as expected: urllib.request.urlopen |
 
 Logs: `pytest.log`, `node.log`, `probe.log`, `boundary-red.log`,
-`report.json`.
+`openspec.log`, `report.json`.
+
+OpenSpec strict validation passed (`1 passed, 0 failed`) and
+`scripts/check_spec_coverage.py` passed with the pre-existing 95
+scenarios, which the 3.7 spec change added.
 
 ## Boundary
 

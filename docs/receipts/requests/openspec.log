@@ -1,0 +1,6 @@
+$ OPENSPEC_TELEMETRY=0 npx --yes --package @fission-ai/openspec@1.16.0 openspec validate --all --strict --no-interactive
+✓ change/hackertube-v1
+Totals: 1 passed, 0 failed (1 items)
+
+$ python scripts/check_spec_coverage.py
+PASS: 32 PRD IDs; 31 delivery-mapped; 1 deferred (R16); 8 demo rows with post-demo subsets (R03, R04, R05, R07, R08, R12, R14, R27); 1 fully post-demo rows (R13); 21 post-demo scenarios; 8 capabilities; 49 requirements; 95 scenarios. Runtime checks not run.
