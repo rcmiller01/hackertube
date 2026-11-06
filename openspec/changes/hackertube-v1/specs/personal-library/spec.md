@@ -36,3 +36,14 @@ The user SHALL be able to remove a save, dismiss an item, and undo a dismissal w
 #### Scenario: LIB06 Remove a save
 - **WHEN** the user removes a saved item
 - **THEN** its saved status is cleared while its source evidence and independent completion state remain unchanged
+
+### Requirement: Explicit chat saves
+A user-authorized media request from an explicit agent invocation SHALL save selected retrieved results to the same profile-local library as the dashboard. This capability is post-demo.
+
+#### Scenario: LIB07 Save chat result on request
+- **WHEN** the user explicitly asks the HackerTube agent entry point to save an identified result from its media response
+- **THEN** the shared library stores that canonical item once and the dashboard shows the same saved state
+
+#### Scenario: LIB08 Ordinary chat does not save
+- **WHEN** a user mentions media in an ordinary chat request without invoking HackerTube or asking it to save
+- **THEN** no library record changes and no HackerTube search job starts

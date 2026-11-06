@@ -4,7 +4,9 @@
     "scenarios": [
       "dashboard-shell/UI01",
       "dashboard-shell/UI03",
-      "dashboard-shell/UI06"
+      "dashboard-shell/UI06",
+      "dashboard-shell/UI02",
+      "hackathon-submission/HCKT02"
     ]
   },
   "R02": {
@@ -25,7 +27,7 @@
     ]
   },
   "R04": {
-    "status": "specified",
+    "status": "post-demo",
     "scenarios": [
       "focused-search/SEARCH01",
       "focused-search/SEARCH02",
@@ -35,7 +37,12 @@
       "focused-search/SEARCH06",
       "focused-search/SEARCH07",
       "focused-search/SEARCH08",
-      "focused-search/SEARCH09"
+      "focused-search/SEARCH09",
+      "hackathon-submission/HCKT20"
+    ],
+    "reason": "HCKT20 and the 20-request relevance evaluation are post-demo. SEARCH01 through SEARCH09 govern the focused search; only the agreed demo request must be verified for the video.",
+    "post_demo_scenarios": [
+      "hackathon-submission/HCKT20"
     ]
   },
   "R05": {
@@ -44,7 +51,8 @@
       "dashboard-shell/UI02",
       "media-catalog/CAT03",
       "media-catalog/CAT04",
-      "media-catalog/CAT06"
+      "media-catalog/CAT06",
+      "discovery-feed/FEED08"
     ]
   },
   "R06": {
@@ -54,7 +62,9 @@
       "media-catalog/CAT02",
       "media-catalog/CAT07",
       "media-catalog/CAT08",
-      "media-catalog/CAT09"
+      "media-catalog/CAT09",
+      "media-catalog/CAT10",
+      "media-catalog/CAT11"
     ]
   },
   "R07": {
@@ -69,12 +79,18 @@
     ]
   },
   "R08": {
-    "status": "specified",
+    "status": "post-demo",
     "scenarios": [
       "personalization-sources/PREF05",
       "personalization-sources/PREF06",
       "personalization-sources/PREF07",
-      "personalization-sources/PREF08"
+      "personalization-sources/PREF08",
+      "personalization-sources/PREF13"
+    ],
+    "reason": "PREF06 memory opt-in and revocation are post-demo. PREF05, PREF08, and PREF13 cover the memory-disabled and consent-disclosure requirements during the demo.",
+    "post_demo_scenarios": [
+      "personalization-sources/PREF06",
+      "personalization-sources/PREF07"
     ]
   },
   "R09": {
@@ -82,14 +98,20 @@
     "scenarios": [
       "personalization-sources/PREF02",
       "personalization-sources/PREF03",
-      "personalization-sources/PREF04"
+      "personalization-sources/PREF04",
+      "personalization-sources/PREF09",
+      "personalization-sources/PREF10",
+      "personalization-sources/PREF11",
+      "personalization-sources/PREF12",
+      "personalization-sources/PREF14"
     ]
   },
   "R10": {
     "status": "specified",
     "scenarios": [
       "dashboard-shell/UI04",
-      "dashboard-shell/UI05"
+      "dashboard-shell/UI05",
+      "dashboard-shell/UI06"
     ]
   },
   "R11": {
@@ -99,7 +121,9 @@
       "request-jobs/JOB02",
       "request-jobs/JOB03",
       "request-jobs/JOB04",
-      "discovery-feed/FEED04"
+      "discovery-feed/FEED04",
+      "request-jobs/JOB09",
+      "request-jobs/JOB10"
     ]
   },
   "R12": {
@@ -109,15 +133,25 @@
       "request-jobs/JOB05",
       "request-jobs/JOB06",
       "request-jobs/JOB07",
-      "request-jobs/JOB08"
+      "request-jobs/JOB08",
+      "personalization-sources/PREF11",
+      "personalization-sources/PREF14"
     ]
   },
   "R13": {
-    "status": "specified",
+    "status": "post-demo",
     "scenarios": [
-      "focused-search/SEARCH01",
+      "focused-search/SEARCH12",
       "focused-search/SEARCH02",
-      "personal-library/LIB01"
+      "personal-library/LIB07",
+      "personal-library/LIB08"
+    ],
+    "reason": "The entire chat and agent entry is post-demo. Dashboard SEARCH01 remains in the demo.",
+    "post_demo_scenarios": [
+      "focused-search/SEARCH12",
+      "focused-search/SEARCH02",
+      "personal-library/LIB07",
+      "personal-library/LIB08"
     ]
   },
   "R14": {
@@ -126,7 +160,9 @@
       "media-catalog/CAT05",
       "media-catalog/CAT06",
       "discovery-feed/FEED05",
-      "focused-search/SEARCH08"
+      "focused-search/SEARCH08",
+      "focused-search/SEARCH10",
+      "focused-search/SEARCH11"
     ]
   },
   "R15": {
@@ -141,5 +177,119 @@
     "status": "deferred",
     "reason": "PRD P1 follow-up. V1 retains explicit interest editing but omits the save-search-as-interest shortcut.",
     "scenarios": []
+  },
+  "R17": {
+    "status": "specified",
+    "scenarios": [
+      "hackathon-submission/HCKT01"
+    ]
+  },
+  "R18": {
+    "status": "specified",
+    "scenarios": [
+      "hackathon-submission/HCKT02"
+    ]
+  },
+  "R19": {
+    "status": "specified",
+    "scenarios": [
+      "hackathon-submission/HCKT03"
+    ]
+  },
+  "R20": {
+    "status": "specified",
+    "scenarios": [
+      "hackathon-submission/HCKT05",
+      "hackathon-submission/HCKT06"
+    ]
+  },
+  "R21": {
+    "status": "specified",
+    "scenarios": [
+      "hackathon-submission/HCKT07",
+      "hackathon-submission/HCKT08",
+      "hackathon-submission/HCKT16"
+    ]
+  },
+  "R22": {
+    "status": "specified",
+    "scenarios": [
+      "hackathon-submission/HCKT10",
+      "hackathon-submission/HCKT11"
+    ]
+  },
+  "R23": {
+    "status": "specified",
+    "scenarios": [
+      "hackathon-submission/HCKT12"
+    ]
+  },
+  "R24": {
+    "status": "specified",
+    "scenarios": [
+      "hackathon-submission/HCKT04"
+    ]
+  },
+  "R25": {
+    "status": "specified",
+    "scenarios": [
+      "hackathon-submission/HCKT13"
+    ]
+  },
+  "R26": {
+    "status": "specified",
+    "scenarios": [
+      "hackathon-submission/HCKT14",
+      "hackathon-submission/HCKT15"
+    ]
+  },
+  "R27": {
+    "status": "post-demo",
+    "scenarios": [
+      "hackathon-submission/HCKT16",
+      "hackathon-submission/HCKT19",
+      "personal-library/LIB02"
+    ],
+    "reason": "HCKT19 lifecycle rehearsal and the update branch of LIB02 are post-demo. Restart and refresh persistence remain in the demo, while HCKT16 requires no self-updater.",
+    "post_demo_scenarios": [
+      "hackathon-submission/HCKT19",
+      "personal-library/LIB02"
+    ]
+  },
+  "R28": {
+    "status": "specified",
+    "scenarios": [
+      "hackathon-submission/HCKT17"
+    ]
+  },
+  "R29": {
+    "status": "specified",
+    "scenarios": [
+      "hackathon-submission/HCKT18",
+      "personalization-sources/PREF09",
+      "personalization-sources/PREF10",
+      "personalization-sources/PREF11",
+      "personalization-sources/PREF12",
+      "personalization-sources/PREF14"
+    ]
+  },
+  "R30": {
+    "status": "specified",
+    "scenarios": [
+      "hackathon-submission/HCKT21"
+    ]
+  },
+  "R31": {
+    "status": "specified",
+    "scenarios": [
+      "hackathon-submission/HCKT09",
+      "hackathon-submission/HCKT22"
+    ]
+  },
+  "R32": {
+    "status": "specified",
+    "scenarios": [
+      "hackathon-submission/HCKT23"
+    ]
   }
 }

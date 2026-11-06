@@ -5,7 +5,7 @@
       "type": "change",
       "valid": true,
       "issues": [],
-      "durationMs": 13
+      "durationMs": 30
     }
   ],
   "summary": {
@@ -27,5 +27,9 @@
       }
     }
   },
-  "version": "1.0"
+  "version": "1.0",
+  "root": {
+    "path": "/workspace/hackertube",
+    "source": "nearest"
+  }
 }

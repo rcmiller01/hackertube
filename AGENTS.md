@@ -6,4 +6,8 @@ Implement the selected task against its scenarios. Record actual checks and rema
 
 Preserve product decisions in `docs/PRD.md` and credit Andrej Karpathy in the required surfaces. Resolve conflicting requirements explicitly.
 
-Use subagents only when explicitly requested by the user. Set author and committer to `codex-agent <codex-agent@hermes.local>` with explicit environment variables for every commit.
+Every change goes on its own branch and pull request. Bots never merge to main or push to main. Robert or Eve merges only when Robert explicitly asks for that merge.
+
+Every bot commit ends with a trailer naming the bot, for example `Co-authored-by: Eve (Grok Bot) <eve-bot@grokbot.local>`. A squash merge keeps every unique `(Grok Bot)` trailer from the PR's commits.
+
+Before any merge, send non-code reviews and code PRs to the reviewer bot, Cracked, with the exact head SHA. Review the current head again after later changes.

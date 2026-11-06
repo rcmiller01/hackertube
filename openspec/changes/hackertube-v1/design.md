@@ -4,7 +4,7 @@
 
 The repository contains a PRD and README, with no application code. See proposal.md for scope. Public Hermes documentation describes web-dashboard tabs, plugin backend routes, and a separate native Desktop SDK. The exact host version, plugin LLM/search entry points, source adapters, and lifecycle behavior have not been exercised here.
 
-This is an integration-first design. The behavior contract is specified; the host bindings remain conditional on task group 1 evidence. Documents being complete does not authorize pretending an unavailable host capability works.
+This is an integration-first design. The behavior contract is specified; the host bindings remain conditional on task group 1 evidence. The November 11 hackathon cut is explicit in PRD section 13 and tasks 1 through 5. Tasks in group 6 preserve post-demo behavior. Documents being complete does not authorize pretending an unavailable host capability works.
 
 ## Goals and non-goals
 
@@ -22,7 +22,7 @@ Alternative considered was patching Hermes or building a separate application. T
 
 ### 2. Separate read paths from explicit work
 
-Feed reads, filters, and library mutations operate on prepared local data. Explicit Search and Refresh create bounded jobs that can retrieve, classify, and rank new candidates. Model calls and search requests use supported Hermes routes with profile-scoped credentials.
+Feed reads, filters, and library mutations operate on prepared local data. Explicit Search and Refresh create bounded jobs that can retrieve, classify, and rank new candidates. Model calls and search requests use supported Hermes routes with profile-scoped credentials. The day-one fallback is a plugin-owned key in a secret `config_schema` or `requires_env` declaration, read through secret scope. It is never written to plugin data or read from a credential file by the plugin.
 
 Alternative considered was generating recommendations on page load. That makes ordinary browsing unpredictable and violates zero paid browsing. If a required public model/search API is absent, record the gap and propose a supported binding before implementation continues. Reading credential files or patching core is not an alternative.
 
@@ -38,7 +38,7 @@ A transactional store in the plugin's supported profile data root is the propose
 
 Adapters report supported formats, access requirements, reuse limits, source status, and normalized records. A publisher feed is not an endorsement source. Ranking consumes verified item/evidence records and profile preferences. LLM output can select or explain retrieved candidates but cannot create verified identity or endorsement.
 
-Begin with a small documented source set that has real records across all four formats. A broad scraper and full historical archive extraction are unnecessary for V1. Candidate sources must be selected on actual access and reuse evidence, not on an assumption that a public URL grants unrestricted ingestion rights.
+Begin with the proposed matrix in docs/sources.md. Hacker News is the default community. Reddit is restricted to explicitly selected subreddits after access approval. A broad scraper and full historical archive extraction are unnecessary. Source availability does not imply reuse permission. Adapters remain disabled when retention, display, or deletion terms for the implementation are unresolved.
 
 ### 5. Preserve results through bounded jobs
 
@@ -54,7 +54,7 @@ Feed selection and source blocking are distinct. As proposed in the PRD, disabli
 
 ## Feasibility gates
 
-Task group 1 must produce a committed feasibility receipt with the chosen host version/commit, exact public entry points, a clean-profile route probe, source matrix, and job lifecycle probe. Dependent tasks remain unchecked until the required path is demonstrated. Probe scaffolding must not be reported as working product behavior.
+Task group 1 must produce a committed feasibility receipt with the chosen host version/commit, exact public entry points, a clean-profile route probe, the proposed source matrix verified against the chosen implementation, and job lifecycle probe. Task 1.2 ends on day 1 with either a supported model/search route or the declared plugin-secret fallback. Dependent tasks remain unchecked until the required path is demonstrated. Probe scaffolding must not be reported as working product behavior.
 
 If an integration cannot meet the specs, revise the design and affected tasks before building dependent features. Escalate only product-scope changes to Robert. Technical facts should be investigated directly.
 

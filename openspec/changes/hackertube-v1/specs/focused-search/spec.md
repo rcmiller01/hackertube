@@ -5,11 +5,15 @@ Turn a user's explicit question into source-backed media recommendations across 
 ## ADDED Requirements
 
 ### Requirement: Explicit focused search
-An explicit media request SHALL invoke LLM-backed search through the dashboard or supported agent entry point. Ordinary chat questions SHALL NOT be intercepted automatically.
+An explicit dashboard media request SHALL invoke LLM-backed search. Ordinary chat questions SHALL NOT be intercepted automatically. The supported agent entry point is post-demo. Ordinary chat questions SHALL NOT be intercepted automatically.
 
 #### Scenario: SEARCH01 Request across formats
-- **WHEN** the user explicitly requests media for a topic through the page or agent
+- **WHEN** the user explicitly requests media for a topic through the page
 - **THEN** the shared search behavior returns verified candidates in relevant media sections
+
+#### Scenario: SEARCH12 Explicit agent entry after demo
+- **WHEN** the user explicitly invokes the HackerTube agent entry point for media recommendations after the demo
+- **THEN** the entry invokes the same search backend as the dashboard and returns its verified result set
 
 #### Scenario: SEARCH02 Unrelated chat
 - **WHEN** the user asks an ordinary chat question without media-recommendation intent
@@ -17,6 +21,14 @@ An explicit media request SHALL invoke LLM-backed search through the dashboard o
 
 ### Requirement: Question and constraint priority
 Focused recommendations SHALL prioritize the question's purpose, topic, requested formats, depth, and explicit constraints over general interest preferences.
+
+#### Scenario: SEARCH10 Include dismissed items explicitly
+- **WHEN** the user turns on the include-dismissed control and submits a focused search
+- **THEN** relevant dismissed items may appear with their dismissed state clearly labeled
+
+#### Scenario: SEARCH11 Dismissed items excluded by control default
+- **WHEN** the include-dismissed control is off and a focused search runs
+- **THEN** dismissed items are excluded from the focused result set as well as the discovery feed
 
 #### Scenario: SEARCH03 Question differs from interests
 - **WHEN** the user with technology interests asks for gardening books
@@ -48,7 +60,7 @@ Focused search SHALL report insufficient evidence for a format instead of invent
 - **THEN** the audiobook section reports no verified matches while other credible results remain available
 
 ### Requirement: Prior user state is visible
-Focused results that include previously saved, dismissed, or completed items SHALL display the recorded state. A question SHALL NOT change interests implicitly.
+Focused results that include previously saved, dismissed, or completed items SHALL display the recorded state. A question SHALL NOT change interests implicitly. Focused search SHALL expose an explicit include-dismissed control. Dismissed items SHALL remain excluded when that control is off.
 
 #### Scenario: SEARCH08 Previously dismissed result
 - **WHEN** a focused search returns a relevant item dismissed from discovery

@@ -34,26 +34,45 @@ def check(root):
             raise ValueError(f"Scenario without stable ID in {path}")
         if len(set(ids)) != len(ids):
             raise ValueError(f"Duplicate scenario ID in {path}")
-        scenarios.update(f"{path.parent.name}/{sid}" for sid in ids)
+        for sid in ids:
+            qualified = f"{path.parent.name}/{sid}"
+            if qualified in scenarios:
+                raise ValueError(f"Duplicate scenario ID across specs: {qualified}")
+            scenarios.add(qualified)
 
     referenced = set()
     deferred = []
+    post_demo = []
     for rid, entry in mapping.items():
         refs = entry["scenarios"]
         if entry["status"] == "deferred":
             if requirements[rid] != "P1" or not entry.get("reason") or refs:
                 raise ValueError(f"Invalid deferral for {rid}")
             deferred.append(rid)
-        elif entry["status"] == "specified":
-            if not refs or len(set(refs)) != len(refs) or not set(refs) <= scenarios:
+        elif entry["status"] in {"specified", "post-demo"}:
+            if (not refs or len(set(refs)) != len(refs)
+                    or not set(refs) <= scenarios):
                 raise ValueError(f"Invalid scenario references for {rid}")
+            post_refs = entry.get("post_demo_scenarios", [])
+            if entry["status"] == "post-demo":
+                if (not entry.get("reason") or not post_refs
+                        or len(set(post_refs)) != len(post_refs)
+                        or not set(post_refs) <= set(refs)):
+                    raise ValueError(f"Invalid post-demo scenarios for {rid}")
+                if requirements[rid] != "P0":
+                    raise ValueError(f"Only P0 rows can be post-demo for {rid}")
+            elif post_refs:
+                raise ValueError(f"Unexpected post-demo scenarios for {rid}")
+            if entry["status"] == "post-demo":
+                post_demo.append(rid)
             referenced.update(refs)
         else:
             raise ValueError(f"Unknown specification status for {rid}")
     if referenced != scenarios:
         raise ValueError(f"Scenarios without PRD references: {sorted(scenarios - referenced)}")
     print(f"PASS: {len(requirements)} PRD IDs; {len(mapping) - len(deferred)} specified; "
-          f"{len(deferred)} deferred ({', '.join(deferred)}); {len(specs)} capabilities; "
+          f"{len(deferred)} deferred ({', '.join(deferred)}); "
+          f"{len(post_demo)} post-demo ({', '.join(post_demo)}); {len(specs)} capabilities; "
           f"{count} requirements; {len(scenarios)} scenarios. Runtime checks not run.")
 
 

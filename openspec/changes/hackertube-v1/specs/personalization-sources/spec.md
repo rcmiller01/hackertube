@@ -22,6 +22,22 @@ Users SHALL receive curated defaults, enable supported communities, add supporte
 - **WHEN** a user adds a source the plugin does not support
 - **THEN** the plugin reports the limitation instead of showing a false enabled state
 
+#### Scenario: PREF09 Add a subreddit
+- **WHEN** an approved Reddit adapter is enabled and the user adds a named public subreddit
+- **THEN** the selection persists and later Reddit evidence queries are restricted to the selected subreddits
+
+#### Scenario: PREF10 Unavailable or private subreddit
+- **WHEN** the user adds a subreddit that is private, unavailable, or not permitted for the app
+- **THEN** the plugin leaves it disabled, explains the condition, and does not broaden the query to all of Reddit
+
+#### Scenario: PREF11 Reddit API failure or unapproved access
+- **WHEN** Reddit returns an error or explicit API approval is absent
+- **THEN** Reddit is named as unavailable, cached results remain labeled, and other enabled sources continue without substituting whole-Reddit retrieval
+
+#### Scenario: PREF12 Selected subreddits only
+- **WHEN** the user runs an explicit refresh with several subreddits selected
+- **THEN** every Reddit query is scoped to those selections and never requests an unrestricted site-wide community feed
+
 #### Scenario: PREF04 Feed disabled
 - **WHEN** the user disables a discovery feed
 - **THEN** later refreshes stop ingesting it and the control explains that broader-web search can still discover the publisher
@@ -50,3 +66,14 @@ Interests, library activity, results, and source settings SHALL remain isolated 
 #### Scenario: PREF08 Read-only browsing
 - **WHEN** the user browses prepared recommendations
 - **THEN** no personal context is submitted to an external model or search service
+
+### Requirement: Context and source inspection details
+The memory consent control SHALL name the permitted context and receiving services. Source inspection SHALL show the last successful retrieval time and any current error.
+
+#### Scenario: PREF13 Memory disclosure names recipients
+- **WHEN** a user reviews the memory opt-in control before enabling it
+- **THEN** the control states which context can be used and which services may receive it
+
+#### Scenario: PREF14 Source status includes retrieval time
+- **WHEN** a source has completed a retrieval or failed a later attempt
+- **THEN** its source view shows the last successful retrieval time and the current error, if any

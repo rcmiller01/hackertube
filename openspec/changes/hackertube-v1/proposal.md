@@ -11,7 +11,7 @@ Hermes users need one place to discover worthwhile videos, podcasts, books, and 
 - Add explicit LLM-backed searches across selected sources and the broader web.
 - Preserve personal library state, source settings, and provenance.
 - Bound paid work to explicit searches and refreshes, with progress and cancellation.
-- Cover PRD R01 through R15. Defer P1 R16, the save-search-as-interest shortcut.
+- Cover PRD R01 through R29. Defer P1 R16, the save-search-as-interest shortcut. Keep the identified post-demo scenarios specified, but exclude them from the November 11 demo delivery.
 
 ## Capabilities
 
@@ -24,6 +24,7 @@ Hermes users need one place to discover worthwhile videos, podcasts, books, and 
 - `personal-library`: saves, completion, dismissals, history, and persistence.
 - `personalization-sources`: interests, sources, profile isolation, and memory consent.
 - `request-jobs`: explicit paid work, bounded execution, usage, cancellation, and recovery.
+- `hackathon-submission`: public catalog candidate, validation, demo video, entry form, disclosure, lineage, and post-demo release checks.
 
 ### Modified Capabilities
 
@@ -33,4 +34,4 @@ None. No delivered capability specs or product implementation exist.
 
 The implementation adds a Hermes web-dashboard extension and shared agent/backend capabilities. Exact public host APIs, source adapters, and dependencies are established by feasibility tasks before dependent implementation. This commit adds planning artifacts only.
 
-V1 excludes playback, readers, media downloads, recurring paid refreshes, purchases, and native Desktop parity. Source availability limits coverage. Public listing and publication are outside this planning change.
+V1 excludes playback, readers, media downloads, recurring paid refreshes, purchases, and native Desktop parity. Source availability limits coverage. The demo cut excludes memory opt-in, two-profile isolation, the agent entry, lifecycle rehearsal, and the 20-request evaluation. These remain specified as post-demo in tasks and traceability. Public listing and publication are outside this planning change.
