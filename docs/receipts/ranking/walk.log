@@ -1,0 +1,12 @@
+command NODE_PATH=/tmp/pw/node_modules node docs/receipts/ranking/capture.js
+pluginCommit b09714354a7ae4685b5fb5874025285ad75d723c
+codeCommit b09714354a7ae4685b5fb5874025285ad75d723c
+hermesVersion Hermes Agent v0.23.0 (2026.9.24) · stable · local 2bd378ed1b8d
+base http://127.0.0.1:9119/hackertube
+FEED07 empty profile kept the unranked catalog
+interest AI feed personalized=true paid_calls=0 feed=0
+FEED06 zero-match section shows the coverage note and a labeled browse group
+sparse podcasts {"matches":0,"browse":4}
+interest Jane Austen feed personalized=true paid_calls=0 feed=10
+weighted feed why-lines are honest and the podcast section lists matches then browse
+wrote report.json
