@@ -314,6 +314,20 @@ The weights are module constants in `hackertube_core/ranking.py`: community evid
 | Result | 118 passed, 0 failed (107 before). `node --test` reported 36 pass, 0 fail. Browsing open, page, rerank, save, dismiss, and reopen dispatched nothing: `{"free": 0, "paid": 0}` with a known zero cost. Two source reads through the boundary counted `free` 2. A paid call with no reported cost reported `cost_usd` null, not zero. A direct `urllib.request.urlopen` on the feed path was refused with `NetworkOutsideBoundary`. |
 | Artifacts | [docs/receipts/requests/](../../../docs/receipts/requests/) |
 
+### Task 2.3 — source ingestion, status, and controls
+
+| Field | Record |
+|---|---|
+| Date | 2026-11-06 |
+| Plugin revision | Code commit `735cb76c51b4dfe02ab36da0d4304d9138c80a0e` adds `hackertube_core/sources.py`, the four adapter `fetch_search` functions, the profile source tables, the `/sources` routes, and `tests/test_sources.py`. |
+| Host | None. The `hermes` CLI on this box still refuses to start (`run hermes pm repair`), so no host install/load or loopback browser walk was run. Counts come from CPython 3.13.13 in a scratch virtualenv. No host scheduler behavior is claimed. |
+| Scenarios | PREF02, PREF03, PREF04, PREF14, and CAT05 pass at the package boundary. PREF09 through PREF12 stay unimplemented because Reddit is disabled. |
+| Procedure | `/Users/robert/.hermes/cache/scratch/ht23-venv/bin/python -m pytest -q` from the worktree. Then one live ingestion pass over the four enabled sources with the default fetchers and a temporary profile database. |
+| Result | 134 passed, 0 failed (118 before; 16 new tests). The live pass for `Austen` made 4 free reads and 0 paid calls, returned 49 items (20 books, 9 audiobooks, 20 podcast shows), and set `last_success_at` on Hacker News, Apple, Open Library, and LibriVox with no error. The pass for `jane austen` returned 39 items and also succeeded on all four. Reddit, YouTube, and Podcast Index were never fetched. The live pass found two defects the unit tests could not: the LibriVox path 404s with a trailing slash, and LibriVox answers 404 when an author search has no match. The path is now pinned by a test and the no-match 404 is recorded as an empty result, not a source error. |
+| Artifacts | [tests/test_sources.py](../../../tests/test_sources.py), [docs/sources.md](../../../docs/sources.md) |
+
+The page suite was also run: `node --test tests/test_dashboard_page.js` reported 35 pass and 1 fail. The failure is `Show more Enter focuses the fifth item heading`, which requires `esbuild` and `playwright` at `/tmp/hermes-src/hermes-v023/node_modules` and `/tmp/pw/node_modules`; neither exists on this box. No page JavaScript or template changed in this task, so that failure is an environment gap, not a regression from this change.
+
 ## Release measurements
 
 All values are unmeasured. Freeze the post-demo evaluation workload, rubric, source snapshots, provider configuration, and request limits before collecting results. Use PRD section 9 for proposed targets and report adjustments explicitly. The demo video length is measured under task 4.3, not inferred from the six-step outline.
