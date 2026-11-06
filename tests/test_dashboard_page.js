@@ -236,7 +236,41 @@ test("demo question and disclosure text are the approved lines", () => {
   assert.equal(page.sectionEmpty("Podcasts", false).includes("fixture"), false);
 });
 
-function mountPage(catalogBody, profileBody, respond) {
+function harnessDiscovery(catalogBody) {
+  const items = (((catalogBody || {}).catalog || {}).items || []).slice()
+    .sort((a, b) => (a.capture_order || 0) - (b.capture_order || 0));
+  const sections = { videos: [], podcasts: [], books: [], audiobooks: [] };
+  const key = {
+    video: "videos",
+    podcast_episode: "podcasts",
+    podcast_show: "podcasts",
+    book: "books",
+    audiobook: "audiobooks",
+  };
+  items.forEach((item) => {
+    const name = key[item.format];
+    if (name) sections[name].push(item.item_id);
+  });
+  return {
+    schema: page.DISCOVERY_SCHEMA,
+    personalized: false,
+    paid_calls: 0,
+    interests: [],
+    signals: [],
+    feed: [],
+    sections,
+  };
+}
+
+function textOf(node) {
+  if (node == null || node === false) return "";
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(textOf).join("");
+  if (typeof node === "object") return textOf(node.children);
+  return "";
+}
+
+function mountPage(catalogBody, profileBody, respond, feedBody) {
   const previous = {
     window: global.window,
     document: global.document,
@@ -349,10 +383,12 @@ function mountPage(catalogBody, profileBody, respond) {
   };
 
   function Stub() {}
+  const calls = [];
   const Page = page.createPage({
     React,
     fetchJSON(url, init) {
       const target = String(url || "");
+      calls.push(target);
       return {
         then(onOk) {
           if (target.indexOf("/profile") !== -1) {
@@ -361,6 +397,8 @@ function mountPage(catalogBody, profileBody, respond) {
             } else {
               onOk(profileBody || page.emptyProfile());
             }
+          } else if (target.indexOf("/feed") !== -1) {
+            onOk(feedBody || harnessDiscovery(catalogBody));
           } else if (catalogBody) {
             onOk(catalogBody);
           }
@@ -405,6 +443,10 @@ function mountPage(catalogBody, profileBody, respond) {
     listeners,
     location,
     find,
+    calls,
+    text(pred) {
+      return textOf(find(pred));
+    },
     restore() {
       global.window = previous.window;
       global.document = previous.document;
@@ -557,6 +599,214 @@ test("evidence and about links use the text link class", () => {
     const site = ui.find((node) => node.type === "a" && node.props.href === "https://hackertube.org/");
     assert.equal(credit.props.className, "ht-text-link");
     assert.equal(site.props.className, "ht-text-link");
+  } finally {
+    ui.restore();
+  }
+});
+
+const RANK_CATALOG = {
+  catalog: {
+    items: [
+      {
+        item_id: "py",
+        format: "podcast_show",
+        title: "The Python Show",
+        destination: "https://podcasts.apple.com/us/podcast/the-python-show/id1691189730?uo=4",
+        capture_order: 1,
+        contributors: ["Learning about Python together"],
+        duration_seconds: null,
+        art_url: null,
+        art_hotlink: false,
+      },
+      {
+        item_id: "b1",
+        format: "book",
+        title: "Emma",
+        destination: "https://openlibrary.org/works/OL66513W",
+        capture_order: 2,
+        contributors: ["Jane Austen"],
+        duration_seconds: null,
+        art_url: null,
+        art_hotlink: false,
+      },
+    ],
+    evidence: [{
+      item_id: "b1",
+      source_id: "openlibrary",
+      kind: "catalog",
+      endorsement: "not_applicable",
+      display_line: null,
+      destination: "https://openlibrary.org/works/OL66513W",
+      retrieved_at: "2026-11-06T12:22:21Z",
+    }],
+    sources: [{ source_id: "openlibrary", name: "Open Library" }],
+    editions: [],
+  },
+};
+
+const RANKED_FEED = {
+  schema: "hackertube.discovery/1",
+  personalized: true,
+  paid_calls: 0,
+  interests: ["What can I read or listen to by Jane Austen?"],
+  signals: [
+    "interest word match in the title or a contributor name",
+    "capture order",
+    "unexpired catalog evidence",
+  ],
+  feed: ["b1"],
+  sections: { videos: [], podcasts: [], books: ["b1"], audiobooks: [] },
+};
+
+test("FEED01 ranked opening feed shows the interest match without a question", () => {
+  const ui = mountPage(RANK_CATALOG, page.emptyProfile(), null, RANKED_FEED);
+  try {
+    const ranked = ui.text((node) => node.props && node.props.id === "ranked-feed");
+    assert.match(ranked, /Emma/);
+    assert.doesNotMatch(ranked, /The Python Show/);
+    assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-question"), null);
+    assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-results"), null);
+    assert.doesNotMatch(ranked, /No search was started/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("FEED02 the page explains the signals used", () => {
+  const ui = mountPage(RANK_CATALOG, page.emptyProfile(), null, RANKED_FEED);
+  try {
+    const signals = ui.text((node) => node.props && node.props.id === "hackertube-signals");
+    assert.match(signals, /interest word match in the title or a contributor name/);
+    assert.match(signals, /capture order/);
+    assert.match(signals, /unexpired catalog evidence/);
+    const counts = ui.text((node) => node.props && node.props.id === "hackertube-ranked-counts");
+    assert.equal(counts, "Videos 0, Podcasts 0, Books 1, Audiobooks 0.");
+  } finally {
+    ui.restore();
+  }
+});
+
+test("FEED03 a publisher record is labeled a source candidate", () => {
+  const ui = mountPage(RANK_CATALOG, page.emptyProfile(), null, RANKED_FEED);
+  try {
+    const ranked = ui.text((node) => node.props && node.props.id === "ranked-feed");
+    assert.match(ranked, /Source candidate/);
+    assert.match(ranked, /Open Library/);
+    assert.doesNotMatch(ranked, /Recommended in Hacker News/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("FEED04 refresh paging and save stay on local routes", () => {
+  const ui = mountPage(SAMPLE_CATALOG);
+  try {
+    ui.calls.length = 0;
+    const refresh = ui.find((node) => (node.children || []).some((child) => child === "Refresh prepared catalog"));
+    refresh.props.onClick();
+    assert.deepEqual(ui.calls, [
+      "/api/plugins/hackertube/catalog",
+      "/api/plugins/hackertube/feed",
+    ]);
+    assert.equal(ui.calls.some((url) => /openai|anthropic|generativelanguage|api\.search/.test(url)), false);
+    const five = [1, 2, 3, 4, 5];
+    assert.equal(page.visibleSlice(five, false, page.INITIAL_CARDS).length, 4);
+    assert.equal(page.visibleSlice(five, true, page.INITIAL_CARDS).length, 5);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("FEED05 a dismissed item stays out of discovery and remains in the library", () => {
+  const ui = mountPage(RANK_CATALOG, {
+    schema: "hackertube.profile/1",
+    interests: ["Jane Austen"],
+    items: [{
+      item_id: "b1",
+      saved: true,
+      dismissed: true,
+      completed: false,
+      saved_order: 1,
+      opens: [],
+    }],
+  }, null, RANKED_FEED);
+  try {
+    const ranked = ui.text((node) => node.props && node.props.id === "ranked-feed");
+    const books = ui.text((node) => node.props && node.props.id === "books");
+    assert.doesNotMatch(ranked, /Emma/);
+    assert.doesNotMatch(books, /Emma/);
+    ui.location.hash = "#library";
+    ui.listeners.hashchange.forEach((fn) => fn());
+    const library = ui.text((node) => node.props && node.props.id === "books");
+    assert.match(library, /Emma/);
+    assert.match(library, /Saved/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("FEED06 no matches explain the coverage limit and offer focused search", () => {
+  const empty = {
+    schema: "hackertube.discovery/1",
+    personalized: true,
+    paid_calls: 0,
+    interests: ["gardening"],
+    signals: [],
+    feed: [],
+    sections: { videos: [], podcasts: [], books: [], audiobooks: [] },
+  };
+  const ui = mountPage(RANK_CATALOG, {
+    schema: "hackertube.profile/1",
+    interests: ["gardening"],
+    items: [],
+  }, null, empty);
+  try {
+    const coverage = ui.text((node) => node.props && node.props.id === "hackertube-coverage");
+    assert.equal(coverage, page.FEED06_NOTE);
+    assert.match(coverage, /Coverage is limited/);
+    const podcasts = ui.text((node) => node.props && node.props.id === "podcasts");
+    assert.doesNotMatch(podcasts, /The Python Show/);
+    assert.match(podcasts, /No podcasts match these interests/);
+    const open = ui.find((node) => (node.children || []).some((child) => child === "Open focused search"));
+    open.props.onClick();
+    assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-question").props.id, "hackertube-question");
+  } finally {
+    ui.restore();
+  }
+});
+
+test("FEED07 no interests offer setup and refresh without a personalized claim", () => {
+  const ui = mountPage(SAMPLE_CATALOG);
+  try {
+    const note = ui.text((node) => node.props && node.props.id === "hackertube-feed-note");
+    assert.equal(note, page.FEED07_NOTE);
+    assert.match(note, /Nothing here is ranked for you yet/);
+    assert.doesNotMatch(note, /personalized recommendations/);
+    assert.ok(ui.find((node) => node.props && node.props.id === "hackertube-interest"));
+    assert.ok(ui.find((node) => (node.children || []).some((child) => child === "Refresh prepared catalog")));
+    const videos = ui.text((node) => node.props && node.props.id === "videos");
+    assert.match(videos, /No videos in this catalog/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("an expired evidence id omitted by the section payload stays hidden", () => {
+  const hidden = {
+    schema: "hackertube.discovery/1",
+    personalized: false,
+    paid_calls: 0,
+    interests: [],
+    signals: [],
+    feed: [],
+    sections: { videos: [], podcasts: [], books: ["b1"], audiobooks: [] },
+  };
+  const ui = mountPage(RANK_CATALOG, page.emptyProfile(), null, hidden);
+  try {
+    const podcasts = ui.text((node) => node.props && node.props.id === "podcasts");
+    const books = ui.text((node) => node.props && node.props.id === "books");
+    assert.doesNotMatch(podcasts, /The Python Show/);
+    assert.match(books, /Emma/);
   } finally {
     ui.restore();
   }

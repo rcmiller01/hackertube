@@ -37,6 +37,11 @@ def _load_seed():
     return load_seed()
 
 
+def load_catalog():
+    """The seed core returns. Ranking is a separate read."""
+    return _load_seed()
+
+
 def catalog_dict() -> dict:
     """JSON object for the page. Field values are what core stored."""
     catalog = _load_seed()
