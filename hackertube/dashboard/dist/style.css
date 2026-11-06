@@ -1,0 +1,274 @@
+/* HackerTube page. Host tokens only. No hex colors and no imported fonts. */
+
+.hackertube {
+  font: inherit;
+  color: inherit;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem 3rem;
+  overflow-x: hidden;
+}
+
+.hackertube h1 {
+  font-family: inherit;
+  font-size: 1.9rem;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: normal;
+  text-transform: none;
+  margin: 0 0 0.4rem;
+}
+
+.hackertube h2 {
+  font-family: inherit;
+  font-size: 1.4rem;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: normal;
+  text-transform: none;
+  margin: 0;
+}
+
+.hackertube h3 {
+  font-family: inherit;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  font-weight: 650;
+  letter-spacing: normal;
+  text-transform: none;
+  margin: 0;
+}
+
+.hackertube p,
+.hackertube li {
+  font-size: 1.05rem;
+  line-height: 1.45;
+  margin: 0.35rem 0 0;
+}
+
+.hackertube .ht-lead,
+.hackertube .ht-meta,
+.hackertube .ht-actions,
+.hackertube .ht-destination,
+.hackertube .ht-length,
+.hackertube .ht-creator {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.hackertube .ht-evidence,
+.hackertube .ht-question,
+.hackertube .ht-constraints,
+.hackertube .ht-note {
+  font-size: 1.05rem;
+  line-height: 1.45;
+  white-space: normal;
+  overflow: visible;
+}
+
+.hackertube :focus,
+.hackertube :focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+.hackertube .ht-nav,
+.hackertube .ht-sections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  margin: 0.8rem 0 0;
+}
+
+.hackertube .ht-nav a,
+.hackertube .ht-sections a,
+.hackertube .ht-text-link {
+  color: inherit;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.hackertube .ht-nav a[aria-current="page"] {
+  text-decoration-thickness: 2px;
+  font-weight: 700;
+}
+
+.hackertube .ht-status {
+  min-height: 1.4rem;
+  margin-top: 0.6rem;
+}
+
+.hackertube .ht-search {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  max-width: 44rem;
+}
+
+.hackertube .ht-search label {
+  font-family: inherit;
+  font-size: 1rem;
+  letter-spacing: normal;
+  text-transform: none;
+  line-height: 1.4;
+}
+
+.hackertube .ht-search input,
+.hackertube .ht-input {
+  align-self: stretch;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  font: inherit;
+  color: inherit;
+  font-size: 1rem;
+}
+
+.hackertube .ht-disclosure {
+  margin: 0;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-muted);
+  color: inherit;
+}
+
+.hackertube .ht-search-actions,
+.hackertube .ht-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.hackertube .ht-action {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+  line-height: 1.2;
+  min-height: 44px;
+  width: auto;
+  max-width: 100%;
+  align-self: flex-start;
+  padding: 0.5rem 0.85rem;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hackertube a.ht-open {
+  color: inherit;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.hackertube .ht-action[aria-disabled="true"] {
+  text-decoration-thickness: 2px;
+}
+
+.hackertube .ht-format {
+  font-family: inherit;
+  font-size: 1rem;
+  letter-spacing: normal;
+  text-transform: none;
+  line-height: 1.3;
+}
+
+.hackertube .ht-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.hackertube .ht-section {
+  margin-top: 1.75rem;
+}
+
+.hackertube .ht-card,
+.hackertube article {
+  min-width: 0;
+  max-width: 100%;
+  height: auto;
+}
+
+.hackertube .ht-art {
+  aspect-ratio: 16 / 9;
+  margin-top: 0.6rem;
+  background: var(--color-muted);
+  color: inherit;
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hackertube .ht-art.is-fallback {
+  padding: 0.75rem;
+}
+
+.hackertube .ht-art img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hackertube .ht-art img.ht-cover {
+  object-fit: cover;
+}
+
+.hackertube .ht-art img.ht-contain {
+  object-fit: contain;
+}
+
+.hackertube .ht-results {
+  margin-top: 1rem;
+  padding-top: 0.25rem;
+}
+
+.hackertube .ht-about {
+  max-width: 40rem;
+}
+
+.hackertube .ht-alert {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.6rem 0.75rem;
+}
+
+@media (min-width: 769px) {
+  .hackertube .ht-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .hackertube {
+    padding: 1rem;
+  }
+
+  .hackertube .ht-search,
+  .hackertube .ht-search input {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .hackertube .ht-art {
+    aspect-ratio: 16 / 6;
+    max-height: 7rem;
+  }
+}
