@@ -281,11 +281,11 @@ Not done in this task, and not claimed by the checkbox:
 | Field | Record |
 |---|---|
 | Date | 2026-11-06 |
-| Plugin revision | Code commit `5c32864c10fd8e65c9964728363ef2de261fa8d6`. Receipt commit `d7a5b457a3c7a88cdf4a2d05ef17b26980b764f4` changes `docs/receipts/feed/` only. `git diff --stat 5c32864c10fd8e65c9964728363ef2de261fa8d6 d7a5b457a3c7a88cdf4a2d05ef17b26980b764f4 -- hackertube hackertube_core tests` is empty. |
+| Plugin revision | Code commit `b923b93c0301599e30c15d6f8cbfc284972b1a21`. Receipt commit `8fb33c0cdaa37de46366a331dee203f63e81d01e` changes `docs/receipts/feed/` only. `git diff --stat b923b93c0301599e30c15d6f8cbfc284972b1a21 8fb33c0cdaa37de46366a331dee203f63e81d01e -- hackertube hackertube_core tests` is empty. |
 | Host | Hermes Agent v0.23.0 (2026.9.24), commit `2bd378ed1b8d6bf2192cb26e0a55ff3091e6bd19`, Python 3.14.10, disposable profile `HERMES_HOME=/tmp/ht-feed-profile` |
 | Scenarios | FEED01, FEED02, FEED03, FEED04, FEED05, FEED06, and FEED07. FEED08 was not run. |
 | Procedure | `hermes plugins validate hackertube --install-deps`, then `NODE_PATH=/tmp/pw/node_modules node docs/receipts/feed/capture.js` against `http://127.0.0.1:9119/hackertube`. Stop the dashboard, start it again on the same profile, then `node docs/receipts/feed/capture.js --after-restart`. |
-| Result | Pass at code commit `5c32864c10fd8e65c9964728363ef2de261fa8d6`. With no interests the ranked feed is empty and the sections are Videos 0, Podcasts 4, Books 4, Audiobooks 4. Storing the demo question ranks Videos 0, Podcasts 2, Books 4, Audiobooks 4 and drops The Python Show and its episode. Gardening matches nothing and the page says so. A dismissed show stays out of discovery after reload and restart, and the save stays in the library. `paid_calls` stayed 0. Axe reported 0 violations. |
+| Result | Pass at code commit `b923b93c0301599e30c15d6f8cbfc284972b1a21`. With no interests the ranked feed is empty and the sections are Videos 0, Podcasts 4, Books 4, Audiobooks 4. Stored interests `AI` and `C++` stay personalized, show the coverage limit, and do not fill unrelated titles. The demo question still ranks Videos 0, Podcasts 2, Books 4, Audiobooks 4. Show more moves focus to the Sense and Sensibility heading and announces `10 of 10`. A dismissed show stays out of discovery after reload and restart. `paid_calls` stayed 0. Axe reported 0 violations. |
 | Artifacts | [docs/receipts/feed/](../../../docs/receipts/feed/) |
 
 ## Release measurements
