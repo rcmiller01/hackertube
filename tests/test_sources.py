@@ -289,6 +289,27 @@ def test_ingestion_goes_through_the_boundary_and_makes_no_paid_call(tmp_path, mo
     assert outbound.usage()["cost_usd"] == 0.0
 
 
+def test_ingest_surfaces_a_source_read_that_omits_its_classification(tmp_path):
+    """A read with no classification is a bug, not a source outage.
+
+    ``read_json`` requires an explicit classification, so a fetcher that
+    omits it raises ``TypeError``. ``ingest`` must let that surface (fail
+    the test) instead of recording it as a quiet per-source error and
+    carrying on, which would hide a mis-wired source behind a source-down
+    status the reader would read as a network problem.
+    """
+    store = store_at(tmp_path)
+    only = {"hn": REGISTRY["hn"]}
+
+    def fetch(query, now):
+        read_json("https://example.com/data", opener=_opener(), resolve=_resolve)  # type: ignore[call-arg]
+        return ParseResult((), (), (), ())
+
+    with pytest.raises(TypeError):
+        ingest(store, NOW, "jane austen", fetchers={"hn": fetch}, registry=only)
+    assert store.source_statuses().get("hn") is None
+
+
 def test_disabled_sources_are_never_fetched(tmp_path):
     store = store_at(tmp_path)
     calls = []
