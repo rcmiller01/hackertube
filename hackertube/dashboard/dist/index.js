@@ -88,25 +88,70 @@
     return parts;
   }
 
-  function isPrivateIp(host) {
-    var mapped = /^::ffff:(\d{1,3}(?:\.\d{1,3}){3})$/i.exec(host);
-    if (mapped) return isPrivateIp(mapped[1]);
-    var v4 = ipv4Parts(host);
-    if (v4) {
-      var a = v4[0];
-      var b = v4[1];
-      if (a === 0 || a === 10 || a === 127) return true;
-      if (a === 169 && b === 254) return true;
-      if (a === 172 && b >= 16 && b <= 31) return true;
-      if (a === 192 && b === 168) return true;
-      if (a === 100 && b >= 64 && b <= 127) return true;
-      if (a >= 224) return true;
-      return false;
+  function isPrivateV4(parts) {
+    var a = parts[0];
+    var b = parts[1];
+    if (a === 0 || a === 10 || a === 127) return true;
+    if (a === 169 && b === 254) return true;
+    if (a === 172 && b >= 16 && b <= 31) return true;
+    if (a === 192 && b === 168) return true;
+    if (a === 100 && b >= 64 && b <= 127) return true;
+    if (a >= 224) return true;
+    return false;
+  }
+
+  function expandIpv6(host) {
+    var body = host;
+    var dotted = /^(.*:)(\d{1,3}(?:\.\d{1,3}){3})$/.exec(body);
+    if (dotted) {
+      var quads = ipv4Parts(dotted[2]);
+      if (!quads) return null;
+      var high = ((quads[0] << 8) | quads[1]).toString(16);
+      var low = ((quads[2] << 8) | quads[3]).toString(16);
+      body = dotted[1] + high + ":" + low;
     }
+    var halves = body.split("::");
+    if (halves.length > 2) return null;
+    var head = halves[0] === "" ? [] : halves[0].split(":");
+    var tail = halves.length === 1 ? [] : (halves[1] === "" ? [] : halves[1].split(":"));
+    if (halves.length === 1) {
+      if (head.length !== 8) return null;
+    } else {
+      var missing = 8 - head.length - tail.length;
+      if (missing < 1) return null;
+      var fill = [];
+      for (var i = 0; i < missing; i += 1) fill.push("0");
+      head = head.concat(fill, tail);
+    }
+    if (head.length !== 8) return null;
+    var groups = [];
+    for (var group = 0; group < 8; group += 1) {
+      if (!/^[0-9a-f]{1,4}$/.test(head[group])) return null;
+      groups.push(parseInt(head[group], 16));
+    }
+    return groups;
+  }
+
+  function mappedV4(groups) {
+    var prefixClear = groups[0] === 0 && groups[1] === 0 && groups[2] === 0 && groups[3] === 0 && groups[4] === 0;
+    if (!prefixClear || groups[5] !== 0xffff) return null;
+    return [groups[6] >> 8, groups[6] & 255, groups[7] >> 8, groups[7] & 255];
+  }
+
+  function isPrivateIp(host) {
+    var v4 = ipv4Parts(host);
+    if (v4) return isPrivateV4(v4);
     if (host.indexOf(":") === -1) return false;
-    if (host === "::1" || host === "::") return true;
-    if (/^fe[89ab]/.test(host)) return true;
-    if (/^f[cd]/.test(host)) return true;
+    var groups = expandIpv6(host);
+    if (!groups) return false;
+    var mapped = mappedV4(groups);
+    if (mapped) return isPrivateV4(mapped);
+    var unspecified = groups.every(function (part) { return part === 0; });
+    if (unspecified) return true;
+    var loopback = groups.slice(0, 7).every(function (part) { return part === 0; }) && groups[7] === 1;
+    if (loopback) return true;
+    if (groups[0] >= 0xfc00 && groups[0] <= 0xfdff) return true;
+    if (groups[0] >= 0xfe80 && groups[0] <= 0xfebf) return true;
     return false;
   }
 

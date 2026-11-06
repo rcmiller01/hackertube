@@ -37,6 +37,51 @@ test("private-network destinations are refused", () => {
   }
 });
 
+test("ipv6 private, loopback, and mapped forms are refused", () => {
+  const cases = [
+    ["dotted mapped loopback", "https://[::ffff:127.0.0.1]/private"],
+    ["hex mapped loopback", "https://[::ffff:7f00:1]/private"],
+    ["dotted mapped private 10.0.0.1", "https://[::ffff:10.0.0.1]/private"],
+    ["hex mapped private 10.0.0.1", "https://[::ffff:a00:1]/private"],
+    ["dotted mapped private 192.168.0.1", "https://[::ffff:192.168.0.1]/a"],
+    ["hex mapped private 192.168.0.1", "https://[::ffff:c0a8:1]/a"],
+    ["dotted mapped private 172.16.0.1", "https://[::ffff:172.16.0.1]/a"],
+    ["hex mapped private 172.16.0.1", "https://[::ffff:ac10:1]/a"],
+    ["dotted mapped link-local", "https://[::ffff:169.254.1.1]/a"],
+    ["hex mapped link-local", "https://[::ffff:a9fe:101]/a"],
+    ["dotted mapped unspecified", "https://[::ffff:0.0.0.0]/a"],
+    ["hex mapped unspecified", "https://[::ffff:0:0]/a"],
+    ["uppercase hex mapped loopback", "https://[::FFFF:7F00:1]/a"],
+    ["zero-padded hex mapped loopback", "https://[::ffff:7f00:0001]/a"],
+    ["fully expanded mapped loopback", "https://[0000:0000:0000:0000:0000:ffff:7f00:0001]/a"],
+    ["loopback ::1", "https://[::1]/a"],
+    ["fully expanded loopback", "https://[0000:0000:0000:0000:0000:0000:0000:0001]/a"],
+    ["unspecified ::", "https://[::]/a"],
+    ["fully expanded unspecified", "https://[0:0:0:0:0:0:0:0]/a"],
+    ["unique local fc00::/7", "https://[fc00::1]/a"],
+    ["unique local fd00::/8", "https://[fd12:3456::1]/a"],
+    ["uppercase unique local", "https://[FC00::1]/a"],
+    ["link-local fe80::/10", "https://[fe80::1]/a"],
+    ["link-local upper bound", "https://[febf::1]/a"],
+    ["uppercase link-local", "https://[FE80::1]/a"],
+    ["fully expanded link-local", "https://[fe80:0000:0000:0000:0000:0000:0000:0001]/a"],
+  ];
+  for (const entry of cases) {
+    const decision = page.destinationDecision(entry[1]);
+    assert.equal(decision.ok, false, entry[0]);
+    assert.equal(decision.reason, "private", entry[0]);
+    assert.match(page.refusalMessage(decision), /private-network/);
+  }
+});
+
+test("public ipv6 literal is allowed", () => {
+  const decision = page.destinationDecision("https://[2001:4860:4860::8888]/");
+  assert.equal(decision.ok, true);
+  assert.equal(decision.href, "https://[2001:4860:4860::8888]/");
+  const mappedPublic = page.destinationDecision("https://[::ffff:8.8.8.8]/");
+  assert.equal(mappedPublic.ok, true, "public ipv4-mapped address");
+});
+
 test("credentials in a destination are refused", () => {
   const decision = page.destinationDecision("https://user:pass@example.com/a");
   assert.equal(decision.ok, false);
