@@ -968,7 +968,12 @@
       }
 
       function backToDiscovery() {
-        setSubmitted("");
+        // Close the results panel: it renders while searchBusy, searchError, or
+        // searchResult is set, so clearing those returns to discovery. The typed
+        // question, the feed, and the saves are kept.
+        setSearchResult(null);
+        setSearchError("");
+        setSearchStatus("idle");
         if (!searchOpen) setSearchOpen(true);
         setTimeout(function () {
           if (inputRef.current) inputRef.current.focus();

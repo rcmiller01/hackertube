@@ -479,6 +479,23 @@ decision was claimed beyond what the decisions already recorded: the
 existing `docs/feasibility.md` chosen path (the plugin-owned key) and the
 card's stub-provider approval.
 
+### Review fix 1 — "Back to discovery" closes the Search results
+
+| Field | Record |
+|---|---|
+| Date | 2026-11-07 |
+| Finding | Picasso's blocking UX finding on PR #15: after a Search finished, "Back to discovery" left the results panel on screen with an empty `Question:` line. The panel renders while `searchBusy || searchError || searchResult`, but `backToDiscovery` cleared only `submitted`. |
+| Fix | `hackertube/dashboard/dist/index.js`: `backToDiscovery` now clears `searchResult` and `searchError` and resets `searchStatus` to `idle`. The typed question (`question`), the feed, and the saves are untouched; focus still returns to the search input. No other behaviour, copy, heading, or a11y change. |
+| Scope | The results panel is the single view that derives from the search result state; `backToDiscovery` is the only control that clears it. `closeSearch` (Escape, "Close search") collapses the form and is out of scope for this fix, as the card states. |
+| Procedure | `python -m pytest tests -q`; `node --test tests/test_dashboard_page.js tests/test_browser_requests.js`; `hermes plugins validate .`; `hermes plugins doctor . --ci`; the clean-profile probe on a fresh `HERMES_HOME`; the pinned strict OpenSpec and coverage commands. |
+| Result | Python 201 collected, 201 passed, 0 failed. Node 59 passed, 0 failed (57 before, plus the two new regressions). Plugin checks both exit 0 with no warnings. Fresh clean profile: default `live` with no key → `POST /search` 503 `provider_unavailable`, no job, ledger `{free:0, paid:0, metered:0}`, `secret_never_set: true`; `provider: stub` → 200, `succeeded` job of 10 verified results; stub timeout and error both `failed`. Strict OpenSpec 1/0; coverage checker PASS; `git diff --check` exit 0. |
+| Red before green | The two new node regressions (`Back to discovery closes a completed Search and keeps the typed question`, `Back to discovery closes a failed Search`) fail 0 passed / 2 failed against the unfixed page (the results panel is still present with an empty `Question:` line) and pass after the fix. |
+| Artifacts | the PR body and the card comment on Kanban `t_c3640e90`. |
+
+**What this does not prove.** The fix is a page-state change; it was exercised
+in the node page harness (stub provider, no live call) and by the clean-profile
+probe. No live model or search call was made.
+
 ## Release measurements
 
 All values are unmeasured. Freeze the post-demo evaluation workload, rubric, source snapshots, provider configuration, and request limits before collecting results. Use PRD section 9 for proposed targets and report adjustments explicitly. The demo video length is measured under task 4.3, not inferred from the six-step outline.

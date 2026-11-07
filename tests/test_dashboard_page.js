@@ -1785,6 +1785,64 @@ test("a rejected search request renders the message and no job", () => {
   }
 });
 
+// Regression: "Back to discovery" used to clear only `submitted`, so a finished
+// search left the results panel on screen with an empty Question line.
+test("Back to discovery closes a completed Search and keeps the typed question", async () => {
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: defaultSearchResult() });
+  try {
+    submitSearch(ui, "  What can I read by Jane Austen?  ");
+    const asked = "  What can I read by Jane Austen?  ";
+    assert.ok(
+      ui.find((node) => node.props && node.props.className === "ht-results"),
+      "the results panel renders after the search completes",
+    );
+    const back = ui.find((node) => (node.children || []).some((child) => child === "Back to discovery"));
+    back.props.onClick();
+    assert.equal(
+      ui.find((node) => node.props && node.props.className === "ht-results"),
+      null,
+      "the results are gone after Back",
+    );
+    const input = ui.find((node) => node.props && node.props.id === "hackertube-question");
+    assert.equal(input.props.value, asked, "the typed question stays in the input");
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    assert.equal(
+      ui.focused.current && ui.focused.current.props.id,
+      "hackertube-question",
+      "Back returns focus to the search input",
+    );
+  } finally {
+    ui.restore();
+  }
+});
+
+test("Back to discovery closes a failed Search", async () => {
+  const failure = new Error("The Hermes service answered with an unexpected error (503).");
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { error: failure });
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    const results = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.match(results, /unexpected error \(503\)/, "the error path is shown before Back");
+    const back = ui.find((node) => (node.children || []).some((child) => child === "Back to discovery"));
+    back.props.onClick();
+    assert.equal(
+      ui.find((node) => node.props && node.props.className === "ht-results"),
+      null,
+      "the failed-results panel is gone after Back",
+    );
+    const input = ui.find((node) => node.props && node.props.id === "hackertube-question");
+    assert.equal(input.props.value, "What can I read by Jane Austen?");
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    assert.equal(
+      ui.focused.current && ui.focused.current.props.id,
+      "hackertube-question",
+      "Back returns focus to the search input after a failure",
+    );
+  } finally {
+    ui.restore();
+  }
+});
+
 test("search helpers format a cost, a limit, and a refusal without a score", () => {
   assert.equal(page.formatCost({ cost_known: false, cost_usd: null }), page.SEARCH_COST_UNKNOWN);
   assert.equal(page.formatCost({ cost_known: true, cost_usd: 0 }), "Cost: $0.0000 reported by the provider.");
