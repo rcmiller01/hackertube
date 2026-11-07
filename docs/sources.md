@@ -51,6 +51,10 @@ No enabled source needs a credential, so no secret is stored for source
 setup. A disabled source is never fetched: the ingestion pass skips it
 before any request, and the control refuses to enable it.
 
+The demo seed is built and refreshed separately: see [docs/seed.md](seed.md)
+for the recorded reads, the boundary counts, and the per-source refresh and
+retention obligations each seeded row carries.
+
 ### Controls
 
 The dashboard backend exposes three routes under
@@ -58,8 +62,8 @@ The dashboard backend exposes three routes under
 
 - `GET /sources` returns one row per supported source: `source_id`, `name`,
   `role`, `formats`, `enabled`, `blocked_reason`, `last_attempt_at`,
-  `last_success_at`, `last_error`, the attribution/retention/deletion text,
-  and a `control_note`.
+  `last_success_at`, `last_error`, the attribution/retention/refresh/deletion
+  text, and a `control_note`.
 - `POST /sources` with `{"source_id": "...", "enabled": true|false}` stores
   the choice and returns the same view. An unsupported id returns HTTP 400
   `{"error": "unsupported_source"}` and is not stored, so the view never

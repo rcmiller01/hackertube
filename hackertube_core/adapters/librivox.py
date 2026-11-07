@@ -25,6 +25,10 @@ POLICY = {
     "role": "catalog",
     "attribution": "LibriVox. The card links to the catalog page for the recording.",
     "retention": "Recording metadata is kept. Audio files are not stored. Cover files are not cached.",
+    "refresh": (
+        "No maximum refresh period is stated. The September 2026 API update asks for several "
+        "seconds between large-dataset requests, so a refresh stays bounded and sequential."
+    ),
     "deletion": "No deletion window is stated for these public-domain recordings. Audio files are not stored.",
     "formats": ("audiobook",),
 }

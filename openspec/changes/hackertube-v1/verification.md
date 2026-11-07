@@ -137,7 +137,7 @@ Official source pages are cited in docs/sources.md. No API keys were used, no li
 
 ## Implementation receipts
 
-Tasks 1.1, 1.2, 1.4, 2.1, and 2.2 have receipts below, as do tasks 3.1, 3.2, 3.7, and 3.3. Tasks 1.3 and 2.4 are open. Before marking a task complete, record its task ID, scenario IDs, exact host/code revision, test or manual procedure, observed result, date, and log/artifact location. Use pass, fail, not-run, or blocked with evidence. Keep full logs in files.
+Tasks 1.1, 1.2, 1.4, 2.1, and 2.2 have receipts below, as do tasks 3.1, 3.2, 3.7, and 3.3. Task 2.4 has a receipt but stays open: its video cards are unusable while YouTube oEmbed is disabled. Task 1.3 is open. Before marking a task complete, record its task ID, scenario IDs, exact host/code revision, test or manual procedure, observed result, date, and log/artifact location. Use pass, fail, not-run, or blocked with evidence. Keep full logs in files.
 
 ### Task 1.1 — host pin, page, auth, data root
 
@@ -392,6 +392,56 @@ Verified on November 6, 2026:
 
 No production behavior changed beyond the four call labels and the
 `TypeError` disposition. No owner decision was made or claimed.
+
+### Task 2.4 — seeded catalog built through the ingestion path
+
+| Field | Record |
+|---|---|
+| Date | 2026-11-07 |
+| Plugin revision | `hackertube_core/demo_seed.py`, `hackertube_core/records.py` (`SourceRecord.refresh`), the seven adapter `POLICY` maps, `hackertube_core/sources.py`, `hackertube_core/seed/catalog.json`, `tests/test_seed.py`, `docs/seed.md`. |
+| Host | None for the counts. Counts come from CPython 3.13.13 in `/Users/robert/.hermes/cache/scratch/ht24-venv`. The clean-profile probe ran on the Hermes venv (`/Users/robert/.hermes/hermes-agent/venv/bin/python3`, 3.11.16) with `HERMES_HOME=/Users/robert/.hermes/cache/scratch/ht24-profile`, so `plugin_db` is the real profile store. No host dashboard walk and no loopback browser run. |
+| Scenarios | UI02, FEED01, CAT03, CAT04, CAT10, CAT11 pass against the seed. This task stays unchecked: YouTube oEmbed is `unresolved-terms`, so there is no displayable video card and the videos section is empty. |
+| Procedure | `python -m pytest -q` from the worktree; `node --test tests/test_dashboard_page.js tests/test_browser_requests.js`; `hermes plugins validate .` and `hermes plugins doctor . --ci` from `hackertube/`; the clean-profile probe `/Users/robert/.hermes/cache/scratch/ht24_profile_probe.py`. |
+| Result | Python 160 collected, 160 passed, 0 failed (pytest 9.2.0, fastapi 0.162.0, httpx 0.28.1; one Starlette/httpx deprecation warning). Node 41 passed, 0 failed. Build measured `{free: 6, paid: 0, metered: 0}`. Clean profile: `plugin_db` opened `plugin-data/hackertube/profile.db` (57344 bytes), the seed served Videos 0, Podcasts 4, Books 4, Audiobooks 4, and the ranked Austen feed returned 10 items with `paid_calls` 0. |
+| Artifacts | [seed-pytest.log](../../../docs/receipts/catalog/seed-pytest.log), [seed-node.log](../../../docs/receipts/catalog/seed-node.log), [seed-validate.log](../../../docs/receipts/catalog/seed-validate.log), [seed-doctor.log](../../../docs/receipts/catalog/seed-doctor.log), [seed-profile.log](../../../docs/receipts/catalog/seed-profile.log), [seed_profile_probe.py](../../../docs/receipts/catalog/seed_profile_probe.py), [tests/test_seed.py](../../../tests/test_seed.py), [docs/seed.md](../../../docs/seed.md) |
+
+The seed is now built from recorded reads replayed through
+`hackertube_core.http.read_json` (#11) and merged by
+`hackertube_core.sources.ingest` (#12). Every read crosses the outbound
+boundary and is counted `free`; the builder opens no socket and imports no
+socket client, so `tests/test_request_boundary.py` still passes. The frozen
+records are byte-identical to the previous seed apart from one new field.
+
+**Refresh and retention metadata.** Each source row gained a `refresh` field
+carrying the refresh obligation its documented terms imply, beside the
+existing `attribution`, `retention`, and `deletion`. No enabled seeded source
+states a maximum retention or refresh period, so `refresh_after` stays null on
+every source and evidence row; this is recorded per source in `docs/seed.md`
+rather than invented. The one stated window is YouTube's 30 calendar days for
+non-authorized Data API data; YouTube is disabled and stores no record, and its
+rule stays in `youtube.py` (`plus_days(retrieved_at, 30)`) for a later
+enablement. Widening the source vocabulary made every live source row carry
+`refresh`; no enum of values exists to widen, so no negative case applies. A
+`SourceRecord` built without `refresh` is a `RecordError`, pinned by
+`tests/test_records.py::test_source_record_requires_a_reason_when_disabled`.
+
+**Failure paths (clean profile).** A malformed seed record
+(`items[0].format = "hn"`) is refused with `RecordError("format")` by
+`load_catalog`, so the route cannot serve it. A seed source that is down
+(`read_json` raising `HttpError("http 500")` for the Apple host) makes the
+build refuse to freeze an incomplete seed (`RecordError("empty")`) instead of
+shipping a truncated catalog; the read was still counted (`free: 2`). Inside
+one ingestion pass the same down source records `last_error` `http 500`, keeps
+its earlier `last_success_at`, and the other two sources succeed.
+
+**Exact scope.** `git diff --stat c1235d1 HEAD` (base main, PR #12) reports 25
+files: 11 under `hackertube_core/` (the seven adapters, `demo_seed.py`,
+`records.py`, `sources.py`, `seed/catalog.json`), 2 under `tests/`, 9 under
+`docs/` (six receipts, `seed.md`, `sources.md`, `feasibility-sources.md`), 2
+under `openspec/changes/hackertube-v1/`, and `README.md`. No file outside
+those paths. No UI copy, template, or page JavaScript changed
+(`hackertube/dashboard/dist/index.js` is untouched). No search, model-key, or
+4.x work. No owner decision was claimed.
 
 ## Release measurements
 

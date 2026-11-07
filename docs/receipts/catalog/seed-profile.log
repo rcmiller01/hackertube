@@ -1,0 +1,11 @@
+hermes python: 3.11.16
+plugin data root: /Users/robert/.hermes/cache/scratch/ht24-profile/plugin-data/hackertube
+build counts: {'free': 6, 'paid': 0, 'metered': 0}
+items/evidence/sources: 12 12 7
+profile.db exists: True bytes: 57344
+sections: {'videos': 0, 'podcasts': 4, 'books': 4, 'audiobooks': 4}
+ranked feed: 10 personalized: True paid: 0
+FAILURE A refused a malformed seed record: format
+FAILURE B refused an incomplete seed: empty
+FAILURE B counts: {'free': 2, 'paid': 0, 'metered': 0}
+FAILURE B isolation: {'itunes': ('http 500', '2026-11-06T12:24:15Z'), 'openlibrary': (None, '2026-11-06T12:24:15Z'), 'librivox': (None, '2026-11-06T12:24:15Z')}

@@ -232,6 +232,7 @@ def test_source_record_requires_a_reason_when_disabled():
             blocked_reason=None,
             attribution="Reddit",
             retention="none",
+            refresh="none",
             deletion="none",
             refresh_after=None,
             last_success_at=None,
