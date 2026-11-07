@@ -753,6 +753,7 @@
       var statusInfoState = useState(null);
       var statusInfo = statusInfoState[0];
       var setStatusInfo = statusInfoState[1];
+      var searchEpoch = useRef(0);
       var searchBusy = searchStatus === "running";
 
       useEffect(function () {
@@ -949,11 +950,18 @@
           setSearchError("This Hermes build cannot send the Search request.");
           return;
         }
+        // Claim a sequence number for this request. Each handler only applies
+        // its result while its epoch is still the latest, so a late response
+        // from an earlier search cannot reopen the panel or overwrite newer
+        // results.
+        var epoch = searchEpoch.current + 1;
+        searchEpoch.current = epoch;
         SDK.fetchJSON("/api/plugins/hackertube/search", {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify({ question: value, disclosure_accepted: true }),
         }).then(function (body) {
+          if (searchEpoch.current !== epoch) return;
           if (!body || body.error) {
             setSearchStatus("error");
             setSearchError(searchRefusalMessage(body));
@@ -962,12 +970,18 @@
           setSearchResult(body);
           setSearchStatus("done");
         }).catch(function (error) {
+          if (searchEpoch.current !== epoch) return;
           setSearchStatus("error");
           setSearchError(searchRefusalMessage(null, error));
         });
       }
 
       function backToDiscovery() {
+        // Refuse while a search is running: clearing the status here would reset
+        // the busy guard and let a second paid request be submitted while the
+        // first is still in flight. The Back control is disabled for the same
+        // reason.
+        if (searchBusy) return;
         // Close the results panel: it renders while searchBusy, searchError, or
         // searchResult is set, so clearing those returns to discovery. The typed
         // question, the feed, and the saves are kept.
@@ -1502,7 +1516,14 @@
                 searchBusy ? h("p", { role: "status" }, "Search running.") : null,
                 searchError ? h("p", { className: "ht-alert", role: "alert" }, searchError) : null,
                 searchResult ? renderJob(searchResult) : null,
-                h(Button, { type: "button", outlined: true, className: "ht-action", onClick: backToDiscovery }, "Back to discovery")
+                h(Button, {
+                  type: "button",
+                  outlined: true,
+                  className: "ht-action",
+                  disabled: searchBusy,
+                  "aria-disabled": searchBusy ? "true" : undefined,
+                  onClick: backToDiscovery,
+                }, "Back to discovery")
               )
             : null
         );
