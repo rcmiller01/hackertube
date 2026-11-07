@@ -443,6 +443,59 @@ those paths. No UI copy, template, or page JavaScript changed
 (`hackertube/dashboard/dist/index.js` is untouched). No search, model-key, or
 4.x work. No owner decision was claimed.
 
+### Tasks 4.1 and 4.2 — the explicit demo Search
+
+| Field | Record |
+|---|---|
+| Date | 2026-11-07 |
+| Plugin revision | `hackertube_core/search.py` (new), `hackertube_core/profile.py` (`search_job` table, `record_job`/`latest_job`), `hackertube_core/http.py` (`post_json` through the same boundary), `hackertube_core/boundaries.py` (`matches_terms`), `hackertube/dashboard/plugin_api.py` (`GET /search`, `POST /search`, `provider` in `/status`), `hackertube/plugin.yaml` (`provider`, `model_endpoint`), `hackertube/dashboard/dist/index.js` and `style.css`, `tests/test_search.py`, `tests/test_search_routes.py`, `tests/test_dashboard_page.js`, `tests/browser_net_harness.js`, `tests/route_harness.py`. |
+| Host | None for the suite counts. Counts come from CPython 3.13.13 in `/Users/robert/.hermes/cache/scratch/ht41-venv` (pytest 9.2.0, fastapi 0.162.1, httpx 0.28.1) and Node v26.7.0. The clean-profile probe ran on the Hermes venv (`/Users/robert/.hermes/hermes-agent/venv/bin/python3`) with `HERMES_HOME=/Users/robert/.hermes/cache/scratch/ht41-profile-a` and the plugin enabled there by `hermes plugins enable hackertube`, so `plugin_db` is the real profile store. |
+| Scenarios | JOB01, JOB02, JOB03, JOB04, JOB09, JOB10, SEARCH01, SEARCH03, SEARCH04, SEARCH05, SEARCH07, SEARCH08, and SEARCH09 pass at the plugin and page boundaries. JOB05-JOB08 (task 6.2), SEARCH02/06/12 (post-demo), SEARCH10/SEARCH11 (task 6.3), and HCKT20 were not run. |
+| Procedure | `python -m pytest tests --collect-only -q`; `python -m pytest tests -q`; `node --test tests/test_dashboard_page.js tests/test_browser_requests.js`; the mutation probe (five production mutations, each restored); `hermes plugins validate .`; `hermes plugins doctor . --ci`; `HERMES_HOME=<disposable> <hermes venv>/bin/python3 docs/receipts/search/search_profile_probe.py`; the pinned strict OpenSpec and coverage commands. |
+| Result | Python 201 collected, 201 passed, 0 failed (one Starlette/httpx deprecation warning). Node 57 passed, 0 failed. Plugin checks both exit 0 with no warnings. Clean profile: plugin enabled, `plugin_db` at `/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py`, data root `plugin-data/hackertube`; with the default `live` provider and no key, `POST /search` returned 503 with the clear message, wrote no job, and the outbound ledger stayed `{free:0, paid:0, metered:0}`; with `provider: stub`, one Submit returned 200 with a `succeeded` job of 10 verified results (podcasts 2, books 4, audiobooks 4) labelled Apple Podcasts, Open Library, and LibriVox, cost `unknown`, and the row was read back from the profile database; the stub's timeout and error paths both recorded `failed` with the reason and no results; ordinary reads made no request and created no job. `HACKERTUBE_MODEL_KEY` was never set (`secret_never_set: true`). Strict OpenSpec: 1/0; coverage checker: 95 scenarios (structural only). `git diff --check` exits 0. |
+| Artifacts | [docs/receipts/search/](../../../docs/receipts/search/): `notes.md` (scope and limitations), `search_profile_probe.py`, `collect.log`, `pytest.log`, `node.log`, `mutation.log`, `validate.log`, `doctor.log`, `profile.log`. |
+
+**Red before green.** Each mutation breaks one production line and the named
+tests fail; the file is restored from its saved text after every check and
+the probe asserts the restore (`mutation.log`):
+
+| Mutation | Failing tests |
+|---|---|
+| The disclosure gate removed from `run_search` | `test_job09_...`, `test_job10_...`, `test_job09_the_route_refuses_a_submit_without_the_disclosure` |
+| A missing model key no longer refuses | `test_a_missing_model_key_refuses_before_any_outbound_call`, `test_acceptance1_a_keyless_live_provider_fails_closed_with_no_outbound_call` |
+| An unknown cost reported as zero | `test_job04_a_provider_that_reports_no_cost_is_unknown_never_zero`, `test_a_paid_call_with_no_reported_cost_stays_unknown_in_the_job`, `test_job04_the_route_reports_an_unknown_cost_and_the_page_renders_it` |
+| An unverified constraint treated as strict | `test_search04_unknown_duration_under_a_limit_is_unverified_and_not_strict` |
+| The page rendering an unknown cost as `$0.0000` | `the rendered job cost is unknown, never zero` (node) |
+
+**What this does not prove.** No live model or paid-search call was made and
+no key was set. The live provider's successful path is unproven; only its
+fail-closed refusal and its single paid request through `outbound.dispatch`
+with an injected offline opener are shown. "Verified" means admitted by the
+retrieved-record check, not judged relevant by a model, and no relevance
+number is claimed. The browser counts in `node.log` come from the stub local
+API with offline artwork, as the task 3.3 receipt records. Installing the
+plugin from GitHub into the pinned host is task 5.2, not this task. No owner
+decision was claimed beyond what the decisions already recorded: the
+existing `docs/feasibility.md` chosen path (the plugin-owned key) and the
+card's stub-provider approval.
+
+### Review fix 1 — "Back to discovery" closes the Search results
+
+| Field | Record |
+|---|---|
+| Date | 2026-11-07 |
+| Finding | Picasso's blocking UX finding on PR #15: after a Search finished, "Back to discovery" left the results panel on screen with an empty `Question:` line. The panel renders while `searchBusy || searchError || searchResult`, but `backToDiscovery` cleared only `submitted`. |
+| Fix | `hackertube/dashboard/dist/index.js`: `backToDiscovery` now clears `searchResult` and `searchError` and resets `searchStatus` to `idle`. The typed question (`question`), the feed, and the saves are untouched; focus still returns to the search input. No other behaviour, copy, heading, or a11y change. |
+| Scope | The results panel is the single view that derives from the search result state; `backToDiscovery` is the only control that clears it. `closeSearch` (Escape, "Close search") collapses the form and is out of scope for this fix, as the card states. |
+| Procedure | `python -m pytest tests -q`; `node --test tests/test_dashboard_page.js tests/test_browser_requests.js`; `hermes plugins validate .`; `hermes plugins doctor . --ci`; the clean-profile probe on a fresh `HERMES_HOME`; the pinned strict OpenSpec and coverage commands. |
+| Result | Python 201 collected, 201 passed, 0 failed. Node 59 passed, 0 failed (57 before, plus the two new regressions). Plugin checks both exit 0 with no warnings. Fresh clean profile: default `live` with no key → `POST /search` 503 `provider_unavailable`, no job, ledger `{free:0, paid:0, metered:0}`, `secret_never_set: true`; `provider: stub` → 200, `succeeded` job of 10 verified results; stub timeout and error both `failed`. Strict OpenSpec 1/0; coverage checker PASS; `git diff --check` exit 0. |
+| Red before green | The two new node regressions (`Back to discovery closes a completed Search and keeps the typed question`, `Back to discovery closes a failed Search`) fail 0 passed / 2 failed against the unfixed page (the results panel is still present with an empty `Question:` line) and pass after the fix. |
+| Artifacts | the PR body and the card comment on Kanban `t_c3640e90`. |
+
+**What this does not prove.** The fix is a page-state change; it was exercised
+in the node page harness (stub provider, no live call) and by the clean-profile
+probe. No live model or search call was made.
+
 ## Release measurements
 
 All values are unmeasured. Freeze the post-demo evaluation workload, rubric, source snapshots, provider configuration, and request limits before collecting results. Use PRD section 9 for proposed targets and report adjustments explicitly. The demo video length is measured under task 4.3, not inferred from the six-step outline.

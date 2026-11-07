@@ -1,0 +1,168 @@
+{
+  "browsing_request_counts": {
+    "after": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "before": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    }
+  },
+  "disclosure_refusal": {
+    "body": {
+      "disclosure": "Configured sources and the broader web may be searched. Model, search, and provider credits or quota may be used. Browsing is free.",
+      "error": "disclosure_required",
+      "message": "The credit-use disclosure must be accepted before a Search starts."
+    },
+    "status": 400
+  },
+  "disclosure_request_counts": {
+    "free": 0,
+    "metered": 0,
+    "paid": 0
+  },
+  "failure_request_counts": {
+    "free": 0,
+    "metered": 0,
+    "paid": 0
+  },
+  "final_job_count": 3,
+  "hermes_home": "/Users/robert/.hermes/cache/scratch/ht41-profile-a",
+  "keyless_jobs": [],
+  "keyless_refusal": {
+    "body": {
+      "error": "provider_unavailable",
+      "message": "The declared model key is not set, so the live search provider was not called and no request was sent. Enter the plugin's model key, or select the deterministic stub provider for the demo cut.",
+      "model_key": "absent",
+      "provider": "live"
+    },
+    "status": 503
+  },
+  "keyless_request_counts": {
+    "free": 0,
+    "metered": 0,
+    "paid": 0
+  },
+  "plugin_api": "/Users/robert/.hermes/cache/scratch/ht41-profile-a/plugins/hackertube/dashboard/plugin_api.py",
+  "plugin_data_dir": "/Users/robert/.hermes/cache/scratch/ht41-profile-a/plugin-data/hackertube",
+  "plugin_db_module": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+  "search_info": {
+    "demo_question": "What can I read or listen to by Jane Austen?",
+    "disclosure": "Configured sources and the broader web may be searched. Model, search, and provider credits or quota may be used. Browsing is free.",
+    "job": null,
+    "limits": {
+      "deadline_seconds": 5,
+      "max_hits": 12,
+      "max_requests": 2
+    },
+    "model_key": "absent",
+    "provider": "live",
+    "provider_available": false,
+    "schema": "hackertube.search/1"
+  },
+  "secret_never_set": true,
+  "settings_writer": "hermes_cli.plugins_state.save_plugin_setting",
+  "status_default": {
+    "data_root": "/Users/robert/.hermes/cache/scratch/ht41-profile-a/plugin-data/hackertube",
+    "model_key": "absent",
+    "name": "HackerTube",
+    "provider": "live"
+  },
+  "status_stub": {
+    "data_root": "/Users/robert/.hermes/cache/scratch/ht41-profile-a/plugin-data/hackertube",
+    "model_key": "absent",
+    "name": "HackerTube",
+    "provider": "stub"
+  },
+  "stored_jobs": [
+    {
+      "cost_known": 0,
+      "cost_usd": null,
+      "coverage": "[]",
+      "created_at": "2026-11-07T14:16:30Z",
+      "ended_at": "2026-11-07T14:16:30Z",
+      "job_id": "job:1",
+      "kind": "search",
+      "limits": "{\"max_hits\": 12, \"max_requests\": 2, \"deadline_seconds\": 5}",
+      "provider": "stub",
+      "question": "What can I read or listen to by Jane Austen?",
+      "requests_used": 1,
+      "result_count": 10,
+      "sequence": 1,
+      "state": "succeeded"
+    }
+  ],
+  "stub_failures": {
+    "error": {
+      "notes": [
+        "The provider did not answer, so no candidates were retrieved. Reason: provider error."
+      ],
+      "results": 0,
+      "state": "failed"
+    },
+    "timeout": {
+      "notes": [
+        "The provider did not answer, so no candidates were retrieved. Reason: timeout."
+      ],
+      "results": 0,
+      "state": "failed"
+    }
+  },
+  "stub_request_counts": {
+    "free": 0,
+    "metered": 0,
+    "paid": 0
+  },
+  "stub_search": {
+    "first_results": [
+      "itunes:podcast:1840669662",
+      "itunes:podcast:1788168257",
+      "ol:OL66554W"
+    ],
+    "job": {
+      "cost_known": false,
+      "cost_usd": null,
+      "coverage": [],
+      "created_at": "2026-11-07T14:16:30Z",
+      "ended_at": "2026-11-07T14:16:30Z",
+      "job_id": "job:1",
+      "kind": "search",
+      "limits": {
+        "deadline_seconds": 5,
+        "max_hits": 12,
+        "max_requests": 2
+      },
+      "provider": "stub",
+      "question": "What can I read or listen to by Jane Austen?",
+      "requests_used": 1,
+      "result_count": 10,
+      "state": "succeeded"
+    },
+    "provider": "stub",
+    "sections": {
+      "audiobooks": 4,
+      "books": 4,
+      "podcasts": 2
+    },
+    "source_labels": [
+      "Apple Podcasts",
+      "LibriVox",
+      "Open Library"
+    ],
+    "status": 200,
+    "usage": {
+      "cost_known": false,
+      "cost_usd": null,
+      "paid_calls": 0,
+      "request_counts": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "requests_used": 1
+    }
+  }
+}

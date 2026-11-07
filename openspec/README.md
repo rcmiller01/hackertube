@@ -5,7 +5,7 @@ HackerTube uses [OpenSpec](https://github.com/Fission-AI/OpenSpec) and its built
 ## Authority and current state
 
 - `docs/PRD.md` records product intent and confirmed scope.
-- `openspec/changes/hackertube-v1/` contains proposed behavior, design, and tasks. Tasks 1.1, 1.2, 1.4, 2.1, 2.2, 3.1, 3.2, 3.3, and 3.7 are checked. The dashboard reads the `hackertube_core` seed, keeps profile state beside it, and ranks interest matches with fixed weights. Each format section then lists the rest of that format as a labeled browse group. The other implementation tasks are not.
+- `openspec/changes/hackertube-v1/` contains proposed behavior, design, and tasks. Tasks 1.1, 1.2, 1.4, 2.1, 2.2, 2.3, 3.1, 3.2, 3.3, 3.7, 4.1, and 4.2 are checked. Tasks 1.3 and 2.4 are open because YouTube oEmbed is disabled. The dashboard reads the `hackertube_core` seed, keeps profile state beside it, and ranks interest matches with fixed weights. Each format section then lists the rest of that format as a labeled browse group. The explicit Search runs one bounded job through the selected provider and stores it as a profile job. The other implementation tasks are not.
 - `openspec/specs/` holds delivered behavior after a verified change is archived. It is empty because the host shell has not been archived as a delivered capability.
 
 A complete artifact graph means the documents exist, not that implementation or integration checks passed.

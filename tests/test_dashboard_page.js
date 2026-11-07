@@ -283,6 +283,108 @@ function harnessDiscovery(catalogBody) {
   };
 }
 
+const SOURCE_ONLY_CATALOG = {
+  fixture: true,
+  catalog: {
+    items: [{
+      item_id: "b1",
+      format: "book",
+      title: "Emma",
+      destination: "https://openlibrary.org/works/OL66513W",
+      capture_order: 1,
+      contributors: ["Jane Austen"],
+      duration_seconds: null,
+      art_url: null,
+      art_hotlink: false,
+    }],
+    evidence: [{
+      item_id: "b1",
+      source_id: "openlibrary",
+      kind: "catalog",
+      endorsement: "not_applicable",
+      display_line: null,
+      destination: "https://openlibrary.org/works/OL66513W",
+      retrieved_at: "2026-11-06T12:22:21Z",
+    }],
+    sources: [{ source_id: "openlibrary", name: "Open Library" }],
+    editions: [],
+  },
+};
+
+function defaultSearchResult() {
+  return {
+    schema: page.SEARCH_SCHEMA,
+    provider: "stub",
+    job: {
+      job_id: "job:1",
+      state: "succeeded",
+      limits: { max_hits: 12, max_requests: 2, deadline_seconds: 5 },
+    },
+    interpretation: {
+      topic: "jane austen",
+      terms: ["jane", "austen"],
+      formats: ["book"],
+      max_duration_seconds: null,
+    },
+    sections: {},
+    results: [],
+    coverage: { verified: 0, formats_without_match: [], notes: [] },
+    usage: {
+      cost_usd: null,
+      cost_known: false,
+      requests_used: 1,
+      paid_calls: 0,
+      request_counts: { free: 0, paid: 0, metered: 0 },
+    },
+  };
+}
+
+function verifiedResult(itemId, overrides) {
+  return Object.assign({
+    item_id: itemId,
+    title: "Emma",
+    format: "book",
+    destination: "https://openlibrary.org/works/OL66513W",
+    source: {
+      source_id: "openlibrary",
+      source_name: "Open Library",
+      kind: "catalog",
+      label: "Open Library",
+      community_endorsement: false,
+    },
+    constraint: "none",
+    constraint_note: null,
+    strict: true,
+    state: { saved: false, dismissed: false, completed: false, opens: 0, label: null },
+    why: ["Matched the question: jane austen"],
+    verified: true,
+  }, overrides || {});
+}
+
+function searchResult(groups, overrides) {
+  const result = defaultSearchResult();
+  result.sections = groups || {};
+  return Object.assign(result, overrides || {});
+}
+
+function openSearchPanel(ui) {
+  const trigger = ui.find((node) => (node.children || []).some((child) => child === "Focused search"));
+  trigger.props.onClick();
+}
+
+function submitSearch(ui, question, options) {
+  const opts = options || {};
+  openSearchPanel(ui);
+  const input = ui.find((node) => node.props && node.props.id === "hackertube-question");
+  input.props.onChange({ target: { value: question } });
+  if (opts.ack !== false) {
+    const box = ui.find((node) => node.props && node.props.id === "hackertube-disclosure-ack");
+    box.props.onChange({ target: { checked: true } });
+  }
+  const form = ui.find((node) => node.type === "form" && node.props.id === "hackertube-search-panel");
+  form.props.onSubmit({ preventDefault() {} });
+}
+
 function textOf(node) {
   if (node == null || node === false) return "";
   if (typeof node === "string" || typeof node === "number") return String(node);
@@ -291,7 +393,7 @@ function textOf(node) {
   return "";
 }
 
-function mountPage(catalogBody, profileBody, respond, feedBody) {
+function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, statusBody, deferSearch) {
   const previous = {
     window: global.window,
     document: global.document,
@@ -406,6 +508,29 @@ function mountPage(catalogBody, profileBody, respond, feedBody) {
   function Stub() {}
   const calls = [];
   const requests = [];
+
+  function outcomeFor(target, init) {
+    if (target.indexOf("/status") !== -1) {
+      return {
+        value: statusBody || { name: "HackerTube", model_key: "present", provider: "stub" },
+      };
+    }
+    if (target.indexOf("/search") !== -1) {
+      if (searchOutcome && searchOutcome.error) return { error: searchOutcome.error };
+      return { value: (searchOutcome && searchOutcome.value) || defaultSearchResult() };
+    }
+    if (target.indexOf("/profile") !== -1) {
+      if (init && init.method === "POST" && respond) {
+        return { value: respond(target, JSON.parse(init.body)) };
+      }
+      return { value: profileBody || page.emptyProfile() };
+    }
+    if (target.indexOf("/feed") !== -1) {
+      return { value: feedBody || harnessDiscovery(catalogBody) };
+    }
+    return { value: catalogBody };
+  }
+
   const Page = page.createPage({
     React,
     fetchJSON(url, init) {
@@ -416,20 +541,40 @@ function mountPage(catalogBody, profileBody, respond, feedBody) {
         method: (init && init.method) || "GET",
         body: init && init.body ? JSON.parse(init.body) : null,
       });
+      if (deferSearch && target.indexOf("/search") !== -1) {
+        // Hold the Search response until the test settles it, so a request can
+        // stay in flight while another one starts. The test drives settlement
+        // through deferSearch.pending[i].onOk / .onErr.
+        const entry = { url: target, onOk: null, onErr: null };
+        deferSearch.pending.push(entry);
+        return {
+          then(onOk, onErr) {
+            entry.onOk = onOk;
+            entry.onErr = onErr;
+            return {
+              catch(fn) {
+                if (!entry.onErr) entry.onErr = fn;
+                return this;
+              },
+            };
+          },
+        };
+      }
       return {
-        then(onOk) {
-          if (target.indexOf("/profile") !== -1) {
-            if (init && init.method === "POST" && respond) {
-              onOk(respond(target, JSON.parse(init.body)));
-            } else {
-              onOk(profileBody || page.emptyProfile());
-            }
-          } else if (target.indexOf("/feed") !== -1) {
-            onOk(feedBody || harnessDiscovery(catalogBody));
-          } else if (catalogBody) {
-            onOk(catalogBody);
+        then(onOk, onErr) {
+          const outcome = outcomeFor(target, init);
+          const result = {
+            catch(fn) {
+              if (outcome.error && fn) fn(outcome.error);
+              return this;
+            },
+          };
+          if (outcome.error) {
+            if (onErr) onErr(outcome.error);
+          } else if (onOk) {
+            onOk(outcome.value);
           }
-          return { catch() { return this; } };
+          return result;
         },
       };
     },
@@ -1345,16 +1490,505 @@ test("SEARCH07 browse items are not presented as verified recommendations", () =
     const ranked = ui.text((node) => node.props && node.props.id === "ranked-feed");
     assert.match(ranked, /The Python Show/);
     assert.doesNotMatch(ranked, /Northanger Abbey/);
-    const trigger = ui.find((node) => (node.children || []).some((child) => child === "Focused search"));
-    trigger.props.onClick();
-    const input = ui.find((node) => node.props && node.props.id === "hackertube-question");
-    input.props.onChange({ target: { value: "Is there another edition?" } });
-    const form = ui.find((node) => node.type === "form" && node.props.id === "hackertube-search-panel");
-    form.props.onSubmit({ preventDefault() {} });
-    const results = ui.text((node) => node.props && node.props.className === "ht-results");
-    assert.match(results, /No search was started/);
-    assert.doesNotMatch(results, /Northanger Abbey|verified match/);
+    // No results panel exists until a Search is submitted, so a browse item
+    // is never presented as a search result.
+    assert.equal(ui.find((node) => node.props && node.props.className === "ht-results"), null);
   } finally {
     ui.restore();
   }
+});
+
+/* --- tasks 4.1 and 4.2: the Search panel, disclosure, and results --------- */
+
+test("SEARCH01 the Search control posts the question with the accepted disclosure", () => {
+  const search = searchResult(
+    { books: { label: "books", verified: [verifiedResult("b1")], verified_count: 1, insufficient_evidence: false } },
+    { interpretation: { topic: "jane austen", terms: ["jane", "austen"], formats: ["book"], max_duration_seconds: null } },
+  );
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: search });
+  try {
+    ui.requests.length = 0;
+    submitSearch(ui, "  What can I read by Jane Austen?  ");
+    const posted = ui.requests.filter((row) => row.url.indexOf("/search") !== -1);
+    assert.equal(posted.length, 1, "exactly one Search request");
+    assert.equal(posted[0].method, "POST");
+    assert.deepEqual(posted[0].body, {
+      question: "What can I read by Jane Austen?",
+      disclosure_accepted: true,
+    });
+    const results = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.match(results, /Question: What can I read by Jane Austen\?/);
+    assert.match(results, /Provider: stub\./);
+    assert.match(results, /Job job:1\./);
+    assert.match(results, /State: succeeded\./);
+    assert.match(results, /Source: Open Library/);
+    assert.match(results, /Matched the question: jane austen\./);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("JOB09 and JOB10 the disclosure and its control are at the action every time", () => {
+  const ui = mountPage(SAMPLE_CATALOG);
+  try {
+    const submitButton = () => ui.find(
+      (node) => (node.children || []).some((child) => child === "Search"),
+    );
+    assert.equal(submitButton(), null, "no form before the panel opens");
+    openSearchPanel(ui);
+    let disclosure = ui.text((node) => node.props && node.props.id === "hackertube-disclosure");
+    assert.equal(disclosure, page.DISCLOSURE);
+    assert.equal(submitButton().props["aria-describedby"], "hackertube-disclosure");
+    let box = ui.find((node) => node.props && node.props.id === "hackertube-disclosure-ack");
+    assert.equal(box.props.type, "checkbox");
+    assert.equal(box.props.checked, false);
+
+    // Close, then act again: the disclosure and its control are re-rendered
+    // for the next action without any prior job's screen.
+    const close = ui.find((node) => (node.children || []).some((child) => child === "Close search"));
+    close.props.onClick();
+    assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-disclosure"), null);
+    openSearchPanel(ui);
+    disclosure = ui.text((node) => node.props && node.props.id === "hackertube-disclosure");
+    box = ui.find((node) => node.props && node.props.id === "hackertube-disclosure-ack");
+    assert.equal(disclosure, page.DISCLOSURE);
+    assert.equal(box.props.checked, false);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("JOB09 an unaccepted disclosure alerts and dispatches no request", () => {
+  const ui = mountPage(SAMPLE_CATALOG);
+  try {
+    ui.requests.length = 0;
+    submitSearch(ui, "What can I read by Jane Austen?", { ack: false });
+    assert.equal(ui.focused.current.props.role, "alert");
+    assert.equal(ui.focused.current.children[0], page.DISCLOSURE_ACK_ALERT);
+    assert.deepEqual(ui.requests.filter((row) => row.url.indexOf("/search") !== -1), []);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("the panel warns before submitting when the live provider has no key", () => {
+  const ui = mountPage(
+    SAMPLE_CATALOG,
+    page.emptyProfile(),
+    null,
+    null,
+    null,
+    { name: "HackerTube", model_key: "absent", provider: "live" },
+  );
+  try {
+    openSearchPanel(ui);
+    const note = ui.text((node) => node.props && node.props.id === "hackertube-provider-note");
+    assert.equal(note, page.SEARCH_LIVE_ABSENT);
+    assert.match(note, /no request will be sent/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("the panel does not warn when the stub provider is selected", () => {
+  const ui = mountPage(
+    SAMPLE_CATALOG, page.emptyProfile(), null, null, null,
+    { name: "HackerTube", model_key: "absent", provider: "stub" },
+  );
+  try {
+    openSearchPanel(ui);
+    assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-provider-note"), null);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("JOB04 the rendered job cost is unknown, never zero", () => {
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: defaultSearchResult() });
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    const cost = ui.text((node) => node.props && node.props.id === "hackertube-job-cost");
+    assert.equal(cost, page.SEARCH_COST_UNKNOWN);
+    assert.match(cost, /unknown/);
+    assert.doesNotMatch(cost, /\$|zero/);
+    const limits = ui.text((node) => node.props && node.props.id === "hackertube-job-limits");
+    assert.match(limits, /at most 2 provider requests, 12 results, a 5 second deadline/);
+    assert.match(limits, /Provider requests used: 1\./);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("JOB04 a provider-reported cost is rendered as a value", () => {
+  const ui = mountPage(
+    SAMPLE_CATALOG, page.emptyProfile(), null, null,
+    { value: searchResult({}, { usage: { cost_usd: 0.02, cost_known: true, requests_used: 1, paid_calls: 1 } }) },
+  );
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    const cost = ui.text((node) => node.props && node.props.id === "hackertube-job-cost");
+    assert.equal(cost, "Cost: $0.0200 reported by the provider.");
+  } finally {
+    ui.restore();
+  }
+});
+
+test("JOB03 a partial job labels incomplete coverage and keeps its results", () => {
+  const partial = searchResult(
+    { books: { label: "books", verified: [verifiedResult("b1")], verified_count: 1, insufficient_evidence: false } },
+    {
+      job: { job_id: "job:2", state: "partial", limits: { max_hits: 12, max_requests: 2, deadline_seconds: 5 } },
+      coverage: { verified: 1, notes: ["Stopped at the 2-request work limit. Coverage is incomplete."] },
+    },
+  );
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: partial });
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    const status = ui.text((node) => node.props && node.props.id === "hackertube-job-status");
+    assert.match(status, /State: partial\./);
+    const results = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.match(results, /Stopped at the 2-request work limit\. Coverage is incomplete\./);
+    assert.match(results, /Source: Open Library/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("SEARCH04 an unverified constraint is labeled on the result", () => {
+  const limited = searchResult(
+    {
+      books: {
+        label: "books",
+        verified: [
+          verifiedResult("b1", {
+            constraint: "unverified",
+            constraint_note: "Unverified against the 30 minutes limit. This record has no duration.",
+            strict: false,
+          }),
+        ],
+        verified_count: 1,
+        insufficient_evidence: false,
+      },
+    },
+    { interpretation: { topic: "jane austen", terms: ["jane", "austen"], formats: ["book"], max_duration_seconds: 1800 } },
+  );
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: limited });
+  try {
+    submitSearch(ui, "What can I read by Jane Austen under 30 minutes?");
+    const results = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.match(results, /Unverified against the 30 minutes limit\. This record has no duration\./);
+    const constraint = ui.text((node) => node.props && node.props.className === "ht-constraints");
+    assert.match(constraint, /items longer than 30 minutes are excluded/);
+    assert.match(constraint, /Unknown duration is labeled unverified/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("SEARCH05 a broader-web result is labeled and claims no endorsement", () => {
+  const web = searchResult({
+    books: {
+      label: "books",
+      verified: [
+        verifiedResult("b1", {
+          source: {
+            source_id: "example",
+            source_name: "Example Blog",
+            kind: "web",
+            label: "Web: Example Blog",
+            community_endorsement: false,
+          },
+        }),
+      ],
+      verified_count: 1,
+      insufficient_evidence: false,
+    },
+  });
+  const ui = mountPage(SOURCE_ONLY_CATALOG, page.emptyProfile(), null, null, { value: web });
+  try {
+    submitSearch(ui, "What can I read about Jane Austen?");
+    const results = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.match(results, /Source: Web: Example Blog/);
+    assert.match(results, /Broader-web result\. It carries its source label and no community endorsement\./);
+    // This catalog carries no community endorsement for the item at all.
+    assert.doesNotMatch(results, /Recommended in Hacker News/);
+    assert.match(results, /Source candidate/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("SEARCH07 an unfilled format reports insufficient evidence", () => {
+  const groups = searchResult({
+    books: { label: "books", verified: [verifiedResult("b1")], verified_count: 1, insufficient_evidence: false },
+    audiobooks: {
+      label: "audiobooks",
+      verified: [],
+      verified_count: 0,
+      insufficient_evidence: true,
+      note: "No verified audiobooks match for this question.",
+    },
+  });
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: groups });
+  try {
+    submitSearch(ui, "What can I read or listen to by Jane Austen?");
+    const audio = ui.text((node) => node.props && node.props.id === "hackertube-result-audiobooks");
+    assert.match(audio, /Audiobooks · 0 verified/);
+    assert.match(audio, /No verified audiobooks match for this question\./);
+    const books = ui.text((node) => node.props && node.props.id === "hackertube-result-books");
+    assert.match(books, /Books · 1 verified/);
+    assert.match(books, /Emma/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("SEARCH08 a previously saved result shows its recorded state", () => {
+  const saved = searchResult({
+    books: {
+      label: "books",
+      verified: [
+        verifiedResult("b1", {
+          state: { saved: true, dismissed: false, completed: false, opens: 1, label: "Saved" },
+        }),
+      ],
+      verified_count: 1,
+      insufficient_evidence: false,
+    },
+  });
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: saved });
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    const results = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.match(results, /In your library: Saved\./);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("a refused search renders the route's clear message", () => {
+  const cases = [
+    [
+      { error: "provider_unavailable", message: "The declared model key is not set, so the live search provider was not called and no request was sent." },
+      /model key is not set/,
+    ],
+    [
+      { error: "disclosure_required", message: "The credit-use disclosure must be accepted before a Search starts." },
+      /disclosure must be accepted/,
+    ],
+    [{ error: "question" }, /up to 200 characters/],
+  ];
+  for (const [body, expected] of cases) {
+    const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: body });
+    try {
+      submitSearch(ui, "What can I read by Jane Austen?");
+      const results = ui.text((node) => node.props && node.props.className === "ht-results");
+      assert.match(results, expected, body.error);
+      assert.doesNotMatch(results, /Cost:|\$0/);
+    } finally {
+      ui.restore();
+    }
+  }
+});
+
+test("a rejected search request renders the message and no job", () => {
+  const failure = new Error("The Hermes service answered with an unexpected error (503).");
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { error: failure });
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    const results = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.match(results, /unexpected error \(503\)/);
+    assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-job-cost"), null);
+  } finally {
+    ui.restore();
+  }
+});
+
+// Regression: "Back to discovery" used to clear only `submitted`, so a finished
+// search left the results panel on screen with an empty Question line.
+test("Back to discovery closes a completed Search and keeps the typed question", async () => {
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: defaultSearchResult() });
+  try {
+    submitSearch(ui, "  What can I read by Jane Austen?  ");
+    const asked = "  What can I read by Jane Austen?  ";
+    assert.ok(
+      ui.find((node) => node.props && node.props.className === "ht-results"),
+      "the results panel renders after the search completes",
+    );
+    const back = ui.find((node) => (node.children || []).some((child) => child === "Back to discovery"));
+    back.props.onClick();
+    assert.equal(
+      ui.find((node) => node.props && node.props.className === "ht-results"),
+      null,
+      "the results are gone after Back",
+    );
+    const input = ui.find((node) => node.props && node.props.id === "hackertube-question");
+    assert.equal(input.props.value, asked, "the typed question stays in the input");
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    assert.equal(
+      ui.focused.current && ui.focused.current.props.id,
+      "hackertube-question",
+      "Back returns focus to the search input",
+    );
+  } finally {
+    ui.restore();
+  }
+});
+
+test("Back to discovery closes a failed Search", async () => {
+  const failure = new Error("The Hermes service answered with an unexpected error (503).");
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { error: failure });
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    const results = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.match(results, /unexpected error \(503\)/, "the error path is shown before Back");
+    const back = ui.find((node) => (node.children || []).some((child) => child === "Back to discovery"));
+    back.props.onClick();
+    assert.equal(
+      ui.find((node) => node.props && node.props.className === "ht-results"),
+      null,
+      "the failed-results panel is gone after Back",
+    );
+    const input = ui.find((node) => node.props && node.props.id === "hackertube-question");
+    assert.equal(input.props.value, "What can I read by Jane Austen?");
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    assert.equal(
+      ui.focused.current && ui.focused.current.props.id,
+      "hackertube-question",
+      "Back returns focus to the search input after a failure",
+    );
+  } finally {
+    ui.restore();
+  }
+});
+
+// Regression: pressing Back while a Search was running cleared the busy status,
+// which re-armed the submit guard and allowed a second paid request.
+test("Back to discovery is disabled and inert while a Search is running", () => {
+  const defer = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, defer);
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    assert.equal(defer.pending.length, 1, "one Search request is in flight");
+    const back = ui.find((node) => (node.children || []).some((child) => child === "Back to discovery"));
+    assert.ok(back, "the Back control renders while the Search runs");
+    assert.equal(back.props.disabled, true, "Back carries the disabled attribute while the Search runs");
+    assert.equal(back.props["aria-disabled"], "true", "Back is announced as disabled while the Search runs");
+    back.props.onClick();
+    const results = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.match(results, /Search running\./, "Back did not reset the running Search");
+    assert.equal(defer.pending.length, 1, "Back dispatched no new request");
+  } finally {
+    ui.restore();
+  }
+});
+
+test("a second submit after Back while a Search is running sends no second POST", () => {
+  const defer = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, defer);
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    assert.equal(defer.pending.length, 1, "the first Search request is in flight");
+    // Back must not clear the busy status: doing so re-arms the submit guard and
+    // lets a second paid request start while the first is still in flight.
+    const back = ui.find((node) => (node.children || []).some((child) => child === "Back to discovery"));
+    back.props.onClick();
+    ui.requests.length = 0;
+    submitSearch(ui, "What can I read by Jane Austen?");
+    const posted = ui.requests.filter((row) => row.url.indexOf("/search") !== -1);
+    assert.equal(posted.length, 0, "no second Search POST while the first is in flight");
+    assert.equal(defer.pending.length, 1, "the first request is still the only one in flight");
+  } finally {
+    ui.restore();
+  }
+});
+
+// The UI guards stop a user from reaching two in-flight requests, so this test
+// drives both requests directly to exercise the sequence guard on its own: a
+// response from an older request must not overwrite a newer one.
+test("a stale Search response does not overwrite a newer Search's result", () => {
+  const defer = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, defer);
+  try {
+    openSearchPanel(ui);
+    const input = ui.find((node) => node.props && node.props.id === "hackertube-question");
+    input.props.onChange({ target: { value: "What can I read by Jane Austen?" } });
+    const box = ui.find((node) => node.props && node.props.id === "hackertube-disclosure-ack");
+    box.props.onChange({ target: { checked: true } });
+    const form = ui.find((node) => node.type === "form" && node.props.id === "hackertube-search-panel");
+    form.props.onSubmit({ preventDefault() {} });
+    form.props.onSubmit({ preventDefault() {} });
+    assert.equal(defer.pending.length, 2, "two Search requests are in flight");
+
+    defer.pending[0].onOk(Object.assign(defaultSearchResult(), { provider: "stale-provider" }));
+    const afterStale = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.doesNotMatch(afterStale, /stale-provider/, "the stale response is ignored");
+    assert.match(afterStale, /Search running\./, "the newer Search is still running");
+
+    defer.pending[1].onOk(Object.assign(defaultSearchResult(), { provider: "fresh-provider" }));
+    const afterFresh = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.match(afterFresh, /fresh-provider/, "the newest response renders");
+    assert.doesNotMatch(afterFresh, /stale-provider/, "the stale response never renders");
+  } finally {
+    ui.restore();
+  }
+});
+
+// A stub job can fail inside an HTTP 200 body; Back must still close that panel.
+test("Back to discovery closes a Search whose stub job failed with HTTP 200", async () => {
+  const failed = searchResult({}, {
+    job: { job_id: "job:9", state: "failed", limits: { max_hits: 12, max_requests: 2, deadline_seconds: 5 } },
+    coverage: { verified: 0, formats_without_match: [], notes: ["The provider reported the job failed."] },
+  });
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: failed });
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    const status = ui.text((node) => node.props && node.props.id === "hackertube-job-status");
+    assert.match(status, /State: failed\./, "the HTTP 200 body carries a failed job state");
+    const back = ui.find((node) => (node.children || []).some((child) => child === "Back to discovery"));
+    assert.equal(back.props.disabled, false, "Back is enabled once the failed job has settled");
+    back.props.onClick();
+    assert.equal(
+      ui.find((node) => node.props && node.props.className === "ht-results"),
+      null,
+      "the failed-job panel is gone after Back",
+    );
+    const input = ui.find((node) => node.props && node.props.id === "hackertube-question");
+    assert.equal(input.props.value, "What can I read by Jane Austen?");
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    assert.equal(
+      ui.focused.current && ui.focused.current.props.id,
+      "hackertube-question",
+      "Back returns focus to the search input after a failed job",
+    );
+  } finally {
+    ui.restore();
+  }
+});
+
+test("search helpers format a cost, a limit, and a refusal without a score", () => {
+  assert.equal(page.formatCost({ cost_known: false, cost_usd: null }), page.SEARCH_COST_UNKNOWN);
+  assert.equal(page.formatCost({ cost_known: true, cost_usd: 0 }), "Cost: $0.0000 reported by the provider.");
+  assert.equal(page.formatCost({}), page.SEARCH_COST_UNKNOWN);
+  assert.equal(
+    page.limitsLine({ max_hits: 12, max_requests: 2, deadline_seconds: 5 }, { requests_used: 2 }),
+    "Work limits for this job: at most 2 provider requests, 12 results, a 5 second deadline. Provider requests used: 2.",
+  );
+  assert.equal(page.constraintLine({ max_duration_seconds: null }), "Constraints: none applied.");
+  assert.match(page.constraintLine({ max_duration_seconds: 3600 }), /longer than 1 hour are excluded/);
+  assert.equal(page.sectionLabel("audiobooks"), "Audiobooks");
+  assert.equal(page.sectionLabel("books"), "Books");
+  assert.equal(page.resultWhy({ why: ["Matched the question: jane austen"] }), "Matched the question: jane austen.");
+  assert.equal(page.resultWhy({}), "");
+  assert.equal(page.searchRefusalMessage({ error: "question" }), "Enter a question of up to 200 characters, with no markup.");
+  assert.equal(page.searchRefusalMessage(null), "The Search request did not complete.");
+  assert.equal(page.searchRefusalMessage(null, new Error("offline")), "offline");
+});
+
+test("the refreshed page declares the search schema and disclosure copy", () => {
+  assert.equal(page.SEARCH_SCHEMA, "hackertube.search/1");
+  assert.match(page.DISCLOSURE_ACK, /credits or quota/);
+  assert.equal(page.DISCLOSURE_ACK_ALERT, "Confirm the disclosure before searching.");
+  assert.match(page.SEARCH_LIVE_ABSENT, /no request will be sent/);
+  assert.equal(page.DISCLOSURE, "Configured sources and the broader web may be searched. Model, search, and provider credits or quota may be used. Browsing is free.");
 });
