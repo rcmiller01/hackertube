@@ -30,6 +30,10 @@ POLICY = {
         "No reuse license is stated. Stored fields are the comment id, permalink, "
         "retrieval time, and the display line. Comment text and usernames are not stored."
     ),
+    "refresh": (
+        "The API page states no maximum storage or refresh period. Each evidence row keeps "
+        "its own retrieval time, so a stale row is visible rather than silently refreshed."
+    ),
     "deletion": "No deletion API was found. Comment text is not stored, so there is no comment archive to delete.",
     "formats": (),
 }

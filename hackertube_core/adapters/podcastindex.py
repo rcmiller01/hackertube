@@ -9,6 +9,7 @@ POLICY = {
     "role": "catalog",
     "attribution": "Podcast Index.",
     "retention": "No records are stored. A key and secret are required and were not available.",
+    "refresh": "No refresh is defined. No record is stored. Rate limits are unpublished and tune dynamically.",
     "deletion": "Nothing is stored.",
     "formats": ("podcast_show", "podcast_episode"),
 }

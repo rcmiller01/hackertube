@@ -28,6 +28,11 @@ POLICY = {
         "Disabled. oEmbed title, channel, player HTML, and thumbnails are not stored. "
         "Data API evidence, if a key is later supplied, still expires after 30 days."
     ),
+    "refresh": (
+        "Disabled. If the Data API path is enabled later, non-authorized metadata must be "
+        "re-read within 30 calendar days (developer policies III.E). No record is stored now, "
+        "so no seeded row expires."
+    ),
     "deletion": "Nothing from oEmbed is stored. Data API metadata would be deleted or refreshed within 30 calendar days.",
     "formats": ("video",),
 }

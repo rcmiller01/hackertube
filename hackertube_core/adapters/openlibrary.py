@@ -25,6 +25,10 @@ POLICY = {
     "role": "catalog",
     "attribution": "Open Library. The card links to the work page. Cover hotlinks include that courtesy link.",
     "retention": "Catalog metadata is CC0. Responses are cached in the seed. Cover image files are not cached.",
+    "refresh": (
+        "No maximum refresh period is stated. A seed refresh re-reads the bounded search, and "
+        "Open Library asks callers to cache when possible."
+    ),
     "deletion": "No deletion window is stated for CC0 catalog metadata. Cover files are not stored.",
     "formats": ("book",),
 }

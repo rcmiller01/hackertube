@@ -33,6 +33,10 @@ POLICY = {
         "Artwork, previews, and episode media URLs are not stored. "
         "Apple asks large sites to cache lookups; no maximum retention for text fields was stated."
     ),
+    "refresh": (
+        "No maximum refresh period is stated. Apple asks large sites to cache lookups, so a "
+        "seed refresh re-reads the same bounded lookup set and keeps each retrieval time."
+    ),
     "deletion": "Promotional assets would be removed immediately on Apple's request. None are stored.",
     "formats": ("podcast_show", "podcast_episode", "audiobook"),
 }

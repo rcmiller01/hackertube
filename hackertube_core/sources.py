@@ -123,6 +123,7 @@ def source_view(settings=None, statuses=None, registry=None):
                 "last_error": status.get("last_error"),
                 "attribution": policy["attribution"],
                 "retention": policy["retention"],
+                "refresh": policy["refresh"],
                 "deletion": policy["deletion"],
                 "control_note": _control_note(policy, enabled),
             }

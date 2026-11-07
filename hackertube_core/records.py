@@ -133,6 +133,7 @@ class SourceRecord:
     blocked_reason: object
     attribution: str
     retention: str
+    refresh: str
     deletion: str
     refresh_after: object
     last_success_at: object
@@ -149,7 +150,7 @@ class SourceRecord:
             raise RecordError("blocked_reason")
         if self.enabled and self.blocked_reason:
             raise RecordError("blocked_reason")
-        for field in ("name", "attribution", "retention", "deletion"):
+        for field in ("name", "attribution", "retention", "refresh", "deletion"):
             if not isinstance(getattr(self, field), str) or not getattr(self, field).strip():
                 raise RecordError(field)
         formats = tuple(self.formats)

@@ -62,7 +62,7 @@ Missing art is allowed. A URL is stored only when the source terms allow a hotli
 
 ## Frozen seed
 
-Capture order is the feed order. Times are the HTTP `Date` of the capture that supplied the record.
+Capture order is the feed order. Times are the HTTP `Date` of the capture that supplied the record. The seed is produced by `hackertube_core/demo_seed.py` from recorded reads that are replayed through the request boundary and merged by the source-ingestion path; [docs/seed.md](seed.md) records the build, the measured free/paid counts, and the refresh procedure.
 
 | Order | Format | Record | Catalog capture |
 |---|---|---|---|
@@ -88,7 +88,7 @@ Evidence: `evidence_id`, `item_id`, `source_id`, `retrieved_at`, `destination`, 
 
 The only allowed `display_line` is `Recommended in Hacker News`. It requires `source_id` `hn`, `kind` `community`, `endorsement` `established`, and an https comment URL. Endorsement is established only when the fixture sets `hand_verified` and its `endorsed_url` is that video. Keyword praise is not enough. A story hit stays a mention and creates no media item.
 
-Source: `source_id`, `name`, `role`, `enabled`, `blocked_reason`, `attribution`, `retention`, `deletion`, `refresh_after`, `last_success_at`, `last_error`, `formats`.
+Source: `source_id`, `name`, `role`, `enabled`, `blocked_reason`, `attribution`, `retention`, `refresh`, `deletion`, `refresh_after`, `last_success_at`, `last_error`, `formats`.
 
 Edition: `work_id`, `book_item_id`, `audio_item_id`.
 
