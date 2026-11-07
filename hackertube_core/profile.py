@@ -12,6 +12,7 @@ foreign keys. Those belong to the host helper.
 
 from __future__ import annotations
 
+import json
 import re
 from datetime import datetime, timezone
 
@@ -22,6 +23,20 @@ from hackertube_core.text import canon_time
 SCHEMA = "hackertube.profile/1"
 DB_NAME = "profile.db"
 _SOURCE_ID = re.compile(r"^[a-z0-9_]{1,40}$")
+
+#: The job outcomes the design records. The demo search only reaches
+#: ``succeeded``, ``partial``, and ``failed``; cancellation and restart
+#: remain task 6.2.
+JOB_STATES = (
+    "queued",
+    "running",
+    "succeeded",
+    "partial",
+    "failed",
+    "cancelled",
+    "interrupted",
+)
+JOB_QUESTION_MAX = 200
 
 
 def utc_now():
@@ -110,6 +125,22 @@ class ProfileStore:
                 last_attempt_at TEXT,
                 last_success_at TEXT,
                 last_error TEXT
+            );
+            CREATE TABLE IF NOT EXISTS search_job (
+                job_id TEXT PRIMARY KEY,
+                sequence INTEGER NOT NULL UNIQUE,
+                kind TEXT NOT NULL,
+                state TEXT NOT NULL,
+                question TEXT NOT NULL,
+                provider TEXT NOT NULL,
+                limits TEXT NOT NULL,
+                requests_used INTEGER NOT NULL,
+                result_count INTEGER NOT NULL,
+                cost_usd REAL,
+                cost_known INTEGER NOT NULL CHECK (cost_known IN (0, 1)),
+                coverage TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                ended_at TEXT
             );
             """
         )
@@ -207,6 +238,77 @@ class ProfileStore:
             }
         finally:
             conn.close()
+
+    def record_job(self, job):
+        """Append one bounded job and return the id the store assigned.
+
+        A job is a search or a refresh this profile ran. It is written
+        through ``plugin_db`` like every other row here; this module never
+        opens a database of its own.
+        """
+        fields = _job_fields(job)
+        return self._write_result(lambda conn: self._insert_job(conn, fields))
+
+    def latest_job(self):
+        """The most recent job row, or ``None``. Reads the profile store only."""
+        conn = self._connect()
+        try:
+            row = conn.execute(
+                "SELECT * FROM search_job ORDER BY sequence DESC LIMIT 1"
+            ).fetchone()
+        finally:
+            conn.close()
+        return _job_dict(row) if row is not None else None
+
+    def job_count(self):
+        conn = self._connect()
+        try:
+            return conn.execute("SELECT COUNT(*) FROM search_job").fetchone()[0]
+        finally:
+            conn.close()
+
+    def _write_result(self, mutate):
+        """Run one write and return its own value. Used where a caller needs
+        the assigned key rather than the profile snapshot."""
+        conn = self._connect()
+        try:
+            conn.execute("BEGIN IMMEDIATE")
+            result = mutate(conn)
+            conn.commit()
+            return result
+        except Exception:
+            conn.rollback()
+            raise
+        finally:
+            conn.close()
+
+    def _insert_job(self, conn, fields):
+        sequence = conn.execute(
+            "SELECT COALESCE(MAX(sequence), 0) + 1 FROM search_job"
+        ).fetchone()[0]
+        job_id = f"job:{sequence}"
+        conn.execute(
+            "INSERT INTO search_job(job_id, sequence, kind, state, question, provider, "
+            "limits, requests_used, result_count, cost_usd, cost_known, coverage, "
+            "created_at, ended_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (
+                job_id,
+                sequence,
+                fields["kind"],
+                fields["state"],
+                fields["question"],
+                fields["provider"],
+                json.dumps(fields["limits"]),
+                fields["requests_used"],
+                fields["result_count"],
+                fields["cost_usd"],
+                1 if fields["cost_known"] else 0,
+                json.dumps(fields["coverage"]),
+                fields["created_at"],
+                fields["ended_at"],
+            ),
+        )
+        return job_id
 
     def _write(self, mutate):
         conn = self._connect()
@@ -343,6 +445,78 @@ class ProfileStore:
             for row in conn.execute("SELECT text FROM interests ORDER BY position")
         ]
         return {"schema": SCHEMA, "interests": interests, "items": items}
+
+
+def _job_fields(job):
+    """Validate one job row and return the fields the insert binds.
+
+    A bad job is refused with a short code rather than written partly.
+    """
+    if not isinstance(job, dict):
+        _fail("job")
+    kind = job.get("kind")
+    state = job.get("state")
+    question = job.get("question")
+    provider = job.get("provider")
+    limits = job.get("limits")
+    coverage = job.get("coverage")
+    if kind != "search":
+        _fail("kind")
+    if state not in JOB_STATES:
+        _fail("state")
+    if not isinstance(question, str) or not question.strip() or len(question) > JOB_QUESTION_MAX:
+        _fail("question")
+    if not isinstance(provider, str) or not provider.strip():
+        _fail("provider")
+    if not isinstance(limits, dict) or set(limits) != {"max_hits", "max_requests", "deadline_seconds"}:
+        _fail("limits")
+    requests_used = job.get("requests_used")
+    result_count = job.get("result_count")
+    for value in (requests_used, result_count):
+        if type(value) is not int or value < 0:
+            _fail("counts")
+    cost_usd = job.get("cost_usd")
+    if cost_usd is not None and (isinstance(cost_usd, bool) or not isinstance(cost_usd, (int, float)) or cost_usd < 0):
+        _fail("cost")
+    cost_known = job.get("cost_known")
+    if type(cost_known) is not bool or cost_known != (cost_usd is not None):
+        _fail("cost")
+    if not isinstance(coverage, (list, tuple)) or any(not isinstance(note, str) for note in coverage):
+        _fail("coverage")
+    ended_at = job.get("ended_at")
+    return {
+        "kind": kind,
+        "state": state,
+        "question": question.strip(),
+        "provider": provider.strip(),
+        "limits": limits,
+        "requests_used": requests_used,
+        "result_count": result_count,
+        "cost_usd": None if cost_usd is None else float(cost_usd),
+        "cost_known": cost_known,
+        "coverage": list(coverage),
+        "created_at": _stamp(job.get("created_at")),
+        "ended_at": None if ended_at is None else _stamp(ended_at),
+    }
+
+
+def _job_dict(row):
+    return {
+        "job_id": row["job_id"],
+        "sequence": row["sequence"],
+        "kind": row["kind"],
+        "state": row["state"],
+        "question": row["question"],
+        "provider": row["provider"],
+        "limits": json.loads(row["limits"]),
+        "requests_used": row["requests_used"],
+        "result_count": row["result_count"],
+        "cost_usd": row["cost_usd"],
+        "cost_known": bool(row["cost_known"]),
+        "coverage": json.loads(row["coverage"]),
+        "created_at": row["created_at"],
+        "ended_at": row["ended_at"],
+    }
 
 
 def _lock_item(conn, item_id):

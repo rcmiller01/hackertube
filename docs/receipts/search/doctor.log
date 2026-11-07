@@ -1,0 +1,4 @@
+Plugin Doctor: /Users/robert/Developer/hackertube-4.1/hackertube
+  manifest: hackertube 0.1.0 (standalone)
+  OK: runtime discovery, manifest parsing, import, and registration passed
+  registrations: 0 tool(s), 0 hook(s)

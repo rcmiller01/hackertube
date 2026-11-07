@@ -5,9 +5,13 @@
  * catalog file. Saves, dismissals, opens, and interests are profile
  * records from GET /api/plugins/hackertube/profile. GET /feed is
  * Catalog.feed for the opening feed and Catalog.section for each format.
- * The page does not rank on its own and does not show scores. Search renders the question,
- * disclosure, and results area and does not call a model, search
- * provider, or paid API (tasks 4.1 and 4.2).
+ * The page does not rank on its own and does not show scores.
+ *
+ * The Search panel posts the question to POST /api/plugins/hackertube/search
+ * once the credit-use disclosure has been accepted. The route returns the
+ * bounded job, its verified results, its source labels, its constraint
+ * states, and its usage. This file renders those; it does not interpret the
+ * question, retrieve candidates, or decide a cost.
  */
 (function (factory) {
   "use strict";
@@ -43,6 +47,14 @@
     "July", "August", "September", "October", "November", "December",
   ];
   var DISCLOSURE = "Configured sources and the broader web may be searched. Model, search, and provider credits or quota may be used. Browsing is free.";
+  var DISCLOSURE_ACK = "I understand this Search may use model, search, or provider credits or quota.";
+  var DISCLOSURE_ACK_ALERT = "Confirm the disclosure before searching.";
+  var SEARCH_LIVE_ABSENT = "Search is unavailable: the live provider has no model key or model endpoint configured, so no request will be sent.";
+  var SEARCH_SCHEMA = "hackertube.search/1";
+  var SEARCH_COST_UNKNOWN = "Cost: unknown. The provider reported no cost information.";
+  var SEARCH_COST_KNOWN_PREFIX = "Cost: $";
+  var SEARCH_LIMIT_NOTE = "Work limits for this job:";
+  var SEARCH_STATES = { queued: "queued", running: "running", succeeded: "succeeded", partial: "partial", failed: "failed" };
   var ORDER_NOTE = "Seeded catalog, in capture order.";
   var DISCOVERY_SCHEMA = "hackertube.discovery/1";
   var FEED06_NOTE = "No seeded record matches these interests. Coverage is limited to the titles and contributors in this catalog.";
@@ -580,6 +592,64 @@
     }
   }
 
+  function sectionLabel(id) {
+    for (var index = 0; index < SECTIONS.length; index += 1) {
+      if (SECTIONS[index].id === id) return SECTIONS[index].label;
+    }
+    return id;
+  }
+
+  function searchRefusalMessage(body, error) {
+    var message = "";
+    if (body && typeof body.message === "string") message = body.message.trim();
+    if (!message && error && typeof error.message === "string") message = error.message.trim();
+    if (body && body.error === "disclosure_required") {
+      return message || "The credit-use disclosure must be accepted before a Search starts.";
+    }
+    if (body && body.error === "provider_unavailable") return message || SEARCH_LIVE_ABSENT;
+    if (body && body.error === "question") {
+      return "Enter a question of up to 200 characters, with no markup.";
+    }
+    return message || "The Search request did not complete.";
+  }
+
+  function formatCost(usage) {
+    var safe = usage || {};
+    if (safe.cost_known !== true) return SEARCH_COST_UNKNOWN;
+    var value = typeof safe.cost_usd === "number" ? safe.cost_usd : 0;
+    return SEARCH_COST_KNOWN_PREFIX + value.toFixed(4) + " reported by the provider.";
+  }
+
+  function limitsLine(limits, usage) {
+    var safe = limits || {};
+    var requests = safe.max_requests === undefined ? "?" : safe.max_requests;
+    var hits = safe.max_hits === undefined ? "?" : safe.max_hits;
+    var deadline = safe.deadline_seconds === undefined ? "?" : safe.deadline_seconds;
+    var used = usage && typeof usage.requests_used === "number" ? usage.requests_used : 0;
+    return SEARCH_LIMIT_NOTE + " at most " + requests + " provider requests, " + hits +
+      " results, a " + deadline + " second deadline. Provider requests used: " + used + ".";
+  }
+
+  function constraintLine(interpretation) {
+    var limit = interpretation && interpretation.max_duration_seconds;
+    if (typeof limit !== "number" || limit <= 0) return "Constraints: none applied.";
+    return "Constraints: items longer than " + formatDuration(limit) +
+      " are excluded. Unknown duration is labeled unverified and left out of strict matches.";
+  }
+
+  function searchStatusLine(result) {
+    var job = (result && result.job) || {};
+    return "Provider: " + ((result && result.provider) || "unknown") +
+      ". Job " + (job.job_id || "unrecorded") +
+      ". State: " + (SEARCH_STATES[job.state] || job.state || "unknown") + ".";
+  }
+
+  function resultWhy(result) {
+    var lines = (result && result.why) || [];
+    if (!lines.length) return "";
+    return lines.join(". ") + ".";
+  }
+
   function createPage(SDK) {
     var React = SDK.React;
     var h = React.createElement;
@@ -668,7 +738,22 @@
       var profileEpoch = useRef(0);
       var seenView = useRef(null);
       var wasOpen = useRef(false);
-      var searchBusy = false;
+      var ackState = useState(false);
+      var ack = ackState[0];
+      var setAck = ackState[1];
+      var searchState = useState("idle");
+      var searchStatus = searchState[0];
+      var setSearchStatus = searchState[1];
+      var searchResultState = useState(null);
+      var searchResult = searchResultState[0];
+      var setSearchResult = searchResultState[1];
+      var searchErrorState = useState("");
+      var searchError = searchErrorState[0];
+      var setSearchError = searchErrorState[1];
+      var statusInfoState = useState(null);
+      var statusInfo = statusInfoState[0];
+      var setStatusInfo = statusInfoState[1];
+      var searchBusy = searchStatus === "running";
 
       useEffect(function () {
         var cancelled = false;
@@ -805,6 +890,17 @@
         return function () { cancelled = true; };
       }, []);
 
+      useEffect(function () {
+        var cancelled = false;
+        if (!SDK.fetchJSON) return function () { cancelled = true; };
+        SDK.fetchJSON("/api/plugins/hackertube/status").then(function (body) {
+          if (!cancelled && body && typeof body === "object") setStatusInfo(body);
+        }).catch(function () {
+          /* the search panel still works; the provider note is the only loss */
+        });
+        return function () { cancelled = true; };
+      }, []);
+
       function onTrigger() {
         if (searchOpen) {
           if (!searchBusy) setSearchOpen(false);
@@ -825,17 +921,50 @@
         closeSearch();
       }
 
+      function showFormAlert(message) {
+        setFormAlert(message);
+        setAlertNonce(function (nonce) { return nonce + 1; });
+      }
+
       function onSubmit(event) {
         event.preventDefault();
+        if (searchBusy) return;
         var value = question.trim();
         if (!value) {
-          setFormAlert("Enter a question before searching.");
-          setAlertNonce(function (nonce) { return nonce + 1; });
+          showFormAlert("Enter a question before searching.");
+          return;
+        }
+        if (!ack) {
+          showFormAlert(DISCLOSURE_ACK_ALERT);
           return;
         }
         setFormAlert("");
         setSubmitted(value);
+        setSearchError("");
+        setSearchResult(null);
+        setSearchStatus("running");
         setSubmitCount(function (count) { return count + 1; });
+        if (!SDK.fetchJSON) {
+          setSearchStatus("error");
+          setSearchError("This Hermes build cannot send the Search request.");
+          return;
+        }
+        SDK.fetchJSON("/api/plugins/hackertube/search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ question: value, disclosure_accepted: true }),
+        }).then(function (body) {
+          if (!body || body.error) {
+            setSearchStatus("error");
+            setSearchError(searchRefusalMessage(body));
+            return;
+          }
+          setSearchResult(body);
+          setSearchStatus("done");
+        }).catch(function (error) {
+          setSearchStatus("error");
+          setSearchError(searchRefusalMessage(null, error));
+        });
       }
 
       function backToDiscovery() {
@@ -1235,7 +1364,77 @@
         );
       }
 
+      function resultItem(itemId) {
+        if (!catalog || !catalog.items) return null;
+        for (var index = 0; index < catalog.items.length; index += 1) {
+          if (catalog.items[index].item_id === itemId) return catalog.items[index];
+        }
+        return null;
+      }
+
+      function resultRow(result) {
+        var item = resultItem(result.item_id);
+        var byId = catalog ? itemsById(catalog.items) : {};
+        var notes = [
+          h("p", { className: "ht-result-source", key: "source" },
+            "Source: " + (result.source && result.source.label ? result.source.label : "unknown")
+          ),
+        ];
+        if (result.source && result.source.kind === "web") {
+          notes.push(h("p", { className: "ht-note", key: "web" },
+            "Broader-web result. It carries its source label and no community endorsement."
+          ));
+        }
+        if (result.constraint === "unverified" && result.constraint_note) {
+          notes.push(h("p", { className: "ht-note", key: "constraint" }, result.constraint_note));
+        }
+        if (result.state && result.state.label) {
+          notes.push(h("p", { className: "ht-note", key: "state" },
+            "In your library: " + result.state.label + "."
+          ));
+        }
+        notes.push(h("p", { className: "ht-why", key: "why" }, resultWhy(result)));
+        var body = item
+          ? renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, false, "", null)
+          : h("div", { className: "ht-card" }, h("h4", null, String(result.title || result.item_id)));
+        return h("div", { className: "ht-result", key: result.item_id }, body, notes);
+      }
+
+      function renderResultSections(result) {
+        var groups = (result && result.sections) || {};
+        var names = Object.keys(groups);
+        if (!names.length) {
+          return h("p", { role: "status" }, "No verified candidate was retrieved for this question.");
+        }
+        return h("div", null, names.map(function (name) {
+          var group = groups[name];
+          var rows = group.verified || [];
+          return h("section", { className: "ht-result-section", key: name, id: "hackertube-result-" + name },
+            h("h3", null, sectionLabel(name) + " · " + (group.verified_count || 0) + " verified"),
+            group.insufficient_evidence
+              ? h("p", { className: "ht-note" }, group.note)
+              : h("div", { className: "ht-grid" }, rows.map(resultRow))
+          );
+        }));
+      }
+
+      function renderJob(result) {
+        var job = (result && result.job) || {};
+        var usage = (result && result.usage) || {};
+        var coverage = (result && result.coverage) || {};
+        var notes = coverage.notes || [];
+        return h("div", { className: "ht-job" },
+          h("p", { className: "ht-meta", id: "hackertube-job-status" }, searchStatusLine(result)),
+          h("p", { className: "ht-constraints" }, constraintLine(result && result.interpretation)),
+          h("p", { className: "ht-cost", id: "hackertube-job-cost" }, formatCost(usage)),
+          h("p", { className: "ht-meta", id: "hackertube-job-limits" }, limitsLine(job.limits, usage)),
+          notes.length ? h("p", { className: "ht-note", role: "status" }, notes.join(" ")) : null,
+          renderResultSections(result)
+        );
+      }
+
       function renderSearch() {
+        var liveAbsent = !!(statusInfo && statusInfo.provider === "live" && statusInfo.model_key === "absent");
         return h("div", { className: "ht-search" },
           h(Button, {
             type: "button",
@@ -1261,6 +1460,18 @@
                   onChange: function (event) { setQuestion(event.target.value); },
                 }),
                 h("p", { id: "hackertube-disclosure", className: "ht-disclosure" }, DISCLOSURE),
+                h("label", { className: "ht-ack", htmlFor: "hackertube-disclosure-ack" },
+                  h("input", {
+                    id: "hackertube-disclosure-ack",
+                    type: "checkbox",
+                    checked: ack,
+                    onChange: function (event) { setAck(!!event.target.checked); },
+                  }),
+                  " " + DISCLOSURE_ACK
+                ),
+                liveAbsent
+                  ? h("p", { id: "hackertube-provider-note", className: "ht-note", role: "status" }, SEARCH_LIVE_ABSENT)
+                  : null,
                 formAlert
                   ? h("p", { className: "ht-alert", role: "alert", tabIndex: -1, ref: alertRef }, formAlert)
                   : null,
@@ -1269,7 +1480,7 @@
                     type: "submit",
                     className: "ht-action",
                     "aria-describedby": "hackertube-disclosure",
-                  }, "Search"),
+                  }, searchBusy ? "Searching" : "Search"),
                   h(Button, {
                     type: "button",
                     outlined: true,
@@ -1279,12 +1490,13 @@
                 )
               )
             : null,
-          submitted
-            ? h("div", { className: "ht-results", "aria-busy": "false" },
+          searchBusy || searchError || searchResult
+            ? h("div", { className: "ht-results", id: "hackertube-results", "aria-busy": searchBusy ? "true" : "false" },
                 h("h2", { tabIndex: -1, ref: resultsRef }, "Search results"),
                 h("p", { className: "ht-question" }, "Question: " + submitted),
-                h("p", { className: "ht-constraints" }, "Constraints: none applied."),
-                h("p", { role: "status" }, "No search was started. This page does not call a model or a search provider."),
+                searchBusy ? h("p", { role: "status" }, "Search running.") : null,
+                searchError ? h("p", { className: "ht-alert", role: "alert" }, searchError) : null,
+                searchResult ? renderJob(searchResult) : null,
                 h(Button, { type: "button", outlined: true, className: "ht-action", onClick: backToDiscovery }, "Back to discovery")
               )
             : null
@@ -1433,6 +1645,19 @@
   return {
     DEMO_QUESTION: DEMO_QUESTION,
     DISCLOSURE: DISCLOSURE,
+    DISCLOSURE_ACK: DISCLOSURE_ACK,
+    DISCLOSURE_ACK_ALERT: DISCLOSURE_ACK_ALERT,
+    SEARCH_LIVE_ABSENT: SEARCH_LIVE_ABSENT,
+    SEARCH_SCHEMA: SEARCH_SCHEMA,
+    SEARCH_COST_UNKNOWN: SEARCH_COST_UNKNOWN,
+    SEARCH_LIMIT_NOTE: SEARCH_LIMIT_NOTE,
+    searchRefusalMessage: searchRefusalMessage,
+    formatCost: formatCost,
+    limitsLine: limitsLine,
+    constraintLine: constraintLine,
+    searchStatusLine: searchStatusLine,
+    sectionLabel: sectionLabel,
+    resultWhy: resultWhy,
     ORDER_NOTE: ORDER_NOTE,
     FEED06_NOTE: FEED06_NOTE,
     FEED07_NOTE: FEED07_NOTE,

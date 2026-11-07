@@ -169,11 +169,23 @@ class Feed:
             raise RecordError("why")
 
 
-def _matches(item, words):
+def matches_terms(item, words):
+    """True when the item's title or a contributor name carries one of ``words``.
+
+    Case-insensitive substring match. This is the one interest/question gate
+    the prepared feed and the focused search share, so both admit an item on
+    the same rule.
+    """
+    if not words:
+        return False
     haystack = item.title.lower()
     if item.contributors:
         haystack = haystack + " " + " ".join(item.contributors).lower()
     return any(word in haystack for word in words)
+
+
+def _matches(item, words):
+    return matches_terms(item, words)
 
 
 def prepared_feed(items, evidence, interests, now):

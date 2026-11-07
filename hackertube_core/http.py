@@ -146,15 +146,11 @@ def _pinned_opener(host, pinned_ips):
     )
 
 
-def read_json(url, *, classification, cost=None, timeout=15, opener=None, headers=None, resolve=None):
-    """Fetch one JSON body through the outbound boundary.
+def _send(url, *, classification, method, data, cost, timeout, opener, headers, resolve):
+    """One counted request through the outbound boundary, JSON in or out.
 
-    ``classification`` is the caller's declaration of what the read costs:
-    ``outbound.FREE`` for a public source read, ``outbound.METERED`` for a
-    read that spends a provider quota, or ``outbound.PAID`` for a billed
-    call. It is keyword-only and required. ``cost`` is the provider cost in
-    US dollars for a paid call and is never accepted for a free or metered
-    one.
+    ``read_json`` and ``post_json`` are the only callers, so the label,
+    the pinned connection, and the error mapping cannot drift apart.
     """
     if classification not in outbound.LABELS:
         raise ValueError(f"unknown request label: {classification!r}")
@@ -163,7 +159,9 @@ def read_json(url, *, classification, cost=None, timeout=15, opener=None, header
     merged = {"User-Agent": USER_AGENT, "Accept": "application/json"}
     if headers:
         merged.update(headers)
-    request = Request(url, headers=merged)
+    if data is not None:
+        merged.setdefault("Content-Type", "application/json")
+    request = Request(url, data=data, headers=merged, method=method)
 
     def perform():
         # Resolution, pinned connection, response read and close form ONE
@@ -189,3 +187,59 @@ def read_json(url, *, classification, cost=None, timeout=15, opener=None, header
     if len(body) > MAX_BYTES:
         raise HttpError("response too large")
     return json.loads(body)
+
+
+def read_json(url, *, classification, cost=None, timeout=15, opener=None, headers=None, resolve=None):
+    """Fetch one JSON body through the outbound boundary.
+
+    ``classification`` is the caller's declaration of what the read costs:
+    ``outbound.FREE`` for a public source read, ``outbound.METERED`` for a
+    read that spends a provider quota, or ``outbound.PAID`` for a billed
+    call. It is keyword-only and required. ``cost`` is the provider cost in
+    US dollars for a paid call and is never accepted for a free or metered
+    one.
+    """
+    return _send(
+        url,
+        classification=classification,
+        method="GET",
+        data=None,
+        cost=cost,
+        timeout=timeout,
+        opener=opener,
+        headers=headers,
+        resolve=resolve,
+    )
+
+
+def post_json(
+    url,
+    *,
+    classification,
+    payload,
+    cost=None,
+    timeout=15,
+    opener=None,
+    headers=None,
+    resolve=None,
+):
+    """Post one JSON body and read the JSON answer through the same boundary.
+
+    The label rule is identical to ``read_json``: ``classification`` is
+    required with no default, and ``cost`` is the provider's reported cost
+    for a paid call or ``None`` when the provider reports none. The encoded
+    payload is the only request body sent.
+    """
+    if not isinstance(payload, dict):
+        raise RecordError("payload")
+    return _send(
+        url,
+        classification=classification,
+        method="POST",
+        data=json.dumps(payload).encode("utf-8"),
+        cost=cost,
+        timeout=timeout,
+        opener=opener,
+        headers=headers,
+        resolve=resolve,
+    )

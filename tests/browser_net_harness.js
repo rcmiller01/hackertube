@@ -139,6 +139,15 @@ async function startFixture(items) {
     },
   };
   let profile = { schema: "hackertube.profile/1", interests: ["Jane Austen"], items: [] };
+  // The search panel reads the provider state from /status. The fixture
+  // reports the key-gated live provider with no key, so the page shows its
+  // "no request will be sent" note and the walk dispatches no search.
+  const status = {
+    name: "HackerTube",
+    data_root: "/tmp/plugin-data/hackertube",
+    model_key: "absent",
+    provider: "live",
+  };
 
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "ht-browser-boundary-"));
   const harness = path.join(dir, "harness.js");
@@ -195,6 +204,11 @@ async function startFixture(items) {
       sendJson(response, feed);
       return;
     }
+    if (url.pathname === "/api/plugins/hackertube/status") {
+      record();
+      sendJson(response, status);
+      return;
+    }
     if (url.pathname.indexOf("/api/plugins/hackertube/profile") === 0) {
       if (request.method !== "POST") {
         record();
@@ -246,6 +260,7 @@ function labelOf(url, fixture) {
   const target = new URL(url);
   const local = ["/", "/style.css", "/bundle.js", "/api/plugins/hackertube/catalog",
     "/api/plugins/hackertube/feed", "/api/plugins/hackertube/profile",
+    "/api/plugins/hackertube/status",
     "/api/plugins/hackertube/profile/saves", "/api/plugins/hackertube/profile/dismissals",
     "/api/plugins/hackertube/profile/opens", "/api/plugins/hackertube/profile/interests"];
   if (target.origin === fixture.origin && local.includes(target.pathname)) return "local";

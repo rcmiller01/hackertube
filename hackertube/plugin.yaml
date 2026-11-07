@@ -11,3 +11,21 @@ config_schema:
       Plugin-owned model or search key. Hermes stores it. Read only this
       declared name through agent.secret_scope.get_secret. Do not read
       Hermes credential files.
+  provider:
+    type: string
+    choices: [live, stub]
+    default: live
+    description: >-
+      Which provider the explicit focused Search uses. "live" reads the
+      declared model key through secret scope and posts one request
+      through the outbound boundary; with the key or the endpoint absent
+      it refuses before any outbound call. "stub" is the deterministic
+      local provider used for tests and the demo cut; it makes no
+      outbound call.
+  model_endpoint:
+    type: string
+    default: ""
+    description: >-
+      The https chat-completions endpoint the live provider posts to.
+      Empty means the live provider is not configured, and Search with
+      provider "live" fails closed.

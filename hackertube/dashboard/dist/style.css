@@ -264,6 +264,45 @@
   padding-top: 0.25rem;
 }
 
+.hackertube .ht-ack {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.hackertube .ht-search input[type="checkbox"] {
+  align-self: center;
+  width: 1.25rem;
+  min-height: 1.25rem;
+  margin: 0;
+}
+
+.hackertube .ht-job {
+  margin-top: 0.75rem;
+}
+
+.hackertube .ht-cost,
+.hackertube .ht-constraints {
+  margin: 0.35rem 0;
+  font-size: 0.95rem;
+}
+
+.hackertube .ht-result-section {
+  margin-top: 1rem;
+}
+
+.hackertube .ht-result-source {
+  margin: 0.4rem 0 0;
+  font-size: 0.95rem;
+}
+
+.hackertube .ht-result {
+  border-top: 1px solid var(--color-border);
+  padding-top: 0.5rem;
+}
+
 .hackertube .ht-about {
   max-width: 40rem;
 }
