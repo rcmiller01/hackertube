@@ -393,7 +393,7 @@ function textOf(node) {
   return "";
 }
 
-function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, statusBody) {
+function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, statusBody, deferSearch) {
   const previous = {
     window: global.window,
     document: global.document,
@@ -541,6 +541,25 @@ function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, s
         method: (init && init.method) || "GET",
         body: init && init.body ? JSON.parse(init.body) : null,
       });
+      if (deferSearch && target.indexOf("/search") !== -1) {
+        // Hold the Search response until the test settles it, so a request can
+        // stay in flight while another one starts. The test drives settlement
+        // through deferSearch.pending[i].onOk / .onErr.
+        const entry = { url: target, onOk: null, onErr: null };
+        deferSearch.pending.push(entry);
+        return {
+          then(onOk, onErr) {
+            entry.onOk = onOk;
+            entry.onErr = onErr;
+            return {
+              catch(fn) {
+                if (!entry.onErr) entry.onErr = fn;
+                return this;
+              },
+            };
+          },
+        };
+      }
       return {
         then(onOk, onErr) {
           const outcome = outcomeFor(target, init);
@@ -1837,6 +1856,110 @@ test("Back to discovery closes a failed Search", async () => {
       ui.focused.current && ui.focused.current.props.id,
       "hackertube-question",
       "Back returns focus to the search input after a failure",
+    );
+  } finally {
+    ui.restore();
+  }
+});
+
+// Regression: pressing Back while a Search was running cleared the busy status,
+// which re-armed the submit guard and allowed a second paid request.
+test("Back to discovery is disabled and inert while a Search is running", () => {
+  const defer = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, defer);
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    assert.equal(defer.pending.length, 1, "one Search request is in flight");
+    const back = ui.find((node) => (node.children || []).some((child) => child === "Back to discovery"));
+    assert.ok(back, "the Back control renders while the Search runs");
+    assert.equal(back.props.disabled, true, "Back carries the disabled attribute while the Search runs");
+    assert.equal(back.props["aria-disabled"], "true", "Back is announced as disabled while the Search runs");
+    back.props.onClick();
+    const results = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.match(results, /Search running\./, "Back did not reset the running Search");
+    assert.equal(defer.pending.length, 1, "Back dispatched no new request");
+  } finally {
+    ui.restore();
+  }
+});
+
+test("a second submit after Back while a Search is running sends no second POST", () => {
+  const defer = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, defer);
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    assert.equal(defer.pending.length, 1, "the first Search request is in flight");
+    // Back must not clear the busy status: doing so re-arms the submit guard and
+    // lets a second paid request start while the first is still in flight.
+    const back = ui.find((node) => (node.children || []).some((child) => child === "Back to discovery"));
+    back.props.onClick();
+    ui.requests.length = 0;
+    submitSearch(ui, "What can I read by Jane Austen?");
+    const posted = ui.requests.filter((row) => row.url.indexOf("/search") !== -1);
+    assert.equal(posted.length, 0, "no second Search POST while the first is in flight");
+    assert.equal(defer.pending.length, 1, "the first request is still the only one in flight");
+  } finally {
+    ui.restore();
+  }
+});
+
+// The UI guards stop a user from reaching two in-flight requests, so this test
+// drives both requests directly to exercise the sequence guard on its own: a
+// response from an older request must not overwrite a newer one.
+test("a stale Search response does not overwrite a newer Search's result", () => {
+  const defer = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, defer);
+  try {
+    openSearchPanel(ui);
+    const input = ui.find((node) => node.props && node.props.id === "hackertube-question");
+    input.props.onChange({ target: { value: "What can I read by Jane Austen?" } });
+    const box = ui.find((node) => node.props && node.props.id === "hackertube-disclosure-ack");
+    box.props.onChange({ target: { checked: true } });
+    const form = ui.find((node) => node.type === "form" && node.props.id === "hackertube-search-panel");
+    form.props.onSubmit({ preventDefault() {} });
+    form.props.onSubmit({ preventDefault() {} });
+    assert.equal(defer.pending.length, 2, "two Search requests are in flight");
+
+    defer.pending[0].onOk(Object.assign(defaultSearchResult(), { provider: "stale-provider" }));
+    const afterStale = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.doesNotMatch(afterStale, /stale-provider/, "the stale response is ignored");
+    assert.match(afterStale, /Search running\./, "the newer Search is still running");
+
+    defer.pending[1].onOk(Object.assign(defaultSearchResult(), { provider: "fresh-provider" }));
+    const afterFresh = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.match(afterFresh, /fresh-provider/, "the newest response renders");
+    assert.doesNotMatch(afterFresh, /stale-provider/, "the stale response never renders");
+  } finally {
+    ui.restore();
+  }
+});
+
+// A stub job can fail inside an HTTP 200 body; Back must still close that panel.
+test("Back to discovery closes a Search whose stub job failed with HTTP 200", async () => {
+  const failed = searchResult({}, {
+    job: { job_id: "job:9", state: "failed", limits: { max_hits: 12, max_requests: 2, deadline_seconds: 5 } },
+    coverage: { verified: 0, formats_without_match: [], notes: ["The provider reported the job failed."] },
+  });
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: failed });
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    const status = ui.text((node) => node.props && node.props.id === "hackertube-job-status");
+    assert.match(status, /State: failed\./, "the HTTP 200 body carries a failed job state");
+    const back = ui.find((node) => (node.children || []).some((child) => child === "Back to discovery"));
+    assert.equal(back.props.disabled, false, "Back is enabled once the failed job has settled");
+    back.props.onClick();
+    assert.equal(
+      ui.find((node) => node.props && node.props.className === "ht-results"),
+      null,
+      "the failed-job panel is gone after Back",
+    );
+    const input = ui.find((node) => node.props && node.props.id === "hackertube-question");
+    assert.equal(input.props.value, "What can I read by Jane Austen?");
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    assert.equal(
+      ui.focused.current && ui.focused.current.props.id,
+      "hackertube-question",
+      "Back returns focus to the search input after a failed job",
     );
   } finally {
     ui.restore();
