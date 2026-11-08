@@ -1,0 +1,12 @@
+hackertube/dashboard/plugin_api.py:293:        from hackertube_core.retrieval import SourceRetriever
+hackertube/dashboard/plugin_api.py:306:            else SourceRetriever(store, get_secret=get_secret, web_search=web_search),
+hackertube/hackertube_core/search.py:287:def _interpretation_from(body, question):
+hackertube/hackertube_core/search.py:446:        "why": [f"Matched the question: {interpretation.topic}"],
+hackertube/hackertube_core/search.py:516:                list(ranking).index(item.item_id)
+hackertube/hackertube_core/search.py:708:                        lambda: provider.rank(cleaned, catalog, timeout)
+hackertube/hackertube_core/retrieval.py:154:class SourceRetriever:
+hackertube/hackertube_core/retrieval.py:160:        query = interpretation.topic.strip()
+hackertube/hackertube_core/hermes.py:14:    _interpretation_from,
+hackertube/hackertube_core/hermes.py:27:RANK = (
+hackertube/hackertube_core/hermes.py:72:            instructions=INTERPRET if stage == "interpret" else RANK,
+hackertube/hackertube_core/hermes.py:157:        interpretation = _interpretation_from({"interpretation": body["data"]}, cleaned)

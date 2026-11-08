@@ -556,6 +556,16 @@ Scenarios: SEARCH01 and CAT01/03/08 pass for the exercised four-format path; JOB
 
 Checks: **233 Python passed / 0 failed**, **71 JavaScript passed / 0 failed / 0 skipped**, plugin validation without warnings, lint and strict specification/traceability checks. Code is pinned by the commit containing this section and `docs/receipts/installed-live/youtube-runtime-manifest.json` (**34/34 installed runtime files match**). Full report, observed source state, failures, red/green logs, and screenshot: `docs/receipts/installed-live/ai-search-evaluation.md#youtube-enabled-follow-up`. The key was never inspected or copied by the agent.
 
+## Category relevance and ranking follow-up — PR #17
+
+PR #16 merged at reviewed head `076495c083cbab8c753e0a1cabbf677497d9c359`, squash commit `206084688822a21847f989cd959d99f93cfa48cc`. The follow-up branch starts from that merge. Tasks 8.1–8.3 pass offline; 8.4 remains pending installed-live checks.
+
+The baseline regression run reproduced **16 failures / 1 passing control** before implementation (`0a7420e`). A further uneven-result-limit test reproduced category starvation (`52325fe`), and a rendered UI test reproduced missing subject/inference labels (`662641b`), each before its fix. The updated suite passes **251 Python / 0 failures**, **72 JavaScript / 0 failures / 0 skips**, strict OpenSpec, 14 invalid coverage fixtures plus one valid mixed fixture, lint, and Hermes plugin validation without warnings. One existing Starlette/httpx deprecation warning remains. Six existing valid model-response fixtures were migrated to include the new required fit field, retaining all their assertions.
+
+Scope: one interpretation decoder and native interpretation prompt; one shared source-query assignment for all adapters/web; one ranking caller and validator; one shared final result selector; one UI result renderer and one job summary. Four categories share candidate/result allocation, with the two podcast record types interleaved inside one category. No new dependency or outbound call site was introduced; model/source budgets are unchanged. Relevance is model-inferred, while identity/provenance stays source-backed.
+
+Full policy, checks, remaining quality risks, runtime pin, and installed-live disposition: `docs/receipts/results-tuning/README.md`. This does not close source credential/release obligations, cancellation/restart recovery, or the broad relevance evaluation.
+
 ## Release measurements
 
 All values are unmeasured. Freeze the post-demo evaluation workload, rubric, source snapshots, provider configuration, and request limits before collecting results. Use PRD section 9 for proposed targets and report adjustments explicitly. The demo video length is measured under task 4.3, not inferred from the six-step outline.

@@ -163,6 +163,7 @@ class Interpretation:
     depth: str
     max_duration_seconds: object
     author: object = None
+    retrieval_query: object = None
 
     def as_dict(self):
         return {
@@ -173,6 +174,7 @@ class Interpretation:
             "depth": self.depth,
             "max_duration_seconds": self.max_duration_seconds,
             "author": self.author,
+            "retrieval_query": self.retrieval_query or self.topic,
         }
 
 
@@ -308,6 +310,10 @@ def _interpretation_from(body, question):
     author = row.get("author")
     if author is not None and (not isinstance(author, str) or len(author) > 120):
         raise ProviderUnavailable("The model returned an invalid author.")
+    try:
+        query = canonical_question(row.get("retrieval_query", topic))
+    except RecordError as exc:
+        raise ProviderUnavailable("The model returned an invalid retrieval query.") from exc
     return Interpretation(
         question,
         canonical_question(topic),
@@ -316,6 +322,7 @@ def _interpretation_from(body, question):
         str(row.get("depth") or "standard")[:80],
         limit,
         author,
+        query,
     )
 
 
@@ -521,6 +528,25 @@ def result_set(
             item.item_id,
         ),
     )
+    if ranking is not None:
+        categories = [
+            name for name, formats in SECTIONS.items()
+            if not requested_formats or requested_formats.intersection(formats)
+        ]
+        share = max(1, (limits.max_hits + len(categories) - 1) // len(categories))
+        queues = {}
+        for item in ordered:
+            category = next(name for name in categories if item.format in SECTIONS[name])
+            queues.setdefault(category, []).append(item)
+        # Reserve one match per available category before taking extras.
+        # Queue order follows the model's best category head; each queue
+        # preserves its own ranking. Sparse categories leave unused slots.
+        ordered = [
+            items[index]
+            for index in range(share)
+            for items in queues.values()
+            if index < len(items)
+        ]
     if len(ordered) > limits.max_hits:
         ordered = ordered[: limits.max_hits]
     results = []
@@ -529,6 +555,7 @@ def result_set(
         row = _result(item, interpretation, item_rows, source_names, profile, limit)
         if ranking is not None:
             row["why"] = [render_untrusted(ranking[item.item_id])]
+            row["relevance"] = "model_inferred"
         results.append(row)
     requested = list(interpretation.formats) or [
         fmt for fmt in ("book", "audiobook", "podcast_show", "podcast_episode", "video")
@@ -707,6 +734,12 @@ def _run_search(
                     ranking, rank_cost = budget.call(
                         lambda: provider.rank(cleaned, catalog, timeout)
                     )
+                    diagnostics = getattr(provider, "ranking_diagnostics", {})
+                    if diagnostics.get("invalid_entries", 0):
+                        source_statuses.append({
+                            "source_id": "ranking", "state": "partial",
+                            "error": "Some invalid ranking entries were ignored; valid matches are retained.",
+                        })
                 elif hasattr(provider, "rank"):
                     ranking = {}
                 store.remember_catalog(catalog)
@@ -801,6 +834,7 @@ def _run_search(
         "schema": SCHEMA,
         "sources": source_statuses,
         "model_route": getattr(provider, "route", {}),
+        "ranking": getattr(provider, "ranking_diagnostics", {}),
         "job": job,
         "question": cleaned,
         "provider": provider.name,

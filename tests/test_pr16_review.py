@@ -61,7 +61,7 @@ def test_failed_paid_web_attempt_keeps_total_cost_unknown(tmp_path):
                 "cost_usd": 0.01,
             }
         return {
-            "data": {"items": [{"item_id": "ol:1", "reason": "A gardening book."}]},
+            "data": {"items": [{"item_id": "ol:1", "reason": "A gardening book.", "fit": "direct"}]},
             "cost_usd": 0.02,
         }
 

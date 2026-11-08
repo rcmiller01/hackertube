@@ -51,7 +51,7 @@ def test_reasoning_model_has_room_to_return_a_ranking_after_2500_tokens(monkeypa
             # Observed host shape: no final text/parsed data when reasoning
             # consumes the 2,500-token completion budget (finish_reason=length).
             parsed = None if kw['max_tokens'] <= 2500 else {
-                'items': [{'item_id': 'ol:1', 'reason': 'A beginner gardening book.'}]}
+                'items': [{'item_id': 'ol:1', 'reason': 'A beginner gardening book.', 'fit': 'direct'}]}
         return SimpleNamespace(parsed=parsed, provider='configured', model='reasoning',
                                usage=SimpleNamespace(cost_usd=None))
 
@@ -93,7 +93,7 @@ def test_four_format_ranking_survives_the_observed_8000_token_exhaustion(monkeyp
         # The live reasoning provider exhausted 8,000 completion tokens on
         # 57 candidates and returned no final text or parsed object.
         parsed = None if kw['max_tokens'] <= 8000 else {'items': [
-            {'item_id': c['item_id'], 'reason': 'Accessible AI introduction.'}
+            {'item_id': c['item_id'], 'reason': 'Accessible AI introduction.', 'fit': 'direct'}
             for c in candidates[:4]]}
         return SimpleNamespace(parsed=parsed, provider='configured', model='reasoning',
                                usage=SimpleNamespace(cost_usd=None))
