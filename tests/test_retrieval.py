@@ -149,6 +149,22 @@ def test_hermes_ranked_new_item_survives_save_open_and_reopen(tmp_path, monkeypa
 
     monkeypatch.setattr("hackertube_core.hermes.handler", lambda: invoke)
     dashboard = route_harness.start(tmp_path / "data", settings={"provider": "hermes"})
+    # This test keeps its injected HTTP/model seams in-process to exercise
+    # retrieval + route + library behavior. Process ownership/cancellation is
+    # exercised with real children in test_supervised_routes.py.
+    class RetrievalController:
+        def start(self, question, **kwargs):
+            catalog, store, provider = dashboard.module._search_binding()
+            self.result = run_search(store, question, catalog=catalog, profile=store.snapshot(),
+                now=NOW, provider=provider, limits=kwargs["limits"], disclosure_accepted=True,
+                retriever=SourceRetriever(store))
+            return self.result["job"]
+        def wait(self, job_id, timeout):
+            return True
+        def status(self, job_id):
+            return self.result
+    controller = RetrievalController()
+    monkeypatch.setattr(dashboard.module, "_supervisor", lambda store: controller)
     result = dashboard.post(
         "/search",
         {

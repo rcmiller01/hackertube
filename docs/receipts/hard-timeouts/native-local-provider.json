@@ -1,0 +1,33 @@
+{
+  "home": "/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/ht-native-deadline-s503ldef",
+  "scope": "real Hermes ctx.llm, stalled local OpenAI-shaped endpoint; no live vendor key",
+  "checks": [
+    {
+      "mode": "deadline",
+      "native_model_request_seen": true,
+      "paths": [
+        "/v1/chat/completions"
+      ],
+      "provider_connection_closed": true,
+      "wall_seconds": 6.015167458012002,
+      "cancel_seconds": null,
+      "state": "timed_out",
+      "requests_used": 1,
+      "cost_known": false
+    },
+    {
+      "mode": "cancel",
+      "native_model_request_seen": true,
+      "paths": [
+        "/v1/chat/completions"
+      ],
+      "provider_connection_closed": true,
+      "wall_seconds": 0.8738868339860346,
+      "cancel_seconds": 0.03891870900406502,
+      "state": "cancelled",
+      "requests_used": 1,
+      "cost_known": false
+    }
+  ],
+  "implementation_sha": "3f649962d4f98091110c1efebb5a27c3c4fb5ab9"
+}

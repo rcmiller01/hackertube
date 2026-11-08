@@ -548,7 +548,7 @@ function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, s
         deferSettings.pending.push(entry);
         return { then(onOk) { entry.onOk = onOk; return { catch(onErr) { entry.onErr = onErr; return this; } }; } };
       }
-      if (deferSearch && target.indexOf("/search") !== -1) {
+      if (deferSearch && target.indexOf("/search") !== -1 && init && init.method === "POST") {
         // Hold the Search response until the test settles it, so a request can
         // stay in flight while another one starts. The test drives settlement
         // through deferSearch.pending[i].onOk / .onErr.
@@ -1523,6 +1523,7 @@ test("SEARCH01 the Search control posts the question with the accepted disclosur
     assert.deepEqual(posted[0].body, {
       question: "What can I read by Jane Austen?",
       disclosure_accepted: true,
+      background: true,
     });
     const results = ui.text((node) => node.props && node.props.className === "ht-results");
     assert.match(results, /Question: What can I read by Jane Austen\?/);
@@ -1980,7 +1981,7 @@ test("search helpers format a cost, a limit, and a refusal without a score", () 
   assert.equal(page.formatCost({}), page.SEARCH_COST_UNKNOWN);
   assert.equal(
     page.limitsLine({ max_hits: 12, max_requests: 2, deadline_seconds: 5 }, { requests_used: 2 }),
-    "Work limits for this job: at most 2 provider requests, 12 results, a 5 second work budget. Provider requests used: 2. In-flight Hermes calls may finish after this budget; cancellation is not implemented.",
+    "Work limits for this job: at most 2 provider requests, 12 results, a 5 second work budget. Provider requests used: 2. Search stops local work at its deadline. Cancel search stops it early. A provider may still bill for a request already accepted.",
   );
   assert.equal(page.constraintLine({ max_duration_seconds: null }), "Time limit: none requested.");
   assert.match(page.constraintLine({ max_duration_seconds: 3600 }), /longer than 1 hour are excluded/);
@@ -2182,8 +2183,8 @@ test("Hermes search explains the work-budget limitation before dispatch", () => 
   try {
     openSearchPanel(ui);
     const note = ui.text((node) => node.props && node.props.id === "hackertube-budget-note");
-    assert.match(note, /calls may finish after.*budget/);
-    assert.match(note, /cancellation is not implemented/);
+    assert.match(note, /stops local work at its deadline/);
+    assert.match(note, /Cancel search stops it early/);
     for (const node of [
       ui.find((node) => node.props && node.props.id === "hackertube-question"),
       ui.find((node) => node.props && node.props.type === "submit" && (node.children || []).includes("Search")),
@@ -2204,8 +2205,8 @@ test("Hermes work-budget limitation remains visible while the provider has not r
     assert.equal(deferred.pending.length, 1);
     assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-job-limits"), null);
     const note = ui.text((node) => node.props && node.props.id === "hackertube-budget-note");
-    assert.match(note, /calls may finish after.*budget/);
-    assert.match(note, /cancellation is not implemented/);
+    assert.match(note, /stops local work at its deadline/);
+    assert.match(note, /Cancel search stops it early/);
   } finally {
     ui.restore();
   }
@@ -2231,9 +2232,56 @@ test("pending Search cannot hide the Hermes limitation by closing the panel", ()
     assert.notEqual(ui.find((node) => node.props && node.props.id === "hackertube-search-panel"), null);
     assert.equal(deferred.pending.length, 1);
     const note = ui.text((node) => node.props && node.props.id === "hackertube-budget-note");
-    assert.match(note, /calls may finish after.*budget/);
-    assert.match(note, /cancellation is not implemented/);
+    assert.match(note, /stops local work at its deadline/);
+    assert.match(note, /Cancel search stops it early/);
   } finally {
     ui.restore();
   }
+});
+
+test("Cancel search can be queued before the supervised job id arrives", () => {
+  const deferred = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, deferred);
+  try {
+    submitSearch(ui, "AI books");
+    const cancel = ui.find((node) => (node.children || []).includes("Cancel search"));
+    assert.ok(cancel, "running search must offer cancellation");
+    cancel.props.onClick();
+    assert.equal(deferred.pending.length, 1, "no guessed job id is cancelled");
+    deferred.pending[0].onOk({ job: { job_id: "job:99", state: "running", limits: { deadline_seconds: 5 } } });
+    assert.match(deferred.pending[1].url, /\/search\/jobs\/job%3A99\/cancel$/);
+    deferred.pending[1].onOk(searchResult({}, { job: { job_id: "job:99", state: "cancelled" } }));
+    assert.match(ui.text((node) => node.props && node.props.id === "hackertube-job-status"), /cancelled/);
+  } finally { ui.restore(); }
+});
+
+test("Cancel search keeps the busy guard until the server confirms termination", () => {
+  const deferred = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, deferred);
+  try {
+    submitSearch(ui, "AI books");
+    deferred.pending[0].onOk({ job: { job_id: "job:9", state: "running", limits: { deadline_seconds: 5 } } });
+    ui.find((node) => (node.children || []).includes("Cancel search")).props.onClick();
+    assert.equal(ui.find((node) => node.props && node.props.type === "submit" && (node.children || []).includes("Searching")).props.disabled, true);
+    deferred.pending[1].onOk(searchResult({}, { job: { job_id: "job:9", state: "cancelled" } }));
+    assert.equal(ui.find((node) => node.props && node.props.type === "submit" && (node.children || []).includes("Search")).props.disabled, false);
+    deferred.pending[0].onOk(searchResult({}, { job: { job_id: "job:9", state: "succeeded" } }));
+    assert.match(ui.text((node) => node.props && node.props.id === "hackertube-job-status"), /cancelled/);
+  } finally { ui.restore(); }
+});
+
+test("a lost start acknowledgement attaches to existing work without another paid start", () => {
+  const deferred = { pending: [] };
+  const responses = { "/api/plugins/hackertube/search": { job: { job_id: "job:existing", state: "running", question: "Earlier AI question", limits: { deadline_seconds: 5 } } } };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, deferred, responses);
+  try {
+    submitSearch(ui, "New AI question");
+    deferred.pending[0].onErr(new Error("start acknowledgement lost"));
+    const cancel = ui.find((node) => (node.children || []).includes("Cancel search"));
+    assert.ok(cancel);
+    cancel.props.onClick();
+    assert.match(deferred.pending[1].url, /\/job%3Aexisting\/cancel$/);
+    deferred.pending[1].onOk(searchResult({}, { job: { job_id: "job:existing", state: "cancelled" } }));
+    assert.equal(ui.requests.filter((r) => r.url === "/api/plugins/hackertube/search" && r.method === "POST").length, 1);
+  } finally { ui.restore(); }
 });

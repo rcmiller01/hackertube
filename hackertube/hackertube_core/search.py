@@ -631,9 +631,12 @@ def run_search(
     disclosure_accepted=False,
     clock=time.monotonic,
     retriever=None,
+    job_id=None,
+    observer=None,
+    deadline_at=None,
 ):
     """Run and account for one job in its own request context."""
-    with outbound.request_scope() as request_ledger:
+    with outbound.request_scope(observer) as request_ledger:
         return _run_search(
             store,
             question,
@@ -646,6 +649,8 @@ def run_search(
             clock=clock,
             retriever=retriever,
             request_ledger=request_ledger,
+            job_id=job_id,
+            deadline_at=deadline_at,
         )
 
 
@@ -662,6 +667,8 @@ def _run_search(
     clock=time.monotonic,
     retriever=None,
     request_ledger=None,
+    job_id=None,
+    deadline_at=None,
 ):
     """Run one explicit bounded Search and persist its job.
 
@@ -677,6 +684,8 @@ def _run_search(
 
     cleaned = canonical_question(question)
     budget = Budget(limits, clock=clock if retriever is not None else time.monotonic)
+    if deadline_at is not None:
+        budget.ends = min(budget.ends, deadline_at)
     source_statuses = []
     ranking = None
     retrieval_limited = False
@@ -828,7 +837,7 @@ def _run_search(
         "created_at": now,
         "ended_at": now,
     }
-    job_id = store.record_job(job)
+    job_id = job_id or store.record_job(job)
     job["job_id"] = job_id
     return {
         "schema": SCHEMA,

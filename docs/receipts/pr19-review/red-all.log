@@ -1,0 +1,167 @@
+FFFFFF                                                                   [100%]
+=================================== FAILURES ===================================
+__ test_stop_keeps_usage_persisted_before_missing_pipe_notification[deadline] __
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-188/test_stop_keeps_usage_persiste0')
+stop = 'deadline'
+
+    @pytest.mark.parametrize("stop", ["deadline", "cancel"])
+    def test_stop_keeps_usage_persisted_before_missing_pipe_notification(tmp_path, stop):
+        manager, store, server, job = setup_job(
+            tmp_path, mode="persisted-usage", seconds=0.6 if stop == "deadline" else 10
+        )
+        connection, _ = server.accept()  # durable dispatch happened before connection
+        try:
+            assert store.job(job["job_id"])["requests_used"] == 1
+            if stop == "cancel":
+                manager.cancel(job["job_id"])
+            result = wait_done(manager, job)
+            assert result["job"]["state"] == ("timed_out" if stop == "deadline" else "cancelled")
+>           assert result["job"]["requests_used"] == 1
+E           assert 0 == 1
+
+tests/test_search_supervisor.py:319: AssertionError
+___ test_stop_keeps_usage_persisted_before_missing_pipe_notification[cancel] ___
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-188/test_stop_keeps_usage_persiste1')
+stop = 'cancel'
+
+    @pytest.mark.parametrize("stop", ["deadline", "cancel"])
+    def test_stop_keeps_usage_persisted_before_missing_pipe_notification(tmp_path, stop):
+        manager, store, server, job = setup_job(
+            tmp_path, mode="persisted-usage", seconds=0.6 if stop == "deadline" else 10
+        )
+        connection, _ = server.accept()  # durable dispatch happened before connection
+        try:
+            assert store.job(job["job_id"])["requests_used"] == 1
+            if stop == "cancel":
+                manager.cancel(job["job_id"])
+            result = wait_done(manager, job)
+            assert result["job"]["state"] == ("timed_out" if stop == "deadline" else "cancelled")
+>           assert result["job"]["requests_used"] == 1
+E           assert 0 == 1
+
+tests/test_search_supervisor.py:319: AssertionError
+_______ test_delayed_usage_notification_cannot_regress_durable_progress ________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-188/test_delayed_usage_notificatio0')
+
+    def test_delayed_usage_notification_cannot_regress_durable_progress(tmp_path):
+        manager, store, server, job = setup_job(tmp_path, mode="stale-progress", seconds=10)
+        connection, _ = server.accept()
+        try:
+            until = time.monotonic() + 2
+            while manager._jobs[job["job_id"]]["counts"]["paid"] != 1 and time.monotonic() < until:
+                time.sleep(0.01)
+            assert manager._jobs[job["job_id"]]["counts"]["paid"] == 1
+            assert store.job(job["job_id"])["requests_used"] == 2
+            manager.cancel(job["job_id"])
+            result = wait_done(manager, job)
+>           assert result["usage"]["request_counts"]["paid"] == 2
+E           assert 1 == 2
+
+tests/test_search_supervisor.py:341: AssertionError
+________ test_existing_observer_recovers_job_after_other_dashboard_dies ________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-188/test_existing_observer_recover0')
+
+    def test_existing_observer_recovers_job_after_other_dashboard_dies(tmp_path):
+        from hackertube_core.search_jobs import SearchSupervisor
+
+        server = socket.socket()
+        server.bind(("127.0.0.1", 0))
+        server.listen(1)
+        server.settimeout(4)
+        home = tmp_path / "home"
+        release = tmp_path / "release-owner"
+        owner = subprocess.Popen([sys.executable, str(FIXTURE), "orphan-owner",
+                                  str(server.getsockname()[1]), str(home), str(release)])
+        connection, _ = server.accept()
+        try:
+            store = store_at(home / "plugin-data/hackertube")
+            observer = SearchSupervisor(store, home=home)
+            job_id = store.latest_job()["job_id"]
+            assert observer.status(job_id)["job"]["state"] == "running"
+            release.touch()
+            assert owner.wait(timeout=3) == 0
+            connection.settimeout(2)
+            assert connection.recv(1) == b""
+            result = observer.status(job_id)
+>           assert result["job"]["state"] == "interrupted"
+E           AssertionError: assert 'running' == 'interrupted'
+E
+E             - interrupted
+E             + running
+
+tests/test_search_supervisor.py:371: AssertionError
+_____ test_new_explicit_start_recovers_old_owner_before_recording_new_job ______
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-188/test_new_explicit_start_recove0')
+
+    def test_new_explicit_start_recovers_old_owner_before_recording_new_job(tmp_path):
+        from hackertube_core.search_jobs import SearchSupervisor
+
+        home = tmp_path / "home"
+        store = store_at(home / "plugin-data/hackertube")
+        manager = SearchSupervisor(store, home=home,
+            command=[sys.executable, str(FIXTURE), "crash", "0"])
+        old_id = store.record_job(dict(
+            kind="search", state="running", question="old request", provider="hermes",
+            limits=Limits().as_dict(), requests_used=1, result_count=0,
+            cost_usd=None, cost_known=False, coverage=[],
+            created_at="2026-11-08T18:00:00Z", ended_at=None,
+        ), unique=True)
+        job = manager.start("new request", provider="hermes", limits=Limits(), disclosure_accepted=True)
+        try:
+>           assert store.job(old_id)["state"] == "interrupted"
+E           AssertionError: assert 'running' == 'interrupted'
+E
+E             - interrupted
+E             + running
+
+tests/test_search_supervisor.py:397: AssertionError
+_____ test_search_info_recovers_after_cached_supervisor_loses_other_owner ______
+
+setup = (<route_harness.Dashboard object at 0x107600050>, <hackertube_core.search_jobs.SearchSupervisor object at 0x1075b5eb0>..., family=2, type=1, proto=0, laddr=('127.0.0.1', 57706)>, <hackertube_core.profile.ProfileStore object at 0x1075b5d90>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x107704640>
+
+    def test_search_info_recovers_after_cached_supervisor_loses_other_owner(setup, monkeypatch):
+        from types import SimpleNamespace
+
+        dashboard, manager, server, store = setup
+        original = dashboard.module._search_binding
+
+        def binding():
+            catalog, saved, _ = original()
+            return catalog, saved, SimpleNamespace(name="hermes", available=lambda: True)
+
+        monkeypatch.setattr(dashboard.module, "_search_binding", binding)
+        job_id = store.record_job(dict(
+            kind="search", state="running", question="AI", provider="hermes",
+            limits=Limits().as_dict(), requests_used=1, result_count=0,
+            cost_usd=None, cost_known=False, coverage=[],
+            created_at="2026-11-08T18:00:00Z", ended_at=None,
+        ), unique=True)
+        result = dashboard.get("/search").json()
+        assert result["job"]["job_id"] == job_id
+>       assert result["job"]["state"] == "interrupted"
+E       AssertionError: assert 'running' == 'interrupted'
+E
+E         - interrupted
+E         + running
+
+tests/test_supervised_routes.py:125: AssertionError
+=============================== warnings summary ===============================
+tests/test_supervised_routes.py::test_search_info_recovers_after_cached_supervisor_loses_other_owner
+  /Users/robert/Developer/hackertube/.venv/lib/python3.14/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_search_supervisor.py::test_stop_keeps_usage_persisted_before_missing_pipe_notification[deadline]
+FAILED tests/test_search_supervisor.py::test_stop_keeps_usage_persisted_before_missing_pipe_notification[cancel]
+FAILED tests/test_search_supervisor.py::test_delayed_usage_notification_cannot_regress_durable_progress
+FAILED tests/test_search_supervisor.py::test_existing_observer_recovers_job_after_other_dashboard_dies
+FAILED tests/test_search_supervisor.py::test_new_explicit_start_recovers_old_owner_before_recording_new_job
+FAILED tests/test_supervised_routes.py::test_search_info_recovers_after_cached_supervisor_loses_other_owner
+6 failed, 18 deselected, 1 warning in 1.10s

@@ -1,0 +1,17 @@
+Search results
+
+Question: AI introductions for beginners across videos, podcasts, books and audiobooks.
+
+Provider: hermes. Job job:19:387288fa43c14fbbac2367ce0c664e8c. State: cancelled.
+
+Time limit: none requested.
+
+Cost: unknown. The provider reported no cost information.
+
+Work limits for this job: at most 12 provider requests, 24 results, a 45 second work budget. Provider requests used: 0. Search stops local work at its deadline. Cancel search stops it early. A provider may still bill for a request already accepted.
+
+Search cancelled. Local provider work was stopped. Remote usage may still be billed.
+
+No verified candidate was retrieved for this question.
+
+Back to discovery

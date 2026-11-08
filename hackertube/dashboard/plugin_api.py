@@ -3,7 +3,8 @@
 The dashboard uses the inference/tool facades bound by native register(ctx),
 not raw model credentials. One catalog loader serves merged local records to
 catalog, feed, search, and library actions; only explicit work retrieves data.
-Blocking search work runs in the ASGI worker pool with request context copied.
+Live searches run in killable worker groups. Only supervision/storage waits
+use the ASGI worker pool; provider code never runs in the dashboard process.
 """
 
 import importlib.util
@@ -92,6 +93,33 @@ def _search_binding():
     settings = _plugin_settings()
     provider = select_provider(_provider_name(settings))
     return _load_catalog(), ProfileStore(open_profile_db), provider
+
+
+def _supervisor(store):
+    from hermes_constants import get_hermes_home
+    from hackertube_core.search_jobs import supervisor_for_profile
+    return supervisor_for_profile(store, home=get_hermes_home(), identity=plugin_data_dir("hackertube"))
+
+
+@router.get("/search/jobs/{job_id}")
+def search_job(job_id: str):
+    from hackertube_core.profile import ProfileStore, open_profile_db
+    result = _supervisor(ProfileStore(open_profile_db)).status(job_id)
+    if result is None:
+        return _profile_response(404, {"error": "job_not_found"})
+    if result["job"]["state"] not in {"queued", "running", "cancelling"}:
+        from hackertube_core.catalog_store import document
+        result["catalog"] = document(_load_catalog())
+    return result
+
+
+@router.post("/search/jobs/{job_id}/cancel")
+async def cancel_search(job_id: str):
+    from hackertube_core.profile import ProfileStore, open_profile_db
+    result = await run_in_threadpool(_supervisor(ProfileStore(open_profile_db)).cancel, job_id)
+    if result is None:
+        return _profile_response(404, {"error": "job_not_found"})
+    return result
 
 
 @router.get("/status")
@@ -251,6 +279,12 @@ def search_info():
 
     store = ProfileStore(open_profile_db)
     catalog, _store, provider = _search_binding()
+    job = store.latest_job()
+    if job and job["state"] in {"queued", "running", "cancelling"}:
+        # Recovery is local and still works if the configured provider is gone
+        # or the user has selected the offline provider since the last job.
+        _supervisor(store).recover()
+        job = store.latest_job()
     return {
         "schema": "hackertube.search/1",
         "disclosure": DISCLOSURE,
@@ -260,7 +294,7 @@ def search_info():
             DEFAULT_LIMITS if provider.name == "stub" else LIVE_LIMITS
         ).as_dict(),
         "demo_question": catalog.demo_question,
-        "job": store.latest_job(),
+        "job": job,
     }
 
 
@@ -289,43 +323,37 @@ async def search(request: Request):
         return _profile_response(400, {"error": "body"})
     catalog, store, provider = _search_binding()
     try:
-        from hackertube_core.hermes import web_search
-        from hackertube_core.retrieval import SourceRetriever
-
-        result = await run_in_threadpool(
-            run_search,
-            store,
-            body.get("question"),
-            catalog=catalog,
-            profile=store.snapshot(),
-            now=utc_now(),
-            provider=provider,
-            limits=DEFAULT_LIMITS if provider.name == "stub" else LIVE_LIMITS,
-            retriever=None
-            if provider.name == "stub"
-            else SourceRetriever(store, get_secret=get_secret, web_search=web_search),
-            disclosure_accepted=body.get("disclosure_accepted"),
-        )
+        from hackertube_core.search import canonical_question
+        from hackertube_core.search_jobs import SearchBusy
+        if body.get("disclosure_accepted") is not True:
+            raise DisclosureRequired("Accept the credit-use disclosure before Search.")
+        question = canonical_question(body.get("question"))
+        if not provider.available():
+            raise ProviderUnavailable("The Hermes search service is unavailable. No request was sent.")
+        limits = DEFAULT_LIMITS if provider.name == "stub" else LIVE_LIMITS
+        if provider.name != "stub" or body.get("background") is True:
+            manager = _supervisor(store)
+            try:
+                job = await run_in_threadpool(manager.start, question, provider=provider.name,
+                    limits=limits, disclosure_accepted=True)
+            except SearchBusy:
+                return _profile_response(409, {"error": "search_busy", "job": store.latest_job()})
+            if body.get("background") is True:
+                return _profile_response(202, manager.status(job["job_id"]))
+            await run_in_threadpool(manager.wait, job["job_id"], limits.deadline_seconds + 1.5)
+            result = manager.status(job["job_id"])
+        else:
+            # Compatibility for deterministic, offline API fixtures. The UI
+            # always requests supervised execution, including its stub mode.
+            result = await run_in_threadpool(run_search, store, question,
+                catalog=catalog, profile=store.snapshot(), now=utc_now(), provider=provider,
+                limits=limits, disclosure_accepted=True)
     except DisclosureRequired as exc:
-        return _profile_response(
-            400,
-            {
-                "error": "disclosure_required",
-                "message": str(exc),
-                "disclosure": DISCLOSURE,
-            },
-        )
+        return _profile_response(400, {"error": "disclosure_required", "message": str(exc), "disclosure": DISCLOSURE})
     except RecordError:
         return _profile_response(400, {"error": "question"})
     except ProviderUnavailable as exc:
-        return _profile_response(
-            503,
-            {
-                "error": "provider_unavailable",
-                "message": str(exc),
-                "provider": provider.name,
-            },
-        )
+        return _profile_response(503, {"error": "provider_unavailable", "message": str(exc), "provider": provider.name})
     from hackertube_core.catalog_store import document
 
     result["catalog"] = document(_load_catalog())

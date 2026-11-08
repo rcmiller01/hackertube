@@ -75,6 +75,7 @@ class Boundary:
     paid: int = 0
     cost_usd: float = 0.0
     unknown_cost_calls: int = 0
+    observer: object = None
 
     @property
     def in_flight(self):
@@ -116,6 +117,9 @@ class Boundary:
             self.metered += 1
         else:
             self.free += 1
+
+        if self.observer is not None:
+            self.observer(self.counters())
 
     def counters(self):
         """Request counts by label."""
@@ -172,9 +176,9 @@ def dispatch(label, perform, *args, cost=None, **kwargs):
 
 
 @contextmanager
-def request_scope():
+def request_scope(observer=None):
     """Keep per-job usage separate from concurrent jobs and process totals."""
-    request = Boundary()
+    request = Boundary(observer=observer)
     token = _REQUEST_LEDGER.set(request)
     try:
         yield request

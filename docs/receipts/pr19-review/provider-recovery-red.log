@@ -1,0 +1,78 @@
+.FF                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_search_info_recovers_after_cached_supervisor_loses_other_owner[hermes-False] _
+
+setup = (<route_harness.Dashboard object at 0x1086a2710>, <hackertube_core.search_jobs.SearchSupervisor object at 0x1086a2350>..., family=2, type=1, proto=0, laddr=('127.0.0.1', 57805)>, <hackertube_core.profile.ProfileStore object at 0x107634fc0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x107635940>
+name = 'hermes', available = False
+
+    @pytest.mark.parametrize("name,available", [("hermes", True), ("hermes", False), ("stub", True)])
+    def test_search_info_recovers_after_cached_supervisor_loses_other_owner(setup, monkeypatch, name, available):
+        from types import SimpleNamespace
+
+        dashboard, manager, server, store = setup
+        original = dashboard.module._search_binding
+
+        def binding():
+            catalog, saved, _ = original()
+            return catalog, saved, SimpleNamespace(name=name, available=lambda: available)
+
+        monkeypatch.setattr(dashboard.module, "_search_binding", binding)
+        job_id = store.record_job(dict(
+            kind="search", state="running", question="AI", provider="hermes",
+            limits=Limits().as_dict(), requests_used=1, result_count=0,
+            cost_usd=None, cost_known=False, coverage=[],
+            created_at="2026-11-08T18:00:00Z", ended_at=None,
+        ), unique=True)
+        result = dashboard.get("/search").json()
+        assert result["job"]["job_id"] == job_id
+>       assert result["job"]["state"] == "interrupted"
+E       AssertionError: assert 'running' == 'interrupted'
+E
+E         - interrupted
+E         + running
+
+tests/test_supervised_routes.py:126: AssertionError
+_ test_search_info_recovers_after_cached_supervisor_loses_other_owner[stub-True] _
+
+setup = (<route_harness.Dashboard object at 0x10879ad50>, <hackertube_core.search_jobs.SearchSupervisor object at 0x10879ae90>..., family=2, type=1, proto=0, laddr=('127.0.0.1', 57806)>, <hackertube_core.profile.ProfileStore object at 0x1086f3850>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1086e6b10>
+name = 'stub', available = True
+
+    @pytest.mark.parametrize("name,available", [("hermes", True), ("hermes", False), ("stub", True)])
+    def test_search_info_recovers_after_cached_supervisor_loses_other_owner(setup, monkeypatch, name, available):
+        from types import SimpleNamespace
+
+        dashboard, manager, server, store = setup
+        original = dashboard.module._search_binding
+
+        def binding():
+            catalog, saved, _ = original()
+            return catalog, saved, SimpleNamespace(name=name, available=lambda: available)
+
+        monkeypatch.setattr(dashboard.module, "_search_binding", binding)
+        job_id = store.record_job(dict(
+            kind="search", state="running", question="AI", provider="hermes",
+            limits=Limits().as_dict(), requests_used=1, result_count=0,
+            cost_usd=None, cost_known=False, coverage=[],
+            created_at="2026-11-08T18:00:00Z", ended_at=None,
+        ), unique=True)
+        result = dashboard.get("/search").json()
+        assert result["job"]["job_id"] == job_id
+>       assert result["job"]["state"] == "interrupted"
+E       AssertionError: assert 'running' == 'interrupted'
+E
+E         - interrupted
+E         + running
+
+tests/test_supervised_routes.py:126: AssertionError
+=============================== warnings summary ===============================
+tests/test_supervised_routes.py::test_search_info_recovers_after_cached_supervisor_loses_other_owner[hermes-True]
+  /Users/robert/Developer/hackertube/.venv/lib/python3.14/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_supervised_routes.py::test_search_info_recovers_after_cached_supervisor_loses_other_owner[hermes-False]
+FAILED tests/test_supervised_routes.py::test_search_info_recovers_after_cached_supervisor_loses_other_owner[stub-True]
+2 failed, 1 passed, 3 deselected, 1 warning in 0.13s
