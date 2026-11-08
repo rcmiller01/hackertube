@@ -13,7 +13,7 @@ Saving an item SHALL create one saved record per item in the serving profile. Sa
 
 #### Scenario: LIB02 Restart and refresh
 - **WHEN** the serving process restarts or the catalog refreshes
-- **THEN** saved items and the user states exercised in the demo remain available
+- **THEN** saved items and the user states exercised in the demo remain available, with an honest placeholder when source metadata has expired
 
 #### Scenario: LIB09 Supported update after demo
 - **WHEN** a supported plugin update runs after the demo

@@ -1,0 +1,565 @@
+Search results
+
+Question: Artificial intelligence. Include videos, podcasts, books, and audiobooks. Rank accessible introductions first.
+
+Provider: hermes. Job job:11. State: succeeded.
+
+Constraints: none applied.
+
+Cost: unknown. The provider reported no cost information.
+
+Work limits for this job: at most 12 provider requests, 24 results, a 45 second deadline. Provider requests used: 11.
+
+podcastindex: missing_api_key reddit: approval_absent
+
+Videos · 5 verified
+Video
+Sarah Jane Leslie - Artificial Intelligence: An Accessible Introduction
+
+Princeton Natural and Artificial Minds
+
+Video · YouTube
+
+YouTube
+
+Source candidate, YouTube
+
+retrieved November 8, 2026, 16:19 UTC
+
+1 hour 6 minutes 12 seconds
+
+Open at source
+Save
+Dismiss
+
+Source: YouTube
+
+Video lecture explicitly titled as an accessible introduction to artificial intelligence..
+
+Video
+Sarah Jane Leslie - Artificial Intelligence: An Accessible Introduction (Part II)
+
+Princeton Natural and Artificial Minds
+
+Video · YouTube
+
+YouTube
+
+Source candidate, YouTube
+
+retrieved November 8, 2026, 16:19 UTC
+
+1 hour 22 minutes 47 seconds
+
+Open at source
+Save
+Dismiss
+
+Source: YouTube
+
+Second part of an accessible introduction video lecture on AI..
+
+Video
+What is AI?
+
+The Educated Owl
+
+Video · YouTube
+
+YouTube
+
+Source candidate, YouTube
+
+retrieved November 8, 2026, 16:19 UTC
+
+18 seconds
+
+Open at source
+Save
+Dismiss
+
+Source: YouTube
+
+Very short video answering 'What is AI?' for a quick accessible overview..
+
+Video
+How AI Could Save (Not Destroy) Education | Sal Khan | TED
+
+TED
+
+Video · YouTube
+
+YouTube
+
+Source candidate, YouTube
+
+retrieved November 8, 2026, 16:19 UTC
+
+15 minutes 37 seconds
+
+Open at source
+Save
+Dismiss
+
+Source: YouTube
+
+TED talk on AI in education, an accessible discussion of AI's impact..
+
+Video
+Seeing with AI
+
+Microsoft
+
+Video · YouTube
+
+YouTube
+
+Source candidate, YouTube
+
+retrieved November 8, 2026, 16:19 UTC
+
+1 minute
+
+Open at source
+Save
+Dismiss
+
+Source: YouTube
+
+Short Microsoft video introducing AI's ability to see, an accessible visual primer..
+
+Podcasts · 6 verified
+Show
+The Artificial Intelligence Podcast
+
+Dr. Tony Hoang
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Podcast show dedicated to artificial intelligence, offering ongoing accessible discussions..
+
+Show
+Today in AI
+
+Dr. Tony Hoang
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Daily AI news podcast, relevant for current AI topics though not a basic introduction..
+
+Show
+AI News Daily
+
+brief.news
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+AI news podcast providing accessible updates on artificial intelligence developments..
+
+Episode
+#143 - Dr. Tom Heseltine, CEO of Aurora AI - On making artificial intelligence accessible to any business
+
+Contributor unknown. Show: The Remarkable SaaS Podcast
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+46 minutes 34 seconds
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Podcast episode on making AI accessible to businesses, relevant to practical AI introduction..
+
+Episode
+Today in AI - February 3, 2025
+
+Contributor unknown. Show: Today in AI
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+1 hour 5 minutes 18 seconds
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+AI news episode covering recent developments, relevant for current AI awareness..
+
+Episode
+Shenzhen Fair Unveils AI Pavilion, Sakana AI CEO Calls for Defense Boost, Google Unveils Gemini Project, Pixel 10 Series Introduces AI Features, and more...
+
+Contributor unknown. Show: AI News Daily
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+10 minutes 3 seconds
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+AI news roundup episode, relevant for staying informed on AI trends..
+
+Books · 1 verified
+Book
+The Computer and the Brain
+
+John von Neumann
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 16:19 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Foundational book connecting computation and the brain, relevant to AI though not a modern introduction..
+
+Audiobooks · 12 verified
+Audiobook
+The Beginners Guide to Artificial Intelligence: Demystifying the World of AI for Everyone (Unabridged)
+
+Alexander Ingram
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Beginner-focused audiobook that demystifies AI for everyone, directly matching the accessible introduction request..
+
+Audiobook
+ARTIFICIAL INTELLIGENCE FOR BEGINNERS
+
+Astrid Howe
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Explicitly for beginners, offering an accessible audiobook introduction to artificial intelligence..
+
+Audiobook
+Artificial Intelligence (Easily Explained for Beginners)
+
+Axel Mammitzsch
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Easily explained for beginners, providing a clear audiobook primer on AI..
+
+Audiobook
+AI in 8 Minutes: An introduction to Artificial Intelligence (Unabridged)
+
+David Bruce
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Short, introductory audiobook that explains AI in 8 minutes for newcomers..
+
+Audiobook
+Introduction to Artificial Intelligence - A Comprehensive Guide
+
+Ruchini Kaushalya
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Comprehensive introductory audiobook designed as a guide to artificial intelligence..
+
+Audiobook
+Artificial Intelligence For Dummies
+
+John Paul Mueller & Luca Massaron
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Well-known accessible series offering a beginner-friendly audiobook on AI..
+
+Audiobook
+Unpacking AI: Why Artificial Intelligence Matters: Your Practical Introduction and Roadmap to Leveraging AI Ethically in Everyday Life and Career Success) (Unabridged)
+
+Christian Siregar
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Practical introduction and roadmap to AI, suitable for accessible learning..
+
+Audiobook
+Artificial Intelligence: An In-Depth Introduction
+
+Mukesh Kumar Das
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+In-depth introduction audiobook that still aims to be accessible..
+
+Audiobook
+Artificial Intelligence Class 6
+
+Manish Soni
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Educational audiobook for Class 6, an accessible entry point to AI..
+
+Audiobook
+Artificial Intelligence Class 7
+
+Manish Soni
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Educational audiobook for Class 7, continuing an accessible AI introduction..
+
+Audiobook
+AI Ethics and Governance for Beginners: Address the Societal Impact, Bias, and Responsible Development of Artificial Intelligence Systems
+
+Aria Westwood
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Beginner-oriented audiobook on AI ethics and governance, accessible for newcomers..
+
+Audiobook
+Artificial Intelligence
+
+Jim D. Johnston
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:19 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Audiobook titled Artificial Intelligence, likely a general introduction to the topic..
+
+Back to discovery

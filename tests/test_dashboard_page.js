@@ -393,7 +393,7 @@ function textOf(node) {
   return "";
 }
 
-function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, statusBody, deferSearch) {
+function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, statusBody, deferSearch, modelResponses, deferSettings) {
   const previous = {
     window: global.window,
     document: global.document,
@@ -510,6 +510,7 @@ function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, s
   const requests = [];
 
   function outcomeFor(target, init) {
+    if (modelResponses && Object.prototype.hasOwnProperty.call(modelResponses, target)) return { value: modelResponses[target] };
     if (target.indexOf("/status") !== -1) {
       return {
         value: statusBody || { name: "HackerTube", model_key: "present", provider: "stub" },
@@ -541,6 +542,12 @@ function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, s
         method: (init && init.method) || "GET",
         body: init && init.body ? JSON.parse(init.body) : null,
       });
+      if (deferSettings && init && init.method === "POST" &&
+          (target === "/api/model/set" || target === "/api/plugins/hackertube/sources")) {
+        const entry = { url: target, onOk: null, onErr: null };
+        deferSettings.pending.push(entry);
+        return { then(onOk) { entry.onOk = onOk; return { catch(onErr) { entry.onErr = onErr; return this; } }; } };
+      }
       if (deferSearch && target.indexOf("/search") !== -1) {
         // Hold the Search response until the test settles it, so a request can
         // stay in flight while another one starts. The test drives settlement
@@ -1192,6 +1199,7 @@ test("Show more Enter focuses the fifth item heading", async () => {
   // NODE_PATH, then this box's Hermes install. A missing React dependency here
   // fails the run with a resolution error instead of silently passing.
   const moduleRoots = [
+    path.resolve(__dirname, "../node_modules"),
     ...String(process.env.HACKERTUBE_NODE_MODULES || "").split(path.delimiter),
     ...String(process.env.NODE_PATH || "").split(path.delimiter),
     path.join(os.homedir(), ".hermes", "hermes-agent", "node_modules"),
@@ -1583,8 +1591,8 @@ test("the panel warns before submitting when the live provider has no key", () =
   try {
     openSearchPanel(ui);
     const note = ui.text((node) => node.props && node.props.id === "hackertube-provider-note");
-    assert.equal(note, page.SEARCH_LIVE_ABSENT);
-    assert.match(note, /no request will be sent/);
+    assert.equal(note, page.SEARCH_PROVIDER_NOTE);
+    assert.match(note, /configured Hermes providers/);
   } finally {
     ui.restore();
   }
@@ -1989,6 +1997,147 @@ test("the refreshed page declares the search schema and disclosure copy", () => 
   assert.equal(page.SEARCH_SCHEMA, "hackertube.search/1");
   assert.match(page.DISCLOSURE_ACK, /credits or quota/);
   assert.equal(page.DISCLOSURE_ACK_ALERT, "Confirm the disclosure before searching.");
-  assert.match(page.SEARCH_LIVE_ABSENT, /no request will be sent/);
+  assert.match(page.SEARCH_PROVIDER_NOTE, /configured Hermes providers/);
   assert.equal(page.DISCLOSURE, "Configured sources and the broader web may be searched. Model, search, and provider credits or quota may be used. Browsing is free.");
 });
+
+
+test("the search picker lists Hermes providers and saves only the HackerTube model slot", () => {
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, null, {
+    "/api/model/auxiliary": { tasks: [{ task: "hackertube_search", provider: "existing", model: "my-model" }] },
+    "/api/model/options?explicit_only=true": { providers: [{ slug: "existing", label: "Already configured", models: ["my-model"] }] },
+    "/api/model/set": { ok: true },
+  });
+  try {
+    ui.find(node => node.props && node.props["aria-controls"] === "hackertube-search-panel").props.onClick();
+    const select = ui.find(node => node.props && node.props.id === "hackertube-search-model");
+    assert.ok(select);
+    assert.equal(select.props.value, JSON.stringify(["existing", "my-model"]));
+    ui.find(node => node.props && node.props.onClick && node.children.includes("Use for search")).props.onClick();
+    const write = ui.requests.find(row => row.url === "/api/model/set");
+    assert.deepEqual(write.body, { scope: "auxiliary", task: "hackertube_search", provider: "existing", model: "my-model" });
+    assert.equal(ui.requests.filter(row => row.url === "/api/plugins/hackertube/search").length, 0);
+  } finally { ui.restore(); }
+});
+
+test("newly retrieved search items have Save and Open controls", () => {
+  const result = defaultSearchResult();
+  result.catalog = JSON.parse(JSON.stringify(SAMPLE_CATALOG.catalog));
+  const item = { ...result.catalog.items[0], item_id: "ol:new", title: "A newly retrieved book", format: "book", destination: "https://openlibrary.org/works/OL999999W" };
+  result.catalog.items.push(item);
+  result.results = [{ item_id: item.item_id, title: item.title, format: "book", source: { label: "Open Library" }, state: {}, why: ["Relevant"] }];
+  result.sections = { books: { verified: result.results, verified_count: 1 } };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: result });
+  try {
+    ui.find(node => node.props && node.props["aria-controls"] === "hackertube-search-panel").props.onClick();
+    ui.find(node => node.props && node.props.id === "hackertube-question").props.onChange({ target: { value: "new book" } });
+    ui.find(node => node.props && node.props.type === "checkbox").props.onChange({ target: { checked: true } });
+    ui.find(node => node.type === "form" && node.props.id === "hackertube-search-panel").props.onSubmit({ preventDefault() {} });
+    const article = ui.find(node => node.type === "article" && node.props.key === item.item_id);
+    assert.ok(article);
+    function descendant(node, predicate) {
+      if (Array.isArray(node)) { for (const child of node) { const found = descendant(child, predicate); if (found) return found; } return null; }
+      if (!node || typeof node !== "object") return null;
+      if (predicate(node)) return node;
+      return descendant(node.children, predicate);
+    }
+    const save = descendant(article, node => node.props && node.props.onClick && node.children.includes("Save"));
+    const open = descendant(article, node => node.type === "a" && node.props.href === item.destination);
+    assert.ok(save && open);
+    save.props.onClick({ preventDefault() {} });
+    assert.ok(ui.requests.some(row => row.url.endsWith("/profile/saves") && row.body.item_id === item.item_id));
+    open.props.onClick();
+    assert.ok(ui.requests.some(row => row.url.endsWith("/profile/opens") && row.body.item_id === item.item_id));
+    assert.match(ui.text(node => node.props && node.props.id === "hackertube-results"), /A newly retrieved book/);
+  } finally { ui.restore(); }
+});
+
+test("source controls save an explicit choice without starting retrieval", () => {
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, null, {
+    "/api/plugins/hackertube/sources": { sources: [
+      { source_id: "youtube", name: "YouTube", enabled: false, blocked_reason: null },
+      { source_id: "reddit", name: "Reddit", enabled: false, blocked_reason: "approval_absent" },
+    ] },
+  });
+  try {
+    openSearchPanel(ui);
+    const youtube = ui.find(node => node.type === "label" && node.children.includes(" YouTube"));
+    const reddit = ui.find(node => node.type === "label" && node.children.includes(" Reddit"));
+    assert.equal(youtube.children[0].props.disabled, false);
+    assert.equal(reddit.children[0].props.disabled, true);
+    youtube.children[0].props.onChange({ target: { checked: true } });
+    const write = ui.requests.find(row => row.url === "/api/plugins/hackertube/sources" && row.method === "POST");
+    assert.deepEqual(write.body, { source_id: "youtube", enabled: true });
+    assert.equal(ui.requests.filter(row => row.url.endsWith("/search") && row.method === "POST").length, 0);
+  } finally { ui.restore(); }
+});
+
+
+for (const kind of ["model", "sources"]) {
+  test("Search waits for the pending " + kind + " setting write", () => {
+    const deferred = { pending: [] };
+    const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, null, {
+      "/api/plugins/hackertube/sources": { sources: [{ source_id: "youtube", name: "YouTube", enabled: true, blocked_reason: null }] },
+    }, deferred);
+    try {
+      openSearchPanel(ui);
+      if (kind === "model") ui.find(node => node.props && node.props.onClick && node.children.includes("Use for search")).props.onClick();
+      else ui.find(node => node.type === "label" && node.children.includes(" YouTube")).children[0].props.onChange({ target: { checked: false } });
+      assert.equal(deferred.pending.length, 1);
+      const submit = () => {
+        ui.find(node => node.props && node.props.id === "hackertube-question").props.onChange({ target: { value: "gardening books" } });
+        ui.find(node => node.props && node.props.id === "hackertube-disclosure-ack").props.onChange({ target: { checked: true } });
+        ui.find(node => node.type === "form" && node.props.id === "hackertube-search-panel").props.onSubmit({ preventDefault() {} });
+      };
+      submit();
+      assert.equal(ui.requests.filter(row => row.url.endsWith("/search") && row.method === "POST").length, 0);
+      deferred.pending[0].onOk(kind === "model" ? { ok: true } : { sources: [] });
+      submit();
+      assert.equal(ui.requests.filter(row => row.url.endsWith("/search") && row.method === "POST").length, 1);
+    } finally { ui.restore(); }
+  });
+}
+
+test("an expired saved item's state remains visible without cached metadata", () => {
+  const ui = mountPage({ catalog: { ...SAMPLE_CATALOG.catalog, items: [] } }, {
+    schema: "hackertube.profile/1", interests: [], items: [
+      { item_id: "youtube:LCEmiRjPEtQ", saved: true, saved_order: 1, dismissed: false, completed: false, opens: [] },
+    ],
+  });
+  try {
+    ui.location.hash = "#library";
+    ui.listeners.hashchange.forEach(fn => fn());
+    assert.match(ui.text(node => node.props && node.props.className === "ht-missing-saved"), /Saved YouTube video/);
+    assert.match(ui.text(node => node.props && node.props.className === "ht-missing-saved"), /metadata unavailable/i);
+    assert.equal(ui.requests.filter(row => row.method === "POST").length, 0);
+  } finally { ui.restore(); }
+});
+
+for (const kind of ["model", "sources"]) {
+  test("failed " + kind + " setting writes block Search until a successful retry", () => {
+    const deferred = { pending: [] };
+    const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, null, {
+      "/api/plugins/hackertube/sources": { sources: [{ source_id: "youtube", name: "YouTube", enabled: true, blocked_reason: null }] },
+    }, deferred);
+    try {
+      openSearchPanel(ui);
+      const write = () => {
+        if (kind === "model") ui.find(node => node.props && node.props.onClick && node.children.includes("Use for search")).props.onClick();
+        else ui.find(node => node.type === "label" && node.children.includes(" YouTube")).children[0].props.onChange({ target: { checked: false } });
+      };
+      const submit = () => {
+        ui.find(node => node.props && node.props.id === "hackertube-question").props.onChange({ target: { value: "gardening books" } });
+        ui.find(node => node.props && node.props.id === "hackertube-disclosure-ack").props.onChange({ target: { checked: true } });
+        ui.find(node => node.type === "form" && node.props.id === "hackertube-search-panel").props.onSubmit({ preventDefault() {} });
+      };
+      write();
+      deferred.pending[0].onErr(new Error("save failed"));
+      submit();
+      assert.equal(ui.requests.filter(row => row.url.endsWith("/search") && row.method === "POST").length, 0);
+      write();
+      deferred.pending[1].onOk(kind === "model" ? { ok: true } : { sources: [] });
+      submit();
+      assert.equal(ui.requests.filter(row => row.url.endsWith("/search") && row.method === "POST").length, 1);
+    } finally { ui.restore(); }
+  });
+}

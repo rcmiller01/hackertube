@@ -1,0 +1,21 @@
+Run 1: exit 0
+.                                                                        [100%]
+1 passed in 0.04s
+
+Run 2: exit 0
+.                                                                        [100%]
+1 passed in 0.02s
+
+Run 3: exit 0
+.                                                                        [100%]
+1 passed in 0.02s
+
+Run 4: exit 0
+.                                                                        [100%]
+1 passed in 0.02s
+
+Run 5: exit 0
+.                                                                        [100%]
+1 passed in 0.02s
+
+PASS: 5/5 deterministic overlapping-job checks

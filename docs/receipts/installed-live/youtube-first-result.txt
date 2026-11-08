@@ -1,0 +1,31 @@
+Search results
+
+Question: Artificial intelligence. Include videos, podcasts, books, and audiobooks. Rank accessible introductions first.
+
+Provider: hermes. Job job:9. State: partial.
+
+Constraints: none applied.
+
+Cost: unknown. The provider reported no cost information.
+
+Work limits for this job: at most 12 provider requests, 24 results, a 45 second deadline. Provider requests used: 11.
+
+Some search services did not finish; coverage is incomplete. podcastindex: missing_api_key reddit: approval_absent ranking: Search ranking failed.
+
+Videos · 0 verified
+
+No verified videos match for this question.
+
+Podcasts · 0 verified
+
+No verified podcasts match for this question.
+
+Books · 0 verified
+
+No verified books match for this question.
+
+Audiobooks · 0 verified
+
+No verified audiobooks match for this question.
+
+Back to discovery

@@ -46,6 +46,15 @@ Tasks 1.1, 1.2, 1.4, 2.1, 2.2, 2.3, 3.1, 3.2, 3.3, 3.7, 4.1, and 4.2 are complet
 - [ ] 6.5 Rehearse clean install, reload, update, disable/re-enable, rollback, and documented uninstall retention on the pinned host. Verify HCKT19 and LIB09, including library preservation through a supported update and rollback. Post-demo.
 - [ ] 6.6 Freeze 20 representative focused requests, a relevance rubric, source snapshots, budgets, and reference setup. Run HCKT20 and measure relevance, cached-render latency, progress latency, usage, and coverage. Report sample sizes, unknown costs, and missed proposed targets. Post-demo.
 
+## 7. November 8: self-contained package and real search
+
+- [x] 7.1 Include the core package and seed in the installable directory; verify isolated catalog import and the actual local Hermes native loader/router/storage without a sibling checkout. Covers UI01, LIB02.
+- [x] 7.2 Replace plugin-owned model credentials with a registered Hermes auxiliary slot and configured-provider picker. Verify native binding, canonical profile paths, input boundaries, and the host assignment payload. Covers SEARCH01, PREF05, JOB01.
+- [x] 7.3 Retrieve new source records, rank only retrieved IDs, filter formats before the result limit, and persist identities for Save/Open after restart. Verify budgets, source failures, unavailable sources, and live retrieval beyond the seed. Covers SEARCH01/03/04/05/07/08/09, CAT01/03/08, LIB01/02/03, JOB03/04.
+- [ ] 7.4 Perform live credentialed YouTube and Podcast Index checks and complete source-specific release obligations. YouTube's installed credentialed search/metadata check passed November 8 with the user-supplied key: five rendered videos, eight persisted records with expiry. Podcast Index and source release obligations remain open. Reddit remains disabled pending its separately required approval. Existing tasks 1.3/2.4 and release gates are not closed by real-search implementation.
+
+- [x] 7.5 Test the installed package in the actual local Hermes dashboard using an existing provider. Covers UI01, SEARCH01, PREF05, LIB01/LIB02/LIB03, JOB03/JOB04. Receipt: `docs/receipts/installed-live/README.md`; one successful query, Save/Open launch, and persistent saved/opened state after dashboard restart. External source content stopped at a human-verification checkpoint. This does not close keyed-source or wider release checks.
+
 ## Workflow follow-up
 
 - Archive only after implementation checks are complete and unresolved failures are explicitly dispositioned. Verify delivered specs and archive contents after synchronization.

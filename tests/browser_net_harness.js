@@ -69,6 +69,7 @@ const HARNESS_SOURCE = `
 `;
 
 const NODE_MODULE_ROOTS = [
+  path.resolve(__dirname, "../node_modules"),
   ...String(process.env.HACKERTUBE_NODE_MODULES || "").split(path.delimiter),
   ...String(process.env.NODE_PATH || "").split(path.delimiter),
   path.join(os.homedir(), ".hermes", "hermes-agent", "node_modules"),
@@ -261,6 +262,10 @@ function labelOf(url, fixture) {
   const local = ["/", "/style.css", "/bundle.js", "/api/plugins/hackertube/catalog",
     "/api/plugins/hackertube/feed", "/api/plugins/hackertube/profile",
     "/api/plugins/hackertube/status",
+    "/api/model/auxiliary",
+    "/api/model/options",
+    "/api/model/set",
+    "/api/plugins/hackertube/sources",
     "/api/plugins/hackertube/profile/saves", "/api/plugins/hackertube/profile/dismissals",
     "/api/plugins/hackertube/profile/opens", "/api/plugins/hackertube/profile/interests"];
   if (target.origin === fixture.origin && local.includes(target.pathname)) return "local";

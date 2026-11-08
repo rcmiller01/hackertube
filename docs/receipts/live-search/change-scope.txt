@@ -1,0 +1,87 @@
+ .gitignore                                         |   6 +
+ README.md                                          |   8 +-
+ docs/PRD.md                                        |   7 +-
+ docs/demo-readiness-2026-11-08.md                  |  67 +++
+ docs/real-search.md                                |  78 +++
+ .../demo-readiness-2026-11-08/backup-manifest.json |   6 +
+ .../hackertube-review-node.log                     | 132 +++++
+ .../hackertube-review-python.log                   |  10 +
+ .../demo-readiness-2026-11-08/node-final.log       |  71 +++
+ .../node-with-dependencies.log                     | 123 +++++
+ .../python-environment.txt                         |  20 +
+ .../demo-readiness-2026-11-08/python-final.log     |  10 +
+ .../demo-readiness-2026-11-08/reproductions.json   |  41 ++
+ .../temporary-node-package-lock.json               | 527 +++++++++++++++++++
+ .../demo-readiness-2026-11-08/worktrees.json       | 153 ++++++
+ docs/receipts/live-search/collect.log              | 224 ++++++++
+ docs/receipts/live-search/coverage-fixtures.log    |  18 +
+ docs/receipts/live-search/coverage.log             |   1 +
+ docs/receipts/live-search/host-registration.json   |   6 +
+ docs/receipts/live-search/lint.log                 |   1 +
+ docs/receipts/live-search/live-model-source.json   | 109 ++++
+ docs/receipts/live-search/live-model-source.log    |   2 +
+ docs/receipts/live-search/live_probe.py            |  32 ++
+ docs/receipts/live-search/malformed-source-red.log |  43 ++
+ docs/receipts/live-search/node.log                 |  78 +++
+ docs/receipts/live-search/openspec.log             |   2 +
+ docs/receipts/live-search/package_probe.py         |  25 +
+ docs/receipts/live-search/plugin-validate.log      |  20 +
+ docs/receipts/live-search/profile-alias-red.log    |  25 +
+ docs/receipts/live-search/provider-inventory.json  |   7 +
+ docs/receipts/live-search/pytest.log               |  11 +
+ docs/receipts/live-search/red.log                  |  94 ++++
+ docs/receipts/live-search/runtime-manifest.json    |  36 ++
+ docs/sources.md                                    |   2 +
+ hackertube/__init__.py                             |  11 +-
+ hackertube/dashboard/catalog_view.py               |  15 +-
+ hackertube/dashboard/dist/index.js                 | 117 ++++-
+ hackertube/dashboard/manifest.json                 |   2 +-
+ hackertube/dashboard/plugin_api.py                 | 135 ++---
+ .../hackertube_core}/__init__.py                   |   0
+ .../hackertube_core}/adapters/__init__.py          |   0
+ .../hackertube_core}/adapters/base.py              |   0
+ .../hackertube_core}/adapters/hn.py                |  57 ++-
+ .../hackertube_core}/adapters/itunes.py            |   0
+ .../hackertube_core}/adapters/librivox.py          |   0
+ .../hackertube_core}/adapters/openlibrary.py       |   0
+ .../hackertube_core/adapters/podcastindex.py       |  74 +++
+ .../hackertube_core}/adapters/reddit.py            |   0
+ .../hackertube_core}/adapters/youtube.py           |   8 +-
+ .../hackertube_core}/boundaries.py                 |   0
+ .../hackertube_core}/catalog.py                    |   0
+ hackertube/hackertube_core/catalog_store.py        |  63 +++
+ .../hackertube_core}/demo_seed.py                  |   2 +-
+ .../hackertube_core}/errors.py                     |   0
+ hackertube/hackertube_core/hermes.py               | 209 ++++++++
+ .../hackertube_core}/http.py                       |   2 +-
+ .../hackertube_core}/outbound.py                   |   0
+ .../hackertube_core}/profile.py                    |  31 ++
+ .../hackertube_core}/ranking.py                    |   0
+ .../hackertube_core}/records.py                    |   0
+ hackertube/hackertube_core/retrieval.py            | 416 +++++++++++++++
+ .../hackertube_core}/search.py                     | 367 +++++++-------
+ .../hackertube_core}/seed/catalog.json             |   0
+ .../hackertube_core}/sources.py                    |  67 ++-
+ .../hackertube_core}/text.py                       |   0
+ hackertube/plugin.yaml                             |  46 +-
+ hackertube_core/adapters/podcastindex.py           |  19 -
+ openspec/README.md                                 |   2 +-
+ openspec/changes/hackertube-v1/design.md           |  11 +-
+ .../hackertube-v1/specs/dashboard-shell/spec.md    |   2 +-
+ .../hackertube-v1/specs/focused-search/spec.md     |   4 +-
+ openspec/changes/hackertube-v1/tasks.md            |   7 +
+ openspec/changes/hackertube-v1/verification.md     |  22 +
+ package-lock.json                                  | 561 +++++++++++++++++++++
+ package.json                                       |  15 +
+ pyproject.toml                                     |  18 +-
+ tests/browser_net_harness.js                       |   5 +
+ tests/test_dashboard_catalog.py                    |   2 +-
+ tests/test_dashboard_page.js                       |  81 ++-
+ tests/test_live_search.py                          | 124 +++++
+ tests/test_request_boundary.py                     |  12 +-
+ tests/test_retrieval.py                            | 515 +++++++++++++++++++
+ tests/test_search.py                               | 143 +-----
+ tests/test_search_routes.py                        |  14 +-
+ tests/test_seed.py                                 |   4 +-
+ tests/test_sources.py                              |   2 +-
+ 86 files changed, 4706 insertions(+), 474 deletions(-)

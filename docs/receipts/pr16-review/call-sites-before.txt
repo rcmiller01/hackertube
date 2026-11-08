@@ -1,0 +1,38 @@
+hackertube/dashboard/dist/index.js:770:      var searchBusy = searchStatus === "running";
+hackertube/dashboard/dist/index.js:942:      function changeSource(sourceId, enabled) {
+hackertube/dashboard/dist/index.js:943:        if (!SDK.fetchJSON || searchBusy) return;
+hackertube/dashboard/dist/index.js:953:      function applySearchModel() {
+hackertube/dashboard/dist/index.js:954:        if (!SDK.fetchJSON || searchBusy) return;
+hackertube/dashboard/dist/index.js:968:          if (!searchBusy) setSearchOpen(false);
+hackertube/dashboard/dist/index.js:975:        if (searchBusy) return;
+hackertube/dashboard/dist/index.js:981:        if (event.key !== "Escape" || searchBusy) return;
+hackertube/dashboard/dist/index.js:993:        if (searchBusy) return;
+hackertube/dashboard/dist/index.js:1048:        if (searchBusy) return;
+hackertube/dashboard/dist/index.js:1049:        // Close the results panel: it renders while searchBusy, searchError, or
+hackertube/dashboard/dist/index.js:1535:                  h("select", { id: "hackertube-search-model", value: modelChoice, disabled: searchBusy,
+hackertube/dashboard/dist/index.js:1548:                  h(Button, { type: "button", onClick: applySearchModel, disabled: searchBusy, className: "ht-action" }, "Use for search"),
+hackertube/dashboard/dist/index.js:1557:                      h("label", null, h("input", { type: "checkbox", checked: !!source.enabled, disabled: blocked || searchBusy,
+hackertube/dashboard/dist/index.js:1558:                        onChange: function (event) { changeSource(source.source_id, !!event.target.checked); } }), " " + source.name),
+hackertube/dashboard/dist/index.js:1600:                  }, searchBusy ? "Searching" : "Search"),
+hackertube/dashboard/dist/index.js:1610:          searchBusy || searchError || searchResult
+hackertube/dashboard/dist/index.js:1611:            ? h("div", { className: "ht-results", id: "hackertube-results", "aria-busy": searchBusy ? "true" : "false" },
+hackertube/dashboard/dist/index.js:1614:                searchBusy ? h("p", { role: "status" }, "Search running.") : null,
+hackertube/dashboard/dist/index.js:1621:                  disabled: searchBusy,
+hackertube/dashboard/dist/index.js:1622:                  "aria-disabled": searchBusy ? "true" : undefined,
+hackertube/hackertube_core/retrieval.py:257:                def apple():
+hackertube/hackertube_core/catalog_store.py:46:def without_expired(catalog, now):
+hackertube/hackertube_core/catalog_store.py:47:    evidence = active_evidence(catalog.evidence, now)
+hackertube/hackertube_core/profile.py:165:            active = without_expired(stored, self.clock())
+hackertube/hackertube_core/profile.py:179:            combined = without_expired(combined, self.clock())
+hackertube/hackertube_core/search.py:461:    rows = active_evidence(catalog.evidence, now)
+hackertube/hackertube_core/search.py:478:    rows = active_evidence(catalog.evidence, now)
+hackertube/hackertube_core/search.py:621:    before = outbound.counters()
+hackertube/hackertube_core/search.py:722:    coverage["limit_reached"] = state == "partial"
+hackertube/hackertube_core/search.py:723:    after = outbound.counters()
+hackertube/hackertube_core/search.py:725:    total_cost = outcome.cost_usd
+hackertube/hackertube_core/search.py:728:        total_cost = (
+hackertube/hackertube_core/search.py:740:        "cost_usd": total_cost,
+hackertube/hackertube_core/search.py:741:        "cost_known": total_cost is not None,
+hackertube/hackertube_core/search.py:754:        "cost_usd": total_cost,
+hackertube/hackertube_core/search.py:755:        "cost_known": total_cost is not None,
+hackertube/hackertube_core/search.py:774:        "request_counts": outbound.counters(),

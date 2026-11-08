@@ -9,7 +9,7 @@ The plugin SHALL expose a HackerTube navigation entry through the supported Herm
 
 #### Scenario: UI01 Installed page opens
 - **WHEN** the enabled plugin loads on the declared supported Hermes version
-- **THEN** its navigation entry opens the HackerTube page after installation and reload
+- **THEN** its navigation entry opens the HackerTube page after installation and reload using only the installed plugin directory, without a sibling development checkout
 
 ### Requirement: Four media sections
 The page SHALL provide navigable Videos, Podcasts, Books, and Audiobooks sections, plus a saved library.

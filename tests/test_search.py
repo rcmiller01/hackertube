@@ -22,14 +22,12 @@ from hackertube_core.search import (
     DisclosureRequired,
     Interpretation,
     Limits,
-    LiveProvider,
     ProviderUnavailable,
     StubProvider,
     canonical_question,
     interpret_question,
     result_set,
     run_search,
-    select_provider,
 )
 from hackertube_core.profile import ProfileStore
 
@@ -509,131 +507,34 @@ def test_provider_failure_paths_record_a_failed_job_without_a_call(tmp_path):
         assert result["usage"]["paid_calls"] == 0
 
 
-# --- the live provider fails closed, and its one path crosses the boundary --
+# --- Hermes owns model routing/auth; no plugin-owned model credentials ---
 
 
-def test_a_missing_model_key_refuses_before_any_outbound_call(tmp_path, monkeypatch):
-    outbound.install_guard(monkeypatch)
+def test_missing_hermes_service_refuses_before_outbound_call(tmp_path, monkeypatch):
+    from hackertube_core.hermes import HermesProvider
+    monkeypatch.setattr('hackertube_core.hermes.handler',lambda:None)
     outbound.reset()
     store = store_at(tmp_path)
-    provider = LiveProvider(None, "https://example.org/v1/chat/completions")
-    assert provider.available() is False
-    with pytest.raises(ProviderUnavailable) as raised:
-        run_search(
-            store,
-            QUESTION,
-            catalog=load_seed(),
-            profile=store.snapshot(),
-            now=NOW,
-            provider=provider,
-            disclosure_accepted=True,
-        )
-    assert "model key is not set" in str(raised.value)
-    assert "no request was sent" in str(raised.value)
-    assert outbound.counters() == ZERO, "the live provider made no outbound call"
+    with pytest.raises(ProviderUnavailable):
+        run_search(store, QUESTION, catalog=load_seed(), profile=store.snapshot(), now=NOW,
+                   provider=HermesProvider(), disclosure_accepted=True)
+    assert outbound.counters() == ZERO
     assert store.job_count() == 0
 
 
-def test_a_configured_key_with_no_endpoint_also_fails_closed(tmp_path, monkeypatch):
-    outbound.install_guard(monkeypatch)
+def test_host_completion_is_counted_once_and_unknown_cost_stays_unknown(tmp_path):
+    from hackertube_core.hermes import HermesProvider
     outbound.reset()
-    provider = LiveProvider("a-test-key", "")
-    with pytest.raises(ProviderUnavailable) as raised:
-        provider.interpret(QUESTION, DEFAULT_LIMITS)
-    assert "No model endpoint is configured" in str(raised.value)
-    assert outbound.counters() == ZERO
-
-
-def test_select_provider_refuses_an_unknown_name():
-    with pytest.raises(ProviderUnavailable):
-        select_provider("free-model", get_secret=lambda name: None, endpoint="https://example.org/v1")
-    assert select_provider("stub", get_secret=lambda name: None, endpoint="").name == "stub"
-    assert select_provider("live", get_secret=lambda name: "k", endpoint="https://example.org/v1").name == "live"
-
-
-class _Response:
-    status = 200
-
-    def __init__(self, body):
-        self._body = body
-
-    def read(self, limit):
-        return self._body
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *args):
-        return False
-
-
-def test_the_live_provider_posts_one_paid_request_through_the_boundary(monkeypatch):
-    """The live path is one counted paid request, with the key in the header.
-
-    The transport is the production one; only the opener and the DNS answer
-    are injected, so this proves the request goes through ``outbound`` rather
-    than around it. The guard is installed, so a connection outside the
-    boundary would raise instead.
-    """
-    outbound.install_guard(monkeypatch)
-    outbound.reset()
-    seen = {}
-
-    class Opener:
-        def open(self, request, timeout=None):
-            seen["url"] = request.full_url
-            seen["method"] = request.get_method()
-            seen["auth"] = request.get_header("Authorization")
-            seen["content-type"] = request.get_header("Content-type")
-            seen["in_flight"] = outbound.LEDGER.in_flight
-            return _Response(json.dumps({"cost_usd": 0.02}).encode("utf-8"))
-
-    def resolve(host, port, *args, **kwargs):
-        return [(2, 1, 6, "", ("1.1.1.1", 0))]
-
-    provider = LiveProvider(
-        "a-test-key",
-        "https://example.org/v1/chat/completions",
-        opener=Opener(),
-        resolve=resolve,
-    )
-    outcome = provider.interpret(QUESTION, DEFAULT_LIMITS)
-    assert seen["method"] == "POST"
-    assert seen["auth"] == "Bearer a-test-key"
-    assert seen["content-type"] == "application/json"
-    assert seen["in_flight"] == 1, "the request was inside a boundary dispatch"
-    assert outbound.counters() == {"free": 0, "paid": 1, "metered": 0}
-    assert outcome.cost_usd == 0.02
-    assert outcome.interpretation.topic == "jane austen"
-
-
-def test_a_paid_call_with_no_reported_cost_stays_unknown_in_the_job(tmp_path, monkeypatch):
-    outbound.reset()
-
-    def resolve(host, port, *args, **kwargs):
-        return [(2, 1, 6, "", ("1.1.1.1", 0))]
-
-    class Opener:
-        def open(self, request, timeout=None):
-            return _Response(b'{"ok": true}')
-
+    def invoke(raw):
+        assert outbound.LEDGER.in_flight == 1
+        return {'data':{'topic':'jane austen','terms':['jane','austen'],'formats':[]},'cost_usd':None}
     store = store_at(tmp_path)
-    provider = LiveProvider(
-        "a-test-key", "https://example.org/v1/chat/completions", opener=Opener(), resolve=resolve
-    )
-    result = run_search(
-        store,
-        QUESTION,
-        catalog=load_seed(),
-        profile=store.snapshot(),
-        now=NOW,
-        provider=provider,
-        disclosure_accepted=True,
-    )
-    assert result["usage"]["cost_known"] is False
-    assert result["usage"]["cost_usd"] is None
-    assert result["usage"]["request_counts"] == {"free": 0, "paid": 1, "metered": 0}
-    assert result["usage"]["paid_calls"] == 1
+    result = run_search(store, QUESTION, catalog=load_seed(),profile=store.snapshot(),now=NOW,
+                        provider=HermesProvider(invoke),disclosure_accepted=True)
+    assert result['usage']['cost_known'] is False
+    assert result['usage']['cost_usd'] is None
+    assert result['usage']['request_counts']=={'free':0,'paid':1,'metered':0}
+    assert result['usage']['paid_calls']==1
 
 
 def test_the_stub_provider_is_deterministic_across_runs(tmp_path):
@@ -714,8 +615,8 @@ def test_the_search_module_keeps_the_disclosure_text_and_the_page_together():
 
 def test_the_search_module_never_opens_a_credential_file():
     """The declared secret is read through secret scope only."""
-    source = (ROOT / "hackertube_core" / "search.py").read_text(encoding="utf-8")
+    source = (ROOT / "hackertube" / "hackertube_core" / "search.py").read_text(encoding="utf-8")
     for forbidden in ("auth.json", "os.environ", "load_env_file", "keychain", "import sqlite3"):
         assert forbidden not in source, f"search.py mentions {forbidden}"
-    assert "HACKERTUBE_MODEL_KEY" in source
-    assert "get_secret" in source
+    assert "HACKERTUBE_MODEL_KEY" not in source
+    assert "get_secret" not in source

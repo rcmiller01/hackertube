@@ -1,0 +1,211 @@
+Run 1: exit 1
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____________ test_overlapping_jobs_count_only_their_own_dispatches _____________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-116/test_overlapping_jobs_count_on0')
+
+    def test_overlapping_jobs_count_only_their_own_dispatches(tmp_path):
+        entered=threading.Event();release=threading.Event()
+        class Paid(StubProvider):
+            def __init__(self,hold=False):self.hold=hold
+            def interpret(self,question,limits):
+                def answer():
+                    if self.hold:
+                        entered.set()
+                        assert release.wait(2), 'other job failed to complete'
+                    return ProviderOutcome(interpret_question(question),requests_used=1)
+                return outbound.dispatch(outbound.PAID,answer,cost=None)
+        def run(name,hold):
+            return run_search(store_at(tmp_path/name),'gardening books',catalog=one_book(),profile=profile(),now=NOW,
+                              provider=Paid(hold),disclosure_accepted=True)
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            first=pool.submit(run,'first',True)
+            try:
+                assert entered.wait(2)
+                second=run('second',False)
+            finally:
+                release.set()
+            first=first.result(timeout=2)
+>       assert first['usage']['request_counts']=={'free':0,'metered':0,'paid':1}
+E       AssertionError: assert {'free': 0, '... 0, 'paid': 2} == {'free': 0, '... 0, 'paid': 1}
+E         
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'paid': 2} != {'paid': 1}
+E         Use -v to get more diff
+
+tests/test_pr16_review.py:68: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_pr16_review.py::test_overlapping_jobs_count_only_their_own_dispatches
+1 failed in 0.04s
+
+Run 2: exit 1
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____________ test_overlapping_jobs_count_only_their_own_dispatches _____________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-117/test_overlapping_jobs_count_on0')
+
+    def test_overlapping_jobs_count_only_their_own_dispatches(tmp_path):
+        entered=threading.Event();release=threading.Event()
+        class Paid(StubProvider):
+            def __init__(self,hold=False):self.hold=hold
+            def interpret(self,question,limits):
+                def answer():
+                    if self.hold:
+                        entered.set()
+                        assert release.wait(2), 'other job failed to complete'
+                    return ProviderOutcome(interpret_question(question),requests_used=1)
+                return outbound.dispatch(outbound.PAID,answer,cost=None)
+        def run(name,hold):
+            return run_search(store_at(tmp_path/name),'gardening books',catalog=one_book(),profile=profile(),now=NOW,
+                              provider=Paid(hold),disclosure_accepted=True)
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            first=pool.submit(run,'first',True)
+            try:
+                assert entered.wait(2)
+                second=run('second',False)
+            finally:
+                release.set()
+            first=first.result(timeout=2)
+>       assert first['usage']['request_counts']=={'free':0,'metered':0,'paid':1}
+E       AssertionError: assert {'free': 0, '... 0, 'paid': 2} == {'free': 0, '... 0, 'paid': 1}
+E         
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'paid': 2} != {'paid': 1}
+E         Use -v to get more diff
+
+tests/test_pr16_review.py:68: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_pr16_review.py::test_overlapping_jobs_count_only_their_own_dispatches
+1 failed in 0.04s
+
+Run 3: exit 1
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____________ test_overlapping_jobs_count_only_their_own_dispatches _____________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-118/test_overlapping_jobs_count_on0')
+
+    def test_overlapping_jobs_count_only_their_own_dispatches(tmp_path):
+        entered=threading.Event();release=threading.Event()
+        class Paid(StubProvider):
+            def __init__(self,hold=False):self.hold=hold
+            def interpret(self,question,limits):
+                def answer():
+                    if self.hold:
+                        entered.set()
+                        assert release.wait(2), 'other job failed to complete'
+                    return ProviderOutcome(interpret_question(question),requests_used=1)
+                return outbound.dispatch(outbound.PAID,answer,cost=None)
+        def run(name,hold):
+            return run_search(store_at(tmp_path/name),'gardening books',catalog=one_book(),profile=profile(),now=NOW,
+                              provider=Paid(hold),disclosure_accepted=True)
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            first=pool.submit(run,'first',True)
+            try:
+                assert entered.wait(2)
+                second=run('second',False)
+            finally:
+                release.set()
+            first=first.result(timeout=2)
+>       assert first['usage']['request_counts']=={'free':0,'metered':0,'paid':1}
+E       AssertionError: assert {'free': 0, '... 0, 'paid': 2} == {'free': 0, '... 0, 'paid': 1}
+E         
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'paid': 2} != {'paid': 1}
+E         Use -v to get more diff
+
+tests/test_pr16_review.py:68: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_pr16_review.py::test_overlapping_jobs_count_only_their_own_dispatches
+1 failed in 0.03s
+
+Run 4: exit 1
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____________ test_overlapping_jobs_count_only_their_own_dispatches _____________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-119/test_overlapping_jobs_count_on0')
+
+    def test_overlapping_jobs_count_only_their_own_dispatches(tmp_path):
+        entered=threading.Event();release=threading.Event()
+        class Paid(StubProvider):
+            def __init__(self,hold=False):self.hold=hold
+            def interpret(self,question,limits):
+                def answer():
+                    if self.hold:
+                        entered.set()
+                        assert release.wait(2), 'other job failed to complete'
+                    return ProviderOutcome(interpret_question(question),requests_used=1)
+                return outbound.dispatch(outbound.PAID,answer,cost=None)
+        def run(name,hold):
+            return run_search(store_at(tmp_path/name),'gardening books',catalog=one_book(),profile=profile(),now=NOW,
+                              provider=Paid(hold),disclosure_accepted=True)
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            first=pool.submit(run,'first',True)
+            try:
+                assert entered.wait(2)
+                second=run('second',False)
+            finally:
+                release.set()
+            first=first.result(timeout=2)
+>       assert first['usage']['request_counts']=={'free':0,'metered':0,'paid':1}
+E       AssertionError: assert {'free': 0, '... 0, 'paid': 2} == {'free': 0, '... 0, 'paid': 1}
+E         
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'paid': 2} != {'paid': 1}
+E         Use -v to get more diff
+
+tests/test_pr16_review.py:68: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_pr16_review.py::test_overlapping_jobs_count_only_their_own_dispatches
+1 failed in 0.03s
+
+Run 5: exit 1
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____________ test_overlapping_jobs_count_only_their_own_dispatches _____________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-120/test_overlapping_jobs_count_on0')
+
+    def test_overlapping_jobs_count_only_their_own_dispatches(tmp_path):
+        entered=threading.Event();release=threading.Event()
+        class Paid(StubProvider):
+            def __init__(self,hold=False):self.hold=hold
+            def interpret(self,question,limits):
+                def answer():
+                    if self.hold:
+                        entered.set()
+                        assert release.wait(2), 'other job failed to complete'
+                    return ProviderOutcome(interpret_question(question),requests_used=1)
+                return outbound.dispatch(outbound.PAID,answer,cost=None)
+        def run(name,hold):
+            return run_search(store_at(tmp_path/name),'gardening books',catalog=one_book(),profile=profile(),now=NOW,
+                              provider=Paid(hold),disclosure_accepted=True)
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            first=pool.submit(run,'first',True)
+            try:
+                assert entered.wait(2)
+                second=run('second',False)
+            finally:
+                release.set()
+            first=first.result(timeout=2)
+>       assert first['usage']['request_counts']=={'free':0,'metered':0,'paid':1}
+E       AssertionError: assert {'free': 0, '... 0, 'paid': 2} == {'free': 0, '... 0, 'paid': 1}
+E         
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'paid': 2} != {'paid': 1}
+E         Use -v to get more diff
+
+tests/test_pr16_review.py:68: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_pr16_review.py::test_overlapping_jobs_count_only_their_own_dispatches
+1 failed in 0.03s
+
+REPRODUCED: 5/5 deterministic overlapping-job failures

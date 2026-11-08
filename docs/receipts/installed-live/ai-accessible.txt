@@ -1,0 +1,556 @@
+Search results
+
+Question: Artificial intelligence. Include videos, podcasts, books, and audiobooks. Rank accessible introductions first.
+
+Provider: hermes. Job job:8. State: succeeded.
+
+Constraints: none applied.
+
+Cost: unknown. The provider reported no cost information.
+
+Work limits for this job: at most 12 provider requests, 24 results, a 45 second deadline. Provider requests used: 9.
+
+podcastindex: missing_api_key reddit: approval_absent youtube: missing_api_key
+
+Videos · 0 verified
+
+No verified videos match for this question.
+
+Podcasts · 9 verified
+Show
+AI LITERACY - A Podcast about Artificial Intelligence
+
+AI LITERACY
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+AI literacy podcast; explicitly educational and accessible introduction..
+
+Show
+Artificial Intelligence 101
+
+Luca Marchesotti
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+AI 101 podcast; explicit introductory framing for newcomers..
+
+Show
+Google DeepMind: The Podcast
+
+Hannah Fry
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+DeepMind podcast with Hannah Fry; accessible overview of AI research topics..
+
+Show
+Practical AI
+
+Daniel Whitenack and Chris Benson
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Practical AI podcast; accessible applied AI discussions..
+
+Show
+The Artificial Intelligence Podcast
+
+Dr. Tony Hoang
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+General AI interview podcast; relevant accessible podcast option..
+
+Show
+Artificial Intelligence Podcast: ChatGPT, Claude, Midjourney and all other AI Tools
+
+Jonathan Green : Artificial Intelligence Expert and Author of ChatGPT Profits
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+AI tools-focused podcast; accessible but more tool/application oriented..
+
+Show
+Me, Myself, and AI
+
+MIT Sloan Management Review
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Business-focused AI podcast; relevant for practical adoption..
+
+Show
+AI and the Future of Work: Artificial Intelligence in the Workplace, Business, Ethics, HR, and IT for AI Enthusiasts, Leaders
+
+Dan Turchin
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Podcast on AI, work, ethics, and business; relevant but specialized..
+
+Show
+The 80,000 Hours Podcast on Artificial Intelligence
+
+80,000 Hours
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Long-form podcast focused on AI safety and societal implications..
+
+Books · 5 verified
+Book
+Artificial Intelligence
+
+Melanie Mitchell
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 16:12 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Accessible AI overview book by Melanie Mitchell..
+
+Book
+Understanding Artificial Intelligence
+
+Henry C. Mishkoff
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 16:12 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Understanding-focused AI book; relevant introductory book candidate..
+
+Book
+Artificial intelligence
+
+K. Warwick
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 16:12 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Introductory AI book candidate by K. Warwick..
+
+Book
+Life 3.0
+
+Max Tegmark
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 16:12 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Accessible book on AI's long-term impact and future scenarios..
+
+Book
+Human Compatible
+
+Stuart J. Russell
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 16:12 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Book on AI safety and control by Stuart Russell..
+
+Audiobooks · 10 verified
+Audiobook
+Artificial Intelligence For Dummies
+
+John Paul Mueller & Luca Massaron
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+For Dummies audiobook; beginner-oriented accessible introduction..
+
+Audiobook
+Artificial Intelligence: 101 Things You Must Know Today About Our Future (Unabridged)
+
+Lasse Rouhiainen
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+101-things audiobook; broad beginner-friendly overview of AI..
+
+Audiobook
+A Brief History of Artificial Intelligence
+
+Michael Wooldridge
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Brief history audiobook; accessible historical introduction to AI..
+
+Audiobook
+Artificial Intelligence
+
+Melanie Mitchell
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Accessible AI overview audiobook by Melanie Mitchell..
+
+Audiobook
+Artificial Intelligence All-in-One For Dummies
+
+Chris Minnick
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+All-in-One For Dummies audiobook; broad beginner-friendly introduction..
+
+Audiobook
+Artificial Intelligence
+
+Professor Tim Rocktäschel
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Broad AI overview audiobook; suitable introductory audiobook candidate..
+
+Audiobook
+Artificial Intelligence
+
+Yorick Wilks
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Concise broad AI overview audiobook; relevant introductory candidate..
+
+Audiobook
+Life 3.0: Being Human in the Age of Artificial Intelligence (Unabridged)
+
+Max Tegmark
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Accessible audiobook on AI and humanity's future..
+
+Audiobook
+Prediction Machines: The Simple Economics of Artificial Intelligence (Unabridged)
+
+Ajay Agrawal, Joshua Gans & Avi Goldfarb
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Accessible audiobook on the economics of AI..
+
+Audiobook
+Human Compatible: Artificial Intelligence and the Problem of Control (Unabridged)
+
+Stuart Russell
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:12 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Accessible audiobook on AI safety and control by Stuart Russell..
+
+Back to discovery

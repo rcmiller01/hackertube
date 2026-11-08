@@ -1,0 +1,29 @@
+[
+  {
+    "job_id": "job:6",
+    "question": "Find useful videos, podcasts, books, and audiobooks about AI (artificial intelligence).",
+    "state": "succeeded",
+    "requests_used": 9,
+    "result_count": 24,
+    "cost_known": 0,
+    "coverage": "[\"podcastindex: missing_api_key\", \"reddit: approval_absent\", \"youtube: missing_api_key\"]"
+  },
+  {
+    "job_id": "job:7",
+    "question": "AI for nontechnical beginners: clear introductions, no coding, academic textbooks, or daily news. Include videos, podcasts, books, and audiobooks.",
+    "state": "succeeded",
+    "requests_used": 9,
+    "result_count": 0,
+    "cost_known": 0,
+    "coverage": "[\"podcastindex: missing_api_key\", \"reddit: approval_absent\", \"youtube: missing_api_key\"]"
+  },
+  {
+    "job_id": "job:8",
+    "question": "Artificial intelligence. Include videos, podcasts, books, and audiobooks. Rank accessible introductions first.",
+    "state": "succeeded",
+    "requests_used": 9,
+    "result_count": 24,
+    "cost_known": 0,
+    "coverage": "[\"podcastindex: missing_api_key\", \"reddit: approval_absent\", \"youtube: missing_api_key\"]"
+  }
+]

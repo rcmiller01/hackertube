@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 VIEW = ROOT / "hackertube" / "dashboard" / "catalog_view.py"
-SEED = ROOT / "hackertube_core" / "seed" / "catalog.json"
+SEED = ROOT / "hackertube" / "hackertube_core" / "seed" / "catalog.json"
 
 
 def load_view_module():

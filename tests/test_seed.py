@@ -27,7 +27,7 @@ from hackertube_core.records import Evidence, MediaItem, blank_art
 
 NOW = "2026-11-06T12:24:15Z"
 ROOT = Path(__file__).resolve().parents[1]
-SEED = ROOT / "hackertube_core" / "seed" / "catalog.json"
+SEED = ROOT / "hackertube" / "hackertube_core" / "seed" / "catalog.json"
 CAPTURED = ROOT / "tests" / "fixtures" / "captured"
 
 
@@ -63,7 +63,7 @@ def test_build_reads_through_the_boundary_and_makes_no_paid_call(tmp_path, monke
 
 
 def test_seed_build_stores_through_the_profile_store_not_raw_sqlite():
-    source = (ROOT / "hackertube_core" / "demo_seed.py").read_text(encoding="utf-8")
+    source = (ROOT / "hackertube" / "hackertube_core" / "demo_seed.py").read_text(encoding="utf-8")
     assert "import sqlite3" not in source
     assert "sqlite3.connect" not in source
     assert "open_profile_db" in source

@@ -1,5 +1,7 @@
 # Proposed source matrix
 
+November 8 implementation update: the original researched matrix below is retained as the source plan. Current real-search paths, credential requirements, coverage limits, and receipts are in [real-search.md](real-search.md). In particular, a configured Data API path exists for YouTube (oEmbed remains disabled), and Podcast Index has a signed targeted lookup; neither has a live keyed receipt yet. Hermes owns model and web-search credentials. The original seeded-catalog source set is unchanged.
+
 Researched November 5, 2026. These sources are proposed, not implemented or approved for unrestricted reuse. "Documented" means an official page was read. It does not mean that HackerTube has credentials, provider approval, or a working adapter. Re-check the terms when implementation starts and before release.
 
 ## Defaults and community scope

@@ -1,0 +1,25 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____________ test_host_bridge_keys_the_profile_by_canonical_path ______________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-104/test_host_bridge_keys_the_prof0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x109db8fc0>
+
+    def test_host_bridge_keys_the_profile_by_canonical_path(tmp_path,monkeypatch):
+        actual=tmp_path/'actual';actual.mkdir()
+        alias=tmp_path/'alias';alias.symlink_to(actual,target_is_directory=True)
+        home=[alias]
+        monkeypatch.setitem(__import__('sys').modules,'hermes_constants',SimpleNamespace(get_hermes_home=lambda:home[0]))
+        ctx=SimpleNamespace(register_auxiliary_task=lambda *a,**k:None,on_unload=lambda fn:None)
+        register(ctx)
+        home[0]=actual
+        from hackertube_core.hermes import handler
+>       assert callable(handler())
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = <function handler at 0x109cde560>()
+
+tests/test_retrieval.py:176: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_retrieval.py::test_host_bridge_keys_the_profile_by_canonical_path
+1 failed in 0.04s

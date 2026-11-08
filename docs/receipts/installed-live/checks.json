@@ -1,0 +1,15 @@
+{
+  "main_model_unchanged": true,
+  "other_auxiliary_settings_unchanged": true,
+  "configured_search_slot": {
+    "provider": "openrouter",
+    "model": "deepseek/deepseek-v4.1-flash"
+  },
+  "plugin_enabled": true,
+  "saved_state_survived_restart": true,
+  "job_count_before_restart": 5,
+  "job_count_after_restart": 5,
+  "source_open_events": 1,
+  "source_destination": "https://openlibrary.org/works/OL27912661W",
+  "destination_observed": "Open Library human-verification page; challenge not attempted"
+}

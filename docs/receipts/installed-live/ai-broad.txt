@@ -1,0 +1,560 @@
+Search results
+
+Question: Find useful videos, podcasts, books, and audiobooks about AI (artificial intelligence).
+
+Provider: hermes. Job job:6. State: succeeded.
+
+Constraints: none applied.
+
+Cost: unknown. The provider reported no cost information.
+
+Work limits for this job: at most 12 provider requests, 24 results, a 45 second deadline. Provider requests used: 9.
+
+podcastindex: missing_api_key reddit: approval_absent youtube: missing_api_key
+
+Videos · 0 verified
+
+No verified videos match for this question.
+
+Podcasts · 7 verified
+Show
+The AI Daily Brief: Artificial Intelligence News and Analysis
+
+Nathaniel Whittemore
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Podcast show focused on AI news and analysis; useful for current developments..
+
+Show
+AI with AI: Artificial Intelligence with Andy Ilachinski
+
+CNA
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Podcast show with broad artificial intelligence discussions and expert perspectives..
+
+Show
+The Bunker Project AI - Artificial Intelligence Round Table: Learn Artificial Intelligence
+
+Andrew McGivern and Bob Garlick - talking about Artificial Intelligence and the impact of AI
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+AI round-table podcast aimed at learning artificial intelligence..
+
+Show
+Artificial Intelligence Podcast: ChatGPT, Claude, Midjourney and all other AI Tools
+
+Jonathan Green : Artificial Intelligence Expert and Author of ChatGPT Profits
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Podcast covering ChatGPT, Claude, Midjourney, and other AI tools..
+
+Show
+Machine Learning: News on AI, OpenAI, ChatGPT, Artificial Intelligence, AI Models
+
+Machine Learning: News on AI, OpenAI, ChatGPT, Artificial Intelligence, AI Models
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Podcast show focused on AI, machine learning, and related news..
+
+Show
+AI Proving Ground Podcast: Exploring Artificial Intelligence & Enterprise AI with World Wide Technology
+
+World Wide Technology: Artificial Intelligence Experts
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Podcast show exploring enterprise AI and artificial intelligence applications..
+
+Show
+OneMoreThinginAi: Artificial Intelligence podcast for Business Leaders and Startup Founders
+
+Renjit Philip
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+AI podcast aimed at business leaders and startup founders..
+
+Books · 7 verified
+Book
+Artificial intelligence
+
+Stuart J. Russell, Peter Norvig
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 16:09 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Foundational AI textbook by Russell and Norvig; broad coverage of artificial intelligence..
+
+Book
+Human Compatible
+
+Stuart J. Russell
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 16:09 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+General-audience book by a leading AI researcher on safe and beneficial AI..
+
+Book
+Life 3.0
+
+Max Tegmark
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 16:09 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Book on the future and societal impact of artificial intelligence..
+
+Book
+Atlas of AI
+
+Kate Crawford
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 16:09 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Book on the social and political dimensions of AI..
+
+Book
+Gen-AI
+
+Mauro Cazzaniga, Florence Jaumotte, Longji Li, Emma Rockall, Marina Mendes Tavares
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 16:09 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Book on generative AI; relevant to current AI topics..
+
+Book
+Artificial intelligence
+
+Patrick Henry Winston
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 16:09 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+AI book by Patrick Henry Winston; relevant as an AI text..
+
+Book
+Artificial Intelligence Book : Learning Artificial Intelligence with Python
+
+Leora Hardgrove
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 16:09 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Technical book for learning artificial intelligence with Python..
+
+Audiobooks · 10 verified
+Audiobook
+Artificial Intelligence
+
+Melanie Mitchell
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Accessible AI overview audiobook by Melanie Mitchell; useful broad introduction..
+
+Audiobook
+Rebooting AI: Building Artificial Intelligence We Can Trust (Unabridged)
+
+Gary Marcus & Ernest Davis
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Audiobook about building trustworthy AI; relevant to AI safety and reliability..
+
+Audiobook
+Atlas of AI : Power, Politics, and the Planetary Costs of Artificial Intelligence
+
+Kate Crawford
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Audiobook on the power, politics, and costs of AI; strong societal perspective..
+
+Audiobook
+Artificial Intelligence & Generative AI for Beginners
+
+David M. Patel
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Beginner-oriented audiobook on AI and generative AI..
+
+Audiobook
+Understanding AI: A Guide to Artificial Intelligence (Unabridged)
+
+Erik Lawrence
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Guide audiobook intended to explain artificial intelligence..
+
+Audiobook
+Surviving AI: The Promise and Peril of Artificial Intelligence (Unabridged)
+
+Calum Chace
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Audiobook on the promise and peril of artificial intelligence..
+
+Audiobook
+All-in On AI : How Smart Companies Win Big with Artificial Intelligence
+
+Tom Davenport
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Audiobook about how companies adopt and win with AI..
+
+Audiobook
+Agentic Artificial Intelligence: Harnessing AI Agents to Reinvent Business, Work and Life (Unabridged)
+
+Pascal Bornet, Jochen Wirtz, Thomas H. Davenport, David De Cremer, Brian Evergreen, Phil Fersht, Rakesh Gohel, Shail Khiyara, Nandan Mullakara & Pooja Sund
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Audiobook on AI agents and their business, work, and life applications..
+
+Audiobook
+Philosophy and AI: Artificial Intelligence and its Discontents
+
+Michael R D James
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Audiobook exploring philosophical issues around artificial intelligence..
+
+Audiobook
+ChatGPT: 101 Things You Must Know Today About ChatGPT and Generative AI: Artificial Intelligence, Book 2 (Unabridged)
+
+Lasse Rouhiainen
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:09 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Audiobook on ChatGPT and generative AI for practical understanding..
+
+Back to discovery

@@ -1,0 +1,245 @@
+"""Bounded HTTPS reads. Redirects and ambient proxies are off.
+
+``public_https_url`` is a preliminary string check. ``read_json`` is the
+fetch boundary: it resolves once, keeps only allowed addresses, and connects
+the socket to one of those addresses. Every request goes through
+``hackertube_core.outbound``, which counts it under the label the calling
+adapter declares. ``read_json`` has no default label: a caller that omits
+it is a ``TypeError``, so a new adapter cannot inherit ``free`` by
+forgetting to classify a metered or paid read.
+"""
+
+import json
+import socket
+import ssl
+from http.client import HTTPSConnection
+from ipaddress import ip_address
+from urllib.error import HTTPError
+from urllib.parse import urlsplit
+from urllib.request import HTTPSHandler, ProxyHandler, Request, build_opener
+
+from hackertube_core import outbound
+from hackertube_core.errors import RecordError
+from hackertube_core.text import address_is_allowed, host_address, public_https_url
+
+USER_AGENT = "HackerTube/0.2 (+https://github.com/rcmiller01/hackertube)"
+MAX_BYTES = 1_000_000
+
+
+class HttpError(RuntimeError):
+    pass
+
+
+class _PinnedHTTPSConnection(HTTPSConnection):
+    def __init__(
+        self,
+        host,
+        port=None,
+        *,
+        pinned_ips,
+        server_hostname,
+        timeout=socket._GLOBAL_DEFAULT_TIMEOUT,
+        source_address=None,
+        context=None,
+        blocksize=8192,
+    ):
+        self._pinned_ips = list(pinned_ips)
+        self._sni_host = server_hostname
+        super().__init__(
+            host,
+            port,
+            timeout=timeout,
+            source_address=source_address,
+            context=context,
+            blocksize=blocksize,
+        )
+
+    def connect(self):
+        last_error = None
+        context = self._context or ssl.create_default_context()
+        for ip in self._pinned_ips:
+            if "%" in ip:
+                raise RecordError("destination")
+            try:
+                address = ip_address(ip)
+            except ValueError:
+                raise RecordError("destination") from None
+            if not address_is_allowed(address):
+                raise RecordError("destination")
+            try:
+                sock = socket.create_connection((ip, self.port), self.timeout, self.source_address)
+            except OSError as exc:
+                last_error = exc
+                continue
+            self.sock = context.wrap_socket(sock, server_hostname=self._sni_host)
+            return
+        raise OSError("connect failed" if last_error is None else last_error)
+
+
+class _PinnedHTTPSHandler(HTTPSHandler):
+    def __init__(self, pinned_ips, server_hostname):
+        super().__init__()
+        self._pinned_ips = pinned_ips
+        self._server_hostname = server_hostname
+
+    def https_open(self, req):
+        pinned = self._pinned_ips
+        sni = self._server_hostname
+
+        def factory(host, timeout=socket._GLOBAL_DEFAULT_TIMEOUT, **kwargs):
+            return _PinnedHTTPSConnection(
+                host,
+                timeout=timeout,
+                pinned_ips=pinned,
+                server_hostname=sni,
+                **kwargs,
+            )
+
+        return self.do_open(factory, req)
+
+
+def _no_redirect():
+    from urllib.request import HTTPRedirectHandler
+
+    class Refused(HTTPRedirectHandler):
+        def redirect_request(self, req, fp, code, msg, headers, newurl):
+            raise HttpError("redirect refused")
+
+    return Refused()
+
+
+def connection_targets(host, *, resolve=None):
+    """Resolve once. Only allowed addresses are returned, in answer order."""
+    literal = host_address(host)
+    if literal is not None:
+        if not address_is_allowed(literal):
+            raise RecordError("destination")
+        return [host]
+    lookup = resolve or socket.getaddrinfo
+    try:
+        answers = lookup(host, None)
+    except socket.gaierror:
+        raise RecordError("destination") from None
+    if not answers:
+        raise RecordError("destination")
+    chosen = []
+    for answer in answers:
+        raw = answer[4][0]
+        if "%" in raw:
+            continue
+        try:
+            address = ip_address(raw)
+        except ValueError:
+            continue
+        if address_is_allowed(address):
+            chosen.append(raw)
+    if not chosen:
+        raise RecordError("destination")
+    return chosen
+
+
+def _pinned_opener(host, pinned_ips):
+    return build_opener(
+        ProxyHandler({}),
+        _no_redirect(),
+        _PinnedHTTPSHandler(pinned_ips, host),
+    )
+
+
+def _send(url, *, classification, method, data, cost, timeout, opener, headers, resolve):
+    """One counted request through the outbound boundary, JSON in or out.
+
+    ``read_json`` and ``post_json`` are the only callers, so the label,
+    the pinned connection, and the error mapping cannot drift apart.
+    """
+    if classification not in outbound.LABELS:
+        raise ValueError(f"unknown request label: {classification!r}")
+    public_https_url(url)
+    host = (urlsplit(url.strip()).hostname or "").rstrip(".").lower()
+    merged = {"User-Agent": USER_AGENT, "Accept": "application/json"}
+    if headers:
+        merged.update(headers)
+    if data is not None:
+        merged.setdefault("Content-Type", "application/json")
+    request = Request(url, data=data, headers=merged, method=method)
+
+    def perform():
+        # Resolution, pinned connection, response read and close form ONE
+        # counted attempt, including failures. Nothing resolves before dispatch.
+        pinned = connection_targets(host, resolve=resolve)
+        download = opener or _pinned_opener(host, pinned)
+        with download.open(request, timeout=timeout) as opened:
+            status = getattr(opened, "status", 200)
+            if status != 200:
+                raise HttpError(f"http {status}")
+            return opened.read(MAX_BYTES + 1)
+
+    try:
+        body = outbound.dispatch(classification, perform, cost=cost)
+    except RecordError:
+        raise
+    except HTTPError as exc:
+        raise HttpError(f"http {exc.code}") from None
+    except HttpError:
+        raise
+    except Exception:
+        raise HttpError("request failed") from None
+    if len(body) > MAX_BYTES:
+        raise HttpError("response too large")
+    return json.loads(body)
+
+
+def read_json(url, *, classification, cost=None, timeout=15, opener=None, headers=None, resolve=None):
+    """Fetch one JSON body through the outbound boundary.
+
+    ``classification`` is the caller's declaration of what the read costs:
+    ``outbound.FREE`` for a public source read, ``outbound.METERED`` for a
+    read that spends a provider quota, or ``outbound.PAID`` for a billed
+    call. It is keyword-only and required. ``cost`` is the provider cost in
+    US dollars for a paid call and is never accepted for a free or metered
+    one.
+    """
+    return _send(
+        url,
+        classification=classification,
+        method="GET",
+        data=None,
+        cost=cost,
+        timeout=timeout,
+        opener=opener,
+        headers=headers,
+        resolve=resolve,
+    )
+
+
+def post_json(
+    url,
+    *,
+    classification,
+    payload,
+    cost=None,
+    timeout=15,
+    opener=None,
+    headers=None,
+    resolve=None,
+):
+    """Post one JSON body and read the JSON answer through the same boundary.
+
+    The label rule is identical to ``read_json``: ``classification`` is
+    required with no default, and ``cost`` is the provider's reported cost
+    for a paid call or ``None`` when the provider reports none. The encoded
+    payload is the only request body sent.
+    """
+    if not isinstance(payload, dict):
+        raise RecordError("payload")
+    return _send(
+        url,
+        classification=classification,
+        method="POST",
+        data=json.dumps(payload).encode("utf-8"),
+        cost=cost,
+        timeout=timeout,
+        opener=opener,
+        headers=headers,
+        resolve=resolve,
+    )

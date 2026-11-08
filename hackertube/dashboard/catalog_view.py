@@ -23,13 +23,13 @@ def _jsonable(value):
     return value
 
 
-def repo_root() -> Path:
-    """Repository root when this file lives in ``hackertube/dashboard/``."""
-    return Path(__file__).resolve().parents[2]
+def plugin_root() -> Path:
+    """The complete installable plugin directory, independent of its parent."""
+    return Path(__file__).resolve().parents[1]
 
 
 def _load_seed():
-    root = str(repo_root())
+    root = str(plugin_root())
     if root not in sys.path:
         sys.path.insert(0, root)
     from hackertube_core import load_seed
@@ -37,14 +37,15 @@ def _load_seed():
     return load_seed()
 
 
-def load_catalog():
+def load_catalog(store=None):
     """The seed core returns. Ranking is a separate read."""
-    return _load_seed()
+    seed = _load_seed()
+    return store.catalog(seed) if store is not None else seed
 
 
 def catalog_dict() -> dict:
     """JSON object for the page. Field values are what core stored."""
-    catalog = _load_seed()
+    catalog = load_catalog()
     return {
         "schema": SCHEMA,
         "demo_question": catalog.demo_question,
