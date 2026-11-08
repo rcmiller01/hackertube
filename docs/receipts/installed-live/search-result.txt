@@ -1,0 +1,85 @@
+Search results
+
+Question: Find beginner books about vegetable gardening
+
+Provider: hermes. Job job:5. State: succeeded.
+
+Constraints: none applied.
+
+Cost: unknown. The provider reported no cost information.
+
+Work limits for this job: at most 12 provider requests, 24 results, a 45 second deadline. Provider requests used: 5.
+
+podcastindex: missing_api_key reddit: approval_absent youtube: missing_api_key
+
+Books · 3 verified
+Book
+Vegetable Gardening for Beginners
+
+A. B. books
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 15:59 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Exact beginner vegetable-gardening title; directly matches topic and level..
+
+Book
+Vegetable Gardening for Beginners
+
+Hugh Wiberg
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 15:59 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Exact beginner vegetable-gardening title; directly matches topic and level..
+
+Book
+A beginner's book of vegetable gardening
+
+Sigmund A. Lavine
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 15:59 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Explicitly a beginner's vegetable-gardening book; strong match..
+
+Back to discovery

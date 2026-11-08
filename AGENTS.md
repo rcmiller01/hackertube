@@ -10,4 +10,4 @@ Every change goes on its own branch and pull request. Bots never merge to main o
 
 Every bot commit ends with a trailer naming the bot, for example `Co-authored-by: Eve (Grok Bot) <eve-bot@grokbot.local>`. A squash merge keeps every unique `(Grok Bot)` trailer from the PR's commits.
 
-Before any merge, send non-code reviews and code PRs to the reviewer bot, Cracked, with the exact head SHA. Review the current head again after later changes.
+Codex performs all code and non-code reviews at the exact head SHA. Review the current head again after later changes.

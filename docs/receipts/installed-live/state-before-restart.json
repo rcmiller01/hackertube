@@ -1,0 +1,54 @@
+{
+  "jobs": [
+    {
+      "job_id": "job:1",
+      "state": "partial",
+      "requests_used": 5,
+      "result_count": 0,
+      "cost_known": 0,
+      "coverage": "[\"Some search services did not finish; coverage is incomplete.\", \"podcastindex: missing_api_key\", \"reddit: approval_absent\", \"youtube: missing_api_key\", \"web: source request failed\", \"ranking: Search ranking failed.\"]"
+    },
+    {
+      "job_id": "job:2",
+      "state": "partial",
+      "requests_used": 5,
+      "result_count": 0,
+      "cost_known": 0,
+      "coverage": "[\"Some search services did not finish; coverage is incomplete.\", \"podcastindex: missing_api_key\", \"reddit: approval_absent\", \"youtube: missing_api_key\", \"web: source request failed\", \"ranking: Search ranking failed.\"]"
+    },
+    {
+      "job_id": "job:3",
+      "state": "partial",
+      "requests_used": 5,
+      "result_count": 0,
+      "cost_known": 0,
+      "coverage": "[\"Some search services did not finish; coverage is incomplete.\", \"podcastindex: missing_api_key\", \"reddit: approval_absent\", \"youtube: missing_api_key\", \"web: source request failed\", \"ranking: Search ranking failed.\"]"
+    },
+    {
+      "job_id": "job:4",
+      "state": "partial",
+      "requests_used": 5,
+      "result_count": 0,
+      "cost_known": 0,
+      "coverage": "[\"Some search services did not finish; coverage is incomplete.\", \"podcastindex: missing_api_key\", \"reddit: approval_absent\", \"youtube: missing_api_key\", \"ranking: Search ranking failed.\"]"
+    },
+    {
+      "job_id": "job:5",
+      "state": "succeeded",
+      "requests_used": 5,
+      "result_count": 3,
+      "cost_known": 0,
+      "coverage": "[\"podcastindex: missing_api_key\", \"reddit: approval_absent\", \"youtube: missing_api_key\"]"
+    }
+  ],
+  "item_state": [
+    {
+      "item_id": "ol:OL27912661W",
+      "saved": 1,
+      "dismissed": 0,
+      "completed": 0,
+      "saved_order": 1
+    }
+  ],
+  "open_events": 1
+}

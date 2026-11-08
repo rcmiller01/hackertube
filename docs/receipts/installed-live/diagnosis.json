@@ -1,0 +1,32 @@
+[
+  {
+    "stage": "web",
+    "success": null,
+    "unknown_tool": true
+  },
+  {
+    "stage": "web",
+    "success": null,
+    "unknown_tool": true
+  },
+  {
+    "stage": "rank",
+    "parsed_missing": true,
+    "text_length": 0
+  },
+  {
+    "stage": "web",
+    "success": true,
+    "unknown_tool": false
+  },
+  {
+    "stage": "rank",
+    "response_type": "ChatCompletion",
+    "finish_reason_length": true
+  },
+  {
+    "stage": "rank",
+    "parsed_missing": true,
+    "text_length": 0
+  }
+]

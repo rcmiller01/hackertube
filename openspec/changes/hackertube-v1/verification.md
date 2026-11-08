@@ -530,6 +530,16 @@ Reviewed `dca17be7f0a6a77759397ffcbc61d0de7cbf684d` against base `fa692729cbf4ed
 
 No new paid-provider run was needed; provider/auth/source API contracts are unchanged. Keyed-source live checks, installed-host browser validation, cancellation/restart recovery, and wider release work retain their prior disposition. The PR remains unmerged.
 
+## Installed-host live walkthrough — November 8
+
+Task 7.5: **pass** for installed navigation, configured-provider selection, real Search, Save, source launch, and saved/opened persistence across an actual dashboard restart. Host `v0.23.0+1212.g719240d`, Python 3.14.9. Code is pinned by the commit containing this record and `docs/receipts/installed-live/runtime-manifest.json` (**34/34 installed files match**). Full procedure, failure diagnosis, red/green tests, configuration boundaries, and snapshots: `docs/receipts/installed-live/README.md`.
+
+The installed test exposed two defects: cold dashboards lacked the registered web-search tool, and the reasoning model exhausted the 2,500-token ranking cap. Public host tool discovery and an 8,000-token ranking allowance corrected them; no retry/fallback was added. One native tool dispatch and one structured-completion call site cover the changes. Red tests precede fixes in `e10dc00` and `7e76c88`.
+
+The final search produced **3 verified new books**, job `succeeded`, **5 requests used / 12 allowed**, unknown cost, and the same 45-second / 24-result bounds. The first item was saved/opened; after dashboard restart its state remained and job count stayed **5 before / 5 after**. Four diagnostic failures remain honestly recorded. Open Library's human-verification page stopped external content inspection; source launch itself worked. The main model and other auxiliary settings are unchanged; the new dedicated search assignment remains selected. No source credentials were added.
+
+Checks: **232 Python passed / 0 failed**, **71 JavaScript passed / 0 failed / 0 skipped**, plugin validation without warnings, strict specs and coverage fixtures. Scenarios exercised: UI01, SEARCH01, PREF05, LIB01/02/03, JOB03/04; UI04 verified through destination launch only. The successful run contained no temporary instrumentation. Keyed-source checks and the remaining release tasks stay open; the installed plugin remains enabled and the PR unmerged.
+
 ## Release measurements
 
 All values are unmeasured. Freeze the post-demo evaluation workload, rubric, source snapshots, provider configuration, and request limits before collecting results. Use PRD section 9 for proposed targets and report adjustments explicitly. The demo video length is measured under task 4.3, not inferred from the six-step outline.

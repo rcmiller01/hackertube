@@ -47,6 +47,12 @@ def register(ctx):
             timeout = payload.get("timeout", 10)
             if not isinstance(timeout, (int, float)) or not 0 < timeout <= 45:
                 raise ValueError("timeout")
+            # A dashboard may load native plugins before any agent session has
+            # discovered the host tools. Use Hermes's public discovery path;
+            # dispatch still selects the user's configured search backend.
+            from tools.registry import discover_builtin_tools
+
+            discover_builtin_tools()
             return ctx.dispatch_tool(
                 "web_search", {"query": query, "limit": 8}, execution_timeout=timeout
             )
@@ -64,7 +70,9 @@ def register(ctx):
             instructions=INTERPRET if stage == "interpret" else RANK,
             input=[{"type": "text", "text": json.dumps(value, ensure_ascii=False)}],
             json_mode=True,
-            max_tokens=2500,
+            # Completion limits include hidden reasoning on some configured
+            # models. Ranking up to 60 records needs room for the final JSON.
+            max_tokens=8000 if stage == "rank" else 2500,
             timeout=timeout,
             task=TASK,
             purpose="hackertube.search." + stage,
