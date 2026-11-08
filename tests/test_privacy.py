@@ -10,7 +10,7 @@ def test_all_dashboard_features_require_current_privacy_agreement(tmp_path):
     route_harness.install_host(tmp_path)
     module, app = route_harness.load_api("privacy_gate")
     client = route_harness.client(app)
-    for path in ("/catalog", "/feed", "/profile", "/sources", "/search", "/status", "/search/jobs/missing", "/search/jobs/privacy", "/branding/youtube.png"):
+    for path in ("/catalog", "/feed", "/profile", "/sources", "/search", "/status", "/search/jobs/missing", "/search/jobs/privacy"):
         assert client.get(route_harness.API_ROOT + path).status_code == 403, path
     for path, body in (("/search", {"question":"AI", "disclosure_accepted":True}), ("/sources", {"source_id":"youtube", "enabled":True})):
         assert client.post(route_harness.API_ROOT + path, json=body).status_code == 403

@@ -49,7 +49,7 @@ test("YouTube attribution renders without an authenticated image request", async
     const src=await logo.getAttribute("src");
     assert.match(src,/^data:image\/png;base64,/);
     const bytes=Buffer.from(src.split(",")[1],"base64");
-    assert.deepEqual(bytes,require("node:fs").readFileSync(require("node:path").join(__dirname,"../hackertube/dashboard/dist/youtube.png")),"official asset must remain unmodified");
+    assert.equal(require("node:crypto").createHash("sha256").update(bytes).digest("hex"),"1027b1b0517727adb9697155a270744381c3ce9b047b1c8bd8a9389dc7d07a83","official asset must remain unmodified");
     await ui.waitForFunction(()=>document.querySelector('img[alt="YouTube"]').naturalWidth>0);
     assert.equal(await logo.evaluate(el=>el.getBoundingClientRect().height),100);
   } finally {await browser.close();await fixture.close();}

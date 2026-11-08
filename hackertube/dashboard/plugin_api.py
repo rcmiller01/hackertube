@@ -12,7 +12,7 @@ import sys
 from pathlib import Path
 
 from fastapi import APIRouter, Request, Depends, HTTPException
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse
 from starlette.concurrency import run_in_threadpool
 
 from agent.secret_scope import get_secret
@@ -136,11 +136,6 @@ async def privacy_delete():
     except SearchBusy:
         return _profile_response(409, {"error": "search_busy", "message": "Cancel the active Search before deleting HackerTube data."})
     return privacy()
-
-
-@router.get("/branding/youtube.png")
-def youtube_branding():
-    return FileResponse(Path(__file__).with_name("dist") / "youtube.png", media_type="image/png")
 
 
 @router.get("/search/jobs/{job_id}")
