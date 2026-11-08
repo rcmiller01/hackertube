@@ -44,7 +44,7 @@ test("YouTube attribution renders without an authenticated image request", async
     // A normal <img> cannot supply Hermes SDK's Authorization header.
     await ui.route("**/branding/youtube.png",route=>route.fulfill({status:401,body:"Unauthorized"}));
     await ui.goto(fixture.origin);
-    const logo=ui.getByRole("img",{name:"YouTube",exact:true});
+    const logo=ui.getByRole("img",{name:"YouTube",exact:true}).first();
     await logo.waitFor();
     const src=await logo.getAttribute("src");
     assert.match(src,/^data:image\/png;base64,/);
