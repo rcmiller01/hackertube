@@ -2160,3 +2160,19 @@ test("search shows the retrieval subject separately and labels inferred relevanc
     ui.restore();
   }
 });
+
+test("beginner search does not claim that no relevance constraints were applied", () => {
+  const outcome = searchResult({}, {
+    interpretation: { topic: "AI introductions without daily news", retrieval_query: "artificial intelligence", depth: "beginner", max_duration_seconds: null },
+  });
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: outcome });
+  try {
+    submitSearch(ui, "AI introductions for beginners, no daily news");
+    const text = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.match(text, /Level: beginner/);
+    assert.doesNotMatch(text, /Constraints: none applied/);
+    assert.match(text, /Time limit: none requested/);
+  } finally {
+    ui.restore();
+  }
+});
