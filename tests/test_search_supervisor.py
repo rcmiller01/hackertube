@@ -273,3 +273,23 @@ def test_deadline_stops_real_source_boundary_even_when_dns_or_read_blocks(tmp_pa
     finally:
         connection.close()
         server.close()
+
+def test_watchdog_can_stop_cancelled_work_if_parent_signal_is_denied(tmp_path, monkeypatch):
+    import os
+    manager, store, server, job = setup_job(tmp_path, seconds=10)
+    connection, _ = server.accept()
+    process = manager._jobs[job["job_id"]]["process"]
+    def denied(*args):
+        raise PermissionError("simulated signal permission race")
+    monkeypatch.setattr(os, "killpg", denied)
+    try:
+        manager.cancel(job["job_id"])
+        assert wait_done(manager, job, 2)["job"]["state"] == "cancelled"
+        connection.settimeout(1)
+        assert connection.recv(1) == b""
+    finally:
+        if process.stdin and not process.stdin.closed:
+            process.stdin.close()
+        process.wait(timeout=2)
+        connection.close()
+        server.close()
