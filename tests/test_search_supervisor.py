@@ -377,3 +377,24 @@ def test_existing_observer_recovers_job_after_other_dashboard_dies(tmp_path):
         owner.wait(timeout=6)
         connection.close()
         server.close()
+
+
+def test_new_explicit_start_recovers_old_owner_before_recording_new_job(tmp_path):
+    from hackertube_core.search_jobs import SearchSupervisor
+
+    home = tmp_path / "home"
+    store = store_at(home / "plugin-data/hackertube")
+    manager = SearchSupervisor(store, home=home,
+        command=[sys.executable, str(FIXTURE), "crash", "0"])
+    old_id = store.record_job(dict(
+        kind="search", state="running", question="old request", provider="hermes",
+        limits=Limits().as_dict(), requests_used=1, result_count=0,
+        cost_usd=None, cost_known=False, coverage=[],
+        created_at="2026-11-08T18:00:00Z", ended_at=None,
+    ), unique=True)
+    job = manager.start("new request", provider="hermes", limits=Limits(), disclosure_accepted=True)
+    try:
+        assert store.job(old_id)["state"] == "interrupted"
+        assert store.job_count() == 2
+    finally:
+        manager.wait(job["job_id"], 3)

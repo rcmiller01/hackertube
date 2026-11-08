@@ -101,3 +101,27 @@ def test_real_synchronous_api_cannot_bypass_the_supervised_deadline(setup, monke
     connection.settimeout(1)
     assert connection.recv(1) == b""
     connection.close()
+
+
+def test_search_info_recovers_after_cached_supervisor_loses_other_owner(setup, monkeypatch):
+    from types import SimpleNamespace
+
+    dashboard, manager, server, store = setup
+    original = dashboard.module._search_binding
+
+    def binding():
+        catalog, saved, _ = original()
+        return catalog, saved, SimpleNamespace(name="hermes", available=lambda: True)
+
+    monkeypatch.setattr(dashboard.module, "_search_binding", binding)
+    job_id = store.record_job(dict(
+        kind="search", state="running", question="AI", provider="hermes",
+        limits=Limits().as_dict(), requests_used=1, result_count=0,
+        cost_usd=None, cost_known=False, coverage=[],
+        created_at="2026-11-08T18:00:00Z", ended_at=None,
+    ), unique=True)
+    result = dashboard.get("/search").json()
+    assert result["job"]["job_id"] == job_id
+    assert result["job"]["state"] == "interrupted"
+    assert result["job"]["requests_used"] == 1
+    assert store.job_count() == 1
