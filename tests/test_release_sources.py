@@ -92,3 +92,11 @@ def test_release_ignore_blocks_local_credentials_but_keeps_safe_examples(tmp_pat
     for value in private + public:
         found = subprocess.run(["git", "-c", "core.excludesFile=/dev/null", "-C", str(tmp_path), "check-ignore", "--no-index", value], capture_output=True).returncode == 0
         assert found == (value in private), value
+
+
+def test_source_controls_identify_both_apple_stores(tmp_path):
+    from hackertube_core.sources import source_snapshot
+    store = ProfileStore(connect_at(tmp_path))
+    apple = next(x for x in source_snapshot(store)["sources"] if x["source_id"] == "itunes")
+    assert "Apple Books" in apple["name"]
+    assert "Apple Podcasts" in apple["name"]
