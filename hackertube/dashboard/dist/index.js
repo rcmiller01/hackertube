@@ -54,7 +54,7 @@
   var SEARCH_COST_UNKNOWN = "Cost: unknown. The provider reported no cost information.";
   var SEARCH_COST_KNOWN_PREFIX = "Cost: $";
   var SEARCH_LIMIT_NOTE = "Work limits for this job:";
-  var SEARCH_BUDGET_NOTE = "In-flight Hermes calls may finish after this budget; cancellation is not implemented.";
+  var SEARCH_BUDGET_NOTE = "Search stops local work at its deadline. Cancel search stops it early. A provider may still bill for a request already accepted.";
   var SEARCH_STATES = { queued: "queued", running: "running", succeeded: "succeeded", partial: "partial", failed: "failed" };
   var ORDER_NOTE = "Seeded catalog, in capture order.";
   var DISCOVERY_SCHEMA = "hackertube.discovery/1";
@@ -773,7 +773,40 @@
       var setModelMessage = modelMessageState[1];
 
       var searchEpoch = useRef(0);
+      var activeSearch = useRef(null);
+      var pollTimer = useRef(null);
+      var cancelState = useState(false);
+      var cancelBusy = cancelState[0];
+      var setCancelBusy = cancelState[1];
       var searchBusy = searchStatus === "running";
+
+      useEffect(function () {
+        return function () {
+          searchEpoch.current += 1;
+          if (pollTimer.current) clearTimeout(pollTimer.current);
+        };
+      }, []);
+
+      useEffect(function () {
+        if (!SDK.fetchJSON || !statusInfo || statusInfo.provider !== "hermes") return;
+        var gone = false;
+        SDK.fetchJSON("/api/plugins/hackertube/search").then(function (body) {
+          if (gone || searchEpoch.current !== 0 || !body || !body.job) return;
+          var job = body.job;
+          if (["running", "queued", "cancelling"].indexOf(job.state) !== -1) {
+            var session = { epoch: ++searchEpoch.current, id: job.job_id, finished: false, cancelRequested: false, cancelSent: false };
+            activeSearch.current = session;
+            setSubmitted(job.question || "");
+            setSearchOpen(true);
+            setSearchStatus("running");
+            receiveSearch(body, session);
+          } else if (job.state === "interrupted") {
+            setSubmitted(job.question || "");
+            setSearchError("The previous search was interrupted. It will not resume automatically. Start a new Search to try again.");
+          }
+        }).catch(function () {});
+        return function () { gone = true; };
+      }, [statusInfo && statusInfo.provider]);
 
       useEffect(function () {
         var cancelled = false;
@@ -1027,6 +1060,72 @@
         setAlertNonce(function (nonce) { return nonce + 1; });
       }
 
+      function pollSearch(session) {
+        if (session.finished || searchEpoch.current !== session.epoch) return;
+        if (pollTimer.current) clearTimeout(pollTimer.current);
+        pollTimer.current = setTimeout(function () {
+          if (session.finished || searchEpoch.current !== session.epoch) return;
+          SDK.fetchJSON("/api/plugins/hackertube/search/jobs/" + encodeURIComponent(session.id))
+            .then(function (body) { receiveSearch(body, session); })
+            .catch(function () {
+              if (searchEpoch.current !== session.epoch || session.finished) return;
+              if (Date.now() > session.until) {
+                session.finished = true;
+                setSearchStatus("error");
+                setSearchError("Search status is unavailable. Local work still stops at its deadline. Reopen Search to check it.");
+                return;
+              }
+              pollSearch(session);
+            });
+        }, 250);
+      }
+
+      function receiveSearch(body, session) {
+        if (searchEpoch.current !== session.epoch || session.finished) return;
+        var job = body && body.job;
+        if (job && ["queued", "running", "cancelling"].indexOf(job.state) !== -1) {
+          session.id = job.job_id;
+          if (!session.until) session.until = Date.now() + (((job.limits || {}).deadline_seconds || 45) * 1000) + 2000;
+          if (job.question) setSubmitted(job.question);
+          if (session.cancelRequested && !session.cancelSent) sendCancel(session);
+          else pollSearch(session);
+          return;
+        }
+        session.finished = true;
+        if (pollTimer.current) clearTimeout(pollTimer.current);
+        setCancelBusy(false);
+        if (!body || body.error) {
+          setSearchStatus("error");
+          setSearchError(searchRefusalMessage(body));
+          return;
+        }
+        if (body.catalog) setCatalog(body.catalog);
+        setSearchResult(body);
+        setSearchStatus("done");
+      }
+
+      function sendCancel(session) {
+        if (!session.id || session.finished || session.cancelSent) return;
+        session.cancelSent = true;
+        SDK.fetchJSON("/api/plugins/hackertube/search/jobs/" + encodeURIComponent(session.id) + "/cancel", {
+          method: "POST", headers: { "Content-Type": "application/json" }, body: "{}",
+        }).then(function (body) { receiveSearch(body, session); }).catch(function () {
+          if (session.finished || searchEpoch.current !== session.epoch) return;
+          session.cancelRequested = session.cancelSent = false;
+          setCancelBusy(false);
+          setSearchError("Cancellation could not be confirmed. Try Cancel again; the deadline remains enforced.");
+          pollSearch(session);
+        });
+      }
+
+      function cancelSearch() {
+        var session = activeSearch.current;
+        if (!session || session.finished) return;
+        session.cancelRequested = true;
+        setCancelBusy(true);
+        sendCancel(session);
+      }
+
       function onSubmit(event) {
         event.preventDefault();
         if (searchBusy) return;
@@ -1060,26 +1159,29 @@
         // results.
         var epoch = searchEpoch.current + 1;
         searchEpoch.current = epoch;
+        var session = { epoch: epoch, id: null, finished: false, cancelRequested: false, cancelSent: false };
+        activeSearch.current = session;
+        setCancelBusy(false);
         SDK.fetchJSON("/api/plugins/hackertube/search", {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({ question: value, disclosure_accepted: true }),
+          body: JSON.stringify({ question: value, disclosure_accepted: true, background: true }),
         }).then(function (body) {
-          if (searchEpoch.current !== epoch) return;
-          if (!body || body.error) {
-            setSearchStatus("error");
-            setSearchError(searchRefusalMessage(body));
-            return;
-          }
-          if (body.catalog) {
-            setCatalog(body.catalog);
-          }
-          setSearchResult(body);
-          setSearchStatus("done");
+          receiveSearch(body, session);
         }).catch(function (error) {
-          if (searchEpoch.current !== epoch) return;
-          setSearchStatus("error");
-          setSearchError(searchRefusalMessage(null, error));
+          if (searchEpoch.current !== epoch || session.finished) return;
+          function unavailable() {
+            if (searchEpoch.current !== epoch || session.finished) return;
+            session.finished = true;
+            setSearchStatus("error");
+            setSearchError(searchRefusalMessage(null, error));
+          }
+          // A failed HTTP acknowledgement does not prove the accepted worker
+          // never started. Observe existing work; never resend a paid start.
+          SDK.fetchJSON("/api/plugins/hackertube/search").then(function (info) {
+            if (info && info.job && ["queued", "running", "cancelling"].indexOf(info.job.state) !== -1) receiveSearch(info, session);
+            else unavailable();
+          }).catch(unavailable);
         });
       }
 
@@ -1635,7 +1737,7 @@
                   " " + DISCLOSURE_ACK
                 ),
                 showProviderNote
-                  ? h("p", { id: "hackertube-budget-note", className: "ht-note" }, "Search uses a work budget. " + SEARCH_BUDGET_NOTE)
+                  ? h("p", { id: "hackertube-budget-note", className: "ht-note" }, SEARCH_BUDGET_NOTE)
                   : null,
                 showProviderNote
                   ? h("p", { id: "hackertube-provider-note", className: "ht-note", role: "status" }, SEARCH_PROVIDER_NOTE)
@@ -1665,6 +1767,8 @@
                 h("h2", { tabIndex: -1, ref: resultsRef }, "Search results"),
                 h("p", { className: "ht-question" }, "Question: " + submitted),
                 searchBusy ? h("p", { role: "status" }, "Search running.") : null,
+                searchBusy ? h(Button, { type: "button", className: "ht-action", onClick: cancelSearch, disabled: cancelBusy },
+                  cancelBusy ? "Stopping search" : "Cancel search") : null,
                 searchError ? h("p", { className: "ht-alert", role: "alert" }, searchError) : null,
                 searchResult ? renderJob(searchResult) : null,
                 h(Button, {

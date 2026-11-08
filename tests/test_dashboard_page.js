@@ -2272,7 +2272,7 @@ test("Cancel search keeps the busy guard until the server confirms termination",
 
 test("a lost start acknowledgement attaches to existing work without another paid start", () => {
   const deferred = { pending: [] };
-  const responses = { "/api/plugins/hackertube/search": { value: { job: { job_id: "job:existing", state: "running", question: "Earlier AI question", limits: { deadline_seconds: 5 } } } } };
+  const responses = { "/api/plugins/hackertube/search": { job: { job_id: "job:existing", state: "running", question: "Earlier AI question", limits: { deadline_seconds: 5 } } } };
   const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, deferred, responses);
   try {
     submitSearch(ui, "New AI question");

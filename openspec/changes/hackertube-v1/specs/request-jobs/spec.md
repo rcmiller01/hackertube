@@ -24,11 +24,11 @@ Only explicit focused searches or refreshes SHALL trigger paid model or search a
 - **THEN** it launches no recurring paid job or implicit paid refresh
 
 ### Requirement: Bounded visible execution
-Each search or refresh SHALL expose progress and terminal status, enforce finite deadlines and request/result limits, and report actual usage when available. Unknown cost SHALL NOT be displayed as zero. The demo SHALL pass the remaining work budget to provider operations and disclose before submission and while waiting that an in-flight host call may outlast that budget; it SHALL NOT advertise unimplemented cancellation.
+Each search or refresh SHALL expose progress, terminal status, finite deadlines and request/result limits, and actual usage when available. Supervised Search SHALL stop its local worker group at the deadline, including blocked model, source and DNS work. Remote processing or billing already accepted by a provider may continue and SHALL be disclosed. Unknown cost SHALL NOT be displayed as zero.
 
 #### Scenario: JOB03 Work budget exhausted
 - **WHEN** an operation reaches its deadline or request limit
-- **THEN** it stops new work, labels incomplete coverage, and reports available partial results and usage
+- **THEN** supervised Search terminates and reaps its local worker group, records timed_out, rejects late results, and reports incomplete coverage and observed usage without promoting unranked candidates
 
 #### Scenario: JOB04 Provider omits cost
 - **WHEN** a provider returns no reliable cost information
@@ -39,11 +39,11 @@ Cancelling a job SHALL prevent further dispatch and expose the disposition of in
 
 #### Scenario: JOB05 Cancel running search
 - **WHEN** the user cancels a running job
-- **THEN** no new requests are sent, in-flight status is disclosed, and saved items remain intact
+- **THEN** its profile-scoped job handle stops and reaps the local worker group before cancellation is confirmed, no late result is accepted, remote billing uncertainty is disclosed, and saved items remain intact
 
 #### Scenario: JOB06 Restart interrupted job
 - **WHEN** Hermes restarts during an unfinished paid job
-- **THEN** the job is marked interrupted and paid work requires a new explicit action
+- **THEN** the orphan worker group stops, the persisted job is marked interrupted on status recovery, and paid work requires a new explicit action
 
 ### Requirement: Preserve successful cached results
 Source or model failures SHALL report affected services and retain the last successful feed and library. Partial results SHALL identify missing coverage and retrieval age. Malformed or unsubmitted ranking entries, and validated duplicates with conflicting fit labels, SHALL be rejected while retaining unambiguous matches, without an implicit paid retry.

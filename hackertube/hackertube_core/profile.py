@@ -13,6 +13,7 @@ foreign keys. Those belong to the host helper.
 from __future__ import annotations
 
 import json
+import uuid
 import re
 from datetime import datetime, timezone
 
@@ -24,12 +25,12 @@ SCHEMA = "hackertube.profile/1"
 DB_NAME = "profile.db"
 _SOURCE_ID = re.compile(r"^[a-z0-9_]{1,40}$")
 
-#: The job outcomes the design records. The demo search only reaches
-#: ``succeeded``, ``partial``, and ``failed``; cancellation and restart
-#: remain task 6.2.
+#: Persistent states for inline offline work and supervised searches.
 JOB_STATES = (
     "queued",
     "running",
+    "cancelling",
+    "timed_out",
     "succeeded",
     "partial",
     "failed",
@@ -146,6 +147,7 @@ class ProfileStore:
                 created_at TEXT NOT NULL,
                 ended_at TEXT
             );
+            CREATE TABLE IF NOT EXISTS search_result (job_id TEXT PRIMARY KEY, document TEXT NOT NULL);
             """
         )
         conn.execute(
@@ -270,7 +272,7 @@ class ProfileStore:
         finally:
             conn.close()
 
-    def record_job(self, job):
+    def record_job(self, job, *, unique=False):
         """Append one bounded job and return the id the store assigned.
 
         A job is a search or a refresh this profile ran. It is written
@@ -278,7 +280,7 @@ class ProfileStore:
         opens a database of its own.
         """
         fields = _job_fields(job)
-        return self._write_result(lambda conn: self._insert_job(conn, fields))
+        return self._write_result(lambda conn: self._insert_job(conn, fields, unique=unique))
 
     def latest_job(self):
         """The most recent job row, or ``None``. Reads the profile store only."""
@@ -290,6 +292,49 @@ class ProfileStore:
         finally:
             conn.close()
         return _job_dict(row) if row is not None else None
+
+    def job(self, job_id):
+        conn = self._connect()
+        try:
+            row = conn.execute("SELECT * FROM search_job WHERE job_id=?", (job_id,)).fetchone()
+            return _job_dict(row) if row else None
+        finally:
+            conn.close()
+
+    def job_result(self, job_id):
+        conn = self._connect()
+        try:
+            row = conn.execute("SELECT document FROM search_result WHERE job_id=?", (job_id,)).fetchone()
+            return json.loads(row[0]) if row else None
+        finally:
+            conn.close()
+
+    def update_job(self, job_id, job, result=None):
+        fields = _job_fields(job)
+        allowed = ("queued", "running", "cancelling") if fields["state"] in {"cancelled", "interrupted"} else ("queued", "running")
+        def update(conn):
+            row = conn.execute("SELECT state FROM search_job WHERE job_id=?", (job_id,)).fetchone()
+            if not row or row[0] not in allowed:
+                return False
+            values = dict(fields)
+            values["limits"] = json.dumps(values["limits"])
+            values["coverage"] = json.dumps(values["coverage"])
+            conn.execute("UPDATE search_job SET " + ",".join(k + "=?" for k in values) + " WHERE job_id=?", (*values.values(), job_id))
+            if result is not None:
+                conn.execute("INSERT INTO search_result VALUES (?,?) ON CONFLICT(job_id) DO UPDATE SET document=excluded.document", (job_id, json.dumps(result)))
+            return True
+        return self._write_result(update)
+
+    def cancel_job(self, job_id):
+        def cancel(conn):
+            conn.execute("UPDATE search_job SET state='cancelling' WHERE job_id=? AND state IN ('queued','running')", (job_id,))
+        self._write_result(cancel)
+        return self.job(job_id)
+
+    def recover_jobs(self):
+        def recover(conn):
+            conn.execute("UPDATE search_job SET state='interrupted', ended_at=?, cost_usd=NULL, cost_known=0, coverage=? WHERE state IN ('queued','running','cancelling')", (utc_now(), json.dumps(["Search was interrupted. It will not resume automatically."])))
+        self._write_result(recover)
 
     def job_count(self):
         conn = self._connect()
@@ -313,11 +358,11 @@ class ProfileStore:
         finally:
             conn.close()
 
-    def _insert_job(self, conn, fields):
+    def _insert_job(self, conn, fields, *, unique=False):
         sequence = conn.execute(
             "SELECT COALESCE(MAX(sequence), 0) + 1 FROM search_job"
         ).fetchone()[0]
-        job_id = f"job:{sequence}"
+        job_id = f"job:{sequence}" + (":" + uuid.uuid4().hex if unique else "")
         conn.execute(
             "INSERT INTO search_job(job_id, sequence, kind, state, question, provider, "
             "limits, requests_used, result_count, cost_usd, cost_known, coverage, "

@@ -260,8 +260,11 @@ def test_plugin_unload_stops_its_active_worker(tmp_path, monkeypatch):
     connection.close()
     server.close()
 
+
 @pytest.mark.parametrize("mode", ["dns", "source-read"])
-def test_deadline_stops_real_source_boundary_even_when_dns_or_read_blocks(tmp_path, mode):
+def test_deadline_stops_real_source_boundary_even_when_dns_or_read_blocks(
+    tmp_path, mode
+):
     manager, store, server, job = setup_job(tmp_path, mode=mode)
     connection, _ = server.accept()
     connection.settimeout(2)
@@ -274,13 +277,19 @@ def test_deadline_stops_real_source_boundary_even_when_dns_or_read_blocks(tmp_pa
         connection.close()
         server.close()
 
-def test_watchdog_can_stop_cancelled_work_if_parent_signal_is_denied(tmp_path, monkeypatch):
+
+def test_watchdog_can_stop_cancelled_work_if_parent_signal_is_denied(
+    tmp_path, monkeypatch
+):
     import os
+
     manager, store, server, job = setup_job(tmp_path, seconds=10)
     connection, _ = server.accept()
     process = manager._jobs[job["job_id"]]["process"]
+
     def denied(*args):
         raise PermissionError("simulated signal permission race")
+
     monkeypatch.setattr(os, "killpg", denied)
     try:
         manager.cancel(job["job_id"])

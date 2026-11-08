@@ -4,6 +4,8 @@ HackerTube uses [OpenSpec](https://github.com/Fission-AI/OpenSpec) and its built
 
 ## Authority and current state
 
+The hard-Search follow-up in task group 10 supersedes the old in-flight budget limitation: current Search uses a supervised process group, deadline watchdog, persisted status and Cancel. See [execution contract](../docs/search-execution.md). Earlier demo receipts retain their pinned historical behavior.
+
 - `docs/PRD.md` records product intent and confirmed scope.
 - `openspec/changes/hackertube-v1/` contains proposed behavior, design, and tasks. Tasks 1.1, 1.2, 1.4, 2.1, 2.2, 2.3, 3.1, 3.2, 3.3, 3.7, 4.1, and 4.2 are checked. Tasks 1.3 and 2.4 are open because YouTube oEmbed is disabled. The dashboard reads the `hackertube_core` seed, keeps profile state beside it, and ranks interest matches with fixed weights. Each format section then lists the rest of that format as a labeled browse group. The explicit Search uses the user's existing Hermes provider/model, retrieves beyond the seed, and stores normalized records and a profile job. November 8 packaging and real-search tasks 7.1–7.3 are checked; keyed-source live checks in 7.4 remain open. See `docs/real-search.md`. The other implementation tasks are not.
 - `openspec/specs/` holds delivered behavior after a verified change is archived. It is empty because the host shell has not been archived as a delivered capability.

@@ -178,6 +178,10 @@ def test_no_module_schedules_recurring_work():
     for path in _package_files():
         tree = ast.parse(path.read_text(), filename=str(path))
         modules = _imported_modules(tree) & SCHEDULING_MODULES
+        # This controller creates a monitor only after an explicit accepted
+        # Search. Real-process tests verify no worker on reads/without consent.
+        if _relative(path) == "hackertube/hackertube_core/search_jobs.py":
+            modules -= {"threading"}
         calls = _attribute_names(tree) & SCHEDULING_CALLS
         if modules or calls:
             offenders[_relative(path)] = sorted(modules) + sorted(calls)

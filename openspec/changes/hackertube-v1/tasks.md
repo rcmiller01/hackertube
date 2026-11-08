@@ -73,3 +73,13 @@ Tasks 1.1, 1.2, 1.4, 2.1, 2.2, 2.3, 3.1, 3.2, 3.3, 3.7, 4.1, and 4.2 are complet
 - [x] 9.3 Rehearse and record the installed plugin with a configured provider, all four live categories, Save/Open, restart persistence, and Karpathy credit. Prepare listing, catalog PR, X text, and local form values. This does not close public clone, source terms, eligibility, or external publication gates in tasks 4.4/4.5/5.1/5.3.
 
 - [x] 9.4 Address the PR #18 exact-head review: show the Hermes work-budget limitation before submission and while pending, associate both search controls with it, and retain offline-stub behavior. Verify with two rendered regressions and one passing stub control. No cancellation or hard-timeout completion is implied. See docs/pr18-review.md and the review receipts.
+
+## 10. Hard Search deadlines and cancellation (requested after merging PRs 17/18)
+
+- [x] 10.1 Replace in-process live Search execution with a supervised process group and independent deadline/parent-death watchdog. Verify actual socket closure and descendant termination. Covers JOB03.
+- [x] 10.2 Persist running/terminal jobs, request counts and results; reject parallel searches and cross-profile handles; recover interrupted jobs without paid resume. Covers JOB04/06.
+- [x] 10.3 Add job status and Cancel routes, queue early cancellation in the dashboard, preserve busy/stale-response guards, and keep saved state intact. Covers JOB01/05 and UI01.
+- [x] 10.4 Use only documented Hermes CLI registration and native facades, preserve provider/source credentials, and stop owned work on unload. Verify native plugin admission and a real Hermes facade against a local stalled provider.
+- [ ] 10.5 Finish exact-head review, full-suite receipts and installed live checks before claiming the follow-up candidate ready.
+
+Task 6.2 remains partial: this follow-up delivers Search cancellation/deadline/restart behavior; SEARCH06 refinement and the wider refresh/partial-failure work are not claimed complete. The original submission/demo receipts remain historical.
