@@ -2141,3 +2141,22 @@ for (const kind of ["model", "sources"]) {
     } finally { ui.restore(); }
   });
 }
+
+test("search shows the retrieval subject separately and labels inferred relevance", () => {
+  const row = verifiedResult("b1", { why: ["Direct introduction."], relevance: "model_inferred" });
+  const outcome = searchResult(
+    { books: { verified: [row], verified_count: 1, insufficient_evidence: false } },
+    { interpretation: { topic: "AI for beginners without daily news", retrieval_query: "artificial intelligence", depth: "beginner" } },
+  );
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: outcome });
+  try {
+    submitSearch(ui, "AI introductions, no daily news");
+    const text = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.match(text, /Topic: artificial intelligence/);
+    assert.match(text, /Level: beginner/);
+    assert.match(text, /Model relevance: Direct introduction/);
+    assert.match(text, /Source: Open Library/);
+  } finally {
+    ui.restore();
+  }
+});
