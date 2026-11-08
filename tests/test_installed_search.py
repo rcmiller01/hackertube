@@ -82,7 +82,7 @@ def test_four_format_ranking_survives_the_observed_8000_token_exhaustion(monkeyp
     base = one_book()
     formats = ['video', 'podcast_show', 'book', 'audiobook']
     catalog = replace(base, items=tuple(
-        replace(base.items[0], item_id=f'candidate:{i}', format=formats[i % 4])
+        replace(base.items[0], item_id=f'candidate:{i}', identifiers=(f'candidate:{i}',), format=formats[i % 4])
         for i in range(57)))
     calls = []
 
@@ -104,7 +104,7 @@ def test_four_format_ranking_survives_the_observed_8000_token_exhaustion(monkeyp
                              llm=SimpleNamespace(complete_structured=complete_structured)))
     try:
         ranked, cost = HermesProvider().rank('AI introductions in all formats', catalog, 30)
-        assert set(ranked) == {'candidate:0', 'candidate:15', 'candidate:30', 'candidate:45'}
+        assert set(ranked) == {'candidate:0', 'candidate:1', 'candidate:2', 'candidate:3'}
         assert len(calls) == 1 and cost is None
         assert calls[0]['max_tokens'] <= 16000 and calls[0]['timeout'] == 30
     finally:
