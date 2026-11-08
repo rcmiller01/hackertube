@@ -2186,7 +2186,7 @@ test("Hermes search explains the work-budget limitation before dispatch", () => 
     assert.match(note, /cancellation is not implemented/);
     for (const node of [
       ui.find((node) => node.props && node.props.id === "hackertube-question"),
-      ui.find((node) => node.type === "button" && node.props.type === "submit"),
+      ui.find((node) => node.props && node.props.type === "submit" && (node.children || []).includes("Search")),
     ]) {
       assert.match(node.props["aria-describedby"], /hackertube-budget-note/);
     }
