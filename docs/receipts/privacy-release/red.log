@@ -1,0 +1,61 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+________ test_all_dashboard_features_require_current_privacy_agreement _________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-216/test_all_dashboard_features_re0')
+
+    def test_all_dashboard_features_require_current_privacy_agreement(tmp_path):
+        root = route_harness.install_host(tmp_path)
+        module, app = route_harness.load_api("privacy_gate")
+        client = route_harness.client(app)
+        for path in ("/catalog", "/feed", "/profile", "/sources", "/search", "/status", "/search/jobs/missing"):
+>           assert client.get(route_harness.API_ROOT + path).status_code == 403, path
+E           AssertionError: /catalog
+E           assert 200 == 403
+E            +  where 200 = <Response [200 OK]>.status_code
+E            +    where <Response [200 OK]> = get(('/api/plugins/hackertube' + '/catalog'))
+E            +      where get = <starlette.testclient.TestClient object at 0x1083463c0>.get
+E            +      and   '/api/plugins/hackertube' = route_harness.API_ROOT
+
+tests/test_privacy.py:15: AssertionError
+_________________ test_consent_is_versioned_and_profile_local __________________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-216/test_consent_is_versioned_and_0')
+
+    def test_consent_is_versioned_and_profile_local(tmp_path):
+>       from hackertube_core.privacy import VERSION
+E       ModuleNotFoundError: No module named 'hackertube_core.privacy'
+
+tests/test_privacy.py:30: ModuleNotFoundError
+________________ test_delete_clears_all_owned_state_and_consent ________________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-216/test_delete_clears_all_owned_s0')
+
+    def test_delete_clears_all_owned_state_and_consent(tmp_path):
+>       from hackertube_core.privacy import VERSION
+E       ModuleNotFoundError: No module named 'hackertube_core.privacy'
+
+tests/test_privacy.py:41: ModuleNotFoundError
+___ test_refresh_invalidation_removes_all_metadata_copies_but_preserves_save ___
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-216/test_refresh_invalidation_remo0')
+
+    def test_refresh_invalidation_removes_all_metadata_copies_but_preserves_save(tmp_path):
+        store, connect, clock, result = stored_video(tmp_path)
+>       store.invalidate_youtube([result["results"][0]["item_id"]])
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'ProfileStore' object has no attribute 'invalidate_youtube'
+
+tests/test_privacy.py:53: AttributeError
+=============================== warnings summary ===============================
+tests/test_privacy.py::test_all_dashboard_features_require_current_privacy_agreement
+  /Users/robert/Developer/hackertube/.venv/lib/python3.14/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_privacy.py::test_all_dashboard_features_require_current_privacy_agreement
+FAILED tests/test_privacy.py::test_consent_is_versioned_and_profile_local - M...
+FAILED tests/test_privacy.py::test_delete_clears_all_owned_state_and_consent
+FAILED tests/test_privacy.py::test_refresh_invalidation_removes_all_metadata_copies_but_preserves_save
+4 failed, 1 warning in 0.16s
