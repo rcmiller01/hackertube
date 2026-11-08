@@ -24,7 +24,7 @@ def setup_job(tmp_path, *, mode="hang", seconds=0.6):
     server.listen(2)
     server.settimeout(3)
     supervisor = SearchSupervisor(
-        store, home=home, host_root=tmp_path,
+        store, home=home,
         command=[sys.executable, str(FIXTURE), mode, str(server.getsockname()[1])],
     )
     job = supervisor.start("AI books", provider="hermes", limits=Limits(deadline_seconds=seconds), disclosure_accepted=True)
@@ -87,7 +87,7 @@ def test_second_search_is_refused_while_first_owns_profile(tmp_path):
 
     supervisor, store, server, job = setup_job(tmp_path, seconds=10)
     connection, _ = server.accept()
-    other = SearchSupervisor(store, home=tmp_path / "home", host_root=tmp_path)
+    other = SearchSupervisor(store, home=tmp_path / "home")
     with pytest.raises(SearchBusy):
         other.start("different question", provider="hermes", limits=Limits(), disclosure_accepted=True)
     assert store.job_count() == 1
@@ -101,7 +101,7 @@ def test_no_worker_or_job_without_disclosure(tmp_path):
     from hackertube_core.search_jobs import SearchSupervisor
 
     store = store_at(tmp_path / "data")
-    supervisor = SearchSupervisor(store, home=tmp_path / "home", host_root=tmp_path)
+    supervisor = SearchSupervisor(store, home=tmp_path / "home")
     with pytest.raises(DisclosureRequired):
         supervisor.start("AI", provider="hermes", limits=Limits(), disclosure_accepted=False)
     assert store.job_count() == 0
@@ -123,7 +123,7 @@ def test_restart_recovers_running_job_without_starting_work(tmp_path):
     job_id = store.record_job(dict(kind="search", state="running", question="AI", provider="hermes",
         limits=Limits().as_dict(), requests_used=1, result_count=0, cost_usd=None, cost_known=False,
         coverage=[], created_at="2026-11-08T18:00:00Z", ended_at=None))
-    supervisor = SearchSupervisor(store, home=tmp_path / "home", host_root=tmp_path)
+    supervisor = SearchSupervisor(store, home=tmp_path / "home")
     result = supervisor.status(job_id)
     assert result["job"]["state"] == "interrupted"
     assert result["usage"]["cost_known"] is False
@@ -136,7 +136,7 @@ def test_terminal_response_is_persisted_and_does_not_restart(tmp_path):
     supervisor, store, server, job = setup_job(tmp_path, mode="success", seconds=3)
     result = wait_done(supervisor, job)
     assert result["job"]["state"] == "succeeded"
-    other = SearchSupervisor(store, home=tmp_path / "home", host_root=tmp_path)
+    other = SearchSupervisor(store, home=tmp_path / "home")
     assert other.status(job["job_id"]) == result
     assert store.job_count() == 1
     server.close()
@@ -173,7 +173,7 @@ def test_monitor_keeps_the_request_profile_context(tmp_path):
     token = active.set(roots[0])
     try:
         store = ProfileStore(connect)
-        manager = SearchSupervisor(store, home=tmp_path / "home-a", host_root=tmp_path,
+        manager = SearchSupervisor(store, home=tmp_path / "home-a",
             command=[sys.executable, str(FIXTURE), "crash", "0"])
         job = manager.start("AI", provider="hermes", limits=Limits(deadline_seconds=2), disclosure_accepted=True)
         assert manager.wait(job["job_id"], 3)
@@ -181,3 +181,19 @@ def test_monitor_keeps_the_request_profile_context(tmp_path):
     finally:
         active.reset(token)
     assert ProfileStore(connect).job_count() == 0
+
+def test_job_handle_from_another_profile_cannot_cancel_local_work(tmp_path):
+    a, store_a, server_a, job_a = setup_job(tmp_path / "a", seconds=10)
+    b, store_b, server_b, job_b = setup_job(tmp_path / "b", seconds=10)
+    peers = [server_a.accept()[0], server_b.accept()[0]]
+    try:
+        assert b.cancel(job_a["job_id"]) is None
+        assert b.status(job_b["job_id"])["job"]["state"] == "running"
+        assert job_a["job_id"] != job_b["job_id"]
+    finally:
+        a.cancel(job_a["job_id"])
+        b.cancel(job_b["job_id"])
+        for peer in peers:
+            peer.close()
+        server_a.close()
+        server_b.close()
