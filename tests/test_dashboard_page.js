@@ -2221,3 +2221,19 @@ test("the offline stub does not show a Hermes in-flight budget note", () => {
     ui.restore();
   }
 });
+
+test("closing the Search panel keeps the pending Hermes limitation visible", () => {
+  const deferred = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, { provider: "hermes" }, deferred);
+  try {
+    submitSearch(ui, "AI books for beginners");
+    ui.find((node) => (node.children || []).includes("Close search")).props.onClick();
+    assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-search-panel"), null);
+    assert.equal(deferred.pending.length, 1);
+    const results = ui.text((node) => node.props && node.props.id === "hackertube-results");
+    assert.match(results, /calls may finish after.*budget/);
+    assert.match(results, /cancellation is not implemented/);
+  } finally {
+    ui.restore();
+  }
+});
