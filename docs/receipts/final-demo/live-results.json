@@ -1,0 +1,1297 @@
+{
+  "schema": "hackertube.search/1",
+  "sources": [
+    {
+      "source_id": "hn",
+      "state": "succeeded",
+      "items": 0
+    },
+    {
+      "source_id": "itunes",
+      "state": "succeeded",
+      "items": 39
+    },
+    {
+      "source_id": "librivox",
+      "state": "succeeded",
+      "items": 0
+    },
+    {
+      "source_id": "openlibrary",
+      "state": "succeeded",
+      "items": 12
+    },
+    {
+      "source_id": "podcastindex",
+      "state": "unavailable",
+      "reason": "missing_api_key",
+      "items": 0
+    },
+    {
+      "source_id": "reddit",
+      "state": "unavailable",
+      "reason": "approval_absent",
+      "items": 0
+    },
+    {
+      "source_id": "youtube",
+      "state": "succeeded",
+      "items": 8
+    },
+    {
+      "source_id": "web",
+      "state": "succeeded",
+      "items": 0
+    }
+  ],
+  "model_route": {
+    "provider": "openrouter",
+    "model": "openai/gpt-5.4-mini"
+  },
+  "ranking": {
+    "input_candidates": 59,
+    "invalid_entries": 0,
+    "not_recommended": 3,
+    "conflicting_identities": 0
+  },
+  "job": {
+    "job_id": "job:27:2366196e2e824cee9d9adc899c721aaf",
+    "sequence": 27,
+    "kind": "search",
+    "state": "succeeded",
+    "question": "Find introductory artificial intelligence resources for a beginner. Include videos, educational podcasts, books, and audiobooks.",
+    "provider": "hermes",
+    "limits": {
+      "max_hits": 24,
+      "max_requests": 12,
+      "deadline_seconds": 45
+    },
+    "requests_used": 11,
+    "result_count": 16,
+    "cost_usd": null,
+    "cost_known": false,
+    "coverage": [
+      "podcastindex: missing_api_key",
+      "reddit: approval_absent"
+    ],
+    "created_at": "2026-11-08T22:24:38Z",
+    "ended_at": "2026-11-08T22:24:47Z"
+  },
+  "question": "Find introductory artificial intelligence resources for a beginner. Include videos, educational podcasts, books, and audiobooks.",
+  "provider": "hermes",
+  "interpretation": {
+    "question": "Find introductory artificial intelligence resources for a beginner. Include videos, educational podcasts, books, and audiobooks.",
+    "topic": "Introductory artificial intelligence resources for a beginner; include videos, educational podcasts, books, and audiobooks.",
+    "terms": [
+      "artificial intelligence",
+      "AI",
+      "machine learning"
+    ],
+    "formats": [
+      "video",
+      "podcast_show",
+      "podcast_episode",
+      "book",
+      "audiobook"
+    ],
+    "depth": "beginner",
+    "max_duration_seconds": null,
+    "author": null,
+    "retrieval_query": "artificial intelligence"
+  },
+  "coverage": {
+    "verified": 16,
+    "formats_requested": [
+      "video",
+      "podcast_show",
+      "podcast_episode",
+      "book",
+      "audiobook"
+    ],
+    "formats_without_match": [],
+    "candidates": 38,
+    "unverified_candidates": 0,
+    "excluded_dismissed": 0,
+    "excluded_over_duration": 0,
+    "notes": [
+      "podcastindex: missing_api_key",
+      "reddit: approval_absent"
+    ],
+    "limit_reached": false
+  },
+  "sections": {
+    "videos": {
+      "label": "videos",
+      "verified": [
+        {
+          "item_id": "youtube:m8o2GrbR3d8",
+          "title": "SIMPLEST Explanation of How Artificial Intelligence Works? No Jargon | What is AI? How AI works?",
+          "format": "video",
+          "destination": "https://www.youtube.com/watch?v=m8o2GrbR3d8",
+          "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+          "contributors": [
+            "Science Simplified 4 All"
+          ],
+          "duration_seconds": 1579,
+          "source": {
+            "source_id": "youtube",
+            "source_name": "YouTube",
+            "kind": "catalog",
+            "endorsement": "not_applicable",
+            "label": "YouTube",
+            "community_endorsement": false,
+            "retrieved_at": "2026-11-08T22:24:39Z"
+          },
+          "constraint": "none",
+          "constraint_note": null,
+          "strict": true,
+          "state": {
+            "saved": false,
+            "dismissed": false,
+            "completed": false,
+            "opens": 0,
+            "label": null
+          },
+          "why": [
+            "Clear beginner-friendly explanation of how AI works."
+          ],
+          "verified": true,
+          "relevance": "model_inferred"
+        },
+        {
+          "item_id": "youtube:JcXKbUIebrU",
+          "title": "What Is AI? | Learn all about artificial intelligence",
+          "format": "video",
+          "destination": "https://www.youtube.com/watch?v=JcXKbUIebrU",
+          "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+          "contributors": [
+            "Learn Bright"
+          ],
+          "duration_seconds": 321,
+          "source": {
+            "source_id": "youtube",
+            "source_name": "YouTube",
+            "kind": "catalog",
+            "endorsement": "not_applicable",
+            "label": "YouTube",
+            "community_endorsement": false,
+            "retrieved_at": "2026-11-08T22:24:39Z"
+          },
+          "constraint": "none",
+          "constraint_note": null,
+          "strict": true,
+          "state": {
+            "saved": false,
+            "dismissed": false,
+            "completed": false,
+            "opens": 0,
+            "label": null
+          },
+          "why": [
+            "Short introductory video that explains what AI is."
+          ],
+          "verified": true,
+          "relevance": "model_inferred"
+        },
+        {
+          "item_id": "youtube:ad79nYk2keg",
+          "title": "What Is AI? | Artificial Intelligence | What is Artificial Intelligence? | AI In 5 Mins |Simplilearn",
+          "format": "video",
+          "destination": "https://www.youtube.com/watch?v=ad79nYk2keg",
+          "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+          "contributors": [
+            "Simplilearn"
+          ],
+          "duration_seconds": 328,
+          "source": {
+            "source_id": "youtube",
+            "source_name": "YouTube",
+            "kind": "catalog",
+            "endorsement": "not_applicable",
+            "label": "YouTube",
+            "community_endorsement": false,
+            "retrieved_at": "2026-11-08T22:24:39Z"
+          },
+          "constraint": "none",
+          "constraint_note": null,
+          "strict": true,
+          "state": {
+            "saved": true,
+            "dismissed": false,
+            "completed": false,
+            "opens": 0,
+            "label": "Saved"
+          },
+          "why": [
+            "Concise overview of artificial intelligence for newcomers."
+          ],
+          "verified": true,
+          "relevance": "model_inferred"
+        },
+        {
+          "item_id": "youtube:mUw27wG7uFA",
+          "title": "AI Simplified: 6 Concepts You Need to Know About Modern AI",
+          "format": "video",
+          "destination": "https://www.youtube.com/watch?v=mUw27wG7uFA",
+          "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+          "contributors": [
+            "IBM Technology"
+          ],
+          "duration_seconds": 529,
+          "source": {
+            "source_id": "youtube",
+            "source_name": "YouTube",
+            "kind": "catalog",
+            "endorsement": "not_applicable",
+            "label": "YouTube",
+            "community_endorsement": false,
+            "retrieved_at": "2026-11-08T22:24:39Z"
+          },
+          "constraint": "none",
+          "constraint_note": null,
+          "strict": true,
+          "state": {
+            "saved": false,
+            "dismissed": false,
+            "completed": false,
+            "opens": 0,
+            "label": null
+          },
+          "why": [
+            "Explains core modern AI concepts in simple terms."
+          ],
+          "verified": true,
+          "relevance": "model_inferred"
+        }
+      ],
+      "verified_count": 4,
+      "insufficient_evidence": false,
+      "note": null
+    },
+    "podcasts": {
+      "label": "podcasts",
+      "verified": [
+        {
+          "item_id": "itunes:podcast:1595568010",
+          "title": "Artificial Intelligence 101",
+          "format": "podcast_show",
+          "destination": "https://podcasts.apple.com/us/podcast/artificial-intelligence-101/id1595568010?uo=4",
+          "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+          "contributors": [
+            "Luca Marchesotti"
+          ],
+          "duration_seconds": null,
+          "source": {
+            "source_id": "itunes",
+            "source_name": "Apple Podcasts",
+            "kind": "catalog",
+            "endorsement": "not_applicable",
+            "label": "Apple Podcasts",
+            "community_endorsement": false,
+            "retrieved_at": "2026-11-08T22:24:39Z"
+          },
+          "constraint": "none",
+          "constraint_note": null,
+          "strict": true,
+          "state": {
+            "saved": true,
+            "dismissed": false,
+            "completed": false,
+            "opens": 1,
+            "label": "Saved"
+          },
+          "why": [
+            "Podcast explicitly framed as AI 101 for beginners."
+          ],
+          "verified": true,
+          "relevance": "model_inferred"
+        },
+        {
+          "item_id": "itunes:podcast:1553736450",
+          "title": "AI LITERACY - A Podcast about Artificial Intelligence",
+          "format": "podcast_show",
+          "destination": "https://podcasts.apple.com/us/podcast/ai-literacy-a-podcast-about-artificial-intelligence/id1553736450?uo=4",
+          "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+          "contributors": [
+            "AI LITERACY"
+          ],
+          "duration_seconds": null,
+          "source": {
+            "source_id": "itunes",
+            "source_name": "Apple Podcasts",
+            "kind": "catalog",
+            "endorsement": "not_applicable",
+            "label": "Apple Podcasts",
+            "community_endorsement": false,
+            "retrieved_at": "2026-11-08T22:24:39Z"
+          },
+          "constraint": "none",
+          "constraint_note": null,
+          "strict": true,
+          "state": {
+            "saved": true,
+            "dismissed": false,
+            "completed": false,
+            "opens": 1,
+            "label": "Saved"
+          },
+          "why": [
+            "Educational podcast focused on AI literacy and basics."
+          ],
+          "verified": true,
+          "relevance": "model_inferred"
+        },
+        {
+          "item_id": "itunes:podcast:1476316441",
+          "title": "Google DeepMind: The Podcast",
+          "format": "podcast_show",
+          "destination": "https://podcasts.apple.com/us/podcast/google-deepmind-the-podcast/id1476316441?uo=4",
+          "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+          "contributors": [
+            "Hannah Fry"
+          ],
+          "duration_seconds": null,
+          "source": {
+            "source_id": "itunes",
+            "source_name": "Apple Podcasts",
+            "kind": "catalog",
+            "endorsement": "not_applicable",
+            "label": "Apple Podcasts",
+            "community_endorsement": false,
+            "retrieved_at": "2026-11-08T22:24:39Z"
+          },
+          "constraint": "none",
+          "constraint_note": null,
+          "strict": true,
+          "state": {
+            "saved": false,
+            "dismissed": false,
+            "completed": false,
+            "opens": 0,
+            "label": null
+          },
+          "why": [
+            "Educational AI podcast with accessible expert discussion."
+          ],
+          "verified": true,
+          "relevance": "model_inferred"
+        },
+        {
+          "item_id": "itunes:podcast:1688212309",
+          "title": "The 80,000 Hours Podcast on Artificial Intelligence",
+          "format": "podcast_show",
+          "destination": "https://podcasts.apple.com/us/podcast/the-80-000-hours-podcast-on-artificial-intelligence/id1688212309?uo=4",
+          "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+          "contributors": [
+            "80,000 Hours"
+          ],
+          "duration_seconds": null,
+          "source": {
+            "source_id": "itunes",
+            "source_name": "Apple Podcasts",
+            "kind": "catalog",
+            "endorsement": "not_applicable",
+            "label": "Apple Podcasts",
+            "community_endorsement": false,
+            "retrieved_at": "2026-11-08T22:24:39Z"
+          },
+          "constraint": "none",
+          "constraint_note": null,
+          "strict": true,
+          "state": {
+            "saved": false,
+            "dismissed": false,
+            "completed": false,
+            "opens": 0,
+            "label": null
+          },
+          "why": [
+            "Introductory-oriented podcast on artificial intelligence topics."
+          ],
+          "verified": true,
+          "relevance": "model_inferred"
+        }
+      ],
+      "verified_count": 4,
+      "insufficient_evidence": false,
+      "note": null
+    },
+    "books": {
+      "label": "books",
+      "verified": [
+        {
+          "item_id": "ol:OL20666330W",
+          "title": "Artificial Intelligence",
+          "format": "book",
+          "destination": "https://openlibrary.org/works/OL20666330W",
+          "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+          "contributors": [
+            "Melanie Mitchell"
+          ],
+          "duration_seconds": null,
+          "source": {
+            "source_id": "openlibrary",
+            "source_name": "Open Library",
+            "kind": "catalog",
+            "endorsement": "not_applicable",
+            "label": "Open Library",
+            "community_endorsement": false,
+            "retrieved_at": "2026-11-08T22:24:39Z"
+          },
+          "constraint": "none",
+          "constraint_note": null,
+          "strict": true,
+          "state": {
+            "saved": false,
+            "dismissed": false,
+            "completed": false,
+            "opens": 0,
+            "label": null
+          },
+          "why": [
+            "Beginner-friendly book by Melanie Mitchell on AI."
+          ],
+          "verified": true,
+          "relevance": "model_inferred"
+        },
+        {
+          "item_id": "ol:OL2024373W",
+          "title": "Artificial intelligence",
+          "format": "book",
+          "destination": "https://openlibrary.org/works/OL2024373W",
+          "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+          "contributors": [
+            "Patrick Henry Winston"
+          ],
+          "duration_seconds": null,
+          "source": {
+            "source_id": "openlibrary",
+            "source_name": "Open Library",
+            "kind": "catalog",
+            "endorsement": "not_applicable",
+            "label": "Open Library",
+            "community_endorsement": false,
+            "retrieved_at": "2026-11-08T22:24:39Z"
+          },
+          "constraint": "none",
+          "constraint_note": null,
+          "strict": true,
+          "state": {
+            "saved": false,
+            "dismissed": false,
+            "completed": false,
+            "opens": 0,
+            "label": null
+          },
+          "why": [
+            "Classic introductory AI textbook with broad coverage."
+          ],
+          "verified": true,
+          "relevance": "model_inferred"
+        },
+        {
+          "item_id": "ol:OL4453349W",
+          "title": "Artificial intelligence",
+          "format": "book",
+          "destination": "https://openlibrary.org/works/OL4453349W",
+          "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+          "contributors": [
+            "Elaine A. Rich"
+          ],
+          "duration_seconds": null,
+          "source": {
+            "source_id": "openlibrary",
+            "source_name": "Open Library",
+            "kind": "catalog",
+            "endorsement": "not_applicable",
+            "label": "Open Library",
+            "community_endorsement": false,
+            "retrieved_at": "2026-11-08T22:24:39Z"
+          },
+          "constraint": "none",
+          "constraint_note": null,
+          "strict": true,
+          "state": {
+            "saved": false,
+            "dismissed": false,
+            "completed": false,
+            "opens": 0,
+            "label": null
+          },
+          "why": [
+            "Foundational AI book suitable for learners starting out."
+          ],
+          "verified": true,
+          "relevance": "model_inferred"
+        },
+        {
+          "item_id": "ol:OL15155081W",
+          "title": "Understanding Artificial Intelligence",
+          "format": "book",
+          "destination": "https://openlibrary.org/works/OL15155081W",
+          "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+          "contributors": [
+            "Henry C. Mishkoff"
+          ],
+          "duration_seconds": null,
+          "source": {
+            "source_id": "openlibrary",
+            "source_name": "Open Library",
+            "kind": "catalog",
+            "endorsement": "not_applicable",
+            "label": "Open Library",
+            "community_endorsement": false,
+            "retrieved_at": "2026-11-08T22:24:39Z"
+          },
+          "constraint": "none",
+          "constraint_note": null,
+          "strict": true,
+          "state": {
+            "saved": false,
+            "dismissed": false,
+            "completed": false,
+            "opens": 0,
+            "label": null
+          },
+          "why": [
+            "Introductory title that appears aimed at understanding AI basics."
+          ],
+          "verified": true,
+          "relevance": "model_inferred"
+        },
+        {
+          "item_id": "ol:OL2896994W",
+          "title": "Artificial intelligence",
+          "format": "book",
+          "destination": "https://openlibrary.org/works/OL2896994W",
+          "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+          "contributors": [
+            "Stuart J. Russell",
+            "Peter Norvig"
+          ],
+          "duration_seconds": null,
+          "source": {
+            "source_id": "openlibrary",
+            "source_name": "Open Library",
+            "kind": "catalog",
+            "endorsement": "not_applicable",
+            "label": "Open Library",
+            "community_endorsement": false,
+            "retrieved_at": "2026-11-08T22:24:39Z"
+          },
+          "constraint": "none",
+          "constraint_note": null,
+          "strict": true,
+          "state": {
+            "saved": false,
+            "dismissed": false,
+            "completed": false,
+            "opens": 0,
+            "label": null
+          },
+          "why": [
+            "Standard AI textbook that can serve as a deep beginner reference."
+          ],
+          "verified": true,
+          "relevance": "model_inferred"
+        }
+      ],
+      "verified_count": 5,
+      "insufficient_evidence": false,
+      "note": null
+    },
+    "audiobooks": {
+      "label": "audiobooks",
+      "verified": [
+        {
+          "item_id": "itunes:audiobook:1480129835",
+          "title": "Artificial Intelligence",
+          "format": "audiobook",
+          "destination": "https://books.apple.com/us/audiobook/artificial-intelligence/id1480129835?uo=4",
+          "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+          "contributors": [
+            "Melanie Mitchell"
+          ],
+          "duration_seconds": null,
+          "source": {
+            "source_id": "itunes",
+            "source_name": "Apple Books",
+            "kind": "catalog",
+            "endorsement": "not_applicable",
+            "label": "Apple Books",
+            "community_endorsement": false,
+            "retrieved_at": "2026-11-08T22:24:39Z"
+          },
+          "constraint": "none",
+          "constraint_note": null,
+          "strict": true,
+          "state": {
+            "saved": false,
+            "dismissed": false,
+            "completed": false,
+            "opens": 0,
+            "label": null
+          },
+          "why": [
+            "Audiobook edition of an AI overview suitable for beginners."
+          ],
+          "verified": true,
+          "relevance": "model_inferred"
+        },
+        {
+          "item_id": "itunes:audiobook:1648988957",
+          "title": "Artificial Intelligence For Dummies",
+          "format": "audiobook",
+          "destination": "https://books.apple.com/us/audiobook/artificial-intelligence-for-dummies/id1648988957?uo=4",
+          "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+          "contributors": [
+            "John Paul Mueller & Luca Massaron"
+          ],
+          "duration_seconds": null,
+          "source": {
+            "source_id": "itunes",
+            "source_name": "Apple Books",
+            "kind": "catalog",
+            "endorsement": "not_applicable",
+            "label": "Apple Books",
+            "community_endorsement": false,
+            "retrieved_at": "2026-11-08T22:24:39Z"
+          },
+          "constraint": "none",
+          "constraint_note": null,
+          "strict": true,
+          "state": {
+            "saved": true,
+            "dismissed": false,
+            "completed": false,
+            "opens": 3,
+            "label": "Saved"
+          },
+          "why": [
+            "Dummies-format audiobook designed for entry-level learning."
+          ],
+          "verified": true,
+          "relevance": "model_inferred"
+        },
+        {
+          "item_id": "itunes:audiobook:1818451000",
+          "title": "Artificial Intelligence All-in-One For Dummies",
+          "format": "audiobook",
+          "destination": "https://books.apple.com/us/audiobook/artificial-intelligence-all-in-one-for-dummies/id1818451000?uo=4",
+          "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+          "contributors": [
+            "Chris Minnick"
+          ],
+          "duration_seconds": null,
+          "source": {
+            "source_id": "itunes",
+            "source_name": "Apple Books",
+            "kind": "catalog",
+            "endorsement": "not_applicable",
+            "label": "Apple Books",
+            "community_endorsement": false,
+            "retrieved_at": "2026-11-08T22:24:39Z"
+          },
+          "constraint": "none",
+          "constraint_note": null,
+          "strict": true,
+          "state": {
+            "saved": false,
+            "dismissed": false,
+            "completed": false,
+            "opens": 0,
+            "label": null
+          },
+          "why": [
+            "All-in-one Dummies audiobook likely useful for a novice overview."
+          ],
+          "verified": true,
+          "relevance": "model_inferred"
+        }
+      ],
+      "verified_count": 3,
+      "insufficient_evidence": false,
+      "note": null
+    }
+  },
+  "results": [
+    {
+      "item_id": "youtube:m8o2GrbR3d8",
+      "title": "SIMPLEST Explanation of How Artificial Intelligence Works? No Jargon | What is AI? How AI works?",
+      "format": "video",
+      "destination": "https://www.youtube.com/watch?v=m8o2GrbR3d8",
+      "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+      "contributors": [
+        "Science Simplified 4 All"
+      ],
+      "duration_seconds": 1579,
+      "source": {
+        "source_id": "youtube",
+        "source_name": "YouTube",
+        "kind": "catalog",
+        "endorsement": "not_applicable",
+        "label": "YouTube",
+        "community_endorsement": false,
+        "retrieved_at": "2026-11-08T22:24:39Z"
+      },
+      "constraint": "none",
+      "constraint_note": null,
+      "strict": true,
+      "state": {
+        "saved": false,
+        "dismissed": false,
+        "completed": false,
+        "opens": 0,
+        "label": null
+      },
+      "why": [
+        "Clear beginner-friendly explanation of how AI works."
+      ],
+      "verified": true,
+      "relevance": "model_inferred"
+    },
+    {
+      "item_id": "itunes:podcast:1595568010",
+      "title": "Artificial Intelligence 101",
+      "format": "podcast_show",
+      "destination": "https://podcasts.apple.com/us/podcast/artificial-intelligence-101/id1595568010?uo=4",
+      "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+      "contributors": [
+        "Luca Marchesotti"
+      ],
+      "duration_seconds": null,
+      "source": {
+        "source_id": "itunes",
+        "source_name": "Apple Podcasts",
+        "kind": "catalog",
+        "endorsement": "not_applicable",
+        "label": "Apple Podcasts",
+        "community_endorsement": false,
+        "retrieved_at": "2026-11-08T22:24:39Z"
+      },
+      "constraint": "none",
+      "constraint_note": null,
+      "strict": true,
+      "state": {
+        "saved": true,
+        "dismissed": false,
+        "completed": false,
+        "opens": 1,
+        "label": "Saved"
+      },
+      "why": [
+        "Podcast explicitly framed as AI 101 for beginners."
+      ],
+      "verified": true,
+      "relevance": "model_inferred"
+    },
+    {
+      "item_id": "ol:OL20666330W",
+      "title": "Artificial Intelligence",
+      "format": "book",
+      "destination": "https://openlibrary.org/works/OL20666330W",
+      "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+      "contributors": [
+        "Melanie Mitchell"
+      ],
+      "duration_seconds": null,
+      "source": {
+        "source_id": "openlibrary",
+        "source_name": "Open Library",
+        "kind": "catalog",
+        "endorsement": "not_applicable",
+        "label": "Open Library",
+        "community_endorsement": false,
+        "retrieved_at": "2026-11-08T22:24:39Z"
+      },
+      "constraint": "none",
+      "constraint_note": null,
+      "strict": true,
+      "state": {
+        "saved": false,
+        "dismissed": false,
+        "completed": false,
+        "opens": 0,
+        "label": null
+      },
+      "why": [
+        "Beginner-friendly book by Melanie Mitchell on AI."
+      ],
+      "verified": true,
+      "relevance": "model_inferred"
+    },
+    {
+      "item_id": "itunes:audiobook:1480129835",
+      "title": "Artificial Intelligence",
+      "format": "audiobook",
+      "destination": "https://books.apple.com/us/audiobook/artificial-intelligence/id1480129835?uo=4",
+      "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+      "contributors": [
+        "Melanie Mitchell"
+      ],
+      "duration_seconds": null,
+      "source": {
+        "source_id": "itunes",
+        "source_name": "Apple Books",
+        "kind": "catalog",
+        "endorsement": "not_applicable",
+        "label": "Apple Books",
+        "community_endorsement": false,
+        "retrieved_at": "2026-11-08T22:24:39Z"
+      },
+      "constraint": "none",
+      "constraint_note": null,
+      "strict": true,
+      "state": {
+        "saved": false,
+        "dismissed": false,
+        "completed": false,
+        "opens": 0,
+        "label": null
+      },
+      "why": [
+        "Audiobook edition of an AI overview suitable for beginners."
+      ],
+      "verified": true,
+      "relevance": "model_inferred"
+    },
+    {
+      "item_id": "youtube:JcXKbUIebrU",
+      "title": "What Is AI? | Learn all about artificial intelligence",
+      "format": "video",
+      "destination": "https://www.youtube.com/watch?v=JcXKbUIebrU",
+      "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+      "contributors": [
+        "Learn Bright"
+      ],
+      "duration_seconds": 321,
+      "source": {
+        "source_id": "youtube",
+        "source_name": "YouTube",
+        "kind": "catalog",
+        "endorsement": "not_applicable",
+        "label": "YouTube",
+        "community_endorsement": false,
+        "retrieved_at": "2026-11-08T22:24:39Z"
+      },
+      "constraint": "none",
+      "constraint_note": null,
+      "strict": true,
+      "state": {
+        "saved": false,
+        "dismissed": false,
+        "completed": false,
+        "opens": 0,
+        "label": null
+      },
+      "why": [
+        "Short introductory video that explains what AI is."
+      ],
+      "verified": true,
+      "relevance": "model_inferred"
+    },
+    {
+      "item_id": "itunes:podcast:1553736450",
+      "title": "AI LITERACY - A Podcast about Artificial Intelligence",
+      "format": "podcast_show",
+      "destination": "https://podcasts.apple.com/us/podcast/ai-literacy-a-podcast-about-artificial-intelligence/id1553736450?uo=4",
+      "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+      "contributors": [
+        "AI LITERACY"
+      ],
+      "duration_seconds": null,
+      "source": {
+        "source_id": "itunes",
+        "source_name": "Apple Podcasts",
+        "kind": "catalog",
+        "endorsement": "not_applicable",
+        "label": "Apple Podcasts",
+        "community_endorsement": false,
+        "retrieved_at": "2026-11-08T22:24:39Z"
+      },
+      "constraint": "none",
+      "constraint_note": null,
+      "strict": true,
+      "state": {
+        "saved": true,
+        "dismissed": false,
+        "completed": false,
+        "opens": 1,
+        "label": "Saved"
+      },
+      "why": [
+        "Educational podcast focused on AI literacy and basics."
+      ],
+      "verified": true,
+      "relevance": "model_inferred"
+    },
+    {
+      "item_id": "ol:OL2024373W",
+      "title": "Artificial intelligence",
+      "format": "book",
+      "destination": "https://openlibrary.org/works/OL2024373W",
+      "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+      "contributors": [
+        "Patrick Henry Winston"
+      ],
+      "duration_seconds": null,
+      "source": {
+        "source_id": "openlibrary",
+        "source_name": "Open Library",
+        "kind": "catalog",
+        "endorsement": "not_applicable",
+        "label": "Open Library",
+        "community_endorsement": false,
+        "retrieved_at": "2026-11-08T22:24:39Z"
+      },
+      "constraint": "none",
+      "constraint_note": null,
+      "strict": true,
+      "state": {
+        "saved": false,
+        "dismissed": false,
+        "completed": false,
+        "opens": 0,
+        "label": null
+      },
+      "why": [
+        "Classic introductory AI textbook with broad coverage."
+      ],
+      "verified": true,
+      "relevance": "model_inferred"
+    },
+    {
+      "item_id": "itunes:audiobook:1648988957",
+      "title": "Artificial Intelligence For Dummies",
+      "format": "audiobook",
+      "destination": "https://books.apple.com/us/audiobook/artificial-intelligence-for-dummies/id1648988957?uo=4",
+      "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+      "contributors": [
+        "John Paul Mueller & Luca Massaron"
+      ],
+      "duration_seconds": null,
+      "source": {
+        "source_id": "itunes",
+        "source_name": "Apple Books",
+        "kind": "catalog",
+        "endorsement": "not_applicable",
+        "label": "Apple Books",
+        "community_endorsement": false,
+        "retrieved_at": "2026-11-08T22:24:39Z"
+      },
+      "constraint": "none",
+      "constraint_note": null,
+      "strict": true,
+      "state": {
+        "saved": true,
+        "dismissed": false,
+        "completed": false,
+        "opens": 3,
+        "label": "Saved"
+      },
+      "why": [
+        "Dummies-format audiobook designed for entry-level learning."
+      ],
+      "verified": true,
+      "relevance": "model_inferred"
+    },
+    {
+      "item_id": "youtube:ad79nYk2keg",
+      "title": "What Is AI? | Artificial Intelligence | What is Artificial Intelligence? | AI In 5 Mins |Simplilearn",
+      "format": "video",
+      "destination": "https://www.youtube.com/watch?v=ad79nYk2keg",
+      "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+      "contributors": [
+        "Simplilearn"
+      ],
+      "duration_seconds": 328,
+      "source": {
+        "source_id": "youtube",
+        "source_name": "YouTube",
+        "kind": "catalog",
+        "endorsement": "not_applicable",
+        "label": "YouTube",
+        "community_endorsement": false,
+        "retrieved_at": "2026-11-08T22:24:39Z"
+      },
+      "constraint": "none",
+      "constraint_note": null,
+      "strict": true,
+      "state": {
+        "saved": true,
+        "dismissed": false,
+        "completed": false,
+        "opens": 0,
+        "label": "Saved"
+      },
+      "why": [
+        "Concise overview of artificial intelligence for newcomers."
+      ],
+      "verified": true,
+      "relevance": "model_inferred"
+    },
+    {
+      "item_id": "itunes:podcast:1476316441",
+      "title": "Google DeepMind: The Podcast",
+      "format": "podcast_show",
+      "destination": "https://podcasts.apple.com/us/podcast/google-deepmind-the-podcast/id1476316441?uo=4",
+      "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+      "contributors": [
+        "Hannah Fry"
+      ],
+      "duration_seconds": null,
+      "source": {
+        "source_id": "itunes",
+        "source_name": "Apple Podcasts",
+        "kind": "catalog",
+        "endorsement": "not_applicable",
+        "label": "Apple Podcasts",
+        "community_endorsement": false,
+        "retrieved_at": "2026-11-08T22:24:39Z"
+      },
+      "constraint": "none",
+      "constraint_note": null,
+      "strict": true,
+      "state": {
+        "saved": false,
+        "dismissed": false,
+        "completed": false,
+        "opens": 0,
+        "label": null
+      },
+      "why": [
+        "Educational AI podcast with accessible expert discussion."
+      ],
+      "verified": true,
+      "relevance": "model_inferred"
+    },
+    {
+      "item_id": "ol:OL4453349W",
+      "title": "Artificial intelligence",
+      "format": "book",
+      "destination": "https://openlibrary.org/works/OL4453349W",
+      "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+      "contributors": [
+        "Elaine A. Rich"
+      ],
+      "duration_seconds": null,
+      "source": {
+        "source_id": "openlibrary",
+        "source_name": "Open Library",
+        "kind": "catalog",
+        "endorsement": "not_applicable",
+        "label": "Open Library",
+        "community_endorsement": false,
+        "retrieved_at": "2026-11-08T22:24:39Z"
+      },
+      "constraint": "none",
+      "constraint_note": null,
+      "strict": true,
+      "state": {
+        "saved": false,
+        "dismissed": false,
+        "completed": false,
+        "opens": 0,
+        "label": null
+      },
+      "why": [
+        "Foundational AI book suitable for learners starting out."
+      ],
+      "verified": true,
+      "relevance": "model_inferred"
+    },
+    {
+      "item_id": "itunes:audiobook:1818451000",
+      "title": "Artificial Intelligence All-in-One For Dummies",
+      "format": "audiobook",
+      "destination": "https://books.apple.com/us/audiobook/artificial-intelligence-all-in-one-for-dummies/id1818451000?uo=4",
+      "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+      "contributors": [
+        "Chris Minnick"
+      ],
+      "duration_seconds": null,
+      "source": {
+        "source_id": "itunes",
+        "source_name": "Apple Books",
+        "kind": "catalog",
+        "endorsement": "not_applicable",
+        "label": "Apple Books",
+        "community_endorsement": false,
+        "retrieved_at": "2026-11-08T22:24:39Z"
+      },
+      "constraint": "none",
+      "constraint_note": null,
+      "strict": true,
+      "state": {
+        "saved": false,
+        "dismissed": false,
+        "completed": false,
+        "opens": 0,
+        "label": null
+      },
+      "why": [
+        "All-in-one Dummies audiobook likely useful for a novice overview."
+      ],
+      "verified": true,
+      "relevance": "model_inferred"
+    },
+    {
+      "item_id": "youtube:mUw27wG7uFA",
+      "title": "AI Simplified: 6 Concepts You Need to Know About Modern AI",
+      "format": "video",
+      "destination": "https://www.youtube.com/watch?v=mUw27wG7uFA",
+      "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+      "contributors": [
+        "IBM Technology"
+      ],
+      "duration_seconds": 529,
+      "source": {
+        "source_id": "youtube",
+        "source_name": "YouTube",
+        "kind": "catalog",
+        "endorsement": "not_applicable",
+        "label": "YouTube",
+        "community_endorsement": false,
+        "retrieved_at": "2026-11-08T22:24:39Z"
+      },
+      "constraint": "none",
+      "constraint_note": null,
+      "strict": true,
+      "state": {
+        "saved": false,
+        "dismissed": false,
+        "completed": false,
+        "opens": 0,
+        "label": null
+      },
+      "why": [
+        "Explains core modern AI concepts in simple terms."
+      ],
+      "verified": true,
+      "relevance": "model_inferred"
+    },
+    {
+      "item_id": "itunes:podcast:1688212309",
+      "title": "The 80,000 Hours Podcast on Artificial Intelligence",
+      "format": "podcast_show",
+      "destination": "https://podcasts.apple.com/us/podcast/the-80-000-hours-podcast-on-artificial-intelligence/id1688212309?uo=4",
+      "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+      "contributors": [
+        "80,000 Hours"
+      ],
+      "duration_seconds": null,
+      "source": {
+        "source_id": "itunes",
+        "source_name": "Apple Podcasts",
+        "kind": "catalog",
+        "endorsement": "not_applicable",
+        "label": "Apple Podcasts",
+        "community_endorsement": false,
+        "retrieved_at": "2026-11-08T22:24:39Z"
+      },
+      "constraint": "none",
+      "constraint_note": null,
+      "strict": true,
+      "state": {
+        "saved": false,
+        "dismissed": false,
+        "completed": false,
+        "opens": 0,
+        "label": null
+      },
+      "why": [
+        "Introductory-oriented podcast on artificial intelligence topics."
+      ],
+      "verified": true,
+      "relevance": "model_inferred"
+    },
+    {
+      "item_id": "ol:OL15155081W",
+      "title": "Understanding Artificial Intelligence",
+      "format": "book",
+      "destination": "https://openlibrary.org/works/OL15155081W",
+      "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+      "contributors": [
+        "Henry C. Mishkoff"
+      ],
+      "duration_seconds": null,
+      "source": {
+        "source_id": "openlibrary",
+        "source_name": "Open Library",
+        "kind": "catalog",
+        "endorsement": "not_applicable",
+        "label": "Open Library",
+        "community_endorsement": false,
+        "retrieved_at": "2026-11-08T22:24:39Z"
+      },
+      "constraint": "none",
+      "constraint_note": null,
+      "strict": true,
+      "state": {
+        "saved": false,
+        "dismissed": false,
+        "completed": false,
+        "opens": 0,
+        "label": null
+      },
+      "why": [
+        "Introductory title that appears aimed at understanding AI basics."
+      ],
+      "verified": true,
+      "relevance": "model_inferred"
+    },
+    {
+      "item_id": "ol:OL2896994W",
+      "title": "Artificial intelligence",
+      "format": "book",
+      "destination": "https://openlibrary.org/works/OL2896994W",
+      "metadata_retrieved_at": "2026-11-08T22:24:39Z",
+      "contributors": [
+        "Stuart J. Russell",
+        "Peter Norvig"
+      ],
+      "duration_seconds": null,
+      "source": {
+        "source_id": "openlibrary",
+        "source_name": "Open Library",
+        "kind": "catalog",
+        "endorsement": "not_applicable",
+        "label": "Open Library",
+        "community_endorsement": false,
+        "retrieved_at": "2026-11-08T22:24:39Z"
+      },
+      "constraint": "none",
+      "constraint_note": null,
+      "strict": true,
+      "state": {
+        "saved": false,
+        "dismissed": false,
+        "completed": false,
+        "opens": 0,
+        "label": null
+      },
+      "why": [
+        "Standard AI textbook that can serve as a deep beginner reference."
+      ],
+      "verified": true,
+      "relevance": "model_inferred"
+    }
+  ],
+  "usage": {
+    "cost_usd": null,
+    "cost_known": false,
+    "requests_used": 11,
+    "request_counts": {
+      "free": 6,
+      "paid": 3,
+      "metered": 2
+    },
+    "paid_calls": 5
+  },
+  "request_counts": {
+    "free": 6,
+    "paid": 3,
+    "metered": 2
+  },
+  "disclosure": "Configured sources and the broader web may be searched. Model, search, and provider credits or quota may be used. Browsing is free."
+}
