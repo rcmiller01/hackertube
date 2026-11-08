@@ -1,0 +1,26 @@
+[
+  {
+    "stage": "interpret",
+    "finish_reasons": [
+      "stop"
+    ]
+  },
+  {
+    "stage": "interpret",
+    "parsed_type": "dict",
+    "final_text_length": 277,
+    "candidate_count": null
+  },
+  {
+    "stage": "rank",
+    "finish_reasons": [
+      "length"
+    ]
+  },
+  {
+    "stage": "rank",
+    "parsed_type": "NoneType",
+    "final_text_length": 0,
+    "candidate_count": 57
+  }
+]

@@ -1,0 +1,57 @@
+{
+  "jobs": [
+    {
+      "job_id": "job:9",
+      "state": "partial",
+      "requests_used": 11,
+      "result_count": 0,
+      "cost_known": 0,
+      "coverage": "[\"Some search services did not finish; coverage is incomplete.\", \"podcastindex: missing_api_key\", \"reddit: approval_absent\", \"ranking: Search ranking failed.\"]"
+    },
+    {
+      "job_id": "job:10",
+      "state": "partial",
+      "requests_used": 11,
+      "result_count": 0,
+      "cost_known": 0,
+      "coverage": "[\"Some search services did not finish; coverage is incomplete.\", \"podcastindex: missing_api_key\", \"reddit: approval_absent\", \"ranking: Search ranking failed.\"]"
+    },
+    {
+      "job_id": "job:11",
+      "state": "succeeded",
+      "requests_used": 11,
+      "result_count": 24,
+      "cost_known": 0,
+      "coverage": "[\"podcastindex: missing_api_key\", \"reddit: approval_absent\"]"
+    }
+  ],
+  "source_status": {
+    "source_id": "youtube",
+    "last_attempt_at": "2026-11-08T16:19:56Z",
+    "last_success_at": "2026-11-08T16:19:56Z",
+    "last_error": null
+  },
+  "source_setting": {
+    "source_id": "youtube",
+    "enabled": 1,
+    "updated_at": "2026-11-08T16:16:10Z"
+  },
+  "stored_youtube_items": 8,
+  "youtube_evidence_expiry": [
+    "2026-12-08T16:19:56Z",
+    "2026-12-08T16:19:56Z",
+    "2026-12-08T16:19:56Z",
+    "2026-12-08T16:19:56Z",
+    "2026-12-08T16:19:56Z",
+    "2026-12-08T16:19:56Z",
+    "2026-12-08T16:19:56Z",
+    "2026-12-08T16:19:56Z"
+  ],
+  "rendered_counts": {
+    "video": 5,
+    "podcasts": 6,
+    "book": 1,
+    "audiobook": 12
+  },
+  "credential_value_inspected_or_recorded_by_agent": false
+}

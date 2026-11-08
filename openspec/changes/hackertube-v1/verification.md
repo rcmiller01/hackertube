@@ -546,6 +546,16 @@ Installed runtime `1624f417cea084dbf0f44d85ba99c3d244158da9`, unchanged existing
 
 Disposition: SEARCH01 works for the three available non-video formats; qualifier robustness needs investigation, not a blanket pass. YouTube remains unavailable without `YOUTUBE_API_KEY`; the fourth format is not verified. The long-input boundary's terse `question` error and confusing Apple audiobook source labels are recorded for follow-up. No implementation or credential changes were made in this comparison; no new code test run was necessary. Automation wait timeouts did not establish a backend deadline violation; latency is unmeasured.
 
+## YouTube-enabled four-format check — November 8
+
+Task 7.4 is **partial**, not complete: the user supplied a YouTube key through Hermes Keys, and explicitly enabled source testing. The actual installed Data API search/metadata path passed; source status has a successful attempt and no error, with eight normalized YouTube records and eight expiry timestamps stored. Final query returned **5 videos / 6 podcasts / 1 book / 12 audiobooks**, job `succeeded`, **11/12 requests**, unknown cost. Remaining missing-source notices are Podcast Index credentials and Reddit approval.
+
+Two earlier attempts failed ranking. Stage-only diagnostics showed **57 candidates**, `finish_reason=length`, zero final text, and no parsed JSON under the previous 8,000-token completion cap. A corrected red regression was committed in `b71e99d` before raising ranking's bounded completion allowance to 16,000 and requesting a concise list of at most 24 useful matches. Interpretation remains 2,500 tokens, input remains at most 60 candidates, and job request/result/time limits are unchanged. Scope audit: one structured-completion call site and one ranking prompt; no provider switch, host changes, automatic retry, or recall-reducing candidate cut. No diagnostic instrumentation was present in the successful run.
+
+Scenarios: SEARCH01 and CAT01/03/08 pass for the exercised four-format path; JOB03/04 remain bounded with unknown cost reported honestly. Relevance is mixed: the single book is historical, several podcasts are news, and some videos are very short. This is not a broad relevance evaluation or a pass for every model. Task 7.4 stays unchecked for Podcast Index and remaining source obligations.
+
+Checks: **233 Python passed / 0 failed**, **71 JavaScript passed / 0 failed / 0 skipped**, plugin validation without warnings, lint and strict specification/traceability checks. Code is pinned by the commit containing this section and `docs/receipts/installed-live/youtube-runtime-manifest.json` (**34/34 installed runtime files match**). Full report, observed source state, failures, red/green logs, and screenshot: `docs/receipts/installed-live/ai-search-evaluation.md#youtube-enabled-follow-up`. The key was never inspected or copied by the agent.
+
 ## Release measurements
 
 All values are unmeasured. Freeze the post-demo evaluation workload, rubric, source snapshots, provider configuration, and request limits before collecting results. Use PRD section 9 for proposed targets and report adjustments explicitly. The demo video length is measured under task 4.3, not inferred from the six-step outline.
