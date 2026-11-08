@@ -14,9 +14,9 @@ def stored_video(tmp_path):
     connect = connect_at(tmp_path)
     store = ProfileStore(connect, clock=lambda: clock[0])
     video = item("youtube:LCEmiRjPEtQ", "video", "AI retention sentinel title",
-                 destination="https://www.youtube.com/watch?v=LCEmiRjPEtQ")
+                 destination="https://www.youtube.com/watch?v=LCEmiRjPEtQ", captured_at=clock[0])
     cat = build([video], [evidence("yt", video["item_id"], "youtube",
-        refresh_after="2026-12-01T00:00:00Z")], [source("youtube", "YouTube")])
+        retrieved_at=clock[0], refresh_after="2026-12-01T00:00:00Z")], [source("youtube", "YouTube")])
     store.remember_catalog(cat)
     result = run_search(store, "retention videos", catalog=cat, profile=store.snapshot(),
         now=clock[0], provider=StubProvider(), disclosure_accepted=True)
@@ -70,3 +70,12 @@ def test_apple_result_label_follows_the_actual_store(fmt, destination, label, su
     else:
         result = result_set(cat, profile(), interpret_question("introduction"), "2026-11-07T12:00:00Z")
         assert result["results"][0]["source"]["label"] == label
+
+
+def test_later_search_cannot_extend_age_of_copied_metadata(tmp_path):
+    store, connect, clock, result = stored_video(tmp_path)
+    with connect() as conn:
+        conn.execute("UPDATE search_job SET created_at=?,ended_at=?", ("2026-11-30T00:00:00Z", "2026-11-30T00:00:00Z"))
+    clock[0] = "2026-12-01T00:00:00Z"
+    response = store.job_result(result["job"]["job_id"])
+    assert response["results"] == [], "A new job timestamp must not renew old API metadata"
