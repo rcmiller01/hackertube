@@ -1,5 +1,7 @@
 # Hard Search deadline/cancellation receipts
 
+Subsequent review of exact head `d652e94` found two P2 issues in accounting/recovery. The original measurements below remain historical; [PR #19 corrections and current checks](../pr19-review/README.md) supersede its earlier no-finding disposition.
+
 Implementation pin: `3f649962d4f98091110c1efebb5a27c3c4fb5ab9`, based on merged main `cec15fee4419424b18412da8f77754660e0b94ed`. PRs #17 and #18 are merged; [merge provenance](merges.json) records their reviewed heads and merge commits. The previous 36.25-second demo and catalog pin describe the previous implementation and have not been relabeled as this build.
 
 The table is generated from [verification.json](verification.json).

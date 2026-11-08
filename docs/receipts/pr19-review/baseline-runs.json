@@ -1,0 +1,47 @@
+[
+  {
+    "run": 1,
+    "failed": 8,
+    "passed": 279,
+    "failed_tests": [
+      "tests/test_search_supervisor.py::test_stop_keeps_usage_persisted_before_missing_pipe_notification[deadline]",
+      "tests/test_search_supervisor.py::test_stop_keeps_usage_persisted_before_missing_pipe_notification[cancel]",
+      "tests/test_search_supervisor.py::test_delayed_usage_notification_cannot_regress_durable_progress",
+      "tests/test_search_supervisor.py::test_existing_observer_recovers_job_after_other_dashboard_dies",
+      "tests/test_search_supervisor.py::test_new_explicit_start_recovers_old_owner_before_recording_new_job",
+      "tests/test_supervised_routes.py::test_search_info_recovers_after_cached_supervisor_loses_other_owner[hermes-True]",
+      "tests/test_supervised_routes.py::test_search_info_recovers_after_cached_supervisor_loses_other_owner[hermes-False]",
+      "tests/test_supervised_routes.py::test_search_info_recovers_after_cached_supervisor_loses_other_owner[stub-True]"
+    ]
+  },
+  {
+    "run": 2,
+    "failed": 8,
+    "passed": 279,
+    "failed_tests": [
+      "tests/test_search_supervisor.py::test_stop_keeps_usage_persisted_before_missing_pipe_notification[deadline]",
+      "tests/test_search_supervisor.py::test_stop_keeps_usage_persisted_before_missing_pipe_notification[cancel]",
+      "tests/test_search_supervisor.py::test_delayed_usage_notification_cannot_regress_durable_progress",
+      "tests/test_search_supervisor.py::test_existing_observer_recovers_job_after_other_dashboard_dies",
+      "tests/test_search_supervisor.py::test_new_explicit_start_recovers_old_owner_before_recording_new_job",
+      "tests/test_supervised_routes.py::test_search_info_recovers_after_cached_supervisor_loses_other_owner[hermes-True]",
+      "tests/test_supervised_routes.py::test_search_info_recovers_after_cached_supervisor_loses_other_owner[hermes-False]",
+      "tests/test_supervised_routes.py::test_search_info_recovers_after_cached_supervisor_loses_other_owner[stub-True]"
+    ]
+  },
+  {
+    "run": 3,
+    "failed": 8,
+    "passed": 279,
+    "failed_tests": [
+      "tests/test_search_supervisor.py::test_stop_keeps_usage_persisted_before_missing_pipe_notification[deadline]",
+      "tests/test_search_supervisor.py::test_stop_keeps_usage_persisted_before_missing_pipe_notification[cancel]",
+      "tests/test_search_supervisor.py::test_delayed_usage_notification_cannot_regress_durable_progress",
+      "tests/test_search_supervisor.py::test_existing_observer_recovers_job_after_other_dashboard_dies",
+      "tests/test_search_supervisor.py::test_new_explicit_start_recovers_old_owner_before_recording_new_job",
+      "tests/test_supervised_routes.py::test_search_info_recovers_after_cached_supervisor_loses_other_owner[hermes-True]",
+      "tests/test_supervised_routes.py::test_search_info_recovers_after_cached_supervisor_loses_other_owner[hermes-False]",
+      "tests/test_supervised_routes.py::test_search_info_recovers_after_cached_supervisor_loses_other_owner[stub-True]"
+    ]
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "check": "collection",
+    "exit_code": 0,
+    "seconds": 0.38137275000917725
+  },
+  {
+    "check": "python",
+    "exit_code": 0,
+    "seconds": 6.411816083011217
+  },
+  {
+    "check": "node",
+    "exit_code": 0,
+    "seconds": 3.9454673750151414
+  },
+  {
+    "check": "openspec",
+    "exit_code": 0,
+    "seconds": 0.4269257920095697
+  },
+  {
+    "check": "coverage",
+    "exit_code": 0,
+    "seconds": 0.025118582998402417
+  },
+  {
+    "check": "coverage-fixtures",
+    "exit_code": 0,
+    "seconds": 2.4595392089977395
+  },
+  {
+    "check": "lint",
+    "exit_code": 0,
+    "seconds": 0.02285058397683315
+  },
+  {
+    "check": "plugin-validate",
+    "exit_code": 0,
+    "seconds": 1.6481314589909744
+  },
+  {
+    "check": "native-probe",
+    "exit_code": 0,
+    "seconds": 16.178540833003353
+  }
+]

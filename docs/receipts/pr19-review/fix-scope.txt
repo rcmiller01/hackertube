@@ -1,0 +1,11 @@
+ docs/search-execution.md                           |  2 +-
+ hackertube/dashboard/plugin_api.py                 | 10 ++-
+ hackertube/hackertube_core/search_jobs.py          | 39 +++++----
+ openspec/changes/hackertube-v1/design.md           |  6 ++
+ .../hackertube-v1/specs/request-jobs/spec.md       |  4 +-
+ openspec/changes/hackertube-v1/tasks.md            |  1 +
+ openspec/changes/hackertube-v1/verification.md     |  6 ++
+ tests/fixtures/search_worker_probe.py              | 30 +++++++
+ tests/test_search_supervisor.py                    | 96 ++++++++++++++++++++++
+ tests/test_supervised_routes.py                    | 25 ++++++
+ 10 files changed, 199 insertions(+), 20 deletions(-)
