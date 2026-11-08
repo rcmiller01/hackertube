@@ -1,5 +1,5 @@
 name: hackertube
-version: 0.2.0
+version: 0.2.1
 description: Source-backed media search and discovery in the Hermes web dashboard.
 requires_hermes: ">=0.23.0"
 config_schema:

@@ -409,7 +409,12 @@ class SourceRetriever:
                         classification=outbound.METERED,
                         headers=headers,
                     )
-                    return youtube.parse_data_api(payload, now)
+                    parsed = youtube.parse_data_api(payload, now)
+                    # Only a structurally valid successful response can invalidate
+                    # previously stored IDs; transport/provider failures cannot.
+                    if isinstance(payload, dict) and payload.get("kind") == "youtube#videoListResponse":
+                        self.store.invalidate_youtube(["youtube:" + value for value in ids])
+                    return parsed
 
                 fetch(source_id, video)
         sources.append(_web_source())

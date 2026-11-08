@@ -3,7 +3,7 @@
   "label": "HackerTube",
   "description": "Media discovery for videos, podcasts, books, and audiobooks.",
   "icon": "Globe",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "tab": {
     "path": "/hackertube",
     "position": "end"

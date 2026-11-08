@@ -1,6 +1,6 @@
 [project]
 name = "hackertube-core"
-version = "0.2.0"
+version = "0.2.1"
 description = "Framework-neutral catalog records and source adapters for HackerTube"
 requires-python = ">=3.11"
 
@@ -20,4 +20,4 @@ where = ["hackertube"]
 include = ["hackertube_core*"]
 
 [tool.setuptools.package-data]
-hackertube_core = ["seed/*.json"]
+hackertube_core = ["seed/*.json", "privacy-policy.txt"]

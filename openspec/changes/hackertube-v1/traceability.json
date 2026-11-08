@@ -81,7 +81,8 @@
       "media-catalog/CAT09",
       "media-catalog/CAT10",
       "media-catalog/CAT11",
-      "discovery-feed/FEED09"
+      "discovery-feed/FEED09",
+      "media-catalog/CAT12"
     ],
     "post_demo_scenarios": []
   },
@@ -111,7 +112,8 @@
       "personalization-sources/PREF06",
       "personalization-sources/PREF07",
       "personalization-sources/PREF08",
-      "personalization-sources/PREF13"
+      "personalization-sources/PREF13",
+      "personalization-sources/PREF15"
     ],
     "post_demo_scenarios": [
       "personalization-sources/PREF06",

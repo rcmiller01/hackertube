@@ -173,14 +173,14 @@ def test_no_module_calls_a_connection_entry_point_outside_the_boundary():
 
 
 def test_no_module_schedules_recurring_work():
-    """JOB02: the plugin has no scheduler and no recurring paid job."""
+    """JOB02: only explicit Search monitors and local retention may use threads."""
     offenders = {}
     for path in _package_files():
         tree = ast.parse(path.read_text(), filename=str(path))
         modules = _imported_modules(tree) & SCHEDULING_MODULES
         # This controller creates a monitor only after an explicit accepted
         # Search. Real-process tests verify no worker on reads/without consent.
-        if _relative(path) == "hackertube/hackertube_core/search_jobs.py":
+        if _relative(path) in {"hackertube/hackertube_core/search_jobs.py", "hackertube/hackertube_core/privacy.py"}:
             modules -= {"threading"}
         calls = _attribute_names(tree) & SCHEDULING_CALLS
         if modules or calls:

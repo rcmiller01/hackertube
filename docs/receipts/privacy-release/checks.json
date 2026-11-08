@@ -1,0 +1,22 @@
+[
+  {
+    "check": "python",
+    "exit_code": 0
+  },
+  {
+    "check": "node",
+    "exit_code": 0
+  },
+  {
+    "check": "lint",
+    "exit_code": 0
+  },
+  {
+    "check": "coverage",
+    "exit_code": 0
+  },
+  {
+    "check": "validate",
+    "exit_code": 0
+  }
+]

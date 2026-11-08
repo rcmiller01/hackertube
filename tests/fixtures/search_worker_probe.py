@@ -29,8 +29,11 @@ def main():
             return conn
 
         marker = home / "connected"
+        store = ProfileStore(connect)
+        from hackertube_core.privacy import VERSION
+        store.accept_privacy(VERSION)
         supervisor = SearchSupervisor(
-            ProfileStore(connect),
+            store,
             home=home,
             command=[sys.executable, __file__, "hang", str(port), str(marker)],
         )

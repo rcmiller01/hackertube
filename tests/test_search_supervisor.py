@@ -9,9 +9,17 @@ from pathlib import Path
 import pytest
 
 from hackertube_core.search import DisclosureRequired, Limits
-from test_search import store_at
+from test_search import store_at as _store_at
 
 FIXTURE = Path(__file__).parent / "fixtures" / "search_worker_probe.py"
+
+
+def store_at(root):
+    """Deadline scenarios start with an explicitly agreed test profile."""
+    from hackertube_core.privacy import VERSION
+    store = _store_at(root)
+    store.accept_privacy(VERSION)
+    return store
 
 
 def setup_job(tmp_path, *, mode="hang", seconds=0.6):
@@ -211,6 +219,8 @@ def test_monitor_keeps_the_request_profile_context(tmp_path):
     token = active.set(roots[0])
     try:
         store = ProfileStore(connect)
+        from hackertube_core.privacy import VERSION
+        store.accept_privacy(VERSION)
         manager = SearchSupervisor(
             store,
             home=tmp_path / "home-a",

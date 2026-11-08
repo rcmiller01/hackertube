@@ -32,7 +32,10 @@ def main():
         conn = sqlite3.connect(data / "profile.db")
         conn.row_factory = sqlite3.Row
         return conn
-    manager = SearchSupervisor(ProfileStore(connect), home=home)
+    store = ProfileStore(connect)
+    from hackertube_core.privacy import VERSION
+    store.accept_privacy(VERSION)  # Explicit disposable-test-profile agreement.
+    manager = SearchSupervisor(store, home=home)
     warmup = manager.start("Jane Austen books", provider="stub", limits=Limits(deadline_seconds=20), disclosure_accepted=True)
     assert manager.wait(warmup["job_id"], 22)
     assert manager.status(warmup["job_id"])["job"]["state"] == "succeeded"

@@ -595,7 +595,7 @@ function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, s
       Label: Stub,
       Separator: Stub,
     },
-  });
+  }).Content;
 
   function rerender() {
     rendering = true;
@@ -1280,6 +1280,7 @@ test("Show more Enter focuses the fifth item heading", async () => {
     const Page = page.createPage({
       React,
       fetchJSON(url) {
+        if (url === "/api/plugins/hackertube/privacy") return Promise.resolve({version:"test", text:"Fixture policy", accepted:true});
         const body = String(url).indexOf("/feed") !== -1
           ? feed
           : { catalog: { items, evidence: [], sources: [], editions: [] } };

@@ -5,6 +5,16 @@ import sys
 from types import SimpleNamespace
 
 from hackertube_core.hermes import register, web_search
+import pytest
+
+
+@pytest.fixture(autouse=True)
+def agreed_host(tmp_path):
+    import route_harness
+    from hackertube_core.profile import ProfileStore, open_profile_db
+    from hackertube_core.privacy import VERSION
+    route_harness.install_host(tmp_path / "host")
+    ProfileStore(open_profile_db).accept_privacy(VERSION)
 
 
 def test_explicit_web_search_discovers_host_tools_on_a_cold_dashboard(monkeypatch):

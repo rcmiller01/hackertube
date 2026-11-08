@@ -1,0 +1,21 @@
+{
+  "implementation_sha": "8c6b8bbfcd132cd5d87d8d7c3bd563939a9e9ced",
+  "python_passed": 309,
+  "browser_node_passed": 82,
+  "failures": 0,
+  "skipped": 0,
+  "installed_files_match": 40,
+  "installed_files_total": 40,
+  "policy_version": "2026-11-08.1",
+  "agreement": "User explicitly authorized acceptance; observed gate then Library with 4 saved items.",
+  "saved_items_before": 4,
+  "saved_items_after": 4,
+  "repo_visibility": "private",
+  "youtube_icon_sha256": "1027b1b0517727adb9697155a270744381c3ce9b047b1c8bd8a9389dc7d07a83",
+  "review": "Exact implementation reviewed; no actionable finding left.",
+  "limitations": [
+    "No program can execute local deletion while computer or Hermes is stopped; cleanup precedes next access.",
+    "Exported backups and remote provider-held data are outside plugin deletion.",
+    "Provider approval is not asserted."
+  ]
+}

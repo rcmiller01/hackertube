@@ -23,3 +23,11 @@ Hermes stores model credentials. The plugin reads only its declared source secre
 Source records establish identity, not an endorsement or a guarantee of relevance. Model explanations may be wrong. Unknown duration remains unknown and is excluded from a strict duration match. Source-specific release obligations, lifecycle testing, and the broader relevance evaluation remain open. See the repository's [source plan](../docs/sources.md), [live-search notes](../docs/real-search.md), and [submission checklist](../docs/submission/README.md).
 
 When YouTube is enabled, use is subject to the [YouTube Terms of Service](https://www.youtube.com/t/terms) and [Google Privacy Policy](https://policies.google.com/privacy).
+
+## Privacy and deletion
+
+Before using any HackerTube feature, review and explicitly agree to the bundled [privacy policy and terms](hackertube_core/privacy-policy.txt). Privacy remains available on every page. A new policy version requires renewed agreement. The credit-use checkbox is separate.
+
+Privacy → Delete HackerTube data and revoke agreement clears this profile’s plugin data after active Search is cancelled. It leaves Hermes-managed credentials and provider-held data alone. While Hermes runs, hourly local housekeeping purges expired metadata; opening/accessing a profile also purges before display. Stopped Hermes cannot delete files until it resumes. Do not retain exported profile backups beyond the source retention window. No background network refresh is scheduled.
+
+YouTube results link to the original video and show unmodified official source branding. Relevance explanations/library controls are HackerTube features. Successful metadata hydration invalidates checked IDs in both the catalog and earlier Search responses before new data is saved; deleted/private records disappear, while independent saved flags remain. Errors do not pretend a record was deleted.

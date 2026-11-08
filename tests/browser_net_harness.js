@@ -109,7 +109,9 @@ function fixtureItems(count) {
   return items;
 }
 
-async function startFixture(items) {
+async function startFixture(items, privacyOptions = {}) {
+  let agreed = privacyOptions.accepted !== false;
+  let rejectDelete = !!privacyOptions.rejectDelete;
   const esbuild = loadNodeModule("esbuild");
   const catalog = {
     catalog: {
@@ -195,6 +197,25 @@ async function startFixture(items) {
       response.end(fs.readFileSync(bundle));
       return;
     }
+    if (url.pathname === "/api/plugins/hackertube/privacy") {
+      if (request.method === "POST") {
+        let body = "";
+        request.on("data", chunk => { body += chunk; });
+        request.on("end", () => {
+          record(body);
+          const value = JSON.parse(body);
+          if (value.version === "test" && value.accepted === true) agreed = true;
+          sendJson(response, {version:"test", text:"Fixture policy", accepted:agreed});
+        });
+      } else { record(); sendJson(response, {version:"test", text:"Fixture policy", accepted:agreed}); }
+      return;
+    }
+    if (url.pathname === "/api/plugins/hackertube/privacy/delete") {
+      record();
+      if (rejectDelete) { rejectDelete = false; sendJson(response, {error:"search_busy"}); }
+      else { agreed = false; profile = pageApi().emptyProfile(); sendJson(response, {version:"test", text:"Fixture policy", accepted:false}); }
+      return;
+    }
     if (url.pathname === "/api/plugins/hackertube/catalog") {
       record();
       sendJson(response, catalog);
@@ -259,7 +280,7 @@ async function startFixture(items) {
 /** Independent, closed inventory for this fixture's observed requests. */
 function labelOf(url, fixture) {
   const target = new URL(url);
-  const local = ["/", "/style.css", "/bundle.js", "/api/plugins/hackertube/catalog",
+  const local = ["/api/plugins/hackertube/privacy", "/", "/style.css", "/bundle.js", "/api/plugins/hackertube/catalog",
     "/api/plugins/hackertube/feed", "/api/plugins/hackertube/profile",
     "/api/plugins/hackertube/status",
     "/api/model/auxiliary",
