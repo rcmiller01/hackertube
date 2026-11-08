@@ -1,4 +1,5 @@
 """Real-process deadline/cancellation tests; no model or external service calls."""
+
 import socket
 import subprocess
 import sys
@@ -24,10 +25,16 @@ def setup_job(tmp_path, *, mode="hang", seconds=0.6):
     server.listen(2)
     server.settimeout(3)
     supervisor = SearchSupervisor(
-        store, home=home,
+        store,
+        home=home,
         command=[sys.executable, str(FIXTURE), mode, str(server.getsockname()[1])],
     )
-    job = supervisor.start("AI books", provider="hermes", limits=Limits(deadline_seconds=seconds), disclosure_accepted=True)
+    job = supervisor.start(
+        "AI books",
+        provider="hermes",
+        limits=Limits(deadline_seconds=seconds),
+        disclosure_accepted=True,
+    )
     return supervisor, store, server, job
 
 
@@ -89,7 +96,12 @@ def test_second_search_is_refused_while_first_owns_profile(tmp_path):
     connection, _ = server.accept()
     other = SearchSupervisor(store, home=tmp_path / "home")
     with pytest.raises(SearchBusy):
-        other.start("different question", provider="hermes", limits=Limits(), disclosure_accepted=True)
+        other.start(
+            "different question",
+            provider="hermes",
+            limits=Limits(),
+            disclosure_accepted=True,
+        )
     assert store.job_count() == 1
     other.cancel(job["job_id"])
     assert wait_done(supervisor, job)["job"]["state"] == "cancelled"
@@ -103,7 +115,9 @@ def test_no_worker_or_job_without_disclosure(tmp_path):
     store = store_at(tmp_path / "data")
     supervisor = SearchSupervisor(store, home=tmp_path / "home")
     with pytest.raises(DisclosureRequired):
-        supervisor.start("AI", provider="hermes", limits=Limits(), disclosure_accepted=False)
+        supervisor.start(
+            "AI", provider="hermes", limits=Limits(), disclosure_accepted=False
+        )
     assert store.job_count() == 0
 
 
@@ -120,9 +134,22 @@ def test_restart_recovers_running_job_without_starting_work(tmp_path):
     from hackertube_core.search_jobs import SearchSupervisor
 
     store = store_at(tmp_path / "home/plugin-data/hackertube")
-    job_id = store.record_job(dict(kind="search", state="running", question="AI", provider="hermes",
-        limits=Limits().as_dict(), requests_used=1, result_count=0, cost_usd=None, cost_known=False,
-        coverage=[], created_at="2026-11-08T18:00:00Z", ended_at=None))
+    job_id = store.record_job(
+        dict(
+            kind="search",
+            state="running",
+            question="AI",
+            provider="hermes",
+            limits=Limits().as_dict(),
+            requests_used=1,
+            result_count=0,
+            cost_usd=None,
+            cost_known=False,
+            coverage=[],
+            created_at="2026-11-08T18:00:00Z",
+            ended_at=None,
+        )
+    )
     supervisor = SearchSupervisor(store, home=tmp_path / "home")
     result = supervisor.status(job_id)
     assert result["job"]["state"] == "interrupted"
@@ -147,8 +174,15 @@ def test_worker_exits_when_its_dashboard_parent_dies(tmp_path):
     server.bind(("127.0.0.1", 0))
     server.listen(1)
     server.settimeout(4)
-    owner = subprocess.Popen([sys.executable, str(FIXTURE), "orphan-owner",
-                              str(server.getsockname()[1]), str(tmp_path / "home")])
+    owner = subprocess.Popen(
+        [
+            sys.executable,
+            str(FIXTURE),
+            "orphan-owner",
+            str(server.getsockname()[1]),
+            str(tmp_path / "home"),
+        ]
+    )
     connection, _ = server.accept()
     connection.settimeout(2)
     assert owner.wait(timeout=3) == 0
@@ -156,31 +190,44 @@ def test_worker_exits_when_its_dashboard_parent_dies(tmp_path):
     connection.close()
     server.close()
 
+
 def test_monitor_keeps_the_request_profile_context(tmp_path):
     import contextvars
     import sqlite3
     from hackertube_core.profile import ProfileStore
     from hackertube_core.search_jobs import SearchSupervisor
+
     roots = [tmp_path / "a", tmp_path / "b"]
     for root in roots:
         root.mkdir()
     active = contextvars.ContextVar("test_profile", default=roots[1])
+
     def connect():
         conn = sqlite3.connect(active.get() / "profile.db")
         conn.row_factory = sqlite3.Row
         return conn
+
     ProfileStore(connect)  # initialize default B
     token = active.set(roots[0])
     try:
         store = ProfileStore(connect)
-        manager = SearchSupervisor(store, home=tmp_path / "home-a",
-            command=[sys.executable, str(FIXTURE), "crash", "0"])
-        job = manager.start("AI", provider="hermes", limits=Limits(deadline_seconds=2), disclosure_accepted=True)
+        manager = SearchSupervisor(
+            store,
+            home=tmp_path / "home-a",
+            command=[sys.executable, str(FIXTURE), "crash", "0"],
+        )
+        job = manager.start(
+            "AI",
+            provider="hermes",
+            limits=Limits(deadline_seconds=2),
+            disclosure_accepted=True,
+        )
         assert manager.wait(job["job_id"], 3)
         assert manager.status(job["job_id"])["job"]["state"] == "failed"
     finally:
         active.reset(token)
     assert ProfileStore(connect).job_count() == 0
+
 
 def test_job_handle_from_another_profile_cannot_cancel_local_work(tmp_path):
     a, store_a, server_a, job_a = setup_job(tmp_path / "a", seconds=10)
@@ -197,3 +244,16 @@ def test_job_handle_from_another_profile_cannot_cancel_local_work(tmp_path):
             peer.close()
         server_a.close()
         server_b.close()
+
+def test_plugin_unload_stops_its_active_worker(tmp_path, monkeypatch):
+    from hackertube_core import search_jobs
+    manager, store, server, job = setup_job(tmp_path, seconds=10)
+    connection, _ = server.accept()
+    key = str((tmp_path / "home/plugin-data/hackertube").resolve())
+    monkeypatch.setitem(search_jobs._SUPERVISORS, key, manager)
+    search_jobs.stop_profile(key)
+    assert wait_done(manager, job)["job"]["state"] == "cancelled"
+    connection.settimeout(1)
+    assert connection.recv(1) == b""
+    connection.close()
+    server.close()
