@@ -18,6 +18,6 @@ The complete installable package is **`hackertube/`**, including its core packag
 
 The seed is a small development catalog; real search retrieves beyond it. Missing source credentials, failed services, and unsupported formats are disclosed. No media is hosted, downloaded, or played by HackerTube. The original [source plan](docs/sources.md), [product requirements](docs/PRD.md), and [OpenSpec workflow](openspec/README.md) retain the larger scope and unfinished release work. Andrej Karpathy's credit appears above, in About, and in the prepared marketplace description.
 
-Installable-package network, storage, credential, and timeout disclosures are in [the plugin README](hackertube/README.md). The [prepared submission packet](docs/submission/README.md) records the actual demo and unresolved release gates.
+Installable-package network, storage, credential, and timeout disclosures are in [the plugin README](hackertube/README.md). The [submitted hackathon entry](docs/submission/README.md) records the public demo, catalog PR and received form confirmation. Watch the [working demo](https://x.com/RobertMiller34/status/2119561239160644023); [catalog PR #151535](https://github.com/NousResearch/hermes-agent/pull/151535) awaits upstream workflow approval and maintainer review.
 
 Search now has a supervised local deadline and Cancel action on macOS/Linux. See [execution and cancellation](docs/search-execution.md) for the supported-host contract and remote billing limits.

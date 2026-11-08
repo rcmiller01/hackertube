@@ -1,0 +1,7245 @@
+{
+  "ok": true,
+  "files": [
+    {
+      "path": "plugin-catalog/0bull.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/3ds-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/aamio.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/aave-mcp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/abstract-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/accent-picker.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/account-pool.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/account-switcher.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/acedatacloud-media.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/acedatacloud.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/actvox.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/adaption.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/adaptive-inference-routing.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/adaptlypost.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/adextract.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/adkit.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/adspirer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/advanced-delegation.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/advisor.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/adwave.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/adwhispr.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/afterforge.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agent-analytics.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agent-batch.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agent-galaxy.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agent-hint.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agent-hold-em.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agent-importers.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agent-janitor.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agent-ledger.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agent-log.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agent-mail-gateway.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agent-run-debugger.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agent-si.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agent-station.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agent_memory_es.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": [
+        "unknown top-level key 'homepage_url' (ignored by this validator)"
+      ]
+    },
+    {
+      "path": "plugin-catalog/agentchat.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agentic-kingdoms.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agentmemory.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agentplaybooks-memory.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agentplaybooks-tools.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agentpurse.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agentvault.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agentwalletapi.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/agora.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ai-subscriptions.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ai-usage-tracker.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/aichipmunk.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/aihubmix.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/aircraft-doppler-geolocation.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/airlock.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/airpods-approvals.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/aisense.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/aistupidlevel.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/aixy.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/alans-way-computer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/alans-way.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/aletheia.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/alice-voice.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ample.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/anatomy-museum.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ando-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/android-emulator.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/anki.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/antenna.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/antigravity-agy.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/antigravity-duet.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/antigravity-oauth.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/antigravity-subscription-directsdk.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/anyapi.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/anyrouter.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/anysearch.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/aphrodite.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/apify.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/apple-health-mcp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/approval-ledger.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/archytan-lite.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ard-kit.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/arena-skill.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/argorant.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/argos.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/artifact-relay.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/artifacts.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/artil.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ascii-worlds.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/aside-browser.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/astro-agents.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/athena.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/athletedata.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/atmorouter.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/aurora-design-system.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/author-feed.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/auto-pin.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/aux-ledger.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/b64-ref.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/background-review-watch.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/backupdrill.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/bankbridge.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/basekit.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/beam.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/belive-aihub.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/bench-rewind.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/bento.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/better-capabilities.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/better-session-appearance.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/betterdb.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/bharatcode-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/bilinc.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/billing.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/biomimetic-brain.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/birkin-mnemosyne.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/birta.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/blackbox.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/blazephoenix.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/blender.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/blinkenbar.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/boardstate.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/booking-bridge.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/bot-activity.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/bot-cabinet-v2.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/bot-chat-agent.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/bot-forge.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/botsee.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/boxcompute.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/brain-graph.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/brave-search.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/breeze-tts.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/brethof-brain.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/bridge-adapter.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/browser-toggle.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/browserless.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/browserpaw.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/bubblewrap.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/bulkpublish.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/bunny_space-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/burnclock.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/by2kb.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cacheguard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cadence.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/call-me.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/calling-mom.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/camel-guard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/camofox-human-auth.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/camofox.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/canadian-primary-care.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/canary-trap.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/caprover-operator.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/carbonvoice-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cartograph.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cash-desk.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cashew.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/catalogo-it.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cdp-manager.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/certarc.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/channel3.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/chat-length.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/chat-studio.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/chatto-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cheatsheet.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/chmod-ref.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/chorepilot.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/chrome-tab-watchdog.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/chronicle.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/chutes-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/citation-guard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cjk_sanitizer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/clack.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/claude-code-theme.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/claude-subscription-directsdk.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cli-session-tabs.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/clinepass.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cliproxyapi-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cloudflare-sandbox.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cloudflare-web-search.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cloudflare-workers-ai-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cloudgpu-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/coder.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/codex-chat-look.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/codex-theme.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/codex-truly.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cognee.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cognition.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/colorado-traffic.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/comfyrizz.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/command-ledger.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/command-tray.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/commandcode-oauth.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/comment-scraper.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/compartment.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/completion-proof.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/completion-sound.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/composer-modes.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/composio-connections.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/constraint-vault.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/context-audit.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/conxt.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/coreweave.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/corpus.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cortexlayer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cost-sentinel.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/costguard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/courier-by-autolane.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/covision.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cpa-status.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/crawl4ai.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/crew.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cron-bulletin.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cron-consolidator.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/crontab-ref.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/crosodo.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/crowbot-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/crypto-prices.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/csharp-game-editor.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ctx_checkpoint.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cua-spaces.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cursor-acp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cursor-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cursor-sdk.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cursor-subscription-directsdk.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/custodian.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/custom-dangerous-patterns.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/cut-sprite-sheet.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/darkmoon.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/dashboard-auth-feishu.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/dashboard-auth-ldap.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/dashboard-button.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/dashscope-image.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/dashscope-video.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/davinci-resolve.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/day-panel.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/de-law.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/deadbolt.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/debug-desk.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/decisions.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/deepgram-voice.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/deepinfra-sandbox.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/deepseek-search-fetch.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/deepseek-whale.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/deferred-questions.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/degeneracy-guard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/deja-memory.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/delx-recovery.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/desensitize.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/deskrpg.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/devin.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/devkit.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/dexio.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/diaktoros.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/diff-review.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/digital-marketing-pro.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/dike.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/disciplined-vibe-coding.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/discord-tps.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/doc-markdown.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/doctorpack.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/document-reader.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/done-bell.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/draft-cards.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/drag-to-pin-session.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/dropstation.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/dsers.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/duty-board.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/dxmt.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/eatwise.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/echarts-in-chat.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/edit-ledger.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/effortless-hermes.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/elevenlabs-music.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/elevenlabs-sound-effects.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/emotion-chip.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/empiriolabs-media.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/empiriolabs.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/enchanted-composer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/enhance-prompt.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/entropicmem.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/epistemic-harness.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/error-ledger.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/escalation-governor.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ethics-filter.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/eu-mode.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/evalroute.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/event-read.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/eventforge.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/excel_line.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/fashion-design.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/fast-chat.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/fatetell.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/faxforagents.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/field-academy.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/file-tray.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/filebox.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/filmease.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/financial-datasets.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/findbroadband-deals.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/finder.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/fiscalisto.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/fish-audio.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/fitbit-mcp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/flashdata-plugin.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/fleet-policy.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/fleetkeep-agent-plugin.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/flightlog.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/flipletters.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/flowsery.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/fluent.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/fluxer-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/fmsg-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/foresee.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/fortytwo-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/found.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/freight-reconciliation.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/freshdesk.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/frihet.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/fusion.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/fxmacrodata.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/gadget.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/game-dev.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/game-editor.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/gameforge.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/garmin-connect.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/gateway-guardian.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/gbrain-plugin.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/gbrain-pointer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/gbrain-retrieval-reflex.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/gemini-live-bridge.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/gemini-media.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/genealogy-research-recipes.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/genesispay-catalog.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/getyoutubetranscript.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/gh-ref.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/gigamail.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/git-autosave.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/git-hook.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/git-review.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/git-tasks.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/githermes.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/github-copilot.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/github_app.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/glass-theme.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/glasser.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/global-business-culture.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/gmail.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/go-whatsapp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/godot-studio.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/gogogoogle.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/gondola-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/gonogo.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/good-student.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/govee.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/greyridge-token-safety.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/grok-acp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/grokbot-staff.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/groq-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/grounder.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/gsc-magic.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/gurusup-brain.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ha-sidebar-navigator.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/habitude.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hackathon-judge.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hackertube.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hades-coding-workflows.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/handflow.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/handydandy.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hardlight-ui.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/harnmem.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hashference-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hashtree-git.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/headroom.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/health-data.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/health-insights.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/healthcare.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/healthrelay.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/heartbeat2.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/helm.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-9router.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-aac.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-activity.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-adaptive-effort.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-agent-builder.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-agent-mixer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-anilist.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-asgard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-atoll.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-auto-titler.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-autonomous.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-axioma.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-band.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-beads.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-blogwatcher.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-board.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-boot-screen.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-bot-hq.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-browser-extension.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-call-ledger.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-chat-share.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-chronos.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-cloud-file-manager.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-codex-resets.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-consult.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-context-overview.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-council.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-cron.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-crux.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-desktop-camera.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-discord-rpc.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-dpapi-secrets.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-dreaming.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-egm.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-ego.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-experientiallabs.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-federated-search.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-field-notes.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-finance.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-fleet-connector.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-flow.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-gemini-live.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-gensyn-delphi.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-gensyn-ree.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-genui.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-ghost-call.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-github-mentions.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-guide.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-handoff.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-herald.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-honcho-plugin.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-impossibl.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-insight.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-ios.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-iroh-interconnect.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-jailbreak-kernel.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-jetstream.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-jev-routing.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-jina.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-kame-api-rotation.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-kame-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-kemet.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-lang-ca.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-lang-cs.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-lang-el.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-lang-he.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-lang-it-full.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-lang-it.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-lang-ko.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-lang-pt-br.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-lang-th.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-lang-vi.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-lcm-x.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-ledgerline.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-live-voice.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-live.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-loadout.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-make-plain.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-memory-pane.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-memory-ui.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-memory-wiki.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-minimizer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-mobile.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-model-switcher.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-monitor.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-monitoring-dashboard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-mpp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-muse-code.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-muse.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-newswire.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-notify.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-nous-prices.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-office.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-openwhispr.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-opper.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-osint-map.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-output-enhancement.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-pantheon.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-pets-all.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-pickup.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-pii.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-plex-music.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-plexus.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-plugin-chrome-profiles.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-plugin-gen.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-plugin-guard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-plugin-netbox.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-pokemon.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-pr-studio.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-profile-switcher.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-project-stewardship.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-proton.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-pubky.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-quest.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-receipts.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-resetwatch.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-rich-ui.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-ros.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-routines.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-rss.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-rustpush-imessage.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-sanctuary.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-secret-gate.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-security-audit.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-security.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-self-healing-context.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-seo.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-session-diff.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-session-reset-policy.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-session-warmer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-sidepulse.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-slash-router.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-snapcompact.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-soniox.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-speech.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-ssh.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-structured-aux-models.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-stt-enhance.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-subscription-meter.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-switchyard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-t3-control.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-tabs.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-tabular.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-tag.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-tailscale.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-talk.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-taskbar-badge.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-teammates.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-telegram-business.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-telemetry-dashboard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-telemetry.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-tenuo.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-terminal.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-themes-pack.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-token-speed.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-toolsmith.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-town.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-tripo.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-trove.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-ui-cards.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-vcc-engine.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-vcc.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-verifier.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-video-editor.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-vision-inline.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-vitals-light.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-vpn.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-wallpaper.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-whatsapp-voice.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-wincred.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-windows-apps.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-windows-computer-use.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-windows-devices.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-windows-eventlog.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-windows-ops.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-windows-ports.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-windows-process.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-windows-services.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-windows-startup.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-windows-tasks.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-windows-updates.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-workbench.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-worker-monitor.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-workflows.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-wsl-terminal.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-wslc-sandbox.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-xai.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes-zh.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermes_otel.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermesford.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermesvault.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hermetic.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hicortex.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hindsight-curator.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hindsight.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/holographic.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/home-dashboard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/homeassistant-statistics.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/homeassistant.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/honcho.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hopper.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hud-teach.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/huddo.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hwiki.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hyatlas.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hydradb.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hypd-ai-ads.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hypnos.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/hypotize.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/icarus.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/idealphase-elevenlabs-audio-tags.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/identity.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/image-utils.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/imagegen.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/inbox.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/index-network.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/index-search.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/infisical.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/inkbox.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/inline-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/innernet.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/inspeximus.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/intelligent-tool-break.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/intelligent_memory.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/interim-ledger.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/internet-outage-checker.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/invinoveritas-receipts.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/iowap.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/iris-chat-channel.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/iris-chat.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/iteration-budget-meter.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/iwork-studio.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ja-writing-guard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jackal-verified.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jekyll-hyde.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jet-browser.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jev-agent-router.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jev-approvals.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jev-cron-gate.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jev-curator.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jev-effort-router.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jev-judge.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jev-mcp-router.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jev-memory-selector.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jev-model-router.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jev-skill-router-mcp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jev-skill-router.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jev-typesafe.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jev.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jira-browser.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/job-search.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jot.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jp-address.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jp-charts.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jp-chatwork.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jp-corporate.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jp-edinet.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jp-egov-law.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jp-estat.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jp-kokkai.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jp-reinfolib.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jp-subsidies.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/junie-acp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/jwt-ref.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kanban-empowered.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kanban-gantt.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kanban-graph.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kanban-live-gantt.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kanban-stream.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kanban-task-threads.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/keenable-plugin.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kfchow-llm-value-router.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kimchi-acp-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kimchi-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kimi-code-delegate.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kinocut.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kiro-acp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kiro-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kiwi.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/klipper-print-watch.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kokoro-tts.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kokpit.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kubernetes.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kuma.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/kumiho-memory.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/lahja.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/lancedb-suite.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/lancedb.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/langfuse.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/laso-finance.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ld-workbench.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/letsfg.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/levea-video-editor.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/lfg-alarm.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/lib-docs.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/lightkeeper.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/lightningai-rate-limit.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/lightningai.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/limbic.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/limits-monitor.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/lineage.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/linkedcamp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/linkup.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/liquid-inference-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/lithermes.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/little-canary.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/live-time.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/living-field.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/llm-antidote.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/llmapi.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/llmslim.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/loaded-skills-indicator.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/local-mcp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/local-system-one-hermes.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/local_knowledge.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/loci.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/long-conversations.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/looot.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/loreconvo.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/lovedone-family.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/lovedone-soft.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/lowrouter.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/lumberroom.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/machine-library.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/machine-spirit.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/made-shelf.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/magi.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/make-parts-now.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/makernice.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/maqami-travel.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mariadb-dev.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mariadb-guard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/markdown-new.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/markifact.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/max-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mcp-plugin-creator.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mcp-serve.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mdvault.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mediarag.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/meeting-overlay.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mem-os.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mem0.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/memanto.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/memex8.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/memlock.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/memobase.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/memoria.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/memory-review.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/memory-rewind.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/memory-shaper.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/memory-shield.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/memory-zvec.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/memtomem.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mermail.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/meshy.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/metamask-wallet.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/metronix.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/microsoft365.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mindgraph.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mindhall.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/minecraft-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/minimalist-themes.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/minimax-image.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/minimax-search.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/minimax-video.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mistral-vibe.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mixar.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mnemostack.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mnemosyne-dashboard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mnemosyne.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mnemoverse.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mock-review.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/model-drift-watch.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/model-fallback-heuristic.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/model-leaderboard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/model-picker.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/model-presets.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/model-router.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/model-usage-status.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/model-usage.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/modernisation-engine.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/modular.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/money-magnet.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/monid.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mood.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/morning-briefing.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/motion-index.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mqtt.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mrscraper.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ms-decision-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/munin.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/muse-harness.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/my-github.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/mybot-farm.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/myeline.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/myradio.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/myswarm.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/nachos.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/needs-you.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/nerve.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/netease-cloud.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/netmind-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/netplane.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/network-xray.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/neuralmind.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/neuralwatt.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/next-prompt.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/next-steps.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/nextcloud-talk-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/nextcloud-talk.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/nextdns.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/nexus-recovery-peer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/nexus.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ngrok-ai-gateway.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/nine-balance-widget.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/node-search.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/nord-theme.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/nostr-vpn.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/nous-girl-theme.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/nowstamp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ntfy-approval.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/nvidia-app.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/nvidia-broadcast.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/nyx.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/obol.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/obscurify-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/obsidian-memory.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/oc-free-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/oddsradar.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/office-3d.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/office-desk.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/offpeak-bekci.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/olympus.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/omh.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/omlx.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/omnivoice.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/omonpakari.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/onda.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/onebot-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/opaque-composer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/openai-compatible.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/openalex.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/opencode-free-acp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/opencode-shepherd.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/openinvest.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/openltm.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/openmail.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/openpaths.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/openrouter-everything.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/openrouter-picker.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/openrouter-spend.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/openrouter-voice.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/openspec.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/openviking.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/operations.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/optchat.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/optmem-hermes.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/orbit-desktop.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/orcaslicer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/orquehelx.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/osv-ref.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/otari.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/oura-mcp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/parallel-search.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/parcel-deliveries.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pareto.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/parlor.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/parrotnotes.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pass-secrets.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pastdotdev.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/patsnap.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pay-cli.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pay.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pcs-security-tls-posture.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pdf-surgeon.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pending-queue-monitor.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/penguin.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/penny.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pep-ref.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/perf-hud.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/personae.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pethost.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/phone-autopilot.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/phone-harness.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/photofresco.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pidgeon.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pinned-folders.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pixel-worlds.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/plan-mode.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pocket-watch.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/podcast.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/post-cortex.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/postel.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/postroom.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/postsider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ppq.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/precedent-log.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/precleared.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/prediction-market-scout.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/preview-text-size.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pricewin.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/print-job-watch.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/print3d.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/priors.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/prism.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/privacy-gateway.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/privacy-xray.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/profile-models.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/profile-pane.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/profile-picker.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/profile-switcher.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/progress-squash.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/project-manager.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/promoat.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/prompt-enhance.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/prompt-enhancer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/prompt-optimizer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/prompt-pocket.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/prompt-queue.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/prompt-snippets.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/prompt-studio.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/prompt-tray.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/proofable-mcp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/proofgate.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/protean-model-sync.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/protean-ordaprompt.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/protean-subagent-viewer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/protonpass.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/provenance-gate.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/provider-copy.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/provider-status.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/provider-usage.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/proxy.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pstack.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/public-holidays.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pulldown.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pushary.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/pushover-hermes-plugin.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/qdrant-memory.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/qdrant.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/qqq-ai-visibility.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/qrblox.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/quota.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/quote-ask.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/quotum.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/radio-dm-gateway.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ram-first-context.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/rea-captcha.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/rea.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/reaction-feedback.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/reaction-ledger.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/read-only-mode.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/reading-buddy.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/readonly-guard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/reasoning-switch.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/receipts.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/recency-anchor.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/recued.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/redaction-pack.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/redline.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/redreplier.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/reduck.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/refusal.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/reka-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/remarkable.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/reme.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/remesher.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/removed.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/render-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/renor.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/rentahuman.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/replaid.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/request-dump-viewer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/requesty.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/return-line.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/revamp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/rex.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/rfc-ref.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/rocketchat-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/rply-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/rss-lite.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/rss-reader.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/rtk-rewrite-docker.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/rtk-rewrite.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ruapi.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/runa.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/runbox.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/runcrate-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/s2docs.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/s3.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/saascity.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/sabi-metadata.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/safe-swap.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/safeailabs-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/salesforce-chatter.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/say-do-gate.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/scalekit.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/scaleway-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/scamgate.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/scar.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/screenrig.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/scribase.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/search-sources.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/search1api.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/searchapi.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/secret-drop.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/secret-handoff.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/secure-env-ingress.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/sem-weave.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/sendblue.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/senler-io-user.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/sequenzy.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/serpapi.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/serpkite.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/session-dashboard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/session-find.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/session-flow.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/session-lens.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/session-mirror.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/session-ref.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/session-relay.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/session-token-counter.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/severian.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/sgme.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/shared-memory-domains.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/shipframe.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/shodan.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/showly.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/showreel.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/shvl-agent-plugin.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/sidebar-cycle.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/sidebar-manager.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/signal-notify.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/sigrex.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/simular-sai.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/singularity.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/sketch-pad.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/skill-court.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/skill-integrity.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": [
+        "unknown capabilities key 'provides_commands'"
+      ]
+    },
+    {
+      "path": "plugin-catalog/skill-lineage.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/skill-retrieval.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/skill-router.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/skysay.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/sluice.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/smolmachines.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/snag-shelf.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/snyk.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/solana-token-facts.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/solverforge-routing.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/soul-finder.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/source-tray.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/spanwall.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/specstream.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/spectator.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/speechify.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/spotify-desktop.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/spotify.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/squad-hub.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/stablelens.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/stack.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": [
+        "unknown top-level key 'homepage_url' (ignored by this validator)"
+      ]
+    },
+    {
+      "path": "plugin-catalog/stacktree.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/stalkchain.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/starlearner-nexus.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/statejar.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": [
+        "unknown top-level key 'homepage_url' (ignored by this validator)"
+      ]
+    },
+    {
+      "path": "plugin-catalog/sticky-notes.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/stop-ledger.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/storm-fusion-research.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/stream-speed.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/stt-vocab.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/subscription-sheriff.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/sugar.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/sunshine-moonlight.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/super-artifacts.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/superlocalmemory.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/supermemory.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/supranalytics.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/surp-hermes-x402-llm.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/surplus-intelligence-seller.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/switch402.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/switchbot-control.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/t3-code-theme.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tabella.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tailgate.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/talaria-webui.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tallybuy.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tam.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tamahermes.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tameru.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/taskwatch.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tavily-plugin.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/teamorouter.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/telegram-client.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/telegram-notify.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/telegram-stickers.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/telegram_dashboard_probe.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/telesec.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/telnyx-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/telos.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tenderlead-agent-plugin.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/terraform-drift.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/thomas.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/thott-bot.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tibber.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tidal.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/time-gap.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/timestamp-ref.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tinyfish.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tirith.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/titanos-mcp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/together.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/token-cost-meter.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/token-dashboard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/token-lens.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/token-rate.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tokenjuice.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tokenwatch.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tokstat.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/toll.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tool-call-salvage.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tool-slimmer.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/toolaria.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/totem.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/touchdesigner.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tracekit.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/traceverse_hermes_otel.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/transcription-dashscope.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tripo.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tripwire.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/true402-swap-guard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/trust-ladder.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/tsubasa.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ttsbuddy.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/turn-bell.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/turn-usage.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/twenty-crm.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/typesafe-skill-router.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/umami-digest.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/umt.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/unbrowse.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/understudy.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/undo-effects.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/unibaseio-membase.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/unicode-ref.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/unitares.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/unraid.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/upstash-box.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/upstash.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/usage-flame.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/usage-guard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/usage-hud.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/usage-ledger.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/usage-stats.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/uuid-ref.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/ux3-product-design-harness.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/vault-view.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/vaultknox.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/vaultwarden.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/vector-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/vercel-agent-desktop-support.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/verifyum.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/vet402.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/veyrul-media.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/viajante.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/vibeleak-atlas.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/vidiq.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/vk-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/voice-gate.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/voice-ledger.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/voicestudio.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/vornik-companion.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": [
+        "unknown top-level key 'requires_env' (ignored by this validator)"
+      ]
+    },
+    {
+      "path": "plugin-catalog/vt-check.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/wait-ledger.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/wakeshift.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/walkie-talkie.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/wallaby-provider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/wallpaper-theme.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/wally.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/watchline.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/waypoint.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/weather.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/web-crawler-spider.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/web-deepseek.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/web-defuddle.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/web-local.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/web-meta-ai.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/web-octen.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/web-ollama-cloud.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/web-oxylabs.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/web-search-plus.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/web-serply.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/web-specstream.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/web-toon.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/web-venice.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/webly.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/webmint.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/wechat-social-assistant.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/whatsapp-agent-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/wheelspin.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/whoop-mcp.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/wicked-memory.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/wiki-ref.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/wireguard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/withhuman.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/wolfmarkdown.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/woof.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/word-peek.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/workflow-record.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/world-clock.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/worldmonitor.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/writing-guard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/wyoming-voice-bridge.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/x-dashboard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/xchat.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/xmemo.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/yandex-disk.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/yandex.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/yandex_calendar.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/yandex_mail.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/yantrikdb-hermes-dashboard.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/yantrikdb.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/yolo-auto.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/you-should-know.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/you.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/youtube-dock.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/yuanbao.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/zalo-platform.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/zalodesk.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/zambo-receipts.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/zeromem.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/zerosignal.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "path": "plugin-catalog/zoth.yaml",
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    }
+  ]
+}
