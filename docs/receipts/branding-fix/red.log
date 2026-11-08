@@ -13,9 +13,9 @@
 test at tests/test_privacy_browser.js:36:1
 ✖ YouTube attribution renders without an authenticated image request (307.954417ms)
   AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^data:image\/png;base64,/. Input:
-  
+
   '/api/plugins/hackertube/branding/youtube.png'
-  
+
       at TestContext.<anonymous> (/Users/robert/Developer/hackertube-privacy/tests/test_privacy_browser.js:50:12)
       at async Test.run (node:internal/test_runner/test:1404:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
