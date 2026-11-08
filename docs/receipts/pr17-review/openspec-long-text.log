@@ -1,0 +1,5 @@
+✗ change/hackertube-v1
+  ⚠ [WARNING] focused-search/spec.md: ADDED "Question and constraint priority": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior.
+  ⚠ [WARNING] request-jobs/spec.md: ADDED "Preserve successful cached results": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior.
+Totals: 0 passed, 1 failed (1 items)
+Details: openspec validate hackertube-v1 --type change

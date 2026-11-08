@@ -138,6 +138,7 @@ def test_hermes_ranked_new_item_survives_save_open_and_reopen(tmp_path, monkeypa
                     {
                         "item_id": ids[0],
                         "reason": "A source-backed vegetable growing guide.",
+                        "fit": "direct",
                     }
                 ]
             },
@@ -189,7 +190,7 @@ def test_hermes_ranked_new_item_survives_save_open_and_reopen(tmp_path, monkeypa
 def test_host_model_can_only_rank_retrieved_ids():
     provider = HermesProvider(
         lambda raw: {
-            "data": {"items": [{"item_id": "invented", "reason": "plausible"}]}
+            "data": {"items": [{"item_id": "invented", "reason": "plausible", "fit": "direct"}]}
         }
     )
     with pytest.raises(Exception, match="unsupported candidate"):
@@ -445,7 +446,7 @@ def test_rank_input_reserves_space_for_each_format_and_rejects_unsubmitted_ids()
         payload = json.loads(raw)["input"]["candidates"]
         observed.extend(payload)
         return {
-            "data": {"items": [{"item_id": "video:one", "reason": "A video lesson."}]}
+            "data": {"items": [{"item_id": "video:one", "reason": "A video lesson.", "fit": "direct"}]}
         }
 
     ranked, _ = HermesProvider(invoke).rank("gardening", cat, 3)

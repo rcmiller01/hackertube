@@ -1982,7 +1982,7 @@ test("search helpers format a cost, a limit, and a refusal without a score", () 
     page.limitsLine({ max_hits: 12, max_requests: 2, deadline_seconds: 5 }, { requests_used: 2 }),
     "Work limits for this job: at most 2 provider requests, 12 results, a 5 second deadline. Provider requests used: 2.",
   );
-  assert.equal(page.constraintLine({ max_duration_seconds: null }), "Constraints: none applied.");
+  assert.equal(page.constraintLine({ max_duration_seconds: null }), "Time limit: none requested.");
   assert.match(page.constraintLine({ max_duration_seconds: 3600 }), /longer than 1 hour are excluded/);
   assert.equal(page.sectionLabel("audiobooks"), "Audiobooks");
   assert.equal(page.sectionLabel("books"), "Books");
@@ -2141,3 +2141,38 @@ for (const kind of ["model", "sources"]) {
     } finally { ui.restore(); }
   });
 }
+
+test("search shows the retrieval subject separately and labels inferred relevance", () => {
+  const row = verifiedResult("b1", { why: ["Direct introduction."], relevance: "model_inferred" });
+  const outcome = searchResult(
+    { books: { verified: [row], verified_count: 1, insufficient_evidence: false } },
+    { interpretation: { topic: "AI for beginners without daily news", retrieval_query: "artificial intelligence", depth: "beginner" } },
+  );
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: outcome });
+  try {
+    submitSearch(ui, "AI introductions, no daily news");
+    const text = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.match(text, /Topic: artificial intelligence/);
+    assert.match(text, /Level: beginner/);
+    assert.match(text, /Model relevance: Direct introduction/);
+    assert.match(text, /Source: Open Library/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("beginner search does not claim that no relevance constraints were applied", () => {
+  const outcome = searchResult({}, {
+    interpretation: { topic: "AI introductions without daily news", retrieval_query: "artificial intelligence", depth: "beginner", max_duration_seconds: null },
+  });
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: outcome });
+  try {
+    submitSearch(ui, "AI introductions for beginners, no daily news");
+    const text = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.match(text, /Level: beginner/);
+    assert.doesNotMatch(text, /Constraints: none applied/);
+    assert.match(text, /Time limit: none requested/);
+  } finally {
+    ui.restore();
+  }
+});

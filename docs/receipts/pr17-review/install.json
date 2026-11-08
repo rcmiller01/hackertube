@@ -1,0 +1,13 @@
+{
+  "reviewed_head": "e26104cbd9c9a2b84d25272709f2ff6eabcb2c1c",
+  "baseline_installed_files_matching": 34,
+  "updated_files": [
+    "hackertube/dashboard/dist/index.js",
+    "hackertube/hackertube_core/hermes.py"
+  ],
+  "fixed_runtime_files_matching": 34,
+  "backup": "/Users/robert/Documents/Codex/2026-11-08/hackertube-pr17-review/125216",
+  "settings_or_credentials_changed": false,
+  "live_model_calls_started": 0,
+  "dashboard_http_status_after_reload": 200
+}

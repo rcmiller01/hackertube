@@ -556,6 +556,34 @@ Scenarios: SEARCH01 and CAT01/03/08 pass for the exercised four-format path; JOB
 
 Checks: **233 Python passed / 0 failed**, **71 JavaScript passed / 0 failed / 0 skipped**, plugin validation without warnings, lint and strict specification/traceability checks. Code is pinned by the commit containing this section and `docs/receipts/installed-live/youtube-runtime-manifest.json` (**34/34 installed runtime files match**). Full report, observed source state, failures, red/green logs, and screenshot: `docs/receipts/installed-live/ai-search-evaluation.md#youtube-enabled-follow-up`. The key was never inspected or copied by the agent.
 
+## Category relevance and ranking follow-up — PR #17
+
+PR #16 merged at reviewed head `076495c083cbab8c753e0a1cabbf677497d9c359`, squash commit `206084688822a21847f989cd959d99f93cfa48cc`. The follow-up branch starts from that merge. Tasks 8.1–8.3 pass offline; 8.4 passes the bounded installed-live checks recorded below.
+
+The baseline regression run reproduced **16 failures / 1 passing control** before implementation (`0a7420e`). A further uneven-result-limit test reproduced category starvation (`52325fe`), and a rendered UI test reproduced missing subject/inference labels (`662641b`), each before its fix. The updated suite passes **251 Python / 0 failures**, **72 JavaScript / 0 failures / 0 skips**, strict OpenSpec, 14 invalid coverage fixtures plus one valid mixed fixture, lint, and Hermes plugin validation without warnings. One existing Starlette/httpx deprecation warning remains. Six existing valid model-response fixtures were migrated to include the new required fit field, retaining all their assertions.
+
+Scope: one interpretation decoder and native interpretation prompt; one shared source-query assignment for all adapters/web; one ranking caller and validator; one shared final result selector; one UI result renderer and one job summary. Four categories share candidate/result allocation, with the two podcast record types interleaved inside one category. No new dependency or outbound call site was introduced; model/source budgets are unchanged. Relevance is model-inferred, while identity/provenance stays source-backed.
+
+Full policy, checks, remaining quality risks, runtime pin, and installed-live disposition: `docs/receipts/results-tuning/README.md`. This does not close source credential/release obligations, cancellation/restart recovery, or the broad relevance evaluation.
+
+### PR #17 installed checks and review
+
+Runtime `d3e115eb9ac96e3623b48bf582e93fbc7357df9d`; **34/34 installed files** match the new runtime manifest. Host v0.23.0+1212.g719240d, Python 3.14.9, same configured OpenRouter model and source settings. The actual dashboard showed the new subject/level and model-inference labels. Strict AI request: **2 videos / 2 podcasts / 1 book / 5 audiobooks**. Broad accessible-introduction request: **3/4/2/6**. Both succeeded at **11/12 logical requests**, unknown cost; **4/4 categories** nonempty and **0/4** over the six-item category allowance. Saved state, interests, open events, and source settings are unchanged after the two searches.
+
+The earlier visible news-only entries, tiny clips, and historical computing book were absent. These are metadata-based observations rather than independent full-content judgments; one broad audiobook explanation remains hedged despite its direct-fit label. Live results are not frozen, and the earlier strict baseline lacked YouTube, so these are functional reruns rather than causal A/B scores. The broader relevance evaluation stays open.
+
+Codex re-read the implemented runtime against the merge base after the checks, including partial-validation handling, subject fallback, source-backed identity, category shares after eligibility, uneven caps, and the two podcast record types. No further implementation finding was identified. Full receipts and limits are in `docs/receipts/results-tuning/README.md`; final head is re-read after push. PR #17 remains unmerged.
+
+## PR #17 exact-head review corrections
+
+Reviewed `e26104cbd9c9a2b84d25272709f2ff6eabcb2c1c` against base `206084688822a21847f989cd959d99f93cfa48cc`. Two P2 findings were reproduced and corrected: conflicting validated fit labels could still promote an ambiguous identity, and the duration caption claimed no constraints were applied despite audience/exclusion preferences. Scope, original locations, exact-head proof, and remaining limits: `docs/pr17-review.md`.
+
+The isolated exact-head archive with regression tests only reproduces **6 Python failures / 3 passing duplicate controls** and **1 UI failure**, with import isolation verified after canonicalizing macOS path aliases. Red tests precede runtime fixes. Fixed cases admit **0/4** conflicting identities versus **4/4** before; the **3/3** consistent-duplicate controls remain passing. Two full-job tests retain only unambiguous matches with partial status and exactly two model invocations, without retry.
+
+Checks: **260 Python passed / 0 failed**, **73 JavaScript/browser passed / 0 failed / 0 skipped**, strict OpenSpec **1/0**, coverage **32 IDs / 95 scenarios**, fixtures **14 invalid rejected / 1 valid accepted**, lint, and Hermes plugin validation without warnings. Existing Starlette/httpx warning remains. Two installed runtime files were updated after verifying the original 34-file manifest; **34/34** now match `docs/receipts/pr17-review/runtime-manifest.json`, and dashboard reload responds HTTP **200**. No settings, credentials, or paid live calls were changed/started.
+
+The fixes exercise SEARCH01's direct-fit semantics and summary accuracy plus JOB07's partial-result retention. Tasks 8.2/8.3 remain checked with these stronger cases. Earlier live receipts remain pinned to their original runtime. The PR stays unmerged; broader relevance and release/source obligations remain open.
+
 ## Release measurements
 
 All values are unmeasured. Freeze the post-demo evaluation workload, rubric, source snapshots, provider configuration, and request limits before collecting results. Use PRD section 9 for proposed targets and report adjustments explicitly. The demo video length is measured under task 4.3, not inferred from the six-step outline.

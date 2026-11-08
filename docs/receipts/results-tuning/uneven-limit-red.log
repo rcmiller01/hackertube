@@ -1,0 +1,19 @@
+.................F                                                       [100%]
+=================================== FAILURES ===================================
+_____ test_small_uneven_global_limit_does_not_starve_an_available_category _____
+
+    def test_small_uneven_global_limit_does_not_starve_an_available_category():
+        from dataclasses import replace
+        cat = catalog_for(['audiobook'] * 8 + ['podcast_show'] * 8 + ['book'] * 8 + ['video'] * 8)
+        result = result_set(cat, profile(), interpret_question('AI videos podcasts books audiobooks'), NOW,
+                            limits=replace(LIVE_LIMITS, max_hits=5),
+                            ranking={x.item_id: 'Direct match.' for x in cat.items})
+        assert len(result['results']) == 5
+>       assert all(s['verified_count'] >= 1 for s in result['sections'].values())
+E       assert False
+E        +  where False = all(<generator object test_small_uneven_global_limit_does_not_starve_an_available_category.<locals>.<genexpr> at 0x109766e90>)
+
+tests/test_results_tuning.py:147: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_results_tuning.py::test_small_uneven_global_limit_does_not_starve_an_available_category
+1 failed, 17 passed in 0.04s

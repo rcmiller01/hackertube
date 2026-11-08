@@ -1,0 +1,170 @@
+Pinned runtime import: verified inside exact-head archive
+FFFF...FF                                                                [100%]
+=================================== FAILURES ===================================
+___ test_conflicting_fit_for_one_identity_cannot_override_uncertainty[fits0] ___
+
+fits = ('direct', 'uncertain')
+
+    @pytest.mark.parametrize('fits', [
+        ('direct', 'uncertain'), ('uncertain', 'direct'),
+        ('direct', 'related'), ('related', 'direct'),
+    ])
+    def test_conflicting_fit_for_one_identity_cannot_override_uncertainty(fits):
+        cat = catalog_for(['book', 'book'])
+        rows = [{'item_id': 'media:0', 'reason': 'Model assessment.', 'fit': fit} for fit in fits]
+        rows.append({'item_id': 'media:1', 'reason': 'Unambiguous direct match.', 'fit': 'direct'})
+        provider = HermesProvider(lambda raw: {'data': {'items': rows}})
+        ranked, _ = provider.rank('AI introductions', cat, 5)
+>       assert list(ranked) == ['media:1'], 'Do not promote an identity with contradictory fit labels'
+E       AssertionError: Do not promote an identity with contradictory fit labels
+E       assert ['media:0', 'media:1'] == ['media:1']
+E         
+E         At index 0 diff: 'media:0' != 'media:1'
+E         Left contains one more item: 'media:1'
+E         Use -v to get more diff
+
+tests/test_pr17_review.py:23: AssertionError
+___ test_conflicting_fit_for_one_identity_cannot_override_uncertainty[fits1] ___
+
+fits = ('uncertain', 'direct')
+
+    @pytest.mark.parametrize('fits', [
+        ('direct', 'uncertain'), ('uncertain', 'direct'),
+        ('direct', 'related'), ('related', 'direct'),
+    ])
+    def test_conflicting_fit_for_one_identity_cannot_override_uncertainty(fits):
+        cat = catalog_for(['book', 'book'])
+        rows = [{'item_id': 'media:0', 'reason': 'Model assessment.', 'fit': fit} for fit in fits]
+        rows.append({'item_id': 'media:1', 'reason': 'Unambiguous direct match.', 'fit': 'direct'})
+        provider = HermesProvider(lambda raw: {'data': {'items': rows}})
+        ranked, _ = provider.rank('AI introductions', cat, 5)
+>       assert list(ranked) == ['media:1'], 'Do not promote an identity with contradictory fit labels'
+E       AssertionError: Do not promote an identity with contradictory fit labels
+E       assert ['media:0', 'media:1'] == ['media:1']
+E         
+E         At index 0 diff: 'media:0' != 'media:1'
+E         Left contains one more item: 'media:1'
+E         Use -v to get more diff
+
+tests/test_pr17_review.py:23: AssertionError
+___ test_conflicting_fit_for_one_identity_cannot_override_uncertainty[fits2] ___
+
+fits = ('direct', 'related')
+
+    @pytest.mark.parametrize('fits', [
+        ('direct', 'uncertain'), ('uncertain', 'direct'),
+        ('direct', 'related'), ('related', 'direct'),
+    ])
+    def test_conflicting_fit_for_one_identity_cannot_override_uncertainty(fits):
+        cat = catalog_for(['book', 'book'])
+        rows = [{'item_id': 'media:0', 'reason': 'Model assessment.', 'fit': fit} for fit in fits]
+        rows.append({'item_id': 'media:1', 'reason': 'Unambiguous direct match.', 'fit': 'direct'})
+        provider = HermesProvider(lambda raw: {'data': {'items': rows}})
+        ranked, _ = provider.rank('AI introductions', cat, 5)
+>       assert list(ranked) == ['media:1'], 'Do not promote an identity with contradictory fit labels'
+E       AssertionError: Do not promote an identity with contradictory fit labels
+E       assert ['media:0', 'media:1'] == ['media:1']
+E         
+E         At index 0 diff: 'media:0' != 'media:1'
+E         Left contains one more item: 'media:1'
+E         Use -v to get more diff
+
+tests/test_pr17_review.py:23: AssertionError
+___ test_conflicting_fit_for_one_identity_cannot_override_uncertainty[fits3] ___
+
+fits = ('related', 'direct')
+
+    @pytest.mark.parametrize('fits', [
+        ('direct', 'uncertain'), ('uncertain', 'direct'),
+        ('direct', 'related'), ('related', 'direct'),
+    ])
+    def test_conflicting_fit_for_one_identity_cannot_override_uncertainty(fits):
+        cat = catalog_for(['book', 'book'])
+        rows = [{'item_id': 'media:0', 'reason': 'Model assessment.', 'fit': fit} for fit in fits]
+        rows.append({'item_id': 'media:1', 'reason': 'Unambiguous direct match.', 'fit': 'direct'})
+        provider = HermesProvider(lambda raw: {'data': {'items': rows}})
+        ranked, _ = provider.rank('AI introductions', cat, 5)
+>       assert list(ranked) == ['media:1'], 'Do not promote an identity with contradictory fit labels'
+E       AssertionError: Do not promote an identity with contradictory fit labels
+E       assert ['media:0', 'media:1'] == ['media:1']
+E         
+E         At index 0 diff: 'media:0' != 'media:1'
+E         Left contains one more item: 'media:1'
+E         Use -v to get more diff
+
+tests/test_pr17_review.py:23: AssertionError
+_ test_conflicting_ranking_keeps_only_unambiguous_matches_without_retry[False] _
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-148/test_conflicting_ranking_keeps0')
+with_valid_match = False
+
+    @pytest.mark.parametrize('with_valid_match', [False, True])
+    def test_conflicting_ranking_keeps_only_unambiguous_matches_without_retry(tmp_path, with_valid_match):
+        cat = catalog_for(['book', 'book'] if with_valid_match else ['book'])
+        calls = []
+    
+        def invoke(raw):
+            stage = json.loads(raw)['stage']
+            calls.append(stage)
+            if stage == 'interpret':
+                return {'data': {'topic': 'AI', 'terms': ['AI'], 'formats': ['book']}}
+            rows = [
+                {'item_id': 'media:0', 'reason': 'Clear fit.', 'fit': 'direct'},
+                {'item_id': 'media:0', 'reason': 'Suitability unknown.', 'fit': 'uncertain'},
+            ]
+            if with_valid_match:
+                rows.append({'item_id': 'media:1', 'reason': 'Unambiguous match.', 'fit': 'direct'})
+            return {'data': {'items': rows}}
+    
+        result = run_search(store_at(tmp_path), 'AI books', catalog=cat, profile=profile(), now=NOW,
+                            provider=HermesProvider(invoke), retriever=lambda *args: (cat, []),
+                            limits=LIVE_LIMITS, disclosure_accepted=True)
+>       assert [row['item_id'] for row in result['results']] == (['media:1'] if with_valid_match else [])
+E       AssertionError: assert ['media:0'] == []
+E         
+E         Left contains one more item: 'media:0'
+E         Use -v to get more diff
+
+tests/test_pr17_review.py:60: AssertionError
+_ test_conflicting_ranking_keeps_only_unambiguous_matches_without_retry[True] __
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-148/test_conflicting_ranking_keeps1')
+with_valid_match = True
+
+    @pytest.mark.parametrize('with_valid_match', [False, True])
+    def test_conflicting_ranking_keeps_only_unambiguous_matches_without_retry(tmp_path, with_valid_match):
+        cat = catalog_for(['book', 'book'] if with_valid_match else ['book'])
+        calls = []
+    
+        def invoke(raw):
+            stage = json.loads(raw)['stage']
+            calls.append(stage)
+            if stage == 'interpret':
+                return {'data': {'topic': 'AI', 'terms': ['AI'], 'formats': ['book']}}
+            rows = [
+                {'item_id': 'media:0', 'reason': 'Clear fit.', 'fit': 'direct'},
+                {'item_id': 'media:0', 'reason': 'Suitability unknown.', 'fit': 'uncertain'},
+            ]
+            if with_valid_match:
+                rows.append({'item_id': 'media:1', 'reason': 'Unambiguous match.', 'fit': 'direct'})
+            return {'data': {'items': rows}}
+    
+        result = run_search(store_at(tmp_path), 'AI books', catalog=cat, profile=profile(), now=NOW,
+                            provider=HermesProvider(invoke), retriever=lambda *args: (cat, []),
+                            limits=LIVE_LIMITS, disclosure_accepted=True)
+>       assert [row['item_id'] for row in result['results']] == (['media:1'] if with_valid_match else [])
+E       AssertionError: assert ['media:0', 'media:1'] == ['media:1']
+E         
+E         At index 0 diff: 'media:0' != 'media:1'
+E         Left contains one more item: 'media:1'
+E         Use -v to get more diff
+
+tests/test_pr17_review.py:60: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_pr17_review.py::test_conflicting_fit_for_one_identity_cannot_override_uncertainty[fits0]
+FAILED tests/test_pr17_review.py::test_conflicting_fit_for_one_identity_cannot_override_uncertainty[fits1]
+FAILED tests/test_pr17_review.py::test_conflicting_fit_for_one_identity_cannot_override_uncertainty[fits2]
+FAILED tests/test_pr17_review.py::test_conflicting_fit_for_one_identity_cannot_override_uncertainty[fits3]
+FAILED tests/test_pr17_review.py::test_conflicting_ranking_keeps_only_unambiguous_matches_without_retry[False]
+FAILED tests/test_pr17_review.py::test_conflicting_ranking_keeps_only_unambiguous_matches_without_retry[True]
+6 failed, 3 passed in 0.08s

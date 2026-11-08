@@ -1,0 +1,23 @@
+tests/test_results_tuning.py:67:    assert provider.ranking_diagnostics['invalid_entries'] == 1
+tests/test_results_tuning.py:80:    assert provider.ranking_diagnostics['not_recommended'] == 2
+tests/test_pr17_review.py:24:    assert provider.ranking_diagnostics['invalid_entries'] == 2
+tests/test_pr17_review.py:25:    assert provider.ranking_diagnostics['conflicting_identities'] == 1
+tests/test_pr17_review.py:26:    assert provider.ranking_diagnostics['not_recommended'] == 0
+tests/test_pr17_review.py:36:    assert provider.ranking_diagnostics['invalid_entries'] == 0
+hackertube/dashboard/dist/index.js:633:  function constraintLine(interpretation) {
+hackertube/dashboard/dist/index.js:635:    if (typeof limit !== "number" || limit <= 0) return "Constraints: none applied.";
+hackertube/dashboard/dist/index.js:636:    return "Constraints: items longer than " + formatDuration(limit) +
+hackertube/dashboard/dist/index.js:1557:          h("p", { className: "ht-constraints" }, constraintLine(result && result.interpretation)),
+hackertube/dashboard/dist/index.js:1851:    constraintLine: constraintLine,
+hackertube/hackertube_core/search.py:737:                    diagnostics = getattr(provider, "ranking_diagnostics", {})
+hackertube/hackertube_core/search.py:837:        "ranking": getattr(provider, "ranking_diagnostics", {}),
+hackertube/hackertube_core/hermes.py:148:        self.ranking_diagnostics = {}
+hackertube/hackertube_core/hermes.py:214:        self.ranking_diagnostics = {
+hackertube/hackertube_core/hermes.py:229:                self.ranking_diagnostics["invalid_entries"] += 1
+hackertube/hackertube_core/hermes.py:237:                self.ranking_diagnostics["invalid_entries"] += 1
+hackertube/hackertube_core/hermes.py:240:                self.ranking_diagnostics["not_recommended"] += 1
+hackertube/hackertube_core/hermes.py:242:            ranked.setdefault(row["item_id"], reason.strip())
+hackertube/hackertube_core/hermes.py:243:        if not ranked and self.ranking_diagnostics["invalid_entries"]:
+tests/test_dashboard_page.js:1985:  assert.equal(page.constraintLine({ max_duration_seconds: null }), "Constraints: none applied.");
+tests/test_dashboard_page.js:1986:  assert.match(page.constraintLine({ max_duration_seconds: 3600 }), /longer than 1 hour are excluded/);
+tests/test_dashboard_page.js:2173:    assert.doesNotMatch(text, /Constraints: none applied/);

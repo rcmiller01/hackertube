@@ -157,7 +157,7 @@ class SourceRetriever:
 
     def __call__(self, interpretation, now, budget):
         hn_payload = {}
-        query = interpretation.topic.strip()
+        query = (interpretation.retrieval_query or interpretation.topic).strip()
         if not query:
             raise RecordError("empty search topic")
         settings = self.store.source_settings()

@@ -99,3 +99,19 @@ The installable `hackertube/` directory now owns `hackertube_core/`, dashboard, 
 Real Search interprets through `ctx.llm.complete_structured`, retrieves bounded source records through the shared HTTP boundary plus `ctx.dispatch_tool('web_search')`, ranks only admitted IDs, and stores normalized records through `plugin_db` for subsequent library actions. Ordinary reads merge local records with the existing seed and launch no retrieval. Requested formats are filtered before the result cap. Blocking work uses the ASGI worker pool; each next dispatch checks the remaining budget. Host-owned retries/fallback are counted as one logical invocation and are not claimed as an independently measured vendor request count. Cancellation/restart remains post-demo.
 
 The full implementation contract, current source coverage, immutable original receipts, and limits are recorded in docs/real-search.md and verification.md. The original key-fallback decision above is superseded by Robert's provider-selection instruction.
+
+## Results tuning after PR #16
+
+The live AI walkthrough established retrieval across all four categories, but the output overfilled audiobooks, included weak introductions, and lost good rows on a single invalid model entry. The follow-up keeps one interpretation and one ranking invocation. A validated `retrieval_query` separates the subject from the full request; absent fields from older scripted providers fall back to the topic. The complete question still reaches ranking, so narrowing is not discarded.
+
+The ranking input is round-robin across the four user-facing categories, with shows/episodes interleaved inside Podcasts. The 60-input cap remains. Ranking returns retrieved IDs, concise explanations, and `fit` (`direct`, `related`, or `uncertain`); only direct fits are recommended. Fit is model-inferred from supplied metadata, not a claim of independently verified relevance. Format-specific instructions distinguish substantive learning videos, educational podcasts versus news, modern introductions versus historical book context, and actual matching audio editions.
+
+Validate each ranked entry separately. Bad IDs, malformed explanations, and missing/invalid fit are counted and ignored if valid entries remain; an entirely malformed ranking fails closed. No retry or local promotion replaces missing model output. Intentional related/uncertain omissions are separate from validation failures. A partial ranking status and diagnostic counts accompany retained valid results.
+
+Apply the final category share after existing format, dismissal, and duration checks, preserving within-category model order. The share is `ceil(max_hits / requested_categories)`, bounded by max_hits overall; unused slots stay unused. This preserves the single-category allowance, avoids counting Podcasts twice, and does not fabricate coverage. No new dependencies, credential paths, source expansion, or scheduling are needed.
+
+### PR #17 review: ambiguous identities and summary scope
+
+Fit validation resolves all structurally valid entries for an identity before choosing a recommendation. If those entries disagree (`direct` versus `related` or `uncertain`, in either order), every conflicting entry is invalid and that identity is excluded. Other unambiguous identities survive with partial ranking coverage; an all-conflicting ranking fails closed. Consistent duplicates preserve the existing first-reason deduplication rule. `conflicting_identities` counts affected IDs, while `invalid_entries` counts their rows; those rows are not double-counted as intentional relevance omissions.
+
+The duration caption now says Time limit, including when none was requested. Depth/audience/exclusion preferences remain separate ranking criteria, so an absent duration can no longer be described as no constraints applied.

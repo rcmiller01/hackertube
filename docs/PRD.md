@@ -53,7 +53,7 @@ The user enters a request such as “Find approachable introductions to distribu
 
 HackerTube interprets the subject, purpose, time, depth, and requested formats. It searches configured sources, verifies candidate identities and links, then presents ranked results across the relevant sections. The user can refine the request without losing the earlier result set or saved items.
 
-Focused relevance takes precedence over the user's usual interests. The result view explains which constraints were used. A section with no credible matches says so. The product never invents an audiobook edition or fills a section merely to meet a count.
+Focused relevance takes precedence over the user's usual interests. Source retrieval uses the subject separately from audience/exclusion qualifiers, which remain ranking criteria. Direct purpose matches are eligible; merely related or uncertain fits do not fill categories. For a broad four-category request the 24-result allowance is shared up to six per category, counting podcast shows and episodes together; single-category requests retain the full allowance. Sparse categories leave unused slots. These are caps, not minimums. The result view explains which constraints were used. A section with no credible matches says so. The product never invents an audiobook edition or fills a section merely to meet a count.
 
 ### Save and return
 

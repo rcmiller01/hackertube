@@ -1,0 +1,30 @@
+✖ beginner search does not claim that no relevance constraints were applied (2.767208ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 37.649333
+
+✖ failing tests:
+
+test at tests/test_dashboard_page.js:2164:1
+✖ beginner search does not claim that no relevance constraints were applied (2.767208ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /Constraints: none applied/. Input:
+  
+  'Search resultsQuestion: AI introductions for beginners, no daily newsProvider: stub. Job job:1. State: succeeded.Topic: artificial intelligence. Level: beginner.Constraints: none applied.Cost: unknown. The provider reported no cost information.Work limits for this job: at most 2 provider requests, 12 results, a 5 second deadline. Provider requests used: 1.No verified candidate was retrieved for this question.Back to discovery'
+  
+      at TestContext.<anonymous> (/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/ht-pr17-pinned-3f8a_7gh/tests/test_dashboard_page.js:2173:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.start (node:internal/test_runner/test:1257:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Search resultsQuestion: AI introductions for beginners, no daily newsProvider: stub. Job job:1. State: succeeded.Topic: artificial intelligence. Level: beginner.Constraints: none applied.Cost: unknown. The provider reported no cost information.Work limits for this job: at most 2 provider requests, 12 results, a 5 second deadline. Provider requests used: 1.No verified candidate was retrieved for this question.Back to discovery',
+    expected: /Constraints: none applied/,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }

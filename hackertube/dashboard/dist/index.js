@@ -632,8 +632,8 @@
 
   function constraintLine(interpretation) {
     var limit = interpretation && interpretation.max_duration_seconds;
-    if (typeof limit !== "number" || limit <= 0) return "Constraints: none applied.";
-    return "Constraints: items longer than " + formatDuration(limit) +
+    if (typeof limit !== "number" || limit <= 0) return "Time limit: none requested.";
+    return "Time limit: items longer than " + formatDuration(limit) +
       " are excluded. Unknown duration is labeled unverified and left out of strict matches.";
   }
 
@@ -1518,7 +1518,8 @@
             "In your library: " + result.state.label + "."
           ));
         }
-        notes.push(h("p", { className: "ht-why", key: "why" }, resultWhy(result)));
+        notes.push(h("p", { className: "ht-why", key: "why" },
+          result.relevance === "model_inferred" ? "Model relevance: " : "", resultWhy(result)));
         var body = item
           ? renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, false, "", null)
           : h("div", { className: "ht-card" }, h("h4", null, String(result.title || result.item_id)));
@@ -1550,6 +1551,9 @@
         var notes = coverage.notes || [];
         return h("div", { className: "ht-job" },
           h("p", { className: "ht-meta", id: "hackertube-job-status" }, searchStatusLine(result)),
+          result && result.interpretation ? h("p", { className: "ht-meta" },
+            "Topic: " + (result.interpretation.retrieval_query || result.interpretation.topic || "unknown") +
+            ". Level: " + (result.interpretation.depth || "unspecified") + ".") : null,
           h("p", { className: "ht-constraints" }, constraintLine(result && result.interpretation)),
           h("p", { className: "ht-cost", id: "hackertube-job-cost" }, formatCost(usage)),
           h("p", { className: "ht-meta", id: "hackertube-job-limits" }, limitsLine(job.limits, usage)),
