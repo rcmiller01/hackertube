@@ -155,3 +155,29 @@ def test_worker_exits_when_its_dashboard_parent_dies(tmp_path):
     assert connection.recv(1) == b"", "orphan worker kept its provider connection open"
     connection.close()
     server.close()
+
+def test_monitor_keeps_the_request_profile_context(tmp_path):
+    import contextvars
+    import sqlite3
+    from hackertube_core.profile import ProfileStore
+    from hackertube_core.search_jobs import SearchSupervisor
+    roots = [tmp_path / "a", tmp_path / "b"]
+    for root in roots:
+        root.mkdir()
+    active = contextvars.ContextVar("test_profile", default=roots[1])
+    def connect():
+        conn = sqlite3.connect(active.get() / "profile.db")
+        conn.row_factory = sqlite3.Row
+        return conn
+    ProfileStore(connect)  # initialize default B
+    token = active.set(roots[0])
+    try:
+        store = ProfileStore(connect)
+        manager = SearchSupervisor(store, home=tmp_path / "home-a", host_root=tmp_path,
+            command=[sys.executable, str(FIXTURE), "crash", "0"])
+        job = manager.start("AI", provider="hermes", limits=Limits(deadline_seconds=2), disclosure_accepted=True)
+        assert manager.wait(job["job_id"], 3)
+        assert manager.status(job["job_id"])["job"]["state"] == "failed"
+    finally:
+        active.reset(token)
+    assert ProfileStore(connect).job_count() == 0
