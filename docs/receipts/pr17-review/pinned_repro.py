@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[3]
 HEAD = 'e26104cbd9c9a2b84d25272709f2ff6eabcb2c1c'
 OUT = Path(__file__).resolve().parent
 with tempfile.TemporaryDirectory(prefix='ht-pr17-pinned-') as temp:
-    target = Path(temp)
+    target = Path(temp).resolve()
     archive = subprocess.check_output(['git', 'archive', HEAD], cwd=ROOT)
     with tarfile.open(fileobj=io.BytesIO(archive)) as tree:
         tree.extractall(target, filter='data')
