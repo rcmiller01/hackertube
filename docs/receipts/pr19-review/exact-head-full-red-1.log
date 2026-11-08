@@ -70,7 +70,7 @@ tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/p
 
     def test_existing_observer_recovers_job_after_other_dashboard_dies(tmp_path):
         from hackertube_core.search_jobs import SearchSupervisor
-    
+
         server = socket.socket()
         server.bind(("127.0.0.1", 0))
         server.listen(1)
@@ -92,7 +92,7 @@ tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/p
             result = observer.status(job_id)
 >           assert result["job"]["state"] == "interrupted"
 E           AssertionError: assert 'running' == 'interrupted'
-E             
+E
 E             - interrupted
 E             + running
 
@@ -103,7 +103,7 @@ tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/p
 
     def test_new_explicit_start_recovers_old_owner_before_recording_new_job(tmp_path):
         from hackertube_core.search_jobs import SearchSupervisor
-    
+
         home = tmp_path / "home"
         store = store_at(home / "plugin-data/hackertube")
         manager = SearchSupervisor(store, home=home,
@@ -118,7 +118,7 @@ tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/p
         try:
 >           assert store.job(old_id)["state"] == "interrupted"
 E           AssertionError: assert 'running' == 'interrupted'
-E             
+E
 E             - interrupted
 E             + running
 
@@ -132,14 +132,14 @@ name = 'hermes', available = True
     @pytest.mark.parametrize("name,available", [("hermes", True), ("hermes", False), ("stub", True)])
     def test_search_info_recovers_after_cached_supervisor_loses_other_owner(setup, monkeypatch, name, available):
         from types import SimpleNamespace
-    
+
         dashboard, manager, server, store = setup
         original = dashboard.module._search_binding
-    
+
         def binding():
             catalog, saved, _ = original()
             return catalog, saved, SimpleNamespace(name=name, available=lambda: available)
-    
+
         monkeypatch.setattr(dashboard.module, "_search_binding", binding)
         job_id = store.record_job(dict(
             kind="search", state="running", question="AI", provider="hermes",
@@ -151,7 +151,7 @@ name = 'hermes', available = True
         assert result["job"]["job_id"] == job_id
 >       assert result["job"]["state"] == "interrupted"
 E       AssertionError: assert 'running' == 'interrupted'
-E         
+E
 E         - interrupted
 E         + running
 
@@ -165,14 +165,14 @@ name = 'hermes', available = False
     @pytest.mark.parametrize("name,available", [("hermes", True), ("hermes", False), ("stub", True)])
     def test_search_info_recovers_after_cached_supervisor_loses_other_owner(setup, monkeypatch, name, available):
         from types import SimpleNamespace
-    
+
         dashboard, manager, server, store = setup
         original = dashboard.module._search_binding
-    
+
         def binding():
             catalog, saved, _ = original()
             return catalog, saved, SimpleNamespace(name=name, available=lambda: available)
-    
+
         monkeypatch.setattr(dashboard.module, "_search_binding", binding)
         job_id = store.record_job(dict(
             kind="search", state="running", question="AI", provider="hermes",
@@ -184,7 +184,7 @@ name = 'hermes', available = False
         assert result["job"]["job_id"] == job_id
 >       assert result["job"]["state"] == "interrupted"
 E       AssertionError: assert 'running' == 'interrupted'
-E         
+E
 E         - interrupted
 E         + running
 
@@ -198,14 +198,14 @@ name = 'stub', available = True
     @pytest.mark.parametrize("name,available", [("hermes", True), ("hermes", False), ("stub", True)])
     def test_search_info_recovers_after_cached_supervisor_loses_other_owner(setup, monkeypatch, name, available):
         from types import SimpleNamespace
-    
+
         dashboard, manager, server, store = setup
         original = dashboard.module._search_binding
-    
+
         def binding():
             catalog, saved, _ = original()
             return catalog, saved, SimpleNamespace(name=name, available=lambda: available)
-    
+
         monkeypatch.setattr(dashboard.module, "_search_binding", binding)
         job_id = store.record_job(dict(
             kind="search", state="running", question="AI", provider="hermes",
@@ -217,7 +217,7 @@ name = 'stub', available = True
         assert result["job"]["job_id"] == job_id
 >       assert result["job"]["state"] == "interrupted"
 E       AssertionError: assert 'running' == 'interrupted'
-E         
+E
 E         - interrupted
 E         + running
 

@@ -16,7 +16,7 @@
 ✓ no core override — no runtime rebinds of Hermes core
 ◆ Isolation — runs in the plugin host (plugins.isolation: host)
   · dashboard backend API is served through the plugin host (buffered responses)
-  · ctx.register_cli_command() is skipped in the host (`hermes <command>` 
+  · ctx.register_cli_command() is skipped in the host (`hermes <command>`
 subcommands are wired into the local CLI parser)
 
 Validation passed.

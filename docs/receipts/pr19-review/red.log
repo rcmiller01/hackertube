@@ -67,7 +67,7 @@ tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/p
 
     def test_existing_observer_recovers_job_after_other_dashboard_dies(tmp_path):
         from hackertube_core.search_jobs import SearchSupervisor
-    
+
         server = socket.socket()
         server.bind(("127.0.0.1", 0))
         server.listen(1)
@@ -89,7 +89,7 @@ tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/p
             result = observer.status(job_id)
 >           assert result["job"]["state"] == "interrupted"
 E           AssertionError: assert 'running' == 'interrupted'
-E             
+E
 E             - interrupted
 E             + running
 

@@ -9,14 +9,14 @@ name = 'hermes', available = False
     @pytest.mark.parametrize("name,available", [("hermes", True), ("hermes", False), ("stub", True)])
     def test_search_info_recovers_after_cached_supervisor_loses_other_owner(setup, monkeypatch, name, available):
         from types import SimpleNamespace
-    
+
         dashboard, manager, server, store = setup
         original = dashboard.module._search_binding
-    
+
         def binding():
             catalog, saved, _ = original()
             return catalog, saved, SimpleNamespace(name=name, available=lambda: available)
-    
+
         monkeypatch.setattr(dashboard.module, "_search_binding", binding)
         job_id = store.record_job(dict(
             kind="search", state="running", question="AI", provider="hermes",
@@ -28,7 +28,7 @@ name = 'hermes', available = False
         assert result["job"]["job_id"] == job_id
 >       assert result["job"]["state"] == "interrupted"
 E       AssertionError: assert 'running' == 'interrupted'
-E         
+E
 E         - interrupted
 E         + running
 
@@ -42,14 +42,14 @@ name = 'stub', available = True
     @pytest.mark.parametrize("name,available", [("hermes", True), ("hermes", False), ("stub", True)])
     def test_search_info_recovers_after_cached_supervisor_loses_other_owner(setup, monkeypatch, name, available):
         from types import SimpleNamespace
-    
+
         dashboard, manager, server, store = setup
         original = dashboard.module._search_binding
-    
+
         def binding():
             catalog, saved, _ = original()
             return catalog, saved, SimpleNamespace(name=name, available=lambda: available)
-    
+
         monkeypatch.setattr(dashboard.module, "_search_binding", binding)
         job_id = store.record_job(dict(
             kind="search", state="running", question="AI", provider="hermes",
@@ -61,7 +61,7 @@ name = 'stub', available = True
         assert result["job"]["job_id"] == job_id
 >       assert result["job"]["state"] == "interrupted"
 E       AssertionError: assert 'running' == 'interrupted'
-E         
+E
 E         - interrupted
 E         + running
 

@@ -34,7 +34,7 @@ The table is generated from [verification.json](verification.json), [native resu
 | Installed payload | 37/37 | all match fixed pin | PASS |
 | Saved items | 3 | unchanged | PASS |
 
-[Check runner results](checks.json) and adjacent full logs record collection before execution, strict OpenSpec, traceability, 14 invalid/1 valid coverage fixtures, fatal Python lint and native `hermes plugins validate --install-deps`. All pass; native validation has zero warnings. Python has one existing Starlette/httpx deprecation warning. [Focused green](focused-green.log) covers all 26 supervisor/route cases; full Python adds eight regressions to the original 279. All 80 browser cases were rerun although UI code is unchanged.
+[Check runner results](checks.json) and adjacent full logs record collection before execution, strict OpenSpec, traceability, 14 invalid/1 valid coverage fixtures, fatal Python lint and native `hermes plugins validate --install-deps`. All pass; native validation has zero warnings. Published logs trim trailing whitespace only; original outputs remain in the local review artifact directory. Python has one existing Starlette/httpx deprecation warning. [Focused green](focused-green.log) covers all 26 supervisor/route cases; full Python adds eight regressions to the original 279. All 80 browser cases were rerun although UI code is unchanged.
 
 The reproducible native probe remains `docs/receipts/hard-timeouts/native_probe.py`; it ran from the clean fixed export. It exercises actual public Hermes CLI and `ctx.llm` against a stalled localhost provider using a dummy test key. Both in-flight calls close their sockets and retain one observed request with unknown cost. No live vendor query was made in this review.
 
