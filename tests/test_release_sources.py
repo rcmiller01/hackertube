@@ -58,9 +58,15 @@ def test_recent_search_metadata_is_preserved(tmp_path):
     ("audiobook", "https://books.apple.com/us/audiobook/test/id123", "Apple Books"),
     ("podcast_show", "https://podcasts.apple.com/us/podcast/test/id123", "Apple Podcasts"),
 ])
-def test_apple_result_label_follows_the_actual_store(fmt, destination, label):
+@pytest.mark.parametrize("surface", ["search", "catalog"])
+def test_apple_result_label_follows_the_actual_store(fmt, destination, label, surface):
     row = item("itunes:123", fmt, "AI introduction", destination=destination)
     cat = build([row], [evidence("itunes:123", row["item_id"], "itunes")],
         [source("itunes", "Apple Podcasts")])  # historical cached registry label
-    result = result_set(cat, profile(), interpret_question("introduction"), "2026-11-07T12:00:00Z")
-    assert result["results"][0]["source"]["label"] == label
+    if surface == "catalog":
+        from hackertube_core.boundaries import explain_item
+        result = explain_item(cat.items[0], cat.evidence, {x.source_id:x for x in cat.sources})
+        assert result["retrievals"][0]["source_name"] == label
+    else:
+        result = result_set(cat, profile(), interpret_question("introduction"), "2026-11-07T12:00:00Z")
+        assert result["results"][0]["source"]["label"] == label
