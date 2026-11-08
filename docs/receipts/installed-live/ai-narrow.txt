@@ -1,0 +1,31 @@
+Search results
+
+Question: AI for nontechnical beginners: clear introductions, no coding, academic textbooks, or daily news. Include videos, podcasts, books, and audiobooks.
+
+Provider: hermes. Job job:7. State: succeeded.
+
+Constraints: none applied.
+
+Cost: unknown. The provider reported no cost information.
+
+Work limits for this job: at most 12 provider requests, 24 results, a 45 second deadline. Provider requests used: 9.
+
+podcastindex: missing_api_key reddit: approval_absent youtube: missing_api_key
+
+Videos · 0 verified
+
+No verified videos match for this question.
+
+Podcasts · 0 verified
+
+No verified podcasts match for this question.
+
+Books · 0 verified
+
+No verified books match for this question.
+
+Audiobooks · 0 verified
+
+No verified audiobooks match for this question.
+
+Back to discovery

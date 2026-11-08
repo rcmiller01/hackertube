@@ -540,6 +540,12 @@ The final search produced **3 verified new books**, job `succeeded`, **5 request
 
 Checks: **232 Python passed / 0 failed**, **71 JavaScript passed / 0 failed / 0 skipped**, plugin validation without warnings, strict specs and coverage fixtures. Scenarios exercised: UI01, SEARCH01, PREF05, LIB01/02/03, JOB03/04; UI04 verified through destination launch only. The successful run contained no temporary instrumentation. Keyed-source checks and the remaining release tasks stay open; the installed plugin remains enabled and the PR unmerged.
 
+## AI category and qualifiers — November 8
+
+Installed runtime `1624f417cea084dbf0f44d85ba99c3d244158da9`, unchanged existing provider and sources. Three explicit live questions each used **9/12 logical requests**; costs unknown. Broad AI: **0 videos / 7 podcasts / 7 books / 10 audiobooks**. Strict nontechnical/exclusion request: **0/0/0/0**, though job state was `succeeded`. Soft “rank accessible introductions first”: **0/9/5/10**, with introductory candidates ahead of specialist material. Evidence and follow-up findings are in `docs/receipts/installed-live/ai-search-evaluation.md`.
+
+Disposition: SEARCH01 works for the three available non-video formats; qualifier robustness needs investigation, not a blanket pass. YouTube remains unavailable without `YOUTUBE_API_KEY`; the fourth format is not verified. The long-input boundary's terse `question` error and confusing Apple audiobook source labels are recorded for follow-up. No implementation or credential changes were made in this comparison; no new code test run was necessary. Automation wait timeouts did not establish a backend deadline violation; latency is unmeasured.
+
 ## Release measurements
 
 All values are unmeasured. Freeze the post-demo evaluation workload, rubric, source snapshots, provider configuration, and request limits before collecting results. Use PRD section 9 for proposed targets and report adjustments explicitly. The demo video length is measured under task 4.3, not inferred from the six-step outline.
