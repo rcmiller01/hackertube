@@ -2285,3 +2285,10 @@ test("a lost start acknowledgement attaches to existing work without another pai
     assert.equal(ui.requests.filter((r) => r.url === "/api/plugins/hackertube/search" && r.method === "POST").length, 1);
   } finally { ui.restore(); }
 });
+
+test("Apple Books destinations and catalog attribution do not say Apple Podcasts", () => {
+  const item = {item_id:"itunes:audiobook:123", format:"audiobook", destination:"https://books.apple.com/us/audiobook/test/id123"};
+  const evidence = [{item_id:item.item_id, source_id:"itunes", kind:"catalog", retrieved_at:"2026-11-08T00:00:00Z"}];
+  assert.equal(page.destinationLabel(item), "Apple Books");
+  assert.equal(page.presentEvidence(item, evidence, [{source_id:"itunes",name:"Apple Podcasts"}]).sourceName, "Apple Books");
+});

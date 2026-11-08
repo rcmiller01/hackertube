@@ -1,0 +1,66 @@
+"""Release gates: all owned metadata copies expire; Apple destinations stay distinct."""
+import json
+
+import pytest
+
+from hackertube_core.catalog import load_seed
+from hackertube_core.profile import ProfileStore
+from hackertube_core.search import StubProvider, interpret_question, result_set, run_search
+from test_search import build, connect_at, evidence, item, profile, source
+
+
+def stored_video(tmp_path):
+    clock = ["2026-11-01T00:00:00Z"]
+    connect = connect_at(tmp_path)
+    store = ProfileStore(connect, clock=lambda: clock[0])
+    video = item("youtube:LCEmiRjPEtQ", "video", "AI retention sentinel title",
+                 destination="https://www.youtube.com/watch?v=LCEmiRjPEtQ")
+    cat = build([video], [evidence("yt", video["item_id"], "youtube",
+        refresh_after="2026-12-01T00:00:00Z")], [source("youtube", "YouTube")])
+    store.remember_catalog(cat)
+    result = run_search(store, "retention videos", catalog=cat, profile=store.snapshot(),
+        now=clock[0], provider=StubProvider(), disclosure_accepted=True)
+    assert result["results"]
+    with connect() as conn:
+        conn.execute("INSERT INTO search_result VALUES (?,?)", (result["job"]["job_id"], json.dumps(result)))
+    store.save_item(video["item_id"], {video["item_id"]})
+    return store, connect, clock, result
+
+
+@pytest.mark.parametrize("access", ["job_result", "catalog", "reopen"])
+def test_expiry_cleans_catalog_and_durable_search_copies(tmp_path, access):
+    store, connect, clock, result = stored_video(tmp_path)
+    clock[0] = "2026-12-01T00:00:00Z"  # exact 30-day boundary
+    if access == "reopen":
+        store = ProfileStore(connect, clock=lambda: clock[0])
+    elif access == "catalog":
+        store.catalog(load_seed())
+    else:
+        store.job_result(result["job"]["job_id"])
+    with connect() as conn:
+        raw = " ".join(row[0] for row in conn.execute("SELECT document FROM search_result UNION ALL SELECT document FROM retrieved_catalog"))
+    assert "AI retention sentinel title" not in raw
+    assert store.snapshot()["items"][0]["saved"] is True
+    redacted = store.job_result(result["job"]["job_id"])
+    assert redacted["results"] == []
+    assert redacted["usage"] == result["usage"], "expiry must retain truthful usage"
+    assert redacted["job"]["state"] == result["job"]["state"]
+    assert redacted["retention_expired"] is True
+
+
+def test_recent_search_metadata_is_preserved(tmp_path):
+    store, connect, clock, result = stored_video(tmp_path)
+    clock[0] = "2026-11-30T23:59:59Z"
+    assert store.job_result(result["job"]["job_id"])["results"] == result["results"]
+
+
+@pytest.mark.parametrize("fmt,destination,label", [
+    ("audiobook", "https://books.apple.com/us/audiobook/test/id123", "Apple Books"),
+    ("podcast_show", "https://podcasts.apple.com/us/podcast/test/id123", "Apple Podcasts"),
+])
+def test_apple_result_label_follows_the_actual_store(fmt, destination, label):
+    row = item("itunes:123", fmt, "AI introduction", destination=destination)
+    cat = build([row], [evidence("itunes:123", row["item_id"], "itunes")],
+        [source("itunes", "Apple Podcasts")])  # historical cached registry label
+    result = result_set(cat, profile(), interpret_question("introduction"), "2026-11-07T12:00:00Z")
+    assert result["results"][0]["source"]["label"] == label
