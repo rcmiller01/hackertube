@@ -2097,3 +2097,18 @@ for (const kind of ["model", "sources"]) {
     } finally { ui.restore(); }
   });
 }
+
+test("an expired saved item's state remains visible without cached metadata", () => {
+  const ui = mountPage({ catalog: { ...SAMPLE_CATALOG.catalog, items: [] } }, {
+    schema: "hackertube.profile/1", interests: [], items: [
+      { item_id: "youtube:LCEmiRjPEtQ", saved: true, saved_order: 1, dismissed: false, completed: false, opens: [] },
+    ],
+  });
+  try {
+    ui.location.hash = "#library";
+    ui.listeners.hashchange.forEach(fn => fn());
+    assert.match(ui.text(node => node.props && node.props.className === "ht-missing-saved"), /Saved YouTube video/);
+    assert.match(ui.text(node => node.props && node.props.className === "ht-missing-saved"), /metadata unavailable/i);
+    assert.equal(ui.requests.filter(row => row.method === "POST").length, 0);
+  } finally { ui.restore(); }
+});
