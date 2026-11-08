@@ -1620,7 +1620,7 @@ test("JOB04 the rendered job cost is unknown, never zero", () => {
     assert.match(cost, /unknown/);
     assert.doesNotMatch(cost, /\$|zero/);
     const limits = ui.text((node) => node.props && node.props.id === "hackertube-job-limits");
-    assert.match(limits, /at most 2 provider requests, 12 results, a 5 second deadline/);
+    assert.match(limits, /at most 2 provider requests, 12 results, a 5 second work budget/);
     assert.match(limits, /Provider requests used: 1\./);
   } finally {
     ui.restore();
@@ -1980,7 +1980,7 @@ test("search helpers format a cost, a limit, and a refusal without a score", () 
   assert.equal(page.formatCost({}), page.SEARCH_COST_UNKNOWN);
   assert.equal(
     page.limitsLine({ max_hits: 12, max_requests: 2, deadline_seconds: 5 }, { requests_used: 2 }),
-    "Work limits for this job: at most 2 provider requests, 12 results, a 5 second deadline. Provider requests used: 2.",
+    "Work limits for this job: at most 2 provider requests, 12 results, a 5 second work budget. Provider requests used: 2. In-flight Hermes calls may finish after this budget; cancellation is not implemented.",
   );
   assert.equal(page.constraintLine({ max_duration_seconds: null }), "Time limit: none requested.");
   assert.match(page.constraintLine({ max_duration_seconds: 3600 }), /longer than 1 hour are excluded/);
