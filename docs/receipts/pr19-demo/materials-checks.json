@@ -1,0 +1,15 @@
+{
+  "candidate_sha": "7e1e8f9819cf840aee1f3c33e3d1233853789864",
+  "video_hash_matches": true,
+  "demo_under_90_seconds": true,
+  "post_character_count": 271,
+  "post_within_280_characters": true,
+  "catalog_parser_accepted": true,
+  "canonical_runtime_pin_matches": true,
+  "runtime_and_tests_unchanged": true,
+  "private_contact_values_retained_outside_git": true,
+  "no_private_contacts_in_tracked_text": true,
+  "public_urls_still_null": true,
+  "strict_openspec_passed": true,
+  "traceability_passed": true
+}

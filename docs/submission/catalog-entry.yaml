@@ -2,7 +2,7 @@
 name: hackertube
 title: HackerTube for Hermes
 repo: https://github.com/rcmiller01/hackertube
-sha: 026b3d7b6ad2060490ce31929b2c3e9779684ef9
+sha: 7e1e8f9819cf840aee1f3c33e3d1233853789864
 subdir: hackertube
 description: Source-backed media discovery with existing Hermes providers and a profile-local library.
 maintainer: rcmiller01
@@ -12,14 +12,16 @@ requires_hermes: ">=0.23.0"
 version: "0.2.0"
 readme: true
 screenshots:
-  - https://raw.githubusercontent.com/rcmiller01/hackertube/026b3d7b6ad2060490ce31929b2c3e9779684ef9/docs/receipts/demo-rehearsal/results.jpg
-  - https://raw.githubusercontent.com/rcmiller01/hackertube/026b3d7b6ad2060490ce31929b2c3e9779684ef9/docs/receipts/demo-rehearsal/about.jpg
-  - https://raw.githubusercontent.com/rcmiller01/hackertube/026b3d7b6ad2060490ce31929b2c3e9779684ef9/docs/receipts/demo-rehearsal/clean-profile.jpg
+  - https://raw.githubusercontent.com/rcmiller01/hackertube/41b4444aa59e33aa65f7d1c9a88ebf25f831d22e/docs/receipts/pr19-demo/results.jpg
+  - https://raw.githubusercontent.com/rcmiller01/hackertube/41b4444aa59e33aa65f7d1c9a88ebf25f831d22e/docs/receipts/pr19-demo/audiobooks.jpg
+  - https://raw.githubusercontent.com/rcmiller01/hackertube/41b4444aa59e33aa65f7d1c9a88ebf25f831d22e/docs/receipts/pr19-demo/about.jpg
 capabilities:
   provides_tools: []
   provides_hooks: []
   provides_middleware: []
   requires_env: []
 known_issues:
-  - In-flight host calls can exceed the work budget; cancellation and interrupted-job recovery are unfinished.
-  - Source-specific release checks and participant eligibility terms remain unresolved; do not submit yet.
+  - Requires macOS/Linux and Hermes CLI on PATH; macOS verified, Linux integration unrun.
+  - Local cancellation cannot revoke remote processing or billing already accepted by a provider.
+  - Source-specific release checks remain open; optional Podcast Index is not live-tested and Reddit remains disabled.
+  - Apple audiobook records currently carry the Apple Podcasts source label; relevance is model-inferred.

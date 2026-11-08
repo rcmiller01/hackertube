@@ -1,25 +1,21 @@
 # Prepared submission packet
 
-Prepared November 8, 2026. **Not submitted or published.** The repository remains private; PRs #17 and #18 are now merged. This packet/catalog pin still describe the earlier rehearsal. Seed expansion is deliberately skipped.
+Updated November 8, 2026 to **merged PR #19**: `7e1e8f9819cf840aee1f3c33e3d1233853789864`, version `0.2.0`. **Not submitted or published.** The repository is still private. The recorded demo runs this exact installed payload (37/37 files match), not the older rehearsal. Seed expansion remains deliberately skipped.
 
-- Demo: `/Users/robert/Documents/Codex/2026-11-08/hackertube-demo/hackertube-demo.mp4` — 36.25 seconds, real installed plugin, silent screen capture sampled at about five frames/second and encoded at 20 fps. No slides, mock results, sped-up search, or removed search wait. The six actions are open page, browse prepared catalog, live focused search, Save, open original source, show Karpathy credit. The final page is explicitly prepared marketplace copy.
-- Screenshots and exact checks: [rehearsal receipt](../receipts/demo-rehearsal/README.md).
-- Listing copy: [marketplace description](../marketplace-description.md).
-- Installable-package disclosure: [plugin README](../../hackertube/README.md).
-- Catalog entry draft: `catalog-entry.yaml`, to be copied to `plugin-catalog/hackertube.yaml` in a separately authorized NousResearch/hermes-agent PR. The draft pins verified implementation commit `026b3d7b6ad2060490ce31929b2c3e9779684ef9`; the canonical Hermes parser accepted it. Later PR commits add verification and submission-draft updates; the plugin payload is unchanged from that pin. Screenshots/video remain the disclosed original rehearsal; the review receipt adds a current pre-search screenshot.
-- Catalog PR text: [draft](catalog-pr.md).
-- X post: [draft](x-post.md). Upload and publication are separate actions.
-- Intended form contact values are in `/Users/robert/Documents/Codex/2026-11-08/hackertube-demo/entry-form.private.json`, outside Git. Robert supplied them directly. X and catalog PR URLs remain null until those artifacts are published; do not submit null or placeholder values.
+- New demo: [hackertube-pr19-demo.mp4](/Users/robert/Documents/Codex/2026-11-08/hackertube-demo-pr19/hackertube-pr19-demo.mp4), **29.25 seconds (<90)**. Actual installed page/catalog, one focused live AI search, Save, matching original Apple Books page, and Karpathy credit. Silent low-frame-rate capture, original wall time retained, no mock results or removed search wait. [Full receipt and recording history](../receipts/pr19-demo/README.md).
+- Live hard-stop evidence: [merged-build deadline and Cancel metrics](../receipts/pr19-demo/deadline-cancel-live.json). Controlled worker stalls after actual provider connections: 45.014-second deadline and 0.078-second UI Cancel. These are separate supporting checks, not part of the 29.25-second video.
+- Listing: [current prepared description](../marketplace-description.md). Install disclosure: [plugin README](../../hackertube/README.md).
+- Catalog: [entry draft](catalog-entry.yaml), pinned to the merged runtime above, with fresh screenshot URLs pinned independently to materials commit `41b4444aa59e33aa65f7d1c9a88ebf25f831d22e`. [Upstream PR text](catalog-pr.md) is prepared, not opened.
+- X: [prepared post](x-post.md). Video attachment and publication remain separate actions.
+- Form: `/Users/robert/Documents/Codex/2026-11-08/hackertube-demo/entry-form.private.json`, outside Git. Robert's supplied email and Discord name are retained; description/build/video references are updated. X/catalog public URLs are null until those artifacts exist. No form value was entered or sent to Typeform.
+- Previous 36.25-second video and old pin `026b3d7` remain historical evidence; they are not the current attachment/candidate.
 
-## Release and submission gates
+## What still blocks submission
 
-1. Review/merge the implementation candidate separately. Validate the exact final catalog pin again if it changes. Making the repository public needs a separate instruction, then verify an unauthenticated HTTPS clone at that pin. A private authenticated clone does not meet the public-clone gate.
-2. Complete source-specific release obligations. Credentialed YouTube search works, but the wider retention/deletion/attribution acceptance matrix remains open; Podcast Index has not been live-tested, and Reddit has no approval. Do not describe this as a fully cleared community recommendation catalog.
-3. At the historical catalog pin, host in-flight calls can exceed the forwarded work budget. One rehearsal stalled during DeepSeek ranking and was stopped by restarting only the local dashboard. That pinned build has no plugin cancellation or interrupted-job recovery. The newer [hard-stop candidate](../search-execution.md) is verified separately and is not yet the catalog pin. The successful demo uses the already configured OpenRouter provider with `openai/gpt-5.4-mini`; the main model is untouched.
-4. Resolve unanswered eligibility, team-size, originality, and IP terms against official rules. MIT is the project's recorded license, not evidence of eligibility. Do not infer permission from silence.
-5. With separate publication authorization, publish the repository, open the catalog PR as owner/major contributor with screenshots/disclosures, and publish the video on X tagging @NousResearch. Insert the two actual public URLs into the local form draft and verify them.
-6. Review and submit the entry form separately. The project’s recorded deadline is **November 11, 2026, 5 p.m. EST / 22:00 UTC**. This session rechecked the catalog guidance, but X returned 403 and the Typeform was unavailable to the research tool; the event deadline/form fields are carried from the existing project specification, not newly verified official terms.
+See [actionable blockers](blockers.md). The remaining release gates are public repository/credential-free clone, enabled-source acceptance checks, and unresolved entrant-specific terms. The three external submission actions are still outstanding: open the catalog PR, publish the X video, and submit both actual URLs through the form. None is authorized merely by updating this local/private packet.
 
-Official catalog guide: https://hermes-agent.nousresearch.com/docs/developer-guide/plugins/catalog-submission
-Recorded official announcement: https://x.com/NousResearch/status/2118094256438936062
-Recorded form: https://form.typeform.com/to/FwJLvOln
+The official announcement was read in the browser on November 8. It confirms **November 11, 2026, 5 p.m. EST / 22:00 UTC**, under-90-second working demo, an X tag to @NousResearch, catalog PR and entry form. **A catalog merge is not required before the form**; it may be submitted once the PR is open. The form is reachable and its first screen shows Plugin Title, question 1 of 6; the remaining field descriptions are carried from the existing prepared packet, not newly entered or reverified by stepping through with personal data.
+
+Disabled optional Reddit/Podcast Index, Linux integration, wider lifecycle, refinement/agent/memory features and the 20-request relevance evaluation are not being represented as new hackathon entry requirements. Source obligations for enabled adapters remain a separate release acceptance gate.
+
+Official sources: [announcement](https://x.com/NousResearch/status/2118094256438936062), [catalog guide](https://hermes-agent.nousresearch.com/docs/developer-guide/plugins/catalog-submission), [entry form](https://form.typeform.com/to/FwJLvOln). No detailed additional participant/team/originality/IP rules were visible in the announcement; the project's existing confirmation gate remains open rather than treated as a proven disqualification.

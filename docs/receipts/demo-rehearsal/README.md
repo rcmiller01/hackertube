@@ -1,4 +1,6 @@
-# Installed demo rehearsal — November 8, 2026
+# Historical installed demo rehearsal — November 8, 2026
+
+Superseded for submission by the [merged PR #19 demo](../pr19-demo/README.md), 29.25 seconds. The original measurements and limitations below describe their older pinned build.
 
 Original readiness items 1/2 (self-contained packaging and actual retrieval through an existing Hermes provider) are implemented. Original item 4's format-limit and timeout-forwarding defects are fixed. **A hard wall-clock deadline is not complete:** this rehearsal reproduced an in-flight Hermes ranking stall beyond the 45-second work budget. Cancellation/restart recovery remains task 6.2. Item 5's rehearsal, actual video, screenshots, and local submission drafts are prepared; public submission gates remain open. Seed expansion/item 3 stays skipped.
 
