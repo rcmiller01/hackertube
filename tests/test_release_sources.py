@@ -79,3 +79,16 @@ def test_later_search_cannot_extend_age_of_copied_metadata(tmp_path):
     clock[0] = "2026-12-01T00:00:00Z"
     response = store.job_result(result["job"]["job_id"])
     assert response["results"] == [], "A new job timestamp must not renew old API metadata"
+
+
+def test_release_ignore_blocks_local_credentials_but_keeps_safe_examples(tmp_path):
+    import subprocess
+    from pathlib import Path
+
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+    (tmp_path / ".gitignore").write_text((Path(__file__).parents[1] / ".gitignore").read_text())
+    private = [".env", ".env.local", "auth.json", "credentials.json", "profile.db", "entry-form.private.json", "private-key.pem"]
+    public = [".env.example", ".env.production.example", "docs/README.md", "public-key.pub", "tests/fixtures/config.json"]
+    for value in private + public:
+        found = subprocess.run(["git", "-c", "core.excludesFile=/dev/null", "-C", str(tmp_path), "check-ignore", "--no-index", value], capture_output=True).returncode == 0
+        assert found == (value in private), value
