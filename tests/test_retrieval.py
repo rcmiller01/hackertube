@@ -1,0 +1,176 @@
+"""Live retrieval, source failures, limits, and persistent new identities."""
+import importlib.util
+import json
+from dataclasses import replace
+from pathlib import Path
+from types import SimpleNamespace
+from urllib.parse import urlsplit, parse_qs
+
+import pytest
+
+from hackertube_core import outbound
+from hackertube_core.catalog import load_seed
+from hackertube_core.catalog_store import document
+from hackertube_core.hermes import HermesProvider, register
+from hackertube_core.profile import ProfileStore
+from hackertube_core.retrieval import Budget, SourceRetriever
+from hackertube_core.search import Limits, LIVE_LIMITS, interpret_question, run_search
+from test_search import NOW, one_book, profile, store_at
+
+
+def public_read(url, **kwargs):
+    host = urlsplit(url).hostname
+    if host == 'openlibrary.org':
+        return {'docs':[{'key':'/works/OL999999W','title':'Growing Vegetables','author_name':['A Gardener']}]}
+    if host == 'hn.algolia.com': return {'hits':[]}
+    if host == 'itunes.apple.com': return {'results':[]}
+    if host == 'librivox.org': return {'books':[]}
+    raise AssertionError(host)
+
+
+def test_source_search_gets_records_absent_from_seed_and_filters_unrequested_sources(tmp_path,monkeypatch):
+    seen=[]
+    def read(url,**kwargs):
+        seen.append(url)
+        assert 0 < kwargs['timeout'] <= 10
+        return public_read(url,**kwargs)
+    monkeypatch.setattr('hackertube_core.retrieval.read_json',read)
+    store=store_at(tmp_path)
+    catalog,status=SourceRetriever(store)(interpret_question('gardening books'),NOW,Budget(LIVE_LIMITS))
+    assert [x.item_id for x in catalog.items]==['ol:OL999999W']
+    assert not {x.item_id for x in catalog.items}&{x.item_id for x in load_seed().items}
+    assert {urlsplit(x).hostname for x in seen}=={'openlibrary.org','hn.algolia.com'}
+    assert next(x for x in status if x['source_id']=='reddit')['reason']=='approval_absent'
+
+
+def test_named_source_failure_keeps_other_retrieved_items(tmp_path,monkeypatch):
+    def read(url,**kwargs):
+        if 'hn.algolia.com' in url: raise RuntimeError('secret-bearing remote response')
+        return public_read(url,**kwargs)
+    monkeypatch.setattr('hackertube_core.retrieval.read_json',read)
+    catalog,status=SourceRetriever(store_at(tmp_path))(interpret_question('gardening books'),NOW,Budget(LIVE_LIMITS))
+    assert len(catalog.items)==1
+    assert next(x for x in status if x['source_id']=='hn')['state']=='failed'
+    assert 'secret-bearing' not in json.dumps(status)
+
+
+def test_source_request_budget_is_enforced_before_dispatch(tmp_path,monkeypatch):
+    seen=[]
+    monkeypatch.setattr('hackertube_core.retrieval.read_json',lambda url,**kw: (seen.append(url) or public_read(url,**kw)))
+    budget=Budget(Limits(max_requests=1))
+    _,status=SourceRetriever(store_at(tmp_path))(interpret_question('gardening books'),NOW,budget)
+    assert len(seen)==budget.used==1
+    assert next(x for x in status if x['source_id']=='openlibrary')['state']=='limit'
+
+
+def test_unknown_web_pages_and_invented_audio_editions_are_not_admitted(tmp_path,monkeypatch):
+    monkeypatch.setattr('hackertube_core.retrieval.read_json',public_read)
+    rows=[{'title':'A real ebook','url':'https://www.gutenberg.org/ebooks/1234'},
+          {'title':'An audiobook probably','url':'https://example.org/ebook'},
+          {'title':'Private','url':'https://127.0.0.1/item'},
+          {'title':'No oEmbed bypass','url':'https://youtube.com/watch?v=LCEmiRjPEtQ'}]
+    cat,_=SourceRetriever(store_at(tmp_path),web_search=lambda q,**k:rows)(interpret_question('gardening books'),NOW,Budget(LIVE_LIMITS))
+    web=[x for x in cat.evidence if x.kind=='web']
+    assert len(web)==1 and web[0].destination=='https://www.gutenberg.org/ebooks/1234'
+    assert web[0].endorsement=='not_applicable'
+
+
+def test_hermes_ranked_new_item_survives_save_open_and_reopen(tmp_path,monkeypatch):
+    import route_harness
+    monkeypatch.setattr('hackertube_core.retrieval.read_json',public_read)
+    def invoke(raw):
+        req=json.loads(raw)
+        if req['stage']=='interpret':
+            return {'data':{'topic':'gardening','terms':['gardening'],'formats':['book']},'cost_usd':None}
+        assert req['stage']=='rank'
+        ids=[x['item_id'] for x in req['input']['candidates']]
+        assert ids==['ol:OL999999W']
+        return {'data':{'items':[{'item_id':ids[0],'reason':'A source-backed vegetable growing guide.'}]},'provider':'existing','model':'configured','cost_usd':None}
+    monkeypatch.setattr('hackertube_core.hermes.handler',lambda:invoke)
+    dashboard=route_harness.start(tmp_path/'data',settings={'provider':'hermes'})
+    result=dashboard.post('/search',{'question':'How do I grow food? Recommend books','disclosure_accepted':True})
+    assert result.status_code==200
+    body=result.json()
+    assert body['results'][0]['item_id']=='ol:OL999999W'
+    assert body['results'][0]['why']==['A source-backed vegetable growing guide.']
+    assert any(x['item_id']=='ol:OL999999W' for x in body['catalog']['items'])
+    saved=dashboard.post('/profile/saves',{'item_id':'ol:OL999999W'})
+    assert saved.status_code==200
+    assert dashboard.post('/profile/opens',{'item_id':'ol:OL999999W'}).status_code==200
+    dashboard.close()
+    before=outbound.counters().copy()
+    dashboard=route_harness.start(tmp_path/'data',name='ht-reopened')
+    assert any(x['item_id']=='ol:OL999999W' for x in dashboard.get('/catalog').json()['catalog']['items'])
+    state=next(x for x in dashboard.get('/profile').json()['items'] if x['item_id']=='ol:OL999999W')
+    assert state['saved'] is True and state['completed'] is False and len(state['opens'])==1
+    assert outbound.counters()==before
+    dashboard.close()
+
+
+def test_host_model_can_only_rank_retrieved_ids():
+    provider=HermesProvider(lambda raw:{'data':{'items':[{'item_id':'invented','reason':'plausible'}]}})
+    with pytest.raises(Exception,match='unsupported candidate'):
+        provider.rank('books',one_book(),2)
+
+
+def test_native_registration_starts_no_model_or_tool_work(monkeypatch):
+    monkeypatch.setitem(__import__('sys').modules,'hermes_constants',SimpleNamespace(get_hermes_home=lambda:'/profile-a'))
+    tasks=[]; unloaded=[]
+    ctx=SimpleNamespace(register_auxiliary_task=lambda key,**kw:tasks.append(key),on_unload=unloaded.append)
+    register(ctx)
+    from hackertube_core.hermes import handler
+    assert tasks==['hackertube_search'] and callable(handler())
+    unloaded[0]()
+    assert handler() is None
+
+
+def test_hermes_memory_disabled_payload_contains_only_request_and_retrieved_candidates(monkeypatch):
+    monkeypatch.setitem(__import__('sys').modules,'hermes_constants',SimpleNamespace(get_hermes_home=lambda:'/profile-memory-test'))
+    calls=[]
+    class Llm:
+        def complete_structured(self,**kw):
+            calls.append(kw)
+            return SimpleNamespace(parsed={'topic':'gardening','terms':['gardening'],'formats':['book']},provider='configured',model='existing',usage=SimpleNamespace(cost_usd=None))
+    ctx=SimpleNamespace(register_auxiliary_task=lambda *a,**k:None,on_unload=lambda fn:None,llm=Llm())
+    register(ctx)
+    HermesProvider().interpret('gardening books',LIVE_LIMITS)
+    assert json.loads(calls[0]['input'][0]['text'])=='gardening books'
+    assert calls[0]['task']=='hackertube_search'
+    assert 'memory' not in calls[0]
+
+
+def test_expired_retrieved_metadata_is_purged_from_store(tmp_path):
+    store=store_at(tmp_path)
+    cat=one_book()
+    old=replace(cat,evidence=(replace(cat.evidence[0],refresh_after='2001-01-01T00:00:00Z'),))
+    store.remember_catalog(old)
+    assert not {x.item_id for x in store.catalog(load_seed()).items}&{'ol:1'}
+
+
+def test_podcastindex_signed_lookup_uses_headers_not_urls(tmp_path,monkeypatch):
+    store=store_at(tmp_path);store.set_source_enabled('podcastindex',True)
+    seen=[]
+    def read(url,**kw):
+        if 'podcastindex' in url:
+            seen.append((url,kw))
+            return {'feeds':[{'id':123,'title':'Garden talk','author':'Gardener'}]}
+        return public_read(url,**kw)
+    monkeypatch.setattr('hackertube_core.retrieval.read_json',read)
+    keys={'PODCASTINDEX_API_KEY':'key-test','PODCASTINDEX_API_SECRET':'secret-test'}
+    cat,_=SourceRetriever(store,get_secret=keys.get)(interpret_question('gardening podcasts'),NOW,Budget(LIVE_LIMITS))
+    assert any(x.item_id=='podcastindex:123' for x in cat.items)
+    assert seen[0][1]['classification']==outbound.METERED
+    assert seen[0][1]['headers']['X-Auth-Key']=='key-test'
+    assert all(secret not in seen[0][0] for secret in keys.values())
+
+
+def test_host_bridge_keys_the_profile_by_canonical_path(tmp_path,monkeypatch):
+    actual=tmp_path/'actual';actual.mkdir()
+    alias=tmp_path/'alias';alias.symlink_to(actual,target_is_directory=True)
+    home=[alias]
+    monkeypatch.setitem(__import__('sys').modules,'hermes_constants',SimpleNamespace(get_hermes_home=lambda:home[0]))
+    ctx=SimpleNamespace(register_auxiliary_task=lambda *a,**k:None,on_unload=lambda fn:None)
+    register(ctx)
+    home[0]=actual
+    from hackertube_core.hermes import handler
+    assert callable(handler())
