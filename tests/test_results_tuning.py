@@ -135,3 +135,14 @@ def test_partial_ranking_validation_is_reported_in_the_real_job(tmp_path):
     assert [x['item_id'] for x in result['results']] == ['ol:1']
     assert result['ranking']['invalid_entries'] == 1
     assert any(x['source_id'] == 'ranking' and x['state'] == 'partial' for x in result['sources'])
+
+
+def test_small_uneven_global_limit_does_not_starve_an_available_category():
+    from dataclasses import replace
+    cat = catalog_for(['audiobook'] * 8 + ['podcast_show'] * 8 + ['book'] * 8 + ['video'] * 8)
+    result = result_set(cat, profile(), interpret_question('AI videos podcasts books audiobooks'), NOW,
+                        limits=replace(LIVE_LIMITS, max_hits=5),
+                        ranking={x.item_id: 'Direct match.' for x in cat.items})
+    assert len(result['results']) == 5
+    assert all(s['verified_count'] >= 1 for s in result['sections'].values())
+    assert all(s['verified_count'] <= 2 for s in result['sections'].values())
