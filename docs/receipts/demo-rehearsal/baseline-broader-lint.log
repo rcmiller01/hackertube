@@ -1,0 +1,1482 @@
+I001 [*] Import block is un-sorted or un-formatted
+ --> .git/rehearsal-lint-665s1o6d/hackertube/__init__.py:2:1
+  |
+1 |   """Native registration for Hermes-owned search and model selection."""
+2 | / from pathlib import Path
+3 | | import sys
+  | |__________^
+help: Organize imports
+  |
+1 | """Native registration for Hermes-owned search and model selection."""
+2 + import sys
+3 | from pathlib import Path
+  - import sys
+4 |
+  |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/hackertube/dashboard/plugin_api.py:9:1
+   |
+ 7 |   """
+ 8 |
+ 9 | / import importlib.util
+10 | | import sys
+11 | | from pathlib import Path
+12 | |
+13 | | from fastapi import APIRouter, Request
+14 | | from fastapi.responses import JSONResponse
+15 | | from starlette.concurrency import run_in_threadpool
+16 | |
+17 | | from agent.secret_scope import get_secret
+18 | | from plugins.plugin_storage import plugin_data_dir
+   | |__________________________________________________^
+19 |
+20 |   router = APIRouter()
+   |
+help: Organize imports
+   |
+12 |
+13 + from agent.secret_scope import get_secret
+14 | from fastapi import APIRouter, Request
+15 | from fastapi.responses import JSONResponse
+   - from starlette.concurrency import run_in_threadpool
+   -
+   - from agent.secret_scope import get_secret
+16 | from plugins.plugin_storage import plugin_data_dir
+17 + from starlette.concurrency import run_in_threadpool
+18 |
+   |
+
+BLE001 Do not catch blind exception: `Exception`
+  --> .git/rehearsal-lint-665s1o6d/hackertube/dashboard/plugin_api.py:62:12
+   |
+61 |         config = load_config_readonly() or {}
+62 |     except Exception:
+   |            ^^^^^^^^^
+63 |         # Hermes did not expose its config surface here. The declared
+64 |         # defaults apply: the Hermes provider.
+   |
+
+BLE001 Do not catch blind exception: `Exception`
+   --> .git/rehearsal-lint-665s1o6d/hackertube/dashboard/plugin_api.py:148:12
+    |
+146 |     try:
+147 |         body = await request.json()
+148 |     except Exception:
+    |            ^^^^^^^^^
+149 |         return None
+150 |     return body
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+   --> .git/rehearsal-lint-665s1o6d/hackertube/dashboard/plugin_api.py:188:5
+    |
+186 |   def sources():
+187 |       """Supported sources with their stored choice and last attempt."""
+188 | /     from hackertube_core.profile import ProfileStore, open_profile_db
+189 | |     from hackertube_core.sources import source_snapshot, available_registry
+    | |___________________________________________________________________________^
+190 |
+191 |       return source_snapshot(
+    |
+help: Organize imports
+    |
+188 |     from hackertube_core.profile import ProfileStore, open_profile_db
+    -     from hackertube_core.sources import source_snapshot, available_registry
+189 +     from hackertube_core.sources import available_registry, source_snapshot
+190 |
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+   --> .git/rehearsal-lint-665s1o6d/hackertube/dashboard/plugin_api.py:199:5
+    |
+197 |   async def source_control(request: Request):
+198 |       """Enable or disable one supported source. An unsupported id is refused."""
+199 | /     from hackertube_core.profile import ProfileStore, open_profile_db
+200 | |     from hackertube_core.sources import configure_source, available_registry
+    | |____________________________________________________________________________^
+201 |
+202 |       body = await _read_body(request)
+    |
+help: Organize imports
+    |
+199 |     from hackertube_core.profile import ProfileStore, open_profile_db
+    -     from hackertube_core.sources import configure_source, available_registry
+200 +     from hackertube_core.sources import available_registry, configure_source
+201 |
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+   --> .git/rehearsal-lint-665s1o6d/hackertube/dashboard/plugin_api.py:249:5
+    |
+247 |       This route starts no work and makes no outbound call.
+248 |       """
+249 | /     from hackertube_core.profile import ProfileStore, open_profile_db
+250 | |     from hackertube_core.search import DEFAULT_LIMITS, LIVE_LIMITS, DISCLOSURE
+    | |______________________________________________________________________________^
+251 |
+252 |       store = ProfileStore(open_profile_db)
+    |
+help: Organize imports
+    |
+249 |     from hackertube_core.profile import ProfileStore, open_profile_db
+    -     from hackertube_core.search import DEFAULT_LIMITS, LIVE_LIMITS, DISCLOSURE
+250 +     from hackertube_core.search import DEFAULT_LIMITS, DISCLOSURE, LIVE_LIMITS
+251 |
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+   --> .git/rehearsal-lint-665s1o6d/hackertube/dashboard/plugin_api.py:276:5
+    |
+274 |       is stored in the profile database through ``ProfileStore``.
+275 |       """
+276 | /     from hackertube_core.errors import RecordError
+277 | |     from hackertube_core.profile import utc_now
+278 | |     from hackertube_core.search import (
+279 | |         DEFAULT_LIMITS,
+280 | |         LIVE_LIMITS,
+281 | |         DISCLOSURE,
+282 | |         DisclosureRequired,
+283 | |         ProviderUnavailable,
+284 | |         run_search,
+285 | |     )
+    | |_____^
+286 |
+287 |       body = await _read_body(request)
+    |
+help: Organize imports
+    |
+279 |         DEFAULT_LIMITS,
+280 +         DISCLOSURE,
+281 |         LIVE_LIMITS,
+    -         DISCLOSURE,
+282 |         DisclosureRequired,
+    |
+
+FURB167 [*] Use of regular expression alias `re.I`
+  --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/adapters/librivox.py:20:67
+   |
+18 | BLOCKED_REASON = None
+19 |
+20 | _GUTENBERG = re.compile(r"gutenberg\.org/(?:etext|ebooks)/(\d+)", re.I)
+   |                                                                   ^^^^
+21 | ART_REASON = "Cover use is decided when the seed is frozen."
+22 | POLICY = {
+   |
+help: Replace with `re.IGNORECASE`
+   |
+19 |
+   - _GUTENBERG = re.compile(r"gutenberg\.org/(?:etext|ebooks)/(\d+)", re.I)
+20 + _GUTENBERG = re.compile(r"gutenberg\.org/(?:etext|ebooks)/(\d+)", re.IGNORECASE)
+21 | ART_REASON = "Cover use is decided when the seed is frozen."
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/adapters/podcastindex.py:24:5
+   |
+22 |   def parse_search(payload, retrieved_at):
+23 |       """Targeted show lookup; feed lengths are not episode durations."""
+24 | /     from hackertube_core.adapters.base import ParseResult
+25 | |     from hackertube_core.records import MediaItem, Evidence, blank_art
+26 | |     from hackertube_core.errors import RecordError
+   | |__________________________________________________^
+27 |
+28 |       if not isinstance(payload, dict) or not isinstance(payload.get("feeds"), list):
+   |
+help: Organize imports
+   |
+24 |     from hackertube_core.adapters.base import ParseResult
+   -     from hackertube_core.records import MediaItem, Evidence, blank_art
+25 |     from hackertube_core.errors import RecordError
+26 +     from hackertube_core.records import Evidence, MediaItem, blank_art
+27 |
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/catalog.py:3:1
+   |
+ 1 |   """Load a frozen catalog and serve section and feed reads. No network."""
+ 2 |
+ 3 | / import json
+ 4 | | from dataclasses import dataclass
+ 5 | | from pathlib import Path
+ 6 | |
+ 7 | | from hackertube_core.boundaries import (
+ 8 | |     active_evidence,
+ 9 | |     explain_item,
+10 | |     link_editions,
+11 | |     prepared_feed,
+12 | |     question_coverage,
+13 | |     recommendation_line,
+14 | |     section_items,
+15 | | )
+16 | | from hackertube_core.errors import RecordError
+17 | | from hackertube_core.records import SECTIONS, EditionLink, Evidence, MediaItem, SourceRecord
+18 | | from hackertube_core.text import public_https_url, youtube_video_id
+   | |___________________________________________________________________^
+19 |
+20 |   _ROOT_KEYS = {
+   |
+help: Organize imports
+   |
+16 | from hackertube_core.errors import RecordError
+   - from hackertube_core.records import SECTIONS, EditionLink, Evidence, MediaItem, SourceRecord
+17 + from hackertube_core.records import (
+18 +     SECTIONS,
+19 +     EditionLink,
+20 +     Evidence,
+21 +     MediaItem,
+22 +     SourceRecord,
+23 + )
+24 | from hackertube_core.text import public_https_url, youtube_video_id
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/catalog_store.py:3:1
+  |
+1 |   """Serialization and merge of validated, profile-owned retrieved records."""
+2 |
+3 | / from dataclasses import asdict, replace
+4 | | from hackertube_core.catalog import Catalog, load_catalog
+5 | | from hackertube_core.boundaries import active_evidence
+  | |______________________________________________________^
+help: Organize imports
+  |
+3 | from dataclasses import asdict, replace
+  - from hackertube_core.catalog import Catalog, load_catalog
+4 +
+5 | from hackertube_core.boundaries import active_evidence
+6 + from hackertube_core.catalog import Catalog, load_catalog
+7 |
+  |
+
+FURB192 Prefer `min` over `sorted()` to compute the minimum value in a sequence
+   --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/demo_seed.py:297:17
+    |
+295 |         if not candidates:
+296 |             raise RecordError(key)
+297 |         audio = sorted(candidates, key=lambda row: int(row.item_id.split(":")[1]))[0]
+    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+298 |         edition = docs[key].get("cover_edition_key")
+299 |         cover = f"https://covers.openlibrary.org/b/olid/{edition}-M.jpg" if edition else None
+    |
+help: Replace with `min`
+    |
+296 |             raise RecordError(key)
+    -         audio = sorted(candidates, key=lambda row: int(row.item_id.split(":")[1]))[0]
+297 +         audio = min(candidates, key=lambda row: int(row.item_id.split(":")[1]))
+298 |         edition = docs[key].get("cover_edition_key")
+    |
+note: This is an unsafe fix and may change runtime behavior
+
+TRY004 Prefer `TypeError` exception for invalid type
+   --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/hermes.py:102:13
+    |
+100 |         )
+101 |         if not isinstance(result.parsed, dict):
+102 |             raise ValueError("Hermes model returned invalid JSON")
+    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+103 |         return json.dumps(
+104 |             {
+    |
+
+BLE001 Do not catch blind exception: `Exception`
+   --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/http.py:185:12
+    |
+183 |     except HttpError:
+184 |         raise
+185 |     except Exception:
+    |            ^^^^^^^^^
+186 |         raise HttpError("request failed") from None
+187 |     if len(body) > MAX_BYTES:
+    |
+
+UP017 [*] Use `datetime.UTC` alias
+  --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/profile.py:43:25
+   |
+42 | def utc_now():
+43 |     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+   |                         ^^^^^^^^^^^^
+help: Convert to `datetime.UTC` alias
+   |
+16 | import re
+   - from datetime import datetime, timezone
+17 + from datetime import datetime, timezone, UTC
+18 |
+--------------------------------------------------------------------------------
+42 | def utc_now():
+   -     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+43 +     return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+44 |
+   |
+
+UP017 [*] Use `datetime.UTC` alias
+  --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/ranking.py:61:34
+   |
+59 | def _stamp(value):
+60 |     parsed = datetime.strptime(canon_time(value), "%Y-%m-%dT%H:%M:%SZ")
+61 |     return parsed.replace(tzinfo=timezone.utc)
+   |                                  ^^^^^^^^^^^^
+help: Convert to `datetime.UTC` alias
+   |
+35 |
+   - from datetime import datetime, timezone
+36 + from datetime import datetime, timezone, UTC
+37 |
+--------------------------------------------------------------------------------
+60 |     parsed = datetime.strptime(canon_time(value), "%Y-%m-%dT%H:%M:%SZ")
+   -     return parsed.replace(tzinfo=timezone.utc)
+61 +     return parsed.replace(tzinfo=UTC)
+62 |
+   |
+
+PLR1730 [*] Replace `if` statement with `remaining = max(remaining, 0)`
+   --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/ranking.py:106:5
+    |
+104 |   def _freshness_points(item, now):
+105 |       remaining = FRESHNESS_WINDOW_DAYS - age_days(item.captured_at, now)
+106 | /     if remaining < 0:
+107 | |         remaining = 0
+    | |_____________________^
+108 |       return remaining * FRESHNESS_WEIGHT
+    |
+help: Replace with `remaining = max(remaining, 0)`
+    |
+105 |     remaining = FRESHNESS_WINDOW_DAYS - age_days(item.captured_at, now)
+    -     if remaining < 0:
+    -         remaining = 0
+106 +     remaining = max(remaining, 0)
+107 |     return remaining * FRESHNESS_WEIGHT
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/records.py:3:1
+  |
+1 |   """Normalized catalog records. Hacker News is not a media format."""
+2 |
+3 | / from dataclasses import dataclass
+4 | |
+5 | | from hackertube_core.errors import RecordError
+6 | | from hackertube_core.text import canon_time, plain_title, public_https_url, render_untrusted
+  | |____________________________________________________________________________________________^
+7 |
+8 |   FORMATS = ("video", "podcast_episode", "podcast_show", "book", "audiobook")
+  |
+help: Organize imports
+   |
+5  | from hackertube_core.errors import RecordError
+   - from hackertube_core.text import canon_time, plain_title, public_https_url, render_untrusted
+6  + from hackertube_core.text import (
+7  +     canon_time,
+8  +     plain_title,
+9  +     public_https_url,
+10 +     render_untrusted,
+11 + )
+12 |
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/retrieval.py:3:1
+   |
+ 1 |   """Bounded source retrieval for explicit searches; browsing never calls this."""
+ 2 |
+ 3 | / import hashlib
+ 4 | | import re
+ 5 | | import time
+ 6 | | from urllib.parse import urlencode, urlsplit
+ 7 | |
+ 8 | | from hackertube_core import outbound
+ 9 | | from hackertube_core.adapters import REGISTRY
+10 | | from hackertube_core.adapters import (
+11 | |     hn,
+12 | |     itunes,
+13 | |     librivox,
+14 | |     openlibrary,
+15 | |     youtube,
+16 | |     podcastindex,
+17 | | )
+18 | | from hackertube_core.adapters.base import ParseResult
+19 | | from hackertube_core.catalog import Catalog
+20 | | from hackertube_core.errors import RecordError
+21 | | from hackertube_core.http import HttpError, read_json
+22 | | from hackertube_core.records import Evidence, MediaItem, SourceRecord, blank_art
+23 | | from hackertube_core.sources import merge_duplicates, search_policy
+24 | | from hackertube_core.text import public_https_url
+   | |_________________________________________________^
+help: Organize imports
+   |
+8  | from hackertube_core import outbound
+   - from hackertube_core.adapters import REGISTRY
+9  | from hackertube_core.adapters import (
+10 +     REGISTRY,
+11 |     hn,
+12 |     itunes,
+13 |     librivox,
+14 |     openlibrary,
+15 +     podcastindex,
+16 |     youtube,
+   -     podcastindex,
+17 | )
+   |
+
+SIM114 [*] Combine `if` branches using logical `or` operator
+   --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/retrieval.py:99:13
+    |
+ 97 |               path = parsed.path
+ 98 |               fmt = None
+ 99 | /             if host == "openlibrary.org" and re.fullmatch(r"/works/OL\d+W/?", path):
+100 | |                 fmt = "book"
+101 | |             elif host == "gutenberg.org" and re.fullmatch(r"/ebooks/\d+/?", path):
+102 | |                 fmt = "book"
+    | |____________________________^
+103 |               elif host == "vimeo.com" and re.fullmatch(r"/\d+/?", path):
+104 |                   fmt = "video"
+    |
+help: Combine `if` branches
+    |
+98  |             fmt = None
+    -             if host == "openlibrary.org" and re.fullmatch(r"/works/OL\d+W/?", path):
+    -                 fmt = "book"
+    -             elif host == "gutenberg.org" and re.fullmatch(r"/ebooks/\d+/?", path):
+99  +             if host == "openlibrary.org" and re.fullmatch(r"/works/OL\d+W/?", path) or host == "gutenberg.org" and re.fullmatch(r"/ebooks/\d+/?", path):
+100 |                 fmt = "book"
+    |
+
+BLE001 Do not catch blind exception: `Exception`
+   --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/retrieval.py:198:20
+    |
+196 |             except TypeError:
+197 |                 raise  # A mis-wired adapter is a programming error, not a source outage.
+198 |             except Exception:
+    |                    ^^^^^^^^^
+199 |                 # Provider responses and exceptions can contain keys or content.
+200 |                 statuses.append(
+    |
+
+BLE001 Do not catch blind exception: `Exception`
+   --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/retrieval.py:297:32
+    |
+295 |                         except TypeError:
+296 |                             raise
+297 |                         except Exception:
+    |                                ^^^^^^^^^
+298 |                             failures.append("partial-source")
+299 |                             continue
+    |
+
+B023 Function definition does not bind loop variable `key`
+   --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/retrieval.py:356:42
+    |
+354 |                 def podcast():
+355 |                     stamp = str(int(time.time()))
+356 |                     auth = hashlib.sha1((key + secret + stamp).encode()).hexdigest()
+    |                                          ^^^
+357 |                     payload = budget.read(
+358 |                         "https://api.podcastindex.org/api/1.0/search/byterm?"
+    |
+
+B023 Function definition does not bind loop variable `secret`
+   --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/retrieval.py:356:48
+    |
+354 |                 def podcast():
+355 |                     stamp = str(int(time.time()))
+356 |                     auth = hashlib.sha1((key + secret + stamp).encode()).hexdigest()
+    |                                                ^^^^^^
+357 |                     payload = budget.read(
+358 |                         "https://api.podcastindex.org/api/1.0/search/byterm?"
+    |
+
+B023 Function definition does not bind loop variable `key`
+   --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/retrieval.py:362:43
+    |
+360 |                         classification=outbound.METERED,
+361 |                         headers={
+362 |                             "X-Auth-Key": key,
+    |                                           ^^^
+363 |                             "X-Auth-Date": stamp,
+364 |                             "Authorization": auth,
+    |
+
+B023 Function definition does not bind loop variable `key`
+   --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/retrieval.py:373:50
+    |
+372 |                 def video():
+373 |                     headers = {"X-Goog-Api-Key": key}
+    |                                                  ^^^
+374 |                     payload = budget.read(
+375 |                         "https://www.googleapis.com/youtube/v3/search?"
+    |
+
+SIM905 [*] Consider using a list literal instead of `str.split`
+  --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/search.py:78:5
+   |
+76 |   #: topic terms, so a limit or a depth word cannot match a title.
+77 |   _MEASURE = frozenset(
+78 | /     """
+79 | |     under below less than most longer shorter brief quick short
+80 | |     minute minutes min mins hour hours second seconds sec secs
+81 | |     """.split()
+   | |_______________^
+82 |   )
+83 |   _WORD = re.compile(r"[a-z]+")
+   |
+help: Replace with list literal
+   |
+77 | _MEASURE = frozenset(
+   -     """
+   -     under below less than most longer shorter brief quick short
+   -     minute minutes min mins hour hours second seconds sec secs
+   -     """.split()
+78 +     ["under", "below", "less", "than", "most", "longer", "shorter", "brief", "quick", "short", "minute", "minutes", "min", "mins", "hour", "hours", "second", "seconds", "sec", "secs"]
+79 | )
+   |
+
+BLE001 Do not catch blind exception: `Exception`
+   --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/search.py:710:12
+    |
+708 |     except RecordError:
+709 |         raise
+710 |     except Exception:
+    |            ^^^^^^^^^
+711 |         outcome = ProviderOutcome(
+712 |             interpretation=interpret_question(cleaned), error="provider error"
+    |
+
+BLE001 Do not catch blind exception: `Exception`
+   --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/search.py:753:20
+    |
+751 |             except TypeError:
+752 |                 raise
+753 |             except Exception:
+    |                    ^^^^^^^^^
+754 |                 source_statuses.append(
+755 |                     {
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/sources.py:32:1
+   |
+30 |   """
+31 |
+32 | / from dataclasses import replace
+33 | |
+34 | | from hackertube_core import outbound
+35 | | from hackertube_core.adapters import MODULES, REGISTRY
+36 | | from hackertube_core.adapters import hn, itunes, librivox, openlibrary
+37 | | from hackertube_core.adapters.base import ParseResult
+38 | | from hackertube_core.errors import RecordError
+39 | | from hackertube_core.http import HttpError
+40 | | from hackertube_core.text import canon_time
+   | |___________________________________________^
+41 |
+42 |   SCHEMA = "hackertube.sources/1"
+   |
+help: Organize imports
+   |
+34 | from hackertube_core import outbound
+   - from hackertube_core.adapters import MODULES, REGISTRY
+   - from hackertube_core.adapters import hn, itunes, librivox, openlibrary
+35 + from hackertube_core.adapters import (
+36 +     MODULES,
+37 +     REGISTRY,
+38 +     hn,
+39 +     itunes,
+40 +     librivox,
+41 +     openlibrary,
+42 + )
+43 | from hackertube_core.adapters.base import ParseResult
+   |
+
+BLE001 Do not catch blind exception: `Exception`
+   --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/sources.py:257:16
+    |
+255 |             # source-down status here would hide a bug in our own code.
+256 |             raise
+257 |         except Exception as exc:  # one source must not stop the pass
+    |                ^^^^^^^^^
+258 |             store.record_source_result(
+259 |                 source_id, ok=False, at=now, error=_error_code(exc)
+    |
+
+SIM905 [*] Consider using a list literal instead of `str.split`
+  --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/text.py:21:5
+   |
+19 |   _YOUTUBE_ID = re.compile(r"^[A-Za-z0-9_-]{6,64}$")
+20 |   _STOPWORDS = frozenset(
+21 | /     """
+22 | |     what when where which with from that this your have about should would
+23 | |     could into want wants watch watches read listen the and for are was will
+24 | |     can just than then them they this into over some
+25 | |     """.split()
+   | |_______________^
+26 |   )
+   |
+help: Replace with list literal
+   |
+20 | _STOPWORDS = frozenset(
+   -     """
+   -     what when where which with from that this your have about should would
+   -     could into want wants watch watches read listen the and for are was will
+   -     can just than then them they this into over some
+   -     """.split()
+21 +     ["what", "when", "where", "which", "with", "from", "that", "this", "your", "have", "about", "should", "would", "could", "into", "want", "wants", "watch", "watches", "read", "listen", "the", "and", "for", "are", "was", "will", "can", "just", "than", "then", "them", "they", "this", "into", "over", "some"]
+22 | )
+   |
+
+UP017 [*] Use `datetime.UTC` alias
+  --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/text.py:62:30
+   |
+60 |     if parsed is None:
+61 |         raise RecordError("time")
+62 |     return parsed.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+   |                              ^^^^^^^^^^^^
+help: Convert to `datetime.UTC` alias
+   |
+4  | import socket
+   - from datetime import datetime, timedelta, timezone
+5  + from datetime import datetime, timedelta, timezone, UTC
+6  | from email.utils import parsedate_to_datetime
+--------------------------------------------------------------------------------
+61 |         raise RecordError("time")
+   -     return parsed.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+62 +     return parsed.astimezone(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+63 |
+   |
+
+PIE810 Call `endswith` once with a `tuple`
+   --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/text.py:139:9
+    |
+137 |       host = (parts.hostname or "").rstrip(".").lower()
+138 |       if (
+139 | /         parts.scheme != "https"
+140 | |         or not host
+141 | |         or parts.username
+142 | |         or parts.password
+143 | |         or host == "localhost"
+144 | |         or host.endswith(".localhost")
+145 | |         or host.endswith(".local")
+    | |__________________________________^
+146 |       ):
+147 |           raise RecordError("destination")
+    |
+help: Merge into a single `endswith` call
+    |
+138 |     if (
+    -         parts.scheme != "https"
+    -         or not host
+    -         or parts.username
+    -         or parts.password
+    -         or host == "localhost"
+    -         or host.endswith(".localhost")
+    -         or host.endswith(".local")
+139 +         parts.scheme != "https" or not host or parts.username or parts.password or host == "localhost" or host.endswith((".localhost", ".local"))
+140 |     ):
+    |
+note: This is an unsafe fix and may change runtime behavior
+
+FURB188 [*] Prefer `str.removeprefix()` over conditionally replacing with slice.
+   --> .git/rehearsal-lint-665s1o6d/hackertube/hackertube_core/text.py:161:5
+    |
+159 |       parts = urlsplit(cleaned)
+160 |       host = parts.hostname.lower()
+161 | /     if host.startswith("www."):
+162 | |         host = host[4:]
+    | |_______________________^
+163 |       if host == "youtu.be":
+164 |           video_id = parts.path.strip("/").split("/")[0]
+    |
+help: Use removeprefix instead of assignment conditional upon startswith.
+    |
+160 |     host = parts.hostname.lower()
+    -     if host.startswith("www."):
+    -         host = host[4:]
+161 +     host = host.removeprefix("www.")
+162 |     if host == "youtu.be":
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/tests/test_adapters.py:3:1
+   |
+ 1 |   """Adapters against captured responses, doc samples, and hostile payloads."""
+ 2 |
+ 3 | / import json
+ 4 | | import socket
+ 5 | | from pathlib import Path
+ 6 | |
+ 7 | | import pytest
+ 8 | |
+ 9 | | from hackertube_core.adapters import hn, itunes, librivox, openlibrary, podcastindex, reddit, youtube
+10 | | from hackertube_core import outbound
+11 | | from hackertube_core.errors import RecordError
+12 | | from hackertube_core.http import read_json
+13 | | from hackertube_core.text import public_https_url
+   | |_________________________________________________^
+14 |
+15 |   NOW = "2026-11-06T12:22:23Z"
+   |
+help: Organize imports
+   |
+7  | import pytest
+   -
+   - from hackertube_core.adapters import hn, itunes, librivox, openlibrary, podcastindex, reddit, youtube
+8  | from hackertube_core import outbound
+9  + from hackertube_core.adapters import (
+10 +     hn,
+11 +     itunes,
+12 +     librivox,
+13 +     openlibrary,
+14 +     podcastindex,
+15 +     reddit,
+16 +     youtube,
+17 + )
+18 | from hackertube_core.errors import RecordError
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/tests/test_installed_search.py:76:5
+   |
+75 |   def test_four_format_ranking_survives_the_observed_8000_token_exhaustion(monkeypatch):
+76 | /     from dataclasses import replace
+77 | |     from hackertube_core.hermes import HermesProvider
+78 | |     from test_search import one_book
+   | |____________________________________^
+79 |
+80 |       monkeypatch.setitem(sys.modules, 'hermes_constants', SimpleNamespace(
+   |
+help: Organize imports
+   |
+76 |     from dataclasses import replace
+77 +
+78 |     from hackertube_core.hermes import HermesProvider
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/tests/test_live_search.py:3:1
+   |
+ 1 |   """Regressions from the November 8 review, before implementation fixes."""
+ 2 |
+ 3 | / import json
+ 4 | | import shutil
+ 5 | | import subprocess
+ 6 | | import sys
+ 7 | | from pathlib import Path
+ 8 | |
+ 9 | | import pytest
+10 | |
+11 | | from hackertube_core import search
+12 | | from hackertube_core.catalog import load_seed
+13 | | from test_search import NOW, one_book, profile, store_at
+   | |________________________________________________________^
+14 |
+15 |   ROOT = Path(__file__).resolve().parents[1]
+   |
+help: Organize imports
+   |
+9  | import pytest
+   -
+10 | from hackertube_core import search
+   |
+
+UP031 Use format specifiers instead of percent format
+  --> .git/rehearsal-lint-665s1o6d/tests/test_live_search.py:24:9
+   |
+22 |       )
+23 |       code = (
+24 | /         "import runpy; m=runpy.run_path(%r); assert len(m['load_catalog']().items)==12"
+25 | |         % str(plugin / "dashboard/catalog_view.py")
+   | |___________________________________________________^
+26 |       )
+27 |       result = subprocess.run(
+   |
+help: Replace with format specifiers
+   |
+23 |     code = (
+   -         "import runpy; m=runpy.run_path(%r); assert len(m['load_catalog']().items)==12"
+   -         % str(plugin / "dashboard/catalog_view.py")
+24 +         "import runpy; m=runpy.run_path({!r}); assert len(m['load_catalog']().items)==12".format(str(plugin / "dashboard/catalog_view.py"))
+25 |     )
+   |
+note: This is an unsafe fix and may change runtime behavior
+
+PLW1510 `subprocess.run` without explicit `check` argument
+  --> .git/rehearsal-lint-665s1o6d/tests/test_live_search.py:27:14
+   |
+25 |         % str(plugin / "dashboard/catalog_view.py")
+26 |     )
+27 |     result = subprocess.run(
+   |              ^^^^^^^^^^^^^^
+28 |         [sys.executable, "-I", "-S", "-c", code],
+29 |         cwd=tmp_path,
+   |
+help: Add explicit `check=False`
+   |
+28 |         [sys.executable, "-I", "-S", "-c", code],
+   -         cwd=tmp_path,
+29 +         check=False, cwd=tmp_path,
+30 |         capture_output=True,
+   |
+note: This suggestion may be incorrect or produce invalid syntax. It requires manual review and cannot be applied automatically
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/tests/test_pr16_review.py:3:1
+   |
+ 1 |   """Regression cases found while reviewing dca17be7f0a6a77759397ffcbc61d0de7cbf684d."""
+ 2 |
+ 3 | / import json
+ 4 | | import threading
+ 5 | | from concurrent.futures import ThreadPoolExecutor
+ 6 | | from dataclasses import replace
+ 7 | |
+ 8 | | import pytest
+ 9 | |
+10 | | from hackertube_core import outbound
+11 | | from hackertube_core.catalog_store import without_expired
+12 | | from hackertube_core.hermes import HermesProvider
+13 | | from hackertube_core.http import HttpError
+14 | | from hackertube_core.retrieval import Budget, SourceRetriever
+15 | | from hackertube_core.search import (
+16 | |     LIVE_LIMITS,
+17 | |     ProviderOutcome,
+18 | |     StubProvider,
+19 | |     interpret_question,
+20 | |     run_search,
+21 | | )
+22 | | from test_search import NOW, build, evidence, item, one_book, profile, source, store_at
+23 | | from test_retrieval import public_read
+   | |______________________________________^
+help: Organize imports
+   |
+8  | import pytest
+   -
+9  | from hackertube_core import outbound
+--------------------------------------------------------------------------------
+20 | )
+   - from test_search import NOW, build, evidence, item, one_book, profile, source, store_at
+21 | from test_retrieval import public_read
+22 + from test_search import NOW, build, evidence, item, one_book, profile, source, store_at
+23 |
+   |
+
+SIM117 [*] Use a single `with` statement with multiple contexts instead of nested `with` statements
+   --> .git/rehearsal-lint-665s1o6d/tests/test_pr16_review.py:168:5
+    |
+167 |   def test_request_scope_restores_context_after_failure():
+168 | /     with pytest.raises(RuntimeError):
+169 | |         with outbound.request_scope() as request:
+    | |_________________________________________________^
+170 |               outbound.dispatch(outbound.PAID, lambda: None, cost=None)
+171 |               raise RuntimeError("test failure")
+    |
+help: Combine `with` statements
+    |
+167 | def test_request_scope_restores_context_after_failure():
+    -     with pytest.raises(RuntimeError):
+    -         with outbound.request_scope() as request:
+    -             outbound.dispatch(outbound.PAID, lambda: None, cost=None)
+    -             raise RuntimeError("test failure")
+168 +     with pytest.raises(RuntimeError), outbound.request_scope() as request:
+169 +         outbound.dispatch(outbound.PAID, lambda: None, cost=None)
+170 +         raise RuntimeError("test failure")
+171 |     outbound.dispatch(outbound.FREE, lambda: None)
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/tests/test_pr17_review.py:3:1
+   |
+ 1 |   """Exact-head PR17 review: contradictory fit labels must fail closed."""
+ 2 |
+ 3 | / import json
+ 4 | |
+ 5 | | import pytest
+ 6 | |
+ 7 | | from hackertube_core.hermes import HermesProvider
+ 8 | | from hackertube_core.search import LIVE_LIMITS, run_search
+ 9 | | from test_results_tuning import catalog_for
+10 | | from test_search import NOW, profile, store_at
+   | |______________________________________________^
+help: Organize imports
+  |
+5 | import pytest
+  -
+6 | from hackertube_core.hermes import HermesProvider
+  |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/tests/test_profile.py:3:1
+   |
+ 1 |   """LIB01, LIB02, LIB03, and PREF01. Profile rows survive a new store and a catalog reread."""
+ 2 |
+ 3 | / import importlib.util
+ 4 | | import socket
+ 5 | | import sqlite3
+ 6 | | import sys
+ 7 | | import types
+ 8 | | from pathlib import Path
+ 9 | |
+10 | | import pytest
+11 | |
+12 | | from hackertube_core.catalog import load_seed
+13 | | from hackertube_core.errors import ProfileError, RecordError
+14 | | from hackertube_core.profile import SCHEMA, ProfileStore, apply_action, open_profile_db
+15 | | from hackertube_core.records import INTEREST_MAX, Interest
+   | |__________________________________________________________^
+16 |
+17 |   ITEM = "ol:OL66554W"
+   |
+help: Organize imports
+   |
+10 | import pytest
+   -
+11 | from hackertube_core.catalog import load_seed
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/tests/test_ranking.py:3:1
+   |
+ 1 |   """FEED09. Fixed weights, honest why-lines, and no clock reads."""
+ 2 |
+ 3 | / import time
+ 4 | | from dataclasses import replace
+ 5 | | from datetime import datetime
+ 6 | |
+ 7 | | from hackertube_core.boundaries import prepared_feed
+ 8 | | from hackertube_core.catalog import load_seed
+ 9 | | from hackertube_core.ranking import (
+10 | |     ENDORSEMENT_WEIGHT,
+11 | |     FRESHNESS_WEIGHT,
+12 | |     FRESHNESS_WINDOW_DAYS,
+13 | |     RECENT_DAYS,
+14 | |     VARIETY_FORMAT_PENALTY,
+15 | |     VARIETY_SOURCE_PENALTY,
+16 | |     WHY_COMMUNITY,
+17 | |     WHY_MATCH,
+18 | |     WHY_RECENT,
+19 | | )
+20 | | from hackertube_core.records import Evidence, HN_RECOMMENDATION_LINE
+   | |____________________________________________________________________^
+21 |
+22 |   NOW = "2026-11-06T12:24:15Z"
+   |
+help: Organize imports
+   |
+19 | )
+   - from hackertube_core.records import Evidence, HN_RECOMMENDATION_LINE
+20 + from hackertube_core.records import HN_RECOMMENDATION_LINE, Evidence
+21 |
+   |
+
+RUF015 Prefer `next(item.item_id for item in feed.items)` over single element slice
+   --> .git/rehearsal-lint-665s1o6d/tests/test_ranking.py:99:12
+    |
+ 97 |     )
+ 98 |     feed = _feed((plain, endorsed), evidence)
+ 99 |     assert [item.item_id for item in feed.items][0] == "z-endorsed"
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+100 |     assert feed.why[0] == (WHY_MATCH, WHY_COMMUNITY, WHY_RECENT)
+101 |     assert WHY_COMMUNITY not in feed.why[1]
+    |
+help: Replace with `next(item.item_id for item in feed.items)`
+    |
+98  |     feed = _feed((plain, endorsed), evidence)
+    -     assert [item.item_id for item in feed.items][0] == "z-endorsed"
+99  +     assert next(item.item_id for item in feed.items) == "z-endorsed"
+100 |     assert feed.why[0] == (WHY_MATCH, WHY_COMMUNITY, WHY_RECENT)
+    |
+note: This is an unsafe fix and may change runtime behavior
+
+PLR0402 [*] Use `from hackertube_core import ranking` in lieu of alias
+   --> .git/rehearsal-lint-665s1o6d/tests/test_ranking.py:156:12
+    |
+155 | def test_feed09_ranking_is_deterministic_and_does_not_read_the_clock(monkeypatch):
+156 |     import hackertube_core.ranking as ranking
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+157 |
+158 |     def explode(*_args, **_kwargs):
+    |
+help: Replace with `from hackertube_core import ranking`
+    |
+155 | def test_feed09_ranking_is_deterministic_and_does_not_read_the_clock(monkeypatch):
+    -     import hackertube_core.ranking as ranking
+156 +     from hackertube_core import ranking
+157 |
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/tests/test_records.py:3:1
+   |
+ 1 |   """Boundary checks CAT01–CAT11 and hostile records."""
+ 2 |
+ 3 | / import copy
+ 4 | | import json
+ 5 | | from dataclasses import replace
+ 6 | | from pathlib import Path
+ 7 | |
+ 8 | | import pytest
+ 9 | |
+10 | | from hackertube_core.boundaries import (
+11 | |     card_label,
+12 | |     classify_endorsement,
+13 | |     dedupe_items,
+14 | |     explain_item,
+15 | |     link_editions,
+16 | |     present_excerpt,
+17 | |     prepared_feed,
+18 | |     recommendation_line,
+19 | |     section_items,
+20 | |     verified_items,
+21 | | )
+22 | | from hackertube_core.catalog import load_seed
+23 | | from hackertube_core.errors import RecordError
+24 | | from hackertube_core.records import Evidence, HN_RECOMMENDATION_LINE, MediaItem, SourceRecord
+25 | | from hackertube_core.text import iso_duration_seconds, public_https_url
+   | |_______________________________________________________________________^
+26 |
+27 |   NOW = "2026-11-06T12:24:15Z"
+   |
+help: Organize imports
+   |
+8  | import pytest
+   -
+9  | from hackertube_core.boundaries import (
+--------------------------------------------------------------------------------
+14 |     link_editions,
+   -     present_excerpt,
+15 |     prepared_feed,
+16 +     present_excerpt,
+17 |     recommendation_line,
+--------------------------------------------------------------------------------
+22 | from hackertube_core.errors import RecordError
+   - from hackertube_core.records import Evidence, HN_RECOMMENDATION_LINE, MediaItem, SourceRecord
+23 + from hackertube_core.records import (
+24 +     HN_RECOMMENDATION_LINE,
+25 +     Evidence,
+26 +     MediaItem,
+27 +     SourceRecord,
+28 + )
+29 | from hackertube_core.text import iso_duration_seconds, public_https_url
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/tests/test_request_boundary.py:14:1
+   |
+12 |   """
+13 |
+14 | / import ast
+15 | | import socket
+16 | | import ssl
+17 | | import threading
+18 | | from pathlib import Path
+19 | |
+20 | | import pytest
+21 | |
+22 | | from hackertube_core import outbound
+23 | | from hackertube_core.adapters import youtube
+24 | | from hackertube_core.http import HttpError, read_json
+   | |_____________________________________________________^
+25 |
+26 |   ROOT = Path(__file__).resolve().parents[1]
+   |
+help: Organize imports
+   |
+20 | import pytest
+   -
+21 | from hackertube_core import outbound
+   |
+
+PERF102 When using only the values of a dict use the `values()` method
+   --> .git/rehearsal-lint-665s1o6d/tests/test_request_boundary.py:239:27
+    |
+237 |             outbound.entry_name(owner, attribute) for owner, attribute in outbound.guard_targets()
+238 |         }
+239 |         for name, call in calls.items():
+    |                           ^^^^^^^^^^^
+240 |             with pytest.raises(outbound.NetworkOutsideBoundary):
+241 |                 call()
+    |
+help: Replace `.items()` with `.values()`
+    |
+238 |         }
+    -         for name, call in calls.items():
+239 +         for call in calls.values():
+240 |             with pytest.raises(outbound.NetworkOutsideBoundary):
+    |
+note: This is an unsafe fix and may change runtime behavior
+
+BLE001 Do not catch blind exception: `Exception`
+   --> .git/rehearsal-lint-665s1o6d/tests/test_request_boundary.py:284:16
+    |
+282 |         except outbound.NetworkOutsideBoundary:
+283 |             outcome["refused"] = True
+284 |         except Exception as exc:  # pragma: no cover - a different failure is a real bug
+    |                ^^^^^^^^^
+285 |             outcome["error"] = repr(exc)
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/tests/test_request_boundary_dns.py:6:1
+   |
+ 4 |   Assertions observe authorization and independent calls, not just the ledger.
+ 5 |   """
+ 6 | / import io
+ 7 | | import socket
+ 8 | | from types import SimpleNamespace
+ 9 | |
+10 | | import pytest
+11 | |
+12 | | from hackertube_core import outbound
+13 | | from hackertube_core.errors import RecordError
+14 | | from hackertube_core.http import HttpError, read_json
+   | |_____________________________________________________^
+help: Organize imports
+   |
+10 | import pytest
+   -
+11 | from hackertube_core import outbound
+   |
+
+RUF100 [*] Unused `noqa` directive (non-enabled: `E402`)
+  --> .git/rehearsal-lint-665s1o6d/tests/test_request_boundary_routes.py:22:23
+   |
+20 | pytest.importorskip("fastapi")
+21 |
+22 | import route_harness  # noqa: E402  (needs the tests directory on sys.path)
+   |                       ^^^^^^^^^^^^
+23 |
+24 | PRIDE = "ol:OL66554W"
+   |
+help: Remove unused `noqa` directive
+   |
+21 |
+   - import route_harness  # noqa: E402  (needs the tests directory on sys.path)
+22 + import route_harness
+23 |
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/tests/test_results_tuning.py:3:1
+   |
+ 1 |   """Public search/ranking regressions motivated by the installed AI results."""
+ 2 |
+ 3 | / import json
+ 4 | | from collections import Counter
+ 5 | | from urllib.parse import parse_qs, urlsplit
+ 6 | |
+ 7 | | import pytest
+ 8 | |
+ 9 | | from hackertube_core.hermes import HermesProvider
+10 | | from hackertube_core.retrieval import Budget, SourceRetriever
+11 | | from hackertube_core.search import LIVE_LIMITS, ProviderUnavailable, interpret_question, result_set, run_search
+12 | | from test_search import NOW, build, evidence, item, one_book, profile, source, store_at
+   | |_______________________________________________________________________________________^
+help: Organize imports
+   |
+7  | import pytest
+   -
+8  | from hackertube_core.hermes import HermesProvider
+9  | from hackertube_core.retrieval import Budget, SourceRetriever
+   - from hackertube_core.search import LIVE_LIMITS, ProviderUnavailable, interpret_question, result_set, run_search
+10 + from hackertube_core.search import (
+11 +     LIVE_LIMITS,
+12 +     ProviderUnavailable,
+13 +     interpret_question,
+14 +     result_set,
+15 +     run_search,
+16 + )
+17 | from test_search import NOW, build, evidence, item, one_book, profile, source, store_at
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/tests/test_retrieval.py:3:1
+   |
+ 1 |   """Live retrieval, source failures, limits, and persistent new identities."""
+ 2 |
+ 3 | / import json
+ 4 | | from dataclasses import replace
+ 5 | | from types import SimpleNamespace
+ 6 | | from urllib.parse import urlsplit
+ 7 | |
+ 8 | | import pytest
+ 9 | |
+10 | | from hackertube_core import outbound
+11 | | from hackertube_core.catalog import load_seed
+12 | | from hackertube_core.hermes import HermesProvider, register
+13 | | from hackertube_core.retrieval import Budget, SourceRetriever
+14 | | from hackertube_core.search import Limits, LIVE_LIMITS, interpret_question, run_search
+15 | | from test_search import NOW, one_book, profile, store_at
+   | |________________________________________________________^
+help: Organize imports
+   |
+8  | import pytest
+   -
+9  | from hackertube_core import outbound
+10 | from hackertube_core.catalog import load_seed
+11 | from hackertube_core.hermes import HermesProvider, register
+12 | from hackertube_core.retrieval import Budget, SourceRetriever
+   - from hackertube_core.search import Limits, LIVE_LIMITS, interpret_question, run_search
+13 + from hackertube_core.search import LIVE_LIMITS, Limits, interpret_question, run_search
+14 | from test_search import NOW, one_book, profile, store_at
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+   --> .git/rehearsal-lint-665s1o6d/tests/test_retrieval.py:315:5
+    |
+314 |   def test_slow_search_does_not_block_feed_reads(tmp_path, monkeypatch):
+315 | /     import asyncio
+316 | |     import threading
+317 | |     import httpx
+318 | |     import route_harness
+319 | |     from hackertube_core.search import StubProvider
+    | |___________________________________________________^
+320 |
+321 |       dashboard = route_harness.start(tmp_path / "data")
+    |
+help: Organize imports
+    |
+316 |     import threading
+317 +
+318 |     import httpx
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+   --> .git/rehearsal-lint-665s1o6d/tests/test_retrieval.py:431:5
+    |
+430 | def test_rank_input_reserves_space_for_each_format_and_rejects_unsubmitted_ids():
+431 |     from test_search import item, evidence, source, build
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+432 |
+433 |     books = [
+    |
+help: Organize imports
+    |
+430 | def test_rank_input_reserves_space_for_each_format_and_rejects_unsubmitted_ids():
+    -     from test_search import item, evidence, source, build
+431 +     from test_search import build, evidence, item, source
+432 |
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/tests/test_search.py:10:1
+   |
+ 8 |   """
+ 9 |
+10 | / import json
+11 | | import sqlite3
+12 | | from pathlib import Path
+13 | |
+14 | | import pytest
+15 | |
+16 | | from hackertube_core import outbound
+17 | | from hackertube_core.catalog import load_catalog, load_seed
+18 | | from hackertube_core.records import blank_art
+19 | | from hackertube_core.search import (
+20 | |     DEFAULT_LIMITS,
+21 | |     DISCLOSURE,
+22 | |     DisclosureRequired,
+23 | |     Interpretation,
+24 | |     Limits,
+25 | |     ProviderUnavailable,
+26 | |     StubProvider,
+27 | |     canonical_question,
+28 | |     interpret_question,
+29 | |     result_set,
+30 | |     run_search,
+31 | | )
+32 | | from hackertube_core.profile import ProfileStore
+   | |________________________________________________^
+33 |
+34 |   ROOT = Path(__file__).resolve().parents[1]
+   |
+help: Organize imports
+   |
+14 | import pytest
+   -
+15 | from hackertube_core import outbound
+16 | from hackertube_core.catalog import load_catalog, load_seed
+17 + from hackertube_core.profile import ProfileStore
+18 | from hackertube_core.records import blank_art
+--------------------------------------------------------------------------------
+31 | )
+   - from hackertube_core.profile import ProfileStore
+32 |
+   |
+
+F401 [*] `json` imported but unused
+  --> .git/rehearsal-lint-665s1o6d/tests/test_search.py:10:8
+   |
+ 8 | """
+ 9 |
+10 | import json
+   |        ^^^^
+11 | import sqlite3
+12 | from pathlib import Path
+   |
+help: Remove unused import: `json`
+   |
+9  |
+   - import json
+10 | import sqlite3
+   |
+
+RUF100 [*] Unused `noqa` directive (non-enabled: `E402`)
+  --> .git/rehearsal-lint-665s1o6d/tests/test_search_routes.py:17:23
+   |
+15 | pytest.importorskip("fastapi")
+16 |
+17 | import route_harness  # noqa: E402  (needs the tests directory on sys.path)
+   |                       ^^^^^^^^^^^^
+18 |
+19 | ZERO = {"free": 0, "paid": 0, "metered": 0}
+   |
+help: Remove unused `noqa` directive
+   |
+16 |
+   - import route_harness  # noqa: E402  (needs the tests directory on sys.path)
+17 + import route_harness
+18 |
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/tests/test_seed.py:9:1
+   |
+ 7 |   """
+ 8 |
+ 9 | / import json
+10 | | import sqlite3
+11 | | from pathlib import Path
+12 | |
+13 | | import pytest
+14 | |
+15 | | from hackertube_core import outbound
+16 | | from hackertube_core.boundaries import explain_item, recommendation_line, section_items
+17 | | from hackertube_core.catalog import load_seed
+18 | | from hackertube_core.demo_seed import (
+19 | |     CATALOG_READS,
+20 | |     IDENTIFIED_VIDEOS,
+21 | |     MAY_BE_EMPTY,
+22 | |     QUESTION,
+23 | |     build,
+24 | |     freeze,
+25 | | )
+26 | | from hackertube_core.records import Evidence, MediaItem, blank_art
+   | |__________________________________________________________________^
+27 |
+28 |   NOW = "2026-11-06T12:24:15Z"
+   |
+help: Organize imports
+   |
+13 | import pytest
+   -
+14 | from hackertube_core import outbound
+   |
+
+F401 [*] `pytest` imported but unused
+  --> .git/rehearsal-lint-665s1o6d/tests/test_seed.py:13:8
+   |
+11 | from pathlib import Path
+12 |
+13 | import pytest
+   |        ^^^^^^
+14 |
+15 | from hackertube_core import outbound
+   |
+help: Remove unused import: `pytest`
+   |
+12 |
+   - import pytest
+13 |
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/tests/test_sources.py:8:1
+   |
+ 6 |   """
+ 7 |
+ 8 | / import json
+ 9 | | import socket
+10 | | import sqlite3
+11 | | from pathlib import Path
+12 | |
+13 | | import pytest
+14 | |
+15 | | from hackertube_core import outbound, sources
+16 | | from hackertube_core.adapters import REGISTRY, hn, itunes, librivox, openlibrary
+17 | | from hackertube_core.adapters.base import ParseResult
+18 | | from hackertube_core.errors import RecordError
+19 | | from hackertube_core.http import HttpError, read_json
+20 | | from hackertube_core.profile import ProfileStore
+21 | | from hackertube_core.records import Evidence, MediaItem, blank_art
+22 | | from hackertube_core.sources import (
+23 | |     BROADER_SEARCH_NOTE,
+24 | |     configure_source,
+25 | |     ingest,
+26 | |     merge_duplicates,
+27 | |     source_snapshot,
+28 | | )
+   | |_^
+29 |
+30 |   NOW = "2026-11-06T12:24:15Z"
+   |
+help: Organize imports
+   |
+13 | import pytest
+   -
+14 | from hackertube_core import outbound, sources
+   |
+
+F401 [*] `json` imported but unused
+  --> .git/rehearsal-lint-665s1o6d/tests/test_sources.py:8:8
+   |
+ 6 | """
+ 7 |
+ 8 | import json
+   |        ^^^^
+ 9 | import socket
+10 | import sqlite3
+   |
+help: Remove unused import: `json`
+  |
+7 |
+  - import json
+8 | import socket
+  |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> .git/rehearsal-lint-665s1o6d/tests/test_urls.py:3:1
+   |
+ 1 |   """Public HTTPS checks. DNS is injected; the suite does not call live resolvers."""
+ 2 |
+ 3 | / import socket
+ 4 | | import ssl
+ 5 | |
+ 6 | | import pytest
+ 7 | |
+ 8 | | from hackertube_core import outbound
+ 9 | | from hackertube_core.errors import RecordError
+10 | | from hackertube_core.http import (
+11 | |     HttpError,
+12 | |     _PinnedHTTPSConnection,
+13 | |     _pinned_opener,
+14 | |     connection_targets,
+15 | |     read_json,
+16 | | )
+17 | | from hackertube_core.text import public_https_url
+   | |_________________________________________________^
+18 |
+19 |   _REJECTED = [
+   |
+help: Organize imports
+   |
+6  | import pytest
+   -
+7  | from hackertube_core import outbound
+8  | from hackertube_core.errors import RecordError
+9  | from hackertube_core.http import (
+10 |     HttpError,
+   -     _PinnedHTTPSConnection,
+11 |     _pinned_opener,
+12 +     _PinnedHTTPSConnection,
+13 |     connection_targets,
+   |
+
+Found 66 errors.
+[*] 46 fixable with `--fix` (5 unsafe fixes available with `--fix --unsafe-fixes`).

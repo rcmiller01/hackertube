@@ -1,0 +1,219 @@
+  - heading "Search results" [active] [level=2]
+  - paragraph: "Question: AI for nontechnical beginners: clear introductions, no coding, academic textbooks, or daily news. Include videos, podcasts, books, and audiobooks."
+  - paragraph: "Provider: hermes. Job job:16. State: succeeded."
+  - paragraph: "Topic: artificial intelligence. Level: beginner."
+  - paragraph: "Time limit: none requested."
+  - paragraph: "Cost: unknown. The provider reported no cost information."
+  - paragraph: "Work limits for this job: at most 12 provider requests, 24 results, a 45 second work budget. Provider requests used: 11. In-flight Hermes calls may finish after this budget; cancellation is not implemented."
+  - status: "podcastindex: missing_api_key reddit: approval_absent"
+  - heading "Videos · 4 verified" [level=3]
+  - article:
+    - generic: Video
+    - heading "What Is AI? | Artificial Intelligence | What is Artificial Intelligence? | AI In 5 Mins |Simplilearn" [level=3]
+    - paragraph: Simplilearn
+    - generic: Video · YouTube
+    - paragraph: YouTube
+    - paragraph: Source candidate, YouTube
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: 5 minutes 28 seconds
+    - link "Open at source":
+      - /url: https://www.youtube.com/watch?v=ad79nYk2keg
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: YouTube"
+  - paragraph: "Model relevance: Very short, jargon-light intro to what AI is for beginners.."
+  - article:
+    - generic: Video
+    - heading "What Is AI? | Learn all about artificial intelligence" [level=3]
+    - paragraph: Learn Bright
+    - generic: Video · YouTube
+    - paragraph: YouTube
+    - paragraph: Source candidate, YouTube
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: 5 minutes 21 seconds
+    - link "Open at source":
+      - /url: https://www.youtube.com/watch?v=JcXKbUIebrU
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: YouTube"
+  - paragraph: "Model relevance: Clear beginner video explaining AI in simple terms.."
+  - article:
+    - generic: Video
+    - 'heading "AI Simplified: 6 Concepts You Need to Know About Modern AI" [level=3]'
+    - paragraph: IBM Technology
+    - generic: Video · YouTube
+    - paragraph: YouTube
+    - paragraph: Source candidate, YouTube
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: 8 minutes 49 seconds
+    - link "Open at source":
+      - /url: https://www.youtube.com/watch?v=mUw27wG7uFA
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: YouTube"
+  - paragraph: "Model relevance: Accessible overview of core modern AI concepts.."
+  - article:
+    - generic: Video
+    - heading "SIMPLEST Explanation of How Artificial Intelligence Works? No Jargon | What is AI? How AI works?" [level=3]
+    - paragraph: Science Simplified 4 All
+    - generic: Video · YouTube
+    - paragraph: YouTube
+    - paragraph: Source candidate, YouTube
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: 26 minutes 19 seconds
+    - link "Open at source":
+      - /url: https://www.youtube.com/watch?v=m8o2GrbR3d8
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: YouTube"
+  - paragraph: "Model relevance: Longer no-jargon explanation of how AI works.."
+  - heading "Podcasts · 3 verified" [level=3]
+  - article:
+    - generic: Show
+    - heading "Artificial Intelligence 101" [level=3]
+    - paragraph: Luca Marchesotti
+    - generic: Podcast · show art unavailable
+    - paragraph: Apple Podcasts
+    - paragraph: Source candidate, Apple Podcasts
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - link "Open at source":
+      - /url: https://podcasts.apple.com/us/podcast/artificial-intelligence-101/id1595568010?uo=4
+    - button "Saved" [disabled]: Saved
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Apple Podcasts"
+  - paragraph: "In your library: Saved."
+  - paragraph: "Model relevance: Podcast explicitly framed as AI 101 for newcomers.."
+  - article:
+    - generic: Show
+    - heading "AI LITERACY - A Podcast about Artificial Intelligence" [level=3]
+    - paragraph: AI LITERACY
+    - generic: Podcast · show art unavailable
+    - paragraph: Apple Podcasts
+    - paragraph: Source candidate, Apple Podcasts
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - link "Open at source":
+      - /url: https://podcasts.apple.com/us/podcast/ai-literacy-a-podcast-about-artificial-intelligence/id1553736450?uo=4
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Apple Podcasts"
+  - paragraph: "Model relevance: Educational podcast focused on AI literacy for general listeners.."
+  - article:
+    - generic: Show
+    - 'heading "Google DeepMind: The Podcast" [level=3]'
+    - paragraph: Hannah Fry
+    - generic: Podcast · show art unavailable
+    - paragraph: Apple Podcasts
+    - paragraph: Source candidate, Apple Podcasts
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - link "Open at source":
+      - /url: https://podcasts.apple.com/us/podcast/google-deepmind-the-podcast/id1476316441?uo=4
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Apple Podcasts"
+  - paragraph: "Model relevance: Hosted by Hannah Fry, likely approachable AI education for nontechnical audiences.."
+  - heading "Books · 2 verified" [level=3]
+  - article:
+    - generic: Book
+    - heading "Artificial Intelligence" [level=3]
+    - paragraph: Melanie Mitchell
+    - generic: Book · cover unavailable
+    - paragraph: Open Library
+    - paragraph: Source candidate, Open Library
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: Length unknown
+    - link "Open at source":
+      - /url: https://openlibrary.org/works/OL20666330W
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Open Library"
+  - paragraph: "Model relevance: Melanie Mitchell's book is a strong nontechnical AI introduction.."
+  - article:
+    - generic: Book
+    - heading "Human Compatible" [level=3]
+    - paragraph: Stuart J. Russell
+    - generic: Book · cover unavailable
+    - paragraph: Open Library
+    - paragraph: Source candidate, Open Library
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: Length unknown
+    - link "Open at source":
+      - /url: https://openlibrary.org/works/OL20492448W
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Open Library"
+  - paragraph: "Model relevance: Clear, accessible book on AI alignment and control.."
+  - heading "Audiobooks · 4 verified" [level=3]
+  - article:
+    - generic: Audiobook
+    - heading "Artificial Intelligence For Dummies" [level=3]
+    - paragraph: John Paul Mueller & Luca Massaron
+    - generic: Audiobook · cover unavailable
+    - paragraph: Public source
+    - paragraph: Source candidate, Apple Podcasts
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: Duration unknown
+    - link "Open at source":
+      - /url: https://books.apple.com/us/audiobook/artificial-intelligence-for-dummies/id1648988957?uo=4
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Apple Podcasts"
+  - paragraph: "Model relevance: Beginner-friendly audiobook edition with a Dummies format.."
+  - article:
+    - generic: Audiobook
+    - heading "Artificial Intelligence All-in-One For Dummies" [level=3]
+    - paragraph: Chris Minnick
+    - generic: Audiobook · cover unavailable
+    - paragraph: Public source
+    - paragraph: Source candidate, Apple Podcasts
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: Duration unknown
+    - link "Open at source":
+      - /url: https://books.apple.com/us/audiobook/artificial-intelligence-all-in-one-for-dummies/id1818451000?uo=4
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Apple Podcasts"
+  - paragraph: "Model relevance: Broad, beginner-oriented audiobook covering AI basics.."
+  - article:
+    - generic: Audiobook
+    - 'heading "Artificial Intelligence: 101 Things You Must Know Today About Our Future (Unabridged)" [level=3]'
+    - paragraph: Lasse Rouhiainen
+    - generic: Audiobook · cover unavailable
+    - paragraph: Public source
+    - paragraph: Source candidate, Apple Podcasts
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: Duration unknown
+    - link "Open at source":
+      - /url: https://books.apple.com/us/audiobook/artificial-intelligence-101-things-you-must-know-today/id1448185276?uo=4
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Apple Podcasts"
+  - paragraph: "Model relevance: Introductory audiobook promising a broad layperson overview.."
+  - article:
+    - generic: Audiobook
+    - 'heading "Prediction Machines: The Simple Economics of Artificial Intelligence (Unabridged)" [level=3]'
+    - paragraph: Ajay Agrawal, Joshua Gans & Avi Goldfarb
+    - generic: Audiobook · cover unavailable
+    - paragraph: Public source
+    - paragraph: Source candidate, Apple Podcasts
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: Duration unknown
+    - link "Open at source":
+      - /url: https://books.apple.com/us/audiobook/prediction-machines-the-simple-economics-of/id1431547343?uo=4
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Apple Podcasts"
+  - paragraph: "Model relevance: Nontechnical explanation of AI's economics and implications.."
+  - button "Back to discovery"

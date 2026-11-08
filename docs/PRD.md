@@ -271,3 +271,7 @@ The confirmed decisions in section 3 come directly from this chat. Other choices
 ## November 8 implementation direction
 
 Robert requested self-contained packaging and real search instead of further seeded-demo content, and specified existing Hermes providers/endpoints with a user-selectable provider. The current implementation therefore uses the registered `hackertube_search` auxiliary task and Hermes's model-selection routes. The previous plugin-owned model-key fallback is superseded for this path. The original proposed source set remains authoritative; see `docs/real-search.md` for actual supported paths and setup requirements. This does not authorize Reddit access or external submission. The seed/content tasks remain open and were not expanded.
+
+### November 8 installed-demo disposition
+
+Packaging and real retrieval are implemented and live-tested; the original seed-content expansion remains deliberately skipped. The current demo uses a 45-second work budget, 12 logical dispatches, and 24 results. The plugin passes remaining time into calls, but a Hermes in-flight call was observed to stall beyond it. The UI discloses this limitation; full cancellation and interrupted-job recovery remain post-demo, and no hard wall-clock guarantee is claimed. A 36.25-second actual installed walkthrough and local submission drafts are prepared. Public visibility, catalog/X publication, the form, source obligations, and eligibility/IP questions remain separate gates. See docs/submission/README.md and docs/receipts/demo-rehearsal/README.md.

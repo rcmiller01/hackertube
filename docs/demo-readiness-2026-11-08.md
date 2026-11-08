@@ -1,5 +1,7 @@
 # HackerTube demo readiness and workspace consolidation
 
+> Historical baseline review, superseded by [real search](real-search.md), [PR17 review](pr17-review.md), and [installed demo rehearsal](receipts/demo-rehearsal/README.md). Packaging, real retrieval, format-before-limit filtering, remaining-budget forwarding, and nonblocking search are implemented. The old five-second live limit is obsolete; live jobs use a 45-second work budget. Seed expansion remains deliberately skipped. See the rehearsal report for remaining submission gates.
+
 Reviewed November 8, 2026. Baseline: `fa692729cbf4ed26743f163dceeb6c12f9ae1e7a`, fetched from origin/main during this review. The search worktree at `a4993e6fa12c9515eb737ab422f0d81dd797a2f2` has an identical tracked tree: zero differing files. PR #15 is already merged. This review changes no application behavior and does not authorize publication or paid calls.
 
 ## Assessment

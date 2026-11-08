@@ -627,7 +627,7 @@
     var deadline = safe.deadline_seconds === undefined ? "?" : safe.deadline_seconds;
     var used = usage && typeof usage.requests_used === "number" ? usage.requests_used : 0;
     return SEARCH_LIMIT_NOTE + " at most " + requests + " provider requests, " + hits +
-      " results, a " + deadline + " second deadline. Provider requests used: " + used + ".";
+      " results, a " + deadline + " second work budget. Provider requests used: " + used + ". In-flight Hermes calls may finish after this budget; cancellation is not implemented.";
   }
 
   function constraintLine(interpretation) {

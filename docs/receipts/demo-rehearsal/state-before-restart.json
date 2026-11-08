@@ -1,0 +1,38 @@
+{
+  "item_state": [
+    {
+      "item_id": "ol:OL27912661W",
+      "saved": 1,
+      "dismissed": 0,
+      "completed": 0,
+      "saved_order": 1
+    },
+    {
+      "item_id": "itunes:podcast:1595568010",
+      "saved": 1,
+      "dismissed": 0,
+      "completed": 0,
+      "saved_order": 2
+    }
+  ],
+  "open_event": [
+    {
+      "item_id": "ol:OL27912661W",
+      "event_no": 1,
+      "opened_at": "2026-11-08T15:59:38Z"
+    },
+    {
+      "item_id": "itunes:podcast:1595568010",
+      "event_no": 1,
+      "opened_at": "2026-11-08T18:16:21Z"
+    }
+  ],
+  "source_setting": [
+    {
+      "source_id": "youtube",
+      "enabled": 1,
+      "updated_at": "2026-11-08T16:16:10Z"
+    }
+  ],
+  "interests": []
+}

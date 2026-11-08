@@ -1,0 +1,939 @@
+- banner:
+  - button "Open navigation":
+  - generic: Hermes Agent
+- complementary "Navigation":
+  - text: Hermes
+  - text: Agent
+  - button "Close navigation":
+  - generic "Managing profile":
+    - combobox:
+      - generic: default
+  - navigation "Navigation":
+    - list:
+      - link "Chat":
+        - /url: /chat
+        - generic: Chat
+      - link "Sessions":
+        - /url: /sessions
+        - generic: Sessions
+      - link "Files":
+        - /url: /files
+        - generic: Files
+      - link "Models":
+        - /url: /models
+        - generic: Models
+      - link "Logs":
+        - /url: /logs
+        - generic: Logs
+      - link "Cron":
+        - /url: /cron
+        - generic: Cron
+      - link "Skills":
+        - /url: /skills
+        - generic: Skills
+      - link "Plugins":
+        - /url: /plugins
+        - generic: Plugins
+      - link "MCP":
+        - /url: /mcp
+        - generic: MCP
+      - link "Channels":
+        - /url: /channels
+        - generic: Channels
+      - link "Webhooks":
+        - /url: /webhooks
+        - generic: Webhooks
+      - link "Pairing":
+        - /url: /pairing
+        - generic: Pairing
+      - link "Profiles":
+        - /url: /profiles
+        - generic: Profiles
+      - link "Config":
+        - /url: /config
+        - generic: Config
+      - link "Keys":
+        - /url: /env
+        - generic: Keys
+      - link "System":
+        - /url: /system
+        - generic: System
+      - link "Documentation":
+        - /url: /docs
+        - generic: Documentation
+    - group "Plugins":
+      - generic: Plugins
+      - list:
+        - link "Kanban":
+          - /url: /kanban
+          - generic: Kanban
+        - link "HackerTube":
+          - /url: /hackertube
+          - generic: HackerTube
+        - link "Achievements":
+          - /url: /achievements
+          - generic: Achievements
+  - generic: System
+  - 'link "Gateway Status: Running Active Sessions: 0"':
+    - /url: /sessions
+    - paragraph: "Gateway Status: Running"
+    - paragraph: "Active Sessions: 0"
+  - list:
+    - button "Restart Gateway":
+      - generic: Restart Gateway
+    - button "Update Hermes":
+      - generic: Update Hermes
+  - button "Switch theme":
+  - button "Switch language"
+  - generic: v0.23.0
+  - link "Nous Research":
+    - /url: https://nousresearch.com
+- banner:
+  - heading "HackerTube" [level=1]
+- main:
+  - heading "HackerTube" [level=1]
+  - paragraph: Browse videos, podcasts, books, and audiobooks, then open them at their sources.
+  - navigation "HackerTube":
+    - link "Discover":
+      - /url: "#discover"
+    - link "Library (3 saved)":
+      - /url: "#library"
+    - link "About" [active]:
+      - /url: "#about"
+  - status: Saved AI LITERACY - A Podcast about Artificial Intelligence. Library has 3 saved.
+  - separator
+  - region "Interests":
+    - heading "Interests" [level=2]
+    - text: Interest
+    - textbox "Interest"
+    - paragraph: Interests can be any subject. They are not limited to technology. Up to 80 characters. A word match is required before an item is recommended.
+    - button "Add interest": Add interest
+    - paragraph: No interests yet.
+  - button "Focused search" [expanded]: Focused search
+  - text: Search provider and model
+  - combobox "Search provider and model":
+    - option "Use current Hermes model"
+    - option "nous · anthropic/claude-fable-5.1"
+    - option "nous · anthropic/claude-fable-5"
+    - option "nous · anthropic/claude-opus-5.5"
+    - option "nous · anthropic/claude-opus-5"
+    - option "nous · anthropic/claude-opus-4.8"
+    - option "nous · anthropic/claude-sonnet-5.5"
+    - option "nous · anthropic/claude-sonnet-5"
+    - option "nous · anthropic/claude-haiku-5.5"
+    - option "nous · anthropic/claude-haiku-4.5"
+    - option "nous · openai/gpt-6-astra"
+    - option "nous · openai/gpt-6-astra-fast"
+    - option "nous · openai/gpt-6-astra-flex"
+    - option "nous · openai/gpt-6-astra-pro"
+    - option "nous · openai/gpt-6-astra-pro-fast"
+    - option "nous · openai/gpt-6-astra-pro-flex"
+    - option "nous · openai/gpt-6.1-sol"
+    - option "nous · openai/gpt-6.1-sol-pro"
+    - option "nous · openai/gpt-6.1-terra"
+    - option "nous · openai/gpt-6-sol"
+    - option "nous · openai/gpt-6-sol-pro"
+    - option "nous · openai/gpt-6-luna"
+    - option "nous · openai/gpt-6-luna-pro"
+    - option "nous · openai/gpt-5.5"
+    - option "nous · openai/gpt-5.5-pro"
+    - option "nous · openai/gpt-5.4-mini"
+    - option "nous · google/gemini-4-argon"
+    - option "nous · google/gemini-3.1-pro-preview"
+    - option "nous · google/gemini-3.8-flash"
+    - option "nous · google/gemini-3.7-flash"
+    - option "nous · x-ai/grok-4.7"
+    - option "nous · x-ai/grok-4.6"
+    - option "nous · deepseek/deepseek-v4-pro"
+    - option "nous · deepseek/deepseek-v4-pro-0813"
+    - option "nous · deepseek/deepseek-v4.1-flash"
+    - option "nous · deepseek/deepseek-v4.1-flash-1017"
+    - option "nous · deepseek/deepseek-v4-flash-0731"
+    - option "nous · qwen/qwen3.8-max-0902"
+    - option "nous · qwen/qwen3.8-flash"
+    - option "nous · moonshotai/kimi-k3"
+    - option "nous · minimax/minimax-m3"
+    - option "nous · z-ai/glm-5.3"
+    - option "nous · z-ai/glm-5.3-flash"
+    - option "nous · z-ai/glm-5.3-flashx"
+    - option "nous · z-ai/glm-5.2"
+    - option "nous · xiaomi/mimo-v2.6-pro"
+    - option "nous · xiaomi/mimo-v2.6-flash"
+    - option "nous · xiaomi/mimo-v2.6-pro-ultraspeed"
+    - option "nous · xiaomi/mimo-v2.5-pro"
+    - option "nous · tencent/hy4-preview"
+    - option "nous · tencent/hy3"
+    - option "nous · stepfun/step-3.7-flash"
+    - option "nous · nvidia/nemotron-3-super-120b-a12b"
+    - option "nous · meta/muse-spark-1.2"
+    - option "nous · meta/muse-spark-1.3"
+    - option "nous · sakana/fugu-ultra"
+    - option "nous · upstage/solar-pro4"
+    - option "nous · upstage/solar-mini4"
+    - option "nous · stealth/space-bunny-alpha"
+    - option "nous · upstage/solar-mini4:free"
+    - option "nous · meituan/longcat-2.5:free"
+    - option "nous · stepfun/step-3.7-flash:free"
+    - option "nous · reflection/beam-1.0-501b-a23b:free"
+    - option "nous · stealth/crouton-alpha"
+    - option "openrouter · anthropic/claude-fable-5.1"
+    - option "openrouter · anthropic/claude-fable-5"
+    - option "openrouter · anthropic/claude-opus-5.5"
+    - option "openrouter · anthropic/claude-opus-5"
+    - option "openrouter · anthropic/claude-opus-4.8"
+    - option "openrouter · anthropic/claude-sonnet-5.5"
+    - option "openrouter · anthropic/claude-sonnet-5"
+    - option "openrouter · anthropic/claude-haiku-5.5"
+    - option "openrouter · anthropic/claude-haiku-4.5"
+    - option "openrouter · openai/gpt-6-astra"
+    - option "openrouter · openai/gpt-6-astra-pro"
+    - option "openrouter · openai/gpt-6.1-sol"
+    - option "openrouter · openai/gpt-6.1-sol-pro"
+    - option "openrouter · openai/gpt-6.1-terra"
+    - option "openrouter · openai/gpt-6-sol"
+    - option "openrouter · openai/gpt-6-sol-pro"
+    - option "openrouter · openai/gpt-6-luna"
+    - option "openrouter · openai/gpt-6-luna-pro"
+    - option "openrouter · openai/gpt-5.5"
+    - option "openrouter · openai/gpt-5.5-pro"
+    - option "openrouter · openai/gpt-5.4-mini" [selected]
+    - option "openrouter · google/gemini-4-argon"
+    - option "openrouter · google/gemini-3.1-pro-preview"
+    - option "openrouter · google/gemini-3.8-flash"
+    - option "openrouter · google/gemini-3.7-flash"
+    - option "openrouter · x-ai/grok-4.7"
+    - option "openrouter · x-ai/grok-4.6"
+    - option "openrouter · deepseek/deepseek-v4-pro"
+    - option "openrouter · deepseek/deepseek-v4-pro-0813"
+    - option "openrouter · deepseek/deepseek-v4.1-flash"
+    - option "openrouter · deepseek/deepseek-v4.1-flash-1017"
+    - option "openrouter · deepseek/deepseek-v4-flash-0731"
+    - option "openrouter · qwen/qwen3.8-max-0902"
+    - option "openrouter · qwen/qwen3.8-flash"
+    - option "openrouter · moonshotai/kimi-k3"
+    - option "openrouter · minimax/minimax-m3"
+    - option "openrouter · z-ai/glm-5.3"
+    - option "openrouter · z-ai/glm-5.3-flash"
+    - option "openrouter · z-ai/glm-5.3-flashx"
+    - option "openrouter · z-ai/glm-5.2"
+    - option "openrouter · xiaomi/mimo-v2.6-pro"
+    - option "openrouter · xiaomi/mimo-v2.6-flash"
+    - option "openrouter · xiaomi/mimo-v2.6-pro-ultraspeed"
+    - option "openrouter · xiaomi/mimo-v2.5-pro"
+    - option "openrouter · tencent/hy4-preview"
+    - option "openrouter · tencent/hy3"
+    - option "openrouter · stepfun/step-3.7-flash"
+    - option "openrouter · nvidia/nemotron-3-super-120b-a12b"
+    - option "openrouter · meta/muse-spark-1.2"
+    - option "openrouter · meta/muse-spark-1.2-contributor"
+    - option "openrouter · meta/muse-spark-1.3"
+    - option "openrouter · meta/muse-spark-1.3-contributor"
+    - option "openrouter · sakana/fugu-ultra"
+    - option "openrouter · upstage/solar-pro4"
+    - option "openrouter · upstage/solar-mini4"
+    - option "openrouter · openrouter/pareto-code"
+    - option "openrouter · nvidia/nemotron-3-ultra-550b-a55b:free"
+    - option "openrouter · nvidia/nemotron-3.5-lightning:free"
+    - option "moa · default"
+    - option "openai-codex · gpt-6.1-sol"
+    - option "openai-codex · gpt-6.1-sol-900k"
+    - option "openai-codex · gpt-6-astra"
+    - option "openai-codex · gpt-6-astra-900k"
+    - option "openai-codex · gpt-6.1-terra"
+    - option "openai-codex · gpt-6-sol"
+    - option "openai-codex · gpt-6-sol-900k"
+    - option "openai-codex · gpt-6-luna"
+    - option "openai-codex · gpt-6-luna-900k"
+    - option "openai-codex · gpt-5.6-sol"
+    - option "openai-codex · gpt-5.6-sol-900k"
+    - option "openai-codex · gpt-5.6-terra"
+    - option "openai-codex · gpt-5.6-terra-900k"
+    - option "openai-codex · gpt-5.6-luna"
+    - option "openai-codex · gpt-5.6-luna-900k"
+    - option "huggingface · moonshotai/Kimi-K2.5"
+    - option "huggingface · Qwen/Qwen3.5-397B-A17B"
+    - option "huggingface · Qwen/Qwen3.5-35B-A3B"
+    - option "huggingface · deepseek-ai/DeepSeek-V3.2"
+    - option "huggingface · MiniMaxAI/MiniMax-M2.5"
+    - option "huggingface · zai-org/GLM-5"
+    - option "huggingface · XiaomiMiMo/MiMo-V2-Flash"
+    - option "huggingface · moonshotai/Kimi-K2-Thinking"
+    - option "huggingface · moonshotai/Kimi-K2.6"
+    - option "huggingface · Qwen/Qwen3.8-27B"
+    - option "huggingface · deepseek-ai/DeepSeek-V4.1-Flash-1017"
+    - option "huggingface · zai-org/GLM-5.3-Flash"
+    - option "huggingface · deepseek-ai/DeepSeek-V4.1-Flash"
+    - option "huggingface · meta-llama/Llama-3.1-8B-Instruct"
+    - option "huggingface · moonshotai/Kimi-K3"
+    - option "huggingface · google/gemma-4-31B-it"
+    - option "huggingface · Qwen/Qwen3.5-9B"
+    - option "huggingface · zai-org/GLM-5.3"
+    - option "huggingface · Qwen/Qwen3.6-35B-A3B"
+    - option "huggingface · MiniMaxAI/MiniMax-M3.1-Flash"
+    - option "huggingface · tencent/Hy4-preview"
+    - option "huggingface · meta-models/Muse-Glimmer-30B"
+    - option "huggingface · openai/gpt-oss-20b"
+    - option "huggingface · reflection/Beam-1.0-501B-A23B"
+    - option "huggingface · Qwen/Qwen3.8-2.4T-A95B"
+    - option "huggingface · google/gemma-4-26B-A4B-it"
+    - option "huggingface · thinkingmachines/Inkling-Small"
+    - option "huggingface · nvidia/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-NVFP4"
+    - option "huggingface · openai/gpt-oss-120b"
+    - option "huggingface · google/gemma-3-4b-it"
+    - option "huggingface · deepseek-ai/DeepSeek-V4-Flash"
+    - option "huggingface · deepseek-ai/DeepSeek-R1"
+    - option "huggingface · CohereLabs/tiny-aya-global"
+    - option "huggingface · Qwen/Qwen3.5-27B"
+    - option "huggingface · meta-models/Muse-Spark-Open-816B-A42B"
+    - option "huggingface · Qwen/Qwen3.8-Flash-Next-FP8"
+    - option "huggingface · XiaomiMiMo/MiMo-V2.6-Flash-RL"
+    - option "huggingface · ibm-granite/granite-4.2-3b"
+    - option "huggingface · meta-llama/Llama-3.3-70B-Instruct"
+    - option "huggingface · zai-org/GLM-5.2"
+    - option "huggingface · thinkingmachines/Inkling"
+    - option "huggingface · Qwen/Qwen3.6-27B"
+    - option "huggingface · deepseek-ai/DeepSeek-V4-Pro"
+    - option "huggingface · inclusionAI/Ling-3.1-flash"
+    - option "huggingface · deepseek-ai/DeepSeek-V4-Flash-0731"
+    - option "huggingface · openai/gpt-oss-safeguard-20b"
+    - option "huggingface · swiss-ai/Apertus-v1.5-70B"
+    - option "huggingface · zai-org/GLM-4.7-Flash"
+    - option "huggingface · google/gemma-3-27b-it"
+    - option "huggingface · deepseek-ai/DeepSeek-V4-Pro-0813"
+    - option "huggingface · meta-llama/Llama-4-Scout-17B-16E-Instruct"
+    - option "huggingface · Qwen/Qwen3-30B-A3B"
+    - option "huggingface · inclusionAI/Ling-3.0-flash-Fin"
+    - option "huggingface · microsoft/phi-4"
+    - option "huggingface · moonshotai/Kimi-K2.7-Code"
+    - option "huggingface · deepseek-ai/DeepSeek-V4-Flash-Vision-Exp"
+    - option "huggingface · nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16"
+    - option "huggingface · zai-org/GLM-5.3-Flash-BF16"
+    - option "huggingface · ibm-granite/granite-4.2-8b"
+    - option "huggingface · moonshotai/Kimi-K2-Instruct"
+    - option "huggingface · meta-llama/Llama-Guard-4-12B"
+    - option "huggingface · Qwen/Qwen3-14B"
+    - option "huggingface · CohereLabs/tiny-aya-earth"
+    - option "huggingface · Qwen/Qwen3-VL-235B-A22B-Instruct"
+    - option "huggingface · Qwen/Qwen3.5-122B-A10B"
+    - option "huggingface · ibm-granite/granite-4.2-30b"
+    - option "huggingface · zai-org/GLM-5.3-BF16"
+    - option "huggingface · Qwen/Qwen2.5-VL-72B-Instruct"
+    - option "huggingface · aisingapore/Qwen-SEA-LION-v4.5-27B-IT"
+    - option "huggingface · Qwen/Qwen2.5-72B-Instruct"
+    - option "huggingface · zai-org/GLM-4.7"
+    - option "huggingface · zai-org/AutoGLM-Phone-9B-Multilingual"
+    - option "huggingface · deepseek-ai/DeepSeek-V3"
+    - option "huggingface · MiniMaxAI/MiniMax-M3"
+    - option "huggingface · inclusionAI/Ling-3.0-flash-VL"
+    - option "huggingface · Qwen/Qwen3-32B"
+    - option "huggingface · zai-org/GLM-4.6V-Flash"
+    - option "huggingface · swiss-ai/Apertus-8B-Instruct-2509"
+    - option "huggingface · Sao10K/L3-8B-Stheno-v3.2"
+    - option "huggingface · CohereLabs/aya-expanse-32b"
+    - option "huggingface · XiaomiMiMo/MiMo-V2.5"
+    - option "huggingface · speakleash/Bielik-11B-v3.0-Instruct"
+    - option "huggingface · inclusionAI/Ling-3.0-flash"
+    - option "huggingface · zai-org/GLM-4.5"
+    - option "huggingface · Qwen/Qwen3-VL-30B-A3B-Instruct"
+    - option "huggingface · aisingapore/Gemma-SEA-LION-v4-27B-IT"
+    - option "huggingface · alpindale/WizardLM-2-8x22B"
+    - option "huggingface · zai-org/GLM-4.5-Air"
+    - option "huggingface · stepfun-ai/Step-3.7-Flash"
+    - option "huggingface · swiss-ai/Apertus-70B-Instruct-2509"
+    - option "huggingface · deepseek-ai/DeepSeek-R1-0528"
+    - option "huggingface · zai-org/GLM-4.6-FP8"
+    - option "huggingface · CohereLabs/c4ai-command-r-08-2024"
+    - option "huggingface · aisingapore/Qwen-SEA-LION-v4-32B-IT"
+    - option "huggingface · MiniMaxAI/MiniMax-M1-80k"
+    - option "huggingface · zai-org/GLM-4.6"
+    - option "huggingface · CohereLabs/c4ai-command-r7b-12-2024"
+    - option "huggingface · BSC-LT/ALIA-40b-instruct-2606"
+    - option "huggingface · moonshotai/Kimi-K2-Instruct-0905"
+    - option "huggingface · zai-org/GLM-4.7-FP8"
+    - option "huggingface · CohereLabs/c4ai-command-r7b-arabic-02-2025"
+    - option "huggingface · aisingapore/Nemotron-SEA-LION-v4.8-120B-A12B"
+    - option "huggingface · zai-org/GLM-5.1"
+    - option "huggingface · CohereLabs/aya-vision-32b"
+    - option "huggingface · CohereLabs/c4ai-command-a-03-2025"
+    - option "huggingface · zai-org/GLM-5.1-FP8"
+    - option "huggingface · CohereLabs/command-a-reasoning-08-2025"
+    - option "huggingface · MiniMaxAI/MiniMax-M2.7"
+    - option "huggingface · zai-org/GLM-5.2-FP8"
+    - option "huggingface · CohereLabs/command-a-translate-08-2025"
+    - option "huggingface · NousResearch/Hermes-3-Llama-3.1-70B"
+    - option "huggingface · zai-org/GLM-4.5V-FP8"
+    - option "huggingface · CohereLabs/tiny-aya-water"
+    - option "huggingface · deepseek-ai/DeepSeek-V3-0324"
+    - option "huggingface · zai-org/GLM-4.5V"
+    - option "huggingface · CohereLabs/tiny-aya-fire"
+    - option "huggingface · Qwen/Qwen3-235B-A22B-Instruct-2507"
+    - option "huggingface · meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8"
+    - option "huggingface · zai-org/GLM-4.6V"
+    - option "huggingface · Qwen/Qwen3-235B-A22B-Thinking-2507"
+    - option "huggingface · zai-org/GLM-4.6V-FP8"
+    - option "huggingface · deepseek-ai/DeepSeek-V3.1"
+    - option "huggingface · Qwen/Qwen3-Next-80B-A3B-Instruct"
+    - option "huggingface · deepseek-ai/DeepSeek-V3.1-Terminus"
+    - option "huggingface · stepfun-ai/Step-3.5-Flash"
+    - option "huggingface · XiaomiMiMo/MiMo-V2.5-Pro"
+    - option "huggingface · tencent/Hy3"
+    - option "zai · glm-5.3"
+    - option "zai · glm-5.3-flash"
+    - option "zai · glm-5.2"
+    - option "zai · glm-5.1"
+    - option "zai · glm-5"
+    - option "zai · glm-5v-turbo"
+    - option "zai · glm-5-turbo"
+    - option "zai · glm-4.7"
+    - option "zai · glm-4.5"
+    - option "zai · glm-4.5-flash"
+    - option "zai · glm-4.5-air"
+    - option "zai · glm-4.6"
+    - option "zai · glm-5.3-flashx"
+    - option "zai · glm-5.3-flashx-legal"
+    - option "ollama-cloud · gpt-oss:120b"
+    - option "ollama-cloud · gemma4:31b"
+    - option "ollama-cloud · glm-5.3-flash"
+    - option "ollama-cloud · minimax-m3.1-flash"
+    - option "ollama-cloud · glm-5.2"
+    - option "ollama-cloud · kimi-k2.6"
+    - option "ollama-cloud · deepseek-v4.1-flash:1017"
+    - option "ollama-cloud · beam"
+    - option "ollama-cloud · minimax-m2.7"
+    - option "ollama-cloud · minimax-m3"
+    - option "ollama-cloud · mistral-large-4"
+    - option "ollama-cloud · nemotron-3-super"
+    - option "ollama-cloud · kimi-k3"
+    - option "ollama-cloud · mimo-v2.6-flash"
+    - option "ollama-cloud · kimi-k2.7-code"
+    - option "ollama-cloud · gpt-oss:20b"
+    - option "ollama-cloud · mistral-large-3:675b"
+    - option "ollama-cloud · deepseek-v4.1-flash"
+    - option "ollama-cloud · clef:27b"
+    - option "ollama-cloud · glm-5.3"
+    - option "ollama-cloud · kimi-k3.1-pro"
+    - option "ollama-cloud · nemotron-3-ultra"
+    - option "ollama-cloud · muse-spark-open"
+    - option "ollama-cloud · mimo-v2.6-pro"
+    - option "ollama-cloud · deepseek-v4-pro:0813"
+    - option "ollama-cloud · nemotron-3-nano:30b"
+    - option "ollama-cloud · deepseek-v4-pro"
+    - option "alibaba-token-plan · qwen3.8-max-0902"
+    - option "alibaba-token-plan · qwen3.7-max"
+    - option "alibaba-token-plan · qwen3.7-plus"
+    - option "alibaba-token-plan · qwen3.6-plus"
+    - option "alibaba-token-plan · qwen3.6-flash"
+    - option "alibaba-token-plan · deepseek-v4-pro"
+    - option "alibaba-token-plan · deepseek-v4-flash"
+    - option "alibaba-token-plan · deepseek-v3.2"
+    - option "alibaba-token-plan · kimi-k2.7-code"
+    - option "alibaba-token-plan · kimi-k2.6"
+    - option "alibaba-token-plan · kimi-k2.5"
+    - option "alibaba-token-plan · glm-5.2"
+    - option "alibaba-token-plan · glm-5.1"
+    - option "alibaba-token-plan · glm-5"
+    - option "ollama-local · glm-5.3-flash:cloud"
+    - option "ollama-local · deepseek-v4.1-flash:cloud"
+    - option "ollama-local · qwen3.8:latest"
+    - option "ollama-local · kimi-k3:cloud"
+    - option "ollama-local · devstral-small-2:24b-cloud"
+    - option "ollama-local · gemini-3-flash-preview:cloud"
+    - option "ollama-local · qwen3.5:397b-cloud"
+    - option "ollama-local · mistral-large-3:675b-cloud"
+    - option "ollama-local · glm-5.2:cloud"
+    - option "ollama-local · kimi-k2.7-code:cloud"
+    - option "ollama-local · nemotron3:33b"
+    - option "ollama-local · nemotron-3-ultra:cloud"
+    - option "ollama-local · minimax-m3:cloud"
+    - option "lmstudio-local · qwen3-235b-a22b-abliterated-i1"
+    - option "lmstudio-local · gpt-oss-120b-abliterated-i1"
+    - option "lmstudio-local · huihui-qwen3-vl-32b-instruct-abliterated-mlx"
+    - option "lmstudio-local · huihui-qwen3-vl-4b-instruct-abliterated-mlx"
+    - option "lmstudio-local · qwen3.8-27b-mlx"
+    - option "lmstudio-local · qwen/qwen3-vl-8b"
+    - option "lmstudio-local · text-embedding-nomic-embed-text-v1.5"
+  - button "Use for search": Use for search
+  - link "Manage providers in Hermes":
+    - /url: /models
+  - generic "Search sources"
+  - text: Question
+  - textbox "Question":
+    - /placeholder: What can I read or listen to by Jane Austen?
+    - text: "AI for nontechnical beginners: clear introductions, no coding, academic textbooks, or daily news. Include videos, podcasts, books, and audiobooks."
+  - paragraph: Configured sources and the broader web may be searched. Model, search, and provider credits or quota may be used. Browsing is free.
+  - checkbox "I understand this Search may use model, search, or provider credits or quota." [checked]
+  - text: I understand this Search may use model, search, or provider credits or quota.
+  - status: Search uses your configured Hermes providers. Choose a model above or manage HackerTube search in Hermes Models → Auxiliary.
+  - button "Search": Search
+  - button "Close search": Close search
+  - heading "Search results" [level=2]
+  - paragraph: "Question: AI for nontechnical beginners: clear introductions, no coding, academic textbooks, or daily news. Include videos, podcasts, books, and audiobooks."
+  - paragraph: "Provider: hermes. Job job:16. State: succeeded."
+  - paragraph: "Topic: artificial intelligence. Level: beginner."
+  - paragraph: "Time limit: none requested."
+  - paragraph: "Cost: unknown. The provider reported no cost information."
+  - paragraph: "Work limits for this job: at most 12 provider requests, 24 results, a 45 second work budget. Provider requests used: 11. In-flight Hermes calls may finish after this budget; cancellation is not implemented."
+  - status: "podcastindex: missing_api_key reddit: approval_absent"
+  - heading "Videos · 4 verified" [level=3]
+  - article:
+    - generic: Video
+    - heading "What Is AI? | Artificial Intelligence | What is Artificial Intelligence? | AI In 5 Mins |Simplilearn" [level=3]
+    - paragraph: Simplilearn
+    - generic: Video · YouTube
+    - paragraph: YouTube
+    - paragraph: Source candidate, YouTube
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: 5 minutes 28 seconds
+    - link "Open at source":
+      - /url: https://www.youtube.com/watch?v=ad79nYk2keg
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: YouTube"
+  - paragraph: "Model relevance: Very short, jargon-light intro to what AI is for beginners.."
+  - article:
+    - generic: Video
+    - heading "What Is AI? | Learn all about artificial intelligence" [level=3]
+    - paragraph: Learn Bright
+    - generic: Video · YouTube
+    - paragraph: YouTube
+    - paragraph: Source candidate, YouTube
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: 5 minutes 21 seconds
+    - link "Open at source":
+      - /url: https://www.youtube.com/watch?v=JcXKbUIebrU
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: YouTube"
+  - paragraph: "Model relevance: Clear beginner video explaining AI in simple terms.."
+  - article:
+    - generic: Video
+    - 'heading "AI Simplified: 6 Concepts You Need to Know About Modern AI" [level=3]'
+    - paragraph: IBM Technology
+    - generic: Video · YouTube
+    - paragraph: YouTube
+    - paragraph: Source candidate, YouTube
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: 8 minutes 49 seconds
+    - link "Open at source":
+      - /url: https://www.youtube.com/watch?v=mUw27wG7uFA
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: YouTube"
+  - paragraph: "Model relevance: Accessible overview of core modern AI concepts.."
+  - article:
+    - generic: Video
+    - heading "SIMPLEST Explanation of How Artificial Intelligence Works? No Jargon | What is AI? How AI works?" [level=3]
+    - paragraph: Science Simplified 4 All
+    - generic: Video · YouTube
+    - paragraph: YouTube
+    - paragraph: Source candidate, YouTube
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: 26 minutes 19 seconds
+    - link "Open at source":
+      - /url: https://www.youtube.com/watch?v=m8o2GrbR3d8
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: YouTube"
+  - paragraph: "Model relevance: Longer no-jargon explanation of how AI works.."
+  - heading "Podcasts · 3 verified" [level=3]
+  - article:
+    - generic: Show
+    - heading "Artificial Intelligence 101" [level=3]
+    - paragraph: Luca Marchesotti
+    - generic: Podcast · show art unavailable
+    - paragraph: Apple Podcasts
+    - paragraph: Source candidate, Apple Podcasts
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - link "Open at source":
+      - /url: https://podcasts.apple.com/us/podcast/artificial-intelligence-101/id1595568010?uo=4
+    - button "Saved" [disabled]: Saved
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Apple Podcasts"
+  - paragraph: "In your library: Saved."
+  - paragraph: "Model relevance: Podcast explicitly framed as AI 101 for newcomers.."
+  - article:
+    - generic: Show
+    - heading "AI LITERACY - A Podcast about Artificial Intelligence" [level=3]
+    - paragraph: AI LITERACY
+    - generic: Podcast · show art unavailable
+    - paragraph: Apple Podcasts
+    - paragraph: Source candidate, Apple Podcasts
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - link "Open at source":
+      - /url: https://podcasts.apple.com/us/podcast/ai-literacy-a-podcast-about-artificial-intelligence/id1553736450?uo=4
+    - button "Saved" [disabled]: Saved
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Apple Podcasts"
+  - paragraph: "Model relevance: Educational podcast focused on AI literacy for general listeners.."
+  - article:
+    - generic: Show
+    - 'heading "Google DeepMind: The Podcast" [level=3]'
+    - paragraph: Hannah Fry
+    - generic: Podcast · show art unavailable
+    - paragraph: Apple Podcasts
+    - paragraph: Source candidate, Apple Podcasts
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - link "Open at source":
+      - /url: https://podcasts.apple.com/us/podcast/google-deepmind-the-podcast/id1476316441?uo=4
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Apple Podcasts"
+  - paragraph: "Model relevance: Hosted by Hannah Fry, likely approachable AI education for nontechnical audiences.."
+  - heading "Books · 2 verified" [level=3]
+  - article:
+    - generic: Book
+    - heading "Artificial Intelligence" [level=3]
+    - paragraph: Melanie Mitchell
+    - generic: Book · cover unavailable
+    - paragraph: Open Library
+    - paragraph: Source candidate, Open Library
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: Length unknown
+    - link "Open at source":
+      - /url: https://openlibrary.org/works/OL20666330W
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Open Library"
+  - paragraph: "Model relevance: Melanie Mitchell's book is a strong nontechnical AI introduction.."
+  - article:
+    - generic: Book
+    - heading "Human Compatible" [level=3]
+    - paragraph: Stuart J. Russell
+    - generic: Book · cover unavailable
+    - paragraph: Open Library
+    - paragraph: Source candidate, Open Library
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: Length unknown
+    - link "Open at source":
+      - /url: https://openlibrary.org/works/OL20492448W
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Open Library"
+  - paragraph: "Model relevance: Clear, accessible book on AI alignment and control.."
+  - heading "Audiobooks · 4 verified" [level=3]
+  - article:
+    - generic: Audiobook
+    - heading "Artificial Intelligence For Dummies" [level=3]
+    - paragraph: John Paul Mueller & Luca Massaron
+    - generic: Audiobook · cover unavailable
+    - paragraph: Public source
+    - paragraph: Source candidate, Apple Podcasts
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: Duration unknown
+    - link "Open at source":
+      - /url: https://books.apple.com/us/audiobook/artificial-intelligence-for-dummies/id1648988957?uo=4
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Apple Podcasts"
+  - paragraph: "Model relevance: Beginner-friendly audiobook edition with a Dummies format.."
+  - article:
+    - generic: Audiobook
+    - heading "Artificial Intelligence All-in-One For Dummies" [level=3]
+    - paragraph: Chris Minnick
+    - generic: Audiobook · cover unavailable
+    - paragraph: Public source
+    - paragraph: Source candidate, Apple Podcasts
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: Duration unknown
+    - link "Open at source":
+      - /url: https://books.apple.com/us/audiobook/artificial-intelligence-all-in-one-for-dummies/id1818451000?uo=4
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Apple Podcasts"
+  - paragraph: "Model relevance: Broad, beginner-oriented audiobook covering AI basics.."
+  - article:
+    - generic: Audiobook
+    - 'heading "Artificial Intelligence: 101 Things You Must Know Today About Our Future (Unabridged)" [level=3]'
+    - paragraph: Lasse Rouhiainen
+    - generic: Audiobook · cover unavailable
+    - paragraph: Public source
+    - paragraph: Source candidate, Apple Podcasts
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: Duration unknown
+    - link "Open at source":
+      - /url: https://books.apple.com/us/audiobook/artificial-intelligence-101-things-you-must-know-today/id1448185276?uo=4
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Apple Podcasts"
+  - paragraph: "Model relevance: Introductory audiobook promising a broad layperson overview.."
+  - article:
+    - generic: Audiobook
+    - 'heading "Prediction Machines: The Simple Economics of Artificial Intelligence (Unabridged)" [level=3]'
+    - paragraph: Ajay Agrawal, Joshua Gans & Avi Goldfarb
+    - generic: Audiobook · cover unavailable
+    - paragraph: Public source
+    - paragraph: Source candidate, Apple Podcasts
+    - paragraph:
+      - time: retrieved November 8, 2026, 18:20 UTC
+    - paragraph: Duration unknown
+    - link "Open at source":
+      - /url: https://books.apple.com/us/audiobook/prediction-machines-the-simple-economics-of/id1431547343?uo=4
+    - button "Save": Save
+    - button "Dismiss": Dismiss
+  - paragraph: "Source: Apple Podcasts"
+  - paragraph: "Model relevance: Nontechnical explanation of AI's economics and implications.."
+  - button "Back to discovery": Back to discovery
+  - navigation "Media sections":
+    - link "Videos":
+      - /url: "#videos"
+    - link "Podcasts":
+      - /url: "#podcasts"
+    - link "Books":
+      - /url: "#books"
+    - link "Audiobooks":
+      - /url: "#audiobooks"
+  - region "Ranked feed 0":
+    - heading "Ranked feed 0" [level=2]
+    - paragraph: Nothing here is ranked for you yet. Add an interest to rank the seeded catalog. Refresh prepared catalog reads the saved catalog again and does not start a search.
+    - button "Refresh prepared catalog": Refresh prepared catalog
+  - paragraph: Seeded catalog, in capture order.
+  - paragraph: An item is hidden when its catalog evidence has expired. This list is not a personalized feed.
+  - region "Videos 22":
+    - heading "Videos 22" [level=2]
+    - article:
+      - generic: Video
+      - heading "What is AI?" [level=3]
+      - paragraph: The Educated Owl
+      - generic: Video · YouTube
+      - paragraph: YouTube
+      - paragraph: Source candidate, YouTube
+      - paragraph:
+        - time: retrieved November 8, 2026, 16:19 UTC
+      - paragraph: 18 seconds
+      - link "Open at source":
+        - /url: https://www.youtube.com/watch?v=SMC2lylFXeQ
+      - button "Save": Save
+      - button "Dismiss": Dismiss
+    - article:
+      - generic: Video
+      - 'heading "Accessibility: VoiceOver powered by Apple Intelligence" [level=3]'
+      - paragraph: Apple
+      - generic: Video · YouTube
+      - paragraph: YouTube
+      - paragraph: Source candidate, YouTube
+      - paragraph:
+        - time: retrieved November 8, 2026, 16:19 UTC
+      - paragraph: 1 minute 22 seconds
+      - link "Open at source":
+        - /url: https://www.youtube.com/watch?v=B3SmsSCvoss
+      - button "Save": Save
+      - button "Dismiss": Dismiss
+    - article:
+      - generic: Video
+      - 'heading "Sarah Jane Leslie - Artificial Intelligence: An Accessible Introduction" [level=3]'
+      - paragraph: Princeton Natural and Artificial Minds
+      - generic: Video · YouTube
+      - paragraph: YouTube
+      - paragraph: Source candidate, YouTube
+      - paragraph:
+        - time: retrieved November 8, 2026, 16:19 UTC
+      - paragraph: 1 hour 6 minutes 12 seconds
+      - link "Open at source":
+        - /url: https://www.youtube.com/watch?v=OPMPXDcTX3I
+      - button "Save": Save
+      - button "Dismiss": Dismiss
+    - article:
+      - generic: Video
+      - 'heading "AI: A Game-Changer for Accessibility? ♿️🤖 #AI #ArtificialIntelligence #Accessibility #crypto PART 5" [level=3]'
+      - paragraph: TEKTHRILL
+      - generic: Video · YouTube
+      - paragraph: YouTube
+      - paragraph: Source candidate, YouTube
+      - paragraph:
+        - time: retrieved November 8, 2026, 16:19 UTC
+      - paragraph: 54 seconds
+      - link "Open at source":
+        - /url: https://www.youtube.com/watch?v=F4WfBHrDyjQ
+      - button "Save": Save
+      - button "Dismiss": Dismiss
+    - button "Show more": Show more
+  - region "Podcasts 78":
+    - heading "Podcasts 78" [level=2]
+    - article:
+      - generic: Show
+      - heading "Jane Austen Stories" [level=3]
+      - paragraph: NOISER
+      - generic: Podcast · show art unavailable
+      - paragraph: Apple Podcasts
+      - paragraph: Source candidate, Apple Podcasts
+      - paragraph:
+        - time: retrieved November 6, 2026, 12:22 UTC
+      - link "Open at source":
+        - /url: https://podcasts.apple.com/us/podcast/jane-austen-stories/id1840669662?uo=4
+      - button "Save": Save
+      - button "Dismiss": Dismiss
+    - article:
+      - generic: Show
+      - heading "A Jane Austen Year" [level=3]
+      - paragraph: Jane Austen's House
+      - generic: Podcast · show art unavailable
+      - paragraph: Apple Podcasts
+      - paragraph: Source candidate, Apple Podcasts
+      - paragraph:
+        - time: retrieved November 6, 2026, 12:22 UTC
+      - link "Open at source":
+        - /url: https://podcasts.apple.com/us/podcast/a-jane-austen-year/id1788168257?uo=4
+      - button "Save": Save
+      - button "Dismiss": Dismiss
+    - article:
+      - generic: Show
+      - heading "The Python Show" [level=3]
+      - paragraph: Learning about Python together
+      - generic: Podcast · show art unavailable
+      - paragraph: Apple Podcasts
+      - paragraph: Source candidate, Apple Podcasts
+      - paragraph:
+        - time: retrieved November 6, 2026, 12:24 UTC
+      - link "Open at source":
+        - /url: https://podcasts.apple.com/us/podcast/the-python-show/id1691189730?uo=4
+      - button "Save": Save
+      - button "Dismiss": Dismiss
+    - article:
+      - generic: Episode
+      - 'heading "The Future of Python Security: Trends, Challenges, and Solutions" [level=3]'
+      - paragraph: "Contributor unknown. Show: Show unknown"
+      - generic: Podcast · show art unavailable
+      - paragraph: Apple Podcasts
+      - paragraph: Source candidate, Apple Podcasts
+      - paragraph:
+        - time: retrieved November 6, 2026, 12:24 UTC
+      - paragraph: 1 hour 10 minutes 57 seconds
+      - link "Open at source":
+        - /url: https://podcasts.apple.com/us/podcast/the-future-of-python-security-trends/id1501905538?i=1000797776212&uo=4
+      - button "Save": Save
+      - button "Dismiss": Dismiss
+    - button "Show more": Show more
+  - region "Books 46":
+    - heading "Books 46" [level=2]
+    - article:
+      - generic: Book
+      - heading "Pride and Prejudice" [level=3]
+      - paragraph: Jane Austen
+      - paragraph: Open Library
+      - paragraph: Source candidate, Open Library
+      - paragraph:
+        - time: retrieved November 6, 2026, 12:22 UTC
+      - paragraph: Length unknown
+      - paragraph: "Linked audiobook edition: Pride and Prejudice"
+      - link "Open at source":
+        - /url: https://openlibrary.org/works/OL66554W
+      - button "Save": Save
+      - button "Dismiss": Dismiss
+    - article:
+      - generic: Book
+      - heading "Emma" [level=3]
+      - paragraph: Jane Austen
+      - paragraph: Open Library
+      - paragraph: Source candidate, Open Library
+      - paragraph:
+        - time: retrieved November 6, 2026, 12:22 UTC
+      - paragraph: Length unknown
+      - paragraph: "Linked audiobook edition: Emma"
+      - link "Open at source":
+        - /url: https://openlibrary.org/works/OL66513W
+      - button "Save": Save
+      - button "Dismiss": Dismiss
+    - article:
+      - generic: Book
+      - heading "Sense and Sensibility" [level=3]
+      - paragraph: Jane Austen
+      - paragraph: Open Library
+      - paragraph: Source candidate, Open Library
+      - paragraph:
+        - time: retrieved November 6, 2026, 12:22 UTC
+      - paragraph: Length unknown
+      - paragraph: "Linked audiobook edition: Sense and Sensibility"
+      - link "Open at source":
+        - /url: https://openlibrary.org/works/OL66562W
+      - button "Save": Save
+      - button "Dismiss": Dismiss
+    - article:
+      - generic: Book
+      - heading "Northanger Abbey" [level=3]
+      - paragraph: Jane Austen
+      - paragraph: Open Library
+      - paragraph: Source candidate, Open Library
+      - paragraph:
+        - time: retrieved November 6, 2026, 12:22 UTC
+      - paragraph: Length unknown
+      - paragraph: "Linked audiobook edition: Northanger Abbey"
+      - link "Open at source":
+        - /url: https://openlibrary.org/works/OL66534W
+      - button "Save": Save
+      - button "Dismiss": Dismiss
+    - button "Show more": Show more
+  - region "Audiobooks 48":
+    - heading "Audiobooks 48" [level=2]
+    - article:
+      - generic: Audiobook
+      - heading "Pride and Prejudice" [level=3]
+      - paragraph: Jane Austen
+      - generic: Audiobook · cover unavailable
+      - paragraph: LibriVox
+      - paragraph: Source candidate, LibriVox
+      - paragraph:
+        - time: retrieved November 6, 2026, 12:22 UTC
+      - paragraph: 13 hours 6 minutes 44 seconds
+      - paragraph: "Linked book edition: Pride and Prejudice"
+      - link "Open at source":
+        - /url: https://librivox.org/pride-and-prejudice-by-jane-austen/
+      - button "Save": Save
+      - button "Dismiss": Dismiss
+    - article:
+      - generic: Audiobook
+      - heading "Emma" [level=3]
+      - paragraph: Jane Austen
+      - generic: Audiobook · cover unavailable
+      - paragraph: LibriVox
+      - paragraph: Source candidate, LibriVox
+      - paragraph:
+        - time: retrieved November 6, 2026, 12:22 UTC
+      - paragraph: 18 hours 2 minutes 30 seconds
+      - paragraph: "Linked book edition: Emma"
+      - link "Open at source":
+        - /url: https://librivox.org/emma-by-jane-austen-solo/
+      - button "Save": Save
+      - button "Dismiss": Dismiss
+    - article:
+      - generic: Audiobook
+      - heading "Sense and Sensibility" [level=3]
+      - paragraph: Jane Austen
+      - generic: Audiobook · cover unavailable
+      - paragraph: LibriVox
+      - paragraph: Source candidate, LibriVox
+      - paragraph:
+        - time: retrieved November 6, 2026, 12:22 UTC
+      - paragraph: 12 hours 11 minutes 9 seconds
+      - paragraph: "Linked book edition: Sense and Sensibility"
+      - link "Open at source":
+        - /url: https://librivox.org/sense-and-sensibility-by-jane-austen/
+      - button "Save": Save
+      - button "Dismiss": Dismiss
+    - article:
+      - generic: Audiobook
+      - heading "Northanger Abbey" [level=3]
+      - paragraph: Jane Austen
+      - generic: Audiobook · cover unavailable
+      - paragraph: LibriVox
+      - paragraph: Source candidate, LibriVox
+      - paragraph:
+        - time: retrieved November 6, 2026, 12:22 UTC
+      - paragraph: 8 hours 12 minutes 2 seconds
+      - paragraph: "Linked book edition: Northanger Abbey"
+      - link "Open at source":
+        - /url: https://librivox.org/northanger-abbey-by-jane-austen/
+      - button "Save": Save
+      - button "Dismiss": Dismiss
+    - button "Show more": Show more

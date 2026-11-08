@@ -1,0 +1,61 @@
+{
+  "duration_ms": 35922,
+  "steps": [
+    {
+      "at": 50,
+      "label": "Installed dashboard"
+    },
+    {
+      "at": 2127,
+      "label": "Prepared catalog"
+    },
+    {
+      "at": 4616,
+      "label": "Search form"
+    },
+    {
+      "at": 4911,
+      "label": "Disclosure and existing model"
+    },
+    {
+      "at": 7160,
+      "label": "Search launched"
+    },
+    {
+      "at": 15282,
+      "label": "Live results"
+    },
+    {
+      "at": 17637,
+      "label": "videos results"
+    },
+    {
+      "at": 19552,
+      "label": "books results"
+    },
+    {
+      "at": 21459,
+      "label": "audiobooks results"
+    },
+    {
+      "at": 23374,
+      "label": "Saved AI LITERACY - A Podcast about Artificial Intelligence"
+    },
+    {
+      "at": 25859,
+      "label": "Open source action"
+    },
+    {
+      "at": 26445,
+      "label": "Original source"
+    },
+    {
+      "at": 29605,
+      "label": "Karpathy credit"
+    },
+    {
+      "at": 32712,
+      "label": "Prepared marketplace description"
+    }
+  ]
+}

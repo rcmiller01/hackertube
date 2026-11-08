@@ -92,8 +92,8 @@ def register(ctx):
             input=[{"type": "text", "text": json.dumps(value, ensure_ascii=False)}],
             json_mode=True,
             # Completion limits include hidden reasoning on some configured
-            # models. Ranking up to 60 records needs room for the final JSON.
-            max_tokens=16000 if stage == "rank" else 2500,
+            # models. Both interpretation and ranking need room for final JSON.
+            max_tokens=16000 if stage == "rank" else 8000,
             timeout=timeout,
             task=TASK,
             purpose="hackertube.search." + stage,
