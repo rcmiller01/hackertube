@@ -49,7 +49,7 @@
   var DISCLOSURE = "Configured sources and the broader web may be searched. Model, search, and provider credits or quota may be used. Browsing is free.";
   var DISCLOSURE_ACK = "I understand this Search may use model, search, or provider credits or quota.";
   var DISCLOSURE_ACK_ALERT = "Confirm the disclosure before searching.";
-  var SEARCH_LIVE_ABSENT = "Search is unavailable: the live provider has no model key or model endpoint configured, so no request will be sent.";
+  var SEARCH_PROVIDER_NOTE = "Search uses your configured Hermes providers. Choose a model above or manage HackerTube search in Hermes Models → Auxiliary.";
   var SEARCH_SCHEMA = "hackertube.search/1";
   var SEARCH_COST_UNKNOWN = "Cost: unknown. The provider reported no cost information.";
   var SEARCH_COST_KNOWN_PREFIX = "Cost: $";
@@ -606,7 +606,7 @@
     if (body && body.error === "disclosure_required") {
       return message || "The credit-use disclosure must be accepted before a Search starts.";
     }
-    if (body && body.error === "provider_unavailable") return message || SEARCH_LIVE_ABSENT;
+    if (body && body.error === "provider_unavailable") return message || SEARCH_PROVIDER_NOTE;
     if (body && body.error === "question") {
       return "Enter a question of up to 200 characters, with no markup.";
     }
@@ -753,6 +753,19 @@
       var statusInfoState = useState(null);
       var statusInfo = statusInfoState[0];
       var setStatusInfo = statusInfoState[1];
+      var sourceRowsState = useState([]);
+      var sourceRows = sourceRowsState[0];
+      var setSourceRows = sourceRowsState[1];
+      var modelOptionsState = useState(null);
+      var modelOptions = modelOptionsState[0];
+      var setModelOptions = modelOptionsState[1];
+      var modelChoiceState = useState("");
+      var modelChoice = modelChoiceState[0];
+      var setModelChoice = modelChoiceState[1];
+      var modelMessageState = useState("");
+      var modelMessage = modelMessageState[0];
+      var setModelMessage = modelMessageState[1];
+
       var searchEpoch = useRef(0);
       var searchBusy = searchStatus === "running";
 
@@ -902,6 +915,54 @@
         return function () { cancelled = true; };
       }, []);
 
+      useEffect(function () {
+        var cancelled = false;
+        if (!searchOpen || !SDK.fetchJSON) return;
+        SDK.fetchJSON("/api/model/auxiliary").then(function (assignments) {
+          var selected = ((assignments && assignments.tasks) || []).find(function (row) { return row.task === "hackertube_search"; }) || {};
+          return SDK.fetchJSON("/api/model/options?explicit_only=true").then(function (body) {
+            if (cancelled || !body || !Array.isArray(body.providers)) return;
+            setModelOptions(body);
+            setModelChoice(selected.provider && selected.provider !== "auto" && selected.model
+              ? JSON.stringify([selected.provider, selected.model]) : "");
+          });
+        }).catch(function () { if (!cancelled) setModelMessage("Choose HackerTube search in Hermes Models → Auxiliary."); });
+        return function () { cancelled = true; };
+      }, [searchOpen]);
+
+      useEffect(function () {
+        var cancelled = false;
+        if (!searchOpen || !SDK.fetchJSON) return;
+        SDK.fetchJSON("/api/plugins/hackertube/sources").then(function (body) {
+          if (!cancelled && body && Array.isArray(body.sources)) setSourceRows(body.sources);
+        }).catch(function () { /* Search still reports source availability. */ });
+        return function () { cancelled = true; };
+      }, [searchOpen]);
+
+      function changeSource(sourceId, enabled) {
+        if (!SDK.fetchJSON || searchBusy) return;
+        SDK.fetchJSON("/api/plugins/hackertube/sources", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ source_id: sourceId, enabled: enabled }),
+        }).then(function (body) {
+          if (body && Array.isArray(body.sources)) setSourceRows(body.sources);
+          else setModelMessage("Hermes could not change that source. Check its setup in plugin settings.");
+        }).catch(function () { setModelMessage("Hermes could not save that source choice."); });
+      }
+
+      function applySearchModel() {
+        if (!SDK.fetchJSON || searchBusy) return;
+        var selected = modelChoice ? JSON.parse(modelChoice) : ["auto", ""];
+        var assignment = { scope: "auxiliary", task: "hackertube_search", provider: selected[0], model: selected[1] };
+        SDK.fetchJSON("/api/model/set", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(assignment),
+        }).then(function (body) {
+          setModelMessage(body && body.ok ? "Search model saved in Hermes."
+            : ((body && (body.confirm_message || body.detail)) || "Use Hermes Models → Auxiliary to finish choosing this model."));
+        }).catch(function () { setModelMessage("Hermes could not save that model. Use Models → Auxiliary."); });
+      }
+
       function onTrigger() {
         if (searchOpen) {
           if (!searchBusy) setSearchOpen(false);
@@ -966,6 +1027,9 @@
             setSearchStatus("error");
             setSearchError(searchRefusalMessage(body));
             return;
+          }
+          if (body.catalog) {
+            setCatalog(body.catalog);
           }
           setSearchResult(body);
           setSearchStatus("done");
@@ -1453,7 +1517,7 @@
       }
 
       function renderSearch() {
-        var liveAbsent = !!(statusInfo && statusInfo.provider === "live" && statusInfo.model_key === "absent");
+        var showProviderNote = !statusInfo || statusInfo.provider !== "stub";
         return h("div", { className: "ht-search" },
           h(Button, {
             type: "button",
@@ -1466,6 +1530,40 @@
           }, "Focused search"),
           searchOpen
             ? h("form", { id: "hackertube-search-panel", onSubmit: onSubmit, onKeyDown: onSearchKeyDown },
+                h("div", { className: "ht-model-picker" },
+                  h(Label, { htmlFor: "hackertube-search-model" }, "Search provider and model"),
+                  h("select", { id: "hackertube-search-model", value: modelChoice, disabled: searchBusy,
+                    onChange: function (event) { setModelChoice(event.target.value); } },
+                    [h("option", { key: "default", value: "" }, "Use current Hermes model")].concat(
+                      ((modelOptions && modelOptions.providers) || []).filter(function (provider) { return provider.authenticated !== false; }).flatMap(function (provider) {
+                        return (provider.models || []).map(function (model) {
+                          var id = typeof model === "string" ? model : model.id;
+                          if (!id) return null;
+                          var value = JSON.stringify([provider.slug, id]);
+                          return h("option", { key: value, value: value }, (provider.label || provider.slug) + " · " + id);
+                        });
+                      })
+                    )
+                  ),
+                  h(Button, { type: "button", onClick: applySearchModel, disabled: searchBusy, className: "ht-action" }, "Use for search"),
+                  h("a", { href: "/models" }, "Manage providers in Hermes"),
+                  modelMessage ? h("p", { role: "status" }, modelMessage) : null
+                ),
+                sourceRows.length ? h("details", { className: "ht-source-settings" },
+                  h("summary", null, "Search sources"),
+                  sourceRows.map(function (source) {
+                    var blocked = !!source.blocked_reason && source.blocked_reason !== "disabled";
+                    return h("div", { key: source.source_id },
+                      h("label", null, h("input", { type: "checkbox", checked: !!source.enabled, disabled: blocked || searchBusy,
+                        onChange: function (event) { changeSource(source.source_id, !!event.target.checked); } }), " " + source.name),
+                      blocked ? h("p", { className: "ht-note" }, source.source_id === "reddit"
+                        ? "Reddit access requires approval and selected subreddits."
+                        : "Add this source’s credentials in Hermes plugin settings to enable it.") : null,
+                      source.last_error ? h("p", { className: "ht-note" }, "Last retrieval failed. Other sources remain available.") : null
+                    );
+                  }),
+                  h("p", { className: "ht-note" }, "YouTube uses its Data API and quota. Review the source terms and privacy information in ", h("a", { href: "#about" }, "About"), " before enabling it. Changing sources does not start a search.")
+                ) : null,
                 h(Label, { htmlFor: "hackertube-question" }, "Question"),
                 h(Input, {
                   id: "hackertube-question",
@@ -1488,8 +1586,8 @@
                   }),
                   " " + DISCLOSURE_ACK
                 ),
-                liveAbsent
-                  ? h("p", { id: "hackertube-provider-note", className: "ht-note", role: "status" }, SEARCH_LIVE_ABSENT)
+                showProviderNote
+                  ? h("p", { id: "hackertube-provider-note", className: "ht-note", role: "status" }, SEARCH_PROVIDER_NOTE)
                   : null,
                 formAlert
                   ? h("p", { className: "ht-alert", role: "alert", tabIndex: -1, ref: alertRef }, formAlert)
@@ -1642,10 +1740,15 @@
           h("p", null, "This is an independent Hermes adaptation. It extends the original community-curated discovery idea across several media formats."),
           renderNav("about"),
           h("h2", null, "Sources"),
-          h("p", null, "The seeded page shows podcasts from Apple Podcasts, books from Open Library, and audiobooks from LibriVox. Hacker News is evidence on a media card. It is not a fifth format. Reddit is not used."),
+          h("p", null, "Explicit searches retrieve from enabled Hacker News, Apple/iTunes, Open Library, LibriVox, and configured Hermes web search. YouTube Data API and Podcast Index need their own source credentials. Reddit stays disabled until approved. Results name unavailable sources. Artwork and media files are not downloaded by search."),
           h("p", null, "Book covers load from Open Library only when the catalog marks them as hotlinks. This page does not cache those images. Apple artwork is not loaded."),
           h("h2", null, "Coverage"),
           h("p", null, "The opening feed recommends an item only after a word match in the title or a contributor name. Matching items are ordered with fixed weights for community evidence, freshness, and variety. The line on each recommendation names only the signals that applied to that item. This page does not show scores. Community evidence means an established endorsement on the record. A mention is not an endorsement. This catalog has no established Hacker News endorsement to rank. An item needs catalog evidence that has not passed its refresh time. Dismissed and completed items stay out of the ranked feed and the section lists. Each format section lists matches first. The not-matched group stays in capture order and is not a recommendation. Coverage is the seeded titles and contributors. A subject outside that set has no ranked match. A format can be empty. Unknown duration and unknown length stay unknown. Saves and interests stay in this profile. Opening a source records that open and does not mark the item completed."),
+          h("h2", null, "Search and privacy"),
+          h("p", null, "Only explicit searches send the question and bounded retrieved metadata to the selected Hermes provider and configured web-search service. Hermes handles model credentials. HackerTube requests no memory or unrelated chat history. Retrieved identities and library state stay in this Hermes profile. Clear HackerTube plugin data while Hermes is stopped to remove them. YouTube metadata expires after 30 days and is removed on the next catalog read or write."),
+          h("p", null, "When YouTube is enabled, using its features means agreeing to the ",
+            h("a", { href: "https://www.youtube.com/t/terms", target: "_blank", rel: "noopener noreferrer" }, "YouTube Terms of Service"),
+            " and ", h("a", { href: "https://policies.google.com/privacy", target: "_blank", rel: "noopener noreferrer" }, "Google Privacy Policy"), "."),
           h("h2", null, "Opening a source"),
           h("p", null, "Open at source leaves this page and opens the public destination in the browser. HackerTube does not download the media and does not play it. A destination that is not public https is refused.")
         );
@@ -1673,7 +1776,7 @@
     DISCLOSURE: DISCLOSURE,
     DISCLOSURE_ACK: DISCLOSURE_ACK,
     DISCLOSURE_ACK_ALERT: DISCLOSURE_ACK_ALERT,
-    SEARCH_LIVE_ABSENT: SEARCH_LIVE_ABSENT,
+    SEARCH_PROVIDER_NOTE: SEARCH_PROVIDER_NOTE,
     SEARCH_SCHEMA: SEARCH_SCHEMA,
     SEARCH_COST_UNKNOWN: SEARCH_COST_UNKNOWN,
     SEARCH_LIMIT_NOTE: SEARCH_LIMIT_NOTE,

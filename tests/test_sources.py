@@ -341,7 +341,7 @@ def test_source_storage_uses_the_profile_store_not_raw_sqlite():
     source = Path(sources.__file__).read_text(encoding="utf-8")
     assert "import sqlite3" not in source
     assert "sqlite3.connect" not in source
-    profile = (ROOT / "hackertube_core" / "profile.py").read_text(encoding="utf-8")
+    profile = (ROOT / "hackertube" / "hackertube_core" / "profile.py").read_text(encoding="utf-8")
     assert "sqlite3.connect" not in profile
     api = (ROOT / "hackertube" / "dashboard" / "plugin_api.py").read_text(encoding="utf-8")
     assert "sqlite3.connect" not in api

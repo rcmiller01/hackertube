@@ -1,9 +1,23 @@
 [project]
 name = "hackertube-core"
-version = "0.1.0"
+version = "0.2.0"
 description = "Framework-neutral catalog records and source adapters for HackerTube"
 requires-python = ">=3.11"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["."]
+pythonpath = [".", "hackertube"]
+
+[project.optional-dependencies]
+dev = ["pytest==9.2.0", "fastapi==0.162.0", "httpx==0.28.1"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["hackertube"]
+include = ["hackertube_core*"]
+
+[tool.setuptools.package-data]
+hackertube_core = ["seed/*.json"]

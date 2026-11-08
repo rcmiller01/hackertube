@@ -1,31 +1,27 @@
 name: hackertube
-version: 0.1.0
-description: HackerTube media discovery page in the Hermes web dashboard.
+version: 0.2.0
+description: Source-backed media search and discovery in the Hermes web dashboard.
 requires_hermes: ">=0.23.0"
 config_schema:
-  model_key:
-    type: secret
-    env: HACKERTUBE_MODEL_KEY
-    required: false
-    description: >-
-      Plugin-owned model or search key. Hermes stores it. Read only this
-      declared name through agent.secret_scope.get_secret. Do not read
-      Hermes credential files.
   provider:
     type: string
-    choices: [live, stub]
-    default: live
+    choices: [hermes, stub]
+    default: hermes
     description: >-
-      Which provider the explicit focused Search uses. "live" reads the
-      declared model key through secret scope and posts one request
-      through the outbound boundary; with the key or the endpoint absent
-      it refuses before any outbound call. "stub" is the deterministic
-      local provider used for tests and the demo cut; it makes no
-      outbound call.
-  model_endpoint:
-    type: string
-    default: ""
-    description: >-
-      The https chat-completions endpoint the live provider posts to.
-      Empty means the live provider is not configured, and Search with
-      provider "live" fails closed.
+      Hermes uses the existing provider/model selected for HackerTube search
+      under Models → Auxiliary. Stub is for offline development only.
+  youtube_key:
+    type: secret
+    env: YOUTUBE_API_KEY
+    required: false
+    description: Existing YouTube Data API key, used only after enabling the source.
+  podcastindex_key:
+    type: secret
+    env: PODCASTINDEX_API_KEY
+    required: false
+    description: Podcast Index API key for targeted user searches.
+  podcastindex_secret:
+    type: secret
+    env: PODCASTINDEX_API_SECRET
+    required: false
+    description: Podcast Index API secret; never written to plugin data.

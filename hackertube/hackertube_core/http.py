@@ -22,7 +22,7 @@ from hackertube_core import outbound
 from hackertube_core.errors import RecordError
 from hackertube_core.text import address_is_allowed, host_address, public_https_url
 
-USER_AGENT = "HackerTube/0.1 (Hermes plugin research)"
+USER_AGENT = "HackerTube/0.2 (+https://github.com/rcmiller01/hackertube)"
 MAX_BYTES = 1_000_000
 
 

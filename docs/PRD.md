@@ -1,6 +1,6 @@
 # HackerTube PRD
 
-Version 0.3. November 5, 2026. Product scope is drafted from Robert's confirmed decisions and the official hackathon announcement and catalog guide. The host shell is verified in docs/feasibility.md. Product behavior beyond that shell has not been built. Delivery estimates, integrations, and numerical quality targets remain provisional.
+Version 0.4. November 8, 2026. Product scope is drafted from Robert's confirmed decisions and the official hackathon announcement and catalog guide. The host shell is verified in docs/feasibility.md. Dashboard, library, local ranking, and real search are implemented; current receipts and limitations are in docs/real-search.md. Delivery estimates, integrations, and numerical quality targets remain provisional.
 
 ## 1. Product definition
 
@@ -266,3 +266,8 @@ Keyboard operation in UI06 remains in the demo because the six-step cut must be 
 - The supplied YouTube video could not be retrieved. No requirement depends on an assumed transcript or claim about its contents.
 
 The confirmed decisions in section 3 come directly from this chat. Other choices are proposed defaults or implementation constraints. This document grants no authorization to publish, purchase media, connect additional accounts, or run paid evaluations.
+
+
+## November 8 implementation direction
+
+Robert requested self-contained packaging and real search instead of further seeded-demo content, and specified existing Hermes providers/endpoints with a user-selectable provider. The current implementation therefore uses the registered `hackertube_search` auxiliary task and Hermes's model-selection routes. The previous plugin-owned model-key fallback is superseded for this path. The original proposed source set remains authoritative; see `docs/real-search.md` for actual supported paths and setup requirements. This does not authorize Reddit access or external submission. The seed/content tasks remain open and were not expanded.

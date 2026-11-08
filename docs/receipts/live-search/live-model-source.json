@@ -1,0 +1,109 @@
+{
+  "state": "succeeded",
+  "elapsed_seconds": 10.082,
+  "model_route": {
+    "provider": "openrouter",
+    "model": "deepseek/deepseek-v4.1-flash"
+  },
+  "interpretation": {
+    "question": "Find beginner books about vegetable gardening",
+    "topic": "beginner vegetable gardening books",
+    "terms": [
+      "beginner",
+      "vegetable gardening",
+      "gardening",
+      "books"
+    ],
+    "formats": [
+      "book"
+    ],
+    "depth": "beginner",
+    "max_duration_seconds": null,
+    "author": null
+  },
+  "results": [
+    {
+      "item_id": "ol:OL27912661W",
+      "title": "Vegetable Gardening for Beginners",
+      "destination": "https://openlibrary.org/works/OL27912661W",
+      "why": [
+        "Title explicitly matches beginner vegetable gardening."
+      ]
+    },
+    {
+      "item_id": "ol:OL475843W",
+      "title": "Vegetable Gardening for Beginners",
+      "destination": "https://openlibrary.org/works/OL475843W",
+      "why": [
+        "Title explicitly matches beginner vegetable gardening."
+      ]
+    },
+    {
+      "item_id": "ol:OL4969525W",
+      "title": "A beginner's book of vegetable gardening",
+      "destination": "https://openlibrary.org/works/OL4969525W",
+      "why": [
+        "Title identifies it as a beginner's book of vegetable gardening."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "hn",
+      "state": "succeeded",
+      "items": 0
+    },
+    {
+      "source_id": "itunes",
+      "state": "skipped",
+      "reason": "not_requested",
+      "items": 0
+    },
+    {
+      "source_id": "librivox",
+      "state": "skipped",
+      "reason": "not_requested",
+      "items": 0
+    },
+    {
+      "source_id": "openlibrary",
+      "state": "succeeded",
+      "items": 12
+    },
+    {
+      "source_id": "podcastindex",
+      "state": "unavailable",
+      "reason": "missing_api_key",
+      "items": 0
+    },
+    {
+      "source_id": "reddit",
+      "state": "unavailable",
+      "reason": "approval_absent",
+      "items": 0
+    },
+    {
+      "source_id": "youtube",
+      "state": "unavailable",
+      "reason": "missing_api_key",
+      "items": 0
+    },
+    {
+      "source_id": "web",
+      "state": "succeeded",
+      "items": 0
+    }
+  ],
+  "usage": {
+    "cost_usd": null,
+    "cost_known": false,
+    "requests_used": 5,
+    "request_counts": {
+      "free": 2,
+      "metered": 0,
+      "paid": 3
+    },
+    "paid_calls": 3
+  },
+  "scratch": "/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/ht-live-results-ldeh8o17"
+}

@@ -2,7 +2,7 @@
 
 ## Context
 
-The repository contains a PRD and README, with no application code. See proposal.md for scope. Public Hermes documentation describes web-dashboard tabs, plugin backend routes, and a separate native Desktop SDK. The exact host version, plugin LLM/search entry points, source adapters, and lifecycle behavior have not been exercised here.
+The repository now contains the dashboard, core, and persistent state implementation. The original planning decisions below retain their history; the November 8 section records the real-search architecture. See proposal.md for scope. Public Hermes documentation describes web-dashboard tabs, plugin backend routes, and a separate native Desktop SDK. The exact host version, plugin LLM/search entry points, source adapters, and lifecycle behavior have not been exercised here.
 
 This is an integration-first design. The behavior contract is specified; the host bindings remain conditional on task group 1 evidence. The November 11 hackathon cut is explicit in PRD section 13 and tasks 1 through 5. Tasks in group 6 preserve post-demo behavior. Documents being complete does not authorize pretending an unavailable host capability works.
 
@@ -90,3 +90,12 @@ Interest match is a gate, not a weight. Community evidence adds 1000 only for an
 ## Deferrable details
 
 Ranking weights, catalog refresh volume, and presentation density can be calibrated within the specs. The November 6 constants above are that calibration for the demo. The PRD's latency and relevance figures are proposed targets. Freeze the workload, rubric, limits, and reference setup before measuring and make any target adjustment explicit.
+
+
+## November 8: self-contained package and real Hermes search
+
+The installable `hackertube/` directory now owns `hackertube_core/`, dashboard, manifest, entry point, and seed. The repository parent is not a runtime dependency. Native `register(ctx)` binds the supported Hermes inference/tool facades by canonical profile path and registers `hackertube_search`. The dashboard uses the host's public model-assignment HTTP routes, with no imports of private provider inventory or command-dispatch modules. The user chooses an already configured Hermes provider/model for that auxiliary slot; no plugin-owned model key or endpoint is used.
+
+Real Search interprets through `ctx.llm.complete_structured`, retrieves bounded source records through the shared HTTP boundary plus `ctx.dispatch_tool('web_search')`, ranks only admitted IDs, and stores normalized records through `plugin_db` for subsequent library actions. Ordinary reads merge local records with the existing seed and launch no retrieval. Requested formats are filtered before the result cap. Blocking work uses the ASGI worker pool; each next dispatch checks the remaining budget. Host-owned retries/fallback are counted as one logical invocation and are not claimed as an independently measured vendor request count. Cancellation/restart remains post-demo.
+
+The full implementation contract, current source coverage, immutable original receipts, and limits are recorded in docs/real-search.md and verification.md. The original key-fallback decision above is superseded by Robert's provider-selection instruction.

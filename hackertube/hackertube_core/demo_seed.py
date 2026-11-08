@@ -377,7 +377,7 @@ def build(root, *, connect=None):
 
 
 def main():
-    root = Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "captured"
+    root = Path(__file__).resolve().parents[2] / "tests" / "fixtures" / "captured"
     destination = Path(__file__).parent / "seed" / "catalog.json"
     data, counts = freeze(root)
     destination.parent.mkdir(parents=True, exist_ok=True)

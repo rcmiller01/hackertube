@@ -106,9 +106,15 @@ def parse_verified_comment(payload, item_video_id, retrieved_at):
     object_id = str(payload.get("objectID") or "")
     comment_url = payload.get("comment_url") or ""
     endorsed = youtube_video_id(payload.get("endorsed_url") or "")
-    if payload.get("hand_verified") is not True or not object_id.isdigit() or not endorsed:
+    if (
+        payload.get("hand_verified") is not True
+        or not object_id.isdigit()
+        or not endorsed
+    ):
         return ParseResult((), (), (), ("not-verified",))
-    if not isinstance(comment_url, str) or not comment_url.startswith("https://news.ycombinator.com/item?id="):
+    if not isinstance(comment_url, str) or not comment_url.startswith(
+        "https://news.ycombinator.com/item?id="
+    ):
         return ParseResult((), (), (), ("comment-url",))
     if endorsed != item_video_id:
         return ParseResult((), (), (), (f"different-item:{endorsed}",))
@@ -120,7 +126,50 @@ def fetch_search(query, *, tags="story", hits_per_page=20, opener=None, resolve=
     """One bounded Algolia search. ``read_json`` counts it free."""
     if not isinstance(query, str) or not query.strip():
         raise RecordError("query")
-    url = SEARCH_API + "?" + urlencode(
-        {"query": query.strip(), "tags": tags, "hitsPerPage": hits_per_page}
+    url = (
+        SEARCH_API
+        + "?"
+        + urlencode(
+            {"query": query.strip(), "tags": tags, "hitsPerPage": hits_per_page}
+        )
     )
     return read_json(url, classification=outbound.FREE, opener=opener, resolve=resolve)
+
+
+def evidence_for_items(payload, items, retrieved_at):
+    """Link retrieved story mentions to known media destinations across formats.
+
+    A story title/mention is never promoted to a positive endorsement. Raw
+    discussion text, usernames, and unsupported media identities are not stored.
+    """
+    from hackertube_core.text import public_https_url
+
+    if not isinstance(payload, dict) or not isinstance(payload.get("hits"), list):
+        return ()
+    by_url = {item.destination.rstrip("/"): item.item_id for item in items}
+    rows = []
+    for hit in (payload.get("hits") or [])[:12]:
+        if not isinstance(hit, dict):
+            continue
+        try:
+            url = public_https_url(hit.get("url")).rstrip("/")
+        except RecordError:
+            continue
+        object_id = str(hit.get("objectID") or "")
+        item_id = by_url.get(url)
+        if item_id and object_id.isdigit():
+            rows.append(
+                Evidence(
+                    "hn:" + object_id,
+                    item_id,
+                    "hn",
+                    retrieved_at,
+                    "https://news.ycombinator.com/item?id=" + object_id,
+                    None,
+                    "mention",
+                    "community",
+                    None,
+                    None,
+                )
+            )
+    return tuple(rows)

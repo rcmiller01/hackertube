@@ -24,7 +24,7 @@ from hackertube_core.adapters import youtube
 from hackertube_core.http import HttpError, read_json
 
 ROOT = Path(__file__).resolve().parents[1]
-PACKAGES = (ROOT / "hackertube_core", ROOT / "hackertube")
+PACKAGES = (ROOT / "hackertube",)
 
 #: Client modules that can reach the network. ``urllib.parse`` and
 #: ``ipaddress`` are parsing only and are not listed.
@@ -45,9 +45,9 @@ NETWORK_MODULES = {
 #: The only modules allowed to import a network module, and which ones.
 #: ``text.py`` uses ``socket.inet_aton`` to validate a host string.
 ALLOWED_NETWORK_IMPORTS = {
-    "hackertube_core/http.py": {"socket", "ssl", "http.client", "urllib.request"},
-    "hackertube_core/outbound.py": {"socket", "http.client", "urllib.request"},
-    "hackertube_core/text.py": {"socket"},
+    "hackertube/hackertube_core/http.py": {"socket", "ssl", "http.client", "urllib.request"},
+    "hackertube/hackertube_core/outbound.py": {"socket", "http.client", "urllib.request"},
+    "hackertube/hackertube_core/text.py": {"socket"},
 }
 
 #: Calls that open, send on, or resolve a connection. Only the boundary
@@ -66,8 +66,8 @@ CONNECTION_CALLS = {
     "gethostbyname_ex",
 }
 ALLOWED_CONNECTION_CALLS = {
-    "hackertube_core/http.py",
-    "hackertube_core/outbound.py",
+    "hackertube/hackertube_core/http.py",
+    "hackertube/hackertube_core/outbound.py",
 }
 
 #: Scheduling primitives a recurring paid job would need.

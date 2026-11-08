@@ -93,6 +93,10 @@ class ProfileStore:
     def _ensure(self, conn):
         conn.executescript(
             """
+            CREATE TABLE IF NOT EXISTS retrieved_catalog (
+                key TEXT PRIMARY KEY,
+                document TEXT NOT NULL
+            );
             CREATE TABLE IF NOT EXISTS profile_meta (
                 key TEXT PRIMARY KEY,
                 value TEXT NOT NULL
@@ -149,6 +153,33 @@ class ProfileStore:
             "ON CONFLICT(key) DO NOTHING",
             (SCHEMA,),
         )
+
+    def catalog(self, base):
+        from hackertube_core.catalog import load_catalog
+        from hackertube_core.catalog_store import document, merge, without_expired
+        def read(conn):
+            row = conn.execute("SELECT document FROM retrieved_catalog WHERE key='catalog'").fetchone()
+            if row is None:
+                return base
+            stored = load_catalog(json.loads(row['document']))
+            active = without_expired(stored, self.clock())
+            if active != stored:
+                conn.execute("UPDATE retrieved_catalog SET document=? WHERE key='catalog'", (json.dumps(document(active)),))
+            return merge(base, active)
+        return self._write_result(read)
+
+    def remember_catalog(self, catalog):
+        from hackertube_core.catalog import load_catalog
+        from hackertube_core.catalog_store import document, merge, without_expired
+        # Validate before a write and store only normalized records, never raw provider output.
+        catalog = load_catalog(document(catalog))
+        def save(conn):
+            row = conn.execute("SELECT document FROM retrieved_catalog WHERE key='catalog'").fetchone()
+            combined = merge(load_catalog(json.loads(row['document'])), catalog) if row else catalog
+            combined = without_expired(combined, self.clock())
+            conn.execute("INSERT INTO retrieved_catalog(key,document) VALUES ('catalog',?) "
+                         "ON CONFLICT(key) DO UPDATE SET document=excluded.document", (json.dumps(document(combined)),))
+        self._write_result(save)
 
     def interest_texts(self):
         return tuple(row["text"] for row in self._interest_rows())

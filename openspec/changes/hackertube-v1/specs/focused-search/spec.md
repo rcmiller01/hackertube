@@ -9,7 +9,7 @@ An explicit dashboard media request SHALL invoke LLM-backed search. Ordinary cha
 
 #### Scenario: SEARCH01 Request across formats
 - **WHEN** the user explicitly requests media for a topic through the page
-- **THEN** the shared search behavior returns verified candidates in relevant media sections
+- **THEN** the shared search behavior retrieves candidates beyond the bundled catalog, ranks only source-backed identities through the selected configured Hermes provider, and returns relevant media sections
 
 #### Scenario: SEARCH12 Explicit agent entry after demo
 - **WHEN** the user explicitly invokes the HackerTube agent entry point for media recommendations after the demo
@@ -39,7 +39,7 @@ Focused recommendations SHALL prioritize the question's purpose, topic, requeste
 - **THEN** the item is labeled unverified against that constraint and excluded from strict matches
 
 ### Requirement: Broader-web source labeling
-Focused search SHALL support the broader public web in addition to enabled communities and feeds, and SHALL identify every result's source.
+Users SHALL be able to select an already configured Hermes provider/model for HackerTube search without adding separate model credentials. Focused search SHALL support the broader public web in addition to enabled communities and feeds, and SHALL identify every result's source.
 
 #### Scenario: SEARCH05 Beyond selected communities
 - **WHEN** a credible relevant item is found on the broader web

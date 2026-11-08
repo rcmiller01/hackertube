@@ -1,42 +1,22 @@
-"""The single explicit demo Search (tasks 4.1 and 4.2).
+"""Explicit source-backed media search with local browsing and Hermes-owned inference.
 
-An explicit dashboard Search turns one question into a bounded job:
-
-1. Question interpretation. A provider reads the question and returns a
-   topic, requested formats, depth, and any hard constraint. The bounded
-   default provider is the deterministic local one; the keyed model
-   provider is selected by the plugin setting.
-2. Retrieved-candidate verification. Candidates are found in the loaded
-   catalog and admitted only when a retrieved catalog record supports
-   them. A candidate with no retrieved record is not a result.
-3. Hard constraints. A requested time limit is applied to the item's own
-   duration. Unknown duration is labeled unverified against that limit and
-   excluded from strict matches rather than assumed to pass.
-4. Source labels. Every result names the source its record came from. A
-   community endorsement line appears only when the record carries one; a
-   broader-web record is labeled with its source and gains no community
-   endorsement.
-5. Partial format coverage. A requested format with no verified record
-   reports insufficient evidence instead of being filled with something
-   else.
-
-Nothing here imports a network client. The only outbound path is
-``hackertube_core.http`` through ``hackertube_core.outbound``, so the
-``hackertube`` package's request-boundary scan stays green. The stub
-provider makes no outbound call at all.
-
-Storage is the profile store opened by ``ProfileStore``, which uses Hermes
-``plugin_db``. This module does not import ``sqlite3``.
+The deterministic stub remains an offline test provider. Real searches interpret
+through Hermes, retrieve bounded source records, rank only those identities, and
+persist them for library actions. Source and model budgets precede dispatch.
 """
 
 from __future__ import annotations
 
 import re
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass, replace
 
 from hackertube_core import outbound
-from hackertube_core.boundaries import active_evidence, matches_terms, recommendation_line
+from hackertube_core.boundaries import (
+    active_evidence,
+    matches_terms,
+    recommendation_line,
+)
 from hackertube_core.errors import RecordError
 from hackertube_core.records import SECTIONS
 from hackertube_core.text import render_untrusted, tokens
@@ -51,12 +31,8 @@ DISCLOSURE = (
     "Model, search, and provider credits or quota may be used. Browsing is free."
 )
 
-#: The plugin-owned secret name declared in ``plugin.yaml`` as a
-#: ``type: secret`` field. It is read only through ``agent.secret_scope``.
-SECRET_NAME = "HACKERTUBE_MODEL_KEY"
-
 PROVIDER_STUB = "stub"
-PROVIDER_LIVE = "live"
+PROVIDER_LIVE = "hermes"
 PROVIDERS = (PROVIDER_LIVE, PROVIDER_STUB)
 
 #: The bounded work limits the demo search runs under (JOB01, JOB03).
@@ -158,7 +134,10 @@ class Limits:
             raise RecordError("limits")
         if type(self.max_requests) is not int or self.max_requests < 1:
             raise RecordError("limits")
-        if not isinstance(self.deadline_seconds, (int, float)) or self.deadline_seconds <= 0:
+        if (
+            not isinstance(self.deadline_seconds, (int, float))
+            or self.deadline_seconds <= 0
+        ):
             raise RecordError("limits")
 
     def as_dict(self):
@@ -170,6 +149,7 @@ class Limits:
 
 
 DEFAULT_LIMITS = Limits()
+LIVE_LIMITS = Limits(max_hits=24, max_requests=12, deadline_seconds=45)
 
 
 @dataclass(frozen=True)
@@ -182,6 +162,7 @@ class Interpretation:
     formats: tuple
     depth: str
     max_duration_seconds: object
+    author: object = None
 
     def as_dict(self):
         return {
@@ -191,6 +172,7 @@ class Interpretation:
             "formats": list(self.formats),
             "depth": self.depth,
             "max_duration_seconds": self.max_duration_seconds,
+            "author": self.author,
         }
 
 
@@ -288,7 +270,9 @@ class StubProvider:
     def interpret(self, question, limits):
         cleaned = canonical_question(question)
         if self._fail == "timeout":
-            raise ProviderTimeout("the stub provider did not answer inside the deadline")
+            raise ProviderTimeout(
+                "the stub provider did not answer inside the deadline"
+            )
         if self._fail == "error":
             raise RuntimeError("the stub provider returned an error")
         interpretation = self._script.get(cleaned) or interpret_question(cleaned)
@@ -300,129 +284,50 @@ class StubProvider:
         )
 
 
-def _default_live_transport(key, endpoint, payload, *, opener=None, resolve=None, timeout=15):
-    """Post one chat-completion request through the outbound boundary.
-
-    The key goes in the request header only. Nothing is written to the
-    plugin data root. ``opener`` and ``resolve`` exist so a test can drive
-    this path without a live connection; production passes neither.
-    """
-    from hackertube_core.http import post_json
-
-    return post_json(
-        endpoint,
-        classification=outbound.PAID,
-        payload=payload,
-        headers={"Authorization": f"Bearer {key}"},
-        cost=None,
-        opener=opener,
-        resolve=resolve,
-        timeout=timeout,
+def _interpretation_from(body, question):
+    """Validate the host model's structured interpretation; never fall back silently."""
+    row = body.get("interpretation") if isinstance(body, dict) else None
+    if not isinstance(row, dict):
+        raise ProviderUnavailable("The model returned no structured interpretation.")
+    topic, terms, formats = row.get("topic"), row.get("terms"), row.get("formats")
+    allowed = {fmt for group in SECTIONS.values() for fmt in group}
+    if (
+        not isinstance(topic, str)
+        or not topic.strip()
+        or len(topic) > 200
+        or not isinstance(terms, list)
+        or len(terms) > 20
+        or not all(isinstance(x, str) and 0 < len(x) <= 80 for x in terms)
+        or not isinstance(formats, list)
+        or not all(isinstance(x, str) and x in allowed for x in formats)
+    ):
+        raise ProviderUnavailable("The model returned invalid search fields.")
+    limit = row.get("max_duration_seconds")
+    if limit is not None and (type(limit) is not int or limit <= 0):
+        raise ProviderUnavailable("The model returned an invalid duration constraint.")
+    author = row.get("author")
+    if author is not None and (not isinstance(author, str) or len(author) > 120):
+        raise ProviderUnavailable("The model returned an invalid author.")
+    return Interpretation(
+        question,
+        canonical_question(topic),
+        tuple(terms),
+        tuple(dict.fromkeys(formats)),
+        str(row.get("depth") or "standard")[:80],
+        limit,
+        author,
     )
 
 
-class LiveProvider:
-    """The keyed model provider.
-
-    The declared secret is read through the caller-supplied
-    ``get_secret`` (``agent.secret_scope.get_secret`` in production), never
-    from a credential file. With the key or the endpoint absent it fails
-    closed with a clear message and makes no outbound call.
-
-    ``transport`` is the one seam a test substitutes; the default posts
-    through ``hackertube_core.http`` inside ``outbound.dispatch(PAID, ...)``.
-    """
-
-    name = PROVIDER_LIVE
-
-    def __init__(self, key, endpoint, *, transport=None, opener=None, resolve=None, timeout=15):
-        self._key = key
-        self._endpoint = endpoint if isinstance(endpoint, str) else ""
-        self._transport = transport or _default_live_transport
-        self._opener = opener
-        self._resolve = resolve
-        self._timeout = timeout
-
-    def available(self):
-        return isinstance(self._key, str) and bool(self._key.strip()) and bool(self._endpoint.strip())
-
-    def interpret(self, question, limits):
-        if not isinstance(self._key, str) or not self._key.strip():
-            raise ProviderUnavailable(
-                "The declared model key is not set, so the live search provider was not "
-                "called and no request was sent. Enter the plugin's model key, or select "
-                "the deterministic stub provider for the demo cut."
-            )
-        if not self._endpoint.strip():
-            raise ProviderUnavailable(
-                "No model endpoint is configured for the live search provider, so no "
-                "request was sent."
-            )
-        cleaned = canonical_question(question)
-        payload = {
-            "messages": [
-                {
-                    "role": "system",
-                    "content": (
-                        "Return the topic, requested formats, depth, and any hard time "
-                        "limit of the user's media question as JSON."
-                    ),
-                },
-                {"role": "user", "content": cleaned},
-            ]
-        }
-        body = self._transport(
-            self._key.strip(),
-            self._endpoint.strip(),
-            payload,
-            opener=self._opener,
-            resolve=self._resolve,
-            timeout=self._timeout,
-        )
-        return ProviderOutcome(
-            interpretation=_interpretation_from(body, cleaned),
-            cost_usd=_reported_cost(body),
-            requests_used=1,
-        )
-
-
-def _interpretation_from(body, question):
-    """Read a provider body into an interpretation, or fall back to the
-    deterministic reading rather than inventing an item identity."""
-    if isinstance(body, dict) and isinstance(body.get("interpretation"), dict):
-        row = body["interpretation"]
-        terms = tuple(str(value) for value in row.get("terms") or () if isinstance(value, str))
-        formats = tuple(
-            fmt for fmt in row.get("formats") or () if fmt in {f for group in SECTIONS.values() for f in group}
-        )
-        limit = row.get("max_duration_seconds")
-        return Interpretation(
-            question=question,
-            topic=str(row.get("topic") or " ".join(terms)),
-            terms=terms,
-            formats=formats,
-            depth=str(row.get("depth") or "standard"),
-            max_duration_seconds=limit if type(limit) is int and limit > 0 else None,
-        )
-    return interpret_question(question)
-
-
-def _reported_cost(body):
-    """The provider's own cost report, or ``None`` when it reports none."""
-    if isinstance(body, dict):
-        cost = body.get("cost_usd")
-        if isinstance(cost, (int, float)) and not isinstance(cost, bool) and cost >= 0:
-            return float(cost)
-    return None
-
-
-def select_provider(name, *, get_secret, endpoint):
-    """Build the selected provider, failing closed on an unknown name."""
+def select_provider(name, **unused):
+    """Production inference is always owned by Hermes; stub is for offline checks."""
     if name == PROVIDER_STUB:
         return StubProvider()
-    if name == PROVIDER_LIVE:
-        return LiveProvider(get_secret(SECRET_NAME), endpoint)
-    raise ProviderUnavailable(f"unknown search provider: {name!r}")
+    if name in {"hermes", "live"}:  # migrate the old setting without reading its key
+        from hackertube_core.hermes import HermesProvider
+
+        return HermesProvider()
+    raise ProviderUnavailable("Unknown search provider.")
 
 
 # --- the result set --------------------------------------------------------
@@ -561,7 +466,9 @@ def candidate_verification(catalog, interpretation, profile, now):
     return candidates, verified, len(dropped)
 
 
-def result_set(catalog, profile, interpretation, now, *, limits=DEFAULT_LIMITS):
+def result_set(
+    catalog, profile, interpretation, now, *, limits=DEFAULT_LIMITS, ranking=None
+):
     """The verified result set for one interpretation.
 
     Only retrieved records supply identity. Formats the question asked for
@@ -569,7 +476,22 @@ def result_set(catalog, profile, interpretation, now, *, limits=DEFAULT_LIMITS):
     """
     source_names = {source.source_id: source.name for source in catalog.sources}
     rows = active_evidence(catalog.evidence, now)
-    _candidates, verified, dropped = candidate_verification(catalog, interpretation, profile, now)
+    _candidates, verified, dropped = candidate_verification(
+        catalog, interpretation, profile, now
+    )
+    if ranking is not None:
+        supported = {row.item_id for row in rows}
+        verified = [
+            item
+            for item in catalog.items
+            if item.item_id in ranking and item.item_id in supported
+        ]
+    requested_formats = set(interpretation.formats)
+    verified = [
+        item
+        for item in verified
+        if not requested_formats or item.format in requested_formats
+    ]
     limit = interpretation.max_duration_seconds
     excluded_dismissed = 0
     over_limit = 0
@@ -589,14 +511,25 @@ def result_set(catalog, profile, interpretation, now, *, limits=DEFAULT_LIMITS):
         admitted.append(item)
     ordered = sorted(
         admitted,
-        key=lambda item: (-_term_hits(item, interpretation.terms), item.capture_order, item.item_id),
+        key=lambda item: (
+            (
+                list(ranking).index(item.item_id)
+                if ranking is not None
+                else -_term_hits(item, interpretation.terms)
+            ),
+            item.capture_order,
+            item.item_id,
+        ),
     )
     if len(ordered) > limits.max_hits:
         ordered = ordered[: limits.max_hits]
     results = []
     for item in ordered:
         item_rows = _active_rows(rows, item.item_id)
-        results.append(_result(item, interpretation, item_rows, source_names, profile, limit))
+        row = _result(item, interpretation, item_rows, source_names, profile, limit)
+        if ranking is not None:
+            row["why"] = [render_untrusted(ranking[item.item_id])]
+        results.append(row)
     requested = list(interpretation.formats) or [
         fmt for fmt in ("book", "audiobook", "podcast_show", "podcast_episode", "video")
     ]
@@ -670,6 +603,7 @@ def run_search(
     limits=DEFAULT_LIMITS,
     disclosure_accepted=False,
     clock=time.monotonic,
+    retriever=None,
 ):
     """Run one explicit bounded Search and persist its job.
 
@@ -681,21 +615,45 @@ def run_search(
         raise DisclosureRequired(
             "The credit-use disclosure must be accepted before a Search starts."
         )
+    from hackertube_core.retrieval import Budget, BudgetExhausted
+
     cleaned = canonical_question(question)
     before = outbound.counters()
+    budget = Budget(limits, clock=clock if retriever is not None else time.monotonic)
+    source_statuses = []
+    ranking = None
+    retrieval_limited = False
+    rank_cost = None
     started = clock()
     state = "running"
     notes = []
     try:
-        outcome = provider.interpret(cleaned, limits)
+        outcome = budget.call(
+            lambda: provider.interpret(
+                cleaned,
+                replace(
+                    limits, deadline_seconds=max(0.01, budget.ends - budget.clock())
+                ),
+            )
+        )
     except ProviderUnavailable:
-        raise
+        if not provider.available():
+            raise
+        outcome = ProviderOutcome(
+            interpretation=interpret_question(cleaned),
+            error="invalid model response",
+            requests_used=budget.used,
+        )
     except ProviderTimeout:
-        outcome = ProviderOutcome(interpretation=interpret_question(cleaned), error="timeout")
+        outcome = ProviderOutcome(
+            interpretation=interpret_question(cleaned), error="timeout"
+        )
     except RecordError:
         raise
     except Exception:
-        outcome = ProviderOutcome(interpretation=interpret_question(cleaned), error="provider error")
+        outcome = ProviderOutcome(
+            interpretation=interpret_question(cleaned), error="provider error"
+        )
     elapsed = clock() - started
     if outcome.error:
         state = "failed"
@@ -703,22 +661,85 @@ def run_search(
             "The provider did not answer, so no candidates were retrieved. "
             f"Reason: {outcome.error}."
         )
-        set_ = {"results": [], "sections": {}, "coverage": {"verified": 0, "notes": notes}}
+        set_ = {
+            "results": [],
+            "sections": {},
+            "coverage": {"verified": 0, "notes": notes},
+        }
         interpretation = outcome.interpretation
     else:
         interpretation = outcome.interpretation
-        set_ = result_set(catalog, profile, interpretation, now, limits=limits)
+        if retriever is not None:
+            try:
+                catalog, source_statuses = retriever(interpretation, now, budget)
+                if catalog.items and hasattr(provider, "rank"):
+                    timeout = budget.remaining()
+                    ranking, rank_cost = budget.call(
+                        lambda: provider.rank(cleaned, catalog, timeout)
+                    )
+                elif hasattr(provider, "rank"):
+                    ranking = {}
+                store.remember_catalog(catalog)
+            except BudgetExhausted:
+                retrieval_limited = True
+                # No unranked remote record is promoted to an LLM recommendation.
+                if hasattr(provider, "rank"):
+                    ranking = {}
+            except TypeError:
+                raise
+            except Exception:
+                source_statuses.append(
+                    {
+                        "source_id": "ranking",
+                        "state": "failed",
+                        "error": "Search ranking failed.",
+                    }
+                )
+                ranking = {}
+        set_ = result_set(
+            catalog, profile, interpretation, now, limits=limits, ranking=ranking
+        )
+        if retriever is not None:
+            elapsed = clock() - started
         state, limit_notes = _job_state(outcome, limits, elapsed)
         notes.extend(limit_notes)
+        if retriever is not None and (
+            retrieval_limited
+            or any(x["state"] in {"failed", "limit"} for x in source_statuses)
+        ):
+            state = "partial"
+            notes.append("Some search services did not finish; coverage is incomplete.")
+        if retriever is not None:
+            for source in source_statuses:
+                if source["state"] in {"unavailable", "failed", "limit"}:
+                    notes.append(
+                        source["source_id"]
+                        + ": "
+                        + source.get("reason", source.get("error", source["state"]))
+                    )
     coverage = set_["coverage"]
     coverage["notes"] = list(notes)
     coverage["limit_reached"] = state == "partial"
     after = outbound.counters()
     delta = {label: after[label] - before[label] for label in outbound.LABELS}
+    total_cost = outcome.cost_usd
+    if retriever is not None:
+        # Any call without reliable cost makes the whole job cost unknown.
+        total_cost = (
+            None
+            if outcome.cost_usd is None
+            or rank_cost is None
+            or any(
+                x["source_id"] == "web" and x["state"] == "succeeded"
+                for x in source_statuses
+            )
+            else outcome.cost_usd + rank_cost
+        )
+    used = budget.used if retriever is not None else outcome.requests_used
     usage = {
-        "cost_usd": outcome.cost_usd,
-        "cost_known": outcome.cost_usd is not None,
-        "requests_used": outcome.requests_used,
+        "cost_usd": total_cost,
+        "cost_known": total_cost is not None,
+        "requests_used": used,
         "request_counts": delta,
         "paid_calls": delta[outbound.PAID] + delta[outbound.METERED],
     }
@@ -728,10 +749,10 @@ def run_search(
         "question": cleaned,
         "provider": provider.name,
         "limits": limits.as_dict(),
-        "requests_used": outcome.requests_used,
+        "requests_used": used,
         "result_count": len(set_["results"]),
-        "cost_usd": outcome.cost_usd,
-        "cost_known": outcome.cost_usd is not None,
+        "cost_usd": total_cost,
+        "cost_known": total_cost is not None,
         "coverage": list(notes),
         "created_at": now,
         "ended_at": now,
@@ -740,6 +761,8 @@ def run_search(
     job["job_id"] = job_id
     return {
         "schema": SCHEMA,
+        "sources": source_statuses,
+        "model_route": getattr(provider, "route", {}),
         "job": job,
         "question": cleaned,
         "provider": provider.name,

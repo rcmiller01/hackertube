@@ -1,19 +1,15 @@
 """Live retrieval, source failures, limits, and persistent new identities."""
 
-import importlib.util
 import json
 from dataclasses import replace
-from pathlib import Path
 from types import SimpleNamespace
-from urllib.parse import urlsplit, parse_qs
+from urllib.parse import urlsplit
 
 import pytest
 
 from hackertube_core import outbound
 from hackertube_core.catalog import load_seed
-from hackertube_core.catalog_store import document
 from hackertube_core.hermes import HermesProvider, register
-from hackertube_core.profile import ProfileStore
 from hackertube_core.retrieval import Budget, SourceRetriever
 from hackertube_core.search import Limits, LIVE_LIMITS, interpret_question, run_search
 from test_search import NOW, one_book, profile, store_at
@@ -458,10 +454,62 @@ def test_rank_input_reserves_space_for_each_format_and_rejects_unsubmitted_ids()
     assert any(x["format"] == "video" for x in observed)
 
 
-def test_malformed_hn_payload_does_not_discard_other_sources(tmp_path,monkeypatch):
-    def read(url,**kw):
-        return [] if 'hn.algolia.com' in url else public_read(url,**kw)
-    monkeypatch.setattr('hackertube_core.retrieval.read_json',read)
-    cat,status=SourceRetriever(store_at(tmp_path))(interpret_question('gardening books'),NOW,Budget(LIVE_LIMITS))
-    assert len(cat.items)==1
-    assert next(x for x in status if x['source_id']=='hn')['state']=='failed'
+def test_malformed_hn_payload_does_not_discard_other_sources(tmp_path, monkeypatch):
+    def read(url, **kw):
+        return [] if "hn.algolia.com" in url else public_read(url, **kw)
+
+    monkeypatch.setattr("hackertube_core.retrieval.read_json", read)
+    cat, status = SourceRetriever(store_at(tmp_path))(
+        interpret_question("gardening books"), NOW, Budget(LIVE_LIMITS)
+    )
+    assert len(cat.items) == 1
+    assert next(x for x in status if x["source_id"] == "hn")["state"] == "failed"
+
+
+def test_malformed_model_output_is_a_recorded_failure_not_a_local_success(tmp_path):
+    store = store_at(tmp_path)
+    result = run_search(
+        store,
+        "gardening books",
+        catalog=load_seed(),
+        profile=profile(),
+        now=NOW,
+        provider=HermesProvider(lambda raw: {"data": {"topic": "gardening"}}),
+        disclosure_accepted=True,
+    )
+    assert result["job"]["state"] == "failed"
+    assert result["results"] == []
+    assert store.job_count() == 1
+    assert result["usage"]["cost_known"] is False
+    assert result["usage"]["paid_calls"] == 1
+
+
+def test_keyed_sources_require_explicit_enablement_and_can_be_revoked(tmp_path):
+    from hackertube_core.sources import (
+        available_registry,
+        configure_source,
+        source_snapshot,
+    )
+
+    store = store_at(tmp_path)
+    registry = available_registry(lambda name: "configured")
+    initial = {x["source_id"]: x for x in source_snapshot(store, registry)["sources"]}
+    assert initial["youtube"]["enabled"] is False
+    assert initial["youtube"]["blocked_reason"] is None
+    assert configure_source(store, "youtube", True, registry)[0] == 200
+    assert (
+        next(
+            x
+            for x in source_snapshot(store, registry)["sources"]
+            if x["source_id"] == "youtube"
+        )["enabled"]
+        is True
+    )
+    missing = available_registry(lambda name: None)
+    row = next(
+        x
+        for x in source_snapshot(store, missing)["sources"]
+        if x["source_id"] == "youtube"
+    )
+    assert row["enabled"] is False and row["blocked_reason"] == "missing_api_key"
+    assert configure_source(store, "youtube", True, missing)[0] == 409

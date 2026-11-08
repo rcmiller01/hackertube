@@ -106,8 +106,10 @@ def source_view(settings=None, statuses=None, registry=None):
     registry = REGISTRY if registry is None else registry
     rows = []
     for source_id, entry in registry.items():
-        policy = MODULES[source_id].POLICY
+        policy = search_policy(source_id)
         enabled = settings.get(source_id, entry["enabled"])
+        if "available" in entry:
+            enabled = bool(enabled and entry["available"])
         status = statuses.get(source_id, {})
         rows.append(
             {
@@ -131,34 +133,37 @@ def source_view(settings=None, statuses=None, registry=None):
     return tuple(rows)
 
 
-def source_snapshot(store):
+def source_snapshot(store, registry=None):
     """Body of ``GET /sources``. Reads the profile store only."""
     return {
         "schema": SCHEMA,
-        "sources": list(source_view(store.source_settings(), store.source_statuses())),
+        "sources": list(
+            source_view(store.source_settings(), store.source_statuses(), registry)
+        ),
     }
 
 
-def configure_source(store, source_id, enabled):
+def configure_source(store, source_id, enabled, registry=None):
     """Enable or disable one supported source.
 
     An unsupported id is reported and not stored, so the view never shows
     a false enabled state (PREF03). A source the adapter marks blocked
     cannot be enabled from the control; its blocked reason is returned.
     """
-    if not isinstance(source_id, str) or source_id not in REGISTRY:
+    registry = REGISTRY if registry is None else registry
+    if not isinstance(source_id, str) or source_id not in registry:
         return 400, {"error": "unsupported_source"}
     if type(enabled) is not bool:
         return 400, {"error": "enabled"}
-    entry = REGISTRY[source_id]
-    if enabled and not entry["enabled"]:
+    entry = registry[source_id]
+    if enabled and not entry.get("available", entry["enabled"]):
         return 409, {
             "error": "blocked",
             "source_id": source_id,
             "blocked_reason": entry["blocked_reason"],
         }
     store.set_source_enabled(source_id, enabled)
-    return 200, source_snapshot(store)
+    return 200, source_snapshot(store, registry)
 
 
 def canonical_identity(item):
@@ -168,7 +173,9 @@ def canonical_identity(item):
     and contributor set are the key. Format is part of every key, so a
     book and its audiobook never collapse.
     """
-    works = sorted(value for value in item.identifiers if value.startswith("gutenberg:"))
+    works = sorted(
+        value for value in item.identifiers if value.startswith("gutenberg:")
+    )
     if works:
         return ("work", item.format, works[0])
     contributors = tuple(sorted(name.casefold() for name in (item.contributors or ())))
@@ -248,7 +255,9 @@ def ingest(store, now, query, *, fetchers=None, registry=None):
             # source-down status here would hide a bug in our own code.
             raise
         except Exception as exc:  # one source must not stop the pass
-            store.record_source_result(source_id, ok=False, at=now, error=_error_code(exc))
+            store.record_source_result(
+                source_id, ok=False, at=now, error=_error_code(exc)
+            )
             continue
         store.record_source_result(source_id, ok=True, at=now)
         items.extend(parsed.items)
@@ -257,8 +266,44 @@ def ingest(store, now, query, *, fetchers=None, registry=None):
     return {
         "schema": SCHEMA,
         "query": query.strip(),
-        "sources": list(source_view(store.source_settings(), store.source_statuses(), registry)),
+        "sources": list(
+            source_view(store.source_settings(), store.source_statuses(), registry)
+        ),
         "items": merged_items,
         "evidence": merged_evidence,
         "request_counts": outbound.counters(),
     }
+
+
+def available_registry(get_secret):
+    """Only credential presence is exposed; secrets stay in Hermes scope."""
+    registry = {key: dict(value) for key, value in REGISTRY.items()}
+    requirements = {
+        "youtube": ("YOUTUBE_API_KEY",),
+        "podcastindex": ("PODCASTINDEX_API_KEY", "PODCASTINDEX_API_SECRET"),
+    }
+    for source_id, names in requirements.items():
+        ready = all(bool(get_secret(name)) for name in names)
+        registry[source_id].update(
+            available=ready, blocked_reason=None if ready else "missing_api_key"
+        )
+    return registry
+
+
+def search_policy(source_id):
+    """Current search notices; historical seed policies remain frozen in adapters."""
+    policy = dict(MODULES[source_id].POLICY)
+    if source_id == "youtube":
+        policy.update(
+            attribution="YouTube. Each Data API card links to its watch page.",
+            retention="Data API metadata expires after 30 days. No oEmbed fields or media files are stored.",
+            refresh="Refresh explicitly or remove expired metadata on catalog access.",
+            deletion="Expired metadata is purged on catalog reads/writes; clear plugin data to remove records.",
+        )
+    elif source_id == "podcastindex":
+        policy.update(
+            retention="Minimal retrieved show identity only; no audio, artwork, or feed archive.",
+            refresh="Targeted explicit searches only. Rate limits are dynamic.",
+            deletion="Clear owned plugin data to remove retrieved show identities.",
+        )
+    return policy

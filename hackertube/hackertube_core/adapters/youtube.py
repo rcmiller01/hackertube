@@ -1,9 +1,7 @@
-"""YouTube catalog metadata.
+"""YouTube catalog metadata. oEmbed stays disabled.
 
-Disabled. No cited page grants storage of oEmbed responses, and the Data API
-needs a key this package does not have. fetch_oembed does not call the network
-and the seed does not store oEmbed fields. The 30-day refresh on Data API
-evidence stays in place for a later enablement.
+The explicit search path can use a configured Data API key with 30-day
+metadata expiry. The static seed and legacy ingestion defaults remain disabled.
 """
 
 from urllib.parse import urlencode

@@ -73,21 +73,21 @@ def test_acceptance1_a_keyless_live_provider_fails_closed_with_no_outbound_call(
         try:
             status = dashboard.get("/status")
             assert status.status_code == 200
-            assert status.json()["provider"] == "live"
-            assert status.json()["model_key"] == "absent"
+            assert status.json()["provider"] == "hermes"
+            assert "model_key" not in status.json()
 
             info = dashboard.get("/search")
             assert info.status_code == 200
             assert info.json()["provider_available"] is False
-            assert info.json()["provider"] == "live"
+            assert info.json()["provider"] == "hermes"
 
             refused = dashboard.post("/search", {"question": QUESTION, "disclosure_accepted": True})
             assert refused.status_code == 503
             payload = refused.json()
             assert payload["error"] == "provider_unavailable"
-            assert payload["provider"] == "live"
-            assert "model key is not set" in payload["message"]
-            assert "no request was sent" in payload["message"]
+            assert payload["provider"] == "hermes"
+            assert "Hermes search service" in payload["message"]
+            assert "No request was sent" in payload["message"]
             _no_request("POST /search with no model key")
             assert _job_rows(root) == [], "a refused provider writes no job"
         finally:
@@ -108,7 +108,7 @@ def test_acceptance1_an_undeclared_provider_name_falls_back_to_live_and_fails_cl
         try:
             refused = dashboard.post("/search", {"question": QUESTION, "disclosure_accepted": True})
             assert refused.status_code == 503
-            assert refused.json()["provider"] == "live"
+            assert refused.json()["provider"] == "hermes"
             assert refused.json()["message"]
             _no_request("POST /search with an undeclared provider name")
         finally:
