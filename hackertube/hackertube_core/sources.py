@@ -58,8 +58,8 @@ def _fetch_itunes(query, now):
     return itunes.parse_results(itunes.fetch_search(query), now)
 
 
-def _fetch_openlibrary(query, now):
-    return openlibrary.parse_search(openlibrary.fetch_search(query), now)
+def _fetch_openlibrary(query, now, contact=None):
+    return openlibrary.parse_search(openlibrary.fetch_search(query, contact=contact), now)
 
 
 def _fetch_librivox(query, now):
@@ -224,7 +224,7 @@ def _error_code(exc):
     return "request failed"
 
 
-def ingest(store, now, query, *, fetchers=None, registry=None):
+def ingest(store, now, query, *, fetchers=None, registry=None, get_secret=lambda name: None):
     """Run one bounded ingestion pass over the enabled sources.
 
     ``fetchers`` maps a source id to ``fetch(query, now)`` returning a
@@ -235,7 +235,9 @@ def ingest(store, now, query, *, fetchers=None, registry=None):
     if not isinstance(query, str) or not query.strip():
         raise RecordError("query")
     registry = REGISTRY if registry is None else registry
-    fetchers = FETCHERS if fetchers is None else fetchers
+    if fetchers is None:
+        fetchers = dict(FETCHERS)
+        fetchers["openlibrary"] = lambda query, stamp: _fetch_openlibrary(query, stamp, get_secret("OPENLIBRARY_CONTACT"))
     settings = store.source_settings()
     items = []
     evidence = []
