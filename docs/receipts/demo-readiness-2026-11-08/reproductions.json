@@ -1,0 +1,41 @@
+{
+  "live_response": {
+    "model_returned_topic": "gardening",
+    "actual_topic": "jane austen",
+    "payload": {
+      "messages": [
+        {
+          "role": "system",
+          "content": "Return the topic, requested formats, depth, and any hard time limit of the user's media question as JSON."
+        },
+        {
+          "role": "user",
+          "content": "Jane Austen books"
+        }
+      ]
+    },
+    "timeout": 15,
+    "declared_deadline_seconds": 5
+  },
+  "books_request": {
+    "requested": [
+      "book"
+    ],
+    "results_formats": [
+      "audiobook",
+      "book",
+      "podcast_show"
+    ],
+    "result_count": 10
+  },
+  "seed_counts": {
+    "videos": 0,
+    "podcasts": 4,
+    "books": 4,
+    "audiobooks": 4
+  },
+  "isolated_plugin_subdirectory": {
+    "exit_code": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import runpy; x=runpy.run_path('/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/ht-package-review-h2wgzsoe/hackertube/dashboard/catalog_view.py'); x[\"load_catalog\"]()\n                                                                                                                                                        ~~~~~~~~~~~~~~~~~^^\n  File \"/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/ht-package-review-h2wgzsoe/hackertube/dashboard/catalog_view.py\", line 42, in load_catalog\n    return _load_seed()\n  File \"/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/ht-package-review-h2wgzsoe/hackertube/dashboard/catalog_view.py\", line 35, in _load_seed\n    from hackertube_core import load_seed\nModuleNotFoundError: No module named 'hackertube_core'\n"
+  }
+}
