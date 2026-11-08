@@ -2237,3 +2237,34 @@ test("pending Search cannot hide the Hermes limitation by closing the panel", ()
     ui.restore();
   }
 });
+
+test("Cancel search can be queued before the supervised job id arrives", () => {
+  const deferred = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, deferred);
+  try {
+    submitSearch(ui, "AI books");
+    const cancel = ui.find((node) => (node.children || []).includes("Cancel search"));
+    assert.ok(cancel, "running search must offer cancellation");
+    cancel.props.onClick();
+    assert.equal(deferred.pending.length, 1, "no guessed job id is cancelled");
+    deferred.pending[0].onOk({ job: { job_id: "job:99", state: "running", limits: { deadline_seconds: 5 } } });
+    assert.match(deferred.pending[1].url, /\/search\/jobs\/job%3A99\/cancel$/);
+    deferred.pending[1].onOk(searchResult({}, { job: { job_id: "job:99", state: "cancelled" } }));
+    assert.match(ui.text((node) => node.props && node.props.id === "hackertube-job-status"), /cancelled/);
+  } finally { ui.restore(); }
+});
+
+test("Cancel search keeps the busy guard until the server confirms termination", () => {
+  const deferred = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, deferred);
+  try {
+    submitSearch(ui, "AI books");
+    deferred.pending[0].onOk({ job: { job_id: "job:9", state: "running", limits: { deadline_seconds: 5 } } });
+    ui.find((node) => (node.children || []).includes("Cancel search")).props.onClick();
+    assert.equal(ui.find((node) => node.props && node.props.type === "submit" && (node.children || []).includes("Searching")).props.disabled, true);
+    deferred.pending[1].onOk(searchResult({}, { job: { job_id: "job:9", state: "cancelled" } }));
+    assert.equal(ui.find((node) => node.props && node.props.type === "submit" && (node.children || []).includes("Search")).props.disabled, false);
+    deferred.pending[0].onOk(searchResult({}, { job: { job_id: "job:9", state: "succeeded" } }));
+    assert.match(ui.text((node) => node.props && node.props.id === "hackertube-job-status"), /cancelled/);
+  } finally { ui.restore(); }
+});
