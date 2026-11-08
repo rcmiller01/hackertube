@@ -5,7 +5,7 @@ Turn a user's explicit question into source-backed media recommendations across 
 ## ADDED Requirements
 
 ### Requirement: Explicit focused search
-An explicit dashboard media request SHALL invoke LLM-backed search. Ordinary chat questions SHALL NOT be intercepted automatically. The supported agent entry point is post-demo.
+An explicit dashboard media request SHALL invoke LLM-backed search after pending model/source setting writes finish. Failed setting writes SHALL require a successful retry or saved-state readback before search dispatch. Ordinary chat questions SHALL NOT be intercepted automatically. The supported agent entry point is post-demo.
 
 #### Scenario: SEARCH01 Request across formats
 - **WHEN** the user explicitly requests media for a topic through the page

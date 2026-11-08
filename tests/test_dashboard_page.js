@@ -2112,3 +2112,32 @@ test("an expired saved item's state remains visible without cached metadata", ()
     assert.equal(ui.requests.filter(row => row.method === "POST").length, 0);
   } finally { ui.restore(); }
 });
+
+for (const kind of ["model", "sources"]) {
+  test("failed " + kind + " setting writes block Search until a successful retry", () => {
+    const deferred = { pending: [] };
+    const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, null, {
+      "/api/plugins/hackertube/sources": { sources: [{ source_id: "youtube", name: "YouTube", enabled: true, blocked_reason: null }] },
+    }, deferred);
+    try {
+      openSearchPanel(ui);
+      const write = () => {
+        if (kind === "model") ui.find(node => node.props && node.props.onClick && node.children.includes("Use for search")).props.onClick();
+        else ui.find(node => node.type === "label" && node.children.includes(" YouTube")).children[0].props.onChange({ target: { checked: false } });
+      };
+      const submit = () => {
+        ui.find(node => node.props && node.props.id === "hackertube-question").props.onChange({ target: { value: "gardening books" } });
+        ui.find(node => node.props && node.props.id === "hackertube-disclosure-ack").props.onChange({ target: { checked: true } });
+        ui.find(node => node.type === "form" && node.props.id === "hackertube-search-panel").props.onSubmit({ preventDefault() {} });
+      };
+      write();
+      deferred.pending[0].onErr(new Error("save failed"));
+      submit();
+      assert.equal(ui.requests.filter(row => row.url.endsWith("/search") && row.method === "POST").length, 0);
+      write();
+      deferred.pending[1].onOk(kind === "model" ? { ok: true } : { sources: [] });
+      submit();
+      assert.equal(ui.requests.filter(row => row.url.endsWith("/search") && row.method === "POST").length, 1);
+    } finally { ui.restore(); }
+  });
+}

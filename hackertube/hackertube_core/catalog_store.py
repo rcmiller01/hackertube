@@ -45,7 +45,18 @@ def merge(base, incoming):
 
 def without_expired(catalog, now):
     evidence = active_evidence(catalog.evidence, now)
-    known = {x.item_id for x in evidence}
+    # Community discussion proves a mention, not that cached identity metadata
+    # is current. YouTube metadata needs its own unexpired Data API record.
+    known = {x.item_id for x in evidence if x.kind in {"catalog", "web"}}
+    youtube = {
+        x.item_id for x in evidence if x.source_id == "youtube" and x.kind == "catalog"
+    }
+    known = {
+        item_id
+        for item_id in known
+        if not item_id.startswith("youtube:") or item_id in youtube
+    }
+    evidence = tuple(x for x in evidence if x.item_id in known)
     items = tuple(
         replace(x, capture_order=i)
         for i, x in enumerate((x for x in catalog.items if x.item_id in known), 1)

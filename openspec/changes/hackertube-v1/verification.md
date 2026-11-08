@@ -518,6 +518,18 @@ Scope enumeration: 15 active Python path/allowlist references were audited befor
 
 The user allowed experimentation with the local instance. The live probe registered the candidate only in its own process and stored results in a temporary database. No plugin was installed/enabled in the running user profile, no gateway was restarted, and no model/source credentials or provider choices were copied or rewritten. It used a real host-owned paid-capable model/search route once for this bounded functional check. No recurring follow-up or paid job was created.
 
+## PR #16 review follow-up — exact head dca17be
+
+Reviewed `dca17be7f0a6a77759397ffcbc61d0de7cbf684d` against base `fa692729cbf4ed26743f163dceeb6c12f9ae1e7a`, then fixed six confirmed findings. The complete review, severity, original-head locations, caller/resource enumeration, reproduction procedure, and remaining release limits are in `docs/pr16-review.md`.
+
+- Scenarios: CAT01/CAT02/CAT10 and LIB02 for expiry/visible saved state; SEARCH01 and PREF02/PREF04 for configuration write ordering; JOB03/JOB04/JOB07 for per-job usage, unknown failed-call cost, source failure versus budget state, and valid partial source results.
+- A clean archive of the exact reviewed head with only regression tests overlaid produced 6 Python failures and 3 UI failures. Runtime import isolation was explicitly checked. Red tests were committed in `7de26bd` and `7355f9f` before fixes.
+- Deterministically overlapping jobs: incorrect count 5/5 baseline reproductions, corrected count 5/5 runs. Each job reports 1 paid invocation; the process reports 2. Failed web cost remains unknown, not the 0.03 sum of model costs. Apple retains 1 completed record in each HTTP/malformed/limit regression. Expired metadata is removed from disk while saved flags remain true.
+- Updated suite: 230 Python tests passed, 0 failed; 71 JavaScript/browser tests passed, 0 failed, 0 skipped. Strict OpenSpec 1/0; traceability fixtures 14 invalid rejected and 1 valid accepted; Hermes plugin validation exit 0 with no warnings. One existing Starlette/httpx deprecation warning remains.
+- Code is identified by the commit containing this follow-up and the new `docs/receipts/pr16-review/runtime-manifest.json`. Full logs are in that same receipts directory. Original live-search receipts remain pinned historical evidence for their original revision.
+
+No new paid-provider run was needed; provider/auth/source API contracts are unchanged. Keyed-source live checks, installed-host browser validation, cancellation/restart recovery, and wider release work retain their prior disposition. The PR remains unmerged.
+
 ## Release measurements
 
 All values are unmeasured. Freeze the post-demo evaluation workload, rubric, source snapshots, provider configuration, and request limits before collecting results. Use PRD section 9 for proposed targets and report adjustments explicitly. The demo video length is measured under task 4.3, not inferred from the six-step outline.

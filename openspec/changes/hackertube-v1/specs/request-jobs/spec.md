@@ -32,7 +32,7 @@ Each search or refresh SHALL expose progress and terminal status, enforce finite
 
 #### Scenario: JOB04 Provider omits cost
 - **WHEN** a provider returns no reliable cost information
-- **THEN** the job displays cost as unknown rather than zero
+- **THEN** the job displays total cost as unknown, including an attempted paid request that failed without reporting cost, and counts only its own dispatches rather than overlapping jobs
 
 ### Requirement: Cancellation and restart recovery
 Cancelling a job SHALL prevent further dispatch and expose the disposition of in-flight calls. Interrupted jobs SHALL NOT silently resume paid work after restart.

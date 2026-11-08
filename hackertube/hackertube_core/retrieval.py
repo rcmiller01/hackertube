@@ -175,14 +175,22 @@ class SourceRetriever:
                     raise RecordError("source payload")
                 items.extend(parsed.items)
                 evidence.extend(parsed.evidence)
+                state = "succeeded"
+                if "partial-limit" in parsed.rejected:
+                    state = "limit"
+                elif "partial-source" in parsed.rejected:
+                    state = "partial" if parsed.items else "failed"
                 statuses.append(
-                    {
-                        "source_id": source_id,
-                        "state": "succeeded",
-                        "items": len(parsed.items),
-                    }
+                    {"source_id": source_id, "state": state, "items": len(parsed.items)}
                 )
-                self.store.record_source_result(source_id, ok=True, at=now)
+                self.store.record_source_result(
+                    source_id,
+                    ok=state == "succeeded",
+                    at=now,
+                    error=None
+                    if state == "succeeded"
+                    else "source retrieval incomplete",
+                )
             except BudgetExhausted:
                 statuses.append({"source_id": source_id, "state": "limit", "items": 0})
             except TypeError:
@@ -262,25 +270,38 @@ class SourceRetriever:
                         groups.append(("podcast", "podcastEpisode"))
                     if not formats or "audiobook" in formats:
                         groups.append(("audiobook", "audiobook"))
-                    collected, rows = [], []
+                    collected, rows, failures = [], [], []
                     for media, entity in groups:
-                        payload = budget.read(
-                            itunes.SEARCH_API
-                            + "?"
-                            + urlencode(
-                                {
-                                    "term": query,
-                                    "media": media,
-                                    "entity": entity,
-                                    "limit": 12,
-                                }
-                            ),
-                            classification=outbound.FREE,
-                        )
-                        parsed = itunes.parse_results(payload, now)
+                        try:
+                            payload = budget.read(
+                                itunes.SEARCH_API
+                                + "?"
+                                + urlencode(
+                                    {
+                                        "term": query,
+                                        "media": media,
+                                        "entity": entity,
+                                        "limit": 12,
+                                    }
+                                ),
+                                classification=outbound.FREE,
+                            )
+                            parsed = itunes.parse_results(payload, now)
+                            if "payload" in parsed.rejected:
+                                raise RecordError("source payload")
+                        except BudgetExhausted:
+                            failures.append("partial-limit")
+                            break
+                        except TypeError:
+                            raise
+                        except Exception:
+                            failures.append("partial-source")
+                            continue
                         collected.extend(parsed.items)
                         rows.extend(parsed.evidence)
-                    return ParseResult(tuple(collected), tuple(rows), (), ())
+                    return ParseResult(
+                        tuple(collected), tuple(rows), (), tuple(failures)
+                    )
 
                 fetch(source_id, apple)
             elif source_id == "openlibrary":

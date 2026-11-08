@@ -1,0 +1,13 @@
+✔ Search waits for the pending model setting write (3.129167ms)
+✔ Search waits for the pending sources setting write (0.848292ms)
+✔ an expired saved item's state remains visible without cached metadata (0.332542ms)
+✔ failed model setting writes block Search until a successful retry (0.693792ms)
+✔ failed sources setting writes block Search until a successful retry (0.555833ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 42.505209

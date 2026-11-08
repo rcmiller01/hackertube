@@ -753,6 +753,11 @@
       var statusInfoState = useState(null);
       var statusInfo = statusInfoState[0];
       var setStatusInfo = statusInfoState[1];
+      var configuration = useRef({ pending: 0, failures: new Set(), epoch: 0 });
+      var configurationTick = useState(0);
+      var refreshConfiguration = configurationTick[1];
+      var settingsSaving = configuration.current.pending > 0;
+      var settingsBlocked = settingsSaving || configuration.current.failures.size > 0;
       var sourceRowsState = useState([]);
       var sourceRows = sourceRowsState[0];
       var setSourceRows = sourceRowsState[1];
@@ -918,10 +923,11 @@
       useEffect(function () {
         var cancelled = false;
         if (!searchOpen || !SDK.fetchJSON) return;
+        var epoch = configuration.current.epoch;
         SDK.fetchJSON("/api/model/auxiliary").then(function (assignments) {
           var selected = ((assignments && assignments.tasks) || []).find(function (row) { return row.task === "hackertube_search"; }) || {};
           return SDK.fetchJSON("/api/model/options?explicit_only=true").then(function (body) {
-            if (cancelled || !body || !Array.isArray(body.providers)) return;
+            if (cancelled || !body || !Array.isArray(body.providers) || !acceptConfigurationRead("model", epoch)) return;
             setModelOptions(body);
             setModelChoice(selected.provider && selected.provider !== "auto" && selected.model
               ? JSON.stringify([selected.provider, selected.model]) : "");
@@ -933,34 +939,66 @@
       useEffect(function () {
         var cancelled = false;
         if (!searchOpen || !SDK.fetchJSON) return;
+        var epoch = configuration.current.epoch;
         SDK.fetchJSON("/api/plugins/hackertube/sources").then(function (body) {
-          if (!cancelled && body && Array.isArray(body.sources)) setSourceRows(body.sources);
+          if (!cancelled && body && Array.isArray(body.sources) && acceptConfigurationRead("sources", epoch)) setSourceRows(body.sources);
         }).catch(function () { /* Search still reports source availability. */ });
         return function () { cancelled = true; };
       }, [searchOpen]);
 
+      function acceptConfigurationRead(kind, epoch) {
+        var current = configuration.current;
+        if (current.pending || current.epoch !== epoch) return false;
+        if (current.failures.delete(kind)) refreshConfiguration(function (value) { return value + 1; });
+        return true;
+      }
+
+      function writeConfiguration(kind, path, body, accept) {
+        if (!SDK.fetchJSON || searchBusy || configuration.current.pending) return;
+        var current = configuration.current;
+        current.pending += 1;
+        current.epoch += 1;
+        refreshConfiguration(function (value) { return value + 1; });
+        var settled = false;
+        function finish(ok) {
+          if (settled) return;
+          settled = true;
+          current.pending -= 1;
+          current.epoch += 1;
+          if (ok) current.failures.delete(kind);
+          else current.failures.add(kind);
+          refreshConfiguration(function (value) { return value + 1; });
+        }
+        try {
+          SDK.fetchJSON(path, {
+            method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+          }).then(function (payload) { finish(accept(payload)); }).catch(function () {
+            setModelMessage("Hermes could not save that change. Retry it or reopen Search to reload the saved settings.");
+            finish(false);
+          });
+        } catch (error) {
+          setModelMessage("Hermes could not save that change. Retry it or reopen Search to reload the saved settings.");
+          finish(false);
+        }
+      }
+
       function changeSource(sourceId, enabled) {
-        if (!SDK.fetchJSON || searchBusy) return;
-        SDK.fetchJSON("/api/plugins/hackertube/sources", {
-          method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ source_id: sourceId, enabled: enabled }),
-        }).then(function (body) {
-          if (body && Array.isArray(body.sources)) setSourceRows(body.sources);
-          else setModelMessage("Hermes could not change that source. Check its setup in plugin settings.");
-        }).catch(function () { setModelMessage("Hermes could not save that source choice."); });
+        writeConfiguration("sources", "/api/plugins/hackertube/sources", { source_id: sourceId, enabled: enabled }, function (body) {
+          if (body && Array.isArray(body.sources)) { setSourceRows(body.sources); return true; }
+          setModelMessage("Hermes could not change that source. Check its setup in plugin settings.");
+          return false;
+        });
       }
 
       function applySearchModel() {
-        if (!SDK.fetchJSON || searchBusy) return;
         var selected = modelChoice ? JSON.parse(modelChoice) : ["auto", ""];
         var assignment = { scope: "auxiliary", task: "hackertube_search", provider: selected[0], model: selected[1] };
-        SDK.fetchJSON("/api/model/set", {
-          method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(assignment),
-        }).then(function (body) {
-          setModelMessage(body && body.ok ? "Search model saved in Hermes."
+        writeConfiguration("model", "/api/model/set", assignment, function (body) {
+          var ok = !!(body && body.ok);
+          setModelMessage(ok ? "Search model saved in Hermes."
             : ((body && (body.confirm_message || body.detail)) || "Use Hermes Models → Auxiliary to finish choosing this model."));
-        }).catch(function () { setModelMessage("Hermes could not save that model. Use Models → Auxiliary."); });
+          return ok;
+        });
       }
 
       function onTrigger() {
@@ -991,6 +1029,10 @@
       function onSubmit(event) {
         event.preventDefault();
         if (searchBusy) return;
+        if (configuration.current.pending || configuration.current.failures.size) {
+          showFormAlert("Finish saving model and source settings before searching. Retry failed changes or reopen Search to reload saved settings.");
+          return;
+        }
         var value = question.trim();
         if (!value) {
           showFormAlert("Enter a question before searching.");
@@ -1532,7 +1574,7 @@
             ? h("form", { id: "hackertube-search-panel", onSubmit: onSubmit, onKeyDown: onSearchKeyDown },
                 h("div", { className: "ht-model-picker" },
                   h(Label, { htmlFor: "hackertube-search-model" }, "Search provider and model"),
-                  h("select", { id: "hackertube-search-model", value: modelChoice, disabled: searchBusy,
+                  h("select", { id: "hackertube-search-model", value: modelChoice, disabled: searchBusy || settingsSaving,
                     onChange: function (event) { setModelChoice(event.target.value); } },
                     [h("option", { key: "default", value: "" }, "Use current Hermes model")].concat(
                       ((modelOptions && modelOptions.providers) || []).filter(function (provider) { return provider.authenticated !== false; }).flatMap(function (provider) {
@@ -1545,7 +1587,7 @@
                       })
                     )
                   ),
-                  h(Button, { type: "button", onClick: applySearchModel, disabled: searchBusy, className: "ht-action" }, "Use for search"),
+                  h(Button, { type: "button", onClick: applySearchModel, disabled: searchBusy || settingsSaving, className: "ht-action" }, "Use for search"),
                   h("a", { href: "/models" }, "Manage providers in Hermes"),
                   modelMessage ? h("p", { role: "status" }, modelMessage) : null
                 ),
@@ -1554,7 +1596,7 @@
                   sourceRows.map(function (source) {
                     var blocked = !!source.blocked_reason && source.blocked_reason !== "disabled";
                     return h("div", { key: source.source_id },
-                      h("label", null, h("input", { type: "checkbox", checked: !!source.enabled, disabled: blocked || searchBusy,
+                      h("label", null, h("input", { type: "checkbox", checked: !!source.enabled, disabled: blocked || searchBusy || settingsSaving,
                         onChange: function (event) { changeSource(source.source_id, !!event.target.checked); } }), " " + source.name),
                       blocked ? h("p", { className: "ht-note" }, source.source_id === "reddit"
                         ? "Reddit access requires approval and selected subreddits."
@@ -1597,7 +1639,9 @@
                     type: "submit",
                     className: "ht-action",
                     "aria-describedby": "hackertube-disclosure",
-                  }, searchBusy ? "Searching" : "Search"),
+                    disabled: searchBusy || settingsBlocked,
+                    "aria-disabled": searchBusy || settingsBlocked ? "true" : undefined,
+                  }, searchBusy ? "Searching" : settingsSaving ? "Saving settings" : "Search"),
                   h(Button, {
                     type: "button",
                     outlined: true,
@@ -1709,6 +1753,22 @@
         );
       }
 
+      function renderMissingSaved() {
+        if (!catalog || profileStatus !== "ready") return null;
+        var known = itemsById(catalog.items || []);
+        var missing = Object.keys(savedMap(profile)).filter(function (id) { return !known[id]; });
+        if (!missing.length) return null;
+        return h("section", { className: "ht-missing-saved" },
+          h("h2", null, "Saved items awaiting metadata"),
+          missing.map(function (id) {
+            return h("article", { key: id },
+              h("h3", null, id.indexOf("youtube:") === 0 ? "Saved YouTube video" : "Saved item"),
+              h("p", null, "Metadata unavailable. Run an explicit search to retrieve current details. Your saved status is retained.")
+            );
+          })
+        );
+      }
+
       function renderLibrary() {
         var count = Object.keys(savedMap(profile)).length;
         return h("div", null,
@@ -1721,6 +1781,7 @@
             ? h("p", null, "Nothing is saved yet. ", h("a", { className: "ht-text-link", href: "#discover" }, "Discover"))
             : null,
           catalog ? renderSections(true) : null,
+          renderMissingSaved(),
           !catalog && loadError
             ? h("p", { role: "alert" }, "No prepared feed is available. The catalog did not load.")
             : null

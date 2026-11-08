@@ -605,6 +605,37 @@ def run_search(
     clock=time.monotonic,
     retriever=None,
 ):
+    """Run and account for one job in its own request context."""
+    with outbound.request_scope() as request_ledger:
+        return _run_search(
+            store,
+            question,
+            catalog=catalog,
+            profile=profile,
+            now=now,
+            provider=provider,
+            limits=limits,
+            disclosure_accepted=disclosure_accepted,
+            clock=clock,
+            retriever=retriever,
+            request_ledger=request_ledger,
+        )
+
+
+def _run_search(
+    store,
+    question,
+    *,
+    catalog,
+    profile,
+    now,
+    provider,
+    limits=DEFAULT_LIMITS,
+    disclosure_accepted=False,
+    clock=time.monotonic,
+    retriever=None,
+    request_ledger=None,
+):
     """Run one explicit bounded Search and persist its job.
 
     The disclosure gate runs first: without an accepted disclosure no
@@ -618,7 +649,6 @@ def run_search(
     from hackertube_core.retrieval import Budget, BudgetExhausted
 
     cleaned = canonical_question(question)
-    before = outbound.counters()
     budget = Budget(limits, clock=clock if retriever is not None else time.monotonic)
     source_statuses = []
     ranking = None
@@ -705,13 +735,15 @@ def run_search(
         notes.extend(limit_notes)
         if retriever is not None and (
             retrieval_limited
-            or any(x["state"] in {"failed", "limit"} for x in source_statuses)
+            or any(
+                x["state"] in {"failed", "limit", "partial"} for x in source_statuses
+            )
         ):
             state = "partial"
             notes.append("Some search services did not finish; coverage is incomplete.")
         if retriever is not None:
             for source in source_statuses:
-                if source["state"] in {"unavailable", "failed", "limit"}:
+                if source["state"] in {"unavailable", "failed", "limit", "partial"}:
                     notes.append(
                         source["source_id"]
                         + ": "
@@ -719,9 +751,14 @@ def run_search(
                     )
     coverage = set_["coverage"]
     coverage["notes"] = list(notes)
-    coverage["limit_reached"] = state == "partial"
-    after = outbound.counters()
-    delta = {label: after[label] - before[label] for label in outbound.LABELS}
+    coverage["limit_reached"] = bool(
+        retrieval_limited
+        or outcome.truncated
+        or outcome.requests_used > limits.max_requests
+        or elapsed > limits.deadline_seconds
+        or any(x["state"] == "limit" for x in source_statuses)
+    )
+    delta = request_ledger.counters()
     total_cost = outcome.cost_usd
     if retriever is not None:
         # Any call without reliable cost makes the whole job cost unknown.
@@ -730,7 +767,8 @@ def run_search(
             if outcome.cost_usd is None
             or rank_cost is None
             or any(
-                x["source_id"] == "web" and x["state"] == "succeeded"
+                x["source_id"] == "web"
+                and x["state"] in {"succeeded", "failed", "partial"}
                 for x in source_statuses
             )
             else outcome.cost_usd + rank_cost

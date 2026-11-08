@@ -59,6 +59,7 @@ LABELS = (FREE, METERED, PAID)
 #: shared counter so one thread's request does not authorise another
 #: thread's connection.
 _IN_FLIGHT = contextvars.ContextVar("hackertube_outbound_in_flight", default=0)
+_REQUEST_LEDGER = contextvars.ContextVar("hackertube_request_ledger", default=None)
 
 
 class NetworkOutsideBoundary(RuntimeError):
@@ -98,19 +99,23 @@ class Boundary:
             raise ValueError("a metered request spends quota, not a billed cost")
         token = _IN_FLIGHT.set(_IN_FLIGHT.get() + 1)
         try:
-            if label == PAID:
-                self.paid += 1
-                if cost is None:
-                    self.unknown_cost_calls += 1
-                else:
-                    self.cost_usd += float(cost)
-            elif label == METERED:
-                self.metered += 1
-            else:
-                self.free += 1
+            self.record(label, cost)
             return perform(*args, **kwargs)
         finally:
             _IN_FLIGHT.reset(token)
+
+    def record(self, label, cost=None):
+        """Account for an already-validated dispatch without invoking it twice."""
+        if label == PAID:
+            self.paid += 1
+            if cost is None:
+                self.unknown_cost_calls += 1
+            else:
+                self.cost_usd += float(cost)
+        elif label == METERED:
+            self.metered += 1
+        else:
+            self.free += 1
 
     def counters(self):
         """Request counts by label."""
@@ -154,8 +159,27 @@ LEDGER = Boundary()
 
 
 def dispatch(label, perform, *args, cost=None, **kwargs):
-    """Send one outbound request through the process boundary."""
-    return LEDGER.dispatch(label, perform, *args, cost=cost, **kwargs)
+    """Count one attempt in the process ledger and the current request, if any."""
+    request = _REQUEST_LEDGER.get()
+    if request is None:
+        return LEDGER.dispatch(label, perform, *args, cost=cost, **kwargs)
+
+    def counted():
+        request.record(label, cost)
+        return perform(*args, **kwargs)
+
+    return LEDGER.dispatch(label, counted, cost=cost)
+
+
+@contextmanager
+def request_scope():
+    """Keep per-job usage separate from concurrent jobs and process totals."""
+    request = Boundary()
+    token = _REQUEST_LEDGER.set(request)
+    try:
+        yield request
+    finally:
+        _REQUEST_LEDGER.reset(token)
 
 
 def counters():
