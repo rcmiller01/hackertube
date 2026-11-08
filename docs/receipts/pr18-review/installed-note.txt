@@ -1,0 +1,1 @@
+Search uses a work budget. In-flight Hermes calls may finish after this budget; cancellation is not implemented.

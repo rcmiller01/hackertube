@@ -6,7 +6,7 @@ Prepared November 8, 2026. **Not submitted or published.** The repository remain
 - Screenshots and exact checks: [rehearsal receipt](../receipts/demo-rehearsal/README.md).
 - Listing copy: [marketplace description](../marketplace-description.md).
 - Installable-package disclosure: [plugin README](../../hackertube/README.md).
-- Catalog entry draft: `catalog-entry.yaml`, to be copied to `plugin-catalog/hackertube.yaml` in a separately authorized NousResearch/hermes-agent PR. The draft pins verified implementation commit `c691a75bacebffa61a8f0f64c14d11707ccdd176`; the canonical Hermes parser accepted it. The final PR head adds receipts only after that candidate.
+- Catalog entry draft: `catalog-entry.yaml`, to be copied to `plugin-catalog/hackertube.yaml` in a separately authorized NousResearch/hermes-agent PR. The draft pins verified implementation commit `026b3d7b6ad2060490ce31929b2c3e9779684ef9`; the canonical Hermes parser accepted it. Later PR commits add verification and submission-draft updates; the plugin payload is unchanged from that pin. Screenshots/video remain the disclosed original rehearsal; the review receipt adds a current pre-search screenshot.
 - Catalog PR text: [draft](catalog-pr.md).
 - X post: [draft](x-post.md). Upload and publication are separate actions.
 - Intended form contact values are in `/Users/robert/Documents/Codex/2026-11-08/hackertube-demo/entry-form.private.json`, outside Git. Robert supplied them directly. X and catalog PR URLs remain null until those artifacts are published; do not submit null or placeholder values.

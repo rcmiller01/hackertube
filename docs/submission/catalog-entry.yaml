@@ -2,7 +2,7 @@
 name: hackertube
 title: HackerTube for Hermes
 repo: https://github.com/rcmiller01/hackertube
-sha: c691a75bacebffa61a8f0f64c14d11707ccdd176
+sha: 026b3d7b6ad2060490ce31929b2c3e9779684ef9
 subdir: hackertube
 description: Source-backed media discovery with existing Hermes providers and a profile-local library.
 maintainer: rcmiller01
@@ -12,9 +12,9 @@ requires_hermes: ">=0.23.0"
 version: "0.2.0"
 readme: true
 screenshots:
-  - https://raw.githubusercontent.com/rcmiller01/hackertube/c691a75bacebffa61a8f0f64c14d11707ccdd176/docs/receipts/demo-rehearsal/results.jpg
-  - https://raw.githubusercontent.com/rcmiller01/hackertube/c691a75bacebffa61a8f0f64c14d11707ccdd176/docs/receipts/demo-rehearsal/about.jpg
-  - https://raw.githubusercontent.com/rcmiller01/hackertube/c691a75bacebffa61a8f0f64c14d11707ccdd176/docs/receipts/demo-rehearsal/clean-profile.jpg
+  - https://raw.githubusercontent.com/rcmiller01/hackertube/026b3d7b6ad2060490ce31929b2c3e9779684ef9/docs/receipts/demo-rehearsal/results.jpg
+  - https://raw.githubusercontent.com/rcmiller01/hackertube/026b3d7b6ad2060490ce31929b2c3e9779684ef9/docs/receipts/demo-rehearsal/about.jpg
+  - https://raw.githubusercontent.com/rcmiller01/hackertube/026b3d7b6ad2060490ce31929b2c3e9779684ef9/docs/receipts/demo-rehearsal/clean-profile.jpg
 capabilities:
   provides_tools: []
   provides_hooks: []
