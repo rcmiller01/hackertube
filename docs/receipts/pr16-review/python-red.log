@@ -1,0 +1,154 @@
+FFFFFF                                                                   [100%]
+=================================== FAILURES ===================================
+_______ test_community_mention_cannot_extend_youtube_metadata_retention ________
+
+    def test_community_mention_cannot_extend_youtube_metadata_retention():
+        video = item('youtube:LCEmiRjPEtQ','video','Expired YouTube title')
+        cat = build([video], [
+            evidence('youtube:LCEmiRjPEtQ',video['item_id'],'youtube',refresh_after='2026-11-08T00:00:00Z'),
+            evidence('hn:123',video['item_id'],'hn',kind='community',endorsement='mention'),
+        ], [source('youtube','YouTube'),source('hn','Hacker News',role='community')])
+        active=without_expired(cat,'2026-11-09T00:00:00Z')
+>       assert not active.items
+E       AssertionError: assert not (MediaItem(item_id='youtube:LCEmiRjPEtQ', format='video', title='Expired YouTube title', destination='https://example....Z', art_url=None, art_hotlink=False, art_cache=False, art_reason='no-art', art_checked_at=None, art_http_status=None),)
+E        +  where (MediaItem(item_id='youtube:LCEmiRjPEtQ', format='video', title='Expired YouTube title', destination='https://example....Z', art_url=None, art_hotlink=False, art_cache=False, art_reason='no-art', art_checked_at=None, art_http_status=None),) = Catalog(items=(MediaItem(item_id='youtube:LCEmiRjPEtQ', format='video', title='Expired YouTube title', destination='ht... demo_question='What can I read or listen to by Jane Austen?', formats_may_be_empty=('videos',), unavailable_videos=()).items
+
+tests/test_pr16_review.py:26: AssertionError
+____________ test_failed_paid_web_attempt_keeps_total_cost_unknown _____________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-115/test_failed_paid_web_attempt_k0')
+
+    def test_failed_paid_web_attempt_keeps_total_cost_unknown(tmp_path):
+        def invoke(raw):
+            if json.loads(raw)['stage']=='interpret':
+                return {'data':{'topic':'gardening','terms':['gardening'],'formats':['book']},'cost_usd':0.01}
+            return {'data':{'items':[{'item_id':'ol:1','reason':'A gardening book.'}]},'cost_usd':0.02}
+        def retrieve(interpretation,now,budget):
+            budget.call(lambda:outbound.dispatch(outbound.PAID,lambda:None,cost=None))
+            return one_book(),[{'source_id':'web','state':'failed','items':0}]
+        result=run_search(store_at(tmp_path),'gardening books',catalog=one_book(),profile=profile(),now=NOW,
+                          provider=HermesProvider(invoke),retriever=retrieve,limits=LIVE_LIMITS,disclosure_accepted=True)
+        assert result['usage']['paid_calls']==3
+>       assert result['usage']['cost_usd'] is None
+E       assert 0.03 is None
+
+tests/test_pr16_review.py:41: AssertionError
+____________ test_overlapping_jobs_count_only_their_own_dispatches _____________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-115/test_overlapping_jobs_count_on0')
+
+    def test_overlapping_jobs_count_only_their_own_dispatches(tmp_path):
+        entered=threading.Event();release=threading.Event()
+        class Paid(StubProvider):
+            def __init__(self,hold=False):self.hold=hold
+            def interpret(self,question,limits):
+                def answer():
+                    if self.hold:
+                        entered.set()
+                        assert release.wait(2), 'other job failed to complete'
+                    return ProviderOutcome(interpret_question(question),requests_used=1)
+                return outbound.dispatch(outbound.PAID,answer,cost=None)
+        def run(name,hold):
+            return run_search(store_at(tmp_path/name),'gardening books',catalog=one_book(),profile=profile(),now=NOW,
+                              provider=Paid(hold),disclosure_accepted=True)
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            first=pool.submit(run,'first',True)
+            try:
+                assert entered.wait(2)
+                second=run('second',False)
+            finally:
+                release.set()
+            first=first.result(timeout=2)
+>       assert first['usage']['request_counts']=={'free':0,'metered':0,'paid':1}
+E       AssertionError: assert {'free': 0, '... 0, 'paid': 2} == {'free': 0, '... 0, 'paid': 1}
+E         
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'paid': 2} != {'paid': 1}
+E         Use -v to get more diff
+
+tests/test_pr16_review.py:68: AssertionError
+_______ test_apple_keeps_completed_subquery_when_later_query_fails[http] _______
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-115/test_apple_keeps_completed_sub0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10b326c40>
+failure = 'http'
+
+    @pytest.mark.parametrize('failure',['http','malformed','limit'])
+    def test_apple_keeps_completed_subquery_when_later_query_fails(tmp_path,monkeypatch,failure):
+        def read(url,**kwargs):
+            if 'itunes.apple.com' in url:
+                if 'entity=podcastEpisode' in url:
+                    if failure=='malformed':return {'results':'bad'}
+                    raise HttpError('http 503')
+                return {'results':[{'kind':'podcast','collectionId':123,'collectionName':'Gardening talk',
+                                    'collectionViewUrl':'https://podcasts.apple.com/us/podcast/gardening/id123'}]}
+            return public_read(url,**kwargs)
+        monkeypatch.setattr('hackertube_core.retrieval.read_json',read)
+        store=store_at(tmp_path);store.set_source_enabled('hn',False)
+        limits=replace(LIVE_LIMITS,max_requests=1) if failure=='limit' else LIVE_LIMITS
+        cat,statuses=SourceRetriever(store)(interpret_question('gardening podcasts'),NOW,Budget(limits))
+>       assert any(x.item_id=='itunes:podcast:123' for x in cat.items)
+E       assert False
+E        +  where False = any(<generator object test_apple_keeps_completed_subquery_when_later_query_fails.<locals>.<genexpr> at 0x10b3e3780>)
+
+tests/test_pr16_review.py:87: AssertionError
+____ test_apple_keeps_completed_subquery_when_later_query_fails[malformed] _____
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-115/test_apple_keeps_completed_sub1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10b3276f0>
+failure = 'malformed'
+
+    @pytest.mark.parametrize('failure',['http','malformed','limit'])
+    def test_apple_keeps_completed_subquery_when_later_query_fails(tmp_path,monkeypatch,failure):
+        def read(url,**kwargs):
+            if 'itunes.apple.com' in url:
+                if 'entity=podcastEpisode' in url:
+                    if failure=='malformed':return {'results':'bad'}
+                    raise HttpError('http 503')
+                return {'results':[{'kind':'podcast','collectionId':123,'collectionName':'Gardening talk',
+                                    'collectionViewUrl':'https://podcasts.apple.com/us/podcast/gardening/id123'}]}
+            return public_read(url,**kwargs)
+        monkeypatch.setattr('hackertube_core.retrieval.read_json',read)
+        store=store_at(tmp_path);store.set_source_enabled('hn',False)
+        limits=replace(LIVE_LIMITS,max_requests=1) if failure=='limit' else LIVE_LIMITS
+        cat,statuses=SourceRetriever(store)(interpret_question('gardening podcasts'),NOW,Budget(limits))
+        assert any(x.item_id=='itunes:podcast:123' for x in cat.items)
+        apple=next(x for x in statuses if x['source_id']=='itunes')
+>       assert apple['state'] in {'partial','limit'}
+E       AssertionError: assert 'succeeded' in {'limit', 'partial'}
+
+tests/test_pr16_review.py:89: AssertionError
+______ test_apple_keeps_completed_subquery_when_later_query_fails[limit] _______
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-115/test_apple_keeps_completed_sub2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10b357890>
+failure = 'limit'
+
+    @pytest.mark.parametrize('failure',['http','malformed','limit'])
+    def test_apple_keeps_completed_subquery_when_later_query_fails(tmp_path,monkeypatch,failure):
+        def read(url,**kwargs):
+            if 'itunes.apple.com' in url:
+                if 'entity=podcastEpisode' in url:
+                    if failure=='malformed':return {'results':'bad'}
+                    raise HttpError('http 503')
+                return {'results':[{'kind':'podcast','collectionId':123,'collectionName':'Gardening talk',
+                                    'collectionViewUrl':'https://podcasts.apple.com/us/podcast/gardening/id123'}]}
+            return public_read(url,**kwargs)
+        monkeypatch.setattr('hackertube_core.retrieval.read_json',read)
+        store=store_at(tmp_path);store.set_source_enabled('hn',False)
+        limits=replace(LIVE_LIMITS,max_requests=1) if failure=='limit' else LIVE_LIMITS
+        cat,statuses=SourceRetriever(store)(interpret_question('gardening podcasts'),NOW,Budget(limits))
+>       assert any(x.item_id=='itunes:podcast:123' for x in cat.items)
+E       assert False
+E        +  where False = any(<generator object test_apple_keeps_completed_subquery_when_later_query_fails.<locals>.<genexpr> at 0x10b336330>)
+
+tests/test_pr16_review.py:87: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_pr16_review.py::test_community_mention_cannot_extend_youtube_metadata_retention
+FAILED tests/test_pr16_review.py::test_failed_paid_web_attempt_keeps_total_cost_unknown
+FAILED tests/test_pr16_review.py::test_overlapping_jobs_count_only_their_own_dispatches
+FAILED tests/test_pr16_review.py::test_apple_keeps_completed_subquery_when_later_query_fails[http]
+FAILED tests/test_pr16_review.py::test_apple_keeps_completed_subquery_when_later_query_fails[malformed]
+FAILED tests/test_pr16_review.py::test_apple_keeps_completed_subquery_when_later_query_fails[limit]
+6 failed in 0.05s

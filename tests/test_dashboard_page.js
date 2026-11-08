@@ -393,7 +393,7 @@ function textOf(node) {
   return "";
 }
 
-function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, statusBody, deferSearch, modelResponses) {
+function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, statusBody, deferSearch, modelResponses, deferSettings) {
   const previous = {
     window: global.window,
     document: global.document,
@@ -542,6 +542,12 @@ function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, s
         method: (init && init.method) || "GET",
         body: init && init.body ? JSON.parse(init.body) : null,
       });
+      if (deferSettings && init && init.method === "POST" &&
+          (target === "/api/model/set" || target === "/api/plugins/hackertube/sources")) {
+        const entry = { url: target, onOk: null, onErr: null };
+        deferSettings.pending.push(entry);
+        return { then(onOk) { entry.onOk = onOk; return { catch(onErr) { entry.onErr = onErr; return this; } }; } };
+      }
       if (deferSearch && target.indexOf("/search") !== -1) {
         // Hold the Search response until the test settles it, so a request can
         // stay in flight while another one starts. The test drives settlement
@@ -2065,3 +2071,29 @@ test("source controls save an explicit choice without starting retrieval", () =>
     assert.equal(ui.requests.filter(row => row.url.endsWith("/search") && row.method === "POST").length, 0);
   } finally { ui.restore(); }
 });
+
+
+for (const kind of ["model", "sources"]) {
+  test("Search waits for the pending " + kind + " setting write", () => {
+    const deferred = { pending: [] };
+    const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, null, {
+      "/api/plugins/hackertube/sources": { sources: [{ source_id: "youtube", name: "YouTube", enabled: true, blocked_reason: null }] },
+    }, deferred);
+    try {
+      openSearchPanel(ui);
+      if (kind === "model") ui.find(node => node.props && node.props.onClick && node.children.includes("Use for search")).props.onClick();
+      else ui.find(node => node.type === "label" && node.children.includes(" YouTube")).children[0].props.onChange({ target: { checked: false } });
+      assert.equal(deferred.pending.length, 1);
+      const submit = () => {
+        ui.find(node => node.props && node.props.id === "hackertube-question").props.onChange({ target: { value: "gardening books" } });
+        ui.find(node => node.props && node.props.id === "hackertube-disclosure-ack").props.onChange({ target: { checked: true } });
+        ui.find(node => node.type === "form" && node.props.id === "hackertube-search-panel").props.onSubmit({ preventDefault() {} });
+      };
+      submit();
+      assert.equal(ui.requests.filter(row => row.url.endsWith("/search") && row.method === "POST").length, 0);
+      deferred.pending[0].onOk(kind === "model" ? { ok: true } : { sources: [] });
+      submit();
+      assert.equal(ui.requests.filter(row => row.url.endsWith("/search") && row.method === "POST").length, 1);
+    } finally { ui.restore(); }
+  });
+}
