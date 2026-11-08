@@ -25,3 +25,8 @@ config_schema:
     env: PODCASTINDEX_API_SECRET
     required: false
     description: Podcast Index API secret; never written to plugin data.
+  openlibrary_contact:
+    type: secret
+    env: OPENLIBRARY_CONTACT
+    required: false
+    description: Contact email or phone sent only in Open Library request headers; never in plugin data or source files.

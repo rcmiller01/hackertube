@@ -10,7 +10,7 @@ Requires Hermes >=0.23.0, macOS or Linux, and the Hermes CLI on the dashboard pr
 
 Choose an existing provider under **Focused search → Search provider and model → Use for search**, or **Models → Auxiliary → HackerTube search**. No separate model key or endpoint is needed. The development-only stub does not retrieve live results.
 
-Optional YouTube and Podcast Index keys belong in Hermes's declared secret settings (`YOUTUBE_API_KEY`, `PODCASTINDEX_API_KEY`, `PODCASTINDEX_API_SECRET`). Enable a source only after configuring it. Never put keys in plugin files or plugin data. Reddit remains disabled pending separate approval. The prepared catalog is small development content; it has no curated community endorsements.
+Optional YouTube and Podcast Index keys belong in Hermes's declared secret settings (`YOUTUBE_API_KEY`, `PODCASTINDEX_API_KEY`, `PODCASTINDEX_API_SECRET`). Enable a source only after configuring it. Never put keys in plugin files or plugin data. Open Library contact identification can be configured as the private Hermes setting `OPENLIBRARY_CONTACT`; it is sent only in Open Library request headers, never other providers or query URLs. Reddit remains disabled pending separate approval. The prepared catalog is small development content; it has no curated community endorsements.
 
 ## Network, privacy, and storage disclosure
 

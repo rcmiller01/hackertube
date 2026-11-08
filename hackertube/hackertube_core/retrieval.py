@@ -315,6 +315,7 @@ class SourceRetriever:
                                 {"q": query, "limit": 12, "fields": openlibrary.FIELDS}
                             ),
                             classification=outbound.FREE,
+                            headers=openlibrary.identification_headers(self.get_secret("OPENLIBRARY_CONTACT")),
                         ),
                         now,
                     ),
