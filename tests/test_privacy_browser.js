@@ -31,3 +31,26 @@ test("privacy gates real rendered features; deletion failure retains state and s
     assert.equal(await agree.isDisabled(),true);
   } finally { await browser.close(); await fixture.close(); }
 });
+
+
+test("YouTube attribution renders without an authenticated image request", async () => {
+  const items=fixtureItems(1);
+  items[0]={...items[0], item_id:"youtube:LCEmiRjPEtQ", format:"video", title:"AI introduction",
+    destination:"https://www.youtube.com/watch?v=LCEmiRjPEtQ", art_url:null,art_hotlink:false};
+  const fixture=await startFixture(items);
+  const browser=await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    const ui=await browser.newPage();
+    // A normal <img> cannot supply Hermes SDK's Authorization header.
+    await ui.route("**/branding/youtube.png",route=>route.fulfill({status:401,body:"Unauthorized"}));
+    await ui.goto(fixture.origin);
+    const logo=ui.getByRole("img",{name:"YouTube",exact:true}).first();
+    await logo.waitFor();
+    const src=await logo.getAttribute("src");
+    assert.match(src,/^data:image\/png;base64,/);
+    const bytes=Buffer.from(src.split(",")[1],"base64");
+    assert.equal(require("node:crypto").createHash("sha256").update(bytes).digest("hex"),"1027b1b0517727adb9697155a270744381c3ce9b047b1c8bd8a9389dc7d07a83","official asset must remain unmodified");
+    await ui.waitForFunction(()=>document.querySelector('img[alt="YouTube"]').naturalWidth>0);
+    assert.equal(await logo.evaluate(el=>el.getBoundingClientRect().height),100);
+  } finally {await browser.close();await fixture.close();}
+});
