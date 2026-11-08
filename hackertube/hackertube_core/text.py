@@ -195,3 +195,14 @@ def millis_to_seconds(value):
 def tokens(text):
     words = re.findall(r"[a-z0-9]+", text.lower())
     return tuple(word for word in words if len(word) >= 4 and word not in _STOPWORDS)
+
+
+def source_display_name(source_id, destination, fallback):
+    """Apple's shared API serves two stores; label the actual item destination."""
+    if source_id == "itunes":
+        host = (urlsplit(destination).hostname or "").lower()
+        if host == "books.apple.com":
+            return "Apple Books"
+        if host == "podcasts.apple.com":
+            return "Apple Podcasts"
+    return fallback

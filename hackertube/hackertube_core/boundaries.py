@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from hackertube_core.errors import RecordError
 from hackertube_core.ranking import rank_matches
 from hackertube_core.records import HN_RECOMMENDATION_LINE, SECTIONS
-from hackertube_core.text import render_untrusted, tokens
+from hackertube_core.text import render_untrusted, tokens, source_display_name
 
 _CRITICISM = (
     "don't recommend",
@@ -115,7 +115,7 @@ def explain_item(item, evidence, sources):
         rows.append(
             {
                 "source_id": record.source_id,
-                "source_name": source.name,
+                "source_name": source_display_name(record.source_id, item.destination, source.name),
                 "retrieved_at": record.retrieved_at,
                 "kind": record.kind,
                 "endorsement": record.endorsement,

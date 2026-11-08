@@ -6,3 +6,19 @@ __pycache__/
 node_modules/
 *.egg-info/
 build/
+
+# Local credentials, profile databases, and private submission/audit drafts.
+.env
+.env.*
+!.env.example
+!.env.*.example
+auth.json
+credentials.json
+*.private.*
+*.db
+*.db-wal
+*.db-shm
+*.pem
+*.key
+*.p12
+*.pfx

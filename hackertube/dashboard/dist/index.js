@@ -235,13 +235,18 @@
       host = "";
     }
     if (host === "youtu.be" || host.endsWith(".youtube.com") || host === "youtube.com") return "YouTube";
+    if (host === "books.apple.com" || host.endsWith(".books.apple.com")) return "Apple Books";
     if (host === "podcasts.apple.com" || host.endsWith(".podcasts.apple.com")) return "Apple Podcasts";
     if (host === "openlibrary.org" || host.endsWith(".openlibrary.org")) return "Open Library";
     if (host === "librivox.org" || host.endsWith(".librivox.org")) return "LibriVox";
     return "Public source";
   }
 
-  function sourceName(sources, sourceId) {
+  function sourceName(sources, sourceId, item) {
+    if (sourceId === "itunes" && item) {
+      var store = destinationLabel(item);
+      if (store === "Apple Books" || store === "Apple Podcasts") return store;
+    }
     var match = (sources || []).filter(function (source) { return source.source_id === sourceId; })[0];
     return match && match.name ? match.name : sourceId;
   }
@@ -260,27 +265,27 @@
         text: endorsed.display_line,
         href: endorsed.destination,
         retrievedAt: endorsed.retrieved_at,
-        sourceName: sourceName(sources, endorsed.source_id),
+        sourceName: sourceName(sources, endorsed.source_id, item),
       };
     }
     var criticism = rows.filter(function (row) { return row.endorsement === "criticism"; })[0];
     if (criticism) {
       return {
         kind: "criticism",
-        text: "Criticism in " + sourceName(sources, criticism.source_id) + ". This is not a recommendation.",
+        text: "Criticism in " + sourceName(sources, criticism.source_id, item) + ". This is not a recommendation.",
         href: null,
         retrievedAt: criticism.retrieved_at,
-        sourceName: sourceName(sources, criticism.source_id),
+        sourceName: sourceName(sources, criticism.source_id, item),
       };
     }
     var mention = rows.filter(function (row) { return row.endorsement === "mention"; })[0];
     if (mention) {
       return {
         kind: "mention",
-        text: "Mentioned in " + sourceName(sources, mention.source_id) + ". This is not a recommendation.",
+        text: "Mentioned in " + sourceName(sources, mention.source_id, item) + ". This is not a recommendation.",
         href: null,
         retrievedAt: mention.retrieved_at,
-        sourceName: sourceName(sources, mention.source_id),
+        sourceName: sourceName(sources, mention.source_id, item),
       };
     }
     var web = rows.filter(function (row) { return row.kind === "web"; })[0];
@@ -290,7 +295,7 @@
         text: "Public web only. This is not a community endorsement.",
         href: null,
         retrievedAt: web.retrieved_at,
-        sourceName: sourceName(sources, web.source_id),
+        sourceName: sourceName(sources, web.source_id, item),
       };
     }
     var catalog = rows.filter(function (row) { return row.kind === "catalog"; })[0];
@@ -300,7 +305,7 @@
         text: "Source candidate",
         href: null,
         retrievedAt: catalog.retrieved_at,
-        sourceName: sourceName(sources, catalog.source_id),
+        sourceName: sourceName(sources, catalog.source_id, item),
       };
     }
     return {
