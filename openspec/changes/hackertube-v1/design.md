@@ -115,3 +115,11 @@ Apply the final category share after existing format, dismissal, and duration ch
 Fit validation resolves all structurally valid entries for an identity before choosing a recommendation. If those entries disagree (`direct` versus `related` or `uncertain`, in either order), every conflicting entry is invalid and that identity is excluded. Other unambiguous identities survive with partial ranking coverage; an all-conflicting ranking fails closed. Consistent duplicates preserve the existing first-reason deduplication rule. `conflicting_identities` counts affected IDs, while `invalid_entries` counts their rows; those rows are not double-counted as intentional relevance omissions.
 
 The duration caption now says Time limit, including when none was requested. Depth/audience/exclusion preferences remain separate ranking criteria, so an absent duration can no longer be described as no constraints applied.
+
+## Installed rehearsal: completion allowance and time disclosure
+
+The native structured-completion site allows 8,000 interpretation tokens and 16,000 ranking tokens, including provider reasoning. Both stages continue to receive the remaining shared work budget and make one host invocation each. A live interpretation returned no parsed JSON at the old 2,500 allowance; a larger allowance returned JSON, while a later ranking stalled inside the host. The UI therefore names a work budget and discloses that in-flight Hermes calls can finish later; it does not present the budget as cancellation. No host internals, retries, or credential routing are changed. The rehearsed provider/model is an existing user-configured route, not a plugin-owned endpoint.
+
+### PR #18 review: disclose before waiting
+
+The Hermes Search panel displays the shared in-flight work-budget limitation before submission and keeps it visible while a request is pending. The question and Search button describe this note through ARIA alongside the credit disclosure. The terminal job summary reuses the same text. The offline stub retains its existing credit description without a nonexistent Hermes-note reference. This is disclosure, not host-call cancellation.

@@ -1,0 +1,12 @@
+✔ Hermes search explains the work-budget limitation before dispatch (1.902ms)
+✔ Hermes work-budget limitation remains visible while the provider has not returned (0.814417ms)
+✔ the offline stub does not show a Hermes in-flight budget note (0.166667ms)
+✔ pending Search cannot hide the Hermes limitation by closing the panel (0.556166ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 38.406541

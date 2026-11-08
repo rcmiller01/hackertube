@@ -54,6 +54,7 @@
   var SEARCH_COST_UNKNOWN = "Cost: unknown. The provider reported no cost information.";
   var SEARCH_COST_KNOWN_PREFIX = "Cost: $";
   var SEARCH_LIMIT_NOTE = "Work limits for this job:";
+  var SEARCH_BUDGET_NOTE = "In-flight Hermes calls may finish after this budget; cancellation is not implemented.";
   var SEARCH_STATES = { queued: "queued", running: "running", succeeded: "succeeded", partial: "partial", failed: "failed" };
   var ORDER_NOTE = "Seeded catalog, in capture order.";
   var DISCOVERY_SCHEMA = "hackertube.discovery/1";
@@ -627,7 +628,7 @@
     var deadline = safe.deadline_seconds === undefined ? "?" : safe.deadline_seconds;
     var used = usage && typeof usage.requests_used === "number" ? usage.requests_used : 0;
     return SEARCH_LIMIT_NOTE + " at most " + requests + " provider requests, " + hits +
-      " results, a " + deadline + " second deadline. Provider requests used: " + used + ".";
+      " results, a " + deadline + " second work budget. Provider requests used: " + used + ". " + SEARCH_BUDGET_NOTE;
   }
 
   function constraintLine(interpretation) {
@@ -1564,6 +1565,7 @@
 
       function renderSearch() {
         var showProviderNote = !statusInfo || statusInfo.provider !== "stub";
+        var searchDescriptionIds = "hackertube-disclosure" + (showProviderNote ? " hackertube-budget-note" : "");
         return h("div", { className: "ht-search" },
           h(Button, {
             type: "button",
@@ -1619,7 +1621,7 @@
                   value: question,
                   placeholder: DEMO_QUESTION,
                   autoComplete: "off",
-                  "aria-describedby": "hackertube-disclosure",
+                  "aria-describedby": searchDescriptionIds,
                   onChange: function (event) { setQuestion(event.target.value); },
                 }),
                 h("p", { id: "hackertube-disclosure", className: "ht-disclosure" }, DISCLOSURE),
@@ -1633,6 +1635,9 @@
                   " " + DISCLOSURE_ACK
                 ),
                 showProviderNote
+                  ? h("p", { id: "hackertube-budget-note", className: "ht-note" }, "Search uses a work budget. " + SEARCH_BUDGET_NOTE)
+                  : null,
+                showProviderNote
                   ? h("p", { id: "hackertube-provider-note", className: "ht-note", role: "status" }, SEARCH_PROVIDER_NOTE)
                   : null,
                 formAlert
@@ -1642,7 +1647,7 @@
                   h(Button, {
                     type: "submit",
                     className: "ht-action",
-                    "aria-describedby": "hackertube-disclosure",
+                    "aria-describedby": searchDescriptionIds,
                     disabled: searchBusy || settingsBlocked,
                     "aria-disabled": searchBusy || settingsBlocked ? "true" : undefined,
                   }, searchBusy ? "Searching" : settingsSaving ? "Saving settings" : "Search"),

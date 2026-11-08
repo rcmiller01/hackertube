@@ -1,0 +1,10 @@
+{
+  "candidate_sha": "c691a75bacebffa61a8f0f64c14d11707ccdd176",
+  "plugin_version": "0.2.0",
+  "host": "v0.23.0+1212.g719240d",
+  "installed_files_matching": 35,
+  "installed_files_total": 35,
+  "exact_commit_native_validation_exit": 0,
+  "exact_commit_install_probe_exit": 0,
+  "video_sha256": "ff380cbb5fea2d50c3978bbffbedb6f4e851ec749059a344f5e9877b4c4e96ce"
+}

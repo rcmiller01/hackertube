@@ -1,0 +1,177 @@
+[
+  {
+    "path": "hackertube/README.md",
+    "sha256": "aa4445b2f35d4004cc5184c2c6e76127d4836ab276b96d030ace02ad0a321270",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/__init__.py",
+    "sha256": "f5514e5263922df8b795c942da3bd8c59ca5fa4ffcae388c47e979ab487ca926",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/dashboard/catalog_view.py",
+    "sha256": "f17eae622056e3a835e232864f51a848561bdef06cc7e2446d3521c79357a10a",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/dashboard/discovery.py",
+    "sha256": "e64c435a42de4d308060ac3340389576278eda94713a663e3a656b75bca55b62",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/dashboard/dist/index.js",
+    "sha256": "2df64818f031a482386c3927bad871ca9dd4c7bea6105ea0fd6b5151f1ae767f",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/dashboard/dist/style.css",
+    "sha256": "c35da2d55a2cf8cd947b5f356393afc9b0e1b88233e7e5f04d9b807bab9669b1",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/dashboard/manifest.json",
+    "sha256": "d7149a500341f4227874930e2b36afd4a825f20dd2de614fe9d2c1f292f2dd4d",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/dashboard/plugin_api.py",
+    "sha256": "e26142d6c7ca7ae9e8b073b98dd68344a52622d4f8a44d05df1638c83cd57939",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/__init__.py",
+    "sha256": "01e371a249a3bccbbbe475840f6ee55391dc35e26cec26fb620e2fd622e561c5",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/adapters/__init__.py",
+    "sha256": "6b7e47a3f6dcfea8b756f494afea7190e754c9e19b2613829127394e2e8e220c",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/adapters/base.py",
+    "sha256": "451040e26b4e6f12a3fac836b55d137d5e8b05cf4a16e6e8e41f8cfef0e9d7e4",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/adapters/hn.py",
+    "sha256": "83f68605ba8c1c36532d2507f3e2a2f0d2643df0a6b8b6d140ac7a8067391e11",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/adapters/itunes.py",
+    "sha256": "f419142b8e6fa3f43d9a2dc80beb33754d8979a6dcf5294b6d9a0896ce95398c",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/adapters/librivox.py",
+    "sha256": "8905d0325af82979139d7557910b49e9c7a9e8dd40218ed45d16f98bfda58faa",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/adapters/openlibrary.py",
+    "sha256": "e7690d044c7c84f3be059e953b7dad2f90d35a3085095747dedb250652d28cef",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/adapters/podcastindex.py",
+    "sha256": "2cf51ced856b05f2e0c58af6fd656b9c89cec67107bd530b8bdaa24107d1ff24",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/adapters/reddit.py",
+    "sha256": "4ae426705428d00a6c4190f572012bdf849de8f11c121a65ae0b59b58f9058f7",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/adapters/youtube.py",
+    "sha256": "97b0d555c117b99b054c00a32ea989a3936db5e9d116d97a3b670136d206858c",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/boundaries.py",
+    "sha256": "3a2b064623a6b103f3df05d0aa37ba9ae1fd19fb85cea6b2822c2ae2395c02d0",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/catalog.py",
+    "sha256": "d5f41279fd2c7113297283c662ee86a6758657416d6a8115a94b360ebbde7edc",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/catalog_store.py",
+    "sha256": "c1fe66d30680e4ddab13e487155dc590822291b9dbcddf7b2fd07e1daab0bc75",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/demo_seed.py",
+    "sha256": "07b4416c07593dae4237e4ab655305000969b1dcddd1c5b67c7d7f397c44dce9",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/errors.py",
+    "sha256": "c01bdd9d1e6d29919a2106796cd7a6ce22b138702a79958107e584d1b042a03b",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/hermes.py",
+    "sha256": "296aeb7e60e1c8971dcf5ae5d0c6d0f0024782928247712b655240e2c3713043",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/http.py",
+    "sha256": "240df28a0aa1340290bc02452d5b0c63fbb875246a2f94902d34627f3bc29941",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/outbound.py",
+    "sha256": "d155064e732fbb0473992ca69916f3bbb0fdb7116296dcf8ec3aa1614cf268a5",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/profile.py",
+    "sha256": "6da38271177ffb5ab6a4fa84738e7a3599b992f65b76fec8ddba970f74496e18",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/ranking.py",
+    "sha256": "82d3cf3ab81b27045c6a411785e9fcf194cb6f2bf7c349f2b59a3cb2f11a6741",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/records.py",
+    "sha256": "5790fb216e0398955da272bd5e485baffb253813fba7fbcf60c49587ca2ee295",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/retrieval.py",
+    "sha256": "125ca9bcaeb28d369b2448ce701f03abc708da397d0f793dcb97b979b03f842d",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/search.py",
+    "sha256": "4ff9206eb606437a8c9793042141e1d757f6430125054be87c10a0d01bca4fc0",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/seed/catalog.json",
+    "sha256": "77cbd4ec8b9525d1d44dac89b07017cf4ad755436414c9a5e6b1026bd7943d55",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/sources.py",
+    "sha256": "905c58c4c266e8c1f1cebee6d9ba077076c6204da13848e625877bfc11f7c59c",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/hackertube_core/text.py",
+    "sha256": "bdd8ac045b7bd542cbf5fbf81cd4fa795efdcf2f6560af3140f999323b293eec",
+    "installed_match": true
+  },
+  {
+    "path": "hackertube/plugin.yaml",
+    "sha256": "cc9149bede36887cccf44dcbd0de2db1cc23ea8b96dc6794285fa7c32b031404",
+    "installed_match": true
+  }
+]

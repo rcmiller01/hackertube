@@ -1620,7 +1620,7 @@ test("JOB04 the rendered job cost is unknown, never zero", () => {
     assert.match(cost, /unknown/);
     assert.doesNotMatch(cost, /\$|zero/);
     const limits = ui.text((node) => node.props && node.props.id === "hackertube-job-limits");
-    assert.match(limits, /at most 2 provider requests, 12 results, a 5 second deadline/);
+    assert.match(limits, /at most 2 provider requests, 12 results, a 5 second work budget/);
     assert.match(limits, /Provider requests used: 1\./);
   } finally {
     ui.restore();
@@ -1980,7 +1980,7 @@ test("search helpers format a cost, a limit, and a refusal without a score", () 
   assert.equal(page.formatCost({}), page.SEARCH_COST_UNKNOWN);
   assert.equal(
     page.limitsLine({ max_hits: 12, max_requests: 2, deadline_seconds: 5 }, { requests_used: 2 }),
-    "Work limits for this job: at most 2 provider requests, 12 results, a 5 second deadline. Provider requests used: 2.",
+    "Work limits for this job: at most 2 provider requests, 12 results, a 5 second work budget. Provider requests used: 2. In-flight Hermes calls may finish after this budget; cancellation is not implemented.",
   );
   assert.equal(page.constraintLine({ max_duration_seconds: null }), "Time limit: none requested.");
   assert.match(page.constraintLine({ max_duration_seconds: 3600 }), /longer than 1 hour are excluded/);
@@ -2172,6 +2172,67 @@ test("beginner search does not claim that no relevance constraints were applied"
     assert.match(text, /Level: beginner/);
     assert.doesNotMatch(text, /Constraints: none applied/);
     assert.match(text, /Time limit: none requested/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("Hermes search explains the work-budget limitation before dispatch", () => {
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, { provider: "hermes" });
+  try {
+    openSearchPanel(ui);
+    const note = ui.text((node) => node.props && node.props.id === "hackertube-budget-note");
+    assert.match(note, /calls may finish after.*budget/);
+    assert.match(note, /cancellation is not implemented/);
+    for (const node of [
+      ui.find((node) => node.props && node.props.id === "hackertube-question"),
+      ui.find((node) => node.props && node.props.type === "submit" && (node.children || []).includes("Search")),
+    ]) {
+      assert.match(node.props["aria-describedby"], /hackertube-budget-note/);
+    }
+    assert.equal(ui.requests.filter((r) => r.init && r.init.method === "POST" && r.url.includes("/search")).length, 0);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("Hermes work-budget limitation remains visible while the provider has not returned", () => {
+  const deferred = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, { provider: "hermes" }, deferred);
+  try {
+    submitSearch(ui, "AI books for beginners");
+    assert.equal(deferred.pending.length, 1);
+    assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-job-limits"), null);
+    const note = ui.text((node) => node.props && node.props.id === "hackertube-budget-note");
+    assert.match(note, /calls may finish after.*budget/);
+    assert.match(note, /cancellation is not implemented/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("the offline stub does not show a Hermes in-flight budget note", () => {
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, { provider: "stub" });
+  try {
+    openSearchPanel(ui);
+    assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-budget-note"), null);
+    assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-question").props["aria-describedby"], "hackertube-disclosure");
+  } finally {
+    ui.restore();
+  }
+});
+
+test("pending Search cannot hide the Hermes limitation by closing the panel", () => {
+  const deferred = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, { provider: "hermes" }, deferred);
+  try {
+    submitSearch(ui, "AI books for beginners");
+    ui.find((node) => (node.children || []).includes("Close search")).props.onClick();
+    assert.notEqual(ui.find((node) => node.props && node.props.id === "hackertube-search-panel"), null);
+    assert.equal(deferred.pending.length, 1);
+    const note = ui.text((node) => node.props && node.props.id === "hackertube-budget-note");
+    assert.match(note, /calls may finish after.*budget/);
+    assert.match(note, /cancellation is not implemented/);
   } finally {
     ui.restore();
   }

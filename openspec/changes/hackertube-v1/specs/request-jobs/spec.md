@@ -24,7 +24,7 @@ Only explicit focused searches or refreshes SHALL trigger paid model or search a
 - **THEN** it launches no recurring paid job or implicit paid refresh
 
 ### Requirement: Bounded visible execution
-Each search or refresh SHALL expose progress and terminal status, enforce finite deadlines and request/result limits, and report actual usage when available. Unknown cost SHALL NOT be displayed as zero.
+Each search or refresh SHALL expose progress and terminal status, enforce finite deadlines and request/result limits, and report actual usage when available. Unknown cost SHALL NOT be displayed as zero. The demo SHALL pass the remaining work budget to provider operations and disclose before submission and while waiting that an in-flight host call may outlast that budget; it SHALL NOT advertise unimplemented cancellation.
 
 #### Scenario: JOB03 Work budget exhausted
 - **WHEN** an operation reaches its deadline or request limit

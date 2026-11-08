@@ -1,0 +1,36 @@
+{
+  "reviewed_head": "ba1fd3d70b5c464a764bd7bf882babc77b722654",
+  "reviewed_base": "fb34c2237ff5f26fdcc97a959a6f9889e47052c2",
+  "fixed_implementation_sha": "026b3d7b6ad2060490ce31929b2c3e9779684ef9",
+  "standards_actionable_findings": 0,
+  "specification_findings_fixed": 1,
+  "max_priority": "P2",
+  "original_archive": {
+    "python_passed": 261,
+    "javascript_passed": 73
+  },
+  "regressions_at_original_head": {
+    "failed": 2,
+    "control_passed": 1
+  },
+  "fixed_archive": {
+    "python_collected": 261,
+    "python_passed": 261,
+    "python_failed": 0,
+    "python_warnings": 1,
+    "javascript_passed": 77,
+    "javascript_failed": 0,
+    "javascript_skipped": 0,
+    "regressions_passed": 4,
+    "strict_openspec_passed": 1,
+    "coverage_invalid_rejected": 14,
+    "coverage_valid_accepted": 1,
+    "native_validation_passed": true
+  },
+  "installed_files_matching": 35,
+  "installed_files_total": 35,
+  "new_paid_model_calls": 0,
+  "outstanding_hard_timeout_and_release_gates": true,
+  "validated_revision": "b1a7bb839f53abf0ff55d2d442e89cebc85c0897",
+  "existing_pending_close_guard_verified": true
+}

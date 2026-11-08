@@ -109,3 +109,40 @@ def test_four_format_ranking_survives_the_observed_8000_token_exhaustion(monkeyp
         assert calls[0]['max_tokens'] <= 16000 and calls[0]['timeout'] == 30
     finally:
         unload[0]()
+
+
+def test_interpretation_allows_reasoning_before_structured_answer(monkeypatch):
+    from hackertube_core.hermes import HermesProvider
+    from hackertube_core.search import LIVE_LIMITS
+
+    monkeypatch.setitem(sys.modules, "hermes_constants", SimpleNamespace(
+        get_hermes_home=lambda: "/interpretation-dashboard"))
+    calls = []
+
+    def complete_structured(**kw):
+        calls.append(kw)
+        # Installed job:14 returned text rather than JSON at the 2,500-token
+        # allowance. Reproduce a reasoning model exhausting that allowance.
+        parsed = None if kw["max_tokens"] <= 2500 else {
+            "topic": "AI for nontechnical beginners, excluding coding and news",
+            "retrieval_query": "artificial intelligence",
+            "terms": ["artificial intelligence"], "depth": "beginner",
+            "formats": ["video", "podcast_show", "book", "audiobook"],
+        }
+        return SimpleNamespace(parsed=parsed, provider="configured", model="reasoning",
+                               usage=SimpleNamespace(cost_usd=None))
+
+    unload = []
+    register(SimpleNamespace(register_auxiliary_task=lambda *a, **k: None,
+                             on_unload=unload.append,
+                             llm=SimpleNamespace(complete_structured=complete_structured)))
+    try:
+        result = HermesProvider().interpret(
+            "AI for nontechnical beginners, no coding or daily news", LIVE_LIMITS)
+        assert result.interpretation.retrieval_query == "artificial intelligence"
+        assert result.interpretation.depth == "beginner"
+        assert len(calls) == 1  # No retry, silent fallback, or extra model request.
+        assert 0 < calls[0]["timeout"] <= 45
+        assert calls[0]["max_tokens"] <= 8000
+    finally:
+        unload[0]()

@@ -1,0 +1,267 @@
+- navigation:
+  - img "Apple Podcasts":
+  - list:
+    - button "Search":
+      - generic: Search
+    - button "Home":
+      - generic: Home
+    - button "New":
+      - generic: New
+    - button "Top Charts":
+      - generic: Top Charts
+  - button "Sign In":
+    - generic: Sign In
+- generic "Media Controls"
+- main:
+  - generic "Featured":
+    - heading "AI LITERACY - A Podcast about Artificial Intelligence" [level=1]
+    - generic: AI LITERACY
+    - list:
+      - listitem "3.8 out of 5, 12 ratings":
+        - text: 3.8 (12) ·
+      - listitem: Technology
+    - paragraph: "Dive into the world of Artificial Intelligence with your host Anna-Regina Entus - founder and president of the AI in Management Association and fellow of the AI Research Center at emlyon business school in Paris. Together with guest speakers from around the globe, I am helping you make sense of AI and share insights on the latest innovations in the world of Artificial Intelligence. Episodes 1-6: Hosted by Anna-Regina Entus and Victoria Rugli from Episode 7: Hosted by Anna-Regina Entus"
+    - button "Play, Latest Episode":
+      - generic: Latest Episode
+    - button "Unfollow Show" [disabled]:
+    - button "Follow Show":
+    - button "Sort":
+  - generic "Episodes":
+    - heading "Episodes" [level=2]
+    - list:
+      - 'link "01/31/2022 #8 How a self-driving car learns how do drive with Saquib Sarfraz (Mercedes Benz-Daimler) “Autonomous vehicles is much like the switch from horses to vehicles” - is it really? What is a neural network and what exactly happens in its layers? How can AI and computer vision enable a car to predict what is going to happen on the streets? And will all cars drive autonomously by 2040? Those and more questions we are going to discuss in our 8th episode with Saquib Sarfraz, Senior Scientist Computer Vision at Mercedes Benz-Daimler and Senior Research Scientist at Karlsruhe Institute of Technology. Play, 36 minutes remaining"':
+        - /url: https://podcasts.apple.com/us/podcast/8-how-a-self-driving-car-learns-how-do-drive-with/id1553736450?i=1000550210558
+        - paragraph:
+          - generic: 01/31/2022
+        - heading "#8 How a self-driving car learns how do drive with Saquib Sarfraz (Mercedes Benz-Daimler)" [level=3]:
+          - generic: "#8 How a self-driving car learns how do drive with Saquib Sarfraz (Mercedes Benz-Daimler)"
+        - paragraph
+        - generic: “Autonomous vehicles is much like the switch from horses to vehicles” - is it really? What is a neural network and what exactly happens in its layers? How can AI and computer vision enable a car to predict what is going to happen on the streets? And will all cars drive autonomously by 2040? Those and more questions we are going to discuss in our 8th episode with Saquib Sarfraz, Senior Scientist Computer Vision at Mercedes Benz-Daimler and Senior Research Scientist at Karlsruhe Institute of Technology.
+        - paragraph
+        - button "Play, 36 minutes remaining":
+          - generic "36 minutes remaining": 36m
+      - 'link "11/30/2021 #7 How AI will change the world by 2030 with Eric Redmond (Nike) In this episode, Eric Redmond, Director of Nike’s Tech Innovation Office and Amazon best seller author of “Deep Tech” is telling us how artificial intelligence will change the world by 2030. Where will robots replace humans? Where will cobots assist us and even make our lives easier? How will supervised, unsupervised and reinforcement be reformed? Play, 34 minutes remaining #7 How AI will change the world by 2030 with Eric Redmond (Nike)"':
+        - /url: https://podcasts.apple.com/us/podcast/7-how-ai-will-change-the-world-by-2030-with-eric-redmond-nike/id1553736450?i=1000536122925
+        - paragraph:
+          - generic: 11/30/2021
+        - heading "#7 How AI will change the world by 2030 with Eric Redmond (Nike)" [level=3]:
+          - generic: "#7 How AI will change the world by 2030 with Eric Redmond (Nike)"
+        - paragraph
+        - generic: In this episode, Eric Redmond, Director of Nike’s Tech Innovation Office and Amazon best seller author of “Deep Tech” is telling us how artificial intelligence will change the world by 2030. Where will robots replace humans? Where will cobots assist us and even make our lives easier? How will supervised, unsupervised and reinforcement be reformed?
+        - paragraph
+        - button "Play, 34 minutes remaining":
+          - generic "34 minutes remaining": 34m
+        - img "#7 How AI will change the world by 2030 with Eric Redmond (Nike)"
+      - 'link "09/30/2021 #6 How FlixBus predicts when you will travel next with Carlos Andrés Arias Robledo (FlixBus) In this episode, Carlos Andrés Arias Robledo, Data Scientist at FlixBus & former Director of Data Science at AdmanIT & Algorythm is explaining how FlixBus is able to predict the demand of future travellers - which routes are they going to book and under which conditions - based on AI models for each possible scenario. Play, 32 minutes remaining #6 How FlixBus predicts when you will travel next with Carlos Andrés Arias Robledo (FlixBus)"':
+        - /url: https://podcasts.apple.com/us/podcast/6-how-flixbus-predicts-when-you-will-travel-next-with/id1553736450?i=1000532087087
+        - paragraph:
+          - generic: 09/30/2021
+        - heading "#6 How FlixBus predicts when you will travel next with Carlos Andrés Arias Robledo (FlixBus)" [level=3]:
+          - generic: "#6 How FlixBus predicts when you will travel next with Carlos Andrés Arias Robledo (FlixBus)"
+        - paragraph
+        - generic: In this episode, Carlos Andrés Arias Robledo, Data Scientist at FlixBus & former Director of Data Science at AdmanIT & Algorythm is explaining how FlixBus is able to predict the demand of future travellers - which routes are they going to book and under which conditions - based on AI models for each possible scenario.
+        - paragraph
+        - button "Play, 32 minutes remaining":
+          - generic "32 minutes remaining": 32m
+        - img "#6 How FlixBus predicts when you will travel next with Carlos Andrés Arias Robledo (FlixBus)"
+      - 'link "07/31/2021 #5 AI & Mobility in Smart Cities - How we''ll never search for parking spots again with François Hoehlinger (ParkNow) Join us and François Hoehlinger, VP of Parkling at ParkNow Group in our discussion about the intelligent network of connected infrastructure that fuels a Smart City. We are talking about optimizing parking solutions through machine learning and how it can set the tone for more interconnectedness and efficiency in an AI fueled transportation industry. Play, 30 minutes remaining #5 AI & Mobility in Smart Cities - How we''ll never search for parking spots again with François Hoehlinger (ParkNow)"':
+        - /url: https://podcasts.apple.com/us/podcast/5-ai-mobility-in-smart-cities-how-well-never-search/id1553736450?i=1000527378915
+        - paragraph:
+          - generic: 07/31/2021
+        - heading "#5 AI & Mobility in Smart Cities - How we'll never search for parking spots again with François Hoehlinger (ParkNow)" [level=3]:
+          - generic: "#5 AI & Mobility in Smart Cities - How we'll never search for parking spots again with François Hoehlinger (ParkNow)"
+        - paragraph
+        - generic: Join us and François Hoehlinger, VP of Parkling at ParkNow Group in our discussion about the intelligent network of connected infrastructure that fuels a Smart City. We are talking about optimizing parking solutions through machine learning and how it can set the tone for more interconnectedness and efficiency in an AI fueled transportation industry.
+        - paragraph
+        - button "Play, 30 minutes remaining":
+          - generic "30 minutes remaining": 30m
+        - img "#5 AI & Mobility in Smart Cities - How we'll never search for parking spots again with François Hoehlinger (ParkNow)"
+      - 'link "05/31/2021 #4 How AI & AR are Changing the Face of Beauty with Sowmya Gottipati (Estée Lauder) In this episode, we are going to talk to Sowmya Gottipati, VP of Global Brand Technology Leader at Estée Lauder about how Artificial Intelligence and Augmented Reality are becoming a major part of the customer’s journey and purchasing experience in the beauty industry integrating virtual try-ons at home on our devices and in-store with smart mirrors. Play, 30 minutes remaining #4 How AI & AR are Changing the Face of Beauty with Sowmya Gottipati (Estée Lauder)"':
+        - /url: https://podcasts.apple.com/us/podcast/4-how-ai-ar-are-changing-the-face-of-beauty/id1553736450?i=1000523619554
+        - paragraph:
+          - generic: 05/31/2021
+        - heading "#4 How AI & AR are Changing the Face of Beauty with Sowmya Gottipati (Estée Lauder)" [level=3]:
+          - generic: "#4 How AI & AR are Changing the Face of Beauty with Sowmya Gottipati (Estée Lauder)"
+        - paragraph
+        - generic: In this episode, we are going to talk to Sowmya Gottipati, VP of Global Brand Technology Leader at Estée Lauder about how Artificial Intelligence and Augmented Reality are becoming a major part of the customer’s journey and purchasing experience in the beauty industry integrating virtual try-ons at home on our devices and in-store with smart mirrors.
+        - paragraph
+        - button "Play, 30 minutes remaining":
+          - generic "30 minutes remaining": 30m
+        - img "#4 How AI & AR are Changing the Face of Beauty with Sowmya Gottipati (Estée Lauder)"
+      - 'link "04/30/2021 #3 How a Chatbot Knows What You Want with Robert Redmond (IBM Watson) How do chatbots know what you want? How sure of your intent does a bot have to be to give you an answer? And are chatbots the solution to personalized cookie-less advertisements? In this episode of AI LITERACY Robert Redmond, Design Principle and Head of AI Ad Design at IBM Watson gives us an answer to these questions. We talk about how chatbots are built and what types of chatbots there are as well as how conversational marketing is taking the experience of an engaging advertisement to a new level. Play, 36 minutes remaining #3 How a Chatbot Knows What You Want with Robert Redmond (IBM Watson)"':
+        - /url: https://podcasts.apple.com/us/podcast/3-how-a-chatbot-knows-what-you-want-with-robert/id1553736450?i=1000519509065
+        - paragraph:
+          - generic: 04/30/2021
+        - heading "#3 How a Chatbot Knows What You Want with Robert Redmond (IBM Watson)" [level=3]:
+          - generic: "#3 How a Chatbot Knows What You Want with Robert Redmond (IBM Watson)"
+        - paragraph
+        - generic: How do chatbots know what you want? How sure of your intent does a bot have to be to give you an answer? And are chatbots the solution to personalized cookie-less advertisements? In this episode of AI LITERACY Robert Redmond, Design Principle and Head of AI Ad Design at IBM Watson gives us an answer to these questions. We talk about how chatbots are built and what types of chatbots there are as well as how conversational marketing is taking the experience of an engaging advertisement to a new level.
+        - paragraph
+        - button "Play, 36 minutes remaining":
+          - generic "36 minutes remaining": 36m
+        - img "#3 How a Chatbot Knows What You Want with Robert Redmond (IBM Watson)"
+      - 'link "03/30/2021 #2 Why Amazon''s Alexa is Female with Noelle Silver (Amazon, Microsoft, Women in AI) Why is Alexa female? Why are only 26% of the people working in the field of AI women? What are the consequences of the lack of representation? In this episode of AI LITERACY, we talk to Noelle Silver, founder of Women in AI and Microsoft MVP in AI who has worked at Microsoft, Amazon and IBM. We are discussing how artificial intelligence is adopting stereotypes about the role of women and how a lack of diversity can have a tremendous impact on the success of AI technologies. Play, 31 minutes remaining #2 Why Amazon''s Alexa is Female with Noelle Silver (Amazon, Microsoft, Women in AI)"':
+        - /url: https://podcasts.apple.com/us/podcast/2-why-amazons-alexa-is-female-with-noelle-silver/id1553736450?i=1000515092460
+        - paragraph:
+          - generic: 03/30/2021
+        - heading "#2 Why Amazon's Alexa is Female with Noelle Silver (Amazon, Microsoft, Women in AI)" [level=3]:
+          - generic: "#2 Why Amazon's Alexa is Female with Noelle Silver (Amazon, Microsoft, Women in AI)"
+        - paragraph
+        - generic: Why is Alexa female? Why are only 26% of the people working in the field of AI women? What are the consequences of the lack of representation? In this episode of AI LITERACY, we talk to Noelle Silver, founder of Women in AI and Microsoft MVP in AI who has worked at Microsoft, Amazon and IBM. We are discussing how artificial intelligence is adopting stereotypes about the role of women and how a lack of diversity can have a tremendous impact on the success of AI technologies.
+        - paragraph
+        - button "Play, 31 minutes remaining":
+          - generic "31 minutes remaining": 31m
+        - img "#2 Why Amazon's Alexa is Female with Noelle Silver (Amazon, Microsoft, Women in AI)"
+      - 'link "02/28/2021 #1 Why Everyone Talks about AI with Seymour Duncker (Mindscale, MIT) What is AI and how will it change our future? Seymour Duncker, Fellow of the MIT Artificial Intelligence Policy for the World, Founder of iCharts and CEO of Mindscale.ai gives us an Introduction to AI in this very first episode on AI LITERACY. Play, 26 minutes remaining #1 Why Everyone Talks about AI with Seymour Duncker (Mindscale, MIT)"':
+        - /url: https://podcasts.apple.com/us/podcast/1-why-everyone-talks-about-ai-with-seymour-duncker/id1553736450?i=1000511010273
+        - paragraph:
+          - generic: 02/28/2021
+        - heading "#1 Why Everyone Talks about AI with Seymour Duncker (Mindscale, MIT)" [level=3]:
+          - generic: "#1 Why Everyone Talks about AI with Seymour Duncker (Mindscale, MIT)"
+        - paragraph
+        - generic: What is AI and how will it change our future? Seymour Duncker, Fellow of the MIT Artificial Intelligence Policy for the World, Founder of iCharts and CEO of Mindscale.ai gives us an Introduction to AI in this very first episode on AI LITERACY.
+        - paragraph
+        - button "Play, 26 minutes remaining":
+          - generic "26 minutes remaining": 26m
+        - img "#1 Why Everyone Talks about AI with Seymour Duncker (Mindscale, MIT)"
+      - link "Trailer AI LITERACY Teaser Anna-Regina Entus and Victoria Rugli invite you to join them on their journey to discovering the world of AI. Play, 1 minute remaining AI LITERACY Teaser":
+        - /url: https://podcasts.apple.com/us/podcast/ai-literacy-teaser/id1553736450?i=1000509075903
+        - paragraph:
+          - generic: Trailer
+        - heading "AI LITERACY Teaser" [level=3]:
+          - generic: AI LITERACY Teaser
+        - paragraph
+        - generic: Anna-Regina Entus and Victoria Rugli invite you to join them on their journey to discovering the world of AI.
+        - paragraph
+        - button "Play, 1 minute remaining":
+          - generic "1 minute remaining": 1m
+        - img "AI LITERACY Teaser"
+  - list:
+    - generic: 1 Trailer
+    - generic: 8 Episodes
+  - generic "Trailer":
+    - heading "Trailer" [level=2]
+    - list:
+      - link:
+        - /url: https://podcasts.apple.com/us/podcast/ai-literacy-teaser/id1553736450?i=1000509075903
+        - paragraph:
+          - generic: Trailer
+        - heading [level=3]:
+          - generic: AI LITERACY Teaser
+        - generic: Anna-Regina Entus and Victoria Rugli invite you to join them on their journey to discovering the world of AI.
+        - button:
+          - generic: 1m
+  - generic "Ratings & Reviews":
+    - heading "Ratings & Reviews" [level=2]
+    - generic: "3.8"
+    - generic: out of 5
+    - generic: 12 Ratings
+    - generic "5 Stars, 67%":
+    - generic "4 Stars, 0%":
+    - generic "3 Stars, 0%":
+    - generic "2 Stars, 8%":
+    - generic "1 Star, 25%":
+  - generic "About":
+    - heading "About" [level=2]
+    - generic: "Dive into the world of Artificial Intelligence with your host Anna-Regina Entus - founder and president of the AI in Management Association and fellow of the AI Research Center at emlyon business school in Paris. Together with guest speakers from around the globe, I am helping you make sense of AI and share insights on the latest innovations in the world of Artificial Intelligence. Episodes 1-6: Hosted by Anna-Regina Entus and Victoria Rugli from Episode 7: Hosted by Anna-Regina Entus"
+  - generic "Information":
+    - heading "Information" [level=2]
+    - list:
+      - generic: Creator
+      - generic: AI LITERACY
+      - generic: Years Active
+      - generic: 2021 - 2022
+      - generic: Episodes
+      - generic: "9"
+      - generic: Rating
+      - generic: Clean
+      - generic: Copyright
+      - generic: © AI LITERACY
+      - generic: Show Website
+      - link "AI LITERACY - A Podcast about Artificial Intelligence":
+        - /url: https://www.linkedin.com/in/anna-regina-entus/
+        - text: AI LITERACY - A Podcast about Artificial Intelligence
+  - generic "You Might Also Like":
+    - heading "You Might Also Like" [level=2]
+    - list:
+      - link:
+        - /url: https://podcasts.apple.com/us/podcast/the-ai-daily-brief%3A-artificial-intelligence-news-and-analysis/id1680633614
+        - text: Technology
+      - generic: Technology
+      - generic: Updated Semiweekly
+      - link:
+        - /url: https://podcasts.apple.com/us/podcast/the-artificial-intelligence-show/id1548733275
+        - text: Marketing
+      - generic: Marketing
+      - generic: Updated Weekly
+      - link:
+        - /url: https://podcasts.apple.com/us/podcast/practical-ai/id1406537385
+        - text: Technology
+      - generic: Technology
+      - generic: Updated Weekly
+      - link:
+        - /url: https://podcasts.apple.com/us/podcast/the-last-invention/id1839942885
+        - text: Technology
+      - generic: Technology
+      - generic: Semiweekly Series
+      - link:
+        - /url: https://podcasts.apple.com/us/podcast/the-daily/id1200361736
+        - text: Daily News
+      - generic: Daily News
+      - generic: Updated Daily
+      - link:
+        - /url: https://podcasts.apple.com/us/podcast/dwarkesh-podcast/id1516093381
+        - text: Technology
+      - generic: Technology
+      - generic: Updated Weekly
+      - link:
+        - /url: https://podcasts.apple.com/us/podcast/freakonomics-radio/id354668519
+        - text: Documentary
+      - generic: Documentary
+      - generic: Updated Weekly
+- contentinfo:
+  - button "United States"
+  - list:
+    - link "This page is available in Español (México)":
+      - /url: "?l=es"
+      - text: Español (México)
+    - link "This page is available in العربية":
+      - /url: "?l=ar"
+      - text: العربية
+    - link "This page is available in Русский":
+      - /url: "?l=ru"
+      - text: Русский
+    - link "This page is available in 简体中文":
+      - /url: "?l=zh-Hans-CN"
+      - text: 简体中文
+    - link "This page is available in Français (France)":
+      - /url: "?l=fr"
+      - text: Français (France)
+    - link "This page is available in 한국어":
+      - /url: "?l=ko"
+      - text: 한국어
+    - link "This page is available in Português (Brazil)":
+      - /url: "?l=pt"
+      - text: Português (Brazil)
+    - link "This page is available in Tiếng Việt":
+      - /url: "?l=vi"
+      - text: Tiếng Việt
+    - link "This page is available in 繁體中文 (台灣)":
+      - /url: "?l=zh-Hant-TW"
+      - text: 繁體中文 (台灣)
+  - paragraph:
+    - text: Copyright © 2026
+    - link "Apple Inc.":
+      - /url: https://www.apple.com
+    - text: All rights reserved.
+  - list:
+    - link "Internet Service Terms":
+      - /url: https://www.apple.com/legal/internet-services/
+    - link "Apple Podcasts web player & Privacy":
+      - /url: https://www.apple.com/legal/privacy/data/en/apple-podcasts-web
+    - link "Cookie Warning":
+      - /url: https://www.apple.com/privacy/use-of-cookies/
+    - link "Support":
+      - /url: https://getsupport.apple.com/?caller=webpodcasts
+    - link "Feedback":
+      - /url: https://www.apple.com/feedback/apple-podcasts.html

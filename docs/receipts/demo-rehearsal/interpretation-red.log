@@ -1,0 +1,100 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_interpretation_allows_reasoning_before_structured_answer _________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1092b49d0>
+
+    def test_interpretation_allows_reasoning_before_structured_answer(monkeypatch):
+        from hackertube_core.hermes import HermesProvider
+        from hackertube_core.search import LIVE_LIMITS
+
+        monkeypatch.setitem(sys.modules, "hermes_constants", SimpleNamespace(
+            get_hermes_home=lambda: "/interpretation-dashboard"))
+        calls = []
+
+        def complete_structured(**kw):
+            calls.append(kw)
+            # Installed job:14 returned text rather than JSON at the 2,500-token
+            # allowance. Reproduce a reasoning model exhausting that allowance.
+            parsed = None if kw["max_tokens"] <= 2500 else {
+                "topic": "AI for nontechnical beginners, excluding coding and news",
+                "retrieval_query": "artificial intelligence",
+                "terms": ["artificial intelligence"], "depth": "beginner",
+                "formats": ["video", "podcast_show", "book", "audiobook"],
+            }
+            return SimpleNamespace(parsed=parsed, provider="configured", model="reasoning",
+                                   usage=SimpleNamespace(cost_usd=None))
+
+        unload = []
+        register(SimpleNamespace(register_auxiliary_task=lambda *a, **k: None,
+                                 on_unload=unload.append,
+                                 llm=SimpleNamespace(complete_structured=complete_structured)))
+        try:
+>           result = HermesProvider().interpret(
+                "AI for nontechnical beginners, no coding or daily news", LIVE_LIMITS)
+
+tests/test_installed_search.py:140:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+hackertube/hackertube_core/hermes.py:185: in interpret
+    body = self._call("interpret", cleaned, limits.deadline_seconds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+hackertube/hackertube_core/hermes.py:159: in _call
+    result = outbound.dispatch(
+hackertube/hackertube_core/outbound.py:165: in dispatch
+    return LEDGER.dispatch(label, perform, *args, cost=cost, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+hackertube/hackertube_core/outbound.py:103: in dispatch
+    return perform(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+hackertube/hackertube_core/hermes.py:161: in <lambda>
+    lambda: fn(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+raw = '{"stage": "interpret", "input": "AI for nontechnical beginners, no coding or daily news", "timeout": 45}'
+
+    def service(raw):
+        payload = json.loads(raw)
+        stage = payload.get("stage")
+        if stage == "web":
+            query = canonical_question(payload.get("query"))
+            timeout = payload.get("timeout", 10)
+            if not isinstance(timeout, (int, float)) or not 0 < timeout <= 45:
+                raise ValueError("timeout")
+            # A dashboard may load native plugins before any agent session has
+            # discovered the host tools. Use Hermes's public discovery path;
+            # dispatch still selects the user's configured search backend.
+            from tools.registry import discover_builtin_tools
+
+            discover_builtin_tools()
+            return ctx.dispatch_tool(
+                "web_search", {"query": query, "limit": 8}, execution_timeout=timeout
+            )
+        if stage not in {"interpret", "rank"}:
+            raise ValueError("unknown search stage")
+        value = payload.get("input")
+        if stage == "interpret":
+            value = canonical_question(value)
+        elif not isinstance(value, dict) or len(value.get("candidates", [])) > 60:
+            raise ValueError("candidates")
+        timeout = payload.get("timeout")
+        if not isinstance(timeout, (int, float)) or not 0 < timeout <= 45:
+            raise ValueError("timeout")
+        result = ctx.llm.complete_structured(
+            instructions=INTERPRET if stage == "interpret" else RANK,
+            input=[{"type": "text", "text": json.dumps(value, ensure_ascii=False)}],
+            json_mode=True,
+            # Completion limits include hidden reasoning on some configured
+            # models. Ranking up to 60 records needs room for the final JSON.
+            max_tokens=16000 if stage == "rank" else 2500,
+            timeout=timeout,
+            task=TASK,
+            purpose="hackertube.search." + stage,
+        )
+        if not isinstance(result.parsed, dict):
+>           raise ValueError("Hermes model returned invalid JSON")
+E           ValueError: Hermes model returned invalid JSON
+
+hackertube/hackertube_core/hermes.py:102: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_installed_search.py::test_interpretation_allows_reasoning_before_structured_answer
+1 failed in 0.02s
