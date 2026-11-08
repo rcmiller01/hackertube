@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<string>", line 6, in <module>
+    assert Path(hackertube_core.__file__).resolve().is_relative_to(root), hackertube_core.__file__
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+AssertionError: /var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/ht-pr17-pinned-wevv6mwb/hackertube/hackertube_core/__init__.py

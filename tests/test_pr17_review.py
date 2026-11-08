@@ -36,8 +36,9 @@ def test_consistent_duplicate_fit_keeps_the_existing_deduplication_policy(fit):
     assert provider.ranking_diagnostics['invalid_entries'] == 0
 
 
-def test_conflicting_only_ranking_fails_closed_without_paid_retry(tmp_path):
-    cat = catalog_for(['book'])
+@pytest.mark.parametrize('with_valid_match', [False, True])
+def test_conflicting_ranking_keeps_only_unambiguous_matches_without_retry(tmp_path, with_valid_match):
+    cat = catalog_for(['book', 'book'] if with_valid_match else ['book'])
     calls = []
 
     def invoke(raw):
@@ -45,15 +46,18 @@ def test_conflicting_only_ranking_fails_closed_without_paid_retry(tmp_path):
         calls.append(stage)
         if stage == 'interpret':
             return {'data': {'topic': 'AI', 'terms': ['AI'], 'formats': ['book']}}
-        return {'data': {'items': [
+        rows = [
             {'item_id': 'media:0', 'reason': 'Clear fit.', 'fit': 'direct'},
             {'item_id': 'media:0', 'reason': 'Suitability unknown.', 'fit': 'uncertain'},
-        ]}}
+        ]
+        if with_valid_match:
+            rows.append({'item_id': 'media:1', 'reason': 'Unambiguous match.', 'fit': 'direct'})
+        return {'data': {'items': rows}}
 
     result = run_search(store_at(tmp_path), 'AI books', catalog=cat, profile=profile(), now=NOW,
                         provider=HermesProvider(invoke), retriever=lambda *args: (cat, []),
                         limits=LIVE_LIMITS, disclosure_accepted=True)
-    assert result['results'] == []
+    assert [row['item_id'] for row in result['results']] == (['media:1'] if with_valid_match else [])
     assert result['job']['state'] == 'partial'
     assert result['ranking']['invalid_entries'] == 2
     assert calls == ['interpret', 'rank']
