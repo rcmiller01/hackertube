@@ -1,0 +1,358 @@
+Search results
+
+Question: Artificial intelligence. Include videos, podcasts, books, and audiobooks. Rank accessible introductions first.
+
+Provider: hermes. Job job:13. State: succeeded.
+
+Topic: artificial intelligence. Level: beginner.
+
+Constraints: none applied.
+
+Cost: unknown. The provider reported no cost information.
+
+Work limits for this job: at most 12 provider requests, 24 results, a 45 second deadline. Provider requests used: 11.
+
+podcastindex: missing_api_key reddit: approval_absent
+
+Videos · 3 verified
+Video
+What Is AI? | Learn all about artificial intelligence
+
+Learn Bright
+
+Video · YouTube
+
+YouTube
+
+Source candidate, YouTube
+
+retrieved November 8, 2026, 16:54 UTC
+
+5 minutes 21 seconds
+
+Open at source
+Save
+Dismiss
+
+Source: YouTube
+
+Model relevance: An accessible beginner video explaining what AI is..
+
+Video
+What Is AI? | Artificial Intelligence | What is Artificial Intelligence? | AI In 5 Mins |Simplilearn
+
+Simplilearn
+
+Video · YouTube
+
+YouTube
+
+Source candidate, YouTube
+
+retrieved November 8, 2026, 16:54 UTC
+
+5 minutes 28 seconds
+
+Open at source
+Save
+Dismiss
+
+Source: YouTube
+
+Model relevance: Short introductory video defining AI at a beginner level..
+
+Video
+AI Simplified: 6 Concepts You Need to Know About Modern AI
+
+IBM Technology
+
+Video · YouTube
+
+YouTube
+
+Source candidate, YouTube
+
+retrieved November 8, 2026, 16:54 UTC
+
+8 minutes 49 seconds
+
+Open at source
+Save
+Dismiss
+
+Source: YouTube
+
+Model relevance: IBM explainer covering core modern AI concepts accessibly..
+
+Podcasts · 4 verified
+Show
+Artificial Intelligence 101
+
+Luca Marchesotti
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:54 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: Podcast show explicitly positioned as an AI 101 introduction..
+
+Show
+AI LITERACY - A Podcast about Artificial Intelligence
+
+AI LITERACY
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:54 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: Educational podcast aimed at building general AI literacy..
+
+Show
+Practical AI
+
+Daniel Whitenack and Chris Benson
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:54 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: Educational podcast explaining practical AI topics for a broad audience..
+
+Show
+Google DeepMind: The Podcast
+
+Hannah Fry
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:54 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: Hannah Fry-hosted podcast explaining AI research accessibly..
+
+Books · 2 verified
+Book
+Artificial Intelligence
+
+Melanie Mitchell
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 16:54 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Model relevance: Accessible popular book by Melanie Mitchell introducing AI concepts..
+
+Book
+Life 3.0
+
+Max Tegmark
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 16:54 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Model relevance: Accessible popular science book on AI and humanity's future..
+
+Audiobooks · 6 verified
+Audiobook
+Artificial Intelligence For Dummies
+
+John Paul Mueller & Luca Massaron
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:54 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: For Dummies audiobook offering a beginner-oriented AI overview..
+
+Audiobook
+Artificial Intelligence All-in-One For Dummies
+
+Chris Minnick
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:54 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: All-in-One For Dummies audiobook designed as an accessible AI primer..
+
+Audiobook
+A Brief History of Artificial Intelligence
+
+Michael Wooldridge
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:54 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: Concise audiobook introduction to AI history and ideas..
+
+Audiobook
+Artificial Intelligence
+
+Melanie Mitchell
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:54 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: Audiobook by Melanie Mitchell, an accessible AI author, likely introductory..
+
+Audiobook
+Life 3.0: Being Human in the Age of Artificial Intelligence (Unabridged)
+
+Max Tegmark
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:54 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: Accessible audiobook of Life 3.0 on AI and the human future..
+
+Audiobook
+Artificial Intelligence: 101 Things You Must Know Today About Our Future (Unabridged)
+
+Lasse Rouhiainen
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:54 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: List-style audiobook offering accessible facts about AI's future..
+
+Back to discovery

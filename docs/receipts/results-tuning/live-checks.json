@@ -1,0 +1,40 @@
+{
+  "item_state_unchanged": true,
+  "interests_unchanged": true,
+  "open_event_unchanged": true,
+  "source_setting_unchanged": true,
+  "jobs": [
+    {
+      "job_id": "job:12",
+      "state": "succeeded",
+      "requests_used": 11,
+      "result_count": 10,
+      "cost_known": 0,
+      "coverage": "[\"podcastindex: missing_api_key\", \"reddit: approval_absent\"]"
+    },
+    {
+      "job_id": "job:13",
+      "state": "succeeded",
+      "requests_used": 11,
+      "result_count": 15,
+      "cost_known": 0,
+      "coverage": "[\"podcastindex: missing_api_key\", \"reddit: approval_absent\"]"
+    }
+  ],
+  "strict_counts": {
+    "videos": 2,
+    "podcasts": 2,
+    "books": 1,
+    "audiobooks": 5
+  },
+  "broad_counts": {
+    "videos": 3,
+    "podcasts": 4,
+    "books": 2,
+    "audiobooks": 6
+  },
+  "host": "Hermes Agent v0.23.0+1212.g719240d / Python 3.14.9",
+  "runtime_revision": "d3e115eb9ac96e3623b48bf582e93fbc7357df9d",
+  "credentials_inspected": false,
+  "runtime_files_matching": 34
+}

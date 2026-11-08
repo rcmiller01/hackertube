@@ -1,0 +1,247 @@
+Search results
+
+Question: AI for nontechnical beginners: clear introductions, no coding, academic textbooks, or daily news. Include videos, podcasts, books, and audiobooks.
+
+Provider: hermes. Job job:12. State: succeeded.
+
+Topic: artificial intelligence. Level: beginner.
+
+Constraints: none applied.
+
+Cost: unknown. The provider reported no cost information.
+
+Work limits for this job: at most 12 provider requests, 24 results, a 45 second deadline. Provider requests used: 11.
+
+podcastindex: missing_api_key reddit: approval_absent
+
+Videos · 2 verified
+Video
+AI Simplified: 6 Concepts You Need to Know About Modern AI
+
+IBM Technology
+
+Video · YouTube
+
+YouTube
+
+Source candidate, YouTube
+
+retrieved November 8, 2026, 16:53 UTC
+
+8 minutes 49 seconds
+
+Open at source
+Save
+Dismiss
+
+Source: YouTube
+
+Model relevance: Clear nontechnical walkthrough of core modern AI concepts for beginners..
+
+Video
+What Is AI? | Learn all about artificial intelligence
+
+Learn Bright
+
+Video · YouTube
+
+YouTube
+
+Source candidate, YouTube
+
+retrieved November 8, 2026, 16:53 UTC
+
+5 minutes 21 seconds
+
+Open at source
+Save
+Dismiss
+
+Source: YouTube
+
+Model relevance: Beginner-oriented educational video explaining what AI is..
+
+Podcasts · 2 verified
+Show
+Artificial Intelligence 101
+
+Luca Marchesotti
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:53 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: Show title indicates a beginner-level AI primer..
+
+Show
+AI LITERACY - A Podcast about Artificial Intelligence
+
+AI LITERACY
+
+Podcast · show art unavailable
+
+Apple Podcasts
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:53 UTC
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: Focuses on AI literacy for non-experts..
+
+Books · 1 verified
+Book
+Artificial Intelligence
+
+Melanie Mitchell
+
+Book · cover unavailable
+
+Open Library
+
+Source candidate, Open Library
+
+retrieved November 8, 2026, 16:53 UTC
+
+Length unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Open Library
+
+Model relevance: Accessible nontechnical guide to AI for general readers..
+
+Audiobooks · 5 verified
+Audiobook
+Artificial Intelligence
+
+Melanie Mitchell
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:53 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: Audio edition of an accessible nontechnical AI introduction..
+
+Audiobook
+Artificial Intelligence For Dummies
+
+John Paul Mueller & Luca Massaron
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:53 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: Beginner-friendly, nontechnical audio overview of AI..
+
+Audiobook
+A Brief History of Artificial Intelligence
+
+Michael Wooldridge
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:53 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: Nontechnical historical introduction suitable for beginners..
+
+Audiobook
+Artificial Intelligence: 101 Things You Must Know Today About Our Future (Unabridged)
+
+Lasse Rouhiainen
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:53 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: Introductory audio overview of AI for general audiences..
+
+Audiobook
+Artificial Intelligence All-in-One For Dummies
+
+Chris Minnick
+
+Audiobook · cover unavailable
+
+Public source
+
+Source candidate, Apple Podcasts
+
+retrieved November 8, 2026, 16:53 UTC
+
+Duration unknown
+
+Open at source
+Save
+Dismiss
+
+Source: Apple Podcasts
+
+Model relevance: Beginner-oriented comprehensive audio guide without coding..
+
+Back to discovery

@@ -558,13 +558,21 @@ Checks: **233 Python passed / 0 failed**, **71 JavaScript passed / 0 failed / 0 
 
 ## Category relevance and ranking follow-up — PR #17
 
-PR #16 merged at reviewed head `076495c083cbab8c753e0a1cabbf677497d9c359`, squash commit `206084688822a21847f989cd959d99f93cfa48cc`. The follow-up branch starts from that merge. Tasks 8.1–8.3 pass offline; 8.4 remains pending installed-live checks.
+PR #16 merged at reviewed head `076495c083cbab8c753e0a1cabbf677497d9c359`, squash commit `206084688822a21847f989cd959d99f93cfa48cc`. The follow-up branch starts from that merge. Tasks 8.1–8.3 pass offline; 8.4 passes the bounded installed-live checks recorded below.
 
 The baseline regression run reproduced **16 failures / 1 passing control** before implementation (`0a7420e`). A further uneven-result-limit test reproduced category starvation (`52325fe`), and a rendered UI test reproduced missing subject/inference labels (`662641b`), each before its fix. The updated suite passes **251 Python / 0 failures**, **72 JavaScript / 0 failures / 0 skips**, strict OpenSpec, 14 invalid coverage fixtures plus one valid mixed fixture, lint, and Hermes plugin validation without warnings. One existing Starlette/httpx deprecation warning remains. Six existing valid model-response fixtures were migrated to include the new required fit field, retaining all their assertions.
 
 Scope: one interpretation decoder and native interpretation prompt; one shared source-query assignment for all adapters/web; one ranking caller and validator; one shared final result selector; one UI result renderer and one job summary. Four categories share candidate/result allocation, with the two podcast record types interleaved inside one category. No new dependency or outbound call site was introduced; model/source budgets are unchanged. Relevance is model-inferred, while identity/provenance stays source-backed.
 
 Full policy, checks, remaining quality risks, runtime pin, and installed-live disposition: `docs/receipts/results-tuning/README.md`. This does not close source credential/release obligations, cancellation/restart recovery, or the broad relevance evaluation.
+
+### PR #17 installed checks and review
+
+Runtime `d3e115eb9ac96e3623b48bf582e93fbc7357df9d`; **34/34 installed files** match the new runtime manifest. Host v0.23.0+1212.g719240d, Python 3.14.9, same configured OpenRouter model and source settings. The actual dashboard showed the new subject/level and model-inference labels. Strict AI request: **2 videos / 2 podcasts / 1 book / 5 audiobooks**. Broad accessible-introduction request: **3/4/2/6**. Both succeeded at **11/12 logical requests**, unknown cost; **4/4 categories** nonempty and **0/4** over the six-item category allowance. Saved state, interests, open events, and source settings are unchanged after the two searches.
+
+The earlier visible news-only entries, tiny clips, and historical computing book were absent. These are metadata-based observations rather than independent full-content judgments; one broad audiobook explanation remains hedged despite its direct-fit label. Live results are not frozen, and the earlier strict baseline lacked YouTube, so these are functional reruns rather than causal A/B scores. The broader relevance evaluation stays open.
+
+Codex re-read the implemented runtime against the merge base after the checks, including partial-validation handling, subject fallback, source-backed identity, category shares after eligibility, uneven caps, and the two podcast record types. No further implementation finding was identified. Full receipts and limits are in `docs/receipts/results-tuning/README.md`; final head is re-read after push. PR #17 remains unmerged.
 
 ## Release measurements
 
