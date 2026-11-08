@@ -46,7 +46,7 @@ Cancelling a job SHALL prevent further dispatch and expose the disposition of in
 - **THEN** the job is marked interrupted and paid work requires a new explicit action
 
 ### Requirement: Preserve successful cached results
-Source or model failures SHALL report affected services and retain the last successful feed and library. Valid partial results SHALL identify missing coverage and retrieval age. Malformed or unsubmitted ranking entries SHALL be rejected individually when valid entries remain, with the ranking coverage reported as partial; they SHALL NOT discard valid recommendations or cause an implicit paid retry.
+Source or model failures SHALL report affected services and retain the last successful feed and library. Partial results SHALL identify missing coverage and retrieval age. Malformed or unsubmitted ranking entries, and validated duplicates with conflicting fit labels, SHALL be rejected while retaining unambiguous matches, without an implicit paid retry.
 
 #### Scenario: JOB07 One source fails
 - **WHEN** one source times out while other sources return credible matches

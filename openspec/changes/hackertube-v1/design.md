@@ -109,3 +109,9 @@ The ranking input is round-robin across the four user-facing categories, with sh
 Validate each ranked entry separately. Bad IDs, malformed explanations, and missing/invalid fit are counted and ignored if valid entries remain; an entirely malformed ranking fails closed. No retry or local promotion replaces missing model output. Intentional related/uncertain omissions are separate from validation failures. A partial ranking status and diagnostic counts accompany retained valid results.
 
 Apply the final category share after existing format, dismissal, and duration checks, preserving within-category model order. The share is `ceil(max_hits / requested_categories)`, bounded by max_hits overall; unused slots stay unused. This preserves the single-category allowance, avoids counting Podcasts twice, and does not fabricate coverage. No new dependencies, credential paths, source expansion, or scheduling are needed.
+
+### PR #17 review: ambiguous identities and summary scope
+
+Fit validation resolves all structurally valid entries for an identity before choosing a recommendation. If those entries disagree (`direct` versus `related` or `uncertain`, in either order), every conflicting entry is invalid and that identity is excluded. Other unambiguous identities survive with partial ranking coverage; an all-conflicting ranking fails closed. Consistent duplicates preserve the existing first-reason deduplication rule. `conflicting_identities` counts affected IDs, while `invalid_entries` counts their rows; those rows are not double-counted as intentional relevance omissions.
+
+The duration caption now says Time limit, including when none was requested. Depth/audience/exclusion preferences remain separate ranking criteria, so an absent duration can no longer be described as no constraints applied.

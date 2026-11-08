@@ -20,7 +20,7 @@ An explicit dashboard media request SHALL invoke LLM-backed search after pending
 - **THEN** HackerTube starts no search job
 
 ### Requirement: Question and constraint priority
-Focused recommendations SHALL prioritize the question's purpose, topic, requested formats, depth, and explicit constraints over general interest preferences. Catalog retrieval SHALL use a subject-only query separately from audience and exclusion wording. Live ranking SHALL admit direct purpose matches, omit related or uncertain fits, and allocate the result allowance across requested categories without filling missing categories with weaker material.
+Focused recommendations SHALL prioritize purpose, topic, formats, depth, and explicit constraints over general interests. Retrieval SHALL use a separate subject-only query, leaving audience/exclusions for ranking. Live ranking SHALL admit only direct fits, excluding conflicting validated duplicates. Category shares SHALL NOT fill missing categories with weaker material. Time-limit captions SHALL describe duration only.
 
 #### Scenario: SEARCH10 Include dismissed items explicitly
 - **WHEN** the user turns on the include-dismissed control and submits a focused search

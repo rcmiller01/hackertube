@@ -574,6 +574,16 @@ The earlier visible news-only entries, tiny clips, and historical computing book
 
 Codex re-read the implemented runtime against the merge base after the checks, including partial-validation handling, subject fallback, source-backed identity, category shares after eligibility, uneven caps, and the two podcast record types. No further implementation finding was identified. Full receipts and limits are in `docs/receipts/results-tuning/README.md`; final head is re-read after push. PR #17 remains unmerged.
 
+## PR #17 exact-head review corrections
+
+Reviewed `e26104cbd9c9a2b84d25272709f2ff6eabcb2c1c` against base `206084688822a21847f989cd959d99f93cfa48cc`. Two P2 findings were reproduced and corrected: conflicting validated fit labels could still promote an ambiguous identity, and the duration caption claimed no constraints were applied despite audience/exclusion preferences. Scope, original locations, exact-head proof, and remaining limits: `docs/pr17-review.md`.
+
+The isolated exact-head archive with regression tests only reproduces **6 Python failures / 3 passing duplicate controls** and **1 UI failure**, with import isolation verified after canonicalizing macOS path aliases. Red tests precede runtime fixes. Fixed cases admit **0/4** conflicting identities versus **4/4** before; the **3/3** consistent-duplicate controls remain passing. Two full-job tests retain only unambiguous matches with partial status and exactly two model invocations, without retry.
+
+Checks: **260 Python passed / 0 failed**, **73 JavaScript/browser passed / 0 failed / 0 skipped**, strict OpenSpec **1/0**, coverage **32 IDs / 95 scenarios**, fixtures **14 invalid rejected / 1 valid accepted**, lint, and Hermes plugin validation without warnings. Existing Starlette/httpx warning remains. Two installed runtime files were updated after verifying the original 34-file manifest; **34/34** now match `docs/receipts/pr17-review/runtime-manifest.json`, and dashboard reload responds HTTP **200**. No settings, credentials, or paid live calls were changed/started.
+
+The fixes exercise SEARCH01's direct-fit semantics and summary accuracy plus JOB07's partial-result retention. Tasks 8.2/8.3 remain checked with these stronger cases. Earlier live receipts remain pinned to their original runtime. The PR stays unmerged; broader relevance and release/source obligations remain open.
+
 ## Release measurements
 
 All values are unmeasured. Freeze the post-demo evaluation workload, rubric, source snapshots, provider configuration, and request limits before collecting results. Use PRD section 9 for proposed targets and report adjustments explicitly. The demo video length is measured under task 4.3, not inferred from the six-step outline.

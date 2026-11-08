@@ -215,6 +215,7 @@ class HermesProvider:
             "input_candidates": len(candidates),
             "invalid_entries": 0,
             "not_recommended": 0,
+            "conflicting_identities": 0,
         }
         body = self._call(
             "rank", {"question": question, "candidates": candidates}, timeout
@@ -223,7 +224,8 @@ class HermesProvider:
         if not isinstance(rows, list):
             raise ProviderUnavailable("Hermes returned invalid ranked candidates.")
         known = {x["item_id"] for x in candidates}
-        ranked = {}
+        entries = []
+        fits_by_id = {}
         for row in rows:
             if not isinstance(row, dict):
                 self.ranking_diagnostics["invalid_entries"] += 1
@@ -236,10 +238,21 @@ class HermesProvider:
             ):
                 self.ranking_diagnostics["invalid_entries"] += 1
                 continue
+            entries.append((identity, reason.strip(), fit))
+            fits_by_id.setdefault(identity, set()).add(fit)
+        conflicts = {identity for identity, fits in fits_by_id.items() if len(fits) > 1}
+        self.ranking_diagnostics["conflicting_identities"] = len(conflicts)
+        ranked = {}
+        for identity, reason, fit in entries:
+            # Resolve fit at identity level before choosing a row. Neither
+            # ordering nor a direct duplicate may override uncertainty.
+            if identity in conflicts:
+                self.ranking_diagnostics["invalid_entries"] += 1
+                continue
             if fit != "direct":
                 self.ranking_diagnostics["not_recommended"] += 1
                 continue
-            ranked.setdefault(row["item_id"], reason.strip())
+            ranked.setdefault(identity, reason)
         if not ranked and self.ranking_diagnostics["invalid_entries"]:
             raise ProviderUnavailable(
                 "Hermes returned an unsupported candidate identity or invalid ranking."

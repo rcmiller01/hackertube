@@ -1982,7 +1982,7 @@ test("search helpers format a cost, a limit, and a refusal without a score", () 
     page.limitsLine({ max_hits: 12, max_requests: 2, deadline_seconds: 5 }, { requests_used: 2 }),
     "Work limits for this job: at most 2 provider requests, 12 results, a 5 second deadline. Provider requests used: 2.",
   );
-  assert.equal(page.constraintLine({ max_duration_seconds: null }), "Constraints: none applied.");
+  assert.equal(page.constraintLine({ max_duration_seconds: null }), "Time limit: none requested.");
   assert.match(page.constraintLine({ max_duration_seconds: 3600 }), /longer than 1 hour are excluded/);
   assert.equal(page.sectionLabel("audiobooks"), "Audiobooks");
   assert.equal(page.sectionLabel("books"), "Books");

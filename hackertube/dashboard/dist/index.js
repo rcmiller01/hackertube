@@ -632,8 +632,8 @@
 
   function constraintLine(interpretation) {
     var limit = interpretation && interpretation.max_duration_seconds;
-    if (typeof limit !== "number" || limit <= 0) return "Constraints: none applied.";
-    return "Constraints: items longer than " + formatDuration(limit) +
+    if (typeof limit !== "number" || limit <= 0) return "Time limit: none requested.";
+    return "Time limit: items longer than " + formatDuration(limit) +
       " are excluded. Unknown duration is labeled unverified and left out of strict matches.";
   }
 
