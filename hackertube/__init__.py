@@ -15,3 +15,5 @@ def register(ctx):
     from hackertube_core.search_jobs import stop_profile
     data_root = plugin_data_dir("hackertube").resolve()
     ctx.on_unload(lambda: stop_profile(data_root))
+    from hackertube_core.privacy import start_housekeeping
+    ctx.on_unload(start_housekeeping())

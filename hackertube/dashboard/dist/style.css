@@ -339,3 +339,8 @@
     max-height: 7rem;
   }
 }
+
+/* Unmodified official icon, linked to the original video. Keep clear space. */
+.hackertube .ht-art.ht-youtube-brand { height: auto; min-height: 180px; }
+.hackertube .ht-art.ht-youtube-brand a { display: inline-block; padding: 40px; }
+.hackertube .ht-art.ht-youtube-brand img { height: 100px; width: auto; max-width: none; object-fit: contain; }

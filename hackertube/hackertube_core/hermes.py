@@ -61,6 +61,9 @@ def register(ctx):
     )
 
     def service(raw):
+        from hackertube_core.profile import ProfileStore, open_profile_db
+        if not ProfileStore(open_profile_db).privacy_accepted():
+            raise PermissionError("privacy_agreement_required")
         payload = json.loads(raw)
         stage = payload.get("stage")
         if stage == "web":

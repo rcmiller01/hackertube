@@ -91,3 +91,10 @@ Task 6.2 remains partial: this follow-up delivers Search cancellation/deadline/r
 - [x] 12.2 Record Robert's solo/MIT confirmation and idea-only Karpathy provenance, without inventing unobserved contest rules.
 - [x] 12.3 Fix expiry of durable Search copies and Apple store attribution, commit red regressions first, and verify the exact fixed build.
 - [x] 12.4 Reconcile remaining source/publishing/form gates while preserving the private repository. Source acceptance is not complete merely because the secret scan passes.
+
+## 13. Privacy and source lifecycle before publication
+
+- [ ] 13.1 Require versioned policy agreement before features/model dispatch, separate from credit consent; keep the actual policy accessible. Covers PREF15, PREF05/08.
+- [ ] 13.2 Provide local deletion/revocation under the Search lease, refuse active work, and verify no late restoration. Covers PREF15, LIB02, JOB05.
+- [ ] 13.3 Reconcile refreshed/deleted/private YouTube metadata across stored copies, retain saved flags, add local housekeeping and official attribution. Covers CAT10/12.
+- [ ] 13.4 Verify the exact candidate, record source acceptance/registration, then refresh final submission materials without publishing the repository.

@@ -11,14 +11,22 @@ import importlib.util
 import sys
 from pathlib import Path
 
-from fastapi import APIRouter, Request
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Request, Depends, HTTPException
+from fastapi.responses import JSONResponse, FileResponse
 from starlette.concurrency import run_in_threadpool
 
 from agent.secret_scope import get_secret
 from plugins.plugin_storage import plugin_data_dir
 
-router = APIRouter()
+def _require_privacy(request: Request):
+    if request.scope["route"].endpoint in {privacy, privacy_agreement, privacy_delete}:
+        return
+    from hackertube_core.profile import ProfileStore, open_profile_db
+    if not ProfileStore(open_profile_db).privacy_accepted():
+        raise HTTPException(status_code=403, detail="privacy_agreement_required")
+
+
+router = APIRouter(dependencies=[Depends(_require_privacy)])
 
 
 def _load_module(path, name):
@@ -99,6 +107,40 @@ def _supervisor(store):
     from hermes_constants import get_hermes_home
     from hackertube_core.search_jobs import supervisor_for_profile
     return supervisor_for_profile(store, home=get_hermes_home(), identity=plugin_data_dir("hackertube"))
+
+
+@router.get("/privacy")
+def privacy():
+    from hackertube_core.profile import ProfileStore, open_profile_db
+    from hackertube_core.privacy import policy
+    return {**policy(), "accepted": ProfileStore(open_profile_db).privacy_accepted()}
+
+
+@router.post("/privacy")
+async def privacy_agreement(request: Request):
+    from hackertube_core.profile import ProfileStore, open_profile_db
+    from hackertube_core.privacy import VERSION
+    body = await _read_body(request)
+    if not isinstance(body, dict) or body.get("accepted") is not True or body.get("version") != VERSION:
+        return _profile_response(400, {"error": "privacy_agreement"})
+    ProfileStore(open_profile_db).accept_privacy(VERSION)
+    return privacy()
+
+
+@router.post("/privacy/delete")
+async def privacy_delete():
+    from hackertube_core.profile import ProfileStore, open_profile_db
+    from hackertube_core.search_jobs import SearchBusy
+    try:
+        await run_in_threadpool(_supervisor(ProfileStore(open_profile_db)).clear_data)
+    except SearchBusy:
+        return _profile_response(409, {"error": "search_busy", "message": "Cancel the active Search before deleting HackerTube data."})
+    return privacy()
+
+
+@router.get("/branding/youtube.png")
+def youtube_branding():
+    return FileResponse(Path(__file__).with_name("dist") / "youtube.png", media_type="image/png")
 
 
 @router.get("/search/jobs/{job_id}")

@@ -56,6 +56,13 @@ Memory use SHALL require explicit opt-in that explains context scope and receivi
 - **WHEN** the user enables memory, produces results, and disables memory
 - **THEN** later requests omit memory and earlier results remain identifiable as having used it
 
+### Requirement: Versioned API-client privacy agreement
+All HackerTube features SHALL require explicit agreement to the current bundled privacy policy and terms, distinct from credit-use acknowledgement. The policy SHALL remain available before agreement and on every page. Users SHALL be able to delete this profile’s plugin-owned data and revoke agreement without removing host credentials or provider-held data. Active searches SHALL block deletion until cancelled.
+
+#### Scenario: PREF15 Policy agreement and local deletion
+- **WHEN** a profile lacks current agreement, accepts the current version, and later deletes its HackerTube data
+- **THEN** features are blocked before agreement, available after explicit acceptance, and blocked again after local deletion, with no late worker restoring deleted state
+
 ### Requirement: Profile-local private state
 Interests, library activity, results, and source settings SHALL remain isolated to the serving Hermes profile. Personal context SHALL leave the profile only for explicitly triggered operations with disclosed destinations.
 

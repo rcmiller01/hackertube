@@ -118,6 +118,9 @@ class Dashboard:
         self.root = install_host(data_root, settings=settings)
         self.module, self.app = load_api(name)
         self.http = client(self.app)
+        from hackertube_core.privacy import VERSION
+        agreed = self.post("/privacy", {"version": VERSION, "accepted": True})
+        assert agreed.status_code == 200
 
     def get(self, path, **kwargs):
         return self.http.get(API_ROOT + path, **kwargs)

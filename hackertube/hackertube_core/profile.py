@@ -181,6 +181,61 @@ class ProfileStore:
                          "ON CONFLICT(key) DO UPDATE SET document=excluded.document", (json.dumps(document(combined)),))
         self._write_result(save)
 
+    def privacy_accepted(self):
+        from hackertube_core.privacy import VERSION
+        return self._privacy_version() == VERSION
+
+    def _privacy_version(self):
+        def read(conn):
+            row = conn.execute("SELECT value FROM profile_meta WHERE key='privacy_version'").fetchone()
+            return row[0] if row else None
+        return self._write_result(read)
+
+    def accept_privacy(self, version):
+        from hackertube_core.privacy import VERSION
+        if version != VERSION:
+            raise RecordError("privacy_version")
+        self._write_result(lambda conn: conn.execute(
+            "INSERT INTO profile_meta(key,value) VALUES ('privacy_version',?) "
+            "ON CONFLICT(key) DO UPDATE SET value=excluded.value", (VERSION,)))
+
+    def clear_data(self):
+        """Caller owns the exclusive Search lease; credentials are host-owned."""
+        def clear(conn):
+            for table in ("open_event", "item_state", "interests", "source_setting", "source_status", "retrieved_catalog", "search_result", "search_job", "profile_meta"):
+                conn.execute(f"DELETE FROM {table}")
+            conn.execute("INSERT INTO profile_meta VALUES ('schema',?)", (SCHEMA,))
+        self._write_result(clear)
+
+    def invalidate_youtube(self, item_ids):
+        """Remove superseded/unavailable YouTube metadata from both owned copies."""
+        ids = {value for value in item_ids if value.startswith("youtube:")}
+        if not ids:
+            return
+        from dataclasses import replace
+        from hackertube_core.catalog import load_catalog
+        from hackertube_core.catalog_store import document
+        def remove(conn):
+            row = conn.execute("SELECT document FROM retrieved_catalog WHERE key='catalog'").fetchone()
+            if row:
+                catalog = load_catalog(json.loads(row[0]))
+                items = tuple(replace(x, capture_order=i) for i,x in enumerate((x for x in catalog.items if x.item_id not in ids),1))
+                catalog = replace(catalog, items=items, evidence=tuple(x for x in catalog.evidence if x.item_id not in ids))
+                conn.execute("UPDATE retrieved_catalog SET document=? WHERE key='catalog'", (json.dumps(document(catalog)),))
+            for job_id, raw in conn.execute("SELECT job_id,document FROM search_result").fetchall():
+                value = json.loads(raw)
+                if any(x.get("item_id") in ids for x in value.get("results", [])):
+                    value = self._expired_result(value, "Earlier YouTube metadata was superseded or is unavailable. Start a new Search for current results.")
+                    conn.execute("UPDATE search_result SET document=? WHERE job_id=?", (json.dumps(value),job_id))
+        self._write_result(remove)
+
+    @staticmethod
+    def _expired_result(value, note):
+        retained = {key:value[key] for key in ("schema", "job", "question", "provider", "usage", "request_counts", "disclosure") if key in value}
+        retained.update(results=[], sections={}, sources=[], retention_expired=True,
+            coverage={"verified":0, "notes":[note], "limit_reached":False})
+        return retained
+
     def interest_texts(self):
         return tuple(row["text"] for row in self._interest_rows())
 
@@ -335,11 +390,7 @@ class ProfileStore:
                     stamps.append(canon_time(stamp))
             if min(stamps) > cutoff:
                 continue
-            retained = {key:value[key] for key in ("schema", "job", "question", "provider", "usage", "request_counts", "disclosure") if key in value}
-            retained.update(
-                results=[], sections={}, sources=[], retention_expired=True,
-                coverage={"verified":0, "notes":["Stored Search results expired after 30 days. Start a new explicit Search for current metadata."], "limit_reached":False},
-            )
+            retained = self._expired_result(value, "Stored Search results expired after 30 days. Start a new explicit Search for current metadata.")
             conn.execute("UPDATE search_result SET document=? WHERE job_id=?", (json.dumps(retained), job_id))
 
     def update_job(self, job_id, job, result=None):
