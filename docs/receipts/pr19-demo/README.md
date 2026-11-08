@@ -1,5 +1,7 @@
 # Merged PR #19 demo and submission refresh
 
+Subsequent pre-public audit: Robert confirms solo/MIT/idea-only provenance, resolving that earlier missing information. [PR #21](https://github.com/rcmiller01/hackertube/pull/21) holds source fixes and sanitized secret-audit evidence. This video remains pinned to merged PR #19 and is not relabeled as those unmerged changes.
+
 Runtime/catalog pin: `7e1e8f9819cf840aee1f3c33e3d1233853789864`, version `0.2.0`, merged PR #19. All 37 installed files match this commit; no runtime or test file changes are part of this materials PR. The source package's existing README already discloses the process worker/watchdog, storage, sources and remote billing caveat. Native validation was rerun on a clean export of the exact merged commit with `--install-deps`: passes with zero warnings. Host: Hermes v0.23.0+1212.g719240d, Python 3.14.9, macOS, default-profile installed dashboard. The current Search route remains the already configured OpenRouter `openai/gpt-5.4-mini`; no model/source/credential setting was changed.
 
 ## Generated acceptance table
