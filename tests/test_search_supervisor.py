@@ -302,3 +302,78 @@ def test_watchdog_can_stop_cancelled_work_if_parent_signal_is_denied(
         process.wait(timeout=2)
         connection.close()
         server.close()
+
+
+@pytest.mark.parametrize("stop", ["deadline", "cancel"])
+def test_stop_keeps_usage_persisted_before_missing_pipe_notification(tmp_path, stop):
+    manager, store, server, job = setup_job(
+        tmp_path, mode="persisted-usage", seconds=0.6 if stop == "deadline" else 10
+    )
+    connection, _ = server.accept()  # durable dispatch happened before connection
+    try:
+        assert store.job(job["job_id"])["requests_used"] == 1
+        if stop == "cancel":
+            manager.cancel(job["job_id"])
+        result = wait_done(manager, job)
+        assert result["job"]["state"] == ("timed_out" if stop == "deadline" else "cancelled")
+        assert result["job"]["requests_used"] == 1
+        assert result["usage"]["requests_used"] == 1
+        assert result["usage"]["request_counts"]["paid"] == 1
+        assert result["usage"]["paid_calls"] == 1
+        assert result["usage"]["cost_known"] is False
+    finally:
+        manager.cancel(job["job_id"])
+        connection.close()
+        server.close()
+
+
+def test_delayed_usage_notification_cannot_regress_durable_progress(tmp_path):
+    manager, store, server, job = setup_job(tmp_path, mode="stale-progress", seconds=10)
+    connection, _ = server.accept()
+    try:
+        until = time.monotonic() + 2
+        while manager._jobs[job["job_id"]]["counts"]["paid"] != 1 and time.monotonic() < until:
+            time.sleep(0.01)
+        assert manager._jobs[job["job_id"]]["counts"]["paid"] == 1
+        assert store.job(job["job_id"])["requests_used"] == 2
+        manager.cancel(job["job_id"])
+        result = wait_done(manager, job)
+        assert result["usage"]["request_counts"]["paid"] == 2
+        assert result["usage"]["requests_used"] == 2
+    finally:
+        manager.cancel(job["job_id"])
+        connection.close()
+        server.close()
+
+
+def test_existing_observer_recovers_job_after_other_dashboard_dies(tmp_path):
+    from hackertube_core.search_jobs import SearchSupervisor
+
+    server = socket.socket()
+    server.bind(("127.0.0.1", 0))
+    server.listen(1)
+    server.settimeout(4)
+    home = tmp_path / "home"
+    release = tmp_path / "release-owner"
+    owner = subprocess.Popen([sys.executable, str(FIXTURE), "orphan-owner",
+                              str(server.getsockname()[1]), str(home), str(release)])
+    connection, _ = server.accept()
+    try:
+        store = store_at(home / "plugin-data/hackertube")
+        observer = SearchSupervisor(store, home=home)
+        job_id = store.latest_job()["job_id"]
+        assert observer.status(job_id)["job"]["state"] == "running"
+        release.touch()
+        assert owner.wait(timeout=3) == 0
+        connection.settimeout(2)
+        assert connection.recv(1) == b""
+        result = observer.status(job_id)
+        assert result["job"]["state"] == "interrupted"
+        assert result["job"]["ended_at"] is not None
+        assert result["usage"]["cost_known"] is False
+        assert store.job_count() == 1  # status did not resume paid work
+    finally:
+        release.touch()
+        owner.wait(timeout=6)
+        connection.close()
+        server.close()

@@ -43,11 +43,41 @@ def main():
         end = time.monotonic() + 3
         while not marker.exists() and time.monotonic() < end:
             time.sleep(0.01)
+        if len(sys.argv) > 4:
+            release = Path(sys.argv[4])
+            end = time.monotonic() + 5
+            while not release.exists() and time.monotonic() < end:
+                time.sleep(0.01)
         os._exit(0 if marker.exists() else 2)
     payload = json.loads(sys.stdin.readline())
     from hackertube_core.search_worker import start_watchdog
 
     start_watchdog(payload["deadline"], sys.stdin.fileno())
+    if mode in {"persisted-usage", "stale-progress"}:
+        from hackertube_core.profile import ProfileStore
+        from hackertube_core.search_jobs import response
+
+        def connect():
+            conn = sqlite3.connect(Path(payload["home"]) / "plugin-data/hackertube/profile.db")
+            conn.row_factory = sqlite3.Row
+            return conn
+
+        store = ProfileStore(connect)
+        job = store.job(payload["job_id"])
+        count = 2 if mode == "stale-progress" else 1
+        job["requests_used"] = count
+        progress = response(job)
+        progress["usage"]["request_counts"]["paid"] = count
+        progress["usage"]["paid_calls"] = count
+        store.update_job(payload["job_id"], job, progress)
+        # Simulate termination between durable accounting and pipe notification,
+        # or an older notification arriving after a newer durable dispatch.
+        if mode == "stale-progress":
+            print(json.dumps({"type": "usage", "counts": {"free": 0, "paid": 1, "metered": 0}}), flush=True)
+        peer = socket.socket()
+        peer.connect(("127.0.0.1", port))
+        time.sleep(60)
+        return 0
     if mode == "crash":
         return 3
     if mode == "success":
