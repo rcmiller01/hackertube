@@ -1,13 +1,17 @@
 # Prepared marketplace description
 
-Current draft for merged PR #19, commit `7e1e8f9819cf840aee1f3c33e3d1233853789864`. Prepared only; not published.
+Version 0.2.2, merged runtime `3e65af3b424bb932de944731340d99122f0a67ed`. Prepared only; not published.
 
-HackerTube brings source-backed media discovery to the Hermes dashboard. Ask a focused question, choose a provider you already configured in Hermes, and discover videos, podcasts, books, and audiobooks. Search retrieves fresh records, applies requested formats and time limits, balances categories, and explains model relevance. Save results in a profile-local library and open the originals at their sources.
+HackerTube brings source-backed media discovery to the Hermes dashboard. Ask a focused question, choose a provider you already configured in Hermes, and discover videos, podcasts, books and audiobooks. Search retrieves new records, applies formats/time limits, balances categories and labels inferred relevance. Save useful results in your profile-local library and open the originals.
 
-Ordinary browsing and library actions make no model or search call. Explicit Search can use model credits and source quota; usage is shown and unreported cost stays unknown. Each search has a 45-second local deadline, 12 logical provider requests, and up to 24 results. Cancel stops local work early; interrupted searches do not automatically resume. A provider may still process or bill a request it already accepted. Missing credentials and partial coverage are disclosed. Media is linked, not hosted or played.
+Read and explicitly agree to the bundled privacy policy before use. Privacy remains available on every page, with a local data-deletion/revocation control. Credit acknowledgement is separate. Ordinary browsing/library actions make no model or search call. Explicit Search may use model credits and source quota; usage is shown and unreported cost remains unknown.
 
-Supported discovery paths include Hacker News, Apple/iTunes, Open Library, LibriVox, optional YouTube Data API and Podcast Index, and Hermes web search when available. Reddit remains disabled pending approval. The small seed is development content, with no curated community endorsements; model relevance is not a community recommendation. Source release checks remain open. The worker requires macOS/Linux and the Hermes CLI; macOS is tested, Linux integration remains unrun.
+Each Search allows up to 12 logical dispatches, 24 results and a 45-second local deadline, including worker startup. Cancel stops local work early; interrupted jobs do not resume automatically. A provider may still process or bill an accepted request. Media is linked, not hosted or played.
 
-**Andrej Karpathy created the original HackerTube and inspired this project.** Read his [original HackerTube post](https://karpathy.bearblog.dev/hacker-tube/) and visit [hackertube.org](https://hackertube.org/).
+Discovery paths include Hacker News, Apple Podcasts/Apple Books, Open Library, LibriVox, optional keyed YouTube Data API/Podcast Index, and configured Hermes web search. Reddit remains disabled pending approval. The development seed has no curated community endorsements. Model relevance is not a community recommendation; partial rankings and empty categories remain possible. The successful final qualified AI query returned 4 videos, 4 podcasts, 5 books and 3 audiobooks; a prior take omitted videos, so this is not a general relevance guarantee.
 
-This is an independent Hermes adaptation. The new [demo receipt](receipts/pr19-demo/README.md) records the actual installed build and its limits.
+Source metadata expires with hourly local housekeeping while Hermes runs and cleanup before access after restart. Stopped Hermes cannot execute deletion; exported backups remain the operator’s responsibility. Open Library registration was submitted and confirmed recorded; this is not provider approval. The worker requires macOS/Linux and Hermes CLI; macOS is tested, Linux integration is unrun.
+
+**Andrej Karpathy created the original HackerTube and inspired this project.** Read his [original post](https://karpathy.bearblog.dev/hacker-tube/) and visit [hackertube.org](https://hackertube.org/). This is an independent Hermes adaptation.
+
+[Final installed demo and checks](receipts/final-demo/README.md) · [source acceptance](source-release.md) · [privacy policy](submission/privacy-policy.md).

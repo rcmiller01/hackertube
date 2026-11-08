@@ -105,4 +105,4 @@ Receipts: docs/receipts/pr19-demo/README.md. Tasks 4.4/4.5/5.1/5.3 retain their 
 - [x] 13.1 Require versioned policy agreement before features/model dispatch, separate from credit consent; keep the actual policy accessible. Covers PREF15, PREF05/08.
 - [x] 13.2 Provide local deletion/revocation under the Search lease, refuse active work, and verify no late restoration. Covers PREF15, LIB02, JOB05.
 - [x] 13.3 Reconcile refreshed/deleted/private YouTube metadata across stored copies, retain saved flags, add local housekeeping and official attribution. Covers CAT10/12.
-- [ ] 13.4 Verify the exact candidate, record source acceptance/registration, then refresh final submission materials without publishing the repository.
+- [x] 13.4 Verify the exact candidate, record source acceptance/registration, then refresh final submission materials without publishing the repository.
