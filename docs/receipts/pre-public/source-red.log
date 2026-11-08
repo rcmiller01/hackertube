@@ -1,0 +1,140 @@
+FFF.F.F.                                                                 [100%]
+=================================== FAILURES ===================================
+_______ test_expiry_cleans_catalog_and_durable_search_copies[job_result] _______
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-199/test_expiry_cleans_catalog_and0')
+access = 'job_result'
+
+    @pytest.mark.parametrize("access", ["job_result", "catalog", "reopen"])
+    def test_expiry_cleans_catalog_and_durable_search_copies(tmp_path, access):
+        store, connect, clock, result = stored_video(tmp_path)
+        clock[0] = "2026-12-01T00:00:00Z"  # exact 30-day boundary
+        if access == "reopen":
+            store = ProfileStore(connect, clock=lambda: clock[0])
+        elif access == "catalog":
+            store.catalog(load_seed())
+        else:
+            store.job_result(result["job"]["job_id"])
+        with connect() as conn:
+            raw = " ".join(row[0] for row in conn.execute("SELECT document FROM search_result UNION ALL SELECT document FROM retrieved_catalog"))
+>       assert "AI retention sentinel title" not in raw
+E       assert 'AI retentio...ntinel title' not in '{"schema": ...itions": []}'
+E
+E         'AI retention sentinel title' is contained here:
+E         ?           ^^^^^^^^^^^^                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ...
+E
+E         ...Full output truncated, use '-vv' to show
+
+tests/test_release_sources.py:42: AssertionError
+________ test_expiry_cleans_catalog_and_durable_search_copies[catalog] _________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-199/test_expiry_cleans_catalog_and1')
+access = 'catalog'
+
+    @pytest.mark.parametrize("access", ["job_result", "catalog", "reopen"])
+    def test_expiry_cleans_catalog_and_durable_search_copies(tmp_path, access):
+        store, connect, clock, result = stored_video(tmp_path)
+        clock[0] = "2026-12-01T00:00:00Z"  # exact 30-day boundary
+        if access == "reopen":
+            store = ProfileStore(connect, clock=lambda: clock[0])
+        elif access == "catalog":
+            store.catalog(load_seed())
+        else:
+            store.job_result(result["job"]["job_id"])
+        with connect() as conn:
+            raw = " ".join(row[0] for row in conn.execute("SELECT document FROM search_result UNION ALL SELECT document FROM retrieved_catalog"))
+>       assert "AI retention sentinel title" not in raw
+E       assert 'AI retentio...ntinel title' not in '{"schema": ...itions": []}'
+E
+E         'AI retention sentinel title' is contained here:
+E         ?           ^^^^^^^^^^^^                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ...
+E
+E         ...Full output truncated, use '-vv' to show
+
+tests/test_release_sources.py:42: AssertionError
+_________ test_expiry_cleans_catalog_and_durable_search_copies[reopen] _________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-199/test_expiry_cleans_catalog_and2')
+access = 'reopen'
+
+    @pytest.mark.parametrize("access", ["job_result", "catalog", "reopen"])
+    def test_expiry_cleans_catalog_and_durable_search_copies(tmp_path, access):
+        store, connect, clock, result = stored_video(tmp_path)
+        clock[0] = "2026-12-01T00:00:00Z"  # exact 30-day boundary
+        if access == "reopen":
+            store = ProfileStore(connect, clock=lambda: clock[0])
+        elif access == "catalog":
+            store.catalog(load_seed())
+        else:
+            store.job_result(result["job"]["job_id"])
+        with connect() as conn:
+            raw = " ".join(row[0] for row in conn.execute("SELECT document FROM search_result UNION ALL SELECT document FROM retrieved_catalog"))
+>       assert "AI retention sentinel title" not in raw
+E       assert 'AI retentio...ntinel title' not in '{"schema": ...itions": []}'
+E
+E         'AI retention sentinel title' is contained here:
+E         ?           ^^^^^^^^^^^^                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ...
+E
+E         ...Full output truncated, use '-vv' to show
+
+tests/test_release_sources.py:42: AssertionError
+_ test_apple_result_label_follows_the_actual_store[search-audiobook-https://books.apple.com/us/audiobook/test/id123-Apple Books] _
+
+fmt = 'audiobook'
+destination = 'https://books.apple.com/us/audiobook/test/id123'
+label = 'Apple Books', surface = 'search'
+
+    @pytest.mark.parametrize("fmt,destination,label", [
+        ("audiobook", "https://books.apple.com/us/audiobook/test/id123", "Apple Books"),
+        ("podcast_show", "https://podcasts.apple.com/us/podcast/test/id123", "Apple Podcasts"),
+    ])
+    @pytest.mark.parametrize("surface", ["search", "catalog"])
+    def test_apple_result_label_follows_the_actual_store(fmt, destination, label, surface):
+        row = item("itunes:123", fmt, "AI introduction", destination=destination)
+        cat = build([row], [evidence("itunes:123", row["item_id"], "itunes")],
+            [source("itunes", "Apple Podcasts")])  # historical cached registry label
+        if surface == "catalog":
+            from hackertube_core.boundaries import explain_item
+            result = explain_item(cat.items[0], cat.evidence, {x.source_id:x for x in cat.sources})
+            assert result["retrievals"][0]["source_name"] == label
+        else:
+            result = result_set(cat, profile(), interpret_question("introduction"), "2026-11-07T12:00:00Z")
+>           assert result["results"][0]["source"]["label"] == label
+E           AssertionError: assert 'Apple Podcasts' == 'Apple Books'
+E
+E             - Apple Books
+E             + Apple Podcasts
+
+tests/test_release_sources.py:72: AssertionError
+_ test_apple_result_label_follows_the_actual_store[catalog-audiobook-https://books.apple.com/us/audiobook/test/id123-Apple Books] _
+
+fmt = 'audiobook'
+destination = 'https://books.apple.com/us/audiobook/test/id123'
+label = 'Apple Books', surface = 'catalog'
+
+    @pytest.mark.parametrize("fmt,destination,label", [
+        ("audiobook", "https://books.apple.com/us/audiobook/test/id123", "Apple Books"),
+        ("podcast_show", "https://podcasts.apple.com/us/podcast/test/id123", "Apple Podcasts"),
+    ])
+    @pytest.mark.parametrize("surface", ["search", "catalog"])
+    def test_apple_result_label_follows_the_actual_store(fmt, destination, label, surface):
+        row = item("itunes:123", fmt, "AI introduction", destination=destination)
+        cat = build([row], [evidence("itunes:123", row["item_id"], "itunes")],
+            [source("itunes", "Apple Podcasts")])  # historical cached registry label
+        if surface == "catalog":
+            from hackertube_core.boundaries import explain_item
+            result = explain_item(cat.items[0], cat.evidence, {x.source_id:x for x in cat.sources})
+>           assert result["retrievals"][0]["source_name"] == label
+E           AssertionError: assert 'Apple Podcasts' == 'Apple Books'
+E
+E             - Apple Books
+E             + Apple Podcasts
+
+tests/test_release_sources.py:69: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_release_sources.py::test_expiry_cleans_catalog_and_durable_search_copies[job_result]
+FAILED tests/test_release_sources.py::test_expiry_cleans_catalog_and_durable_search_copies[catalog]
+FAILED tests/test_release_sources.py::test_expiry_cleans_catalog_and_durable_search_copies[reopen]
+FAILED tests/test_release_sources.py::test_apple_result_label_follows_the_actual_store[search-audiobook-https://books.apple.com/us/audiobook/test/id123-Apple Books]
+FAILED tests/test_release_sources.py::test_apple_result_label_follows_the_actual_store[catalog-audiobook-https://books.apple.com/us/audiobook/test/id123-Apple Books]
+5 failed, 3 passed in 0.08s

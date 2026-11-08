@@ -1,0 +1,98 @@
+[
+  {
+    "rule": "generic-api-key",
+    "commit": "60d07ae869cb6c215536fec97a0993ae0b0e9361",
+    "file": "docs/receipts/pr17-review/runtime-manifest.json",
+    "line": 8,
+    "hashed_source": "hackertube/dashboard/plugin_api.py",
+    "disposition": "Recomputed source-blob SHA-256 digest; not a credential."
+  },
+  {
+    "rule": "generic-api-key",
+    "commit": "60d07ae869cb6c215536fec97a0993ae0b0e9361",
+    "file": "docs/receipts/results-tuning/runtime-manifest.json",
+    "line": 8,
+    "hashed_source": "hackertube/dashboard/plugin_api.py",
+    "disposition": "Recomputed source-blob SHA-256 digest; not a credential."
+  },
+  {
+    "rule": "generic-api-key",
+    "commit": "fb34c2237ff5f26fdcc97a959a6f9889e47052c2",
+    "file": "docs/receipts/pr17-review/runtime-manifest.json",
+    "line": 8,
+    "hashed_source": "hackertube/dashboard/plugin_api.py",
+    "disposition": "Recomputed source-blob SHA-256 digest; not a credential."
+  },
+  {
+    "rule": "generic-api-key",
+    "commit": "e26104cbd9c9a2b84d25272709f2ff6eabcb2c1c",
+    "file": "docs/receipts/results-tuning/runtime-manifest.json",
+    "line": 8,
+    "hashed_source": "hackertube/dashboard/plugin_api.py",
+    "disposition": "Recomputed source-blob SHA-256 digest; not a credential."
+  },
+  {
+    "rule": "generic-api-key",
+    "commit": "206084688822a21847f989cd959d99f93cfa48cc",
+    "file": "docs/receipts/installed-live/runtime-manifest.json",
+    "line": 8,
+    "hashed_source": "hackertube/dashboard/plugin_api.py",
+    "disposition": "Recomputed source-blob SHA-256 digest; not a credential."
+  },
+  {
+    "rule": "generic-api-key",
+    "commit": "206084688822a21847f989cd959d99f93cfa48cc",
+    "file": "docs/receipts/installed-live/youtube-runtime-manifest.json",
+    "line": 8,
+    "hashed_source": "hackertube/dashboard/plugin_api.py",
+    "disposition": "Recomputed source-blob SHA-256 digest; not a credential."
+  },
+  {
+    "rule": "generic-api-key",
+    "commit": "206084688822a21847f989cd959d99f93cfa48cc",
+    "file": "docs/receipts/live-search/runtime-manifest.json",
+    "line": 8,
+    "hashed_source": "hackertube/dashboard/plugin_api.py",
+    "disposition": "Recomputed source-blob SHA-256 digest; not a credential."
+  },
+  {
+    "rule": "generic-api-key",
+    "commit": "206084688822a21847f989cd959d99f93cfa48cc",
+    "file": "docs/receipts/pr16-review/runtime-manifest.json",
+    "line": 8,
+    "hashed_source": "hackertube/dashboard/plugin_api.py",
+    "disposition": "Recomputed source-blob SHA-256 digest; not a credential."
+  },
+  {
+    "rule": "generic-api-key",
+    "commit": "076495c083cbab8c753e0a1cabbf677497d9c359",
+    "file": "docs/receipts/installed-live/youtube-runtime-manifest.json",
+    "line": 8,
+    "hashed_source": "hackertube/dashboard/plugin_api.py",
+    "disposition": "Recomputed source-blob SHA-256 digest; not a credential."
+  },
+  {
+    "rule": "generic-api-key",
+    "commit": "1624f417cea084dbf0f44d85ba99c3d244158da9",
+    "file": "docs/receipts/installed-live/runtime-manifest.json",
+    "line": 8,
+    "hashed_source": "hackertube/dashboard/plugin_api.py",
+    "disposition": "Recomputed source-blob SHA-256 digest; not a credential."
+  },
+  {
+    "rule": "generic-api-key",
+    "commit": "9d8886ecd45473f44bb903f32c45d3f5a5eeeb88",
+    "file": "docs/receipts/pr16-review/runtime-manifest.json",
+    "line": 8,
+    "hashed_source": "hackertube/dashboard/plugin_api.py",
+    "disposition": "Recomputed source-blob SHA-256 digest; not a credential."
+  },
+  {
+    "rule": "generic-api-key",
+    "commit": "dca17be7f0a6a77759397ffcbc61d0de7cbf684d",
+    "file": "docs/receipts/live-search/runtime-manifest.json",
+    "line": 8,
+    "hashed_source": "hackertube/dashboard/plugin_api.py",
+    "disposition": "Recomputed source-blob SHA-256 digest; not a credential."
+  }
+]

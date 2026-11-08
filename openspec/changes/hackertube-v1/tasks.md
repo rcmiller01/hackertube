@@ -85,9 +85,9 @@ Tasks 1.1, 1.2, 1.4, 2.1, 2.2, 2.3, 3.1, 3.2, 3.3, 3.7, 4.1, and 4.2 are complet
 
 Task 6.2 remains partial: this follow-up delivers Search cancellation/deadline/restart behavior; SEARCH06 refinement and the wider refresh/partial-failure work are not claimed complete. The original submission/demo receipts remain historical.
 
-## 11. Pre-public security/source audit
+## 12. Pre-public security/source audit
 
-- [x] 11.1 Scan tracked files, all fetched branch/tag/PR history, local reflogs, GitHub PR text/comments and historical screenshot OCR without publishing credentials. Record scope and false-positive evidence.
-- [x] 11.2 Record Robert's solo/MIT confirmation and idea-only Karpathy provenance, without inventing unobserved contest rules.
-- [ ] 11.3 Fix expiry of durable Search copies and Apple store attribution, commit red regressions first, and verify the exact fixed build.
-- [x] 11.4 Reconcile remaining source/publishing/form gates while preserving the private repository. Source acceptance is not complete merely because the secret scan passes.
+- [x] 12.1 Scan tracked files, all fetched branch/tag/PR history, local reflogs, GitHub PR text/comments and historical screenshot OCR without publishing credentials. Record scope and false-positive evidence.
+- [x] 12.2 Record Robert's solo/MIT confirmation and idea-only Karpathy provenance, without inventing unobserved contest rules.
+- [x] 12.3 Fix expiry of durable Search copies and Apple store attribution, commit red regressions first, and verify the exact fixed build.
+- [x] 12.4 Reconcile remaining source/publishing/form gates while preserving the private repository. Source acceptance is not complete merely because the secret scan passes.

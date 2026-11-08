@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "results": 1,
+  "requests": {
+    "free": 1,
+    "paid": 0,
+    "metered": 0
+  },
+  "seconds": 0.5462125409976579,
+  "contact_configured_in_hermes": true,
+  "contact_sent_only_as_openlibrary_header": true,
+  "contact_value_recorded": false
+}
