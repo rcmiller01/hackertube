@@ -32,7 +32,7 @@ Each search or refresh SHALL expose progress, terminal status, finite deadlines 
 
 #### Scenario: JOB04 Provider omits cost
 - **WHEN** a provider returns no reliable cost information
-- **THEN** the job displays total cost as unknown, including an attempted paid request that failed without reporting cost, and counts only its own dispatches rather than overlapping jobs
+- **THEN** the job displays total cost as unknown, including an attempted paid request that failed without reporting cost, and counts only its own dispatches rather than overlapping jobs, preserving durable observations even when termination precedes the worker's progress notification
 
 ### Requirement: Cancellation and restart recovery
 Cancelling a job SHALL prevent further dispatch and expose the disposition of in-flight calls. Interrupted jobs SHALL NOT silently resume paid work after restart.
@@ -43,7 +43,7 @@ Cancelling a job SHALL prevent further dispatch and expose the disposition of in
 
 #### Scenario: JOB06 Restart interrupted job
 - **WHEN** Hermes restarts during an unfinished paid job
-- **THEN** the orphan worker group stops, the persisted job is marked interrupted on status recovery, and paid work requires a new explicit action
+- **THEN** the orphan worker group stops, the persisted job is marked interrupted on status recovery by a new or existing observer even if the provider is unavailable or changed, and paid work requires a new explicit action
 
 ### Requirement: Preserve successful cached results
 Source or model failures SHALL report affected services and retain the last successful feed and library. Partial results SHALL identify missing coverage and retrieval age. Malformed or unsubmitted ranking entries, and validated duplicates with conflicting fit labels, SHALL be rejected while retaining unambiguous matches, without an implicit paid retry.

@@ -279,8 +279,12 @@ def search_info():
 
     store = ProfileStore(open_profile_db)
     catalog, _store, provider = _search_binding()
-    if provider.name == "hermes" and provider.available():
-        _supervisor(store)  # Recover interrupted rows without resuming paid work.
+    job = store.latest_job()
+    if job and job["state"] in {"queued", "running", "cancelling"}:
+        # Recovery is local and still works if the configured provider is gone
+        # or the user has selected the offline provider since the last job.
+        _supervisor(store).recover()
+        job = store.latest_job()
     return {
         "schema": "hackertube.search/1",
         "disclosure": DISCLOSURE,
@@ -290,7 +294,7 @@ def search_info():
             DEFAULT_LIMITS if provider.name == "stub" else LIVE_LIMITS
         ).as_dict(),
         "demo_question": catalog.demo_question,
-        "job": store.latest_job(),
+        "job": job,
     }
 
 

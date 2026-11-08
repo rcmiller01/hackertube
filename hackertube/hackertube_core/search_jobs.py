@@ -73,11 +73,14 @@ class SearchSupervisor:
         self._context = contextvars.copy_context()
         self._guard = threading.Lock()
         self._jobs = {}
-        # A lock held by another supervisor means its job is still running.
+        self.recover()
+
+    def recover(self):
+        """Recover an absent owner on each observation, not only construction."""
         lock = self._claim()
         if lock is not None:
             try:
-                store.recover_jobs()
+                self.store.recover_jobs()
             finally:
                 lock.close()
 
@@ -118,6 +121,9 @@ class SearchSupervisor:
                 ended_at=None,
             )
             try:
+                # The previous owner may have died after this supervisor was
+                # constructed. The exclusive lease proves it is absent now.
+                self.store.recover_jobs()
                 job_id = self.store.record_job(job, unique=True)
                 job = self.store.job(job_id)
                 entry = {
@@ -172,6 +178,9 @@ class SearchSupervisor:
         job = self.store.job(job_id)
         if job is None:
             return None
+        if job["state"] in ACTIVE and job_id not in self._jobs:
+            self.recover()
+            job = self.store.job(job_id)
         value = self.store.job_result(job_id)
         if value is None or (
             job["state"] not in ACTIVE and value["job"]["state"] in ACTIVE
@@ -244,17 +253,24 @@ class SearchSupervisor:
             coverage=[note] if note else job["coverage"],
         )
         if result is None:
+            # The worker persists accounting before dispatch and then notifies
+            # us. Killing it between those steps must not erase the durable
+            # observation. All worker writes have stopped before _finish.
+            progress = self.store.job_result(job_id)
+            saved = progress["usage"]["request_counts"] if progress else {}
+            counts = {
+                label: max(count, saved.get(label, 0))
+                for label, count in entry["counts"].items()
+            }
             job.update(
-                requests_used=sum(entry["counts"].values()),
+                requests_used=max(job["requests_used"], sum(counts.values())),
                 result_count=0,
                 cost_usd=None,
                 cost_known=False,
             )
             result = response(job)
-            result["usage"]["request_counts"] = entry["counts"].copy()
-            result["usage"]["paid_calls"] = (
-                entry["counts"]["paid"] + entry["counts"]["metered"]
-            )
+            result["usage"]["request_counts"] = counts
+            result["usage"]["paid_calls"] = counts["paid"] + counts["metered"]
         else:
             usage = result["usage"]
             job.update(
@@ -304,13 +320,8 @@ class SearchSupervisor:
                             ):
                                 raise ValueError("invalid worker counts")
                             entry["counts"] = counts
-                            job.update(requests_used=sum(counts.values()))
-                            progress = response(job)
-                            progress["usage"]["request_counts"] = counts.copy()
-                            progress["usage"]["paid_calls"] = (
-                                counts["paid"] + counts["metered"]
-                            )
-                            self.store.update_job(job_id, job, progress)
+                            # Durable progress belongs to the worker. An older
+                            # pipe event must never overwrite its newer row.
                         elif event["type"] == "result":
                             if time.monotonic() >= deadline:
                                 state, note = (
