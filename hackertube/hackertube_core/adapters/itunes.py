@@ -25,9 +25,9 @@ ART_REASON = (
 )
 POLICY = {
     "source_id": "itunes",
-    "name": "Apple Podcasts / Apple Books",
+    "name": "Apple Podcasts",
     "role": "catalog",
-    "attribution": "Apple Podcasts or Apple Books, according to the item destination. The card links to the store page returned by the Search API.",
+    "attribution": "Apple Podcasts. The card links to the store page returned by the Search API.",
     "retention": (
         "Text identity fields from a lookup are kept with their retrieval time. "
         "Artwork, previews, and episode media URLs are not stored. "

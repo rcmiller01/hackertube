@@ -293,7 +293,9 @@ def available_registry(get_secret):
 def search_policy(source_id):
     """Current search notices; historical seed policies remain frozen in adapters."""
     policy = dict(MODULES[source_id].POLICY)
-    if source_id == "youtube":
+    if source_id == "itunes":
+        policy.update(name="Apple Podcasts / Apple Books", attribution="Apple Podcasts or Apple Books, according to the item destination. Each card links to its original store page.")
+    elif source_id == "youtube":
         policy.update(
             attribution="YouTube. Each Data API card links to its watch page.",
             retention="Data API metadata expires after 30 days. No oEmbed fields or media files are stored.",
