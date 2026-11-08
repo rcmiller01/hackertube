@@ -103,7 +103,8 @@ def test_real_synchronous_api_cannot_bypass_the_supervised_deadline(setup, monke
     connection.close()
 
 
-def test_search_info_recovers_after_cached_supervisor_loses_other_owner(setup, monkeypatch):
+@pytest.mark.parametrize("name,available", [("hermes", True), ("hermes", False), ("stub", True)])
+def test_search_info_recovers_after_cached_supervisor_loses_other_owner(setup, monkeypatch, name, available):
     from types import SimpleNamespace
 
     dashboard, manager, server, store = setup
@@ -111,7 +112,7 @@ def test_search_info_recovers_after_cached_supervisor_loses_other_owner(setup, m
 
     def binding():
         catalog, saved, _ = original()
-        return catalog, saved, SimpleNamespace(name="hermes", available=lambda: True)
+        return catalog, saved, SimpleNamespace(name=name, available=lambda: available)
 
     monkeypatch.setattr(dashboard.module, "_search_binding", binding)
     job_id = store.record_job(dict(
