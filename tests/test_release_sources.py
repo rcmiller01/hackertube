@@ -100,3 +100,26 @@ def test_source_controls_identify_both_apple_stores(tmp_path):
     apple = next(x for x in source_snapshot(store)["sources"] if x["source_id"] == "itunes")
     assert "Apple Books" in apple["name"]
     assert "Apple Podcasts" in apple["name"]
+
+
+def test_openlibrary_contact_is_sent_only_to_openlibrary(tmp_path, monkeypatch):
+    from hackertube_core.retrieval import SourceRetriever, Budget
+    from hackertube_core.search import LIVE_LIMITS
+    seen = []
+    def read(url, **kwargs):
+        seen.append((url, kwargs.get("headers", {})))
+        if "openlibrary.org" in url:
+            return {"docs":[]}
+        if "itunes.apple.com" in url:
+            return {"results":[]}
+        if "librivox.org" in url:
+            return {"books":[]}
+        return {"hits":[]}
+    monkeypatch.setattr("hackertube_core.retrieval.read_json", read)
+    store = ProfileStore(connect_at(tmp_path))
+    contact = "operator@example.invalid"
+    SourceRetriever(store, get_secret=lambda name: contact if name=="OPENLIBRARY_CONTACT" else None)(interpret_question("gardening books"), "2026-11-08T00:00:00Z", Budget(LIVE_LIMITS))
+    specific = [(u,h) for u,h in seen if "openlibrary.org" in u]
+    assert specific and contact in specific[0][1].get("User-Agent", "")
+    assert all(contact not in str(h) for u,h in seen if "openlibrary.org" not in u)
+    assert all(contact not in u for u,h in seen)
