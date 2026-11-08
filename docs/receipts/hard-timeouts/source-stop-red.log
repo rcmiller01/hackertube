@@ -1,0 +1,40 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+__ test_deadline_stops_real_source_boundary_even_when_dns_or_read_blocks[dns] __
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-176/test_deadline_stops_real_sourc0')
+mode = 'dns'
+
+    @pytest.mark.parametrize("mode", ["dns", "source-read"])
+    def test_deadline_stops_real_source_boundary_even_when_dns_or_read_blocks(tmp_path, mode):
+        manager, store, server, job = setup_job(tmp_path, mode=mode)
+        connection, _ = server.accept()
+        connection.settimeout(2)
+        try:
+            result = wait_done(manager, job)
+            assert result["job"]["state"] == "timed_out"
+>           assert result["usage"]["request_counts"]["free"] == 1
+E           assert 0 == 1
+
+tests/test_search_supervisor.py:271: AssertionError
+_ test_deadline_stops_real_source_boundary_even_when_dns_or_read_blocks[source-read] _
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-176/test_deadline_stops_real_sourc1')
+mode = 'source-read'
+
+    @pytest.mark.parametrize("mode", ["dns", "source-read"])
+    def test_deadline_stops_real_source_boundary_even_when_dns_or_read_blocks(tmp_path, mode):
+        manager, store, server, job = setup_job(tmp_path, mode=mode)
+        connection, _ = server.accept()
+        connection.settimeout(2)
+        try:
+            result = wait_done(manager, job)
+            assert result["job"]["state"] == "timed_out"
+>           assert result["usage"]["request_counts"]["free"] == 1
+E           assert 0 == 1
+
+tests/test_search_supervisor.py:271: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_search_supervisor.py::test_deadline_stops_real_source_boundary_even_when_dns_or_read_blocks[dns]
+FAILED tests/test_search_supervisor.py::test_deadline_stops_real_source_boundary_even_when_dns_or_read_blocks[source-read]
+2 failed, 12 deselected in 1.30s

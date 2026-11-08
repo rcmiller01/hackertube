@@ -1,0 +1,12 @@
+{
+  "pr17": {
+    "reviewed_head": "fb34c2237ff5f26fdcc97a959a6f9889e47052c2",
+    "squash": "60d07ae869cb6c215536fec97a0993ae0b0e9361"
+  },
+  "pr18": {
+    "reviewed_head": "2532a1315f5f8da409e64526183505a97cf2eac6",
+    "integration_head": "c52fd2aa557a04f6c21a688e0ca6f94d3b442488",
+    "squash": "cec15fee4419424b18412da8f77754660e0b94ed",
+    "integration_and_reviewed_tree": "153ce42291c3b5abf04c006f6bad530797e00943"
+  }
+}

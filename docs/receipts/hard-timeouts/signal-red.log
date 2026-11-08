@@ -1,0 +1,92 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_watchdog_can_stop_cancelled_work_if_parent_signal_is_denied _______
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-179/test_watchdog_can_stop_cancell0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x109a55810>
+
+    def test_watchdog_can_stop_cancelled_work_if_parent_signal_is_denied(tmp_path, monkeypatch):
+        import os
+        manager, store, server, job = setup_job(tmp_path, seconds=10)
+        connection, _ = server.accept()
+        process = manager._jobs[job["job_id"]]["process"]
+        def denied(*args):
+            raise PermissionError("simulated signal permission race")
+        monkeypatch.setattr(os, "killpg", denied)
+        try:
+            manager.cancel(job["job_id"])
+>           assert wait_done(manager, job, 2)["job"]["state"] == "cancelled"
+E           AssertionError: assert 'cancelling' == 'cancelled'
+E
+E             - cancelled
+E             + cancelling
+
+tests/test_search_supervisor.py:287: AssertionError
+=============================== warnings summary ===============================
+tests/test_search_supervisor.py::test_watchdog_can_stop_cancelled_work_if_parent_signal_is_denied
+  /Users/robert/Developer/hackertube/.venv/lib/python3.14/site-packages/_pytest/threadexception.py:54: PytestUnhandledThreadExceptionWarning: Exception in thread hackertube-search-supervisor
+
+  Traceback (most recent call last):
+    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 214, in _stop
+      os.killpg(process.pid, signal.SIGKILL)
+      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/Users/robert/Developer/hackertube/tests/test_search_supervisor.py", line 283, in denied
+      raise PermissionError("simulated signal permission race")
+  PermissionError: simulated signal permission race
+
+  During handling of the above exception, another exception occurred:
+
+  Traceback (most recent call last):
+    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 349, in _monitor
+      self._stop(entry)
+      ~~~~~~~~~~^^^^^^^
+    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 220, in _stop
+      process.wait(timeout=0.25)
+      ~~~~~~~~~~~~^^^^^^^^^^^^^^
+    File "/Users/robert/.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/subprocess.py", line 1279, in wait
+      return self._wait(timeout=timeout)
+             ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+    File "/Users/robert/.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/subprocess.py", line 2076, in _wait
+      raise TimeoutExpired(self.args, timeout)
+  subprocess.TimeoutExpired: Command '['/Users/robert/Developer/hackertube/.venv/bin/python', '/Users/robert/Developer/hackertube/tests/fixtures/search_worker_probe.py', 'hang', '55797']' timed out after 0.25 seconds
+
+  During handling of the above exception, another exception occurred:
+
+  Traceback (most recent call last):
+    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 214, in _stop
+      os.killpg(process.pid, signal.SIGKILL)
+      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/Users/robert/Developer/hackertube/tests/test_search_supervisor.py", line 283, in denied
+      raise PermissionError("simulated signal permission race")
+  PermissionError: simulated signal permission race
+
+  During handling of the above exception, another exception occurred:
+
+  Traceback (most recent call last):
+    File "/Users/robert/.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+      self._context.run(self.run)
+      ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+    File "/Users/robert/.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/threading.py", line 1024, in run
+      self._target(*self._args, **self._kwargs)
+      ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 352, in _monitor
+      self._stop(entry)
+      ~~~~~~~~~~^^^^^^^
+    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 220, in _stop
+      process.wait(timeout=0.25)
+      ~~~~~~~~~~~~^^^^^^^^^^^^^^
+    File "/Users/robert/.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/subprocess.py", line 1279, in wait
+      return self._wait(timeout=timeout)
+             ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+    File "/Users/robert/.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/subprocess.py", line 2076, in _wait
+      raise TimeoutExpired(self.args, timeout)
+  subprocess.TimeoutExpired: Command '['/Users/robert/Developer/hackertube/.venv/bin/python', '/Users/robert/Developer/hackertube/tests/fixtures/search_worker_probe.py', 'hang', '55797']' timed out after 0.25 seconds
+
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+    warnings.warn(pytest.PytestUnhandledThreadExceptionWarning(msg))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_search_supervisor.py::test_watchdog_can_stop_cancelled_work_if_parent_signal_is_denied
+1 failed, 14 deselected, 1 warning in 0.63s

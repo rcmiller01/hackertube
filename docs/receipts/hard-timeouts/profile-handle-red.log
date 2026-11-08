@@ -1,0 +1,20 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_job_handle_from_another_profile_cannot_cancel_local_work _________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-171/test_job_handle_from_another_p0')
+
+    def test_job_handle_from_another_profile_cannot_cancel_local_work(tmp_path):
+        a, store_a, server_a, job_a = setup_job(tmp_path / "a", seconds=10)
+        b, store_b, server_b, job_b = setup_job(tmp_path / "b", seconds=10)
+        peers = [server_a.accept()[0], server_b.accept()[0]]
+        try:
+>           assert b.cancel(job_a["job_id"]) is None
+E           AssertionError: assert {'schema': 'hackertube.search/1', 'job': {'job_id': 'job:1', 'sequence': 1, 'kind': 'search', 'state': 'cancelled', ...}, 'question': 'AI books', 'provider': 'hermes', ...} is None
+E            +  where {'schema': 'hackertube.search/1', 'job': {'job_id': 'job:1', 'sequence': 1, 'kind': 'search', 'state': 'cancelled', ...}, 'question': 'AI books', 'provider': 'hermes', ...} = cancel('job:1')
+E            +    where cancel = <hackertube_core.search_jobs.SearchSupervisor object at 0x10994ec10>.cancel
+
+tests/test_search_supervisor.py:190: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_search_supervisor.py::test_job_handle_from_another_profile_cannot_cancel_local_work
+1 failed in 0.19s

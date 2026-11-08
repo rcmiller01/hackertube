@@ -1,0 +1,164 @@
+FFFFFFFFF                                                                [100%]
+=================================== FAILURES ===================================
+____________ test_deadline_kills_stalled_call_and_closes_connection ____________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-159/test_deadline_kills_stalled_ca0')
+
+    def test_deadline_kills_stalled_call_and_closes_connection(tmp_path):
+>       supervisor, store, server, job = setup_job(tmp_path)
+                                         ^^^^^^^^^^^^^^^^^^^
+
+tests/test_search_supervisor.py:40:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-159/test_deadline_kills_stalled_ca0')
+mode = 'hang', seconds = 0.6
+
+    def setup_job(tmp_path, *, mode="hang", seconds=0.6):
+>       from hackertube_core.search_jobs import SearchSupervisor
+E       ModuleNotFoundError: No module named 'hackertube_core.search_jobs'
+
+tests/test_search_supervisor.py:17: ModuleNotFoundError
+_______ test_cancel_kills_work_before_marking_cancelled_and_keeps_saves ________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-159/test_cancel_kills_work_before_0')
+
+    def test_cancel_kills_work_before_marking_cancelled_and_keeps_saves(tmp_path):
+>       supervisor, store, server, job = setup_job(tmp_path, seconds=10)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_search_supervisor.py:57:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-159/test_cancel_kills_work_before_0')
+mode = 'hang', seconds = 10
+
+    def setup_job(tmp_path, *, mode="hang", seconds=0.6):
+>       from hackertube_core.search_jobs import SearchSupervisor
+E       ModuleNotFoundError: No module named 'hackertube_core.search_jobs'
+
+tests/test_search_supervisor.py:17: ModuleNotFoundError
+___________ test_child_process_in_same_group_cannot_outlive_deadline ___________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-159/test_child_process_in_same_gro0')
+
+    def test_child_process_in_same_group_cannot_outlive_deadline(tmp_path):
+>       supervisor, store, server, job = setup_job(tmp_path, mode="descendant")
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_search_supervisor.py:74:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-159/test_child_process_in_same_gro0')
+mode = 'descendant', seconds = 0.6
+
+    def setup_job(tmp_path, *, mode="hang", seconds=0.6):
+>       from hackertube_core.search_jobs import SearchSupervisor
+E       ModuleNotFoundError: No module named 'hackertube_core.search_jobs'
+
+tests/test_search_supervisor.py:17: ModuleNotFoundError
+____________ test_second_search_is_refused_while_first_owns_profile ____________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-159/test_second_search_is_refused_0')
+
+    def test_second_search_is_refused_while_first_owns_profile(tmp_path):
+>       from hackertube_core.search_jobs import SearchBusy, SearchSupervisor
+E       ModuleNotFoundError: No module named 'hackertube_core.search_jobs'
+
+tests/test_search_supervisor.py:86: ModuleNotFoundError
+___________________ test_no_worker_or_job_without_disclosure ___________________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-159/test_no_worker_or_job_without_0')
+
+    def test_no_worker_or_job_without_disclosure(tmp_path):
+>       from hackertube_core.search_jobs import SearchSupervisor
+E       ModuleNotFoundError: No module named 'hackertube_core.search_jobs'
+
+tests/test_search_supervisor.py:101: ModuleNotFoundError
+________________ test_dead_worker_becomes_failed_not_successful ________________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-159/test_dead_worker_becomes_faile0')
+
+    def test_dead_worker_becomes_failed_not_successful(tmp_path):
+>       supervisor, store, server, job = setup_job(tmp_path, mode="crash", seconds=3)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_search_supervisor.py:111:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-159/test_dead_worker_becomes_faile0')
+mode = 'crash', seconds = 3
+
+    def setup_job(tmp_path, *, mode="hang", seconds=0.6):
+>       from hackertube_core.search_jobs import SearchSupervisor
+E       ModuleNotFoundError: No module named 'hackertube_core.search_jobs'
+
+tests/test_search_supervisor.py:17: ModuleNotFoundError
+___________ test_restart_recovers_running_job_without_starting_work ____________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-159/test_restart_recovers_running_0')
+
+    def test_restart_recovers_running_job_without_starting_work(tmp_path):
+>       from hackertube_core.search_jobs import SearchSupervisor
+E       ModuleNotFoundError: No module named 'hackertube_core.search_jobs'
+
+tests/test_search_supervisor.py:120: ModuleNotFoundError
+___________ test_terminal_response_is_persisted_and_does_not_restart ___________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-159/test_terminal_response_is_pers0')
+
+    def test_terminal_response_is_persisted_and_does_not_restart(tmp_path):
+>       from hackertube_core.search_jobs import SearchSupervisor
+E       ModuleNotFoundError: No module named 'hackertube_core.search_jobs'
+
+tests/test_search_supervisor.py:134: ModuleNotFoundError
+_______________ test_worker_exits_when_its_dashboard_parent_dies _______________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-159/test_worker_exits_when_its_das0')
+
+    def test_worker_exits_when_its_dashboard_parent_dies(tmp_path):
+        server = socket.socket()
+        server.bind(("127.0.0.1", 0))
+        server.listen(1)
+        server.settimeout(4)
+        owner = subprocess.Popen([sys.executable, str(FIXTURE), "orphan-owner",
+                                  str(server.getsockname()[1]), str(tmp_path / "home")])
+>       connection, _ = server.accept()
+                        ^^^^^^^^^^^^^^^
+
+tests/test_search_supervisor.py:152:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=11, family=2, type=1, proto=0, laddr=('127.0.0.1', 54296)>
+
+    def accept(self):
+        """accept() -> (socket object, address info)
+
+        Wait for an incoming connection.  Return a new socket
+        representing the connection, and the address of the client.
+        For IP sockets, the address info is a pair (hostaddr, port).
+        """
+>       fd, addr = self._accept()
+                   ^^^^^^^^^^^^^^
+E       TimeoutError: timed out
+
+../../.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/socket.py:298: TimeoutError
+----------------------------- Captured stderr call -----------------------------
+Traceback (most recent call last):
+  File "/Users/robert/Developer/hackertube/tests/fixtures/search_worker_probe.py", line 60, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/robert/Developer/hackertube/tests/fixtures/search_worker_probe.py", line 19, in main
+    from hackertube_core.search_jobs import SearchSupervisor
+ModuleNotFoundError: No module named 'hackertube_core.search_jobs'
+=========================== short test summary info ============================
+FAILED tests/test_search_supervisor.py::test_deadline_kills_stalled_call_and_closes_connection
+FAILED tests/test_search_supervisor.py::test_cancel_kills_work_before_marking_cancelled_and_keeps_saves
+FAILED tests/test_search_supervisor.py::test_child_process_in_same_group_cannot_outlive_deadline
+FAILED tests/test_search_supervisor.py::test_second_search_is_refused_while_first_owns_profile
+FAILED tests/test_search_supervisor.py::test_no_worker_or_job_without_disclosure
+FAILED tests/test_search_supervisor.py::test_dead_worker_becomes_failed_not_successful
+FAILED tests/test_search_supervisor.py::test_restart_recovers_running_job_without_starting_work
+FAILED tests/test_search_supervisor.py::test_terminal_response_is_persisted_and_does_not_restart
+FAILED tests/test_search_supervisor.py::test_worker_exits_when_its_dashboard_parent_dies
+9 failed in 4.08s

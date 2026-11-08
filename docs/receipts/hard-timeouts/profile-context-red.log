@@ -1,0 +1,69 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________________ test_monitor_keeps_the_request_profile_context ________________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-169/test_monitor_keeps_the_request0')
+
+    def test_monitor_keeps_the_request_profile_context(tmp_path):
+        import contextvars
+        import sqlite3
+        from hackertube_core.profile import ProfileStore
+        from hackertube_core.search_jobs import SearchSupervisor
+        roots = [tmp_path / "a", tmp_path / "b"]
+        for root in roots:
+            root.mkdir()
+        active = contextvars.ContextVar("test_profile", default=roots[1])
+        def connect():
+            conn = sqlite3.connect(active.get() / "profile.db")
+            conn.row_factory = sqlite3.Row
+            return conn
+        ProfileStore(connect)  # initialize default B
+        token = active.set(roots[0])
+        try:
+            store = ProfileStore(connect)
+            manager = SearchSupervisor(store, home=tmp_path / "home-a", host_root=tmp_path,
+                command=[sys.executable, str(FIXTURE), "crash", "0"])
+            job = manager.start("AI", provider="hermes", limits=Limits(deadline_seconds=2), disclosure_accepted=True)
+            assert manager.wait(job["job_id"], 3)
+>           assert manager.status(job["job_id"])["job"]["state"] == "failed"
+E           AssertionError: assert 'running' == 'failed'
+E
+E             - failed
+E             + running
+
+tests/test_search_supervisor.py:180: AssertionError
+=============================== warnings summary ===============================
+tests/test_search_supervisor.py::test_monitor_keeps_the_request_profile_context
+  /Users/robert/Developer/hackertube/.venv/lib/python3.14/site-packages/_pytest/threadexception.py:54: PytestUnhandledThreadExceptionWarning: Exception in thread hackertube-search-supervisor
+
+  Traceback (most recent call last):
+    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 176, in _monitor
+      if job["state"] == "cancelling":
+         ~~~^^^^^^^^^
+  TypeError: 'NoneType' object is not subscriptable
+
+  During handling of the above exception, another exception occurred:
+
+  Traceback (most recent call last):
+    File "/Users/robert/.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+      self._context.run(self.run)
+      ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+    File "/Users/robert/.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/threading.py", line 1024, in run
+      self._target(*self._args, **self._kwargs)
+      ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 223, in _monitor
+      self._finish(job_id, entry, "failed", "Search worker failed; no late result was accepted.")
+      ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 148, in _finish
+      if job["state"] not in ACTIVE:
+         ~~~^^^^^^^^^
+  TypeError: 'NoneType' object is not subscriptable
+
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+    warnings.warn(pytest.PytestUnhandledThreadExceptionWarning(msg))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_search_supervisor.py::test_monitor_keeps_the_request_profile_context
+1 failed, 1 warning in 0.04s

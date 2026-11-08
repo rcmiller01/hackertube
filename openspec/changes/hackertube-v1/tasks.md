@@ -80,6 +80,6 @@ Tasks 1.1, 1.2, 1.4, 2.1, 2.2, 2.3, 3.1, 3.2, 3.3, 3.7, 4.1, and 4.2 are complet
 - [x] 10.2 Persist running/terminal jobs, request counts and results; reject parallel searches and cross-profile handles; recover interrupted jobs without paid resume. Covers JOB04/06.
 - [x] 10.3 Add job status and Cancel routes, queue early cancellation in the dashboard, preserve busy/stale-response guards, and keep saved state intact. Covers JOB01/05 and UI01.
 - [x] 10.4 Use only documented Hermes CLI registration and native facades, preserve provider/source credentials, and stop owned work on unload. Verify native plugin admission and a real Hermes facade against a local stalled provider.
-- [ ] 10.5 Finish exact-head review, full-suite receipts and installed live checks before claiming the follow-up candidate ready.
+- [x] 10.5 Finish exact-head review, full-suite receipts and installed live checks before claiming the follow-up candidate ready.
 
 Task 6.2 remains partial: this follow-up delivers Search cancellation/deadline/restart behavior; SEARCH06 refinement and the wider refresh/partial-failure work are not claimed complete. The original submission/demo receipts remain historical.
