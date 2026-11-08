@@ -1,0 +1,81 @@
+{
+  "repository": "https://github.com/rcmiller01/hackertube",
+  "public": true,
+  "runtime_pin": "3e65af3b424bb932de944731340d99122f0a67ed",
+  "version": "0.2.2",
+  "anonymous_clone": true,
+  "public_asset_checks": [
+    {
+      "asset": "videos",
+      "status": 200,
+      "bytes": 62676
+    },
+    {
+      "asset": "podcasts",
+      "status": 200,
+      "bytes": 46740
+    },
+    {
+      "asset": "audiobooks",
+      "status": 200,
+      "bytes": 46115
+    },
+    {
+      "asset": "about",
+      "status": 200,
+      "bytes": 129806
+    },
+    {
+      "asset": "privacy-policy",
+      "status": 200
+    }
+  ],
+  "native_install_deps_validation": true,
+  "native_warnings": 0,
+  "catalog_pr_url": "https://github.com/NousResearch/hermes-agent/pull/151535",
+  "catalog_pr_head": "f6fc39bccd404c1cc9a031c78cd1a7ca65ccea95",
+  "catalog_changed_files": [
+    "plugin-catalog/hackertube.yaml"
+  ],
+  "catalog_files_validated": 1205,
+  "catalog_structural_ok": true,
+  "repository_guards": {
+    "checks": 15,
+    "ok": true
+  },
+  "x_demo_post_url": "https://x.com/RobertMiller34/status/2119561239160644023",
+  "demo_seconds": 23.25,
+  "entry_form_submitted": true,
+  "confirmation": "Submission Received",
+  "submission_verified_at": "2026-11-08T22:49:45.702539+00:00",
+  "final_submit_action": "User clicked Submit answers; browser confirmation independently observed.",
+  "workflow_runs": [
+    {
+      "name": "Plugin Catalog CI",
+      "status": "completed",
+      "conclusion": "action_required",
+      "url": "https://github.com/NousResearch/hermes-agent/actions/runs/42532030044"
+    },
+    {
+      "name": "CI",
+      "status": "completed",
+      "conclusion": "action_required",
+      "url": "https://github.com/NousResearch/hermes-agent/actions/runs/42532030056"
+    },
+    {
+      "name": "Nix flake check",
+      "status": "completed",
+      "conclusion": "action_required",
+      "url": "https://github.com/NousResearch/hermes-agent/actions/runs/42532030148"
+    },
+    {
+      "name": "Docker Build, Test, and Publish",
+      "status": "completed",
+      "conclusion": "action_required",
+      "url": "https://github.com/NousResearch/hermes-agent/actions/runs/42532029990"
+    }
+  ],
+  "remaining": "Upstream maintainer approval for workflows and catalog review/admission. Entry form has already been received.",
+  "private_data": "Email, Discord and raw form evidence remain outside Git.",
+  "runtime_changed": false
+}

@@ -1,0 +1,15 @@
+# Public release and hackathon submission
+
+The owner authorized publication and continuing the remaining tasks on November 8, 2026. Repository: https://github.com/rcmiller01/hackertube . The pinned runtime remains `3e65af3b424bb932de944731340d99122f0a67ed`, version 0.2.2; this completion record changes no plugin code.
+
+- Anonymous exact-pin clone passed with an empty HOME, global/system Git configuration and credential helpers disabled, and interactive prompts off. No authenticated clone is substituted.
+- All four pinned gallery URLs returned 200 with JPEG bytes; the exact-pin bundled privacy policy returned 200 and the expected version. Native `hermes plugins validate <anonymous-clone>/hackertube --install-deps --json` passed with 0 warnings.
+- [Catalog PR #151535](https://github.com/NousResearch/hermes-agent/pull/151535) adds only `plugin-catalog/hackertube.yaml`, exact reviewed head `f6fc39bccd404c1cc9a031c78cd1a7ca65ccea95`, authored by codex-agent and submitted through the repository owner’s account. The current catalog’s 1,205 files validate. All 15 repository guards pass at the contribution head; no Hermes runtime test suite is claimed for this data-only listing. macOS/Linux platforms are explicit; Linux integration remains unrun.
+- [Public X demo](https://x.com/RobertMiller34/status/2119561239160644023) contains the actual 23.25-second final MP4 and a parsed @NousResearch mention. Its publication and attached video were observed on the owner’s profile. Existing [final demo receipt](../final-demo/README.md) retains metrics, exact payload and earlier partial takes.
+- The official Typeform was completed with the owner’s intended title/description/email/Discord and both real links. The owner clicked the final Submit answers action; the browser then showed **Submission Received**, with thanks for entering the Hermes Agent Plugin Hackathon. Raw contact/form snapshots and confirmation images remain outside Git. The timestamp in publication.json is when confirmation was verified, not an invented server receipt ID.
+
+[Publication summary](publication.json), [native validation](native-validation.json), [full structural results](catalog-structural.json), [repository checks](repository-checks.log).
+
+Catalog workflows currently conclude **action_required**, not a test failure or a green run. Upstream maintainer approval is needed to start them for this contribution, followed by catalog review/admission. The entrant cannot approve those workflows on the upstream repository. The catalog PR is open and the entry form is already received; catalog merge was not required before entry. No unattended CI monitor is represented as configured.
+
+The form’s receipt text mentions the end of the hackathon as November 11 at 1 p.m. PST; the previously inspected announcement recorded November 11 at 5 p.m. EST. This submission was verified November 8, before either time. Historical source/credential scans and their limitations remain pinned in their receipts; no absolute absence guarantee, new live credential check or broad relevance evaluation is asserted.

@@ -1,4 +1,4 @@
-# Prepared only: not submitted. Public clone and release gates remain open.
+# Submitted: https://github.com/NousResearch/hermes-agent/pull/151535
 name: hackertube
 title: HackerTube for Hermes
 repo: https://github.com/rcmiller01/hackertube
@@ -11,6 +11,7 @@ category: web
 requires_hermes: ">=0.23.0"
 version: "0.2.2"
 readme: true
+platforms: [linux, macos]
 screenshots:
   - https://raw.githubusercontent.com/rcmiller01/hackertube/3776106fafe492e36565050812152ad9c8ed9524/docs/receipts/final-demo/videos.jpg
   - https://raw.githubusercontent.com/rcmiller01/hackertube/3776106fafe492e36565050812152ad9c8ed9524/docs/receipts/final-demo/podcasts.jpg

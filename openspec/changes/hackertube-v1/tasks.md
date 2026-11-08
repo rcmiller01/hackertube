@@ -106,3 +106,10 @@ Receipts: docs/receipts/pr19-demo/README.md. Tasks 4.4/4.5/5.1/5.3 retain their 
 - [x] 13.2 Provide local deletion/revocation under the Search lease, refuse active work, and verify no late restoration. Covers PREF15, LIB02, JOB05.
 - [x] 13.3 Reconcile refreshed/deleted/private YouTube metadata across stored copies, retain saved flags, add local housekeeping and official attribution. Covers CAT10/12.
 - [x] 13.4 Verify the exact candidate, record source acceptance/registration, then refresh final submission materials without publishing the repository.
+
+## 14. Authorized public release and hackathon entry
+
+- [x] 14.1 Publish after the scoped audit and explicit instruction; verify unauthenticated exact-pin clone, public gallery/policy and native --install-deps validation. Covers HCKT02/05/06.
+- [x] 14.2 Open the single-entry upstream catalog PR, review its exact head and record local structural/guard checks plus actual upstream CI state. Covers HCKT03/04; maintainer approval/admission remains external, not claimed complete.
+- [x] 14.3 Publish the working demo on X with @NousResearch and verify the public post/video. Covers HCKT10/11.
+- [x] 14.4 Fill all six intended form answers with actual URLs, hand off the final prize-entry Submit action to the owner, and verify Submission Received. Covers HCKT01/12.
