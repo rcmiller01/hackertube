@@ -1,0 +1,37 @@
+{
+  "candidate_sha": "7e1e8f9819cf840aee1f3c33e3d1233853789864",
+  "capture_start_epoch_ms": 1794170497444,
+  "capture_duration_ms": 29039,
+  "captured_frames": 120,
+  "source_frames_dir": "/Users/robert/Documents/Codex/2026-11-08/hackertube-demo-pr19/frames-complete",
+  "source_recording_metadata": "/Users/robert/Documents/Codex/2026-11-08/hackertube-demo-pr19/recording.json",
+  "steps": [
+    {
+      "name": "Open installed plugin",
+      "evidence": "frames-complete/00000.jpg"
+    },
+    {
+      "name": "Browse prepared catalog",
+      "evidence": "first 3.8 seconds of continuous recording"
+    },
+    {
+      "name": "Explicit focused Search and four-category results",
+      "start_ms": 3798,
+      "result_observed_ms": 13485,
+      "evidence": "live-results.txt / results.jpg / category images"
+    },
+    {
+      "name": "Save audiobook",
+      "evidence": "saved.jpg / jobs.json / About Library (4 saved)"
+    },
+    {
+      "name": "Open original source",
+      "evidence": "original-source.txt / original-source.jpg"
+    },
+    {
+      "name": "Karpathy credit",
+      "evidence": "about.txt / about.jpg"
+    }
+  ],
+  "metadata_note": "The retained recorder step-label closure referenced an earlier take, so its final steps array is empty and frame labels are generic. These six steps were verified directly from captured frames, saved screenshots, live UI observations and profile records; no step-label timing is claimed."
+}

@@ -1,0 +1,65 @@
+{
+  "candidate_sha": "3e65af3b424bb932de944731340d99122f0a67ed",
+  "version": "0.2.2",
+  "implementation_sha": "bafa37de8507042f73b1e8a33bce1b43f8c5b14b",
+  "demo_seconds": 23.25,
+  "demo_threshold_seconds": 90,
+  "demo_bytes": 1010963,
+  "demo_sha256": "531fec7bab344c9b4430773e70e9ec1d7865e21f4142c9bb6951d663eeeefffb",
+  "demo_file": "/Users/robert/Documents/Codex/2026-11-08/hackertube-demo-final/hackertube-final-demo.mp4",
+  "capture_frames": 102,
+  "capture_wall_seconds": 23.065,
+  "capture_max_frame_gap_seconds": 0.29100000000000037,
+  "visible_search_seconds": 9.67,
+  "final_job": "job:27:2366196e2e824cee9d9adc899c721aaf",
+  "final_sequence": 27,
+  "final_state": "succeeded",
+  "logical_requests": 11,
+  "request_limit": 12,
+  "results": 16,
+  "category_counts": {
+    "videos": 4,
+    "podcasts": 4,
+    "books": 5,
+    "audiobooks": 3
+  },
+  "saved_before": 6,
+  "saved_after": 7,
+  "original_saves_retained": true,
+  "interests_unchanged": true,
+  "source_settings_unchanged": true,
+  "new_open_events": 1,
+  "source_opened": "https://books.apple.com/us/audiobook/artificial-intelligence/id1480129835?uo=4",
+  "installed_files_matching": 39,
+  "repository_visibility": "PRIVATE",
+  "catalog_pr_url": null,
+  "x_demo_post_url": null,
+  "entry_form_submitted": false,
+  "retakes": [
+    {
+      "job": 25,
+      "version": "0.2.1",
+      "state": "succeeded",
+      "category_counts": {
+        "videos": 3,
+        "podcasts": 3,
+        "books": 3,
+        "audiobooks": 3
+      },
+      "disposition": "Filming exposed broken official icon; preserved in hackertube-demo-v021 outside Git."
+    },
+    {
+      "job": 26,
+      "version": "0.2.2",
+      "state": "partial",
+      "category_counts": {
+        "videos": 0,
+        "podcasts": 6,
+        "books": 2,
+        "audiobooks": 4
+      },
+      "disposition": "Partial ranking with no videos; preserved in hackertube-demo-v022-partial outside Git. No cached/unranked replacement."
+    }
+  ],
+  "known_limit": "Ranking is nondeterministic; clearer wording worked once, not a measured general relevance guarantee."
+}

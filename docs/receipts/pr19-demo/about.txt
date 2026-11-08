@@ -1,0 +1,78 @@
+Browser tab: 1, Title: "Hermes Agent - Dashboard", URL: "http://127.0.0.1:9119/hackertube?profile=default#about".
+1 AXWebArea Hermes Agent - Dashboard, URL: 127.0.0.1:9119/hackertube?profile=default#about
+	2 container root
+		3 container
+			4 button (collapsed) Description: Open navigation, Secondary Actions: Expand
+			5 text Hermes Agent
+		6 container Description: Navigation, ID: app-sidebar
+			7 text HERMES
+			8 text AGENT
+			9 button Close navigation
+			67 combo box (collapsed) Value: default, Secondary Actions: Expand
+				68 text default
+			10 container Navigation
+				11 content list
+					12 link Description: CHAT, Value: 127.0.0.1:9119/chat
+					13 link Description: SESSIONS, Value: 127.0.0.1:9119/sessions
+					14 link Description: FILES, Value: 127.0.0.1:9119/files
+					15 link Description: MODELS, Value: 127.0.0.1:9119/models
+					16 link Description: LOGS, Value: 127.0.0.1:9119/logs
+					17 link Description: CRON, Value: 127.0.0.1:9119/cron
+					18 link Description: SKILLS, Value: 127.0.0.1:9119/skills
+					19 link Description: PLUGINS, Value: 127.0.0.1:9119/plugins
+					20 link Description: MCP, Value: 127.0.0.1:9119/mcp
+					21 link Description: CHANNELS, Value: 127.0.0.1:9119/channels
+					22 link Description: WEBHOOKS, Value: 127.0.0.1:9119/webhooks
+					23 link Description: PAIRING, Value: 127.0.0.1:9119/pairing
+					24 link Description: PROFILES, Value: 127.0.0.1:9119/profiles
+					25 link Description: CONFIG, Value: 127.0.0.1:9119/config
+					26 link Description: KEYS, Value: 127.0.0.1:9119/env
+					27 link Description: SYSTEM, Value: 127.0.0.1:9119/system
+					28 link Description: DOCUMENTATION, Value: 127.0.0.1:9119/docs
+				29 container Plugins
+					30 text Plugins
+					31 content list
+						32 link Description: KANBAN, Value: 127.0.0.1:9119/kanban
+						33 link Description: HACKERTUBE, Value: 127.0.0.1:9119/hackertube
+						34 link Description: ACHIEVEMENTS, Value: 127.0.0.1:9119/achievements
+			35 text System
+			69 link Description: Gateway Status: Running Active Sessions: 0, Help: Status overview, Value: 127.0.0.1:9119/sessions
+			36 content list
+				37 button Restart Gateway
+				70 button Update Hermes
+			38 pop up button (collapsed) Description: Switch theme, Help: Switch theme: Hermes Teal, Secondary Actions: Expand
+			39 pop up button (collapsed) Description: Switch language, Secondary Actions: Expand
+			40 text v0.23.0
+			41 link Description: Nous Research, Value: nousresearch.com/
+		42 heading HackerTube, Value: 1
+			43 text HackerTube
+		44 container
+			45 heading About, Value: 1, ID: about
+				46 text About
+			71 text Andrej Karpathy created the original HackerTube and inspired this project. Read his
+			72 link Description: original HackerTube post, Value: karpathy.bearblog.dev/hacker-tube/
+			73 text  and visit
+			74 link Description: hackertube.org, Value: hackertube.org/
+			75 text . This is an independent Hermes adaptation. It extends the original community-curated discovery idea across several media formats.
+			76 container HackerTube
+				77 link Description: Discover, Value: 127.0.0.1:9119/hackertube?profile=default#discover
+				78 link Description: Library (4 saved), Value: 127.0.0.1:9119/hackertube?profile=default#library
+				79 link Description: About, Value: 127.0.0.1:9119/hackertube?profile=default#about
+			80 heading Sources, Value: 2
+				81 text Sources
+			82 text Explicit searches retrieve from enabled Hacker News, Apple/iTunes, Open Library, LibriVox, and configured Hermes web search. YouTube Data API and Podcast Index need their own source credentials. Reddit stays disabled until approved. Results name unavailable sources. Artwork and media files are not downloaded by search. Book covers load from Open Library only when the catalog marks them as hotlinks. This page does not cache those images. Apple artwork is not loaded.
+			83 heading Coverage, Value: 2
+				84 text Coverage
+			85 text The opening feed recommends an item only after a word match in the title or a contributor name. Matching items are ordered with fixed weights for community evidence, freshness, and variety. The line on each recommendation names only the signals that applied to that item. This page does not show scores. Community evidence means an established endorsement on the record. A mention is not an endorsement. This catalog has no established Hacker News endorsement to rank. An item needs catalog evidence that has not passed its refresh time. Dismissed and completed items stay out of the ranked feed and the section lists. Each format section lists matches first. The not-matched group stays in capture order and is not a recommendation. Coverage is the seeded titles and contributors. A subject outside that set has no ranked match. A format can be empty. Unknown duration and unknown length stay unknown. Saves and interests stay in this profile. Opening a source records that open and does not mark the item completed.
+			86 heading Search and privacy, Value: 2
+				87 text Search and privacy
+			88 text Only explicit searches send the question and bounded retrieved metadata to the selected Hermes provider and configured web-search service. Hermes handles model credentials. HackerTube requests no memory or unrelated chat history. Retrieved identities and library state stay in this Hermes profile. Clear HackerTube plugin data while Hermes is stopped to remove them. YouTube metadata expires after 30 days and is removed on the next catalog read or write. When YouTube is enabled, using its features means agreeing to the
+			89 link Description: YouTube Terms of Service, Value: youtube.com/t/terms
+			90 text  and
+			91 link Description: Google Privacy Policy, Value: policies.google.com/privacy
+			92 text .
+			93 heading Opening a source, Value: 2
+				94 text Opening a source
+			95 text Open at source leaves this page and opens the public destination in the browser. HackerTube does not download the media and does not play it. A destination that is not public https is refused.
+
+The focused UI element is 45 heading About, Value: 1, ID: about

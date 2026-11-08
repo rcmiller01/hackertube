@@ -1,0 +1,8 @@
+{
+  "sha": "7e1e8f9819cf840aee1f3c33e3d1233853789864",
+  "baseline_job_sequence": 21,
+  "host": "v0.23.0+1212.g719240d",
+  "python": "3.14.9",
+  "ui": "http://127.0.0.1:9119/hackertube?profile=default",
+  "original_video_retained": "/Users/robert/Documents/Codex/2026-11-08/hackertube-demo/hackertube-demo.mp4"
+}

@@ -1,0 +1,743 @@
+Browser tab: 1, Title: "Hermes Agent - Dashboard", URL: "http://127.0.0.1:9119/hackertube?profile=default#videos".
+1 AXWebArea Hermes Agent - Dashboard, URL: 127.0.0.1:9119/hackertube?profile=default#videos
+	2 container root
+		3 container
+			4 button (collapsed) Description: Open navigation, Secondary Actions: Expand
+			5 text Hermes Agent
+		6 container Description: Navigation, ID: app-sidebar
+			7 text HERMES
+			8 text AGENT
+			9 button Close navigation
+			67 combo box (collapsed) Value: default, Secondary Actions: Expand
+				68 text default
+			10 container Navigation
+				11 content list
+					12 link Description: CHAT, Value: 127.0.0.1:9119/chat
+					13 link Description: SESSIONS, Value: 127.0.0.1:9119/sessions
+					14 link Description: FILES, Value: 127.0.0.1:9119/files
+					15 link Description: MODELS, Value: 127.0.0.1:9119/models
+					16 link Description: LOGS, Value: 127.0.0.1:9119/logs
+					17 link Description: CRON, Value: 127.0.0.1:9119/cron
+					18 link Description: SKILLS, Value: 127.0.0.1:9119/skills
+					19 link Description: PLUGINS, Value: 127.0.0.1:9119/plugins
+					20 link Description: MCP, Value: 127.0.0.1:9119/mcp
+					21 link Description: CHANNELS, Value: 127.0.0.1:9119/channels
+					22 link Description: WEBHOOKS, Value: 127.0.0.1:9119/webhooks
+					23 link Description: PAIRING, Value: 127.0.0.1:9119/pairing
+					24 link Description: PROFILES, Value: 127.0.0.1:9119/profiles
+					25 link Description: CONFIG, Value: 127.0.0.1:9119/config
+					26 link Description: KEYS, Value: 127.0.0.1:9119/env
+					27 link Description: SYSTEM, Value: 127.0.0.1:9119/system
+					28 link Description: DOCUMENTATION, Value: 127.0.0.1:9119/docs
+				29 container Plugins
+					30 text Plugins
+					31 content list
+						32 link Description: KANBAN, Value: 127.0.0.1:9119/kanban
+						33 link Description: HACKERTUBE, Value: 127.0.0.1:9119/hackertube
+						34 link Description: ACHIEVEMENTS, Value: 127.0.0.1:9119/achievements
+			35 text System
+			69 link Description: Gateway Status: Running Active Sessions: 0, Help: Status overview, Value: 127.0.0.1:9119/sessions
+			36 content list
+				37 button Restart Gateway
+				70 button Update Hermes
+			38 pop up button (collapsed) Description: Switch theme, Help: Switch theme: Hermes Teal, Secondary Actions: Expand
+			39 pop up button (collapsed) Description: Switch language, Secondary Actions: Expand
+			40 text v0.23.0
+			41 link Description: Nous Research, Value: nousresearch.com/
+		42 heading HackerTube, Value: 1
+			43 text HackerTube
+		44 container
+			45 heading HackerTube, Value: 1, ID: discover
+				46 text HackerTube
+			47 text Browse videos, podcasts, books, and audiobooks, then open them at their sources.
+			48 container HackerTube
+				49 link Description: Discover, Value: 127.0.0.1:9119/hackertube?profile=default#discover
+				50 link Description: Library (3 saved), Value: 127.0.0.1:9119/hackertube?profile=default#library
+				51 link Description: About, Value: 127.0.0.1:9119/hackertube?profile=default#about
+			52 container Interests
+				53 heading Interests, Value: 2, ID: interests-heading
+					54 text Interests
+				55 container
+					56 text Interest
+					57 text field (settable) Interest, ID: hackertube-interest
+					58 text Interests can be any subject. They are not limited to technology. Up to 80 characters. A word match is required before an item is recommended.
+					59 button Add interest
+				71 text No interests yet.
+			61 button (expanded) Focused search, Secondary Actions: Collapse
+			257 container hackertube-search-panel
+				258 container
+					259 text Search provider and model
+					260 pop up button (collapsed, settable) Search provider and model, Value: openrouter · openai/gpt-5.4-mini, ID: hackertube-search-model, Secondary Actions: Expand
+						261 menu
+							262 Use current Hermes model
+							263 nous · anthropic/claude-fable-5.1
+							264 nous · anthropic/claude-fable-5
+							265 nous · anthropic/claude-opus-5.5
+							266 nous · anthropic/claude-opus-5
+							267 nous · anthropic/claude-opus-4.8
+							268 nous · anthropic/claude-sonnet-5.5
+							269 nous · anthropic/claude-sonnet-5
+							270 nous · anthropic/claude-haiku-5.5
+							271 nous · anthropic/claude-haiku-4.5
+							272 nous · openai/gpt-6-astra
+							273 nous · openai/gpt-6-astra-fast
+							274 nous · openai/gpt-6-astra-flex
+							275 nous · openai/gpt-6-astra-pro
+							276 nous · openai/gpt-6-astra-pro-fast
+							277 nous · openai/gpt-6-astra-pro-flex
+							278 nous · openai/gpt-6.1-sol
+							279 nous · openai/gpt-6.1-sol-pro
+							280 nous · openai/gpt-6.1-terra
+							281 nous · openai/gpt-6-sol
+							282 nous · openai/gpt-6-sol-pro
+							283 nous · openai/gpt-6-luna
+							284 nous · openai/gpt-6-luna-pro
+							285 nous · openai/gpt-5.5
+							286 nous · openai/gpt-5.5-pro
+							287 nous · openai/gpt-5.4-mini
+							288 nous · google/gemini-4-argon
+							289 nous · google/gemini-3.1-pro-preview
+							290 nous · google/gemini-3.8-flash
+							291 nous · google/gemini-3.7-flash
+							292 nous · x-ai/grok-4.7
+							293 nous · x-ai/grok-4.6
+							294 nous · deepseek/deepseek-v4-pro
+							295 nous · deepseek/deepseek-v4-pro-0813
+							296 nous · deepseek/deepseek-v4.1-flash
+							297 nous · deepseek/deepseek-v4.1-flash-1017
+							298 nous · deepseek/deepseek-v4-flash-0731
+							299 nous · qwen/qwen3.8-max-0902
+							300 nous · qwen/qwen3.8-flash
+							301 nous · moonshotai/kimi-k3
+							302 nous · minimax/minimax-m3
+							303 nous · z-ai/glm-5.3
+							304 nous · z-ai/glm-5.3-flash
+							305 nous · z-ai/glm-5.3-flashx
+							306 nous · z-ai/glm-5.2
+							307 nous · xiaomi/mimo-v2.6-pro
+							308 nous · xiaomi/mimo-v2.6-flash
+							309 nous · xiaomi/mimo-v2.6-pro-ultraspeed
+							310 nous · xiaomi/mimo-v2.5-pro
+							311 nous · tencent/hy4-preview
+							312 nous · tencent/hy3
+							313 nous · stepfun/step-3.7-flash
+							314 nous · nvidia/nemotron-3-super-120b-a12b
+							315 nous · meta/muse-spark-1.2
+							316 nous · meta/muse-spark-1.3
+							317 nous · sakana/fugu-ultra
+							318 nous · upstage/solar-pro4
+							319 nous · upstage/solar-mini4
+							320 nous · stealth/space-bunny-alpha
+							321 nous · upstage/solar-mini4:free
+							322 nous · meituan/longcat-2.5:free
+							323 nous · stepfun/step-3.7-flash:free
+							324 nous · reflection/beam-1.0-501b-a23b:free
+							325 nous · stealth/crouton-alpha
+							326 openrouter · anthropic/claude-fable-5.1
+							327 openrouter · anthropic/claude-fable-5
+							328 openrouter · anthropic/claude-opus-5.5
+							329 openrouter · anthropic/claude-opus-5
+							330 openrouter · anthropic/claude-opus-4.8
+							331 openrouter · anthropic/claude-sonnet-5.5
+							332 openrouter · anthropic/claude-sonnet-5
+							333 openrouter · anthropic/claude-haiku-5.5
+							334 openrouter · anthropic/claude-haiku-4.5
+							335 openrouter · openai/gpt-6-astra
+							336 openrouter · openai/gpt-6-astra-pro
+							337 openrouter · openai/gpt-6.1-sol
+							338 openrouter · openai/gpt-6.1-sol-pro
+							339 openrouter · openai/gpt-6.1-terra
+							340 openrouter · openai/gpt-6-sol
+							341 openrouter · openai/gpt-6-sol-pro
+							342 openrouter · openai/gpt-6-luna
+							343 openrouter · openai/gpt-6-luna-pro
+							344 openrouter · openai/gpt-5.5
+							345 openrouter · openai/gpt-5.5-pro
+							346 (selected) openrouter · openai/gpt-5.4-mini
+							347 openrouter · google/gemini-4-argon
+							348 openrouter · google/gemini-3.1-pro-preview
+							349 openrouter · google/gemini-3.8-flash
+							350 openrouter · google/gemini-3.7-flash
+							351 openrouter · x-ai/grok-4.7
+							352 openrouter · x-ai/grok-4.6
+							353 openrouter · deepseek/deepseek-v4-pro
+							354 openrouter · deepseek/deepseek-v4-pro-0813
+							355 openrouter · deepseek/deepseek-v4.1-flash
+							356 openrouter · deepseek/deepseek-v4.1-flash-1017
+							357 openrouter · deepseek/deepseek-v4-flash-0731
+							358 openrouter · qwen/qwen3.8-max-0902
+							359 openrouter · qwen/qwen3.8-flash
+							360 openrouter · moonshotai/kimi-k3
+							361 openrouter · minimax/minimax-m3
+							362 openrouter · z-ai/glm-5.3
+							363 openrouter · z-ai/glm-5.3-flash
+							364 openrouter · z-ai/glm-5.3-flashx
+							365 openrouter · z-ai/glm-5.2
+							366 openrouter · xiaomi/mimo-v2.6-pro
+							367 openrouter · xiaomi/mimo-v2.6-flash
+							368 openrouter · xiaomi/mimo-v2.6-pro-ultraspeed
+							369 openrouter · xiaomi/mimo-v2.5-pro
+							370 openrouter · tencent/hy4-preview
+							371 openrouter · tencent/hy3
+							372 openrouter · stepfun/step-3.7-flash
+							373 openrouter · nvidia/nemotron-3-super-120b-a12b
+							374 openrouter · meta/muse-spark-1.2
+							375 openrouter · meta/muse-spark-1.2-contributor
+							376 openrouter · meta/muse-spark-1.3
+							377 openrouter · meta/muse-spark-1.3-contributor
+							378 openrouter · sakana/fugu-ultra
+							379 openrouter · upstage/solar-pro4
+							380 openrouter · upstage/solar-mini4
+							381 openrouter · openrouter/pareto-code
+							382 openrouter · nvidia/nemotron-3-ultra-550b-a55b:free
+							383 openrouter · nvidia/nemotron-3.5-lightning:free
+							384 moa · default
+							385 openai-codex · gpt-6.1-sol
+							386 openai-codex · gpt-6.1-sol-900k
+							387 openai-codex · gpt-6-astra
+							388 openai-codex · gpt-6-astra-900k
+							389 openai-codex · gpt-6.1-terra
+							390 openai-codex · gpt-6-sol
+							391 openai-codex · gpt-6-sol-900k
+							392 openai-codex · gpt-6-luna
+							393 openai-codex · gpt-6-luna-900k
+							394 openai-codex · gpt-5.6-sol
+							395 openai-codex · gpt-5.6-sol-900k
+							396 openai-codex · gpt-5.6-terra
+							397 openai-codex · gpt-5.6-terra-900k
+							398 openai-codex · gpt-5.6-luna
+							399 openai-codex · gpt-5.6-luna-900k
+							400 huggingface · moonshotai/Kimi-K2.5
+							401 huggingface · Qwen/Qwen3.5-397B-A17B
+							402 huggingface · Qwen/Qwen3.5-35B-A3B
+							403 huggingface · deepseek-ai/DeepSeek-V3.2
+							404 huggingface · MiniMaxAI/MiniMax-M2.5
+							405 huggingface · zai-org/GLM-5
+							406 huggingface · XiaomiMiMo/MiMo-V2-Flash
+							407 huggingface · moonshotai/Kimi-K2-Thinking
+							408 huggingface · moonshotai/Kimi-K2.6
+							409 huggingface · Qwen/Qwen3.8-27B
+							410 huggingface · deepseek-ai/DeepSeek-V4.1-Flash-1017
+							411 huggingface · zai-org/GLM-5.3-Flash
+							412 huggingface · deepseek-ai/DeepSeek-V4.1-Flash
+							413 huggingface · meta-llama/Llama-3.1-8B-Instruct
+							414 huggingface · moonshotai/Kimi-K3
+							415 huggingface · google/gemma-4-31B-it
+							416 huggingface · Qwen/Qwen3.5-9B
+							417 huggingface · zai-org/GLM-5.3
+							418 huggingface · Qwen/Qwen3.6-35B-A3B
+							419 huggingface · MiniMaxAI/MiniMax-M3.1-Flash
+							420 huggingface · tencent/Hy4-preview
+							421 huggingface · meta-models/Muse-Glimmer-30B
+							422 huggingface · openai/gpt-oss-20b
+							423 huggingface · reflection/Beam-1.0-501B-A23B
+							424 huggingface · XiaomiMiMo/MiMo-V2.6-Pro-RL
+							425 huggingface · google/gemma-4-26B-A4B-it
+							426 huggingface · Qwen/Qwen3.8-2.4T-A95B
+							427 huggingface · thinkingmachines/Inkling-Small
+							428 huggingface · openai/gpt-oss-120b
+							429 huggingface · google/gemma-3-4b-it
+							430 huggingface · nvidia/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-NVFP4
+							431 huggingface · deepseek-ai/DeepSeek-R1
+							432 huggingface · deepseek-ai/DeepSeek-V4-Flash
+							433 huggingface · CohereLabs/tiny-aya-global
+							434 huggingface · Qwen/Qwen3.5-27B
+							435 huggingface · meta-models/Muse-Spark-Open-816B-A42B
+							436 huggingface · Qwen/Qwen3.8-Flash-Next-FP8
+							437 huggingface · XiaomiMiMo/MiMo-V2.6-Flash-RL
+							438 huggingface · thinkingmachines/Inkling
+							439 huggingface · meta-llama/Llama-3.3-70B-Instruct
+							440 huggingface · zai-org/GLM-5.2
+							441 huggingface · ibm-granite/granite-4.2-3b
+							442 huggingface · Qwen/Qwen3.6-27B
+							443 huggingface · deepseek-ai/DeepSeek-V4-Pro
+							444 huggingface · inclusionAI/Ling-3.1-flash
+							445 huggingface · swiss-ai/Apertus-v1.5-70B
+							446 huggingface · openai/gpt-oss-safeguard-20b
+							447 huggingface · deepseek-ai/DeepSeek-V4-Flash-0731
+							448 huggingface · google/gemma-3-12b-it
+							449 huggingface · zai-org/GLM-4.7-Flash
+							450 huggingface · Qwen/Qwen3-30B-A3B
+							451 huggingface · deepseek-ai/DeepSeek-V4-Pro-0813
+							452 huggingface · google/gemma-3-27b-it
+							453 huggingface · ibm-granite/granite-4.2-8b
+							454 huggingface · meta-llama/Llama-4-Scout-17B-16E-Instruct
+							455 huggingface · inclusionAI/Ling-3.0-flash-Fin
+							456 huggingface · microsoft/phi-4
+							457 huggingface · moonshotai/Kimi-K2.7-Code
+							458 huggingface · nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16
+							459 huggingface · zai-org/GLM-5.3-Flash-BF16
+							460 huggingface · deepseek-ai/DeepSeek-V4-Flash-Vision-Exp
+							461 huggingface · CohereLabs/tiny-aya-earth
+							462 huggingface · moonshotai/Kimi-K2-Instruct
+							463 huggingface · Qwen/Qwen3-14B
+							464 huggingface · meta-llama/Llama-Guard-4-12B
+							465 huggingface · zai-org/GLM-5.3-BF16
+							466 huggingface · Qwen/Qwen3-VL-235B-A22B-Instruct
+							467 huggingface · ibm-granite/granite-4.2-30b
+							468 huggingface · Qwen/Qwen2.5-VL-72B-Instruct
+							469 huggingface · zai-org/GLM-4.6V-Flash
+							470 huggingface · zai-org/AutoGLM-Phone-9B-Multilingual
+							471 huggingface · Qwen/Qwen2.5-72B-Instruct
+							472 huggingface · Qwen/Qwen3.5-122B-A10B
+							473 huggingface · deepseek-ai/DeepSeek-V3
+							474 huggingface · MiniMaxAI/MiniMax-M3
+							475 huggingface · inclusionAI/Ling-3.0-flash-VL
+							476 huggingface · Qwen/Qwen3-32B
+							477 huggingface · CohereLabs/aya-expanse-32b
+							478 huggingface · swiss-ai/Apertus-8B-Instruct-2509
+							479 huggingface · XiaomiMiMo/MiMo-V2.5
+							480 huggingface · Sao10K/L3-8B-Stheno-v3.2
+							481 huggingface · speakleash/Bielik-11B-v3.0-Instruct
+							482 huggingface · inclusionAI/Ling-3.0-flash
+							483 huggingface · zai-org/GLM-4.7
+							484 huggingface · aisingapore/Qwen-SEA-LION-v4.5-27B-IT
+							485 huggingface · zai-org/GLM-4.5V-FP8
+							486 huggingface · Qwen/Qwen3-VL-30B-A3B-Instruct
+							487 huggingface · zai-org/GLM-4.5
+							488 huggingface · NousResearch/Hermes-3-Llama-3.1-70B
+							489 huggingface · zai-org/GLM-4.5V
+							490 huggingface · stepfun-ai/Step-3.7-Flash
+							491 huggingface · zai-org/GLM-4.5-Air
+							492 huggingface · deepseek-ai/DeepSeek-V3-0324
+							493 huggingface · zai-org/GLM-4.6V
+							494 huggingface · aisingapore/Gemma-SEA-LION-v4-27B-IT
+							495 huggingface · zai-org/GLM-4.6-FP8
+							496 huggingface · deepseek-ai/DeepSeek-R1-0528
+							497 huggingface · zai-org/GLM-4.6V-FP8
+							498 huggingface · swiss-ai/Apertus-70B-Instruct-2509
+							499 huggingface · zai-org/GLM-4.6
+							500 huggingface · CohereLabs/aya-vision-32b
+							501 huggingface · Qwen/Qwen3-235B-A22B-Instruct-2507
+							502 huggingface · aisingapore/Qwen-SEA-LION-v4-32B-IT
+							503 huggingface · zai-org/GLM-4.7-FP8
+							504 huggingface · Qwen/Qwen3-235B-A22B-Thinking-2507
+							505 huggingface · BSC-LT/ALIA-40b-instruct-2606
+							506 huggingface · deepseek-ai/DeepSeek-V3.1
+							507 huggingface · aisingapore/Nemotron-SEA-LION-v4.8-120B-A12B
+							508 huggingface · zai-org/GLM-5.1
+							509 huggingface · Qwen/Qwen3-Next-80B-A3B-Instruct
+							510 huggingface · alpindale/WizardLM-2-8x22B
+							511 huggingface · zai-org/GLM-5.1-FP8
+							512 huggingface · deepseek-ai/DeepSeek-V3.1-Terminus
+							513 huggingface · MiniMaxAI/MiniMax-M1-80k
+							514 huggingface · zai-org/GLM-5.2-FP8
+							515 huggingface · stepfun-ai/Step-3.5-Flash
+							516 huggingface · moonshotai/Kimi-K2-Instruct-0905
+							517 huggingface · CohereLabs/c4ai-command-r-08-2024
+							518 huggingface · meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8
+							519 huggingface · MiniMaxAI/MiniMax-M2.7
+							520 huggingface · CohereLabs/c4ai-command-r7b-12-2024
+							521 huggingface · XiaomiMiMo/MiMo-V2.5-Pro
+							522 huggingface · CohereLabs/c4ai-command-a-03-2025
+							523 huggingface · tencent/Hy3
+							524 huggingface · CohereLabs/command-a-reasoning-08-2025
+							525 huggingface · CohereLabs/command-a-translate-08-2025
+							526 huggingface · CohereLabs/tiny-aya-water
+							527 huggingface · CohereLabs/tiny-aya-fire
+							528 zai · glm-5.3
+							529 zai · glm-5.3-flash
+							530 zai · glm-5.2
+							531 zai · glm-5.1
+							532 zai · glm-5
+							533 zai · glm-5v-turbo
+							534 zai · glm-5-turbo
+							535 zai · glm-4.7
+							536 zai · glm-4.5
+							537 zai · glm-4.5-flash
+							538 zai · glm-4.5-air
+							539 zai · glm-4.6
+							540 zai · glm-5.3-flashx
+							541 zai · glm-5.3-flashx-legal
+							542 ollama-cloud · kimi-k2.7-code
+							543 ollama-cloud · minimax-m3
+							544 ollama-cloud · mimo-v2.6-flash
+							545 ollama-cloud · gpt-oss:120b
+							546 ollama-cloud · mistral-large-4
+							547 ollama-cloud · deepseek-v4-pro:0813
+							548 ollama-cloud · mimo-v2.6-pro
+							549 ollama-cloud · kimi-k2.6
+							550 ollama-cloud · nemotron-3-nano:30b
+							551 ollama-cloud · glm-5.3-flash
+							552 ollama-cloud · gpt-oss:20b
+							553 ollama-cloud · minimax-m3.1-flash
+							554 ollama-cloud · deepseek-v4.1-flash
+							555 ollama-cloud · nemotron-3-ultra
+							556 ollama-cloud · deepseek-v4.1-flash:1017
+							557 ollama-cloud · muse-spark-open
+							558 ollama-cloud · clef:27b
+							559 ollama-cloud · kimi-k3.1-pro
+							560 ollama-cloud · gemma4:31b
+							561 ollama-cloud · nemotron-3-super
+							562 ollama-cloud · mistral-large-3:675b
+							563 ollama-cloud · glm-5.2
+							564 ollama-cloud · glm-5.3
+							565 ollama-cloud · minimax-m2.7
+							566 ollama-cloud · kimi-k3
+							567 ollama-cloud · beam
+							568 ollama-cloud · deepseek-v4-pro
+							569 alibaba-token-plan · qwen3.8-max-0902
+							570 alibaba-token-plan · qwen3.7-max
+							571 alibaba-token-plan · qwen3.7-plus
+							572 alibaba-token-plan · qwen3.6-plus
+							573 alibaba-token-plan · qwen3.6-flash
+							574 alibaba-token-plan · deepseek-v4-pro
+							575 alibaba-token-plan · deepseek-v4-flash
+							576 alibaba-token-plan · deepseek-v3.2
+							577 alibaba-token-plan · kimi-k2.7-code
+							578 alibaba-token-plan · kimi-k2.6
+							579 alibaba-token-plan · kimi-k2.5
+							580 alibaba-token-plan · glm-5.2
+							581 alibaba-token-plan · glm-5.1
+							582 alibaba-token-plan · glm-5
+							583 ollama-local · glm-5.3-flash:cloud
+							584 ollama-local · deepseek-v4.1-flash:cloud
+							585 ollama-local · qwen3.8:latest
+							586 ollama-local · kimi-k3:cloud
+							587 ollama-local · devstral-small-2:24b-cloud
+							588 ollama-local · gemini-3-flash-preview:cloud
+							589 ollama-local · qwen3.5:397b-cloud
+							590 ollama-local · mistral-large-3:675b-cloud
+							591 ollama-local · glm-5.2:cloud
+							592 ollama-local · kimi-k2.7-code:cloud
+							593 ollama-local · nemotron3:33b
+							594 ollama-local · nemotron-3-ultra:cloud
+							595 ollama-local · minimax-m3:cloud
+							596 lmstudio-local · qwen3-235b-a22b-abliterated-i1
+							597 lmstudio-local · gpt-oss-120b-abliterated-i1
+							598 lmstudio-local · huihui-qwen3-vl-32b-instruct-abliterated-mlx
+							599 lmstudio-local · huihui-qwen3-vl-4b-instruct-abliterated-mlx
+							600 lmstudio-local · qwen3.8-27b-mlx
+							601 lmstudio-local · qwen/qwen3-vl-8b
+							602 lmstudio-local · text-embedding-nomic-embed-text-v1.5
+					603 button Use for search
+					604 link Description: Manage providers in Hermes, Value: 127.0.0.1:9119/models
+				605 button (collapsed) Search sources, Secondary Actions: Expand
+					606 text Search sources
+				607 text Question
+				608 text field (settable) Question, Value: AI introductions for beginners across videos, podcasts, books and audiobooks., ID: hackertube-question
+				609 text Configured sources and the broader web may be searched. Model, search, and provider credits or quota may be used. Browsing is free.
+				610 checkbox (settable, integer) Description: I understand this Search may use model, search, or provider credits or quota., Value: 1, ID: hackertube-disclosure-ack
+				611 text Search stops local work at its deadline. Cancel search stops it early. A provider may still bill for a request already accepted.
+				612 text Search uses your configured Hermes providers. Choose a model above or manage HackerTube search in Hermes Models → Auxiliary.
+				613 button Search
+				614 button Close search
+			615 container hackertube-results
+				616 heading Search results, Value: 2
+					617 text Search results
+				618 text Question: AI introductions for beginners across videos, podcasts, books and audiobooks.
+				622 text Provider: hermes. Job job:24:017ed0f4a78d48c8969e40eae2f4e7f4. State: succeeded.
+				623 text Topic: artificial intelligence. Level: beginner.
+				624 text Time limit: none requested.
+				625 text Cost: unknown. The provider reported no cost information.
+				626 text Work limits for this job: at most 12 provider requests, 24 results, a 45 second work budget. Provider requests used: 11. Search stops local work at its deadline. Cancel search stops it early. A provider may still bill for a request already accepted.
+				627 text podcastindex: missing_api_key reddit: approval_absent
+				628 container hackertube-result-videos
+					629 heading Videos · 2 verified, Value: 3
+						630 text Videos · 2 verified
+					631 container
+						632 text Video
+						633 heading SIMPLEST Explanation of How Artificial Intelligence Works? No Jargon | What is AI? How AI works?, Value: 3
+							634 text SIMPLEST Explanation of How Artificial Intelligence Works? No Jargon | What is AI? How AI works?
+						635 text Science Simplified 4 All Video · YouTube YouTube Source candidate , YouTube
+						636 text retrieved November 8, 2026, 20:41 UTC
+						637 text 26 minutes 19 seconds
+						638 link Description: Open at source, Value: youtube.com/watch?v=m8o2GrbR3d8
+						639 button Save
+						640 button Dismiss
+					641 text Source: YouTube
+					642 container
+						643 text Model relevance:  Clear beginner-friendly explanation of how AI works without jargon..
+					644 container
+						645 text Video
+						646 heading AI Simplified: 6 Concepts You Need to Know About Modern AI, Value: 3
+							647 text AI Simplified: 6 Concepts You Need to Know About Modern AI
+						648 text IBM Technology Video · YouTube YouTube Source candidate , YouTube
+						649 text retrieved November 8, 2026, 20:41 UTC
+						650 text 8 minutes 49 seconds
+						651 link Description: Open at source, Value: youtube.com/watch?v=mUw27wG7uFA
+						652 button Save
+						653 button Dismiss
+					654 text Source: YouTube
+					655 container
+						656 text Model relevance:  Short overview of core modern AI concepts for newcomers..
+				657 container hackertube-result-podcasts
+					658 heading Podcasts · 2 verified, Value: 3
+						659 text Podcasts · 2 verified
+					660 container
+						661 text Show
+						662 heading Artificial Intelligence 101, Value: 3
+							663 text Artificial Intelligence 101
+						664 text Luca Marchesotti Podcast · show art unavailable Apple Podcasts Source candidate , Apple Podcasts
+						665 text retrieved November 8, 2026, 20:41 UTC
+						666 link Description: Open at source, Value: podcasts.apple.com/us/podcast/artificial-intelligence-101/id1595568010?uo=4
+						667 button (disabled) Saved
+						668 button Dismiss
+					669 text Source: Apple Podcasts
+					670 text In your library: Saved.
+					671 container
+						672 text Model relevance:  A podcast explicitly framed as AI 101 for beginners..
+					673 container
+						674 text Show
+						675 heading AI LITERACY - A Podcast about Artificial Intelligence, Value: 3
+							676 text AI LITERACY - A Podcast about Artificial Intelligence
+						677 text AI LITERACY Podcast · show art unavailable Apple Podcasts Source candidate , Apple Podcasts
+						678 text retrieved November 8, 2026, 20:41 UTC
+						679 link Description: Open at source, Value: podcasts.apple.com/us/podcast/ai-literacy-a-podcast-about-artificial-intelligence/id1553736450?uo=4
+						680 button (disabled) Saved
+						681 button Dismiss
+					682 text Source: Apple Podcasts
+					683 text In your library: Saved.
+					684 container
+						685 text Model relevance:  Educational podcast focused on AI literacy and introductions..
+				686 container hackertube-result-books
+					687 heading Books · 1 verified, Value: 3
+						688 text Books · 1 verified
+					689 container
+						690 text Book
+						691 heading Artificial Intelligence, Value: 3
+							692 text Artificial Intelligence
+						693 text Melanie Mitchell Book · cover unavailable Open Library Source candidate , Open Library
+						694 text retrieved November 8, 2026, 20:41 UTC
+						695 text Length unknown
+						696 link Description: Open at source, Value: openlibrary.org/works/OL20666330W
+						697 button Save
+						698 button Dismiss
+					699 text Source: Open Library
+					700 container
+						701 text Model relevance:  Melanie Mitchell's book is a readable introduction to AI concepts..
+				702 container hackertube-result-audiobooks
+					703 heading Audiobooks · 3 verified, Value: 3
+						704 text Audiobooks · 3 verified
+					705 container
+						706 text Audiobook
+						707 heading Artificial Intelligence For Dummies, Value: 3
+							708 text Artificial Intelligence For Dummies
+						709 text John Paul Mueller & Luca Massaron Audiobook · cover unavailable Public source Source candidate , Apple Podcasts
+						710 text retrieved November 8, 2026, 20:41 UTC
+						711 text Duration unknown
+						712 link Description: Open at source, Value: books.apple.com/us/audiobook/artificial-intelligence-for-dummies/id1648988957?uo=4
+						713 button Save
+						714 button Dismiss
+					715 text Source: Apple Podcasts
+					716 container
+						717 text Model relevance:  Beginner-oriented Dummies audiobook covering AI fundamentals..
+					718 container
+						719 text Audiobook
+						720 heading Artificial Intelligence All-in-One For Dummies, Value: 3
+							721 text Artificial Intelligence All-in-One For Dummies
+						722 text Chris Minnick Audiobook · cover unavailable Public source Source candidate , Apple Podcasts
+						723 text retrieved November 8, 2026, 20:41 UTC
+						724 text Duration unknown
+						725 link Description: Open at source, Value: books.apple.com/us/audiobook/artificial-intelligence-all-in-one-for-dummies/id1818451000?uo=4
+						726 button Save
+						727 button Dismiss
+					728 text Source: Apple Podcasts
+					729 container
+						730 text Model relevance:  All-in-one beginner audiobook that likely covers broad AI basics..
+					731 container
+						732 text Audiobook
+						733 heading Artificial Intelligence, Value: 3
+							734 text Artificial Intelligence
+						735 text Melanie Mitchell Audiobook · cover unavailable Public source Source candidate , Apple Podcasts
+						736 text retrieved November 8, 2026, 20:41 UTC
+						737 text Duration unknown
+						738 link Description: Open at source, Value: books.apple.com/us/audiobook/artificial-intelligence/id1480129835?uo=4
+						739 button Save
+						740 button Dismiss
+					741 text Source: Apple Podcasts
+					742 container
+						743 text Model relevance:  Audiobook edition of a well-known introductory AI title by Melanie Mitchell..
+				621 button Back to discovery
+			62 container Media sections
+				63 link Description: Videos, Value: 127.0.0.1:9119/hackertube?profile=default#videos
+				64 link Description: Podcasts, Value: 127.0.0.1:9119/hackertube?profile=default#podcasts
+				65 link Description: Books, Value: 127.0.0.1:9119/hackertube?profile=default#books
+				66 link Description: Audiobooks, Value: 127.0.0.1:9119/hackertube?profile=default#audiobooks
+			72 container Ranked feed 0, ID: ranked-feed
+				73 heading Ranked feed 0, Value: 2, ID: ranked-heading
+					74 text Ranked feed
+					75 text  0
+				76 text Nothing here is ranked for you yet. Add an interest to rank the seeded catalog. Refresh prepared catalog reads the saved catalog again and does not start a search.
+				77 button Refresh prepared catalog
+			78 text Seeded catalog, in capture order.
+			79 text An item is hidden when its catalog evidence has expired. This list is not a personalized feed.
+			80 container Videos 25, ID: videos
+				81 heading Videos 25, Value: 2, ID: videos-heading
+					82 text Videos
+					83 text  25
+				84 container
+					85 text Video
+					86 heading What is AI?, Value: 3
+						87 text What is AI?
+					88 text The Educated Owl Video · YouTube YouTube Source candidate , YouTube
+					89 text retrieved November 8, 2026, 16:19 UTC
+					90 text 18 seconds
+					91 link Description: Open at source, Value: youtube.com/watch?v=SMC2lylFXeQ
+					92 button Save
+					93 button Dismiss
+				94 container
+					95 text Video
+					96 heading Accessibility: VoiceOver powered by Apple Intelligence, Value: 3
+						97 text Accessibility: VoiceOver powered by Apple Intelligence
+					98 text Apple Video · YouTube YouTube Source candidate , YouTube
+					99 text retrieved November 8, 2026, 16:19 UTC
+					100 text 1 minute 22 seconds
+					101 link Description: Open at source, Value: youtube.com/watch?v=B3SmsSCvoss
+					102 button Save
+					103 button Dismiss
+				104 container
+					105 text Video
+					106 heading Sarah Jane Leslie - Artificial Intelligence: An Accessible Introduction, Value: 3
+						107 text Sarah Jane Leslie - Artificial Intelligence: An Accessible Introduction
+					108 text Princeton Natural and Artificial Minds Video · YouTube YouTube Source candidate , YouTube
+					109 text retrieved November 8, 2026, 16:19 UTC
+					110 text 1 hour 6 minutes 12 seconds
+					111 link Description: Open at source, Value: youtube.com/watch?v=OPMPXDcTX3I
+					112 button Save
+					113 button Dismiss
+				114 container
+					115 text Video
+					116 heading AI: A Game-Changer for Accessibility? ♿️🤖 #AI #ArtificialIntelligence #Accessibility #crypto PART 5, Value: 3
+						117 text AI: A Game-Changer for Accessibility? ♿️🤖 #AI #ArtificialIntelligence #Accessibility #crypto PART 5
+					118 text TEKTHRILL Video · YouTube YouTube Source candidate , YouTube
+					119 text retrieved November 8, 2026, 16:19 UTC
+					120 text 54 seconds
+					121 link Description: Open at source, Value: youtube.com/watch?v=F4WfBHrDyjQ
+					122 button Save
+					123 button Dismiss
+				124 button Show more
+			125 container Podcasts 78, ID: podcasts
+				126 heading Podcasts 78, Value: 2, ID: podcasts-heading
+					127 text Podcasts
+					128 text  78
+				129 container
+					130 text Show
+					131 heading Jane Austen Stories, Value: 3
+						132 text Jane Austen Stories
+					133 text NOISER Podcast · show art unavailable Apple Podcasts Source candidate , Apple Podcasts
+					134 text retrieved November 6, 2026, 12:22 UTC
+					135 link Description: Open at source, Value: podcasts.apple.com/us/podcast/jane-austen-stories/id1840669662?uo=4
+					136 button Save
+					137 button Dismiss
+				138 container
+					139 text Show
+					140 heading A Jane Austen Year, Value: 3
+						141 text A Jane Austen Year
+					142 text Jane Austen's House Podcast · show art unavailable Apple Podcasts Source candidate , Apple Podcasts
+					143 text retrieved November 6, 2026, 12:22 UTC
+					144 link Description: Open at source, Value: podcasts.apple.com/us/podcast/a-jane-austen-year/id1788168257?uo=4
+					145 button Save
+					146 button Dismiss
+				147 container
+					148 text Show
+					149 heading The Python Show, Value: 3
+						150 text The Python Show
+					151 text Learning about Python together Podcast · show art unavailable Apple Podcasts Source candidate , Apple Podcasts
+					152 text retrieved November 6, 2026, 12:24 UTC
+					153 link Description: Open at source, Value: podcasts.apple.com/us/podcast/the-python-show/id1691189730?uo=4
+					154 button Save
+					155 button Dismiss
+				156 container
+					157 text Episode
+					158 heading The Future of Python Security: Trends, Challenges, and Solutions, Value: 3
+						159 text The Future of Python Security: Trends, Challenges, and Solutions
+					160 text Contributor unknown. Show: Show unknown Podcast · show art unavailable Apple Podcasts Source candidate , Apple Podcasts
+					161 text retrieved November 6, 2026, 12:24 UTC
+					162 text 1 hour 10 minutes 57 seconds
+					163 link Description: Open at source, Value: podcasts.apple.com/us/podcast/the-future-of-python-security-trends/id1501905538?i=1000797776212&uo=4
+					164 button Save
+					165 button Dismiss
+				166 button Show more
+			167 container Books 46, ID: books
+				168 heading Books 46, Value: 2, ID: books-heading
+					169 text Books
+					170 text  46
+				171 container
+					172 text Book
+					173 heading Pride and Prejudice, Value: 3
+						174 text Pride and Prejudice
+					175 text Jane Austen Open Library Source candidate , Open Library
+					176 text retrieved November 6, 2026, 12:22 UTC
+					177 text Length unknown Linked audiobook edition: Pride and Prejudice
+					178 link Description: Open at source, Value: openlibrary.org/works/OL66554W
+					179 button Save
+					180 button Dismiss
+				181 container
+					182 text Book
+					183 heading Emma, Value: 3
+						184 text Emma
+					185 text Jane Austen Open Library Source candidate , Open Library
+					186 text retrieved November 6, 2026, 12:22 UTC
+					187 text Length unknown Linked audiobook edition: Emma
+					188 link Description: Open at source, Value: openlibrary.org/works/OL66513W
+					189 button Save
+					190 button Dismiss
+				191 container
+					192 text Book
+					193 heading Sense and Sensibility, Value: 3
+						194 text Sense and Sensibility
+					195 text Jane Austen Open Library Source candidate , Open Library
+					196 text retrieved November 6, 2026, 12:22 UTC
+					197 text Length unknown Linked audiobook edition: Sense and Sensibility
+					198 link Description: Open at source, Value: openlibrary.org/works/OL66562W
+					199 button Save
+					200 button Dismiss
+				201 container
+					202 text Book
+					203 heading Northanger Abbey, Value: 3
+						204 text Northanger Abbey
+					205 text Jane Austen Open Library Source candidate , Open Library
+					206 text retrieved November 6, 2026, 12:22 UTC
+					207 text Length unknown Linked audiobook edition: Northanger Abbey
+					208 link Description: Open at source, Value: openlibrary.org/works/OL66534W
+					209 button Save
+					210 button Dismiss
+				211 button Show more
+			212 container Audiobooks 48, ID: audiobooks
+				213 heading Audiobooks 48, Value: 2, ID: audiobooks-heading
+					214 text Audiobooks
+					215 text  48
+				216 container
+					217 text Audiobook
+					218 heading Pride and Prejudice, Value: 3
+						219 text Pride and Prejudice
+					220 text Jane Austen Audiobook · cover unavailable LibriVox Source candidate , LibriVox
+					221 text retrieved November 6, 2026, 12:22 UTC
+					222 text 13 hours 6 minutes 44 seconds Linked book edition: Pride and Prejudice
+					223 link Description: Open at source, Value: librivox.org/pride-and-prejudice-by-jane-austen/
+					224 button Save
+					225 button Dismiss
+				226 container
+					227 text Audiobook
+					228 heading Emma, Value: 3
+						229 text Emma
+					230 text Jane Austen Audiobook · cover unavailable LibriVox Source candidate , LibriVox
+					231 text retrieved November 6, 2026, 12:22 UTC
+					232 text 18 hours 2 minutes 30 seconds Linked book edition: Emma
+					233 link Description: Open at source, Value: librivox.org/emma-by-jane-austen-solo/
+					234 button Save
+					235 button Dismiss
+				236 container
+					237 text Audiobook
+					238 heading Sense and Sensibility, Value: 3
+						239 text Sense and Sensibility
+					240 text Jane Austen Audiobook · cover unavailable LibriVox Source candidate , LibriVox
+					241 text retrieved November 6, 2026, 12:22 UTC
+					242 text 12 hours 11 minutes 9 seconds Linked book edition: Sense and Sensibility
+					243 link Description: Open at source, Value: librivox.org/sense-and-sensibility-by-jane-austen/
+					244 button Save
+					245 button Dismiss
+				246 container
+					247 text Audiobook
+					248 heading Northanger Abbey, Value: 3
+						249 text Northanger Abbey
+					250 text Jane Austen Audiobook · cover unavailable LibriVox Source candidate , LibriVox
+					251 text retrieved November 6, 2026, 12:22 UTC
+					252 text 8 hours 12 minutes 2 seconds Linked book edition: Northanger Abbey
+					253 link Description: Open at source, Value: librivox.org/northanger-abbey-by-jane-austen/
+					254 button Save
+					255 button Dismiss
+				256 button Show more
+
+The focused UI element is 616 heading Search results, Value: 2

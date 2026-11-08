@@ -1,0 +1,544 @@
+{
+  "frames": [
+    {
+      "file": "frame-00000.jpg",
+      "seconds": 0,
+      "step": "Open prepared discovery"
+    },
+    {
+      "file": "frame-00001.jpg",
+      "seconds": 0.221,
+      "step": "Open prepared discovery"
+    },
+    {
+      "file": "frame-00002.jpg",
+      "seconds": 0.442,
+      "step": "Open prepared discovery"
+    },
+    {
+      "file": "frame-00003.jpg",
+      "seconds": 0.663,
+      "step": "Open prepared discovery"
+    },
+    {
+      "file": "frame-00004.jpg",
+      "seconds": 0.884,
+      "step": "Open prepared discovery"
+    },
+    {
+      "file": "frame-00005.jpg",
+      "seconds": 1.106,
+      "step": "Open prepared discovery"
+    },
+    {
+      "file": "frame-00006.jpg",
+      "seconds": 1.328,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00007.jpg",
+      "seconds": 1.55,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00008.jpg",
+      "seconds": 1.77,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00009.jpg",
+      "seconds": 1.991,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00010.jpg",
+      "seconds": 2.211,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00011.jpg",
+      "seconds": 2.432,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00012.jpg",
+      "seconds": 2.652,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00013.jpg",
+      "seconds": 2.872,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00014.jpg",
+      "seconds": 3.093,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00015.jpg",
+      "seconds": 3.314,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00016.jpg",
+      "seconds": 3.534,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00017.jpg",
+      "seconds": 3.755,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00018.jpg",
+      "seconds": 3.976,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00019.jpg",
+      "seconds": 4.199,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00020.jpg",
+      "seconds": 4.421,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00021.jpg",
+      "seconds": 4.642,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00022.jpg",
+      "seconds": 4.865,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00023.jpg",
+      "seconds": 5.088,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00024.jpg",
+      "seconds": 5.31,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00025.jpg",
+      "seconds": 5.533,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00026.jpg",
+      "seconds": 5.755,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00027.jpg",
+      "seconds": 5.977,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00028.jpg",
+      "seconds": 6.2,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00029.jpg",
+      "seconds": 6.423,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00030.jpg",
+      "seconds": 6.645,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00031.jpg",
+      "seconds": 6.867,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00032.jpg",
+      "seconds": 7.089,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00033.jpg",
+      "seconds": 7.312,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00034.jpg",
+      "seconds": 7.535,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00035.jpg",
+      "seconds": 7.757,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00036.jpg",
+      "seconds": 7.978,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00037.jpg",
+      "seconds": 8.199,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00038.jpg",
+      "seconds": 8.421,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00039.jpg",
+      "seconds": 8.643,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00040.jpg",
+      "seconds": 8.865,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00041.jpg",
+      "seconds": 9.087,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00042.jpg",
+      "seconds": 9.31,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00043.jpg",
+      "seconds": 9.532,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00044.jpg",
+      "seconds": 9.754,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00045.jpg",
+      "seconds": 9.975,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00046.jpg",
+      "seconds": 10.195,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00047.jpg",
+      "seconds": 10.417,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00048.jpg",
+      "seconds": 10.639,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00049.jpg",
+      "seconds": 10.862,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00050.jpg",
+      "seconds": 11.085,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00051.jpg",
+      "seconds": 11.307,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00052.jpg",
+      "seconds": 11.529,
+      "step": "Explicit focused Search"
+    },
+    {
+      "file": "frame-00053.jpg",
+      "seconds": 11.751,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00054.jpg",
+      "seconds": 11.972,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00055.jpg",
+      "seconds": 12.194,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00056.jpg",
+      "seconds": 12.417,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00057.jpg",
+      "seconds": 12.637,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00058.jpg",
+      "seconds": 12.859,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00059.jpg",
+      "seconds": 13.081,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00060.jpg",
+      "seconds": 13.302,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00061.jpg",
+      "seconds": 13.523,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00062.jpg",
+      "seconds": 13.744,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00063.jpg",
+      "seconds": 14.008,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00064.jpg",
+      "seconds": 14.231,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00065.jpg",
+      "seconds": 14.453,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00066.jpg",
+      "seconds": 14.676,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00067.jpg",
+      "seconds": 14.899,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00068.jpg",
+      "seconds": 15.121,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00069.jpg",
+      "seconds": 15.343,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00070.jpg",
+      "seconds": 15.634,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00071.jpg",
+      "seconds": 15.856,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00072.jpg",
+      "seconds": 16.078,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00073.jpg",
+      "seconds": 16.299,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00074.jpg",
+      "seconds": 16.522,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00075.jpg",
+      "seconds": 16.745,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00076.jpg",
+      "seconds": 16.964,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00077.jpg",
+      "seconds": 17.186,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00078.jpg",
+      "seconds": 17.408,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00079.jpg",
+      "seconds": 17.63,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00080.jpg",
+      "seconds": 17.852,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00081.jpg",
+      "seconds": 18.075,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00082.jpg",
+      "seconds": 18.297,
+      "step": "Browse four live categories"
+    },
+    {
+      "file": "frame-00083.jpg",
+      "seconds": 18.519,
+      "step": "Save a retrieved result"
+    },
+    {
+      "file": "frame-00084.jpg",
+      "seconds": 18.741,
+      "step": "Save a retrieved result"
+    },
+    {
+      "file": "frame-00085.jpg",
+      "seconds": 18.963,
+      "step": "Save a retrieved result"
+    },
+    {
+      "file": "frame-00086.jpg",
+      "seconds": 19.201,
+      "step": "Save a retrieved result"
+    },
+    {
+      "file": "frame-00087.jpg",
+      "seconds": 19.423,
+      "step": "Save a retrieved result"
+    },
+    {
+      "file": "frame-00088.jpg",
+      "seconds": 19.646,
+      "step": "Open matching original source"
+    },
+    {
+      "file": "frame-00089.jpg",
+      "seconds": 19.868,
+      "step": "Open matching original source"
+    },
+    {
+      "file": "frame-00090.jpg",
+      "seconds": 20.144,
+      "step": "Open matching original source"
+    },
+    {
+      "file": "frame-00091.jpg",
+      "seconds": 20.42,
+      "step": "Open matching original source"
+    },
+    {
+      "file": "frame-00092.jpg",
+      "seconds": 20.697,
+      "step": "Open matching original source"
+    },
+    {
+      "file": "frame-00093.jpg",
+      "seconds": 20.97,
+      "step": "Open matching original source"
+    },
+    {
+      "file": "frame-00094.jpg",
+      "seconds": 21.241,
+      "step": "Karpathy credit and disclosures"
+    },
+    {
+      "file": "frame-00095.jpg",
+      "seconds": 21.511,
+      "step": "Karpathy credit and disclosures"
+    },
+    {
+      "file": "frame-00096.jpg",
+      "seconds": 21.733,
+      "step": "Karpathy credit and disclosures"
+    },
+    {
+      "file": "frame-00097.jpg",
+      "seconds": 21.955,
+      "step": "Karpathy credit and disclosures"
+    },
+    {
+      "file": "frame-00098.jpg",
+      "seconds": 22.177,
+      "step": "Karpathy credit and disclosures"
+    },
+    {
+      "file": "frame-00099.jpg",
+      "seconds": 22.399,
+      "step": "Karpathy credit and disclosures"
+    },
+    {
+      "file": "frame-00100.jpg",
+      "seconds": 22.621,
+      "step": "Karpathy credit and disclosures"
+    },
+    {
+      "file": "frame-00101.jpg",
+      "seconds": 22.842,
+      "step": "Karpathy credit and disclosures"
+    }
+  ],
+  "steps": [
+    {
+      "name": "Open prepared discovery",
+      "seconds": 0
+    },
+    {
+      "name": "Explicit focused Search",
+      "seconds": 1.341
+    },
+    {
+      "name": "Browse four live categories",
+      "seconds": 11.586
+    },
+    {
+      "name": "Save a retrieved result",
+      "seconds": 18.634
+    },
+    {
+      "name": "Open matching original source",
+      "seconds": 19.561,
+      "url": "https://books.apple.com/us/audiobook/artificial-intelligence/id1480129835?uo=4"
+    },
+    {
+      "name": "Karpathy credit and disclosures",
+      "seconds": 21.39
+    }
+  ],
+  "wall_seconds": 23.065,
+  "visible_search_seconds": 9.67,
+  "error": null
+}
