@@ -1,0 +1,63 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_explicit_web_search_discovers_host_tools_on_a_cold_dashboard _______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10974c050>
+
+    def test_explicit_web_search_discovers_host_tools_on_a_cold_dashboard(monkeypatch):
+        events = []
+        monkeypatch.setitem(sys.modules, 'hermes_constants', SimpleNamespace(
+            get_hermes_home=lambda: '/cold-dashboard'))
+        monkeypatch.setitem(sys.modules, 'tools', SimpleNamespace())
+        monkeypatch.setitem(sys.modules, 'tools.registry', SimpleNamespace(
+            discover_builtin_tools=lambda: events.append('discover')))
+    
+        def dispatch(name, args, **kwargs):
+            events.append('dispatch')
+            assert events == ['discover', 'dispatch'], 'cold dashboard has no web_search tool'
+            assert name == 'web_search' and args == {'query': 'gardening books', 'limit': 8}
+            assert kwargs == {'execution_timeout': 2}
+            return json.dumps({'success': True, 'data': {'web': [{'url': 'https://openlibrary.org/works/OL1W'}]}})
+    
+        unload = []
+        register(SimpleNamespace(register_auxiliary_task=lambda *a, **k: None,
+                                 on_unload=unload.append, dispatch_tool=dispatch))
+        assert events == []  # Opening/loading the plugin does not discover or invoke tools.
+        try:
+>           assert web_search('gardening books', timeout=2) == [{'url': 'https://openlibrary.org/works/OL1W'}]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_installed_search.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+hackertube/hackertube_core/hermes.py:200: in web_search
+    result = outbound.dispatch(
+hackertube/hackertube_core/outbound.py:165: in dispatch
+    return LEDGER.dispatch(label, perform, *args, cost=cost, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+hackertube/hackertube_core/outbound.py:103: in dispatch
+    return perform(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+hackertube/hackertube_core/hermes.py:202: in <lambda>
+    lambda: fn(json.dumps({"stage": "web", "query": query, "timeout": timeout})),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+hackertube/hackertube_core/hermes.py:50: in service
+    return ctx.dispatch_tool(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'web_search', args = {'query': 'gardening books', 'limit': 8}
+kwargs = {'execution_timeout': 2}
+
+    def dispatch(name, args, **kwargs):
+        events.append('dispatch')
+>       assert events == ['discover', 'dispatch'], 'cold dashboard has no web_search tool'
+E       AssertionError: cold dashboard has no web_search tool
+E       assert ['dispatch'] == ['discover', 'dispatch']
+E         
+E         At index 0 diff: 'dispatch' != 'discover'
+E         Right contains one more item: 'dispatch'
+E         Use -v to get more diff
+
+tests/test_installed_search.py:20: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_installed_search.py::test_explicit_web_search_discovers_host_tools_on_a_cold_dashboard
+1 failed in 0.02s
