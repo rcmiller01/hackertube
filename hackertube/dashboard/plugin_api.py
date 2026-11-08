@@ -257,7 +257,7 @@ async def source_refresh(request: Request):
     query = body.get("query") if isinstance(body, dict) else None
     if not isinstance(query, str) or not query.strip():
         query = catalog.demo_question
-    report = ingest(ProfileStore(open_profile_db), utc_now(), query)
+    report = ingest(ProfileStore(open_profile_db), utc_now(), query, get_secret=get_secret)
     return {
         "schema": report["schema"],
         "query": report["query"],

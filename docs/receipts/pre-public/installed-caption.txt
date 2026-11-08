@@ -1,0 +1,120 @@
+Browser tab: 1, Title: "Hermes Agent - Dashboard", URL: "http://127.0.0.1:9119/hackertube?profile=default#library".
+0 AXWebArea Hermes Agent - Dashboard, URL: 127.0.0.1:9119/hackertube?profile=default#library
+	1 container root
+		2 container
+			3 button (collapsed) Description: Open navigation, Secondary Actions: Expand
+			4 text Hermes Agent
+		5 container Description: Navigation, ID: app-sidebar
+			6 text HERMES
+			7 text AGENT
+			8 button Close navigation
+			75 combo box (collapsed) Value: default, Secondary Actions: Expand
+				76 text default
+			9 container Navigation
+				10 content list
+					11 link Description: CHAT, Value: 127.0.0.1:9119/chat
+					12 link Description: SESSIONS, Value: 127.0.0.1:9119/sessions
+					13 link Description: FILES, Value: 127.0.0.1:9119/files
+					14 link Description: MODELS, Value: 127.0.0.1:9119/models
+					15 link Description: LOGS, Value: 127.0.0.1:9119/logs
+					16 link Description: CRON, Value: 127.0.0.1:9119/cron
+					17 link Description: SKILLS, Value: 127.0.0.1:9119/skills
+					18 link Description: PLUGINS, Value: 127.0.0.1:9119/plugins
+					19 link Description: MCP, Value: 127.0.0.1:9119/mcp
+					20 link Description: CHANNELS, Value: 127.0.0.1:9119/channels
+					21 link Description: WEBHOOKS, Value: 127.0.0.1:9119/webhooks
+					22 link Description: PAIRING, Value: 127.0.0.1:9119/pairing
+					23 link Description: PROFILES, Value: 127.0.0.1:9119/profiles
+					24 link Description: CONFIG, Value: 127.0.0.1:9119/config
+					25 link Description: KEYS, Value: 127.0.0.1:9119/env
+					26 link Description: SYSTEM, Value: 127.0.0.1:9119/system
+					27 link Description: DOCUMENTATION, Value: 127.0.0.1:9119/docs
+				28 container Plugins
+					29 text Plugins
+					30 content list
+						31 link Description: KANBAN, Value: 127.0.0.1:9119/kanban
+						32 link Description: HACKERTUBE, Value: 127.0.0.1:9119/hackertube
+						33 link Description: ACHIEVEMENTS, Value: 127.0.0.1:9119/achievements
+			34 text System
+			77 link Description: Gateway Status: Running Active Sessions: 0, Help: Status overview, Value: 127.0.0.1:9119/sessions
+			35 content list
+				36 button Restart Gateway
+				78 button Update Hermes
+			37 pop up button (collapsed) Description: Switch theme, Help: Switch theme: Hermes Teal, Secondary Actions: Expand
+			38 pop up button (collapsed) Description: Switch language, Secondary Actions: Expand
+			39 text v0.23.0
+			40 link Description: Nous Research, Value: nousresearch.com/
+		41 heading HackerTube, Value: 1
+			42 text HackerTube
+		43 container
+			44 heading Library, Value: 1, ID: library
+				45 text Library
+			46 text Saved items stay in this profile after a refresh or a restart. Saving does not open this view.
+			47 container HackerTube
+				48 link Description: Discover, Value: 127.0.0.1:9119/hackertube?profile=default#discover
+				49 link Description: Library (4 saved), Value: 127.0.0.1:9119/hackertube?profile=default#library
+				50 link Description: About, Value: 127.0.0.1:9119/hackertube?profile=default#about
+			51 container Interests
+				52 heading Interests, Value: 2, ID: interests-heading
+					53 text Interests
+				79 text No interests yet.
+			55 text Seeded catalog, in capture order.
+			56 container Videos 0, ID: videos
+				57 heading Videos 0, Value: 2, ID: videos-heading
+					58 text Videos
+					59 text  0
+				60 text No saved videos.
+			61 container Podcasts 2, ID: podcasts
+				62 heading Podcasts 2, Value: 2, ID: podcasts-heading
+					63 text Podcasts
+					64 text  2
+				80 container
+					81 text Show
+					82 heading AI LITERACY - A Podcast about Artificial Intelligence, Value: 3
+						83 text AI LITERACY - A Podcast about Artificial Intelligence
+					84 text AI LITERACY Podcast · show art unavailable Apple Podcasts Source candidate , Apple Podcasts
+					85 text retrieved November 8, 2026, 20:41 UTC
+					86 text Opened Not completed
+					87 link Description: Open at source, Value: podcasts.apple.com/us/podcast/ai-literacy-a-podcast-about-artificial-intelligence/id1553736450?uo=4
+					88 button (disabled) Saved
+					89 button Dismiss
+				90 container
+					91 text Show
+					92 heading Artificial Intelligence 101, Value: 3
+						93 text Artificial Intelligence 101
+					94 text Luca Marchesotti Podcast · show art unavailable Apple Podcasts Source candidate , Apple Podcasts
+					95 text retrieved November 8, 2026, 20:41 UTC
+					96 text Opened Not completed
+					97 link Description: Open at source, Value: podcasts.apple.com/us/podcast/artificial-intelligence-101/id1595568010?uo=4
+					98 button (disabled) Saved
+					99 button Dismiss
+			66 container Books 1, ID: books
+				67 heading Books 1, Value: 2, ID: books-heading
+					68 text Books
+					69 text  1
+				100 container
+					101 text Book
+					102 heading Vegetable Gardening for Beginners, Value: 3
+						103 text Vegetable Gardening for Beginners
+					104 text A. B. books Book · cover unavailable Open Library Source candidate , Open Library
+					105 text retrieved November 8, 2026, 15:59 UTC
+					106 text Length unknown Opened Not completed
+					107 link Description: Open at source, Value: openlibrary.org/works/OL27912661W
+					108 button (disabled) Saved
+					109 button Dismiss
+			71 container Audiobooks 1, ID: audiobooks
+				72 heading Audiobooks 1, Value: 2, ID: audiobooks-heading
+					73 text Audiobooks
+					74 text  1
+				110 container
+					111 text Audiobook
+					112 heading Artificial Intelligence For Dummies, Value: 3
+						113 text Artificial Intelligence For Dummies
+					114 text John Paul Mueller & Luca Massaron Audiobook · cover unavailable Apple Books Source candidate , Apple Books
+					115 text retrieved November 8, 2026, 20:41 UTC
+					116 text Duration unknown Opened Not completed
+					117 link Description: Open at source, Value: books.apple.com/us/audiobook/artificial-intelligence-for-dummies/id1648988957?uo=4
+					118 button (disabled) Saved
+					119 button Dismiss
+
+The focused UI element is 0 AXWebArea Hermes Agent - Dashboard, URL: 127.0.0.1:9119/hackertube?profile=default#library

@@ -1,0 +1,17 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______________ test_source_controls_identify_both_apple_stores ________________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-205/test_source_controls_identify_0')
+
+    def test_source_controls_identify_both_apple_stores(tmp_path):
+        from hackertube_core.sources import source_snapshot
+        store = ProfileStore(connect_at(tmp_path))
+        apple = next(x for x in source_snapshot(store)["sources"] if x["source_id"] == "itunes")
+>       assert "Apple Books" in apple["name"]
+E       AssertionError: assert 'Apple Books' in 'Apple Podcasts'
+
+tests/test_release_sources.py:101: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_release_sources.py::test_source_controls_identify_both_apple_stores
+1 failed, 10 deselected in 0.03s

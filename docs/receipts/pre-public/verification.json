@@ -1,0 +1,20 @@
+{
+  "implementation_sha": "abfebee24d86bcf8b3e08a15acd4eb3376b1c6ad",
+  "python_collected": 300,
+  "python_passed": 300,
+  "javascript_passed": 81,
+  "failed_tests": 0,
+  "javascript_skipped": 0,
+  "plugin_validation_warnings": 0,
+  "installed_payload_matches": 37,
+  "saved_items_unchanged": 4,
+  "profile_flags_history_interests_sources_unchanged": true,
+  "live_model_searches_started": 0,
+  "live_openlibrary_requests": 1,
+  "openlibrary_contact_in_git": false,
+  "public_visibility_changed": false,
+  "youtube_source_release_gate": "HOLD",
+  "source_fixes_merged": false,
+  "secret_audit_confirmed_credentials": 0,
+  "secret_audit_untriaged": 0
+}

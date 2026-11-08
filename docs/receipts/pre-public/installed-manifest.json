@@ -1,0 +1,153 @@
+{
+  "candidate_sha": "abfebee24d86bcf8b3e08a15acd4eb3376b1c6ad",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "61aa6590d564f31790c78bd4ce3555e4c7a110483229dc50df2511551e23a50e"
+    },
+    {
+      "path": "__init__.py",
+      "sha256": "85d9c1c270810c4d0aff31d9e1add2504d61453caa6587039bb74ef5f59f2359"
+    },
+    {
+      "path": "dashboard/catalog_view.py",
+      "sha256": "f17eae622056e3a835e232864f51a848561bdef06cc7e2446d3521c79357a10a"
+    },
+    {
+      "path": "dashboard/discovery.py",
+      "sha256": "e64c435a42de4d308060ac3340389576278eda94713a663e3a656b75bca55b62"
+    },
+    {
+      "path": "dashboard/dist/index.js",
+      "sha256": "d289a327ba0edef5705f3742512dceeddb20d16a0605f6f5d983b6678500f42c"
+    },
+    {
+      "path": "dashboard/dist/style.css",
+      "sha256": "c35da2d55a2cf8cd947b5f356393afc9b0e1b88233e7e5f04d9b807bab9669b1"
+    },
+    {
+      "path": "dashboard/manifest.json",
+      "sha256": "d7149a500341f4227874930e2b36afd4a825f20dd2de614fe9d2c1f292f2dd4d"
+    },
+    {
+      "path": "dashboard/plugin_api.py",
+      "sha256": "48d470110b5cd7bf8aa7db05f571a15ac7470b1c6b8e659378820adc032982f6"
+    },
+    {
+      "path": "hackertube_core/__init__.py",
+      "sha256": "01e371a249a3bccbbbe475840f6ee55391dc35e26cec26fb620e2fd622e561c5"
+    },
+    {
+      "path": "hackertube_core/adapters/__init__.py",
+      "sha256": "6b7e47a3f6dcfea8b756f494afea7190e754c9e19b2613829127394e2e8e220c"
+    },
+    {
+      "path": "hackertube_core/adapters/base.py",
+      "sha256": "451040e26b4e6f12a3fac836b55d137d5e8b05cf4a16e6e8e41f8cfef0e9d7e4"
+    },
+    {
+      "path": "hackertube_core/adapters/hn.py",
+      "sha256": "83f68605ba8c1c36532d2507f3e2a2f0d2643df0a6b8b6d140ac7a8067391e11"
+    },
+    {
+      "path": "hackertube_core/adapters/itunes.py",
+      "sha256": "f419142b8e6fa3f43d9a2dc80beb33754d8979a6dcf5294b6d9a0896ce95398c"
+    },
+    {
+      "path": "hackertube_core/adapters/librivox.py",
+      "sha256": "8905d0325af82979139d7557910b49e9c7a9e8dd40218ed45d16f98bfda58faa"
+    },
+    {
+      "path": "hackertube_core/adapters/openlibrary.py",
+      "sha256": "8cae0329621e9643544600f5a42ce921b279e93f6be5004bb563cdcc97705094"
+    },
+    {
+      "path": "hackertube_core/adapters/podcastindex.py",
+      "sha256": "2cf51ced856b05f2e0c58af6fd656b9c89cec67107bd530b8bdaa24107d1ff24"
+    },
+    {
+      "path": "hackertube_core/adapters/reddit.py",
+      "sha256": "4ae426705428d00a6c4190f572012bdf849de8f11c121a65ae0b59b58f9058f7"
+    },
+    {
+      "path": "hackertube_core/adapters/youtube.py",
+      "sha256": "97b0d555c117b99b054c00a32ea989a3936db5e9d116d97a3b670136d206858c"
+    },
+    {
+      "path": "hackertube_core/boundaries.py",
+      "sha256": "c07b21aa165e007c3eaae7267718b84309fb5f0fec688d7f12295871f8c666c5"
+    },
+    {
+      "path": "hackertube_core/catalog.py",
+      "sha256": "d5f41279fd2c7113297283c662ee86a6758657416d6a8115a94b360ebbde7edc"
+    },
+    {
+      "path": "hackertube_core/catalog_store.py",
+      "sha256": "c1fe66d30680e4ddab13e487155dc590822291b9dbcddf7b2fd07e1daab0bc75"
+    },
+    {
+      "path": "hackertube_core/demo_seed.py",
+      "sha256": "07b4416c07593dae4237e4ab655305000969b1dcddd1c5b67c7d7f397c44dce9"
+    },
+    {
+      "path": "hackertube_core/errors.py",
+      "sha256": "c01bdd9d1e6d29919a2106796cd7a6ce22b138702a79958107e584d1b042a03b"
+    },
+    {
+      "path": "hackertube_core/hermes.py",
+      "sha256": "296aeb7e60e1c8971dcf5ae5d0c6d0f0024782928247712b655240e2c3713043"
+    },
+    {
+      "path": "hackertube_core/http.py",
+      "sha256": "240df28a0aa1340290bc02452d5b0c63fbb875246a2f94902d34627f3bc29941"
+    },
+    {
+      "path": "hackertube_core/outbound.py",
+      "sha256": "8e4a9e820abe0ff72abf197ef6bd668a731e1e78a05883ecfad2800734c38fe8"
+    },
+    {
+      "path": "hackertube_core/profile.py",
+      "sha256": "4cab36ff43ceafd8b6b0877e83caabd58eaa5429ac19ce189b1b4061d36f6380"
+    },
+    {
+      "path": "hackertube_core/ranking.py",
+      "sha256": "82d3cf3ab81b27045c6a411785e9fcf194cb6f2bf7c349f2b59a3cb2f11a6741"
+    },
+    {
+      "path": "hackertube_core/records.py",
+      "sha256": "5790fb216e0398955da272bd5e485baffb253813fba7fbcf60c49587ca2ee295"
+    },
+    {
+      "path": "hackertube_core/retrieval.py",
+      "sha256": "ec8738d7f12947b78f690cdd81377a997326bea920e441b16dbe27948fbdb3ac"
+    },
+    {
+      "path": "hackertube_core/search.py",
+      "sha256": "653e01e6ce1c9eb09077173d505f2e955382e1aae275827851f718d233343699"
+    },
+    {
+      "path": "hackertube_core/search_jobs.py",
+      "sha256": "130b6e5c0e00c912798919afa9809e797c3eb587b7e887e118342021a989865e"
+    },
+    {
+      "path": "hackertube_core/search_worker.py",
+      "sha256": "df05e494e80007b11b040ebbbbaa23c00fab309ebf8660d1f829a74f98432786"
+    },
+    {
+      "path": "hackertube_core/seed/catalog.json",
+      "sha256": "77cbd4ec8b9525d1d44dac89b07017cf4ad755436414c9a5e6b1026bd7943d55"
+    },
+    {
+      "path": "hackertube_core/sources.py",
+      "sha256": "4c9b05026948cf22660e2a5d97c94421ca43995d0f174c6d5ce56ff1b09eb06c"
+    },
+    {
+      "path": "hackertube_core/text.py",
+      "sha256": "09735cb18ea7f3b9aceecba8a7a6981e5b4fdb4a4b7171d616e910c042a3a885"
+    },
+    {
+      "path": "plugin.yaml",
+      "sha256": "230b612d527817e7ad977ceb05ca4a8771228b57a0ab17518cb6b9de08944924"
+    }
+  ]
+}

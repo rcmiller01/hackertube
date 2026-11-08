@@ -15,7 +15,7 @@ from __future__ import annotations
 import json
 import uuid
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 from hackertube_core.errors import ProfileError, RecordError
 from hackertube_core.records import Interest, UserItemState
@@ -87,6 +87,7 @@ class ProfileStore:
         conn = self._connect()
         try:
             self._ensure(conn)
+            self._purge_metadata(conn)
             conn.commit()
         finally:
             conn.close()
@@ -158,16 +159,13 @@ class ProfileStore:
 
     def catalog(self, base):
         from hackertube_core.catalog import load_catalog
-        from hackertube_core.catalog_store import document, merge, without_expired
+        from hackertube_core.catalog_store import merge
         def read(conn):
             row = conn.execute("SELECT document FROM retrieved_catalog WHERE key='catalog'").fetchone()
             if row is None:
                 return base
             stored = load_catalog(json.loads(row['document']))
-            active = without_expired(stored, self.clock())
-            if active != stored:
-                conn.execute("UPDATE retrieved_catalog SET document=? WHERE key='catalog'", (json.dumps(document(active)),))
-            return merge(base, active)
+            return merge(base, stored)  # _write_result purged all owned copies first.
         return self._write_result(read)
 
     def remember_catalog(self, catalog):
@@ -302,12 +300,47 @@ class ProfileStore:
             conn.close()
 
     def job_result(self, job_id):
-        conn = self._connect()
-        try:
+        def read(conn):
             row = conn.execute("SELECT document FROM search_result WHERE job_id=?", (job_id,)).fetchone()
             return json.loads(row[0]) if row else None
-        finally:
-            conn.close()
+        return self._write_result(read)
+
+    def _purge_metadata(self, conn):
+        """One local retention boundary for catalog and duplicated job payloads.
+
+        Runs at store opening and transactional access; makes no remote call.
+        Library flags and truthful job accounting are independent of metadata.
+        """
+        from hackertube_core.catalog import load_catalog
+        from hackertube_core.catalog_store import document, without_expired
+
+        now = self.clock()
+        row = conn.execute("SELECT document FROM retrieved_catalog WHERE key='catalog'").fetchone()
+        if row:
+            catalog = load_catalog(json.loads(row[0]))
+            active = without_expired(catalog, now)
+            if active != catalog:
+                conn.execute("UPDATE retrieved_catalog SET document=? WHERE key='catalog'", (json.dumps(document(active)),))
+        cutoff = (datetime.fromisoformat(now.replace("Z", "+00:00")) - timedelta(days=30)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        rows = conn.execute("SELECT r.job_id,r.document,j.created_at FROM search_result r JOIN search_job j ON j.job_id=r.job_id WHERE j.ended_at IS NOT NULL").fetchall()
+        for job_id, raw, created_at in rows:
+            value = json.loads(raw)
+            if value.get("retention_expired"):
+                continue
+            # A later search cannot reset the age of copied source metadata.
+            stamps = [created_at]
+            for result in value.get("results", []):
+                stamp = result.get("metadata_retrieved_at") or (result.get("source") or {}).get("retrieved_at")
+                if stamp:
+                    stamps.append(canon_time(stamp))
+            if min(stamps) > cutoff:
+                continue
+            retained = {key:value[key] for key in ("schema", "job", "question", "provider", "usage", "request_counts", "disclosure") if key in value}
+            retained.update(
+                results=[], sections={}, sources=[], retention_expired=True,
+                coverage={"verified":0, "notes":["Stored Search results expired after 30 days. Start a new explicit Search for current metadata."], "limit_reached":False},
+            )
+            conn.execute("UPDATE search_result SET document=? WHERE job_id=?", (json.dumps(retained), job_id))
 
     def update_job(self, job_id, job, result=None):
         fields = _job_fields(job)
@@ -349,6 +382,7 @@ class ProfileStore:
         conn = self._connect()
         try:
             conn.execute("BEGIN IMMEDIATE")
+            self._purge_metadata(conn)
             result = mutate(conn)
             conn.commit()
             return result

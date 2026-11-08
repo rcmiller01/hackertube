@@ -1,0 +1,8 @@
+{
+  "synthetic_only": true,
+  "network_verification_performed": false,
+  "detected": true,
+  "rules": [
+    "gcp-api-key"
+  ]
+}

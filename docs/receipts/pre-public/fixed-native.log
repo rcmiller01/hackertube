@@ -1,0 +1,28 @@
+[
+  {
+    "mode": "deadline",
+    "native_model_request_seen": true,
+    "paths": [
+      "/v1/chat/completions"
+    ],
+    "provider_connection_closed": true,
+    "wall_seconds": 6.0162847909959964,
+    "cancel_seconds": null,
+    "state": "timed_out",
+    "requests_used": 1,
+    "cost_known": false
+  },
+  {
+    "mode": "cancel",
+    "native_model_request_seen": true,
+    "paths": [
+      "/v1/chat/completions"
+    ],
+    "provider_connection_closed": true,
+    "wall_seconds": 0.9089606249763165,
+    "cancel_seconds": 0.031792958005098626,
+    "state": "cancelled",
+    "requests_used": 1,
+    "cost_known": false
+  }
+]

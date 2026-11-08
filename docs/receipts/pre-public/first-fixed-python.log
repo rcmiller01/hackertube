@@ -1,0 +1,29 @@
+........................................................................ [ 24%]
+........................................................................ [ 48%]
+........................................................................ [ 72%]
+........F............................................................... [ 96%]
+..........                                                               [100%]
+=================================== FAILURES ===================================
+______________________ test_seed_file_matches_the_builder ______________________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-207/test_seed_file_matches_the_bui0')
+
+    def test_seed_file_matches_the_builder(tmp_path):
+>       assert json.loads(SEED.read_text()) == build(CAPTURED, connect=connect_at(tmp_path))
+E       AssertionError: assert {'demo_questi...videos'], ...} == {'schema': 'h...kept.'}], ...}
+E
+E         Omitting 7 identical items, use -vv to show
+E         Differing items:
+E         {'sources': [{'attribution': 'YouTube. A later enabled card would link to the watch page.', 'blocked_reason': 'unresol... 'Podcast Index.', 'blocked_reason': 'missing_api_key', 'deletion': 'Nothing is stored.', 'enabled': False, ...}, ...]} != {'sources': [{'source_id': 'youtube', 'name': 'YouTube', 'role': 'catalog', 'enabled': False, ...}, {'source_id': 'hn'...d': True, ...}, {'source_id': 'podcastindex', 'name': 'Podcast Index', 'role': 'catalog', 'enabled': False, ...}, ...]}
+E         Use -v to get more diff
+
+tests/test_seed.py:51: AssertionError
+=============================== warnings summary ===============================
+tests/test_request_boundary_routes.py::test_feed04_browsing_paging_saving_dismissing_and_reopening_make_no_request
+  /Users/robert/Developer/hackertube/.venv/lib/python3.14/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_seed.py::test_seed_file_matches_the_builder - AssertionErro...
+1 failed, 297 passed, 1 warning in 6.45s

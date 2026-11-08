@@ -6,7 +6,7 @@ from urllib.parse import urlencode
 from hackertube_core import outbound
 from hackertube_core.adapters.base import ParseResult
 from hackertube_core.errors import RecordError
-from hackertube_core.http import read_json
+from hackertube_core.http import read_json, USER_AGENT
 from hackertube_core.records import Evidence, MediaItem, blank_art
 from hackertube_core.text import public_https_url
 
@@ -99,9 +99,18 @@ def parse_search(payload, retrieved_at):
     return ParseResult(tuple(items), tuple(evidence), tuple(sorted(ignored)), tuple(rejected))
 
 
-def fetch_search(query, *, limit=20, opener=None, resolve=None):
+def identification_headers(contact):
+    """Provider-only contact; never a query parameter or a shared default header."""
+    if not contact:
+        return {}
+    if not isinstance(contact, str) or not re.fullmatch(r"[A-Za-z0-9_.+@() -]{3,120}", contact):
+        raise RecordError("contact")
+    return {"User-Agent": f"{USER_AGENT} contact={contact}"}
+
+
+def fetch_search(query, *, limit=20, opener=None, resolve=None, contact=None):
     """One bounded search read. ``read_json`` counts it free."""
     if not isinstance(query, str) or not query.strip():
         raise RecordError("query")
     url = SEARCH_API + "?" + urlencode({"q": query.strip(), "limit": limit, "fields": FIELDS})
-    return read_json(url, classification=outbound.FREE, opener=opener, resolve=resolve)
+    return read_json(url, classification=outbound.FREE, opener=opener, resolve=resolve, headers=identification_headers(contact))
