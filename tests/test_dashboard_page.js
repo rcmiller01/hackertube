@@ -2176,3 +2176,48 @@ test("beginner search does not claim that no relevance constraints were applied"
     ui.restore();
   }
 });
+
+test("Hermes search explains the work-budget limitation before dispatch", () => {
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, { provider: "hermes" });
+  try {
+    openSearchPanel(ui);
+    const note = ui.text((node) => node.props && node.props.id === "hackertube-budget-note");
+    assert.match(note, /calls may finish after.*budget/);
+    assert.match(note, /cancellation is not implemented/);
+    for (const node of [
+      ui.find((node) => node.props && node.props.id === "hackertube-question"),
+      ui.find((node) => node.type === "button" && node.props.type === "submit"),
+    ]) {
+      assert.match(node.props["aria-describedby"], /hackertube-budget-note/);
+    }
+    assert.equal(ui.requests.filter((r) => r.init && r.init.method === "POST" && r.url.includes("/search")).length, 0);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("Hermes work-budget limitation remains visible while the provider has not returned", () => {
+  const deferred = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, { provider: "hermes" }, deferred);
+  try {
+    submitSearch(ui, "AI books for beginners");
+    assert.equal(deferred.pending.length, 1);
+    assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-job-limits"), null);
+    const note = ui.text((node) => node.props && node.props.id === "hackertube-budget-note");
+    assert.match(note, /calls may finish after.*budget/);
+    assert.match(note, /cancellation is not implemented/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("the offline stub does not show a Hermes in-flight budget note", () => {
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, { provider: "stub" });
+  try {
+    openSearchPanel(ui);
+    assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-budget-note"), null);
+    assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-question").props["aria-describedby"], "hackertube-disclosure");
+  } finally {
+    ui.restore();
+  }
+});
