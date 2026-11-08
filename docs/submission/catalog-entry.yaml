@@ -1,0 +1,25 @@
+# Prepared only: not submitted. Public clone and release gates remain open.
+name: hackertube
+title: HackerTube for Hermes
+repo: https://github.com/rcmiller01/hackertube
+sha: c691a75bacebffa61a8f0f64c14d11707ccdd176
+subdir: hackertube
+description: Source-backed media discovery with existing Hermes providers and a profile-local library.
+maintainer: rcmiller01
+tier: community
+category: web
+requires_hermes: ">=0.23.0"
+version: "0.2.0"
+readme: true
+screenshots:
+  - https://raw.githubusercontent.com/rcmiller01/hackertube/c691a75bacebffa61a8f0f64c14d11707ccdd176/docs/receipts/demo-rehearsal/results.jpg
+  - https://raw.githubusercontent.com/rcmiller01/hackertube/c691a75bacebffa61a8f0f64c14d11707ccdd176/docs/receipts/demo-rehearsal/about.jpg
+  - https://raw.githubusercontent.com/rcmiller01/hackertube/c691a75bacebffa61a8f0f64c14d11707ccdd176/docs/receipts/demo-rehearsal/clean-profile.jpg
+capabilities:
+  provides_tools: []
+  provides_hooks: []
+  provides_middleware: []
+  requires_env: []
+known_issues:
+  - In-flight host calls can exceed the work budget; cancellation and interrupted-job recovery are unfinished.
+  - Source-specific release checks and participant eligibility terms remain unresolved; do not submit yet.

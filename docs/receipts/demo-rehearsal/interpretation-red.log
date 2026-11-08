@@ -7,11 +7,11 @@ monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1092b49d0>
     def test_interpretation_allows_reasoning_before_structured_answer(monkeypatch):
         from hackertube_core.hermes import HermesProvider
         from hackertube_core.search import LIVE_LIMITS
-    
+
         monkeypatch.setitem(sys.modules, "hermes_constants", SimpleNamespace(
             get_hermes_home=lambda: "/interpretation-dashboard"))
         calls = []
-    
+
         def complete_structured(**kw):
             calls.append(kw)
             # Installed job:14 returned text rather than JSON at the 2,500-token
@@ -24,7 +24,7 @@ monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1092b49d0>
             }
             return SimpleNamespace(parsed=parsed, provider="configured", model="reasoning",
                                    usage=SimpleNamespace(cost_usd=None))
-    
+
         unload = []
         register(SimpleNamespace(register_auxiliary_task=lambda *a, **k: None,
                                  on_unload=unload.append,
@@ -33,8 +33,8 @@ monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1092b49d0>
 >           result = HermesProvider().interpret(
                 "AI for nontechnical beginners, no coding or daily news", LIVE_LIMITS)
 
-tests/test_installed_search.py:140: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_installed_search.py:140:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 hackertube/hackertube_core/hermes.py:185: in interpret
     body = self._call("interpret", cleaned, limits.deadline_seconds)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -48,7 +48,7 @@ hackertube/hackertube_core/outbound.py:103: in dispatch
            ^^^^^^^^^^^^^^^^^^^^^^^^
 hackertube/hackertube_core/hermes.py:161: in <lambda>
     lambda: fn(
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 raw = '{"stage": "interpret", "input": "AI for nontechnical beginners, no coding or daily news", "timeout": 45}'
 
@@ -64,7 +64,7 @@ raw = '{"stage": "interpret", "input": "AI for nontechnical beginners, no coding
             # discovered the host tools. Use Hermes's public discovery path;
             # dispatch still selects the user's configured search backend.
             from tools.registry import discover_builtin_tools
-    
+
             discover_builtin_tools()
             return ctx.dispatch_tool(
                 "web_search", {"query": query, "limit": 8}, execution_timeout=timeout

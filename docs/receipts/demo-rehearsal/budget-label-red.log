@@ -15,10 +15,10 @@ test at tests/test_dashboard_page.js:1977:1
 ✖ search helpers format a cost, a limit, and a refusal without a score (0.478791ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   + actual - expected
-  
+
   + 'Work limits for this job: at most 2 provider requests, 12 results, a 5 second deadline. Provider requests used: 2.'
   - 'Work limits for this job: at most 2 provider requests, 12 results, a 5 second work budget. Provider requests used: 2. In-flight Hermes calls may finish after this budget; cancellation is not implemented.'
-  
+
       at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_dashboard_page.js:1981:10)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
