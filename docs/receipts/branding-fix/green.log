@@ -1,0 +1,10 @@
+✔ privacy gates real rendered features; deletion failure retains state and success revokes access (553.993834ms)
+✔ YouTube attribution renders without an authenticated image request (217.209916ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 807.097042

@@ -1,6 +1,6 @@
 {
   "name": "hackertube-development",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "scripts": {
     "test": "node --test tests/test_dashboard_page.js tests/test_browser_requests.js tests/test_privacy_browser.js",
