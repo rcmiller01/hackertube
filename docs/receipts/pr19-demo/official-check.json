@@ -1,0 +1,19 @@
+{
+  "checked_at": "2026-11-08T20:43:39.614Z",
+  "announcement": "https://x.com/NousResearch/status/2118094256438936062",
+  "announcement_read_in_browser": true,
+  "deadline": "2026-11-11T22:00:00Z",
+  "video_under_seconds": 90,
+  "required_steps": [
+    "open catalog PR",
+    "post working demo on X tagging NousResearch",
+    "submit catalog PR and X links through form"
+  ],
+  "catalog_merge_required_before_form": false,
+  "participant_eligibility_or_team_or_originality_or_ip_detail": "No additional detailed rules stated in the announcement viewed; confirm any entrant-specific restriction with organizer instead of inventing a prohibition.",
+  "form": "https://form.typeform.com/to/FwJLvOln",
+  "form_accessible": true,
+  "form_entered_values": false,
+  "form_submitted": false,
+  "observed_form": "Browser tab: 9, Title: \"Hermes Agent Plugin Hackathon | Plugin Title\", URL: \"https://form.typeform.com/to/FwJLvOln\".\n0 AXWebArea Hermes Agent Plugin Hackathon | Plugin Title, URL: form.typeform.com/to/FwJLvOln\n\t1 container root\n\t\t2 container\n\t\t\t3 progress indicator Description: Form progress, Value: 0\n\t\t\t4 container\n\t\t\t\t5 container\n\t\t\t\t\t6 container custom_first_name\n\t\t\t\t\t\t7 container\n\t\t\t\t\t\t\t8 container Description: Question 1 of 6, ID: custom_first_name-prefix\n\t\t\t\t\t\t\t\t9 text 1\n\t\t\t\t\t\t\t10 container custom_first_name-title\n\t\t\t\t\t\t\t\t11 text Plugin Title\n\t\t\t\t\t\t\t\t12 container This question is required.\n\t\t\t\t\t\t\t\t\t13 text *\n\t\t\t\t\t\t14 text field (settable) Question 1 of 6 Plugin Title This question is required., ID: short_text-custom_first_name-ea7biLlu7srLFbSo\n\t\t\t\t\t\t15 button OK Next question\n\t\t\t16 container\n\t\t\t\t17 button (disabled) Navigate to previous question\n\t\t\t\t\t18 image\n\t\t\t\t19 button Navigate to next question\n\t\t\t\t\t20 image\n\t\t\t\t21 link Description: Powered by *Typeform* (opens in a new tab), Value: typeform.com/explore/?utm_campaign=FwJLvOln&utm_source=typeform.com-01KV6NVDQ1S885JBTERFYX736P-business_pro&utm_medium=typeform&utm_content=typeform-footer&utm_term=EN\n\nThe focused UI element is 14 text field (settable) Question 1 of 6 Plugin Title This question is required., ID: short_text-custom_first_name-ea7biLlu7srLFbSo"
+}

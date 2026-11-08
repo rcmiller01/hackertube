@@ -1,0 +1,58 @@
+{
+  "jobs": [
+    {
+      "job_id": "job:22:86e010154ee245ee9ed88b00538e2653",
+      "sequence": 22,
+      "state": "succeeded",
+      "question": "AI introductions for beginners across videos, podcasts, books and audiobooks.",
+      "requests_used": 11,
+      "result_count": 11,
+      "cost_known": 0
+    },
+    {
+      "job_id": "job:23:ebb63300ac52412e8f972585e9e0f580",
+      "sequence": 23,
+      "state": "succeeded",
+      "question": "AI introductions for beginners across videos, podcasts, books and audiobooks.",
+      "requests_used": 11,
+      "result_count": 10,
+      "cost_known": 0
+    },
+    {
+      "job_id": "job:24:017ed0f4a78d48c8969e40eae2f4e7f4",
+      "sequence": 24,
+      "state": "succeeded",
+      "question": "AI introductions for beginners across videos, podcasts, books and audiobooks.",
+      "requests_used": 11,
+      "result_count": 8,
+      "cost_known": 0
+    }
+  ],
+  "final_category_counts": {
+    "videos": 2,
+    "podcasts": 2,
+    "books": 1,
+    "audiobooks": 3
+  },
+  "model_route": {
+    "provider": "openrouter",
+    "model": "openai/gpt-5.4-mini"
+  },
+  "final_usage": {
+    "cost_usd": null,
+    "cost_known": false,
+    "requests_used": 11,
+    "request_counts": {
+      "free": 6,
+      "paid": 3,
+      "metered": 2
+    },
+    "paid_calls": 5
+  },
+  "saved_before": 3,
+  "saved_after": 4,
+  "original_saves_retained": true,
+  "open_events_added": 1,
+  "interests_unchanged": true,
+  "source_settings_unchanged": true
+}
