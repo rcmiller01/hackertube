@@ -1,0 +1,24 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_release_ignore_blocks_local_credentials_but_keeps_safe_examples _____
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-203/test_release_ignore_blocks_loc0')
+
+    def test_release_ignore_blocks_local_credentials_but_keeps_safe_examples(tmp_path):
+        import subprocess
+        from pathlib import Path
+
+        subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+        (tmp_path / ".gitignore").write_text((Path(__file__).parents[1] / ".gitignore").read_text())
+        private = [".env", ".env.local", "auth.json", "credentials.json", "profile.db", "entry-form.private.json", "private-key.pem"]
+        public = [".env.example", ".env.production.example", "docs/README.md", "public-key.pub", "tests/fixtures/config.json"]
+        for value in private + public:
+            found = subprocess.run(["git", "-c", "core.excludesFile=/dev/null", "-C", str(tmp_path), "check-ignore", "--no-index", value], capture_output=True).returncode == 0
+>           assert found == (value in private), value
+E           AssertionError: .env
+E           assert False == ('.env' in ['.env', '.env.local', 'auth.json', 'credentials.json', 'profile.db', 'entry-form.private.json', ...])
+
+tests/test_release_sources.py:94: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_release_sources.py::test_release_ignore_blocks_local_credentials_but_keeps_safe_examples
+1 failed, 9 deselected in 0.04s

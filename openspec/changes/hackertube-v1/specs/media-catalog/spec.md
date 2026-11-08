@@ -65,3 +65,10 @@ Every recommendation card SHALL identify its retrieval source and retrieval time
 #### Scenario: CAT11 Community evidence destination
 - **WHEN** a recommendation claims community endorsement
 - **THEN** the user can open the supporting discussion or comment and inspect its source
+
+### Requirement: Source metadata lifecycle
+The plugin SHALL purge expired metadata from catalog and durable Search copies before access and perform hourly local cleanup while Hermes runs. A stopped app SHALL clean before its next access; no background network refresh SHALL run. Successful YouTube metadata checks SHALL invalidate superseded stored copies for the checked IDs, including deleted/private videos, without deleting independent saved flags. Provider failures SHALL NOT count as deletion evidence.
+
+#### Scenario: CAT12 Retention and superseded YouTube data
+- **WHEN** stored metadata expires or a successful YouTube hydration checks a previously stored ID
+- **THEN** expired or superseded API metadata is removed from all owned stored presentations, usage and saved flags survive, and current API metadata alone may be saved again

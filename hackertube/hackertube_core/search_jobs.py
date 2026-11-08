@@ -105,6 +105,9 @@ class SearchSupervisor:
             lock = self._claim()
             if lock is None:
                 raise SearchBusy("A search is already running in this profile.")
+            if not self.store.privacy_accepted():
+                lock.close()
+                raise DisclosureRequired("Agree to the current privacy policy before Search.")
             deadline = time.monotonic() + limits.deadline_seconds
             job = dict(
                 kind="search",
@@ -213,6 +216,18 @@ class SearchSupervisor:
         if entry:
             entry["done"].wait(0.5)
         return self.status(job_id)
+
+    def clear_data(self):
+        # The same process guard and cross-process lease as start prevent a
+        # concurrent worker from restoring deleted state after revocation.
+        with self._guard:
+            lock = self._claim()
+            if lock is None:
+                raise SearchBusy("Cancel the active Search before deleting data.")
+            try:
+                self.store.clear_data()
+            finally:
+                lock.close()
 
     def _stop(self, entry):
         process = entry["process"]

@@ -235,13 +235,18 @@
       host = "";
     }
     if (host === "youtu.be" || host.endsWith(".youtube.com") || host === "youtube.com") return "YouTube";
+    if (host === "books.apple.com" || host.endsWith(".books.apple.com")) return "Apple Books";
     if (host === "podcasts.apple.com" || host.endsWith(".podcasts.apple.com")) return "Apple Podcasts";
     if (host === "openlibrary.org" || host.endsWith(".openlibrary.org")) return "Open Library";
     if (host === "librivox.org" || host.endsWith(".librivox.org")) return "LibriVox";
     return "Public source";
   }
 
-  function sourceName(sources, sourceId) {
+  function sourceName(sources, sourceId, item) {
+    if (sourceId === "itunes" && item) {
+      var store = destinationLabel(item);
+      if (store === "Apple Books" || store === "Apple Podcasts") return store;
+    }
     var match = (sources || []).filter(function (source) { return source.source_id === sourceId; })[0];
     return match && match.name ? match.name : sourceId;
   }
@@ -260,27 +265,27 @@
         text: endorsed.display_line,
         href: endorsed.destination,
         retrievedAt: endorsed.retrieved_at,
-        sourceName: sourceName(sources, endorsed.source_id),
+        sourceName: sourceName(sources, endorsed.source_id, item),
       };
     }
     var criticism = rows.filter(function (row) { return row.endorsement === "criticism"; })[0];
     if (criticism) {
       return {
         kind: "criticism",
-        text: "Criticism in " + sourceName(sources, criticism.source_id) + ". This is not a recommendation.",
+        text: "Criticism in " + sourceName(sources, criticism.source_id, item) + ". This is not a recommendation.",
         href: null,
         retrievedAt: criticism.retrieved_at,
-        sourceName: sourceName(sources, criticism.source_id),
+        sourceName: sourceName(sources, criticism.source_id, item),
       };
     }
     var mention = rows.filter(function (row) { return row.endorsement === "mention"; })[0];
     if (mention) {
       return {
         kind: "mention",
-        text: "Mentioned in " + sourceName(sources, mention.source_id) + ". This is not a recommendation.",
+        text: "Mentioned in " + sourceName(sources, mention.source_id, item) + ". This is not a recommendation.",
         href: null,
         retrievedAt: mention.retrieved_at,
-        sourceName: sourceName(sources, mention.source_id),
+        sourceName: sourceName(sources, mention.source_id, item),
       };
     }
     var web = rows.filter(function (row) { return row.kind === "web"; })[0];
@@ -290,7 +295,7 @@
         text: "Public web only. This is not a community endorsement.",
         href: null,
         retrievedAt: web.retrieved_at,
-        sourceName: sourceName(sources, web.source_id),
+        sourceName: sourceName(sources, web.source_id, item),
       };
     }
     var catalog = rows.filter(function (row) { return row.kind === "catalog"; })[0];
@@ -300,7 +305,7 @@
         text: "Source candidate",
         href: null,
         retrievedAt: catalog.retrieved_at,
-        sourceName: sourceName(sources, catalog.source_id),
+        sourceName: sourceName(sources, catalog.source_id, item),
       };
     }
     return {
@@ -1306,6 +1311,11 @@
       }
 
       function renderArt(item) {
+        if (String(item.item_id || "").indexOf("youtube:") === 0 && destinationDecision(item.destination).ok) {
+          return h("div", { className: "ht-art ht-youtube-brand" },
+            h("a", { href: item.destination, target: "_blank", rel: "noopener noreferrer", onClick: function () { onOpen(item); } },
+              h("img", { src: "/api/plugins/hackertube/branding/youtube.png", alt: "YouTube" })));
+        }
         var decision = item.art_url ? destinationDecision(item.art_url) : { ok: false };
         var showImage = !!(item.art_url && item.art_hotlink && decision.ok && !artFailed[item.item_id]);
         if (!showImage) {
@@ -1429,6 +1439,7 @@
               renderArt(item),
               h("p", { className: "ht-destination" }, destinationLabel(item)),
               renderEvidence(item, evidence, sources),
+              String(item.item_id || "").indexOf("youtube:") === 0 ? h("p", { className: "ht-note" }, "YouTube metadata. Relevance explanations and library actions are HackerTube features, not from YouTube.") : null,
               length ? h("p", { className: "ht-length" }, length) : null,
               note ? h("p", { className: "ht-meta" }, note) : null,
               inLibrary
@@ -1919,10 +1930,10 @@
           h("h2", null, "Coverage"),
           h("p", null, "The opening feed recommends an item only after a word match in the title or a contributor name. Matching items are ordered with fixed weights for community evidence, freshness, and variety. The line on each recommendation names only the signals that applied to that item. This page does not show scores. Community evidence means an established endorsement on the record. A mention is not an endorsement. This catalog has no established Hacker News endorsement to rank. An item needs catalog evidence that has not passed its refresh time. Dismissed and completed items stay out of the ranked feed and the section lists. Each format section lists matches first. The not-matched group stays in capture order and is not a recommendation. Coverage is the seeded titles and contributors. A subject outside that set has no ranked match. A format can be empty. Unknown duration and unknown length stay unknown. Saves and interests stay in this profile. Opening a source records that open and does not mark the item completed."),
           h("h2", null, "Search and privacy"),
-          h("p", null, "Only explicit searches send the question and bounded retrieved metadata to the selected Hermes provider and configured web-search service. Hermes handles model credentials. HackerTube requests no memory or unrelated chat history. Retrieved identities and library state stay in this Hermes profile. Clear HackerTube plugin data while Hermes is stopped to remove them. YouTube metadata expires after 30 days and is removed on the next catalog read or write."),
+          h("p", null, "Only explicit searches send the question and bounded retrieved metadata to the selected Hermes provider and configured web-search service. Hermes handles model credentials. HackerTube requests no memory or unrelated chat history. Retrieved identities and library state stay in this Hermes profile. Clear HackerTube plugin data while Hermes is stopped to remove them. Source metadata expires after 30 days. Hourly housekeeping while Hermes runs and cleanup before metadata access remove expired copies. Use Privacy to inspect the policy or delete this profile’s HackerTube data."),
           h("p", null, "When YouTube is enabled, using its features means agreeing to the ",
             h("a", { href: "https://www.youtube.com/t/terms", target: "_blank", rel: "noopener noreferrer" }, "YouTube Terms of Service"),
-            " and ", h("a", { href: "https://policies.google.com/privacy", target: "_blank", rel: "noopener noreferrer" }, "Google Privacy Policy"), "."),
+            "; Google describes its privacy practices in the ", h("a", { href: "https://policies.google.com/privacy", target: "_blank", rel: "noopener noreferrer" }, "Google Privacy Policy"), "."),
           h("h2", null, "Opening a source"),
           h("p", null, "Open at source leaves this page and opens the public destination in the browser. HackerTube does not download the media and does not play it. A destination that is not public https is refused.")
         );
@@ -1942,7 +1953,60 @@
       );
     }
 
-    return HackerTubePage;
+    function PrivacyPage() {
+      var state = useState(null), policy = state[0], setPolicy = state[1];
+      var errorState = useState(""), error = errorState[0], setError = errorState[1];
+      var busyState = useState(false), busy = busyState[0], setBusy = busyState[1];
+      var showState = useState(false), show = showState[0], setShow = showState[1];
+      var ackState = useState(false), ack = ackState[0], setAck = ackState[1];
+      var deleteState = useState(false), deleting = deleteState[0], setDeleting = deleteState[1];
+      useEffect(function () {
+        var gone = false;
+        if (!SDK.fetchJSON) { setError("Privacy policy could not be loaded. Reopen HackerTube to retry."); return; }
+        SDK.fetchJSON("/api/plugins/hackertube/privacy").then(function (body) {
+          if (!gone && body && typeof body.version === "string" && typeof body.text === "string" && typeof body.accepted === "boolean") setPolicy(body);
+          else if (!gone) setError("Privacy policy could not be loaded. Reopen HackerTube to retry.");
+        }).catch(function () { if (!gone) setError("Privacy policy could not be loaded. Reopen HackerTube to retry."); });
+        return function () { gone = true; };
+      }, []);
+      function update(remove) {
+        if (busy || (!remove && !ack)) return;
+        setBusy(true); setError("");
+        SDK.fetchJSON("/api/plugins/hackertube/privacy" + (remove ? "/delete" : ""), {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(remove ? {} : { version: policy.version, accepted: true }),
+        }).then(function (body) {
+          if (!body || typeof body.accepted !== "boolean" || !body.version) throw new Error("privacy response");
+          setPolicy(body); setShow(false); setAck(false); setDeleting(false);
+        }).catch(function () { setError(remove ? "Deletion did not complete. Cancel any active Search and retry. Your data has not been cleared." : "Agreement could not be saved. Please retry."); })
+          .finally(function () { setBusy(false); });
+      }
+      function link(url, label) { return h("a", { href: url, target: "_blank", rel: "noopener noreferrer" }, label); }
+      return h("div", { className: "hackertube" },
+        h("button", { type: "button", onClick: function () { setShow(!show); } }, "Privacy"),
+        policy && (!policy.accepted || show) ? h("section", { "aria-label": "Privacy policy" },
+          h("h1", null, "HackerTube privacy and terms"),
+          h("p", null, "Read the policy and agree before using HackerTube. Version " + policy.version),
+          h("div", { style: { whiteSpace: "pre-wrap" } }, policy.text),
+          h("p", null, link("https://www.youtube.com/t/terms", "YouTube Terms of Service"), " · ", link("https://policies.google.com/privacy", "Google Privacy Policy"), " · ", link("https://security.google.com/settings/security/permissions", "Google permissions")),
+          !policy.accepted ? h("div", null,
+            h("label", null, h("input", { type: "checkbox", checked: ack, disabled: busy,
+              onChange: function (event) { setAck(!!event.target.checked); } }), " I agree to the HackerTube privacy policy and terms, including the YouTube Terms of Service."),
+            h("button", { type: "button", disabled: busy || !ack, onClick: function () { update(false); } }, "Agree and continue")
+          ) : null,
+          h("p", null, "Deletion removes this profile’s HackerTube library, history, searches, source settings and agreement. It does not change data held by YouTube or remove Hermes credentials. Cancel an active Search first."),
+          h("label", null, h("input", { type: "checkbox", checked: deleting, disabled: busy,
+            onChange: function (event) { setDeleting(!!event.target.checked); } }), " Delete all HackerTube data in this profile"),
+          h("button", { type: "button", disabled: busy || !deleting, onClick: function () { update(true); } }, "Delete HackerTube data and revoke agreement")
+        ) : null,
+        error ? h("p", { role: "alert" }, error) : null,
+        !policy && !error ? h("p", null, "Loading privacy policy…") : null,
+        policy && policy.accepted ? h(HackerTubePage) : null
+      );
+    }
+    // Content is exposed for the component-only harness; production mounts PrivacyPage.
+    PrivacyPage.Content = HackerTubePage;
+    return PrivacyPage;
   }
 
   return {

@@ -19,7 +19,7 @@ from hackertube_core.boundaries import (
 )
 from hackertube_core.errors import RecordError
 from hackertube_core.records import SECTIONS
-from hackertube_core.text import render_untrusted, tokens
+from hackertube_core.text import render_untrusted, tokens, source_display_name
 
 SCHEMA = "hackertube.search/1"
 
@@ -344,12 +344,12 @@ def _active_rows(evidence, item_id):
     return [row for row in evidence if row.item_id == item_id]
 
 
-def _source_label(row, source_names):
+def _source_label(row, source_names, destination):
     """The label one result carries. A community endorsement keeps its own
     line; a broader-web record is labeled with its source and is not
     presented as a community endorsement."""
     line = recommendation_line(row)
-    name = source_names.get(row.source_id, row.source_id)
+    name = source_display_name(row.source_id, destination, source_names.get(row.source_id, row.source_id))
     if line:
         return {
             "source_id": row.source_id,
@@ -437,12 +437,13 @@ def _result(item, interpretation, rows, source_names, profile, limit):
     """One admitted result: a retrieved identity, a label, a constraint
     state, and the recorded prior state."""
     constraint, note, within = _constraint_state(item, limit)
-    label = _source_label(rows[0], source_names)
+    label = _source_label(rows[0], source_names, item.destination)
     return {
         "item_id": item.item_id,
         "title": item.title,
         "format": item.format,
         "destination": item.destination,
+        "metadata_retrieved_at": item.captured_at,
         "contributors": list(item.contributors or ()),
         "duration_seconds": item.duration_seconds,
         "source": label,

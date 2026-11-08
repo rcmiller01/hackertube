@@ -104,7 +104,7 @@ The catalog PR and README SHALL disclose third-party network calls, data reads, 
 
 #### Scenario: HCKT18 Source retention and attribution
 - **WHEN** each enabled source adapter is tested with live metadata and simulated deletion or expiry
-- **THEN** it honors its documented attribution, retention, refresh, deletion, and redistribution constraints or remains disabled
+- **THEN** it honors its documented attribution, retention across catalog and durable Search-result copies, refresh, deletion, and redistribution constraints or remains disabled; later jobs cannot extend original metadata age and Apple store attribution matches the actual destination
 
 #### Scenario: HCKT19 Lifecycle rehearsal after demo
 - **WHEN** the post-demo release rehearsal performs update, disable/re-enable, rollback, and documented uninstall retention

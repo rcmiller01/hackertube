@@ -139,3 +139,17 @@ POST /search with background:true returns a persisted job handle; GET /search/jo
 The worker is the sole writer of running progress. Pipe notifications update only the supervisor's memory, so an older event cannot regress a newer durable dispatch. Once the group has stopped, terminal cancellation/timeout merges observed pipe counters with persisted counters by per-class maximum; it cannot reset a dispatch that was saved immediately before termination.
 
 Recovery is checked under the profile lease at construction, status observation, and before a new explicit start. A cached observer can therefore notice an owner that died later. The Search info route checks active persisted work regardless of current provider availability/selection; recovery is local and never calls a provider. A live lease still prevents another observer from interrupting the owner.
+
+## Pre-public source audit
+
+The retention owner is ProfileStore: opening the store and transactional catalog/result access purge expired retrieved records and sanitize aged durable Search response copies. Result payloads carry the item's metadata retrieval time; the earliest metadata/source/job time bounds the 30-day response cache. Expired content/interpretation/model-explanation copies are removed together while numeric usage, terminal job summary and independent library flags survive. No remote request or recurring paid cleanup is added. Local cleanup cannot execute while Hermes is stopped.
+
+Apple's single API serves both Podcasts and Books. A destination-aware Python text helper serves the two backend attribution writers; the frontend destination/source-name helpers serve all card views, with its seven source-name callers passing the item. Source controls name both stores. Historical cached registry labels no longer mislabel audiobook destinations.
+
+This closes engineering defects found by the release audit, not the entire HCKT18 gate. YouTube privacy-policy acceptance and provider setup/revalidation obligations remain explicit release holds in docs/source-release.md.
+
+## November 8: versioned privacy and source lifecycle
+
+One router dependency protects all 16 non-policy routes. Three policy routes remain accessible before agreement, with exact endpoint identity (not a path suffix exemption). The page’s outer boundary loads only the policy before mounting feature components. Profile-local version persistence is independent of credit acknowledgement. Native model/web dispatch also checks current agreement. Supervised Search checks again while holding its exclusive lease; local deletion obtains the same lease and process guard, refuses active work and clears all owned tables. This prevents a deleted profile’s worker from restoring state. Credentials remain host-owned.
+
+One ProfileStore transaction owns both retrieved_catalog and search_result metadata. A valid successful YouTube hydration invalidates checked IDs across both, then current records may be saved by normal Search. A provider error does not prove deletion. Expiry uses the existing common boundary plus hourly local-only housekeeping with captured profile context and unload stop. No local program can run while stopped; cleanup precedes access on resume. The bundled policy names this limit and backup responsibility. The official unmodified source icon is linked only to the video, at the current brand minimum and with clear space; product relevance is labeled separately.

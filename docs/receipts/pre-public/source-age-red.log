@@ -1,0 +1,23 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____________ test_later_search_cannot_extend_age_of_copied_metadata ____________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-201/test_later_search_cannot_exten0')
+
+    def test_later_search_cannot_extend_age_of_copied_metadata(tmp_path):
+        store, connect, clock, result = stored_video(tmp_path)
+        with connect() as conn:
+            conn.execute("UPDATE search_job SET created_at=?,ended_at=?", ("2026-11-30T00:00:00Z", "2026-11-30T00:00:00Z"))
+        clock[0] = "2026-12-01T00:00:00Z"
+        response = store.job_result(result["job"]["job_id"])
+>       assert response["results"] == [], "A new job timestamp must not renew old API metadata"
+E       AssertionError: A new job timestamp must not renew old API metadata
+E       assert [{'item_id': ...RjPEtQ', ...}] == []
+E
+E         Left contains one more item: {'item_id': 'youtube:LCEmiRjPEtQ', 'title': 'AI retention sentinel title', 'format': 'video', 'destination': 'https://www.youtube.com/watch?v=LCEmiRjPEtQ', ...}
+E         Use -v to get more diff
+
+tests/test_release_sources.py:81: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_release_sources.py::test_later_search_cannot_extend_age_of_copied_metadata
+1 failed, 8 deselected in 0.03s

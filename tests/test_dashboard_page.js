@@ -595,7 +595,7 @@ function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, s
       Label: Stub,
       Separator: Stub,
     },
-  });
+  }).Content;
 
   function rerender() {
     rendering = true;
@@ -1280,6 +1280,7 @@ test("Show more Enter focuses the fifth item heading", async () => {
     const Page = page.createPage({
       React,
       fetchJSON(url) {
+        if (url === "/api/plugins/hackertube/privacy") return Promise.resolve({version:"test", text:"Fixture policy", accepted:true});
         const body = String(url).indexOf("/feed") !== -1
           ? feed
           : { catalog: { items, evidence: [], sources: [], editions: [] } };
@@ -2284,4 +2285,11 @@ test("a lost start acknowledgement attaches to existing work without another pai
     deferred.pending[1].onOk(searchResult({}, { job: { job_id: "job:existing", state: "cancelled" } }));
     assert.equal(ui.requests.filter((r) => r.url === "/api/plugins/hackertube/search" && r.method === "POST").length, 1);
   } finally { ui.restore(); }
+});
+
+test("Apple Books destinations and catalog attribution do not say Apple Podcasts", () => {
+  const item = {item_id:"itunes:audiobook:123", format:"audiobook", destination:"https://books.apple.com/us/audiobook/test/id123"};
+  const evidence = [{item_id:item.item_id, source_id:"itunes", kind:"catalog", retrieved_at:"2026-11-08T00:00:00Z"}];
+  assert.equal(page.destinationLabel(item), "Apple Books");
+  assert.equal(page.presentEvidence(item, evidence, [{source_id:"itunes",name:"Apple Podcasts"}]).sourceName, "Apple Books");
 });
