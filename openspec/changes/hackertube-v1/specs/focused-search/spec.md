@@ -9,7 +9,7 @@ An explicit dashboard media request SHALL invoke LLM-backed search after pending
 
 #### Scenario: SEARCH01 Request across formats
 - **WHEN** the user explicitly requests media for a topic through the page
-- **THEN** the shared search behavior retrieves candidates beyond the bundled catalog, ranks only source-backed identities through the selected configured Hermes provider, and returns relevant media sections
+- **THEN** the shared search behavior retrieves candidates beyond the bundled catalog, ranks only source-backed identities through the selected configured Hermes provider, and returns relevant media sections, treating podcast shows and episodes as one category for candidate and result allocation
 
 #### Scenario: SEARCH12 Explicit agent entry after demo
 - **WHEN** the user explicitly invokes the HackerTube agent entry point for media recommendations after the demo
@@ -20,7 +20,7 @@ An explicit dashboard media request SHALL invoke LLM-backed search after pending
 - **THEN** HackerTube starts no search job
 
 ### Requirement: Question and constraint priority
-Focused recommendations SHALL prioritize the question's purpose, topic, requested formats, depth, and explicit constraints over general interest preferences.
+Focused recommendations SHALL prioritize the question's purpose, topic, requested formats, depth, and explicit constraints over general interest preferences. Catalog retrieval SHALL use a subject-only query separately from audience and exclusion wording. Live ranking SHALL admit direct purpose matches, omit related or uncertain fits, and allocate the result allowance across requested categories without filling missing categories with weaker material.
 
 #### Scenario: SEARCH10 Include dismissed items explicitly
 - **WHEN** the user turns on the include-dismissed control and submits a focused search
@@ -32,7 +32,7 @@ Focused recommendations SHALL prioritize the question's purpose, topic, requeste
 
 #### Scenario: SEARCH03 Question differs from interests
 - **WHEN** the user with technology interests asks for gardening books
-- **THEN** the results prioritize gardening books rather than unrelated technology items
+- **THEN** the results prioritize gardening books rather than unrelated technology items, while audience and exclusions guide ranking without narrowing the source query to that entire phrase
 
 #### Scenario: SEARCH04 Uncertain hard constraint
 - **WHEN** an otherwise relevant item has unknown duration under a requested time limit

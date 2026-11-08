@@ -55,6 +55,13 @@ Tasks 1.1, 1.2, 1.4, 2.1, 2.2, 2.3, 3.1, 3.2, 3.3, 3.7, 4.1, and 4.2 are complet
 
 - [x] 7.5 Test the installed package in the actual local Hermes dashboard using an existing provider. Covers UI01, SEARCH01, PREF05, LIB01/LIB02/LIB03, JOB03/JOB04. Receipt: `docs/receipts/installed-live/README.md`; one successful query, Save/Open launch, and persistent saved/opened state after dashboard restart. External source content stopped at a human-verification checkpoint. This does not close keyed-source or wider release checks.
 
+## 8. Category relevance and ranking follow-up
+
+- [ ] 8.1 Separate the source subject query from audience/exclusions; validate it and preserve existing-provider compatibility. Covers SEARCH01/03/09.
+- [ ] 8.2 Balance input/output by the four media categories, use category-specific relevance guidance, and reject related/uncertain matches. Retain single-category and sparse-coverage behavior. Covers SEARCH01/04/07.
+- [ ] 8.3 Preserve valid ranking entries when siblings are malformed, report partial coverage and diagnostics, and keep request/time budgets unchanged. Covers JOB03/04/07.
+- [ ] 8.4 Run regression and installed-live checks against the broad and strict AI requests. Record category counts, relevance limitations, exact code/host, and validation in verification.md; do not claim a broad relevance evaluation.
+
 ## Workflow follow-up
 
 - Archive only after implementation checks are complete and unresolved failures are explicitly dispositioned. Verify delivered specs and archive contents after synchronization.

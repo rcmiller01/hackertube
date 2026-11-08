@@ -1,0 +1,416 @@
+FFFFFFFFFFFFFF.FF                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_subject_query_is_kept_separate_from_audience_and_exclusions _______
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-140/test_subject_query_is_kept_sep0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10bb95350>
+
+    def test_subject_query_is_kept_separate_from_audience_and_exclusions(tmp_path, monkeypatch):
+        seen = []
+    
+        def invoke(raw):
+            return {'data': {'topic': 'AI for nontechnical beginners without coding or daily news',
+                             'retrieval_query': 'artificial intelligence',
+                             'terms': ['artificial intelligence'], 'formats': ['book'],
+                             'depth': 'beginner'}}
+    
+        outcome = HermesProvider(invoke).interpret('AI for nontechnical beginners, no coding or daily news', LIVE_LIMITS)
+    
+        def read(url, **kwargs):
+            seen.append(parse_qs(urlsplit(url).query))
+            return {'docs': []} if 'openlibrary.org' in url else {'hits': []}
+    
+        monkeypatch.setattr('hackertube_core.retrieval.read_json', read)
+        SourceRetriever(store_at(tmp_path))(outcome.interpretation, NOW, Budget(LIVE_LIMITS))
+>       assert seen and all((q.get('q') or q.get('query')) == ['artificial intelligence'] for q in seen)
+E       AssertionError: assert ([{'query': ['AI for nontechnical beginners without coding or daily news'], 'hitsPerPage': ['12']}, {'q': ['AI for nont...ews'], 'limit': ['12'], 'fields': ['key,title,author_name,cover_edition_key,first_publish_year,id_project_gutenberg']}] and False)
+E        +  where False = all(<generator object test_subject_query_is_kept_separate_from_audience_and_exclusions.<locals>.<genexpr> at 0x10bbc0d60>)
+
+tests/test_results_tuning.py:40: AssertionError
+___________________ test_invalid_subject_query_is_refused[] ____________________
+
+bad = ''
+
+    @pytest.mark.parametrize('bad', ['', [], '<unsafe>', 'x' * 201])
+    def test_invalid_subject_query_is_refused(bad):
+        provider = HermesProvider(lambda raw: {'data': {
+            'topic': 'AI', 'retrieval_query': bad, 'terms': ['AI'], 'formats': ['book']}})
+>       with pytest.raises(ProviderUnavailable):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ProviderUnavailable
+
+tests/test_results_tuning.py:49: Failed
+_________________ test_invalid_subject_query_is_refused[bad1] __________________
+
+bad = []
+
+    @pytest.mark.parametrize('bad', ['', [], '<unsafe>', 'x' * 201])
+    def test_invalid_subject_query_is_refused(bad):
+        provider = HermesProvider(lambda raw: {'data': {
+            'topic': 'AI', 'retrieval_query': bad, 'terms': ['AI'], 'formats': ['book']}})
+>       with pytest.raises(ProviderUnavailable):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ProviderUnavailable
+
+tests/test_results_tuning.py:49: Failed
+_______________ test_invalid_subject_query_is_refused[<unsafe>] ________________
+
+bad = '<unsafe>'
+
+    @pytest.mark.parametrize('bad', ['', [], '<unsafe>', 'x' * 201])
+    def test_invalid_subject_query_is_refused(bad):
+        provider = HermesProvider(lambda raw: {'data': {
+            'topic': 'AI', 'retrieval_query': bad, 'terms': ['AI'], 'formats': ['book']}})
+>       with pytest.raises(ProviderUnavailable):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ProviderUnavailable
+
+tests/test_results_tuning.py:49: Failed
+_________________ test_invalid_subject_query_is_refused[bad3] __________________
+
+bad = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+
+    @pytest.mark.parametrize('bad', ['', [], '<unsafe>', 'x' * 201])
+    def test_invalid_subject_query_is_refused(bad):
+        provider = HermesProvider(lambda raw: {'data': {
+            'topic': 'AI', 'retrieval_query': bad, 'terms': ['AI'], 'formats': ['book']}})
+>       with pytest.raises(ProviderUnavailable):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ProviderUnavailable
+
+tests/test_results_tuning.py:49: Failed
+__ test_one_bad_ranked_entry_does_not_discard_valid_recommendations[bad_row0] __
+
+bad_row = {'item_id': 'invented', 'reason': 'Not retrieved.', 'fit': 'direct'}
+
+    @pytest.mark.parametrize('bad_row', [
+        {'item_id': 'invented', 'reason': 'Not retrieved.', 'fit': 'direct'},
+        {'item_id': 'media:1', 'reason': '', 'fit': 'direct'},
+        {'item_id': 'media:1', 'reason': 'Unvalidated fit.'},
+    ])
+    def test_one_bad_ranked_entry_does_not_discard_valid_recommendations(bad_row):
+        cat = catalog_for(['book', 'video', 'audiobook'])
+        provider = HermesProvider(lambda raw: {'data': {'items': [
+            {'item_id': 'media:0', 'reason': 'Direct introduction.', 'fit': 'direct'},
+            bad_row,
+            {'item_id': 'media:2', 'reason': 'Actual introductory audio edition.', 'fit': 'direct'},
+        ]}})
+>       ranked, _ = provider.rank('AI introductions', cat, 10)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_results_tuning.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hackertube_core.hermes.HermesProvider object at 0x10bbe67b0>
+question = 'AI introductions'
+catalog = Catalog(items=(MediaItem(item_id='media:0', format='book', title='Artificial intelligence introduction', destination='... demo_question='What can I read or listen to by Jane Austen?', formats_may_be_empty=('videos',), unavailable_videos=())
+timeout = 10
+
+    def rank(self, question, catalog, timeout):
+        # Give every retrieved format space in the bounded model input.
+        groups = {}
+        for item in catalog.items:
+            groups.setdefault(item.format, []).append(item)
+        ordered = []
+        for index in range(max((len(rows) for rows in groups.values()), default=0)):
+            for rows in groups.values():
+                if index < len(rows):
+                    ordered.append(rows[index])
+        candidates = [
+            {
+                "item_id": x.item_id,
+                "title": x.title,
+                "format": x.format,
+                "contributors": list(x.contributors or ()),
+                "duration_seconds": x.duration_seconds,
+            }
+            for x in ordered[:60]
+        ]
+        body = self._call(
+            "rank", {"question": question, "candidates": candidates}, timeout
+        )
+        rows = body["data"].get("items")
+        if not isinstance(rows, list):
+            raise ProviderUnavailable("Hermes returned invalid ranked candidates.")
+        known = {x["item_id"] for x in candidates}
+        ranked = {}
+        for row in rows:
+            if not isinstance(row, dict) or row.get("item_id") not in known:
+>               raise ProviderUnavailable(
+                    "Hermes returned an unsupported candidate identity."
+                )
+E               hackertube_core.search.ProviderUnavailable: Hermes returned an unsupported candidate identity.
+
+hackertube/hackertube_core/hermes.py:194: ProviderUnavailable
+__ test_one_bad_ranked_entry_does_not_discard_valid_recommendations[bad_row1] __
+
+bad_row = {'item_id': 'media:1', 'reason': '', 'fit': 'direct'}
+
+    @pytest.mark.parametrize('bad_row', [
+        {'item_id': 'invented', 'reason': 'Not retrieved.', 'fit': 'direct'},
+        {'item_id': 'media:1', 'reason': '', 'fit': 'direct'},
+        {'item_id': 'media:1', 'reason': 'Unvalidated fit.'},
+    ])
+    def test_one_bad_ranked_entry_does_not_discard_valid_recommendations(bad_row):
+        cat = catalog_for(['book', 'video', 'audiobook'])
+        provider = HermesProvider(lambda raw: {'data': {'items': [
+            {'item_id': 'media:0', 'reason': 'Direct introduction.', 'fit': 'direct'},
+            bad_row,
+            {'item_id': 'media:2', 'reason': 'Actual introductory audio edition.', 'fit': 'direct'},
+        ]}})
+>       ranked, _ = provider.rank('AI introductions', cat, 10)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_results_tuning.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hackertube_core.hermes.HermesProvider object at 0x10bbd9370>
+question = 'AI introductions'
+catalog = Catalog(items=(MediaItem(item_id='media:0', format='book', title='Artificial intelligence introduction', destination='... demo_question='What can I read or listen to by Jane Austen?', formats_may_be_empty=('videos',), unavailable_videos=())
+timeout = 10
+
+    def rank(self, question, catalog, timeout):
+        # Give every retrieved format space in the bounded model input.
+        groups = {}
+        for item in catalog.items:
+            groups.setdefault(item.format, []).append(item)
+        ordered = []
+        for index in range(max((len(rows) for rows in groups.values()), default=0)):
+            for rows in groups.values():
+                if index < len(rows):
+                    ordered.append(rows[index])
+        candidates = [
+            {
+                "item_id": x.item_id,
+                "title": x.title,
+                "format": x.format,
+                "contributors": list(x.contributors or ()),
+                "duration_seconds": x.duration_seconds,
+            }
+            for x in ordered[:60]
+        ]
+        body = self._call(
+            "rank", {"question": question, "candidates": candidates}, timeout
+        )
+        rows = body["data"].get("items")
+        if not isinstance(rows, list):
+            raise ProviderUnavailable("Hermes returned invalid ranked candidates.")
+        known = {x["item_id"] for x in candidates}
+        ranked = {}
+        for row in rows:
+            if not isinstance(row, dict) or row.get("item_id") not in known:
+                raise ProviderUnavailable(
+                    "Hermes returned an unsupported candidate identity."
+                )
+            reason = row.get("reason")
+            if not isinstance(reason, str) or not reason.strip() or len(reason) > 500:
+>               raise ProviderUnavailable(
+                    "Hermes returned an invalid relevance explanation."
+                )
+E               hackertube_core.search.ProviderUnavailable: Hermes returned an invalid relevance explanation.
+
+hackertube/hackertube_core/hermes.py:199: ProviderUnavailable
+__ test_one_bad_ranked_entry_does_not_discard_valid_recommendations[bad_row2] __
+
+bad_row = {'item_id': 'media:1', 'reason': 'Unvalidated fit.'}
+
+    @pytest.mark.parametrize('bad_row', [
+        {'item_id': 'invented', 'reason': 'Not retrieved.', 'fit': 'direct'},
+        {'item_id': 'media:1', 'reason': '', 'fit': 'direct'},
+        {'item_id': 'media:1', 'reason': 'Unvalidated fit.'},
+    ])
+    def test_one_bad_ranked_entry_does_not_discard_valid_recommendations(bad_row):
+        cat = catalog_for(['book', 'video', 'audiobook'])
+        provider = HermesProvider(lambda raw: {'data': {'items': [
+            {'item_id': 'media:0', 'reason': 'Direct introduction.', 'fit': 'direct'},
+            bad_row,
+            {'item_id': 'media:2', 'reason': 'Actual introductory audio edition.', 'fit': 'direct'},
+        ]}})
+        ranked, _ = provider.rank('AI introductions', cat, 10)
+>       assert list(ranked) == ['media:0', 'media:2']
+E       AssertionError: assert ['media:0', '...1', 'media:2'] == ['media:0', 'media:2']
+E         
+E         At index 1 diff: 'media:1' != 'media:2'
+E         Left contains one more item: 'media:2'
+E         Use -v to get more diff
+
+tests/test_results_tuning.py:66: AssertionError
+_ test_related_or_uncertain_material_is_not_presented_as_a_direct_match[video] _
+
+fmt = 'video'
+
+    @pytest.mark.parametrize('fmt', ['video', 'podcast_show', 'book', 'audiobook'])
+    def test_related_or_uncertain_material_is_not_presented_as_a_direct_match(fmt):
+        cat = catalog_for([fmt, fmt, fmt])
+        provider = HermesProvider(lambda raw: {'data': {'items': [
+            {'item_id': 'media:0', 'reason': 'Only tangentially related.', 'fit': 'related'},
+            {'item_id': 'media:1', 'reason': 'Audience suitability unknown.', 'fit': 'uncertain'},
+            {'item_id': 'media:2', 'reason': 'Directly addresses the request.', 'fit': 'direct'},
+        ]}})
+        ranked, _ = provider.rank('AI introductions', cat, 10)
+>       assert list(ranked) == ['media:2']
+E       AssertionError: assert ['media:0', '...1', 'media:2'] == ['media:2']
+E         
+E         At index 0 diff: 'media:0' != 'media:2'
+E         Left contains 2 more items, first extra item: 'media:1'
+E         Use -v to get more diff
+
+tests/test_results_tuning.py:79: AssertionError
+_ test_related_or_uncertain_material_is_not_presented_as_a_direct_match[podcast_show] _
+
+fmt = 'podcast_show'
+
+    @pytest.mark.parametrize('fmt', ['video', 'podcast_show', 'book', 'audiobook'])
+    def test_related_or_uncertain_material_is_not_presented_as_a_direct_match(fmt):
+        cat = catalog_for([fmt, fmt, fmt])
+        provider = HermesProvider(lambda raw: {'data': {'items': [
+            {'item_id': 'media:0', 'reason': 'Only tangentially related.', 'fit': 'related'},
+            {'item_id': 'media:1', 'reason': 'Audience suitability unknown.', 'fit': 'uncertain'},
+            {'item_id': 'media:2', 'reason': 'Directly addresses the request.', 'fit': 'direct'},
+        ]}})
+        ranked, _ = provider.rank('AI introductions', cat, 10)
+>       assert list(ranked) == ['media:2']
+E       AssertionError: assert ['media:0', '...1', 'media:2'] == ['media:2']
+E         
+E         At index 0 diff: 'media:0' != 'media:2'
+E         Left contains 2 more items, first extra item: 'media:1'
+E         Use -v to get more diff
+
+tests/test_results_tuning.py:79: AssertionError
+_ test_related_or_uncertain_material_is_not_presented_as_a_direct_match[book] __
+
+fmt = 'book'
+
+    @pytest.mark.parametrize('fmt', ['video', 'podcast_show', 'book', 'audiobook'])
+    def test_related_or_uncertain_material_is_not_presented_as_a_direct_match(fmt):
+        cat = catalog_for([fmt, fmt, fmt])
+        provider = HermesProvider(lambda raw: {'data': {'items': [
+            {'item_id': 'media:0', 'reason': 'Only tangentially related.', 'fit': 'related'},
+            {'item_id': 'media:1', 'reason': 'Audience suitability unknown.', 'fit': 'uncertain'},
+            {'item_id': 'media:2', 'reason': 'Directly addresses the request.', 'fit': 'direct'},
+        ]}})
+        ranked, _ = provider.rank('AI introductions', cat, 10)
+>       assert list(ranked) == ['media:2']
+E       AssertionError: assert ['media:0', '...1', 'media:2'] == ['media:2']
+E         
+E         At index 0 diff: 'media:0' != 'media:2'
+E         Left contains 2 more items, first extra item: 'media:1'
+E         Use -v to get more diff
+
+tests/test_results_tuning.py:79: AssertionError
+_ test_related_or_uncertain_material_is_not_presented_as_a_direct_match[audiobook] _
+
+fmt = 'audiobook'
+
+    @pytest.mark.parametrize('fmt', ['video', 'podcast_show', 'book', 'audiobook'])
+    def test_related_or_uncertain_material_is_not_presented_as_a_direct_match(fmt):
+        cat = catalog_for([fmt, fmt, fmt])
+        provider = HermesProvider(lambda raw: {'data': {'items': [
+            {'item_id': 'media:0', 'reason': 'Only tangentially related.', 'fit': 'related'},
+            {'item_id': 'media:1', 'reason': 'Audience suitability unknown.', 'fit': 'uncertain'},
+            {'item_id': 'media:2', 'reason': 'Directly addresses the request.', 'fit': 'direct'},
+        ]}})
+        ranked, _ = provider.rank('AI introductions', cat, 10)
+>       assert list(ranked) == ['media:2']
+E       AssertionError: assert ['media:0', '...1', 'media:2'] == ['media:2']
+E         
+E         At index 0 diff: 'media:0' != 'media:2'
+E         Left contains 2 more items, first extra item: 'media:1'
+E         Use -v to get more diff
+
+tests/test_results_tuning.py:79: AssertionError
+_______ test_result_cap_is_shared_by_categories_not_podcast_record_types _______
+
+    def test_result_cap_is_shared_by_categories_not_podcast_record_types():
+        cat = catalog_for(['audiobook'] * 12 + ['podcast_show'] * 8 + ['podcast_episode'] * 8 + ['book'] * 8 + ['video'] * 8)
+        ranked = {x.item_id: 'Direct match.' for x in cat.items}
+        interpretation = interpret_question('AI videos podcasts books and audiobooks')
+        result = result_set(cat, profile(), interpretation, NOW, limits=LIVE_LIMITS, ranking=ranked)
+        counts = {name: section['verified_count'] for name, section in result['sections'].items()}
+>       assert counts == {'videos': 6, 'podcasts': 6, 'books': 6, 'audiobooks': 6}
+E       AssertionError: assert {'videos': 0,...diobooks': 12} == {'videos': 6,...udiobooks': 6}
+E         
+E         Differing items:
+E         {'podcasts': 12} != {'podcasts': 6}
+E         {'audiobooks': 12} != {'audiobooks': 6}
+E         {'videos': 0} != {'videos': 6}
+E         {'books': 0} != {'books': 6}
+E         Use -v to get more diff
+
+tests/test_results_tuning.py:89: AssertionError
+__ test_sparse_category_is_not_filled_with_extra_items_from_another_category ___
+
+    def test_sparse_category_is_not_filled_with_extra_items_from_another_category():
+        cat = catalog_for(['audiobook'] * 20 + ['book'])
+        result = result_set(cat, profile(), interpret_question('AI videos podcasts books audiobooks'), NOW,
+                            limits=LIVE_LIMITS, ranking={x.item_id: 'Direct match.' for x in cat.items})
+>       assert len(result['results']) == 7
+E       AssertionError: assert 21 == 7
+E        +  where 21 = len([{'item_id': 'media:0', 'title': 'Artificial intelligence introduction', 'format': 'audiobook', 'destination': 'https:...'Artificial intelligence introduction', 'format': 'audiobook', 'destination': 'https://example.org/media-5', ...}, ...])
+
+tests/test_results_tuning.py:97: AssertionError
+____ test_rank_input_balances_four_categories_instead_of_five_record_types _____
+
+    def test_rank_input_balances_four_categories_instead_of_five_record_types():
+        cat = catalog_for(['podcast_show'] * 40 + ['podcast_episode'] * 40 + ['book'] * 40 + ['video'] * 40 + ['audiobook'] * 40)
+        seen = []
+    
+        def invoke(raw):
+            candidates = json.loads(raw)['input']['candidates']
+            seen.extend(candidates)
+            return {'data': {'items': [{'item_id': candidates[0]['item_id'], 'reason': 'Direct match.', 'fit': 'direct'}]}}
+    
+        HermesProvider(invoke).rank('AI in all formats', cat, 10)
+        counts = Counter('podcasts' if x['format'].startswith('podcast') else x['format'] for x in seen)
+>       assert len(seen) == 60 and set(counts.values()) == {15}
+E       AssertionError: assert (60 == 60 and {12, 24} == {15}
+E        +  where 60 = len([{'item_id': 'media:0', 'title': 'Artificial intelligence introduction', 'format': 'podcast_show', 'contributors': ['J... 'title': 'Artificial intelligence introduction', 'format': 'podcast_show', 'contributors': ['Jane Austen'], ...}, ...])
+E         
+E         Extra items in the left set:
+E         24
+E         12
+E         Extra items in the right set:
+E         15
+E         Use -v to get more diff)
+
+tests/test_results_tuning.py:120: AssertionError
+_________ test_partial_ranking_validation_is_reported_in_the_real_job __________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-140/test_partial_ranking_validatio0')
+
+    def test_partial_ranking_validation_is_reported_in_the_real_job(tmp_path):
+        cat = one_book()
+        def invoke(raw):
+            if json.loads(raw)['stage'] == 'interpret':
+                return {'data': {'topic': 'gardening', 'terms': ['gardening'], 'formats': ['book']}}
+            return {'data': {'items': [{'item_id': 'invented', 'reason': 'Bad.', 'fit': 'direct'},
+                                      {'item_id': 'ol:1', 'reason': 'Useful gardening book.', 'fit': 'direct'}]}}
+        result = run_search(store_at(tmp_path), 'gardening books', catalog=cat, profile=profile(), now=NOW,
+                            provider=HermesProvider(invoke), retriever=lambda *args: (cat, []),
+                            limits=LIVE_LIMITS, disclosure_accepted=True)
+        assert result['job']['state'] == 'partial'
+>       assert [x['item_id'] for x in result['results']] == ['ol:1']
+E       AssertionError: assert [] == ['ol:1']
+E         
+E         Right contains one more item: 'ol:1'
+E         Use -v to get more diff
+
+tests/test_results_tuning.py:135: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_results_tuning.py::test_subject_query_is_kept_separate_from_audience_and_exclusions
+FAILED tests/test_results_tuning.py::test_invalid_subject_query_is_refused[]
+FAILED tests/test_results_tuning.py::test_invalid_subject_query_is_refused[bad1]
+FAILED tests/test_results_tuning.py::test_invalid_subject_query_is_refused[<unsafe>]
+FAILED tests/test_results_tuning.py::test_invalid_subject_query_is_refused[bad3]
+FAILED tests/test_results_tuning.py::test_one_bad_ranked_entry_does_not_discard_valid_recommendations[bad_row0]
+FAILED tests/test_results_tuning.py::test_one_bad_ranked_entry_does_not_discard_valid_recommendations[bad_row1]
+FAILED tests/test_results_tuning.py::test_one_bad_ranked_entry_does_not_discard_valid_recommendations[bad_row2]
+FAILED tests/test_results_tuning.py::test_related_or_uncertain_material_is_not_presented_as_a_direct_match[video]
+FAILED tests/test_results_tuning.py::test_related_or_uncertain_material_is_not_presented_as_a_direct_match[podcast_show]
+FAILED tests/test_results_tuning.py::test_related_or_uncertain_material_is_not_presented_as_a_direct_match[book]
+FAILED tests/test_results_tuning.py::test_related_or_uncertain_material_is_not_presented_as_a_direct_match[audiobook]
+FAILED tests/test_results_tuning.py::test_result_cap_is_shared_by_categories_not_podcast_record_types
+FAILED tests/test_results_tuning.py::test_sparse_category_is_not_filled_with_extra_items_from_another_category
+FAILED tests/test_results_tuning.py::test_rank_input_balances_four_categories_instead_of_five_record_types
+FAILED tests/test_results_tuning.py::test_partial_ranking_validation_is_reported_in_the_real_job
+16 failed, 1 passed in 0.06s
