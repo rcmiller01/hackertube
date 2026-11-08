@@ -123,3 +123,14 @@ def test_openlibrary_contact_is_sent_only_to_openlibrary(tmp_path, monkeypatch):
     assert specific and contact in specific[0][1].get("User-Agent", "")
     assert all(contact not in str(h) for u,h in seen if "openlibrary.org" not in u)
     assert all(contact not in u for u,h in seen)
+
+
+def test_legacy_refresh_also_uses_the_scoped_openlibrary_contact(tmp_path, monkeypatch):
+    from hackertube_core import sources
+    seen = []
+    monkeypatch.setattr(sources.openlibrary, "fetch_search", lambda query, **kwargs: seen.append(kwargs.get("contact")) or {"docs":[]})
+    store = ProfileStore(connect_at(tmp_path))
+    for source_id in ("hn", "itunes", "librivox"):
+        store.set_source_enabled(source_id, False)
+    sources.ingest(store, "2026-11-08T00:00:00Z", "gardening", get_secret=lambda name: "operator@example.invalid" if name=="OPENLIBRARY_CONTACT" else None)
+    assert seen == ["operator@example.invalid"]
