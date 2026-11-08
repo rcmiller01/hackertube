@@ -1,0 +1,94 @@
+FFFFFF                                                                   [100%]
+=================================== FAILURES ===================================
+_________ test_installable_directory_loads_catalog_without_repository __________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-99/test_installable_directory_loa0')
+
+    def test_installable_directory_loads_catalog_without_repository(tmp_path):
+        plugin = tmp_path / 'hackertube'
+        shutil.copytree(ROOT / 'hackertube', plugin, ignore=shutil.ignore_patterns('__pycache__'))
+        code = "import runpy; m=runpy.run_path(%r); assert len(m['load_catalog']().items)==12" % str(plugin / 'dashboard/catalog_view.py')
+        result = subprocess.run([sys.executable, '-I', '-c', code], cwd=tmp_path, capture_output=True, text=True)
+>       assert result.returncode == 0, result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 1, in <module>
+E             import runpy; m=runpy.run_path('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-99/test_installable_directory_loa0/hackertube/dashboard/catalog_view.py'); assert len(m['load_catalog']().items)==12
+E                                                                                                                                                                                                                    ~~~~~~~~~~~~~~~~~^^
+E           File "/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-99/test_installable_directory_loa0/hackertube/dashboard/catalog_view.py", line 42, in load_catalog
+E             return _load_seed()
+E           File "/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-99/test_installable_directory_loa0/hackertube/dashboard/catalog_view.py", line 35, in _load_seed
+E             from hackertube_core import load_seed
+E         ModuleNotFoundError: No module named 'hackertube_core'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/Users/robert/Developer/hackertube/.venv/bin/python', '-I', '-c', "import runpy; m=runpy.run_p... in _load_seed\n    from hackertube_core import load_seed\nModuleNotFoundError: No module named \'hackertube_core\'\n').returncode
+
+tests/test_live_search.py:22: AssertionError
+__________ test_live_provider_decodes_chat_completion_and_sends_model __________
+
+    def test_live_provider_decodes_chat_completion_and_sends_model():
+        seen = {}
+        def transport(key, endpoint, payload, **kwargs):
+            seen.update(payload)
+            return {'choices': [{'message': {'content': json.dumps({
+                'topic': 'gardening', 'terms': ['gardening'], 'formats': ['book'],
+                'depth': 'beginner', 'max_duration_seconds': None,
+            })}}]}
+>       provider = search.LiveProvider('test-key', 'https://example.org/v1/chat/completions', model='test-model', transport=transport)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: LiveProvider.__init__() got an unexpected keyword argument 'model'
+
+tests/test_live_search.py:33: TypeError
+___ test_live_provider_rejects_malformed_completion_instead_of_local_success ___
+
+    def test_live_provider_rejects_malformed_completion_instead_of_local_success():
+        provider = search.LiveProvider('test-key', 'https://example.org/v1/chat/completions', transport=lambda *a, **k: {'choices': []})
+>       with pytest.raises(search.ProviderUnavailable):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ProviderUnavailable
+
+tests/test_live_search.py:42: Failed
+___________________ test_format_filter_precedes_result_limit ___________________
+
+    def test_format_filter_precedes_result_limit():
+        result = search.result_set(load_seed(), profile(), search.interpret_question('Jane Austen books'), NOW, limits=search.Limits(max_hits=1))
+>       assert [row['format'] for row in result['results']] == ['book']
+E       AssertionError: assert ['podcast_show'] == ['book']
+E         
+E         At index 0 diff: 'podcast_show' != 'book'
+E         Use -v to get more diff
+
+tests/test_live_search.py:48: AssertionError
+_______________ test_live_transport_receives_remaining_deadline ________________
+
+    def test_live_transport_receives_remaining_deadline():
+        seen = {}
+        def transport(*args, **kwargs):
+            seen.update(kwargs)
+            return {'interpretation': {'topic': 'gardening', 'terms': ['gardening'], 'formats': ['book']}}
+        search.LiveProvider('test-key', 'https://example.org', transport=transport).interpret('gardening books', search.Limits(deadline_seconds=2))
+>       assert 0 < seen['timeout'] <= 2
+E       assert 15 <= 2
+
+tests/test_live_search.py:58: AssertionError
+______________ test_search_uses_retrieved_catalog_instead_of_seed ______________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-99/test_search_uses_retrieved_cat0')
+
+    def test_search_uses_retrieved_catalog_instead_of_seed(tmp_path):
+        retrieved = one_book()
+        def retrieve(interpretation, now, budget):
+            return retrieved, [{'source_id': 'openlibrary', 'state': 'succeeded', 'items': 1}]
+>       result = search.run_search(store_at(tmp_path), 'gardening books', catalog=load_seed(), profile=profile(), now=NOW,
+                                   provider=search.StubProvider(), retriever=retrieve, disclosure_accepted=True)
+E       TypeError: run_search() got an unexpected keyword argument 'retriever'
+
+tests/test_live_search.py:65: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_live_search.py::test_installable_directory_loads_catalog_without_repository
+FAILED tests/test_live_search.py::test_live_provider_decodes_chat_completion_and_sends_model
+FAILED tests/test_live_search.py::test_live_provider_rejects_malformed_completion_instead_of_local_success
+FAILED tests/test_live_search.py::test_format_filter_precedes_result_limit - ...
+FAILED tests/test_live_search.py::test_live_transport_receives_remaining_deadline
+FAILED tests/test_live_search.py::test_search_uses_retrieved_catalog_instead_of_seed
+6 failed in 0.07s
