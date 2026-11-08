@@ -1,0 +1,43 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___________ test_malformed_hn_payload_does_not_discard_other_sources ___________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-109/test_malformed_hn_payload_does0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x109ac1480>
+
+    def test_malformed_hn_payload_does_not_discard_other_sources(tmp_path,monkeypatch):
+        def read(url,**kw):
+            return [] if 'hn.algolia.com' in url else public_read(url,**kw)
+        monkeypatch.setattr('hackertube_core.retrieval.read_json',read)
+>       cat,status=SourceRetriever(store_at(tmp_path))(interpret_question('gardening books'),NOW,Budget(LIVE_LIMITS))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retrieval.py:465: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+hackertube/hackertube_core/retrieval.py:409: in __call__
+    evidence.extend(hn.evidence_for_items(hn_payload, items, now))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+payload = []
+items = [MediaItem(item_id='ol:OL999999W', format='book', title='Growing Vegetables', destination='https://openlibrary.org/wor...rt_cache=False, art_reason='Cover use is decided when the seed is frozen.', art_checked_at=None, art_http_status=None)]
+retrieved_at = '2026-11-07T12:00:00Z'
+
+    def evidence_for_items(payload, items, retrieved_at):
+        """Link retrieved story mentions to known media destinations across formats.
+    
+        A story title/mention is never promoted to a positive endorsement. Raw
+        discussion text, usernames, and unsupported media identities are not stored.
+        """
+        from hackertube_core.text import public_https_url
+    
+        by_url = {item.destination.rstrip("/"): item.item_id for item in items}
+        rows = []
+>       for hit in (payload.get("hits") or [])[:12]:
+                    ^^^^^^^^^^^
+E       AttributeError: 'list' object has no attribute 'get'
+
+hackertube/hackertube_core/adapters/hn.py:149: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_retrieval.py::test_malformed_hn_payload_does_not_discard_other_sources
+1 failed in 0.05s
