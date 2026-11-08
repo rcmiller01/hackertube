@@ -245,8 +245,10 @@ def test_job_handle_from_another_profile_cannot_cancel_local_work(tmp_path):
         server_a.close()
         server_b.close()
 
+
 def test_plugin_unload_stops_its_active_worker(tmp_path, monkeypatch):
     from hackertube_core import search_jobs
+
     manager, store, server, job = setup_job(tmp_path, seconds=10)
     connection, _ = server.accept()
     key = str((tmp_path / "home/plugin-data/hackertube").resolve())
@@ -257,3 +259,17 @@ def test_plugin_unload_stops_its_active_worker(tmp_path, monkeypatch):
     assert connection.recv(1) == b""
     connection.close()
     server.close()
+
+@pytest.mark.parametrize("mode", ["dns", "source-read"])
+def test_deadline_stops_real_source_boundary_even_when_dns_or_read_blocks(tmp_path, mode):
+    manager, store, server, job = setup_job(tmp_path, mode=mode)
+    connection, _ = server.accept()
+    connection.settimeout(2)
+    try:
+        result = wait_done(manager, job)
+        assert result["job"]["state"] == "timed_out"
+        assert result["usage"]["request_counts"]["free"] == 1
+        assert connection.recv(1) == b""
+    finally:
+        connection.close()
+        server.close()
