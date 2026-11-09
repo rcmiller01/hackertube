@@ -752,6 +752,16 @@ test("PREF16 removing an interest posts its exact text and refreshes the feed", 
   } finally { ui.restore(); }
 });
 
+test("PREF16 a rejected removal keeps the interest available for retry", () => {
+  const profile = { schema: page.PROFILE_SCHEMA, interests: ["gardening"], items: [] };
+  const ui = mountPage(SAMPLE_CATALOG, profile, () => ({ error: "interest" }));
+  try {
+    ui.find(n => n.props && n.props["aria-label"] === "Remove interest gardening").props.onClick();
+    assert.ok(ui.find(n => n.props && n.props["aria-label"] === "Remove interest gardening"));
+    assert.match(ui.text(n => n.props && n.props.className === "ht-status"), /did not accept/);
+  } finally { ui.restore(); }
+});
+
 test("PREF01 loaded gardening interest stays on the page", () => {
   const ui = mountPage(SAMPLE_CATALOG, {
     schema: "hackertube.profile/1",
@@ -1946,7 +1956,10 @@ test("a stale Search response does not overwrite a newer Search's result", () =>
     form.props.onSubmit({ preventDefault() {} });
     assert.equal(defer.pending.length, 2, "two Search requests are in flight");
 
+    const feedReads = () => ui.requests.filter(row => row.url.endsWith("/feed")).length;
+    const originalReads = feedReads();
     defer.pending[0].onOk(Object.assign(defaultSearchResult(), { provider: "stale-provider" }));
+    assert.equal(feedReads(), originalReads, "stale completion does not refresh the feed");
     const afterStale = ui.text((node) => node.props && node.props.className === "ht-results");
     assert.doesNotMatch(afterStale, /stale-provider/, "the stale response is ignored");
     assert.match(afterStale, /Search running\./, "the newer Search is still running");
@@ -1954,6 +1967,7 @@ test("a stale Search response does not overwrite a newer Search's result", () =>
     defer.pending[1].onOk(Object.assign(defaultSearchResult(), { provider: "fresh-provider" }));
     const afterFresh = ui.text((node) => node.props && node.props.className === "ht-results");
     assert.match(afterFresh, /fresh-provider/, "the newest response renders");
+    assert.equal(feedReads(), originalReads + 1, "only the current Search refreshes the feed");
     assert.doesNotMatch(afterFresh, /stale-provider/, "the stale response never renders");
   } finally {
     ui.restore();
