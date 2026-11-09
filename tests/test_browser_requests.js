@@ -47,9 +47,48 @@ test("FEED11 background Search completion updates the rendered feed without a re
     await tab.locator("#hackertube-question").fill("Jane Austen books");
     await tab.locator("#hackertube-disclosure-ack").check();
     await tab.getByRole("button", { name: "Search", exact: true }).click();
+    const panel = tab.locator("details.ht-feed-controls");
+    const toggle = panel.locator("summary");
+    await toggle.waitFor({ timeout: 1000 });
+    await toggle.focus();
+    await toggle.press("Enter");
+    await tab.waitForFunction(() => !document.querySelector("details.ht-feed-controls").open);
+    assert.equal(await tab.locator("#hackertube-question").isVisible(), false);
     await tab.locator("#ranked-feed").getByText("New search discovery", { exact: true }).waitFor({ timeout: 5000 });
     assert.deepEqual(reads, { feed: 1, catalog: 1, starts: 1 });
+    assert.equal(await panel.getAttribute("open"), null, "feed updates leave controls collapsed");
+    assert.equal(await toggle.isVisible(), true, "the reopen control remains visible");
+    await toggle.press("Enter");
+    await tab.locator("#hackertube-question").waitFor({ state: "visible" });
+    assert.equal(await tab.locator("#hackertube-question").inputValue(), "Jane Austen books");
     assert.equal(await tab.locator("#hackertube-results").getByText("Search running.", { exact: true }).count(), 0);
+  } finally {
+    if (browser) await browser.close();
+    await fixture.close();
+  }
+});
+
+test("PREF16 interest remove button works by keyboard and stays removed after reload", async () => {
+  const { startFixture, loadNodeModule } = require("./browser_net_harness");
+  const fixture = await startFixture(fixtureItems(1));
+  let browser;
+  try {
+    browser = await loadNodeModule("playwright").chromium.launch({ headless: true });
+    const tab = await browser.newPage();
+    await tab.route("https://covers.openlibrary.org/**", route => route.abort());
+    await tab.goto(fixture.origin);
+    const remove = tab.getByRole("button", { name: "Remove interest Jane Austen", exact: true });
+    await remove.waitFor();
+    const previousReads = fixture.served.filter(row => row.path.endsWith("/feed")).length;
+    await remove.focus();
+    await remove.press("Enter");
+    await remove.waitFor({ state: "detached" });
+    await tab.waitForFunction(() => document.querySelector(".ht-interest-list") === null);
+    assert.equal(fixture.served.filter(row => row.path.endsWith("/feed")).length, previousReads + 1);
+    await tab.reload();
+    await tab.getByRole("heading", { name: "Interests", exact: true }).waitFor();
+    assert.equal(await tab.getByRole("button", { name: "Remove interest Jane Austen", exact: true }).count(), 0);
+    assert.equal(fixture.served.filter(row => row.path.endsWith("/search")).length, 0);
   } finally {
     if (browser) await browser.close();
     await fixture.close();
