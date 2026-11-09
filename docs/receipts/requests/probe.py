@@ -24,6 +24,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "tests"))
+# hackertube_core lives in the plugin package, not at the repository root.
+sys.path.insert(0, str(ROOT / "hackertube"))
 
 import route_harness  # noqa: E402
 from hackertube_core import outbound  # noqa: E402

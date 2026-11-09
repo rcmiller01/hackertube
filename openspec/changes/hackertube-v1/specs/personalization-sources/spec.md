@@ -13,7 +13,7 @@ Users SHALL be able to save interests on any subject. Source coverage limitation
 
 #### Scenario: PREF16 Remove a saved interest
 - **WHEN** the user activates the named remove button beside a saved interest
-- **THEN** only that interest is deleted from the current profile, the prepared feed reranks without paid work, other interests and library state survive, and removal persists across restart; rejected writes leave the interest available for retry
+- **THEN** only that interest is deleted from the current profile, the Remove control shows the word Remove and is at least 2.5rem tall, a successful removal announces the removed interest and moves focus to the interest field, the prepared feed reranks without paid work, other interests and library state survive, and removal persists across restart; rejected writes leave the interest available for retry
 
 ### Requirement: Source selection and inspection
 Users SHALL receive curated defaults, enable supported communities, add supported feeds, and inspect each source's coverage, last successful retrieval, and current error status.

@@ -619,10 +619,81 @@
     return message || "The Search request did not complete.";
   }
 
+  var SOURCE_LABELS = {
+    podcastindex: "Podcast Index",
+    reddit: "Reddit",
+    youtube: "YouTube",
+    hn: "Hacker News",
+    itunes: "Apple Podcasts / Apple Books",
+    openlibrary: "Open Library",
+    librivox: "LibriVox",
+    web: "Broader web",
+    ranking: "Ranking",
+  };
+
+  // Machine reason or error text to [lead-in, parenthetical phrase].
+  var REASON_COPY = {
+    missing_api_key: ["Not searched", "needs its own API key"],
+    approval_absent: ["Not searched", "not approved"],
+    host_search_unavailable: ["Not searched", "host search is unavailable"],
+    disabled: ["Not searched", "turned off"],
+    not_requested: ["Not searched", "not requested"],
+    unavailable: ["Not searched", "unavailable"],
+    "source request failed": ["Failed", "request failed"],
+    "source retrieval incomplete": ["Incomplete", "retrieval did not finish"],
+    limit: ["Incomplete", "reached the work limit"],
+    partial: ["Incomplete", "finished only in part"],
+    failed: ["Failed", "did not finish"],
+    "Search ranking failed.": ["Failed", "ranking failed"],
+    "Some invalid ranking entries were ignored; valid matches are retained.": [
+      "Incomplete", "some invalid ranking entries were ignored",
+    ],
+  };
+
+  function sourceLabel(sourceId) {
+    if (SOURCE_LABELS[sourceId]) return SOURCE_LABELS[sourceId];
+    var text = String(sourceId || "source").replace(/_/g, " ").trim();
+    if (!text) return "Source";
+    return text.replace(/\b[a-z]/g, function (letter) { return letter.toUpperCase(); });
+  }
+
+  function plainCoverageNotes(notes) {
+    var kept = [];
+    var groups = {};
+    var order = [];
+    (notes || []).forEach(function (note) {
+      if (typeof note !== "string") return;
+      var match = /^([a-z][a-z0-9_-]*): (.+)$/.exec(note);
+      if (!match) {
+        kept.push(note);
+        return;
+      }
+      var sourceId = match[1];
+      var reason = match[2];
+      var machine = /^[a-z0-9_ ]+$/.test(reason) || Object.prototype.hasOwnProperty.call(REASON_COPY, reason);
+      if (!SOURCE_LABELS[sourceId] && !machine) {
+        kept.push(note);
+        return;
+      }
+      var copy = REASON_COPY[reason];
+      var lead = copy ? copy[0] : (/fail/i.test(reason) ? "Failed" : (/^[a-z0-9_]+$/.test(reason) ? "Not searched" : "Incomplete"));
+      var phrase = copy ? copy[1] : reason.replace(/_/g, " ").replace(/\.$/, "");
+      if (!groups[lead]) {
+        order.push(lead);
+        groups[lead] = [];
+      }
+      groups[lead].push(sourceLabel(sourceId) + " (" + phrase + ")");
+    });
+    order.forEach(function (lead) {
+      kept.push(lead + ": " + groups[lead].join(", ") + ".");
+    });
+    return kept;
+  }
+
   function formatCost(usage) {
     var safe = usage || {};
-    if (safe.cost_known !== true) return SEARCH_COST_UNKNOWN;
-    var value = typeof safe.cost_usd === "number" ? safe.cost_usd : 0;
+    var value = safe.cost_usd;
+    if (safe.cost_known !== true || typeof value !== "number" || !isFinite(value)) return SEARCH_COST_UNKNOWN;
     return SEARCH_COST_KNOWN_PREFIX + value.toFixed(4) + " reported by the provider.";
   }
 
@@ -735,10 +806,16 @@
       var inputRef = useRef(null);
       var resultsRef = useRef(null);
       var alertRef = useRef(null);
+      var searchAlertRef = useRef(null);
+      var interestInputRef = useRef(null);
+      var searchEndTarget = useRef("results");
       var pendingSection = useRef("");
       var alertNonceState = useState(0);
       var alertNonce = alertNonceState[0];
       var setAlertNonce = alertNonceState[1];
+      var searchEndState = useState(0);
+      var searchEnd = searchEndState[0];
+      var setSearchEnd = searchEndState[1];
       var sectionTickState = useState(0);
       var sectionTick = sectionTickState[0];
       var setSectionTick = sectionTickState[1];
@@ -907,6 +984,17 @@
         if (alertNonce === 0) return;
         if (alertRef.current && alertRef.current.focus) alertRef.current.focus();
       }, [alertNonce]);
+
+      useEffect(function () {
+        if (searchEnd === 0) return;
+        var node = searchEndTarget.current === "alert" ? searchAlertRef.current : resultsRef.current;
+        if (node && node.focus) node.focus();
+      }, [searchEnd]);
+
+      function endSearch(target) {
+        searchEndTarget.current = target;
+        setSearchEnd(function (value) { return value + 1; });
+      }
 
       useEffect(function () {
         var id = pendingSection.current;
@@ -1084,6 +1172,7 @@
                 session.finished = true;
                 setSearchStatus("error");
                 setSearchError("Search status is unavailable. Local work still stops at its deadline. Reopen Search to check it.");
+                endSearch("alert");
                 return;
               }
               pollSearch(session);
@@ -1108,6 +1197,7 @@
         if (!body || body.error) {
           setSearchStatus("error");
           setSearchError(searchRefusalMessage(body));
+          endSearch("alert");
           return;
         }
         if (body.catalog) setCatalog(body.catalog);
@@ -1117,6 +1207,7 @@
         // after cancellation. Reread both local catalog and interest rankings.
         // The session/epoch guards above make this once per current Search.
         setPreparedNonce(function (nonce) { return nonce + 1; });
+        endSearch("results");
       }
 
       function sendCancel(session) {
@@ -1166,6 +1257,7 @@
         if (!SDK.fetchJSON) {
           setSearchStatus("error");
           setSearchError("This Hermes build cannot send the Search request.");
+          endSearch("alert");
           return;
         }
         // Claim a sequence number for this request. Each handler only applies
@@ -1190,6 +1282,7 @@
             session.finished = true;
             setSearchStatus("error");
             setSearchError(searchRefusalMessage(null, error));
+            endSearch("alert");
           }
           // A failed HTTP acknowledgement does not prove the accepted worker
           // never started. Observe existing work; never resend a paid start.
@@ -1218,7 +1311,7 @@
         }, 0);
       }
 
-      function postProfile(path, body, revert) {
+      function postProfile(path, body, revert, onReady) {
         var epoch = profileEpoch.current + 1;
         profileEpoch.current = epoch;
         if (!SDK.fetchJSON) {
@@ -1244,6 +1337,7 @@
           profileRef.current = next;
           setProfile(next);
           setProfileStatus("ready");
+          if (onReady) onReady(next);
           setPreparedNonce(function (nonce) { return nonce + 1; });
         }).catch(function () {
           if (profileEpoch.current !== epoch) return;
@@ -1311,7 +1405,12 @@
 
       function onRemoveInterest(text) {
         var current = profileRef.current;
-        postProfile("/api/plugins/hackertube/profile/interests", { text: text, remove: true }, current);
+        postProfile("/api/plugins/hackertube/profile/interests", { text: text, remove: true }, current, function (next) {
+          var interests = (next && next.interests) || [];
+          if (interests.indexOf(text) !== -1) return;
+          setStatus("Removed interest " + text + ".");
+          if (interestInputRef.current && interestInputRef.current.focus) interestInputRef.current.focus();
+        });
       }
 
       function renderNav(current) {
@@ -1687,7 +1786,7 @@
           h("p", { className: "ht-constraints" }, constraintLine(result && result.interpretation)),
           h("p", { className: "ht-cost", id: "hackertube-job-cost" }, formatCost(usage)),
           h("p", { className: "ht-meta", id: "hackertube-job-limits" }, limitsLine(job.limits, usage)),
-          notes.length ? h("p", { className: "ht-note", role: "status" }, notes.join(" ")) : null,
+          notes.length ? h("p", { className: "ht-note", id: "hackertube-coverage-notes", role: "status" }, plainCoverageNotes(notes).join(" ")) : null,
           renderResultSections(result)
         );
       }
@@ -1794,9 +1893,16 @@
                 h("h2", { tabIndex: -1, ref: resultsRef }, "Search results"),
                 h("p", { className: "ht-question" }, "Question: " + submitted),
                 searchBusy ? h("p", { role: "status" }, "Search running.") : null,
-                searchBusy ? h(Button, { type: "button", className: "ht-action", onClick: cancelSearch, disabled: cancelBusy },
-                  cancelBusy ? "Stopping search" : "Cancel search") : null,
-                searchError ? h("p", { className: "ht-alert", role: "alert" }, searchError) : null,
+                searchBusy ? h(Button, {
+                  type: "button",
+                  className: "ht-action",
+                  onClick: function () {
+                    if (cancelBusy) return;
+                    cancelSearch();
+                  },
+                  "aria-disabled": cancelBusy ? "true" : undefined,
+                }, cancelBusy ? "Stopping search" : "Cancel search") : null,
+                searchError ? h("p", { className: "ht-alert", role: "alert", tabIndex: -1, ref: searchAlertRef }, searchError) : null,
                 searchResult ? renderJob(searchResult) : null,
                 h(Button, {
                   type: "button",
@@ -1815,6 +1921,18 @@
         return h("div", null,
           h("h1", { id: "discover", tabIndex: -1, ref: headingRef }, "HackerTube"),
           h("p", { className: "ht-lead" }, "Browse videos, podcasts, books, and audiobooks, then open them at their sources."),
+          renderNav("discover"),
+          h("div", { className: "ht-status", role: "status", "aria-live": "polite" }, statusMessage),
+          loadError
+            ? h("p", { role: "alert" }, "No prepared feed is available. The catalog did not load. Browsing does not start a search.")
+            : null,
+          !catalog && !loadError ? h("p", { role: "status" }, "Loading the seeded catalog.") : null,
+          catalog && discoveryError
+            ? h("p", { role: "alert" }, "The prepared feed could not be loaded. Browsing does not start a search.")
+            : null,
+          catalog && !discovery && !discoveryError
+            ? h("p", { role: "status" }, "Loading the prepared feed.")
+            : null,
           h("details", {
             className: "ht-feed-controls",
             open: controlsExpanded,
@@ -1822,8 +1940,6 @@
           },
             h("summary", null, controlsExpanded ? "Hide controls" : "Show controls", searchBusy ? " · Search running" : ""),
             h("div", { className: "ht-feed-controls-body" },
-              renderNav("discover"),
-              h("div", { className: "ht-status", role: "status", "aria-live": "polite" }, statusMessage),
               Separator ? h(Separator, null) : null,
               renderInterests(true),
               renderSearch(),
@@ -1831,17 +1947,7 @@
                 SECTIONS.map(function (section) {
                   return h("a", { href: "#" + section.id, key: section.id }, section.label);
                 })
-              ),
-              loadError
-                ? h("p", { role: "alert" }, "No prepared feed is available. The catalog did not load. Browsing does not start a search.")
-                : null,
-              !catalog && !loadError ? h("p", { role: "status" }, "Loading the seeded catalog.") : null,
-              catalog && discoveryError
-                ? h("p", { role: "alert" }, "The prepared feed could not be loaded. Browsing does not start a search.")
-                : null,
-              catalog && !discovery && !discoveryError
-                ? h("p", { role: "status" }, "Loading the prepared feed.")
-                : null
+              )
             )
           ),
           catalog && discovery ? renderRanked(visibleDiscoveryRows(discovery.feed)) : null,
@@ -1876,9 +1982,8 @@
                   type: "button",
                   className: "ht-remove-interest",
                   "aria-label": "Remove interest " + text,
-                  title: "Remove interest " + text,
                   onClick: function () { onRemoveInterest(text); },
-                }, "×") : null);
+                }, "Remove") : null);
             }))
           : h("p", null, "No interests yet.");
         return h("section", { className: "ht-interests", "aria-labelledby": "interests-heading" },
@@ -1889,6 +1994,7 @@
                 h(Input, {
                   id: "hackertube-interest",
                   className: "ht-input",
+                  ref: interestInputRef,
                   type: "text",
                   value: interestDraft,
                   autoComplete: "off",
@@ -2052,6 +2158,7 @@
     SEARCH_LIMIT_NOTE: SEARCH_LIMIT_NOTE,
     searchRefusalMessage: searchRefusalMessage,
     formatCost: formatCost,
+    plainCoverageNotes: plainCoverageNotes,
     limitsLine: limitsLine,
     constraintLine: constraintLine,
     searchStatusLine: searchStatusLine,

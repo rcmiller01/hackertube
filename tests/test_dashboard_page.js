@@ -743,12 +743,15 @@ test("PREF16 removing an interest posts its exact text and refreshes the feed", 
     ui.requests.length = 0;
     const remove = ui.find(node => node.props && node.props["aria-label"] === "Remove interest gardening");
     assert.ok(remove, "each interest needs an accessible remove button");
+    assert.equal(remove.children[0], "Remove", "the control shows a visible Remove label");
     remove.props.onClick();
     assert.deepEqual(ui.requests.find(row => row.method === "POST").body, { text: "gardening", remove: true });
     assert.equal(ui.find(node => node.props && node.props["aria-label"] === "Remove interest gardening"), null);
     assert.ok(ui.find(node => node.props && node.props["aria-label"] === "Remove interest data science"));
     assert.equal(ui.requests.filter(row => row.url.endsWith("/feed")).length, 1);
     assert.equal(ui.requests.filter(row => row.url.includes("/search")).length, 0);
+    assert.match(ui.text(node => node.props && node.props.className === "ht-status"), /Removed interest gardening\./);
+    assert.equal(ui.focused.current && ui.focused.current.props.id, "hackertube-interest");
   } finally { ui.restore(); }
 });
 
@@ -1670,6 +1673,42 @@ test("JOB04 a provider-reported cost is rendered as a value", () => {
   }
 });
 
+test("JOB04 a non-numeric cost is rendered as unknown, never zero", () => {
+  const ui = mountPage(
+    SAMPLE_CATALOG, page.emptyProfile(), null, null,
+    { value: searchResult({}, { usage: { cost_usd: "0.02", cost_known: true, requests_used: 1, paid_calls: 1 } }) },
+  );
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    const cost = ui.text((node) => node.props && node.props.id === "hackertube-job-cost");
+    assert.equal(cost, page.SEARCH_COST_UNKNOWN);
+    assert.doesNotMatch(cost, /\$0\.0000/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("skipped source codes render as one plain-language sentence", () => {
+  const result = searchResult({}, {
+    coverage: {
+      verified: 0,
+      notes: ["podcastindex: missing_api_key", "reddit: approval_absent", "hn: source request failed"],
+    },
+  });
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: result });
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    const note = ui.text((node) => node.props && node.props.id === "hackertube-coverage-notes");
+    assert.equal(
+      note,
+      "Not searched: Podcast Index (needs its own API key), Reddit (not approved). Failed: Hacker News (request failed).",
+    );
+    assert.doesNotMatch(note, /podcastindex|missing_api_key|approval_absent|reddit:/);
+  } finally {
+    ui.restore();
+  }
+});
+
 test("JOB03 a partial job labels incomplete coverage and keeps its results", () => {
   const partial = searchResult(
     { books: { label: "books", verified: [verifiedResult("b1")], verified_count: 1, insufficient_evidence: false } },
@@ -1975,6 +2014,37 @@ test("a stale Search response does not overwrite a newer Search's result", () =>
   }
 });
 
+// The catch on the Search POST returns immediately when a newer Search owns
+// the epoch. The assertion on request count is what fails if that return is
+// deleted: later epoch checks still ignore the body, but the follow-up read
+// would already have been sent.
+test("a stale Search error does not overwrite a newer Search", () => {
+  const defer = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, defer);
+  try {
+    openSearchPanel(ui);
+    const input = ui.find((node) => node.props && node.props.id === "hackertube-question");
+    input.props.onChange({ target: { value: "What can I read by Jane Austen?" } });
+    const box = ui.find((node) => node.props && node.props.id === "hackertube-disclosure-ack");
+    box.props.onChange({ target: { checked: true } });
+    const form = ui.find((node) => node.type === "form" && node.props.id === "hackertube-search-panel");
+    form.props.onSubmit({ preventDefault() {} });
+    form.props.onSubmit({ preventDefault() {} });
+    assert.equal(defer.pending.length, 2, "search A and search B are both in flight");
+
+    const before = ui.text((node) => node.props && node.props.className === "ht-results");
+    const requestsBefore = ui.requests.length;
+    defer.pending[0].onErr(new Error("stale acknowledgement"));
+    const after = ui.text((node) => node.props && node.props.className === "ht-results");
+    assert.equal(after, before, "search A's error leaves search B unchanged");
+    assert.match(after, /Search running\./);
+    assert.doesNotMatch(after, /did not complete|stale acknowledgement/);
+    assert.equal(ui.requests.length, requestsBefore, "search A's error returns before any follow-up read");
+  } finally {
+    ui.restore();
+  }
+});
+
 // A stub job can fail inside an HTTP 200 body; Back must still close that panel.
 test("Back to discovery closes a Search whose stub job failed with HTTP 200", async () => {
   const failed = searchResult({}, {
@@ -2010,7 +2080,34 @@ test("Back to discovery closes a Search whose stub job failed with HTTP 200", as
 test("search helpers format a cost, a limit, and a refusal without a score", () => {
   assert.equal(page.formatCost({ cost_known: false, cost_usd: null }), page.SEARCH_COST_UNKNOWN);
   assert.equal(page.formatCost({ cost_known: true, cost_usd: 0 }), "Cost: $0.0000 reported by the provider.");
+  assert.equal(page.formatCost({ cost_known: true, cost_usd: "0.02" }), page.SEARCH_COST_UNKNOWN);
+  assert.equal(page.formatCost({ cost_known: true, cost_usd: null }), page.SEARCH_COST_UNKNOWN);
+  assert.equal(page.formatCost({ cost_known: true, cost_usd: true }), page.SEARCH_COST_UNKNOWN);
+  assert.equal(page.formatCost({ cost_known: true }), page.SEARCH_COST_UNKNOWN);
   assert.equal(page.formatCost({}), page.SEARCH_COST_UNKNOWN);
+  assert.deepEqual(
+    page.plainCoverageNotes(["podcastindex: missing_api_key", "reddit: approval_absent"]),
+    ["Not searched: Podcast Index (needs its own API key), Reddit (not approved)."],
+  );
+  assert.deepEqual(
+    page.plainCoverageNotes([
+      "Stopped at the 2-request work limit. Coverage is incomplete.",
+      "hn: source request failed",
+      "itunes: limit",
+      "web: host_search_unavailable",
+      "ranking: Search ranking failed.",
+    ]),
+    [
+      "Stopped at the 2-request work limit. Coverage is incomplete.",
+      "Failed: Hacker News (request failed), Ranking (ranking failed).",
+      "Incomplete: Apple Podcasts / Apple Books (reached the work limit).",
+      "Not searched: Broader web (host search is unavailable).",
+    ],
+  );
+  assert.deepEqual(
+    page.plainCoverageNotes(["Not searched: Podcast Index (needs its own API key), Reddit (not approved)."]),
+    ["Not searched: Podcast Index (needs its own API key), Reddit (not approved)."],
+  );
   assert.equal(
     page.limitsLine({ max_hits: 12, max_requests: 2, deadline_seconds: 5 }, { requests_used: 2 }),
     "Work limits for this job: at most 2 provider requests, 12 results, a 5 second work budget. Provider requests used: 2. Search stops local work at its deadline. Cancel search stops it early. A provider may still bill for a request already accepted.",
@@ -2024,6 +2121,61 @@ test("search helpers format a cost, a limit, and a refusal without a score", () 
   assert.equal(page.searchRefusalMessage({ error: "question" }), "Enter a question of up to 200 characters, with no markup.");
   assert.equal(page.searchRefusalMessage(null), "The Search request did not complete.");
   assert.equal(page.searchRefusalMessage(null, new Error("offline")), "offline");
+});
+
+function findWithin(node, pred) {
+  let hit = null;
+  function walk(current) {
+    if (hit || current == null) return;
+    if (Array.isArray(current)) {
+      current.forEach(walk);
+      return;
+    }
+    if (typeof current !== "object") return;
+    if (pred(current)) {
+      hit = current;
+      return;
+    }
+    walk(current.children);
+  }
+  walk(node);
+  return hit;
+}
+
+test("navigation, status, and alerts stay outside the collapsible controls", () => {
+  const ui = mountPage({ catalog: {} });
+  try {
+    const details = ui.find((node) => node.props && node.props.className === "ht-feed-controls");
+    assert.equal(details.type, "details");
+    assert.equal(findWithin(details, (node) => node.props && node.props.className === "ht-nav"), null);
+    assert.equal(findWithin(details, (node) => node.props && node.props.className === "ht-status"), null);
+    assert.equal(findWithin(details, (node) => node.props && node.props.role === "alert"), null);
+    assert.equal(ui.find((node) => node.props && node.props["aria-label"] === "HackerTube").type, "nav");
+    assert.ok(ui.find((node) => node.props && node.props.className === "ht-status"));
+    assert.match(
+      ui.text((node) => node.props && node.props.role === "alert"),
+      /The catalog did not load/,
+    );
+    assert.ok(findWithin(details, (node) => node.props && node.props.id === "hackertube-interest"));
+  } finally {
+    ui.restore();
+  }
+});
+
+test("the remove control and the controls summary meet the focus and target rules", () => {
+  const css = require("node:fs").readFileSync(
+    require("node:path").join(__dirname, "../hackertube/dashboard/dist/style.css"),
+    "utf8",
+  );
+  const remove = css.slice(css.indexOf(".hackertube .ht-remove-interest {"), css.indexOf(".hackertube .ht-search input"));
+  assert.match(remove, /min-height:\s*2\.5rem/);
+  assert.doesNotMatch(remove, /min-height:\s*1\.75rem/);
+  const summary = css.slice(
+    css.indexOf(".hackertube .ht-feed-controls > summary:focus-visible {"),
+    css.indexOf(".hackertube .ht-interests {"),
+  );
+  assert.match(summary, /outline:\s*2px solid var\(--color-ring\)/);
+  assert.doesNotMatch(summary, /currentColor/);
 });
 
 test("the refreshed page declares the search schema and disclosure copy", () => {
@@ -2290,6 +2442,57 @@ test("Cancel search can be queued before the supervised job id arrives", () => {
     deferred.pending[1].onOk(searchResult({}, { job: { job_id: "job:99", state: "cancelled" } }));
     assert.match(ui.text((node) => node.props && node.props.id === "hackertube-job-status"), /cancelled/);
   } finally { ui.restore(); }
+});
+
+test("a finished Search moves focus to the results heading", () => {
+  const deferred = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, deferred);
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    ui.focused.current = null;
+    deferred.pending[0].onOk(defaultSearchResult());
+    assert.equal(ui.focused.current && ui.focused.current.type, "h2");
+    assert.equal(ui.focused.current.children[0], "Search results");
+    assert.equal(ui.focused.current.props.tabIndex, -1);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("a failed Search moves focus to the error alert", () => {
+  const deferred = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, deferred);
+  try {
+    submitSearch(ui, "What can I read by Jane Austen?");
+    ui.focused.current = null;
+    deferred.pending[0].onOk({ error: "provider_unavailable", message: "The provider is down." });
+    assert.equal(ui.focused.current && ui.focused.current.props.role, "alert");
+    assert.equal(ui.focused.current.props.tabIndex, -1);
+    assert.match(ui.focused.current.children[0], /The provider is down/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("Stopping search stays focusable and a confirmed cancel focuses the results heading", () => {
+  const deferred = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, deferred);
+  try {
+    submitSearch(ui, "AI books");
+    deferred.pending[0].onOk({ job: { job_id: "job:9", state: "running", limits: { deadline_seconds: 5 } } });
+    const cancel = ui.find((node) => (node.children || []).includes("Cancel search"));
+    cancel.props.onClick();
+    const stopping = ui.find((node) => (node.children || []).includes("Stopping search"));
+    assert.ok(stopping, "Cancel remains on the page while the search is stopping");
+    assert.equal(stopping.props.disabled, undefined, "Stopping search does not use the disabled attribute");
+    assert.equal(stopping.props["aria-disabled"], "true");
+    ui.focused.current = null;
+    deferred.pending[1].onOk(searchResult({}, { job: { job_id: "job:9", state: "cancelled" } }));
+    assert.equal(ui.focused.current && ui.focused.current.type, "h2");
+    assert.equal(ui.focused.current.children[0], "Search results");
+  } finally {
+    ui.restore();
+  }
 });
 
 test("Cancel search keeps the busy guard until the server confirms termination", () => {

@@ -442,6 +442,93 @@ def test_job04_a_provider_reported_cost_is_kept(tmp_path):
     assert store.latest_job()["cost_usd"] == 0.125
 
 
+def test_job04_a_non_numeric_cost_is_unknown_never_zero(tmp_path):
+    for cost in ("0.125", True, {"usd": 1}):
+        store = store_at(tmp_path / type(cost).__name__)
+        result = run_search(
+            store,
+            "gardening books",
+            catalog=one_book(),
+            profile=store.snapshot(),
+            now=NOW,
+            provider=StubProvider(cost=cost),
+            disclosure_accepted=True,
+        )
+        assert result["usage"]["cost_usd"] is None
+        assert result["usage"]["cost_known"] is False
+        assert result["usage"]["cost_usd"] != 0
+        assert result["job"]["cost_usd"] is None
+        assert result["job"]["cost_known"] is False
+        assert store.latest_job()["cost_usd"] is None
+        assert store.latest_job()["cost_known"] is False
+
+
+def test_job04_a_non_numeric_rank_cost_keeps_the_total_unknown(tmp_path):
+    class Ranked(StubProvider):
+        def rank(self, question, catalog, timeout):
+            return {}, "0.02"
+
+    def retrieve(interpretation, now, budget):
+        return one_book(), []
+
+    result = run_search(
+        store_at(tmp_path),
+        "gardening books",
+        catalog=one_book(),
+        profile=profile(),
+        now=NOW,
+        provider=Ranked(cost=0.01),
+        retriever=retrieve,
+        disclosure_accepted=True,
+    )
+    assert result["usage"]["cost_usd"] is None
+    assert result["usage"]["cost_known"] is False
+    assert result["job"]["cost_known"] is False
+
+
+def test_skipped_sources_are_named_in_plain_language(tmp_path):
+    def retrieve(interpretation, now, budget):
+        return one_book(), [
+            {"source_id": "podcastindex", "state": "unavailable", "reason": "missing_api_key"},
+            {"source_id": "reddit", "state": "unavailable", "reason": "approval_absent"},
+            {"source_id": "youtube", "state": "unavailable", "reason": "missing_api_key"},
+            {"source_id": "web", "state": "unavailable", "reason": "host_search_unavailable"},
+            {"source_id": "hn", "state": "failed", "error": "source request failed"},
+            {"source_id": "itunes", "state": "limit"},
+            {"source_id": "openlibrary", "state": "partial"},
+            {
+                "source_id": "ranking",
+                "state": "partial",
+                "error": "Some invalid ranking entries were ignored; valid matches are retained.",
+            },
+            {"source_id": "librivox", "state": "skipped", "reason": "disabled"},
+        ]
+
+    result = run_search(
+        store_at(tmp_path),
+        "gardening books",
+        catalog=one_book(),
+        profile=profile(),
+        now=NOW,
+        provider=StubProvider(),
+        retriever=retrieve,
+        disclosure_accepted=True,
+    )
+    notes = result["coverage"]["notes"]
+    assert (
+        "Not searched: Podcast Index (needs its own API key), Reddit (not approved), "
+        "YouTube (needs its own API key), Broader web (host search is unavailable)."
+    ) in notes
+    assert "Failed: Hacker News (request failed)." in notes
+    assert (
+        "Incomplete: Apple Podcasts / Apple Books (reached the work limit), "
+        "Open Library (finished only in part), Ranking (some invalid ranking entries were ignored)."
+    ) in notes
+    blob = " ".join(notes)
+    for raw in ("podcastindex", "missing_api_key", "approval_absent", "librivox", "host_search_unavailable"):
+        assert raw not in blob
+
+
 def test_job09_no_accepted_disclosure_starts_no_job_and_no_provider_call(tmp_path):
     store = store_at(tmp_path)
     provider = StubProvider()

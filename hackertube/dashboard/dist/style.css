@@ -121,7 +121,7 @@
 }
 
 .hackertube .ht-feed-controls > summary:focus-visible {
-  outline: 2px solid currentColor;
+  outline: 2px solid var(--color-ring);
   outline-offset: 3px;
 }
 
@@ -151,8 +151,8 @@
 
 .hackertube .ht-remove-interest {
   margin-left: 0.5rem;
-  min-width: 1.75rem;
-  min-height: 1.75rem;
+  min-height: 2.5rem;
+  padding: 0.25rem 0.75rem;
   cursor: pointer;
 }
 
