@@ -1,0 +1,25 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__ test_pref16_remove_interest_persists_preserves_other_interests_and_library __
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-226/test_pref16_remove_interest_pe0')
+
+    def test_pref16_remove_interest_persists_preserves_other_interests_and_library(tmp_path):
+        connect = local_connect(tmp_path)
+        store = ProfileStore(connect)
+        store.add_interest("gardening")
+        store.add_interest("data science")
+        store.save_item(ITEM, known_ids={ITEM})
+        status, body = apply_action(store, "interest", {"text": "gardening", "remove": True}, set())
+        assert status == 200
+>       assert body["interests"] == ["data science"]
+E       AssertionError: assert ['gardening', 'data science'] == ['data science']
+E         
+E         At index 0 diff: 'gardening' != 'data science'
+E         Left contains one more item: 'data science'
+E         Use -v to get more diff
+
+tests/test_profile.py:165: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_profile.py::test_pref16_remove_interest_persists_preserves_other_interests_and_library
+1 failed, 14 deselected in 0.09s

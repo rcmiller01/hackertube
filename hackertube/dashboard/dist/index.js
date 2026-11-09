@@ -688,6 +688,9 @@
       var openState = useState(false);
       var searchOpen = openState[0];
       var setSearchOpen = openState[1];
+      var controlsState = useState(true);
+      var controlsExpanded = controlsState[0];
+      var setControlsExpanded = controlsState[1];
       var questionState = useState("");
       var question = questionState[0];
       var setQuestion = questionState[1];
@@ -1110,6 +1113,10 @@
         if (body.catalog) setCatalog(body.catalog);
         setSearchResult(body);
         setSearchStatus("done");
+        // Search may have persisted new records, even with no final matches or
+        // after cancellation. Reread both local catalog and interest rankings.
+        // The session/epoch guards above make this once per current Search.
+        setPreparedNonce(function (nonce) { return nonce + 1; });
       }
 
       function sendCancel(session) {
@@ -1230,7 +1237,7 @@
               profileRef.current = revert;
               setProfile(revert);
             }
-            setProfileStatus("error");
+            setProfileStatus(revert ? "ready" : "error");
             setStatus("The profile did not accept that change.");
             return;
           }
@@ -1300,6 +1307,11 @@
         setInterestDraft("");
         setStatus("Saved interest " + text + ".");
         postProfile("/api/plugins/hackertube/profile/interests", { text: text }, current);
+      }
+
+      function onRemoveInterest(text) {
+        var current = profileRef.current;
+        postProfile("/api/plugins/hackertube/profile/interests", { text: text, remove: true }, current);
       }
 
       function renderNav(current) {
@@ -1462,6 +1474,7 @@
       }
 
       function openFocusedSearch() {
+        setControlsExpanded(true);
         setSearchOpen(true);
       }
 
@@ -1802,26 +1815,35 @@
         return h("div", null,
           h("h1", { id: "discover", tabIndex: -1, ref: headingRef }, "HackerTube"),
           h("p", { className: "ht-lead" }, "Browse videos, podcasts, books, and audiobooks, then open them at their sources."),
-          renderNav("discover"),
-          h("div", { className: "ht-status", role: "status", "aria-live": "polite" }, statusMessage),
-          Separator ? h(Separator, null) : null,
-          renderInterests(true),
-          renderSearch(),
-          h("nav", { className: "ht-sections", "aria-label": "Media sections" },
-            SECTIONS.map(function (section) {
-              return h("a", { href: "#" + section.id, key: section.id }, section.label);
-            })
+          h("details", {
+            className: "ht-feed-controls",
+            open: controlsExpanded,
+            onToggle: function (event) { setControlsExpanded(event.currentTarget.open); },
+          },
+            h("summary", null, controlsExpanded ? "Hide controls" : "Show controls", searchBusy ? " · Search running" : ""),
+            h("div", { className: "ht-feed-controls-body" },
+              renderNav("discover"),
+              h("div", { className: "ht-status", role: "status", "aria-live": "polite" }, statusMessage),
+              Separator ? h(Separator, null) : null,
+              renderInterests(true),
+              renderSearch(),
+              h("nav", { className: "ht-sections", "aria-label": "Media sections" },
+                SECTIONS.map(function (section) {
+                  return h("a", { href: "#" + section.id, key: section.id }, section.label);
+                })
+              ),
+              loadError
+                ? h("p", { role: "alert" }, "No prepared feed is available. The catalog did not load. Browsing does not start a search.")
+                : null,
+              !catalog && !loadError ? h("p", { role: "status" }, "Loading the seeded catalog.") : null,
+              catalog && discoveryError
+                ? h("p", { role: "alert" }, "The prepared feed could not be loaded. Browsing does not start a search.")
+                : null,
+              catalog && !discovery && !discoveryError
+                ? h("p", { role: "status" }, "Loading the prepared feed.")
+                : null
+            )
           ),
-          loadError
-            ? h("p", { role: "alert" }, "No prepared feed is available. The catalog did not load. Browsing does not start a search.")
-            : null,
-          !catalog && !loadError ? h("p", { role: "status" }, "Loading the seeded catalog.") : null,
-          catalog && discoveryError
-            ? h("p", { role: "alert" }, "The prepared feed could not be loaded. Browsing does not start a search.")
-            : null,
-          catalog && !discovery && !discoveryError
-            ? h("p", { role: "status" }, "Loading the prepared feed.")
-            : null,
           catalog && discovery ? renderRanked(visibleDiscoveryRows(discovery.feed)) : null,
           catalog && discovery ? renderDiscoverSections() : null,
           unsafeCheckRequested() ? renderUnsafeCheck() : null
@@ -1849,7 +1871,14 @@
         var interests = profile.interests || [];
         var list = interests.length
           ? h("ul", { className: "ht-interest-list" }, interests.map(function (text) {
-              return h("li", { key: text }, text);
+              return h("li", { key: text }, text,
+                editable ? h(Button, {
+                  type: "button",
+                  className: "ht-remove-interest",
+                  "aria-label": "Remove interest " + text,
+                  title: "Remove interest " + text,
+                  onClick: function () { onRemoveInterest(text); },
+                }, "×") : null);
             }))
           : h("p", null, "No interests yet.");
         return h("section", { className: "ht-interests", "aria-labelledby": "interests-heading" },

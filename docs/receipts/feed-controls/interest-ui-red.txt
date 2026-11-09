@@ -1,0 +1,27 @@
+✖ PREF16 removing an interest posts its exact text and refreshes the feed (2.206084ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 35.352875
+
+✖ failing tests:
+
+test at tests/test_dashboard_page.js:739:1
+✖ PREF16 removing an interest posts its exact text and refreshes the feed (2.206084ms)
+  AssertionError [ERR_ASSERTION]: each interest needs an accessible remove button
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_dashboard_page.js:745:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.start (node:internal/test_runner/test:1257:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

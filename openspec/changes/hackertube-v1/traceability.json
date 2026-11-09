@@ -6,7 +6,8 @@
       "dashboard-shell/UI03",
       "dashboard-shell/UI06",
       "dashboard-shell/UI02",
-      "hackathon-submission/HCKT02"
+      "hackathon-submission/HCKT02",
+      "dashboard-shell/UI07"
     ],
     "post_demo_scenarios": []
   },
@@ -14,7 +15,8 @@
     "status": "demo",
     "scenarios": [
       "personalization-sources/PREF01",
-      "discovery-feed/FEED07"
+      "discovery-feed/FEED07",
+      "personalization-sources/PREF16"
     ],
     "post_demo_scenarios": []
   },
@@ -26,7 +28,8 @@
       "discovery-feed/FEED03",
       "discovery-feed/FEED04",
       "discovery-feed/FEED08",
-      "discovery-feed/FEED09"
+      "discovery-feed/FEED09",
+      "discovery-feed/FEED11"
     ],
     "post_demo_scenarios": [
       "discovery-feed/FEED08"

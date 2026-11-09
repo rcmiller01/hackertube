@@ -118,3 +118,16 @@ The final actual installed demo is 36.25 seconds, with prepared catalog, explici
 ### PR #18 review: pending-call disclosure
 
 The budget/cancellation limitation now appears in the Hermes Search panel before submission and remains visible while the request is pending, in addition to the completed job summary. Both the question and submit control reference it for screen readers. The offline stub omits the Hermes-only note and its ARIA reference. The 36.25-second video and live-query counts above remain historical evidence for candidate `c691a75`; this disclosure fix makes no model or search call. See [PR #18 exact-head review](pr18-review.md).
+
+## Feed updates and artwork (November 9)
+
+The dashboard now rereads the local catalog and interest-ranked feed once when the current Search finishes, including failure, timeout, and cancellation responses. Duplicate and stale responses do not trigger rereads. This is local work: there is no extra Search, model call, or scheduled remote refresh. Interests can be removed using the adjacent × button. The controls above Ranked feed can be collapsed without stopping Search or hiding the feed. Scheduled searches in Hermes's scheduled jobs list are a separate requested update.
+
+Missing artwork is currently an implementation limitation, rather than a missing model or search credential:
+
+- YouTube: `adapters/youtube.py` intentionally produces blank artwork even for hydrated Data API records. `renderArt` in the dashboard substitutes the YouTube branding image for every YouTube item before checking artwork. Both paths would need updating for actual thumbnails. The configured YouTube integration already retrieves video metadata.
+- Apple podcasts/audiobooks: `adapters/itunes.py` deliberately omits artwork because the current cards lack the required store-badge presentation described by its policy. Another API key does not change this.
+- Open Library: `adapters/openlibrary.py` emits blank artwork for new results; cover use is only assigned when building the curated seed. The dashboard renders approved seed hotlinks, explaining why some older books have covers while new ones do not.
+- Podcast Index: its adapter emits blank artwork independently of credential availability. Adding its missing key/secret can improve podcast coverage but does not enable artwork in these adapters.
+
+No artwork behavior is changed here. A dedicated artwork follow-up should map provider-supplied images and attribution through adapters, stored records, and rendering, with source-specific lifecycle checks.

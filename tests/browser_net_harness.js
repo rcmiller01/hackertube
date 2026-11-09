@@ -37,6 +37,8 @@ const HARNESS_SOURCE = `
       type: props.type || "button",
       className: props.className,
       "aria-disabled": props["aria-disabled"],
+      "aria-label": props["aria-label"],
+      title: props.title,
       onClick: props.onClick,
     }, props.children);
   }
@@ -250,7 +252,9 @@ async function startFixture(items, privacyOptions = {}) {
         } else if (url.pathname.endsWith("/opens") && payload.item_id) {
           profile = api.applyOpen(profile, payload.item_id, "2026-11-06T12:00:00Z");
         } else if (url.pathname.endsWith("/interests") && payload.text) {
-          profile = api.addInterest(profile, payload.text);
+          profile = payload.remove === true
+            ? { ...profile, interests: profile.interests.filter(text => text !== payload.text) }
+            : api.addInterest(profile, payload.text);
         } else {
           response.writeHead(400, { "content-type": "application/json" });
           response.end("{}");
