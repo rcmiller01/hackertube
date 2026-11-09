@@ -1,0 +1,170 @@
+
+> hackertube-development@0.2.2 test
+> node --test tests/test_dashboard_page.js tests/test_browser_requests.js tests/test_privacy_browser.js
+
+✔ FEED11 background Search completion updates the rendered feed without a reload (817.197833ms)
+✔ PREF16 interest remove button works by keyboard and stays removed after reload (294.066958ms)
+✔ browser inventory refuses unknown destinations, routes and artwork queries (0.256667ms)
+✔ observer catches a rendered artwork request outside the approved inventory (1656.806792ms)
+✔ FEED04 browser requests include artwork and match independent server/interception counts (1670.156459ms)
+✔ public https destinations are allowed (1.182791ms)
+✔ unsafe schemes are refused (0.123417ms)
+✔ private-network destinations are refused (0.27ms)
+✔ ipv6 private, loopback, and mapped forms are refused (0.183083ms)
+✔ public ipv6 literal is allowed (0.084375ms)
+✔ credentials in a destination are refused (0.035584ms)
+✔ LIB01 save twice keeps one saved record (0.286416ms)
+✔ dismiss does not duplicate and does not remove the id (0.053792ms)
+✔ LIB03 open records an event and leaves completion unchanged (0.105792ms)
+✔ PREF01 gardening interest is accepted and kept (0.186584ms)
+✔ section order is capture order and library is newest save first (0.10525ms)
+✔ show more keeps the first four until expanded (0.03825ms)
+✔ hacker news evidence stays on the item it names (0.090167ms)
+✔ hacker news endorsement is a link line and catalog evidence is a source candidate (0.046333ms)
+✔ unknown duration and missing art stay unknown (0.061708ms)
+✔ demo question and disclosure text are the approved lines (0.03175ms)
+✔ empty question alert receives focus after it mounts (1.408875ms)
+✔ section navigation focuses the section heading (0.341209ms)
+✔ LIB02 loaded profile shows the saved item after a fresh page (0.371542ms)
+✔ PREF16 removing an interest posts its exact text and refreshes the feed (0.413042ms)
+✔ PREF16 a rejected removal keeps the interest available for retry (0.45075ms)
+✔ PREF01 loaded gardening interest stays on the page (0.089541ms)
+✔ LIB01 page save posts only the item id (0.268875ms)
+✔ evidence and about links use the text link class (0.140334ms)
+✔ FEED01 ranked opening feed shows the interest match without a question (0.269625ms)
+✔ FEED02 the page explains the signals used (0.193166ms)
+✔ FEED03 a publisher record is labeled a source candidate (0.115458ms)
+✔ FEED04 refresh paging and save stay on local routes (0.578917ms)
+✔ FEED04 Show more is the rendered control, and it dispatches no request (0.611458ms)
+✔ FEED04 Save, Dismiss, and Open controls post to the profile routes (1.368292ms)
+✔ FEED05 a dismissed item stays out of discovery and remains in the library (0.315667ms)
+✖ FEED06 AI interest is a personalized profile with no unrelated fill (0.488042ms)
+✖ FEED06 C++ interest is a personalized profile with no unrelated fill (0.129417ms)
+✔ a short interest beside a match still shows the ranked match (0.117583ms)
+✔ FEED06 no matches explain the coverage limit and offer focused search (0.245583ms)
+✔ FEED07 no interests offer setup and refresh without a personalized claim (0.121042ms)
+✔ Show more Enter focuses the fifth item heading (371.8495ms)
+✔ an expired evidence id omitted by the section payload stays hidden (0.257833ms)
+✔ FEED10 a section lists matches then a not-matched group with no why-line (0.331167ms)
+✔ SEARCH07 browse items are not presented as verified recommendations (0.244292ms)
+✔ SEARCH01 the Search control posts the question with the accepted disclosure (1.083833ms)
+✔ JOB09 and JOB10 the disclosure and its control are at the action every time (0.25825ms)
+✔ JOB09 an unaccepted disclosure alerts and dispatches no request (0.159459ms)
+✔ the panel warns before submitting when the live provider has no key (0.093125ms)
+✔ the panel does not warn when the stub provider is selected (0.083584ms)
+✔ JOB04 the rendered job cost is unknown, never zero (0.3875ms)
+✔ JOB04 a provider-reported cost is rendered as a value (0.37575ms)
+✔ JOB03 a partial job labels incomplete coverage and keeps its results (0.53325ms)
+✔ SEARCH04 an unverified constraint is labeled on the result (0.552ms)
+✔ SEARCH05 a broader-web result is labeled and claims no endorsement (0.459625ms)
+✔ SEARCH07 an unfilled format reports insufficient evidence (0.45875ms)
+✔ SEARCH08 a previously saved result shows its recorded state (0.375208ms)
+✔ a refused search renders the route's clear message (1.571125ms)
+✔ a rejected search request renders the message and no job (0.335959ms)
+✔ Back to discovery closes a completed Search and keeps the typed question (1.972208ms)
+✔ Back to discovery closes a failed Search (0.854583ms)
+✔ Back to discovery is disabled and inert while a Search is running (0.41725ms)
+✔ a second submit after Back while a Search is running sends no second POST (0.542ms)
+✔ a stale Search response does not overwrite a newer Search's result (0.83175ms)
+✔ Back to discovery closes a Search whose stub job failed with HTTP 200 (1.147125ms)
+✔ search helpers format a cost, a limit, and a refusal without a score (0.14ms)
+✔ the refreshed page declares the search schema and disclosure copy (0.031125ms)
+✔ the search picker lists Hermes providers and saves only the HackerTube model slot (0.631041ms)
+✖ newly retrieved search items have Save and Open controls (2.427834ms)
+✔ source controls save an explicit choice without starting retrieval (0.342041ms)
+✔ Search waits for the pending model setting write (0.59225ms)
+✔ Search waits for the pending sources setting write (1.420625ms)
+✔ an expired saved item's state remains visible without cached metadata (0.297208ms)
+✔ failed model setting writes block Search until a successful retry (1.112125ms)
+✔ failed sources setting writes block Search until a successful retry (0.626458ms)
+✔ search shows the retrieval subject separately and labels inferred relevance (0.47625ms)
+✔ beginner search does not claim that no relevance constraints were applied (0.330542ms)
+✔ Hermes search explains the work-budget limitation before dispatch (0.281916ms)
+✔ Hermes work-budget limitation remains visible while the provider has not returned (0.313834ms)
+✔ the offline stub does not show a Hermes in-flight budget note (0.153666ms)
+✔ pending Search cannot hide the Hermes limitation by closing the panel (0.24225ms)
+✔ Cancel search can be queued before the supervised job id arrives (0.343083ms)
+✔ Cancel search keeps the busy guard until the server confirms termination (0.410583ms)
+✔ a lost start acknowledgement attaches to existing work without another paid start (0.458292ms)
+✔ FEED11 succeeded Search refreshes catalog and feed once without another search (1.476166ms)
+✔ FEED11 failed Search refreshes catalog and feed once without another search (0.498167ms)
+✔ FEED11 timed_out Search refreshes catalog and feed once without another search (0.371333ms)
+✔ FEED11 cancelled Search refreshes catalog and feed once without another search (0.439292ms)
+✔ Apple Books destinations and catalog attribution do not say Apple Podcasts (0.105167ms)
+✔ privacy gates real rendered features; deletion failure retains state and success revokes access (618.985084ms)
+✔ YouTube attribution renders without an authenticated image request (233.828ms)
+ℹ tests 91
+ℹ suites 0
+ℹ pass 88
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4478.993833
+
+✖ failing tests:
+
+test at tests/test_dashboard_page.js:1134:1
+✖ FEED06 AI interest is a personalized profile with no unrelated fill (0.488042ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  'AI×' !== 'AI'
+
+      at assertSparseCoverage (/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/hackertube-feed-check-eh3ma041/tests/test_dashboard_page.js:1112:10)
+      at TestContext.<anonymous> (/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/hackertube-feed-check-eh3ma041/tests/test_dashboard_page.js:1141:5)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'AI×',
+    expected: 'AI',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:1147:1
+✖ FEED06 C++ interest is a personalized profile with no unrelated fill (0.129417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  'C++×' !== 'C++'
+
+      at assertSparseCoverage (/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/hackertube-feed-check-eh3ma041/tests/test_dashboard_page.js:1112:10)
+      at TestContext.<anonymous> (/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/hackertube-feed-check-eh3ma041/tests/test_dashboard_page.js:1154:5)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'C++×',
+    expected: 'C++',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2055:1
+✖ newly retrieved search items have Save and Open controls (2.427834ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(article)
+
+      at TestContext.<anonymous> (/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/hackertube-feed-check-eh3ma041/tests/test_dashboard_page.js:2069:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

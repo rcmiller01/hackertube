@@ -40,6 +40,33 @@ def root(tmp_path):
     return tmp_path / "plugin-data"
 
 
+def test_pref16_remove_interest_updates_feed_and_persists_without_outbound_calls(root):
+    with outbound.guard():
+        outbound.reset()
+        dashboard = _start(root, "hackertube_remove_interest")
+        try:
+            dashboard.post("/profile/interests", {"text": "jane austen"})
+            assert dashboard.get("/feed").json()["feed"]
+            dashboard.post("/profile/saves", {"item_id": PRIDE})
+            removed = dashboard.post("/profile/interests", {"text": "jane austen", "remove": True})
+            assert removed.status_code == 200
+            assert removed.json()["interests"] == []
+            assert any(row["saved"] for row in removed.json()["items"])
+            feed = dashboard.get("/feed").json()
+            assert feed["feed"] == []
+            assert feed["personalized"] is False
+            _no_request("remove interest and rerank")
+        finally:
+            dashboard.close()
+        reopened = _start(root, "hackertube_remove_interest_reopened")
+        try:
+            assert reopened.get("/profile").json()["interests"] == []
+            assert reopened.get("/feed").json()["feed"] == []
+            _no_request("reopen after interest removal")
+        finally:
+            reopened.close()
+
+
 def test_feed04_browsing_paging_saving_dismissing_and_reopening_make_no_request(root):
     """Open, page, save, dismiss, reopen — through the routes the page calls."""
     with outbound.guard():

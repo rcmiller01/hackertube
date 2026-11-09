@@ -47,6 +47,8 @@ Each card shows its title, creator or author when known, format, destination, an
 
 The user saves an item, dismisses it, or opens the destination. Saving and dismissing update the local view without paid requests. Opening a destination does not mark the item completed.
 
+When an explicit search finishes, the discovery feed automatically rereads the local catalog and reranks against saved interests without another search or a page reload. Retrieved items remain subject to interest matching and dismissal/completion exclusions. This also applies after failure, timeout, or cancellation so records already persisted become available. Users can remove an interest with its adjacent remove button and collapse the controls above Ranked feed while monitoring it. Scheduled searches through Hermes's scheduled jobs list are a separate requested update; this behavior adds no recurring searches.
+
 ### Research a focused question
 
 The user enters a request such as “Find approachable introductions to distributed systems. I have 30 minutes now and want a book for later.”

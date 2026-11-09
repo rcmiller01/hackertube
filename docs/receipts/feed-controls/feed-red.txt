@@ -1,0 +1,96 @@
+✖ FEED11 succeeded Search refreshes catalog and feed once without another search (3.310125ms)
+✖ FEED11 failed Search refreshes catalog and feed once without another search (0.85125ms)
+✖ FEED11 timed_out Search refreshes catalog and feed once without another search (0.61625ms)
+✖ FEED11 cancelled Search refreshes catalog and feed once without another search (0.480583ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 42.293209
+
+✖ failing tests:
+
+test at tests/test_dashboard_page.js:2291:3
+✖ FEED11 succeeded Search refreshes catalog and feed once without another search (3.310125ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Freshly retrieved Emma/. Input:
+
+  'Ranked feed 0No seeded record matches these interests. Coverage is limited to the titles and contributors in this catalog.Open focused search'
+
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_dashboard_page.js:2312:14)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.start (node:internal/test_runner/test:1257:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Ranked feed 0No seeded record matches these interests. Coverage is limited to the titles and contributors in this catalog.Open focused search',
+    expected: /Freshly retrieved Emma/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2291:3
+✖ FEED11 failed Search refreshes catalog and feed once without another search (0.85125ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Freshly retrieved Emma/. Input:
+
+  'Ranked feed 0No seeded record matches these interests. Coverage is limited to the titles and contributors in this catalog.Open focused search'
+
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_dashboard_page.js:2312:14)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Ranked feed 0No seeded record matches these interests. Coverage is limited to the titles and contributors in this catalog.Open focused search',
+    expected: /Freshly retrieved Emma/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2291:3
+✖ FEED11 timed_out Search refreshes catalog and feed once without another search (0.61625ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Freshly retrieved Emma/. Input:
+
+  'Ranked feed 0No seeded record matches these interests. Coverage is limited to the titles and contributors in this catalog.Open focused search'
+
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_dashboard_page.js:2312:14)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Ranked feed 0No seeded record matches these interests. Coverage is limited to the titles and contributors in this catalog.Open focused search',
+    expected: /Freshly retrieved Emma/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2291:3
+✖ FEED11 cancelled Search refreshes catalog and feed once without another search (0.480583ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Freshly retrieved Emma/. Input:
+
+  'Ranked feed 0No seeded record matches these interests. Coverage is limited to the titles and contributors in this catalog.Open focused search'
+
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_dashboard_page.js:2312:14)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Ranked feed 0No seeded record matches these interests. Coverage is limited to the titles and contributors in this catalog.Open focused search',
+    expected: /Freshly retrieved Emma/,
+    operator: 'match',
+    diff: 'simple'
+  }

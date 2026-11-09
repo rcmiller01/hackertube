@@ -110,6 +110,21 @@
   max-width: 44rem;
 }
 
+.hackertube .ht-feed-controls {
+  margin: 1rem 0;
+}
+
+.hackertube .ht-feed-controls > summary {
+  cursor: pointer;
+  padding: 0.5rem 0;
+  font-weight: 600;
+}
+
+.hackertube .ht-feed-controls > summary:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
 .hackertube .ht-interests {
   margin-top: 1rem;
   display: flex;
@@ -132,6 +147,13 @@
 .hackertube .ht-signals {
   margin: 0.2rem 0 0;
   padding-left: 1.2rem;
+}
+
+.hackertube .ht-remove-interest {
+  margin-left: 0.5rem;
+  min-width: 1.75rem;
+  min-height: 1.75rem;
+  cursor: pointer;
 }
 
 .hackertube .ht-search input,

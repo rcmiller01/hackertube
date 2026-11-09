@@ -154,6 +154,24 @@ def test_pref01_gardening_interest_persists_across_restart_and_is_available_for_
     assert outbound.counters() == {"free": 0, "paid": 0, "metered": 0}
 
 
+def test_pref16_remove_interest_persists_preserves_other_interests_and_library(tmp_path):
+    connect = local_connect(tmp_path)
+    store = ProfileStore(connect)
+    store.add_interest("gardening")
+    store.add_interest("data science")
+    store.save_item(ITEM, known_ids={ITEM})
+    status, body = apply_action(store, "interest", {"text": "gardening", "remove": True}, set())
+    assert status == 200
+    assert body["interests"] == ["data science"]
+    assert _saved(body)
+    restarted = ProfileStore(connect)
+    assert restarted.interest_texts() == ("data science",)
+    assert apply_action(restarted, "interest", {"text": "gardening", "remove": True}, set())[0] == 200
+    for invalid in (None, "yes", 1):
+        assert apply_action(restarted, "interest", {"text": "data science", "remove": invalid}, set())[0] == 400
+    assert restarted.interest_texts() == ("data science",)
+
+
 def test_pref01_interest_is_not_limited_to_technology(tmp_path):
     store = store_at(tmp_path)
     store.add_interest("gardening")

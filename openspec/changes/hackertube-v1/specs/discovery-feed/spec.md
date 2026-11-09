@@ -11,6 +11,10 @@ Opening HackerTube without a focused request SHALL display the last successful p
 - **WHEN** the user opens HackerTube with a prepared catalog and chosen interests
 - **THEN** the feed shows relevant recommendations without requiring a question or launching paid work
 
+#### Scenario: FEED11 Update after Search finishes
+- **WHEN** the current Search reaches a terminal state, including success, failure, timeout, or cancellation
+- **THEN** the dashboard rereads the local catalog and interest-ranked feed once without a page reload or another paid request, preserving the Search result panel and library state; duplicate or stale Search responses do not refresh the feed
+
 ### Requirement: Evidence-aware ranking
 Discovery ranking SHALL gate on an interest match, then apply fixed weights for community evidence, freshness, and variety. It SHALL be deterministic for the same inputs and SHALL NOT read a wall clock. Mention counts alone SHALL NOT establish positive endorsement. A why-line SHALL name only signals that contributed, and the interface SHALL NOT display scores.
 

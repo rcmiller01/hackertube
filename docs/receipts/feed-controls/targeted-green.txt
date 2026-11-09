@@ -1,0 +1,17 @@
+✔ FEED11 background Search completion updates the rendered feed without a reload (764.059166ms)
+✔ PREF16 interest remove button works by keyboard and stays removed after reload (285.304959ms)
+✔ PREF16 removing an interest posts its exact text and refreshes the feed (2.787542ms)
+✔ PREF16 a rejected removal keeps the interest available for retry (0.462ms)
+✔ a stale Search response does not overwrite a newer Search's result (1.414583ms)
+✔ FEED11 succeeded Search refreshes catalog and feed once without another search (1.029917ms)
+✔ FEED11 failed Search refreshes catalog and feed once without another search (0.710667ms)
+✔ FEED11 timed_out Search refreshes catalog and feed once without another search (0.656667ms)
+✔ FEED11 cancelled Search refreshes catalog and feed once without another search (0.343416ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1084.448

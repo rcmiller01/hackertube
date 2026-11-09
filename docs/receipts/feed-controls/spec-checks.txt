@@ -1,0 +1,21 @@
+✓ change/hackertube-v1
+Totals: 1 passed, 0 failed (1 items)
+PASS: 32 PRD IDs; 31 delivery-mapped; 1 deferred (R16); 8 demo rows with post-demo subsets (R03, R04, R05, R07, R08, R12, R14, R27); 1 fully post-demo rows (R13); 21 post-demo scenarios; 8 capabilities; 51 requirements; 100 scenarios. Runtime checks not run.
+PASS: 21 expected post-demo scenarios; every owning row, status, and rationale agrees
+missing-prd: exit 1; FAIL: Traceability IDs differ from the PRD
+dangling-scenario: exit 1; FAIL: Invalid scenario references for R01
+deferred-p0: exit 1; FAIL: Invalid deferral for R01
+missing-post-demo: exit 1; FAIL: Missing post-demo scenario subset for R04
+non-p0-post-demo: exit 1; FAIL: Only P0 rows can have post-demo scenarios for R16
+unmapped-scenario: exit 1; FAIL: Scenarios without PRD references: ['dashboard-shell/UI01']
+subset-whole-row: exit 1; FAIL: Post-demo row must be a complete subset for R04
+demo-defers-all: exit 1; FAIL: Demo row cannot defer every scenario for R13
+duplicate-post-demo: exit 1; FAIL: Invalid post-demo scenarios for R03
+outside-row-subset: exit 1; FAIL: Invalid post-demo scenarios for R03
+missing-post-demo-reason: exit 1; FAIL: Missing post-demo reason for R04
+invalid-post-demo-subset-type: exit 1; FAIL: Invalid post-demo scenario subset for R04
+stale-status-value: exit 1; FAIL: Unknown specification status for R04
+reason-without-post-demo: exit 1; FAIL: Unexpected post-demo reason for R01
+PASS: 14 invalid fixtures rejected
+positive-mixed-row: exit 0; R04 keeps SEARCH01/03/04/05/07/08/09 in the demo; exactly SEARCH02/06/12 and HCKT20 are post-demo
+PASS: 1 mixed-row fixture accepted

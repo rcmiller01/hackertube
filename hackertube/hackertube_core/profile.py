@@ -278,6 +278,13 @@ class ProfileStore:
             _fail("interest")
         return self._write(lambda conn: self._add_interest(conn, cleaned))
 
+    def remove_interest(self, text):
+        try:
+            cleaned = Interest(text).text
+        except RecordError:
+            _fail("interest")
+        return self._write(lambda conn: conn.execute("DELETE FROM interests WHERE text = ?", (cleaned,)))
+
     def source_settings(self):
         """Stored source choices. A source with no row uses its default."""
         conn = self._connect()
@@ -710,7 +717,12 @@ def apply_action(store, action, body, known_ids):
         elif action == "open":
             store.record_open(body.get("item_id"), known_ids=known_ids)
         elif action == "interest":
-            store.add_interest(body.get("text"))
+            if "remove" in body and not isinstance(body["remove"], bool):
+                return 400, {"error": "remove"}
+            if body.get("remove") is True:
+                store.remove_interest(body.get("text"))
+            else:
+                store.add_interest(body.get("text"))
         else:
             return 404, {"error": "action"}
     except ProfileError as exc:

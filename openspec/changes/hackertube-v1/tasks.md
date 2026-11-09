@@ -113,3 +113,10 @@ Receipts: docs/receipts/pr19-demo/README.md. Tasks 4.4/4.5/5.1/5.3 retain their 
 - [x] 14.2 Open the single-entry upstream catalog PR, review its exact head and record local structural/guard checks plus actual upstream CI state. Covers HCKT03/04; maintainer approval/admission remains external, not claimed complete.
 - [x] 14.3 Publish the working demo on X with @NousResearch and verify the public post/video. Covers HCKT10/11.
 - [x] 14.4 Fill all six intended form answers with actual URLs, hand off the final prize-entry Submit action to the owner, and verify Submission Received. Covers HCKT01/12.
+
+## 15. Feed refresh and simpler controls
+
+- [x] 15.1 Refresh the local catalog and interest-ranked feed once after current Search termination without paid work; verify FEED11 and stale/duplicate guards.
+- [x] 15.2 Add durable interest removal with an accessible × button, local reranking, library preservation and retry after rejection; verify PREF16.
+- [x] 15.3 Collapse the controls above Ranked feed with a keyboard-accessible reopen control; verify UI07 and Search completion while collapsed.
+- [x] 15.4 Record artwork limitations, run clean-checkout validation and review the exact candidate head. Scheduled searches via Hermes's scheduled jobs list remain a separate update.

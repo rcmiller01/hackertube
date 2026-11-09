@@ -11,6 +11,10 @@ Users SHALL be able to save interests on any subject. Source coverage limitation
 - **WHEN** the user adds a gardening interest and restarts Hermes
 - **THEN** the interest is retained and available for ranking
 
+#### Scenario: PREF16 Remove a saved interest
+- **WHEN** the user activates the named remove button beside a saved interest
+- **THEN** only that interest is deleted from the current profile, the prepared feed reranks without paid work, other interests and library state survive, and removal persists across restart; rejected writes leave the interest available for retry
+
 ### Requirement: Source selection and inspection
 Users SHALL receive curated defaults, enable supported communities, add supported feeds, and inspect each source's coverage, last successful retrieval, and current error status.
 

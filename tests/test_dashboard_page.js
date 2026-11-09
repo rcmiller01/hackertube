@@ -736,6 +736,32 @@ test("LIB02 loaded profile shows the saved item after a fresh page", () => {
   }
 });
 
+test("PREF16 removing an interest posts its exact text and refreshes the feed", () => {
+  const profile = { schema: page.PROFILE_SCHEMA, interests: ["gardening", "data science"], items: [] };
+  const ui = mountPage(SAMPLE_CATALOG, profile, () => ({ ...profile, interests: ["data science"] }));
+  try {
+    ui.requests.length = 0;
+    const remove = ui.find(node => node.props && node.props["aria-label"] === "Remove interest gardening");
+    assert.ok(remove, "each interest needs an accessible remove button");
+    remove.props.onClick();
+    assert.deepEqual(ui.requests.find(row => row.method === "POST").body, { text: "gardening", remove: true });
+    assert.equal(ui.find(node => node.props && node.props["aria-label"] === "Remove interest gardening"), null);
+    assert.ok(ui.find(node => node.props && node.props["aria-label"] === "Remove interest data science"));
+    assert.equal(ui.requests.filter(row => row.url.endsWith("/feed")).length, 1);
+    assert.equal(ui.requests.filter(row => row.url.includes("/search")).length, 0);
+  } finally { ui.restore(); }
+});
+
+test("PREF16 a rejected removal keeps the interest available for retry", () => {
+  const profile = { schema: page.PROFILE_SCHEMA, interests: ["gardening"], items: [] };
+  const ui = mountPage(SAMPLE_CATALOG, profile, () => ({ error: "interest" }));
+  try {
+    ui.find(n => n.props && n.props["aria-label"] === "Remove interest gardening").props.onClick();
+    assert.ok(ui.find(n => n.props && n.props["aria-label"] === "Remove interest gardening"));
+    assert.match(ui.text(n => n.props && n.props.className === "ht-status"), /did not accept/);
+  } finally { ui.restore(); }
+});
+
 test("PREF01 loaded gardening interest stays on the page", () => {
   const ui = mountPage(SAMPLE_CATALOG, {
     schema: "hackertube.profile/1",
@@ -1082,8 +1108,9 @@ function sparseFeed(interest) {
 }
 
 function assertSparseCoverage(ui, interest) {
-  const listed = ui.text((node) => node.type === "li" && node.children && node.children[0] === interest);
-  assert.equal(listed, interest);
+  const listed = ui.find((node) => node.type === "li" && node.children && node.children[0] === interest);
+  assert.equal(listed.children[0], interest);
+  assert.ok(ui.find(node => node.props && node.props["aria-label"] === "Remove interest " + interest));
   const coverage = ui.text((node) => node.props && node.props.id === "hackertube-coverage");
   assert.equal(coverage, page.FEED06_NOTE);
   assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-feed-note"), null);
@@ -1930,7 +1957,10 @@ test("a stale Search response does not overwrite a newer Search's result", () =>
     form.props.onSubmit({ preventDefault() {} });
     assert.equal(defer.pending.length, 2, "two Search requests are in flight");
 
+    const feedReads = () => ui.requests.filter(row => row.url.endsWith("/feed")).length;
+    const originalReads = feedReads();
     defer.pending[0].onOk(Object.assign(defaultSearchResult(), { provider: "stale-provider" }));
+    assert.equal(feedReads(), originalReads, "stale completion does not refresh the feed");
     const afterStale = ui.text((node) => node.props && node.props.className === "ht-results");
     assert.doesNotMatch(afterStale, /stale-provider/, "the stale response is ignored");
     assert.match(afterStale, /Search running\./, "the newer Search is still running");
@@ -1938,6 +1968,7 @@ test("a stale Search response does not overwrite a newer Search's result", () =>
     defer.pending[1].onOk(Object.assign(defaultSearchResult(), { provider: "fresh-provider" }));
     const afterFresh = ui.text((node) => node.props && node.props.className === "ht-results");
     assert.match(afterFresh, /fresh-provider/, "the newest response renders");
+    assert.equal(feedReads(), originalReads + 1, "only the current Search refreshes the feed");
     assert.doesNotMatch(afterFresh, /stale-provider/, "the stale response never renders");
   } finally {
     ui.restore();
@@ -2029,8 +2060,13 @@ test("newly retrieved search items have Save and Open controls", () => {
   result.catalog.items.push(item);
   result.results = [{ item_id: item.item_id, title: item.title, format: "book", source: { label: "Open Library" }, state: {}, why: ["Relevant"] }];
   result.sections = { books: { verified: result.results, verified_count: 1 } };
-  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: result });
+  const responses = {};
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: result }, null, null, responses);
   try {
+    // Completion now rereads persisted records: the read route must reflect
+    // the catalog the search just wrote, as the real backend does.
+    responses["/api/plugins/hackertube/catalog"] = { catalog: result.catalog };
+    responses["/api/plugins/hackertube/feed"] = harnessDiscovery({ catalog: result.catalog });
     ui.find(node => node.props && node.props["aria-controls"] === "hackertube-search-panel").props.onClick();
     ui.find(node => node.props && node.props.id === "hackertube-question").props.onChange({ target: { value: "new book" } });
     ui.find(node => node.props && node.props.type === "checkbox").props.onChange({ target: { checked: true } });
@@ -2286,6 +2322,38 @@ test("a lost start acknowledgement attaches to existing work without another pai
     assert.equal(ui.requests.filter((r) => r.url === "/api/plugins/hackertube/search" && r.method === "POST").length, 1);
   } finally { ui.restore(); }
 });
+
+for (const state of ["succeeded", "failed", "timed_out", "cancelled"]) {
+  test(`FEED11 ${state} Search refreshes catalog and feed once without another search`, () => {
+    const deferred = { pending: [] };
+    const catalog = JSON.parse(JSON.stringify(RANK_CATALOG));
+    const feed = JSON.parse(JSON.stringify(RANKED_FEED));
+    feed.feed = [];
+    feed.why = {};
+    feed.sections.books = group([], ["b1"]);
+    const responses = {};
+    const ui = mountPage(catalog, page.emptyProfile(), null, feed, null, null, deferred, responses);
+    try {
+      submitSearch(ui, "Jane Austen books");
+      ui.requests.length = 0;
+      assert.doesNotMatch(ui.text(n => n.props && n.props.id === "ranked-feed"), /Freshly retrieved Emma/);
+      // Simulate the persisted catalog/feed changing while remote work runs.
+      const updatedCatalog = JSON.parse(JSON.stringify(RANK_CATALOG));
+      updatedCatalog.catalog.items.find(item => item.item_id === "b1").title = "Freshly retrieved Emma";
+      responses["/api/plugins/hackertube/catalog"] = updatedCatalog;
+      responses["/api/plugins/hackertube/feed"] = JSON.parse(JSON.stringify(RANKED_FEED));
+      const body = searchResult({}, { job: { job_id: "job:refresh", state } });
+      // Cancellation responses need not include a catalog snapshot.
+      deferred.pending[0].onOk(body);
+      assert.match(ui.text(n => n.props && n.props.id === "ranked-feed"), /Freshly retrieved Emma/);
+      assert.equal(ui.requests.filter(r => r.url.endsWith("/feed")).length, 1);
+      assert.equal(ui.requests.filter(r => r.url.endsWith("/catalog")).length, 1);
+      assert.equal(ui.requests.filter(r => r.method === "POST").length, 0);
+      deferred.pending[0].onOk(body);
+      assert.equal(ui.requests.filter(r => r.url.endsWith("/feed")).length, 1, "duplicate terminal responses are ignored");
+    } finally { ui.restore(); }
+  });
+}
 
 test("Apple Books destinations and catalog attribution do not say Apple Podcasts", () => {
   const item = {item_id:"itunes:audiobook:123", format:"audiobook", destination:"https://books.apple.com/us/audiobook/test/id123"};

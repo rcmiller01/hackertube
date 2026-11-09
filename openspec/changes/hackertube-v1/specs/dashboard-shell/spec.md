@@ -42,3 +42,7 @@ Navigation, search, filters, saving, dismissal, and source links SHALL have acce
 #### Scenario: UI06 Keyboard journey
 - **WHEN** the user navigates, searches, filters, saves, dismisses, and opens a source using a keyboard
 - **THEN** each action is reachable, has visible focus, and has an accessible name
+
+#### Scenario: UI07 Collapse feed controls
+- **WHEN** the user collapses the controls between the opening description and Ranked feed
+- **THEN** those controls are hidden together while the feed and a keyboard-operable reopen control remain visible; feed updates preserve the collapsed state and reopening preserves entered interests, the question, and Search results
