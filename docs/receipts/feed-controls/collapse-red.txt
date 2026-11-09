@@ -14,8 +14,8 @@ test at tests/test_browser_requests.js:6:1
 ✖ FEED11 background Search completion updates the rendered feed without a reload (1454.86225ms)
   locator.waitFor: Timeout 1000ms exceeded.
   Call log:
-  [2m  - waiting for locator('details.ht-feed-controls').locator('summary') to be visible[22m
-  
+    - waiting for locator('details.ht-feed-controls').locator('summary') to be visible
+
       at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_browser_requests.js:52:18) {
     name: 'TimeoutError',
     log: [ "  - waiting for locator('details.ht-feed-controls').locator('summary') to be visible" ]

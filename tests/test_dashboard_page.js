@@ -1108,8 +1108,9 @@ function sparseFeed(interest) {
 }
 
 function assertSparseCoverage(ui, interest) {
-  const listed = ui.text((node) => node.type === "li" && node.children && node.children[0] === interest);
-  assert.equal(listed, interest);
+  const listed = ui.find((node) => node.type === "li" && node.children && node.children[0] === interest);
+  assert.equal(listed.children[0], interest);
+  assert.ok(ui.find(node => node.props && node.props["aria-label"] === "Remove interest " + interest));
   const coverage = ui.text((node) => node.props && node.props.id === "hackertube-coverage");
   assert.equal(coverage, page.FEED06_NOTE);
   assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-feed-note"), null);
@@ -2059,8 +2060,13 @@ test("newly retrieved search items have Save and Open controls", () => {
   result.catalog.items.push(item);
   result.results = [{ item_id: item.item_id, title: item.title, format: "book", source: { label: "Open Library" }, state: {}, why: ["Relevant"] }];
   result.sections = { books: { verified: result.results, verified_count: 1 } };
-  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: result });
+  const responses = {};
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, { value: result }, null, null, responses);
   try {
+    // Completion now rereads persisted records: the read route must reflect
+    // the catalog the search just wrote, as the real backend does.
+    responses["/api/plugins/hackertube/catalog"] = { catalog: result.catalog };
+    responses["/api/plugins/hackertube/feed"] = harnessDiscovery({ catalog: result.catalog });
     ui.find(node => node.props && node.props["aria-controls"] === "hackertube-search-panel").props.onClick();
     ui.find(node => node.props && node.props.id === "hackertube-question").props.onChange({ target: { value: "new book" } });
     ui.find(node => node.props && node.props.type === "checkbox").props.onChange({ target: { checked: true } });

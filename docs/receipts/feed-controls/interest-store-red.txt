@@ -14,7 +14,7 @@ tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/p
         assert status == 200
 >       assert body["interests"] == ["data science"]
 E       AssertionError: assert ['gardening', 'data science'] == ['data science']
-E         
+E
 E         At index 0 diff: 'gardening' != 'data science'
 E         Left contains one more item: 'data science'
 E         Use -v to get more diff
