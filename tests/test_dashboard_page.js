@@ -736,6 +736,22 @@ test("LIB02 loaded profile shows the saved item after a fresh page", () => {
   }
 });
 
+test("PREF16 removing an interest posts its exact text and refreshes the feed", () => {
+  const profile = { schema: page.PROFILE_SCHEMA, interests: ["gardening", "data science"], items: [] };
+  const ui = mountPage(SAMPLE_CATALOG, profile, () => ({ ...profile, interests: ["data science"] }));
+  try {
+    ui.requests.length = 0;
+    const remove = ui.find(node => node.props && node.props["aria-label"] === "Remove interest gardening");
+    assert.ok(remove, "each interest needs an accessible remove button");
+    remove.props.onClick();
+    assert.deepEqual(ui.requests.find(row => row.method === "POST").body, { text: "gardening", remove: true });
+    assert.equal(ui.find(node => node.props && node.props["aria-label"] === "Remove interest gardening"), null);
+    assert.ok(ui.find(node => node.props && node.props["aria-label"] === "Remove interest data science"));
+    assert.equal(ui.requests.filter(row => row.url.endsWith("/feed")).length, 1);
+    assert.equal(ui.requests.filter(row => row.url.includes("/search")).length, 0);
+  } finally { ui.restore(); }
+});
+
 test("PREF01 loaded gardening interest stays on the page", () => {
   const ui = mountPage(SAMPLE_CATALOG, {
     schema: "hackertube.profile/1",
