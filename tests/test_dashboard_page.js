@@ -2287,6 +2287,38 @@ test("a lost start acknowledgement attaches to existing work without another pai
   } finally { ui.restore(); }
 });
 
+for (const state of ["succeeded", "failed", "timed_out", "cancelled"]) {
+  test(`FEED11 ${state} Search refreshes catalog and feed once without another search`, () => {
+    const deferred = { pending: [] };
+    const catalog = JSON.parse(JSON.stringify(RANK_CATALOG));
+    const feed = JSON.parse(JSON.stringify(RANKED_FEED));
+    feed.feed = [];
+    feed.why = {};
+    feed.sections.books = group([], ["b1"]);
+    const responses = {};
+    const ui = mountPage(catalog, page.emptyProfile(), null, feed, null, null, deferred, responses);
+    try {
+      submitSearch(ui, "Jane Austen books");
+      ui.requests.length = 0;
+      assert.doesNotMatch(ui.text(n => n.props && n.props.id === "ranked-feed"), /Freshly retrieved Emma/);
+      // Simulate the persisted catalog/feed changing while remote work runs.
+      const updatedCatalog = JSON.parse(JSON.stringify(RANK_CATALOG));
+      updatedCatalog.catalog.items.find(item => item.item_id === "b1").title = "Freshly retrieved Emma";
+      responses["/api/plugins/hackertube/catalog"] = updatedCatalog;
+      responses["/api/plugins/hackertube/feed"] = JSON.parse(JSON.stringify(RANKED_FEED));
+      const body = searchResult({}, { job: { job_id: "job:refresh", state } });
+      // Cancellation responses need not include a catalog snapshot.
+      deferred.pending[0].onOk(body);
+      assert.match(ui.text(n => n.props && n.props.id === "ranked-feed"), /Freshly retrieved Emma/);
+      assert.equal(ui.requests.filter(r => r.url.endsWith("/feed")).length, 1);
+      assert.equal(ui.requests.filter(r => r.url.endsWith("/catalog")).length, 1);
+      assert.equal(ui.requests.filter(r => r.method === "POST").length, 0);
+      deferred.pending[0].onOk(body);
+      assert.equal(ui.requests.filter(r => r.url.endsWith("/feed")).length, 1, "duplicate terminal responses are ignored");
+    } finally { ui.restore(); }
+  });
+}
+
 test("Apple Books destinations and catalog attribution do not say Apple Podcasts", () => {
   const item = {item_id:"itunes:audiobook:123", format:"audiobook", destination:"https://books.apple.com/us/audiobook/test/id123"};
   const evidence = [{item_id:item.item_id, source_id:"itunes", kind:"catalog", retrieved_at:"2026-11-08T00:00:00Z"}];
