@@ -603,6 +603,97 @@ def _term_hits(item, terms):
 # --- the job ---------------------------------------------------------------
 
 
+_SOURCE_LABELS = {
+    "podcastindex": "Podcast Index",
+    "reddit": "Reddit",
+    "youtube": "YouTube",
+    "hn": "Hacker News",
+    "itunes": "Apple Podcasts / Apple Books",
+    "openlibrary": "Open Library",
+    "librivox": "LibriVox",
+    "web": "Broader web",
+    "ranking": "Ranking",
+}
+
+#: Machine reason or error text to (lead-in, parenthetical phrase).
+_REASON_COPY = {
+    "missing_api_key": ("Not searched", "needs its own API key"),
+    "approval_absent": ("Not searched", "not approved"),
+    "host_search_unavailable": ("Not searched", "host search is unavailable"),
+    "disabled": ("Not searched", "turned off"),
+    "not_requested": ("Not searched", "not requested"),
+    "unavailable": ("Not searched", "unavailable"),
+    "source request failed": ("Failed", "request failed"),
+    "source retrieval incomplete": ("Incomplete", "retrieval did not finish"),
+    "limit": ("Incomplete", "reached the work limit"),
+    "partial": ("Incomplete", "finished only in part"),
+    "failed": ("Failed", "did not finish"),
+    "Search ranking failed.": ("Failed", "ranking failed"),
+    "Some invalid ranking entries were ignored; valid matches are retained.": (
+        "Incomplete",
+        "some invalid ranking entries were ignored",
+    ),
+}
+
+_STATE_LEAD = {
+    "unavailable": "Not searched",
+    "failed": "Failed",
+    "limit": "Incomplete",
+    "partial": "Incomplete",
+}
+
+
+def _coverage_source_label(source_id):
+    if source_id in _SOURCE_LABELS:
+        return _SOURCE_LABELS[source_id]
+    text = str(source_id or "source").replace("_", " ").strip()
+    return text.title() if text else "Source"
+
+
+def source_coverage_notes(statuses):
+    """Name skipped and failed sources in plain language.
+
+    Status rows stay machine-readable. The sentences stored on the job are
+    what the results screen reads, for example ``Not searched: Podcast Index
+    (needs its own API key), Reddit (not approved).``
+    """
+    groups = {}
+    order = []
+    for source in statuses or ():
+        state = source.get("state")
+        if state not in {"unavailable", "failed", "limit", "partial"}:
+            continue
+        reason = source.get("reason", source.get("error", state))
+        if not isinstance(reason, str) or not reason.strip():
+            reason = state or "unavailable"
+        copy = _REASON_COPY.get(reason)
+        if copy:
+            lead, phrase = copy
+        else:
+            lead = _STATE_LEAD.get(state, "Incomplete")
+            phrase = reason.replace("_", " ").strip().rstrip(".")
+        label = _coverage_source_label(source.get("source_id"))
+        if lead not in groups:
+            order.append(lead)
+            groups[lead] = []
+        groups[lead].append(f"{label} ({phrase})")
+    return [f"{lead}: {', '.join(groups[lead])}." for lead in order]
+
+
+def _reported_cost(value):
+    """A usable provider cost, or None when the report is not a real number.
+
+    Booleans, strings, and other non-numeric reports are unknown. They must
+    not be stored or displayed as zero. Non-finite floats are not numbers
+    the page can show.
+    """
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    if value != value or value == float("inf") or value == float("-inf"):
+        return None
+    return value
+
+
 def _job_state(outcome, limits, elapsed):
     """The terminal state, with the reason coverage is incomplete."""
     notes = []
@@ -785,13 +876,7 @@ def _run_search(
             state = "partial"
             notes.append("Some search services did not finish; coverage is incomplete.")
         if retriever is not None:
-            for source in source_statuses:
-                if source["state"] in {"unavailable", "failed", "limit", "partial"}:
-                    notes.append(
-                        source["source_id"]
-                        + ": "
-                        + source.get("reason", source.get("error", source["state"]))
-                    )
+            notes.extend(source_coverage_notes(source_statuses))
     coverage = set_["coverage"]
     coverage["notes"] = list(notes)
     coverage["limit_reached"] = bool(
@@ -802,19 +887,20 @@ def _run_search(
         or any(x["state"] == "limit" for x in source_statuses)
     )
     delta = request_ledger.counters()
-    total_cost = outcome.cost_usd
-    if retriever is not None:
-        # Any call without reliable cost makes the whole job cost unknown.
+    reported = _reported_cost(outcome.cost_usd)
+    if retriever is None:
+        total_cost = reported
+    else:
+        # Any call without a numeric cost makes the whole job cost unknown.
+        ranked = _reported_cost(rank_cost)
+        web_cost_unknown = any(
+            x["source_id"] == "web" and x["state"] in {"succeeded", "failed", "partial"}
+            for x in source_statuses
+        )
         total_cost = (
             None
-            if outcome.cost_usd is None
-            or rank_cost is None
-            or any(
-                x["source_id"] == "web"
-                and x["state"] in {"succeeded", "failed", "partial"}
-                for x in source_statuses
-            )
-            else outcome.cost_usd + rank_cost
+            if reported is None or ranked is None or web_cost_unknown
+            else reported + ranked
         )
     used = budget.used if retriever is not None else outcome.requests_used
     usage = {

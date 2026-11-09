@@ -690,3 +690,19 @@ Raw red/green receipts: [feed-controls](../../../docs/receipts/feed-controls/). 
 Final clean-export validation: Python **311 collected / 311 passed / 0 failed**, one existing Starlette/httpx warning; Node/browser **91 passed / 0 failed / 0 skipped** after fixture corrections; strict OpenSpec **1 passed / 0 failed**, coverage **100 scenarios / 32 PRD IDs**, negative fixtures **14/14 rejected**, positive fixture **1/1 accepted**. Threshold: **0 failures**, met. Runtime is `d9019d6`; final test corrections are `819cf22` and do not change production code. The initial Node run was 88 passed / 3 failed; each failure and its fixture correction is documented in the receipt README. No installed deployment or artwork implementation is claimed. Exact final-head code/document review is recorded in the PR description.
 
 Full scope, logs, code/test pins, browser previews and limitations: [feed-controls receipt](../../../docs/receipts/feed-controls/README.md).
+
+## Review follow-up: plain source notes, focus, and non-numeric cost
+
+Seven findings from the post-merge review of `ae5386f`. No live or paid call. `HACKERTUBE_MODEL_KEY` was not set. Hermes was not installed on this machine, so `hermes plugins validate` and `hermes plugins doctor` were not run.
+
+| Item | Check |
+|---|---|
+| Plain source notes | `tests/test_search.py::test_skipped_sources_are_named_in_plain_language` and the dashboard sentence/helper tests. Stored notes use `Not searched: Podcast Index (needs its own API key), Reddit (not approved).` The page maps the same raw codes. |
+| Search end focus and Stopping | Dashboard tests move focus to the results heading after success and cancel, and to the error alert after failure. Stopping search uses `aria-disabled` and does not set `disabled`. |
+| Remove interest | PREF16 asserts the visible `Remove` label, `Removed interest gardening.`, and focus on `#hackertube-interest`. `style.css` sets `min-height: 2.5rem`. |
+| Controls disclosure | The dashboard test keeps Discover/Library/About, `.ht-status`, and the catalog alert outside `details.ht-feed-controls`. The summary focus outline is `var(--color-ring)`. |
+| Receipt probes | `bypass_probe.py`, `red_against_main.py`, and `probe.py` each exited 0 when run with `.venv/bin/python` from the repository root and no extra `PYTHONPATH`. |
+| Stale Search error | `a stale Search error does not overwrite a newer Search` passes. Deleting the epoch return in the Search POST `.catch` makes that test fail (`10 !== 9` follow-up reads) and the return was restored. |
+| Non-numeric cost | Python covers a string, a boolean, a mapping, and a non-numeric rank cost. The page renders `cost_known: true` with `cost_usd: "0.02"` as unknown, not `$0.0000`. |
+
+`python -m pytest tests -q`: **314 passed, 0 failed**, one existing Starlette/httpx deprecation warning. `node --test tests/test_dashboard_page.js tests/test_browser_requests.js tests/test_privacy_browser.js`: **99 passed, 0 failed, 0 skipped**. `python3 scripts/check_spec_coverage.py`: PASS, 100 scenarios, 32 PRD IDs. Scenarios touched: UI06, UI07, PREF16, JOB04, JOB07.

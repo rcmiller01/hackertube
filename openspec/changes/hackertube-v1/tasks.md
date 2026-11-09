@@ -117,6 +117,6 @@ Receipts: docs/receipts/pr19-demo/README.md. Tasks 4.4/4.5/5.1/5.3 retain their 
 ## 15. Feed refresh and simpler controls
 
 - [x] 15.1 Refresh the local catalog and interest-ranked feed once after current Search termination without paid work; verify FEED11 and stale/duplicate guards.
-- [x] 15.2 Add durable interest removal with an accessible × button, local reranking, library preservation and retry after rejection; verify PREF16.
-- [x] 15.3 Collapse the controls above Ranked feed with a keyboard-accessible reopen control; verify UI07 and Search completion while collapsed.
+- [x] 15.2 Add durable interest removal with a visible Remove control at least 2.5rem tall, local reranking, library preservation and retry after rejection; verify PREF16.
+- [x] 15.3 Collapse interest, search, and section controls above Ranked feed with a keyboard-accessible reopen control, leaving navigation, the polite status region, and load alerts visible; verify UI07 and Search completion while collapsed.
 - [x] 15.4 Record artwork limitations, run clean-checkout validation and review the exact candidate head. Scheduled searches via Hermes's scheduled jobs list remain a separate update.

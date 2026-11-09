@@ -24,7 +24,7 @@ Only explicit focused searches or refreshes SHALL trigger paid model or search a
 - **THEN** it launches no recurring paid job or implicit paid refresh
 
 ### Requirement: Bounded visible execution
-Each search or refresh SHALL expose progress, terminal status, finite deadlines and request/result limits, and actual usage when available. Supervised Search SHALL stop its local worker group at the deadline, including blocked model, source and DNS work. Remote processing or billing already accepted by a provider may continue and SHALL be disclosed. Unknown cost SHALL NOT be displayed as zero.
+Each search or refresh SHALL expose progress, terminal status, finite deadlines and request/result limits, and actual usage when available. Supervised Search SHALL stop its local worker group at the deadline, including blocked model, source and DNS work. Remote processing or billing already accepted by a provider may continue and SHALL be disclosed. Unknown cost SHALL NOT be displayed as zero. A cost report that is not a finite number SHALL be treated as unknown.
 
 #### Scenario: JOB03 Work budget exhausted
 - **WHEN** an operation reaches its deadline or request limit
@@ -32,7 +32,7 @@ Each search or refresh SHALL expose progress, terminal status, finite deadlines 
 
 #### Scenario: JOB04 Provider omits cost
 - **WHEN** a provider returns no reliable cost information
-- **THEN** the job displays total cost as unknown, including an attempted paid request that failed without reporting cost, and counts only its own dispatches rather than overlapping jobs, preserving durable observations even when termination precedes the worker's progress notification
+- **THEN** the job displays total cost as unknown, including a non-numeric cost report and an attempted paid request that failed without reporting cost, and counts only its own dispatches rather than overlapping jobs, preserving durable observations even when termination precedes the worker's progress notification
 
 ### Requirement: Cancellation and restart recovery
 Cancelling a job SHALL prevent further dispatch and expose the disposition of in-flight calls. Interrupted jobs SHALL NOT silently resume paid work after restart.
@@ -46,7 +46,7 @@ Cancelling a job SHALL prevent further dispatch and expose the disposition of in
 - **THEN** the orphan worker group stops, the persisted job is marked interrupted on status recovery by a new or existing observer even if the provider is unavailable or changed, and paid work requires a new explicit action
 
 ### Requirement: Preserve successful cached results
-Source or model failures SHALL report affected services and retain the last successful feed and library. Partial results SHALL identify missing coverage and retrieval age. Malformed or unsubmitted ranking entries, and validated duplicates with conflicting fit labels, SHALL be rejected while retaining unambiguous matches, without an implicit paid retry.
+Source or model failures SHALL report affected services and retain the last successful feed and library. Partial results SHALL identify missing coverage and retrieval age. Skipped and failed sources SHALL be named in plain language rather than raw source and reason codes. Malformed or unsubmitted ranking entries, and validated duplicates with conflicting fit labels, SHALL be rejected while retaining unambiguous matches, without an implicit paid retry.
 
 #### Scenario: JOB07 One source fails
 - **WHEN** one source times out while other sources return credible matches

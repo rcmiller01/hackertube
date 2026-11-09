@@ -16,8 +16,24 @@ Against the fixed tree the same script reports the fixed values: the
 
 import socket
 import sys
+from pathlib import Path
 
-sys.path.insert(0, ".")
+# The current tree keeps the library at hackertube/hackertube_core. A copy of
+# this probe in an older checkout, where hackertube_core sat at the repo root,
+# still imports from that root.
+_HERE = Path(__file__).resolve()
+_CANDIDATES = [Path.cwd(), _HERE.parent]
+if len(_HERE.parents) >= 4:
+    _CANDIDATES.append(_HERE.parents[3])
+for _root in _CANDIDATES:
+    if (_root / "hackertube" / "hackertube_core").is_dir():
+        sys.path.insert(0, str(_root / "hackertube"))
+        break
+    if (_root / "hackertube_core").is_dir():
+        sys.path.insert(0, str(_root))
+        break
+else:
+    sys.path.insert(0, ".")
 
 from hackertube_core import outbound  # noqa: E402
 from hackertube_core.adapters import youtube  # noqa: E402

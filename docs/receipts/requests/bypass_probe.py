@@ -27,6 +27,8 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
+# hackertube_core lives in the plugin package, not at the repository root.
+sys.path.insert(0, str(ROOT / "hackertube"))
 
 from hackertube_core import outbound  # noqa: E402
 from hackertube_core.catalog import load_seed  # noqa: E402
