@@ -2929,7 +2929,9 @@ test("visual CSS F1 F2 F5 F6 F7 F10 F11 F12 F13 F15 F16 F17 F19 F23 token layout
   assert.match(rule(".hackertube .ht-grid"), /repeat\(auto-fill, minmax\(min\(100%, 17rem\), 1fr\)\)/);
   assert.match(rule(".hackertube .ht-count"), /font-weight:\s*400/);
   assert.match(rule(".hackertube .ht-format"), /font-size:\s*0\.8125rem/);
-  assert.match(rule(".hackertube .ht-compact .ht-format"), /display:\s*none/);
+  assert.match(rule(".hackertube :is(#videos,#books,#audiobooks) .ht-compact .ht-format"), /display:\s*none/);
+  // The old unscoped rule would hide the badge in Podcasts too; it must be gone.
+  assert.doesNotMatch(css, /\.hackertube\s+\.ht-compact\s+\.ht-format/);
   assert.match(rule(".hackertube .ht-model-picker a"), /min-height:\s*44px/);
   assert.match(rule(".hackertube .ht-model-picker a"), /display:\s*inline-flex/);
   assert.match(rule(".hackertube .ht-model-picker select"), /min-height:\s*44px/);
@@ -3010,6 +3012,41 @@ test("visual atomic F21 section matches are compact but the feed is not", () => 
     assert.equal(ui.within(n => n.props.id === "books", n => n.props.className === "ht-format").length, 1);
     assert.equal(ui.within(n => n.props.id === "ranked-feed", n => n.props.className === "ht-format").length, 1);
   } finally { ui.restore(); }
+});
+
+const PODCAST_CATALOG = {
+  fixture: true,
+  catalog: {
+    items: [
+      { item_id: "p1", format: "podcast_show", title: "Austen Notes", destination: "https://example.com/show", capture_order: 1, contributors: [], duration_seconds: null, art_url: null, art_hotlink: false },
+      { item_id: "p2", format: "podcast_episode", title: "Emma, part one", destination: "https://example.com/episode", capture_order: 2, contributors: [], duration_seconds: 1800, art_url: null, art_hotlink: false },
+    ],
+    evidence: [
+      { item_id: "p1", source_id: "hn", kind: "community", endorsement: "established", display_line: "Recommended in Hacker News", destination: "https://news.ycombinator.com/item?id=26188584", retrieved_at: "2026-11-06T12:22:22Z" },
+      { item_id: "p2", source_id: "hn", kind: "community", endorsement: "established", display_line: "Recommended in Hacker News", destination: "https://news.ycombinator.com/item?id=26188585", retrieved_at: "2026-11-06T12:22:22Z" },
+    ],
+    sources: [{ source_id: "hn", name: "Hacker News" }],
+    editions: [],
+  },
+};
+
+test("visual atomic F21b compact Podcasts rows keep the Show vs Episode badge", () => {
+  const ui = mountPage(PODCAST_CATALOG, { ...page.emptyProfile() }, null, harnessDiscovery(PODCAST_CATALOG));
+  try {
+    assert.equal(ui.within(n => n.props.id === "podcasts", n => n.props.className === "ht-card ht-compact").length, 2);
+    // Podcasts mixes shows and episodes, so the badge carries information the heading does not.
+    const badges = ui.within(n => n.props.id === "podcasts", n => n.props.className === "ht-format");
+    assert.deepEqual(badges.map(textOf).sort(), ["Episode", "Show"]);
+  } finally { ui.restore(); }
+});
+
+test("visual atomic F21c the stylesheet hides the compact badge only outside Podcasts", () => {
+  const css = require("node:fs").readFileSync(require("node:path").join(__dirname, "../hackertube/dashboard/dist/style.css"), "utf8");
+  const hideRules = css.split("\n").filter(line => line.includes(".ht-compact .ht-format") && /display:\s*none/.test(line));
+  assert.equal(hideRules.length, 1, "exactly one rule hides the compact badge");
+  assert.match(hideRules[0], /^\s*\.hackertube :is\(#videos,#books,#audiobooks\) \.ht-compact \.ht-format\s*\{\s*display:\s*none;\s*\}\s*$/);
+  assert.doesNotMatch(hideRules[0], /#podcasts/, "the hide rule must not scope in Podcasts");
+  assert.doesNotMatch(css, /\.hackertube\s+\.ht-compact\s+\.ht-format/, "the old unscoped rule is gone");
 });
 
 test("visual atomic T copy retains approved boundaries and Library wording", () => {
