@@ -309,8 +309,10 @@
 .hackertube .ht-card .ht-actions { margin-top: auto; padding-top: 0.4rem; }
 .hackertube .ht-evidence p { margin: 0; }
 .hackertube .ht-compact > div { padding-block: 0.75rem; }
-/* The compact row's format badge repeats the section heading it sits under. */
-.hackertube .ht-compact .ht-format { display: none; }
+/* The compact row's format badge only repeats the section heading in Videos, Books
+   and Audiobooks. Podcasts mixes shows and episodes, so its Show/Episode badge stays
+   in the row, including for assistive technology (display:none would remove it). */
+.hackertube :is(#videos,#books,#audiobooks) .ht-compact .ht-format { display: none; }
 .hackertube .ht-art {
   aspect-ratio: 16 / 9;
   align-self: stretch;

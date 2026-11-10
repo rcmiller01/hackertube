@@ -1,0 +1,60 @@
+{
+  "hostStylesheet": "/Users/robert/.hermes/hermes-agent/hermes_cli/web_dist/assets/index-CXKdN8QE.css",
+  "scope": "Production bundle and stylesheet in React fixture with stub SDK/API, plus the compiled host stylesheet. Not an installed dashboard or a live-provider claim.",
+  "viewports": [
+    {
+      "width": 390,
+      "podcasts": {
+        "count": 2,
+        "badgeText": [
+          "Show",
+          "Episode"
+        ],
+        "display": "block"
+      },
+      "videos": {
+        "count": 1,
+        "badgeText": [
+          "Video"
+        ],
+        "display": "none"
+      },
+      "fullCards": {
+        "count": 3,
+        "badgeText": [
+          "Video",
+          "Show",
+          "Episode"
+        ],
+        "display": "block"
+      }
+    },
+    {
+      "width": 1280,
+      "podcasts": {
+        "count": 2,
+        "badgeText": [
+          "Show",
+          "Episode"
+        ],
+        "display": "block"
+      },
+      "videos": {
+        "count": 1,
+        "badgeText": [
+          "Video"
+        ],
+        "display": "none"
+      },
+      "fullCards": {
+        "count": 3,
+        "badgeText": [
+          "Video",
+          "Show",
+          "Episode"
+        ],
+        "display": "block"
+      }
+    }
+  ]
+}

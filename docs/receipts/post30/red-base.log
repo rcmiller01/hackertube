@@ -1,0 +1,57 @@
+--- base stylesheet ---
+313:.hackertube .ht-compact .ht-format { display: none; }
+--- base run (non-zero fail count is the expected RED) ---
+✖ visual CSS F1 F2 F5 F6 F7 F10 F11 F12 F13 F15 F16 F17 F19 F23 token layout contract (1.2515ms)
+✔ visual atomic F21b compact Podcasts rows keep the Show vs Episode badge (2.340084ms)
+✖ visual atomic F21c the stylesheet hides the compact badge only outside Podcasts (0.497125ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 44.491083
+
+✖ failing tests:
+
+test at tests/test_dashboard_page.js:2914:1
+✖ visual CSS F1 F2 F5 F6 F7 F10 F11 F12 F13 F15 F16 F17 F19 F23 token layout contract (1.2515ms)
+  AssertionError [ERR_ASSERTION]: .hackertube :is(#videos,#books,#audiobooks) .ht-compact .ht-format
+      at rule (/Users/robert/Developer/hackertube-post30/tests/test_dashboard_page.js:2918:12)
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-post30/tests/test_dashboard_page.js:2932:16)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.start (node:internal/test_runner/test:1257:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:3043:1
+✖ visual atomic F21c the stylesheet hides the compact badge only outside Podcasts (0.497125ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\s*\.hackertube :is\(#videos,#books,#audiobooks\) \.ht-compact \.ht-format\s*\{\s*display:\s*none;\s*\}\s*$/. Input:
+  
+  '.hackertube .ht-compact .ht-format { display: none; }'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-post30/tests/test_dashboard_page.js:3047:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '.hackertube .ht-compact .ht-format { display: none; }',
+    expected: /^\s*\.hackertube :is\(#videos,#books,#audiobooks\) \.ht-compact \.ht-format\s*\{\s*display:\s*none;\s*\}\s*$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+--- base exit: 1 ---
+EXPECTED_RED
+RESTORE_OK 7e478de24945bc4e68eb09c412a03adbf6fac5061d69dfe888bfa63953eba2f5

@@ -896,3 +896,39 @@ Limit: the screenshots are the fixture harness (real bundle and host stylesheet,
 stub SDK/API, blocked external artwork), not an installed-gateway render or a
 live retrieval. A native `select` still truncates a long selected label inside
 its own control; the control and its neighbours fit the viewport.
+
+## Post-#30 follow-up: Podcasts compact badge (t_ba9ed0aa)
+
+Branch `hermes/post30-followups`, exact base `1c96be12e4f6030f2be30d5bf09d8cc6d0202077` (#30).
+
+Picasso's non-blocking #30 finding is closed by scoping the compact-badge rule:
+`.hackertube :is(#videos,#books,#audiobooks) .ht-compact .ht-format { display: none; }`.
+Videos, Books and Audiobooks compact rows still hide the badge, which there only
+repeats the section heading. The Podcasts section mixes `podcast_show` and
+`podcast_episode` (`SECTIONS` / `FORMAT_LABEL`), so its compact rows keep the
+"Show" vs "Episode" badge; `display: none` would also have removed it from the
+accessibility tree. Full cards in every section, including Library and the ranked
+feed, keep the badge. The compact-row callers and the "keep compact rows for
+everyone" decision are unchanged, and the YouTube note, its tests and the muted
+`ht-note` tier are untouched.
+
+Measured on this head: Python 314 passed (`pytest --collect-only -q` collected the
+same 314); the three Node/browser files 153 passed, 0 failed, 0 skipped. The layout
+contract and the new `visual atomic F21c` fail against the exact base stylesheet
+(2 failed, 1 markup assertion that holds on both sides) and pass here; the RED
+script restores the file and verifies its SHA-256. A browser capture of the
+production bundle with the compiled host CSS records computed `display` for
+`#podcasts .ht-compact .ht-format` = `block` and `#videos .ht-compact .ht-format`
+= `none` at 390px and 1280px, with full-card badges `block`;
+[the receipt](../../../docs/receipts/post30/) holds the images, JSON, logs and
+scripts. `hermes plugins validate .` and `hermes plugins doctor . --ci` both exit
+zero from the plugin folder. The clean enabled-profile probe asserts the scoped
+rule in the shipped stylesheet and the absence of the unscoped one, refuses the
+unconfigured provider with 503 and no outbound request, records one injected
+source outage while the healthy source still succeeds, and succeeds on the
+explicit stub provider with zero outbound requests.
+
+Limit: the screenshots are the fixture harness (real bundle and host stylesheet,
+stub SDK/API, blocked external artwork), not an installed-gateway render or a live
+retrieval. Computed style shows the badge is not removed from the accessibility
+tree; it is not an assistive-technology run.
