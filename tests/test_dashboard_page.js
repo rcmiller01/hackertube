@@ -217,17 +217,17 @@ test("hacker news endorsement is a link line and catalog evidence is a source ca
 
 test("unknown duration and missing art stay unknown", () => {
   assert.equal(page.lengthLine({ format: "video", duration_seconds: null }), "Duration unknown");
-  assert.equal(page.lengthLine({ format: "book", duration_seconds: null }), "Length unknown");
+  assert.equal(page.lengthLine({ format: "book", duration_seconds: null }), null);
   assert.equal(page.lengthLine({ format: "podcast_show", duration_seconds: null }), null);
   assert.equal(page.formatDuration(4257), "1 hour 10 minutes 57 seconds");
   assert.equal(page.artFallback({ format: "video" }), "Video · YouTube");
   assert.equal(page.artFallback({ format: "podcast_show" }), "Podcast · show art unavailable");
-  assert.equal(page.creatorLine({ format: "podcast_episode", contributors: null, show_id: "missing" }, {}), "Contributor unknown. Show: Show unknown");
+  assert.equal(page.creatorLine({ format: "podcast_episode", contributors: null, show_id: "missing" }, {}), "");
 });
 
 test("demo question and disclosure text are the approved lines", () => {
   assert.equal(page.DEMO_QUESTION, "What can I read or listen to by Jane Austen?");
-  assert.match(page.DISCLOSURE, /broader web/);
+  assert.match(page.DISCLOSURE, /sources and the web/);
   assert.match(page.DISCLOSURE, /Browsing is free/);
   assert.equal(page.ORDER_NOTE, "Seeded catalog, in capture order.");
   assert.equal(page.sectionEmpty("Videos", false), "No videos in this catalog.");
@@ -755,10 +755,8 @@ test("LIB02 loaded profile shows the saved item after a fresh page", () => {
     assert.equal(count.children[0], "Library (1 saved)");
     ui.location.hash = "#library";
     ui.listeners.hashchange.forEach((fn) => fn());
-    const opened = ui.find((node) => node.type === "p" && node.children && node.children[0] === "Opened");
-    const notCompleted = ui.find((node) => node.type === "p" && node.children && node.children[0] === "Not completed");
-    assert.ok(opened);
-    assert.ok(notCompleted);
+    const state = ui.find((node) => node.type === "p" && textOf(node) === "Opened · Not completed");
+    assert.ok(state, "library state is one honest metadata line");
   } finally {
     ui.restore();
   }
@@ -803,7 +801,7 @@ test("PREF01 loaded gardening interest stays on the page", () => {
     const item = ui.find((node) => node.type === "li" && node.children && node.children[0] === "gardening");
     assert.ok(item);
     const note = ui.find((node) => node.props && node.props.id === "hackertube-interest-note");
-    assert.match(note.children[0], /not limited to technology/);
+    assert.match(note.children[0], /Any subject, up to 80 characters/);
   } finally {
     ui.restore();
   }
@@ -982,7 +980,7 @@ test("FEED02 the page explains the signals used", () => {
     assert.equal(why, "Matched interest. Recent.");
     assert.doesNotMatch(why, /Community evidence|Hacker News|Recommended|endorsement/);
     const counts = ui.text((node) => node.props && node.props.id === "hackertube-ranked-counts");
-    assert.equal(counts, "Videos 0, Podcasts 0, Books 1, Audiobooks 0.");
+    assert.equal(counts, "Books 1.");
   } finally {
     ui.restore();
   }
@@ -1004,7 +1002,7 @@ test("FEED04 refresh paging and save stay on local routes", () => {
   const ui = mountPage(SAMPLE_CATALOG);
   try {
     ui.calls.length = 0;
-    const refresh = ui.find((node) => (node.children || []).some((child) => child === "Refresh prepared catalog"));
+    const refresh = ui.find((node) => (node.children || []).some((child) => child === "Reload catalog"));
     refresh.props.onClick();
     assert.deepEqual(ui.calls, [
       "/api/plugins/hackertube/catalog",
@@ -1151,7 +1149,7 @@ function assertSparseCoverage(ui, interest) {
   assert.doesNotMatch(ranked, /recommended/i);
   const podcasts = ui.text((node) => node.props && node.props.id === "podcasts");
   assert.match(podcasts, /No podcasts match these interests/);
-  assert.match(podcasts, /More in Podcasts, not matched to your interests/);
+  assert.match(podcasts, /Other podcasts, not matched/);
   assert.match(podcasts, /0 matches/);
   assert.match(podcasts, /The Python Show/);
   assert.doesNotMatch(podcasts, /Matched interest/);
@@ -1220,7 +1218,7 @@ test("FEED06 no matches explain the coverage limit and offer focused search", ()
     assert.doesNotMatch(ranked, /The Python Show/);
     const podcasts = ui.text((node) => node.props && node.props.id === "podcasts");
     assert.match(podcasts, /The Python Show/);
-    assert.match(podcasts, /More in Podcasts, not matched to your interests/);
+    assert.match(podcasts, /Other podcasts, not matched/);
     assert.match(podcasts, /No podcasts match these interests/);
     assert.doesNotMatch(podcasts, /recommended/i);
     const open = ui.find((node) => (node.children || []).some((child) => child === "Open focused search"));
@@ -1236,10 +1234,10 @@ test("FEED07 no interests offer setup and refresh without a personalized claim",
   try {
     const note = ui.text((node) => node.props && node.props.id === "hackertube-feed-note");
     assert.equal(note, page.FEED07_NOTE);
-    assert.match(note, /Nothing here is ranked for you yet/);
+    assert.match(note, /Add an interest to rank this catalog for you/);
     assert.doesNotMatch(note, /personalized recommendations/);
     assert.ok(ui.find((node) => node.props && node.props.id === "hackertube-interest"));
-    assert.ok(ui.find((node) => (node.children || []).some((child) => child === "Refresh prepared catalog")));
+    assert.ok(ui.find((node) => (node.children || []).some((child) => child === "Reload catalog")));
     const videos = ui.text((node) => node.props && node.props.id === "videos");
     assert.match(videos, /No videos in this catalog/);
     const pageText = ui.text((node) => node.props && node.props.className === "hackertube");
@@ -1479,7 +1477,7 @@ test("FEED10 a section lists matches then a not-matched group with no why-line",
   try {
     const books = ui.text((node) => node.props && node.props.id === "books");
     assert.match(books, /1 match/);
-    assert.match(books, /More in Books, not matched to your interests/);
+    assert.match(books, /Other books, not matched/);
     assert.ok(books.indexOf("Emma") < books.indexOf("not matched"));
     assert.ok(books.indexOf("not matched") < books.indexOf("Northanger Abbey"));
     const matches = ui.text((node) => node.props && node.props.id === "books-matches");
@@ -1551,7 +1549,7 @@ test("SEARCH07 browse items are not presented as verified recommendations", () =
   try {
     const audio = ui.text((node) => node.props && node.props.id === "audiobooks");
     assert.match(audio, /0 matches/);
-    assert.match(audio, /More in Audiobooks, not matched to your interests/);
+    assert.match(audio, /Other audiobooks, not matched/);
     assert.match(audio, /Northanger Abbey/);
     assert.doesNotMatch(audio, /Matched interest|recommended|verified/i);
     const ranked = ui.text((node) => node.props && node.props.id === "ranked-feed");
@@ -1640,7 +1638,7 @@ test("JOB09 an unaccepted disclosure alerts and dispatches no request", () => {
   }
 });
 
-test("the panel warns before submitting when the live provider has no key", () => {
+test("the search panel keeps provider management without repeating its static explanation", () => {
   const ui = mountPage(
     SAMPLE_CATALOG,
     page.emptyProfile(),
@@ -1651,14 +1649,8 @@ test("the panel warns before submitting when the live provider has no key", () =
   );
   try {
     openSearchPanel(ui);
-    const note = ui.text((node) => node.props && node.props.id === "hackertube-provider-note");
-    assert.equal(note, page.SEARCH_PROVIDER_NOTE);
-    assert.match(note, /configured Hermes providers/);
-    assert.equal(
-      ui.find((node) => node.props && node.props.id === "hackertube-provider-note").props.role,
-      undefined,
-      "a static note is not a live region",
-    );
+    assert.equal(ui.find(n => n.props.id === "hackertube-provider-note"), null);
+    assert.ok(ui.find(n => n.type === "a" && textOf(n) === "Manage providers in Hermes"));
   } finally {
     ui.restore();
   }
@@ -2216,7 +2208,7 @@ test("the remove control and the controls summary meet the focus and target rule
     "utf8",
   );
   const remove = css.slice(css.indexOf(".hackertube .ht-remove-interest {"), css.indexOf(".hackertube .ht-search input"));
-  assert.match(remove, /min-height:\s*2\.5rem/);
+  assert.match(remove, /min-height:\s*44px/);
   assert.doesNotMatch(remove, /min-height:\s*1\.75rem/);
   const summary = css.slice(
     css.indexOf(".hackertube .ht-feed-controls > summary:focus-visible {"),
@@ -2231,7 +2223,7 @@ test("the refreshed page declares the search schema and disclosure copy", () => 
   assert.match(page.DISCLOSURE_ACK, /credits or quota/);
   assert.equal(page.DISCLOSURE_ACK_ALERT, "Confirm the disclosure before searching.");
   assert.match(page.SEARCH_PROVIDER_NOTE, /configured Hermes providers/);
-  assert.equal(page.DISCLOSURE, "Configured sources and the broader web may be searched. Model, search, and provider credits or quota may be used. Browsing is free.");
+  assert.equal(page.DISCLOSURE, "Search may query your configured sources and the web, and may use model, search, or provider credits or quota. Browsing is free. Search stops at its deadline or when you cancel; a provider may still bill for a request it already accepted.");
 });
 
 
@@ -2419,14 +2411,14 @@ test("Hermes search explains the work-budget limitation before dispatch", () => 
   const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, { provider: "hermes" });
   try {
     openSearchPanel(ui);
-    const note = ui.text((node) => node.props && node.props.id === "hackertube-budget-note");
-    assert.match(note, /stops local work at its deadline/);
-    assert.match(note, /Cancel search stops it early/);
+    const note = ui.text((node) => node.props && node.props.id === "hackertube-disclosure");
+    assert.match(note, /Search stops at its deadline/);
+    assert.match(note, /when you cancel/);
     for (const node of [
       ui.find((node) => node.props && node.props.id === "hackertube-question"),
       ui.find((node) => node.props && node.props.type === "submit" && (node.children || []).includes("Search")),
     ]) {
-      assert.match(node.props["aria-describedby"], /hackertube-budget-note/);
+      assert.match(node.props["aria-describedby"], /hackertube-disclosure/);
     }
     assert.equal(ui.requests.filter((r) => r.init && r.init.method === "POST" && r.url.includes("/search")).length, 0);
   } finally {
@@ -2441,9 +2433,9 @@ test("Hermes work-budget limitation remains visible while the provider has not r
     submitSearch(ui, "AI books for beginners");
     assert.equal(deferred.pending.length, 1);
     assert.equal(ui.find((node) => node.props && node.props.id === "hackertube-job-limits"), null);
-    const note = ui.text((node) => node.props && node.props.id === "hackertube-budget-note");
-    assert.match(note, /stops local work at its deadline/);
-    assert.match(note, /Cancel search stops it early/);
+    const note = ui.text((node) => node.props && node.props.id === "hackertube-disclosure");
+    assert.match(note, /Search stops at its deadline/);
+    assert.match(note, /when you cancel/);
   } finally {
     ui.restore();
   }
@@ -2468,9 +2460,9 @@ test("pending Search cannot hide the Hermes limitation by closing the panel", ()
     ui.find((node) => (node.children || []).includes("Close search")).props.onClick();
     assert.notEqual(ui.find((node) => node.props && node.props.id === "hackertube-search-panel"), null);
     assert.equal(deferred.pending.length, 1);
-    const note = ui.text((node) => node.props && node.props.id === "hackertube-budget-note");
-    assert.match(note, /stops local work at its deadline/);
-    assert.match(note, /Cancel search stops it early/);
+    const note = ui.text((node) => node.props && node.props.id === "hackertube-disclosure");
+    assert.match(note, /Search stops at its deadline/);
+    assert.match(note, /when you cancel/);
   } finally {
     ui.restore();
   }
@@ -2637,7 +2629,7 @@ const YOUTUBE_CATALOG = {
 const isArticle = (node) => node.type === "article";
 
 test("a YouTube card opens the source from one labelled link and does not repeat the bare source name", () => {
-  const ui = mountPage(YOUTUBE_CATALOG);
+  const ui = mountPage(YOUTUBE_CATALOG, page.emptyProfile(), null, { ...harnessDiscovery(YOUTUBE_CATALOG), personalized: true, feed: [YOUTUBE_ITEM.item_id] });
   try {
     const article = ui.find(isArticle);
     assert.ok(article);
@@ -2647,7 +2639,7 @@ test("a YouTube card opens the source from one labelled link and does not repeat
     const links = ui.within(isArticle, (node) =>
       node.type === "a" && node.props && node.props.href === YOUTUBE_ITEM.destination);
     assert.equal(links.length, 1, "one source-opening link per card");
-    assert.equal(links[0].props["aria-label"], "Open “AI introduction” on YouTube");
+    assert.equal(links[0].props["aria-label"], 'Watch "AI introduction" on YouTube');
     assert.match(textOf(links[0]), /Watch on YouTube/, "visible action inside the sole source link");
     const logo = ui.within(isArticle, (node) => node.type === "img");
     assert.equal(logo.length, 1);
@@ -2709,14 +2701,14 @@ test("the model picker row wraps at a narrow viewport", () => {
   assert.match(picker, /max-width:\s*100%/);
 });
 
-test("a non-YouTube card keeps its labelled source link and its destination line", () => {
+test("a non-YouTube card keeps its labelled source link and source in merged metadata", () => {
   const ui = mountPage(SAMPLE_CATALOG);
   try {
     const open = ui.within(isArticle, (node) => node.props && /(^|\s)ht-open(\s|$)/.test(node.props.className || ""));
     assert.equal(open.length, 1);
     assert.equal(open[0].props.href, "https://openlibrary.org/works/OL66513W");
     assert.equal(open[0].props["aria-label"], "Open at source: Open Library");
-    assert.equal(ui.text((node) => node.props && node.props.className === "ht-destination"), "Open Library");
+    assert.match(ui.text((node) => node.props && node.props.className === "ht-meta-line"), /Open Library/);
   } finally {
     ui.restore();
   }
@@ -2838,6 +2830,191 @@ test("N1 a Search that ends while the controls are collapsed expands them before
   } finally {
     ui.restore();
   }
+});
+
+test("visual F3 saved interests collapse controls; first run stays open", () => {
+  for (const interests of [[], ["Jane Austen"]]) {
+    const ui = mountPage(SAMPLE_CATALOG, { ...page.emptyProfile(), interests });
+    try {
+      assert.equal(ui.find(n => n.props.className === "ht-feed-controls").props.open, interests.length === 0);
+      assert.equal(ui.text(n => n.type === "h1"), "Discover");
+    } finally { ui.restore(); }
+  }
+});
+
+test("visual F4 F8 F9 F18 cards remove empty art and merge honest metadata", () => {
+  const ui = mountPage(SAMPLE_CATALOG);
+  try {
+    const card = ui.find(isArticle);
+    assert.equal(ui.within(isArticle, n => /is-fallback/.test(n.props.className || "")).length, 0);
+    assert.doesNotMatch(textOf(card), /Length unknown/);
+    assert.ok(ui.within(isArticle, n => n.props.className === "ht-meta-line").length);
+    const time = ui.within(isArticle, n => n.type === "time")[0];
+    assert.match(textOf(time), /retrieved Nov /);
+    assert.ok(time.props.dateTime);
+    assert.match(time.props.title, /UTC/);
+    const save = ui.within(isArticle, n => n.children[0] === "Save")[0];
+    assert.equal(save.props.outlined, true);
+  } finally { ui.restore(); }
+  assert.equal(page.creatorLine({ format: "podcast_episode", contributors: [] }, {}), "");
+  assert.equal(page.lengthLine({ format: "book" }), null);
+  assert.equal(page.lengthLine({ format: "audiobook", duration_seconds: 29522 }), "8 h 12 min");
+});
+
+test("visual F3 F15 F21 feed retains full cards and sections use compact rows", () => {
+  const feed = harnessDiscovery(SAMPLE_CATALOG);
+  feed.personalized = true;
+  feed.feed = [SAMPLE_CATALOG.catalog.items[0].item_id];
+  feed.sections.books.matches = feed.feed;
+  feed.sections.books.match_count = 1;
+  feed.sections.books.browse_count = 0;
+  feed.sections.books.browse = [];
+  const ui = mountPage(SAMPLE_CATALOG, { ...page.emptyProfile(), interests: ["Jane Austen"] }, null, feed);
+  try {
+    const ranked = n => n.props.id === "ranked-feed";
+    assert.equal(ui.within(ranked, n => n.props.className === "ht-card").length, 1);
+    assert.equal(ui.within(n => n.props.id === "books", n => n.props.className === "ht-card ht-compact").length, 1);
+    assert.equal(ui.within(n => n.props.id === "books", n => /ht-art/.test(n.props.className || "")).length, 0);
+    assert.equal(ui.find(n => n.props.id === "books-browse"), null);
+    const details = ui.within(ranked, n => n.type === "details")[0];
+    assert.equal(textOf(details.children[0]), "How this feed is ordered");
+    assert.match(textOf(details), /Scores are not shown/);
+    assert.equal(ui.text(n => n.props.id === "hackertube-ranked-counts"), "Books 1.");
+  } finally { ui.restore(); }
+});
+
+test("visual F22 T34 T35 T36 search details and one complete credit disclosure", () => {
+  const ui = mountPage(SAMPLE_CATALOG);
+  try {
+    submitSearch(ui, "Jane Austen books");
+    const job = ui.find(n => n.props.className === "ht-job");
+    const detail = findWithin(job, n => n.type === "details");
+    assert.ok(detail);
+    assert.equal(textOf(detail.children[0]), "Search details");
+    assert.ok(findWithin(detail, n => n.props.id === "hackertube-job-limits"));
+    assert.equal(ui.find(n => n.props.id === "hackertube-provider-note"), null);
+    assert.match(ui.text(n => n.props.id === "hackertube-disclosure"), /Search stops at its deadline or when you cancel/);
+    assert.equal(ui.find(n => n.props.id === "hackertube-question").props["aria-describedby"], "hackertube-disclosure");
+    assert.match(ui.text(n => n.props.className === "ht-ack"), /I understand this search may use credits or quota/);
+  } finally { ui.restore(); }
+});
+
+for (const value of [undefined, null, "2", true, -1, NaN, Infinity, -Infinity, 0, 1, 2.5]) {
+  test("visual usage count is finite nonnegative consistently: " + typeof value + " " + String(value), () => {
+    const valid = typeof value === "number" && Number.isFinite(value) && value >= 0;
+    const usage = { requests_used: value };
+    assert.match(page.limitsLine({}, usage), new RegExp("Provider requests used: " + (valid ? String(value).replace(".", "\\.") : "unknown") + "\\."));
+    assert.match(page.searchStatusLine({ usage }), valid ? new RegExp(String(value) + " provider request") : /provider requests unknown/);
+  });
+}
+
+test("visual CSS F1 F2 F5 F6 F7 F10 F11 F12 F13 F15 F16 F17 F19 F23 token layout contract", () => {
+  const css = require("node:fs").readFileSync(require("node:path").join(__dirname, "../hackertube/dashboard/dist/style.css"), "utf8");
+  const rule = selector => {
+    const start = css.indexOf(selector + " {");
+    assert.notEqual(start, -1, selector);
+    return css.slice(start, css.indexOf("}", start));
+  };
+  assert.match(rule(".hackertube .ht-search > form"), /min-width:\s*0/);
+  assert.match(rule(".hackertube .ht-search > form"), /gap:\s*0\.6rem/);
+  assert.match(rule(".hackertube .ht-model-picker select"), /min-width:\s*0/);
+  assert.match(rule(".hackertube .hackertube"), /padding:\s*0/);
+  assert.match(css, /line-height:\s*var\(--theme-line-height, 1\.5\)/);
+  assert.match(rule(".hackertube a:not(.ht-action)"), /text-decoration:\s*underline/);
+  assert.match(rule(".hackertube .ht-remove-interest"), /min-height:\s*44px/);
+  assert.match(rule(".hackertube .ht-art-cover"), /height:\s*12rem/);
+  assert.match(rule(".hackertube .ht-grid"), /repeat\(auto-fill, minmax\(min\(100%, 17rem\), 1fr\)\)/);
+  assert.match(rule(".hackertube .ht-count"), /font-weight:\s*400/);
+  assert.match(rule(".hackertube .ht-format"), /font-size:\s*0\.8125rem/);
+  assert.match(rule(".hackertube .ht-status:empty"), /min-height:\s*0/);
+  assert.match(rule(".hackertube h3"), /font-weight:\s*600/);
+  assert.doesNotMatch(css, /#[0-9a-f]{3,8}\b/i);
+});
+
+function visualFixture() {
+  const feed = harnessDiscovery(SAMPLE_CATALOG);
+  feed.personalized = true;
+  feed.feed = [SAMPLE_CATALOG.catalog.items[0].item_id];
+  feed.sections.books = group(feed.feed, []);
+  return mountPage(SAMPLE_CATALOG, { ...page.emptyProfile(), interests: ["Jane Austen"] }, null, feed);
+}
+
+test("visual atomic F3 ranking notes are in a closed disclosure", () => {
+  const ui = visualFixture();
+  try {
+    const details = ui.within(n => n.props.id === "ranked-feed", n => n.type === "details")[0];
+    assert.ok(details);
+    assert.equal(textOf(details.children[0]), "How this feed is ordered");
+    assert.equal(!!details.props.open, false);
+    assert.ok(findWithin(details, n => n.props.id === "hackertube-signals"));
+    assert.match(textOf(details), /Dismissed and completed items/);
+  } finally { ui.restore(); }
+});
+
+test("visual atomic F4 full feed cards omit unavailable artwork", () => {
+  const ui = visualFixture();
+  try {
+    assert.equal(ui.within(n => n.props.id === "ranked-feed", n => /ht-art/.test(n.props.className || "")).length, 0);
+    assert.doesNotMatch(ui.text(n => n.props.id === "ranked-feed"), /unavailable/);
+  } finally { ui.restore(); }
+});
+
+test("visual atomic F8 full cards have one metadata line and no book length placeholder", () => {
+  const ui = visualFixture();
+  try {
+    assert.equal(ui.within(n => n.props.id === "ranked-feed", n => n.props.className === "ht-meta-line").length, 1);
+    assert.doesNotMatch(ui.text(n => n.props.id === "ranked-feed"), /Length unknown/);
+    assert.equal(ui.within(n => n.props.id === "ranked-feed", n => n.props.className === "ht-destination").length, 0);
+  } finally { ui.restore(); }
+});
+
+test("visual atomic F14 Discover heading keeps the original focus target", () => {
+  const ui = visualFixture();
+  try {
+    const heading = ui.find(n => n.type === "h1");
+    assert.equal(textOf(heading), "Discover");
+    assert.equal(heading.props.id, "discover");
+    assert.equal(heading.props.tabIndex, -1);
+  } finally { ui.restore(); }
+});
+
+test("visual atomic F15 empty browse group renders no heading or placeholder", () => {
+  const ui = visualFixture();
+  try {
+    assert.equal(ui.find(n => n.props.id === "books-browse"), null);
+    assert.doesNotMatch(ui.text(n => n.props.id === "books"), /Nothing else|not matched 0/);
+  } finally { ui.restore(); }
+});
+
+test("visual atomic F18 omit unknown creator parts without losing known parts", () => {
+  assert.equal(page.creatorLine({format:"podcast_episode",contributors:[]}, {}), "");
+  assert.equal(page.creatorLine({format:"podcast_episode",contributors:["NOISER"]}, {}), "NOISER");
+  assert.equal(page.creatorLine({format:"podcast_episode",contributors:[],show_id:"show"}, {show:{title:"A show"}}), "Show: A show");
+  assert.equal(page.creatorLine({format:"podcast_episode",contributors:["A"],show_id:"show"}, {show:{title:"A show"}}), "A. Show: A show");
+});
+
+test("visual atomic F21 section matches are compact but the feed is not", () => {
+  const ui = visualFixture();
+  try {
+    assert.equal(ui.within(n => n.props.id === "books", n => n.props.className === "ht-card ht-compact").length, 1);
+    assert.equal(ui.within(n => n.props.id === "ranked-feed", n => n.props.className === "ht-card").length, 1);
+    assert.equal(ui.within(n => n.props.id === "books", n => n.props.className === "ht-actions").length, 1);
+  } finally { ui.restore(); }
+});
+
+test("visual atomic T copy retains approved boundaries and Library wording", () => {
+  assert.equal(page.FEED07_NOTE, "Add an interest to rank this catalog for you. Reloading does not start a search.");
+  assert.equal(page.SECTION_NOTE, "Each section lists matches first. Items under “not matched” are not recommendations.");
+  const firstRun = mountPage(SAMPLE_CATALOG);
+  try { assert.equal(firstRun.text(n => n.props.id === "hackertube-section-note"), "This list is not personalized. Items with expired evidence are hidden."); }
+  finally { firstRun.restore(); }
+  assert.equal(page.browseHeading("Books"), "Other books, not matched");
+  const ui = visualFixture();
+  try {
+    ui.location.hash = "#library";
+    ui.listeners.hashchange.forEach(fn => fn());
+    assert.equal(ui.text(n => n.props.className === "ht-lead"), "Items you save stay here, across refreshes and restarts.");
+  } finally { ui.restore(); }
 });
 
 test("N2 a Search recovered on page load finishes without moving focus", async () => {

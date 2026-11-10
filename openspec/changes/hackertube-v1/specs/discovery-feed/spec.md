@@ -57,7 +57,7 @@ The ranked feed SHALL disclose insufficient matches and SHALL NOT present unrela
 
 #### Scenario: FEED10 Matches then a labeled browse group
 - **WHEN** a format section contains interest matches and other catalog items of that format
-- **THEN** the matches appear first with why-lines, the other items appear under a not-matched heading with no why-line, and the match count and the browse count are both shown
+- **THEN** the matches appear first with why-lines, the other items appear under a not-matched heading with no why-line, and the match count and the browse count are both shown; format sections use compact rows with title, known creator, honest merged metadata and actions but no art, while the ranked feed keeps full cards; an empty browse group is omitted
 
 ### Requirement: Known-duration filtering
 Duration filters SHALL distinguish known matches from unknown duration and SHALL exclude unknowns when strict matching is selected.

@@ -123,8 +123,9 @@ def test_search01_the_stub_provider_runs_the_demo_question_through_the_route(roo
             info = dashboard.get("/search")
             assert info.status_code == 200
             assert info.json()["disclosure"] == (
-                "Configured sources and the broader web may be searched. "
-                "Model, search, and provider credits or quota may be used. Browsing is free."
+                "Search may query your configured sources and the web, and may use model, "
+                "search, or provider credits or quota. Browsing is free. Search stops at its "
+                "deadline or when you cancel; a provider may still bill for a request it already accepted."
             )
             assert info.json()["job"] is None
             assert info.json()["demo_question"] == QUESTION

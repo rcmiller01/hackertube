@@ -30,7 +30,7 @@ Selecting an item SHALL open its validated public destination through the suppor
 
 #### Scenario: UI04 Open a recommendation
 - **WHEN** the user opens a valid recommendation
-- **THEN** the destination opens and HackerTube neither downloads media nor starts playback itself; a YouTube card has one source-opening link, containing the attribution icon and visible Watch on YouTube text beneath it, with the accessible name Open “<title>” on YouTube
+- **THEN** the destination opens and HackerTube neither downloads media nor starts playback itself; a YouTube card has one source-opening link, containing the attribution icon and visible Watch on YouTube text beneath it, with the accessible name Watch "<title>" on YouTube; compact format-section rows omit art and use a visible Watch on YouTube link with the same accessible name
 
 #### Scenario: UI05 Unsafe destination
 - **WHEN** a destination uses an unsafe scheme or a private-network target
@@ -44,5 +44,5 @@ Navigation, search, filters, saving, dismissal, and source links SHALL have acce
 - **THEN** each action is reachable, has visible focus, and has an accessible name; accepting the privacy policy moves focus to the page heading even without automatic state batching, and its controlled policy section remains mounted with hidden when closed after acceptance; a finished or cancelled Search started in this page session moves focus to the results heading, and a failed one moves focus to its alert, while a Search recovered on page load finishes without moving focus; while Search is stopping, Cancel stays focusable and exposes aria-disabled
 
 #### Scenario: UI07 Collapse feed controls
-- **WHEN** the user collapses the controls between the opening description and Ranked feed
-- **THEN** interest entry, focused search, and section links are hidden together while Discover, Library, and About navigation, the polite status region, catalog and feed alerts, the ranked feed, and a keyboard-operable reopen control remain visible; the reopen control's focus outline uses the host ring color; a feed update caused by a profile write preserves the collapsed state, while a Search started in this page session that ends expands the controls and moves focus to its results heading or its alert (a Search recovered on page load does neither), and reopening preserves entered interests, the question, and Search results
+- **WHEN** the user opens Discover or collapses the controls between the opening description and Ranked feed
+- **THEN** controls start collapsed when stored interests exist and open for a first-time profile without interests; the How this feed is ordered disclosure keeps ranking and policy notes available without occupying the initial feed; when collapsed, interest entry, focused search, and section links are hidden together while Discover, Library, and About navigation, the polite status region, catalog and feed alerts, the ranked feed, and a keyboard-operable reopen control remain visible; the reopen control's focus outline uses the host ring color; a feed update caused by a profile write preserves the collapsed state, while a Search started in this page session that ends expands the controls and moves focus to its results heading or its alert (a Search recovered on page load does neither), and reopening preserves entered interests, the question, and Search results

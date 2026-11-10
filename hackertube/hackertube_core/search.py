@@ -27,8 +27,9 @@ SCHEMA = "hackertube.search/1"
 #: provider activity and must be accepted before a job starts (JOB09,
 #: JOB10). The page renders the same string; a test pins the two together.
 DISCLOSURE = (
-    "Configured sources and the broader web may be searched. "
-    "Model, search, and provider credits or quota may be used. Browsing is free."
+    "Search may query your configured sources and the web, and may use model, "
+    "search, or provider credits or quota. Browsing is free. Search stops at its "
+    "deadline or when you cancel; a provider may still bill for a request it already accepted."
 )
 
 PROVIDER_STUB = "stub"

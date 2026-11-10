@@ -129,3 +129,11 @@ Receipts: docs/receipts/pr19-demo/README.md. Tasks 4.4/4.5/5.1/5.3 retain their 
 - [x] 16.4 Render a plain Search status/request/cost summary from existing data, including unknown non-numeric costs; exercise JOB04.
 - [x] 16.5 Capture the selected long-model picker at 390px with the real host stylesheet, saving actual screenshot and width JSON. This evidence exposes clipping, not passing reflow; repair is separately tracked as t_0544b6fb.
 - [ ] 16.6 Obtain exact-head independent review of the new PR. Required suites and probes have passed; see verification.md and docs/receipts/polish-followups/README.md.
+
+## 17. Approved visual pass (t_59a26348)
+
+- [x] 17.1 Apply Picasso F1-F23 and approved copy, using compact format rows and full ranked-feed cards; preserve HN evidence-only labels, policy controls and Search-end focus.
+- [x] 17.2 Prove saved-interest collapse and keyboard reopen, honest merged metadata, empty-group/art removal, finite usage and repeated announcements with red/green receipts.
+- [x] 17.3 Measure 1280/390 before/after with the compiled host stylesheet; verify both search sizing owners, the long selected model, and YouTube artwork containment.
+- [x] 17.4 Run Python/Node suites, request probes, plugin checks and enabled clean-profile refusal/stub paths. See docs/receipts/visual-pass/README.md.
+- [ ] 17.5 Obtain independent exact-head review of the new visual-pass PR. Open PR only; no merge authorized.

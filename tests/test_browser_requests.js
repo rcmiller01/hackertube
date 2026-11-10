@@ -3,6 +3,17 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const { fixtureItems, labelOf, runBrowserWalk } = require("./browser_net_harness");
 
+async function revealControls(tab) {
+  const controls = tab.locator('details.ht-feed-controls');
+  await controls.waitFor();
+  if (!(await controls.evaluate(el => el.open))) {
+    const summary = controls.locator(':scope > summary');
+    await summary.focus();
+    await summary.press('Enter');
+    await tab.waitForFunction(() => document.querySelector('details.ht-feed-controls').open);
+  }
+}
+
 test("FEED11 background Search completion updates the rendered feed without a reload", async () => {
   const { startFixture, loadNodeModule } = require("./browser_net_harness");
   const fixture = await startFixture(fixtureItems(1).map(item => ({ ...item, art_url: null })));
@@ -51,12 +62,13 @@ test("FEED11 background Search completion updates the rendered feed without a re
     });
     await tab.goto(fixture.origin);
     await tab.locator("#ranked-feed").getByText("Book 1", { exact: true }).waitFor();
+    await revealControls(tab);
     await tab.getByRole("button", { name: "Focused search", exact: true }).click();
     await tab.locator("#hackertube-question").fill("Jane Austen books");
     await tab.locator("#hackertube-disclosure-ack").check();
     await tab.getByRole("button", { name: "Search", exact: true }).click();
     const panel = tab.locator("details.ht-feed-controls");
-    const toggle = panel.locator("summary");
+    const toggle = panel.locator(":scope > summary");
     await toggle.waitFor({ timeout: 1000 });
     await toggle.focus();
     await toggle.press("Enter");
@@ -92,6 +104,8 @@ test("PREF16 interest remove button works by keyboard and stays removed after re
     const tab = await browser.newPage();
     await tab.route("https://covers.openlibrary.org/**", route => route.abort());
     await tab.goto(fixture.origin);
+    await tab.locator('#ranked-feed article').first().waitFor();
+    await revealControls(tab);
     const remove = tab.getByRole("button", { name: "Remove interest Jane Austen", exact: true });
     await remove.waitFor();
     const previousReads = fixture.served.filter(row => row.path.endsWith("/feed")).length;
@@ -170,6 +184,7 @@ test("FEED12 two consecutive searches announce the feed update once each, only a
     };
     await tab.goto(fixture.origin);
     await tab.locator("#ranked-feed").getByText("Book 1", { exact: true }).waitFor();
+    await revealControls(tab);
     await tab.getByRole("button", { name: "Focused search", exact: true }).click();
     await tab.locator("#hackertube-question").fill("Jane Austen books");
     await tab.locator("#hackertube-disclosure-ack").check();

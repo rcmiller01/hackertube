@@ -1,0 +1,70 @@
+{
+  "base": "1de0e625a8d31cb0e664bb4fbd7db49ce522586d",
+  "branch": "hermes/visual-pass",
+  "source_sha256": {
+    "hackertube/dashboard/dist/index.js": "b75caa7ae6f8f9f086b2f32f1e19eff3e16d0ce97aee2dbb4a654825aed82379",
+    "hackertube/dashboard/dist/style.css": "b76aa4856a25477c78bc2eaaab7821bbf5920e0464a021c960ae2e4b95f80aa9",
+    "hackertube/hackertube_core/search.py": "84faa4b9fff9c423ef5efd88f9c8f828f686c22bd7a628e5fd9a043cec71c27b"
+  },
+  "node": {
+    "tests": 151,
+    "pass": 151,
+    "fail": 0,
+    "skipped": 0
+  },
+  "python_passed": 314,
+  "red_regressions": 21,
+  "positive_controls_on_base": 3,
+  "feed12_after": [
+    {
+      "run": 1,
+      "passed": true,
+      "log": "FEED12-1.log"
+    },
+    {
+      "run": 2,
+      "passed": true,
+      "log": "FEED12-2.log"
+    },
+    {
+      "run": 3,
+      "passed": true,
+      "log": "FEED12-3.log"
+    },
+    {
+      "run": 4,
+      "passed": true,
+      "log": "FEED12-4.log"
+    },
+    {
+      "run": 5,
+      "passed": true,
+      "log": "FEED12-5.log"
+    }
+  ],
+  "feed12_baseline_batches": [
+    {
+      "failures": 1,
+      "runs": 5
+    },
+    {
+      "failures": 1,
+      "runs": 5
+    }
+  ],
+  "first_card_offsets": [
+    {
+      "width": 1280,
+      "before": 857.734375,
+      "after": 371.578125,
+      "afterControlsOpen": false
+    },
+    {
+      "width": 390,
+      "before": 1076.6875,
+      "after": 391.078125,
+      "afterControlsOpen": false
+    }
+  ],
+  "scope": "Compiled host CSS and real plugin JS/CSS, stub SDK/API. External artwork blocked, no installed gateway or screen reader claim."
+}
