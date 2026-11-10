@@ -1,0 +1,100 @@
+{
+  "assets": {
+    "compact_badge_rule": true,
+    "note": true,
+    "tap_target_rules": true
+  },
+  "home": "/Users/robert/.hermes/cache/scratch/post29-profile",
+  "policy_accepted": true,
+  "source_outage": {
+    "counts": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "hn_last_error": null,
+    "openlibrary_last_error": "request failed",
+    "sources": [
+      {
+        "attribution": "Open Library. The card links to the work page. Cover hotlinks include that courtesy link.",
+        "blocked_reason": null,
+        "control_note": null,
+        "deletion": "No deletion window is stated for CC0 catalog metadata. Cover files are not stored.",
+        "enabled": true,
+        "formats": [
+          "book"
+        ],
+        "last_attempt_at": "2026-11-10T12:00:00Z",
+        "last_error": "request failed",
+        "last_success_at": null,
+        "name": "Open Library",
+        "refresh": "No maximum refresh period is stated. A seed refresh re-reads the bounded search, and Open Library asks callers to cache when possible.",
+        "retention": "Catalog metadata is CC0. Responses are cached in the seed. Cover image files are not cached.",
+        "role": "catalog",
+        "source_id": "openlibrary",
+        "supported": true
+      },
+      {
+        "attribution": "Hacker News. The line links to the comment on news.ycombinator.com.",
+        "blocked_reason": null,
+        "control_note": null,
+        "deletion": "No deletion API was found. Comment text is not stored, so there is no comment archive to delete.",
+        "enabled": true,
+        "formats": [],
+        "last_attempt_at": "2026-11-10T12:00:00Z",
+        "last_error": null,
+        "last_success_at": "2026-11-10T12:00:00Z",
+        "name": "Hacker News",
+        "refresh": "The API page states no maximum storage or refresh period. Each evidence row keeps its own retrieval time, so a stale row is visible rather than silently refreshed.",
+        "retention": "No reuse license is stated. Stored fields are the comment id, permalink, retrieval time, and the display line. Comment text and usernames are not stored.",
+        "role": "community",
+        "source_id": "hn",
+        "supported": true
+      }
+    ]
+  },
+  "status": {
+    "body": {
+      "data_root": "/Users/robert/.hermes/cache/scratch/post29-profile/plugin-data/hackertube",
+      "name": "HackerTube",
+      "provider": "hermes"
+    },
+    "status_code": 200
+  },
+  "storage": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+  "stub": {
+    "counts": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "provider": "stub",
+    "results": 10,
+    "state": "succeeded",
+    "status": 200,
+    "usage": {
+      "cost_known": false,
+      "cost_usd": null,
+      "paid_calls": 0,
+      "request_counts": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "requests_used": 1
+    }
+  },
+  "unconfigured_refusal": {
+    "body": {
+      "error": "provider_unavailable",
+      "message": "The Hermes search service is unavailable. No request was sent.",
+      "provider": "hermes"
+    },
+    "counts": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "status": 503
+  }
+}

@@ -848,3 +848,51 @@ the second requires ordered blank then notice. Exact arrays assert one notice
 per operation; held-response/no-premature-notice checks remain unchanged. No
 production code changed in this correction. New exact-head results are pinned
 in the PR/card review handoff; independent re-review remains required.
+
+## Post-#29 follow-ups (t_82f152cb)
+
+Branch `hermes/post29-followups`, exact base `a6a65ecb5d6dd7b7b3eabb7e558cbf0a12ac69c2` (#29).
+
+T28 note: the owner picked Picasso's short YouTube note on the card (Nov 10,
+11:35 AM ET), so the visual-pass conservative option (retain the long sentence)
+is superseded. Cards now render "Metadata from YouTube. Explanations and library
+actions are HackerTube’s." in the unchanged muted `ht-note` tier, and
+`tests/test_dashboard_page.js` pins that exact string, curly apostrophe included.
+The sentence no longer claims what YouTube does not provide, and the linked
+official logo remains the single source-opening link.
+
+Compact rows hide the format badge from CSS only
+(`.hackertube .ht-compact .ht-format { display: none; }`); the badge node stays
+in the markup and full cards keep it visible. The compactness decision at the
+section callers is untouched, per the owner's "keep compact rows for everyone".
+The search panel's management link and model `select` are 44px tall: the link
+also needed `display: inline-flex`, because `min-height` does not apply to an
+inline box, so a `min-height`-only change would have measured 20px.
+
+The visual-pass receipt's FEED12 claim is corrected in place rather than
+rewritten: `summary.json` now carries the corrected ten-trial batch at
+`ab71d7a2ed0ba2c697c7fb9fb877c491f5f8eefe` as `feed12_after` (with
+`feed12_after_head`) and keeps the original five-trial batch at
+`7b839c4ac245fc63cb85adce967c2fc4d8a671b2` under `feed12_history`, marked
+superseded by [round1/README.md](../../../docs/receipts/visual-pass/round1/README.md).
+`summarize.py` derives both from the raw logs, so regenerating the summary cannot
+reintroduce the disproven claim.
+
+Measured on this head: Python 314 passed; the three Node/browser files 151
+passed, 0 failed, 0 skipped; FEED12 five consecutive passes. The two new
+assertions fail against the exact base production bytes (2 failed, 1 positive
+control that asserts the badge node is present) and pass on this head. A browser
+capture of the production bundle with the compiled host CSS asserts the exact
+note text, `display: none` on compact badges, a visible full-card badge, 44px
+targets and no clipping at 390px and 1280px;
+[the receipt](../../../docs/receipts/post29/) holds the images, geometry JSON,
+logs and scripts. `hermes plugins validate .` and `hermes plugins doctor . --ci`
+both exit zero from the plugin folder; the clean enabled-profile probe accepts
+privacy, refuses the unconfigured provider with 503 and no outbound request,
+records one injected source outage while the healthy source still succeeds, and
+succeeds on the explicit stub provider with zero outbound requests.
+
+Limit: the screenshots are the fixture harness (real bundle and host stylesheet,
+stub SDK/API, blocked external artwork), not an installed-gateway render or a
+live retrieval. A native `select` still truncates a long selected label inside
+its own control; the control and its neighbours fit the viewport.

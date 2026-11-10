@@ -1678,8 +1678,8 @@
               renderEvidence(item, evidence, sources, length),
               whyText(whyLines),
               note ? h("p", { className: "ht-meta" }, note) : null,
-              // Keep the established attribution wording; only its visual tier changes.
-              String(item.item_id || "").indexOf("youtube:") === 0 ? h("p", { className: "ht-note" }, "YouTube metadata. Relevance explanations and library actions are HackerTube features, not from YouTube.") : null,
+              // T28: approved short attribution note, secondary tier only.
+              String(item.item_id || "").indexOf("youtube:") === 0 ? h("p", { className: "ht-note" }, "Metadata from YouTube. Explanations and library actions are HackerTube’s.") : null,
               inLibrary
                 ? h("p", { className: "ht-meta" },
                     (itemState(profile, item.item_id).opens.length ? "Opened" : "Not opened") + " · " +

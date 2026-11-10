@@ -14,18 +14,28 @@ node = (OUT/'node.log').read_text()
 pytest = (OUT/'pytest.log').read_text()
 node_counts = {name:int(re.search(r'(?:ℹ |# )'+name+r' (\d+)',node).group(1)) for name in ['tests','pass','fail','skipped']}
 python_count = int(re.search(r'(\d+) passed',pytest).group(1))
+# The original five-trial batch at 7b839c4 is history: independent review found
+# the flake still live. The corrected candidate's ten consecutive trials in
+# round1/ are the result of record (see round1/README.md).
+FEED12_HEAD = 'ab71d7a2ed0ba2c697c7fb9fb877c491f5f8eefe'
+FEED12_HISTORY_HEAD = '7b839c4ac245fc63cb85adce967c2fc4d8a671b2'
 trials = []
+for index in range(1,11):
+    text = (OUT/'round1'/f'FEED12-{index}.log').read_text()
+    assert re.search(r'(?:ℹ |# )fail 0\b',text), text
+    trials.append({'run':index,'passed':True,'log':f'round1/FEED12-{index}.log'})
+history = []
 for index in range(1,6):
     text = (OUT/f'FEED12-{index}.log').read_text()
     assert re.search(r'(?:ℹ |# )fail 0\b',text), text
-    trials.append({'run':index,'passed':True,'log':f'FEED12-{index}.log'})
+    history.append({'run':index,'passed':True,'log':f'FEED12-{index}.log'})
 measures = [{'width':a['width'],'before':b['firstFeedCardTop'],'after':a['firstFeedCardTop'],'afterControlsOpen':a['controlsOpen']} for b,a in zip(before['viewports'],after['viewports'])]
 files = ['hackertube/dashboard/dist/index.js','hackertube/dashboard/dist/style.css','hackertube/hackertube_core/search.py']
-summary = {'base':red['base'],'branch':'hermes/visual-pass','source_sha256':{name:hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in files},'node':node_counts,'python_passed':python_count,'red_regressions':len(red['failingSubtests']),'positive_controls_on_base':3,'feed12_after':trials,'feed12_baseline_batches':[{'failures':sum(row['exit']!=0 for row in rate['runs']),'runs':len(rate['runs'])} for rate in rates],'first_card_offsets':measures,'scope':'Compiled host CSS and real plugin JS/CSS, stub SDK/API. External artwork blocked, no installed gateway or screen reader claim.'}
+summary = {'base':red['base'],'branch':'hermes/visual-pass','source_sha256':{name:hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in files},'node':node_counts,'python_passed':python_count,'red_regressions':len(red['failingSubtests']),'positive_controls_on_base':3,'feed12_after':trials,'feed12_after_head':FEED12_HEAD,'feed12_history':{'head':FEED12_HISTORY_HEAD,'supersededBy':'round1/README.md','trials':history},'feed12_baseline_batches':[{'failures':sum(row['exit']!=0 for row in rate['runs']),'runs':len(rate['runs'])} for rate in rates],'first_card_offsets':measures,'scope':'Compiled host CSS and real plugin JS/CSS, stub SDK/API. External artwork blocked, no installed gateway or screen reader claim.'}
 (OUT/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
 table = '| Check | Measured outcome |\n|---|---|\n'
 table += f'| Python | {python_count} passed |\n| Node/browser | {node_counts["pass"]} passed, {node_counts["fail"]} failed, {node_counts["skipped"]} skipped |\n'
-table += f'| New regressions on base | {len(red["failingSubtests"])} failed; 3 positive controls passed |\n| FEED12 fixed | {len(trials)}/{len(trials)} consecutive passes |\n'
+table += f'| New regressions on base | {len(red["failingSubtests"])} failed; 3 positive controls passed |\n| FEED12 fixed | {len(trials)}/{len(trials)} consecutive passes at {FEED12_HEAD[:7]} |\n'
 for row in measures: table += f'| First card top at {row["width"]}px | {row["before"]:.2f}px before → {row["after"]:.2f}px after |\n'
 (OUT/'summary-table.md').write_text(table)
 print(table)

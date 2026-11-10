@@ -139,6 +139,12 @@
   min-width: 0;
   width: 100%;
   max-width: 100%;
+  min-height: 44px;
+}
+.hackertube .ht-model-picker a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 .hackertube .ht-feed-controls {
   margin: 1rem 0;
@@ -303,6 +309,8 @@
 .hackertube .ht-card .ht-actions { margin-top: auto; padding-top: 0.4rem; }
 .hackertube .ht-evidence p { margin: 0; }
 .hackertube .ht-compact > div { padding-block: 0.75rem; }
+/* The compact row's format badge repeats the section heading it sits under. */
+.hackertube .ht-compact .ht-format { display: none; }
 .hackertube .ht-art {
   aspect-ratio: 16 / 9;
   align-self: stretch;

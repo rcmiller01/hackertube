@@ -19,29 +19,86 @@
     {
       "run": 1,
       "passed": true,
-      "log": "FEED12-1.log"
+      "log": "round1/FEED12-1.log"
     },
     {
       "run": 2,
       "passed": true,
-      "log": "FEED12-2.log"
+      "log": "round1/FEED12-2.log"
     },
     {
       "run": 3,
       "passed": true,
-      "log": "FEED12-3.log"
+      "log": "round1/FEED12-3.log"
     },
     {
       "run": 4,
       "passed": true,
-      "log": "FEED12-4.log"
+      "log": "round1/FEED12-4.log"
     },
     {
       "run": 5,
       "passed": true,
-      "log": "FEED12-5.log"
+      "log": "round1/FEED12-5.log"
+    },
+    {
+      "run": 6,
+      "passed": true,
+      "log": "round1/FEED12-6.log"
+    },
+    {
+      "run": 7,
+      "passed": true,
+      "log": "round1/FEED12-7.log"
+    },
+    {
+      "run": 8,
+      "passed": true,
+      "log": "round1/FEED12-8.log"
+    },
+    {
+      "run": 9,
+      "passed": true,
+      "log": "round1/FEED12-9.log"
+    },
+    {
+      "run": 10,
+      "passed": true,
+      "log": "round1/FEED12-10.log"
     }
   ],
+  "feed12_after_head": "ab71d7a2ed0ba2c697c7fb9fb877c491f5f8eefe",
+  "feed12_history": {
+    "head": "7b839c4ac245fc63cb85adce967c2fc4d8a671b2",
+    "supersededBy": "round1/README.md",
+    "trials": [
+      {
+        "run": 1,
+        "passed": true,
+        "log": "FEED12-1.log"
+      },
+      {
+        "run": 2,
+        "passed": true,
+        "log": "FEED12-2.log"
+      },
+      {
+        "run": 3,
+        "passed": true,
+        "log": "FEED12-3.log"
+      },
+      {
+        "run": 4,
+        "passed": true,
+        "log": "FEED12-4.log"
+      },
+      {
+        "run": 5,
+        "passed": true,
+        "log": "FEED12-5.log"
+      }
+    ]
+  },
   "feed12_baseline_batches": [
     {
       "failures": 1,
