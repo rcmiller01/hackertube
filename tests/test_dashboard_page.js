@@ -2766,6 +2766,33 @@ test("a failed feed refresh after a Search never announces the success", () => {
   }
 });
 
+test("only a Search's own feed refresh announces the search update", () => {
+  const deferred = { pending: [] };
+  const feed = { hold: false, pending: [] };
+  const profile = { schema: page.PROFILE_SCHEMA, interests: ["gardening"], items: [] };
+  const ui = mountPage(SAMPLE_CATALOG, profile, () => ({ ...profile, interests: [] }), null, null, null, deferred, null, null, feed);
+  try {
+    const statusText = () => ui.text((node) => node.props && node.props.className === "ht-status");
+    feed.hold = true;
+    submitSearch(ui, "What can I read by Jane Austen?");
+    deferred.pending[0].onOk(defaultSearchResult());
+    feed.pending.shift().onOk(harnessDiscovery(SAMPLE_CATALOG));
+    assert.equal(statusText(), "Feed updated from this search.");
+    // A later refresh belongs to the profile write, not to that Search: it must
+    // keep the writer's own message instead of repeating the search notice.
+    ui.requests.length = 0;
+    const remove = ui.find((node) => node.props && node.props["aria-label"] === "Remove interest gardening");
+    remove.props.onClick();
+    assert.equal(feed.pending.length, 1, "the profile write re-reads the feed");
+    assert.match(statusText(), /Removed interest gardening\./);
+    feed.pending.shift().onOk(harnessDiscovery(SAMPLE_CATALOG));
+    assert.match(statusText(), /Removed interest gardening\./, "the profile write keeps its own message");
+    assert.doesNotMatch(statusText(), /Feed updated from this search/);
+  } finally {
+    ui.restore();
+  }
+});
+
 test("N1 a Search that ends while the controls are collapsed expands them before moving focus", () => {
   const deferred = { pending: [] };
   const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, deferred);

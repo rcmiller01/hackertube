@@ -731,7 +731,7 @@ Gate: zero failures.
 
 `python -m pytest tests -q`: **314 passed, 0 failed**, one existing
 Starlette/httpx warning. `node --test tests/test_dashboard_page.js
-tests/test_browser_requests.js tests/test_privacy_browser.js`: **106 passed, 0
+tests/test_browser_requests.js tests/test_privacy_browser.js`: **110 passed, 0
 failed, 0 skipped** (99 at base). `bypass_probe.py`, `red_against_main.py` and
 `probe.py` each exited 0. `hermes plugins validate .` and
 `hermes plugins doctor . --ci` both exited 0. Strict OpenSpec validation: 1
@@ -746,3 +746,25 @@ scenario text changed. Not claimed:
 an installed-host render of the change, or any assistive-technology run.
 Full scope, logs, measurements and limits:
 [design-followups receipt](../../../docs/receipts/design-followups/README.md).
+
+### Review rework at head `8432b904`: the announcement lifecycle and the N2 exception
+
+The re-review found that finding 9 wrote the notice at the terminal Search
+before the `/feed` reread that re-ranks the feed had resolved, and that a second
+Search with the same sentence made no live-region change; and that the
+reconciliation left UI06/UI07 promising focus and expansion for a recovered
+Search that does neither.
+
+| Item | Check |
+|---|---|
+| Notice after acceptance | A terminal Search leaves a one-shot claim that the `/feed` reread consumes; the region is written only when `acceptDiscovery` accepts that response. Tests: `a finished Search announces the feed update once, after the feed refresh is accepted`; `a failed feed refresh after a Search never announces the success`; `only a Search's own feed refresh announces the search update`; browser `FEED12`. |
+| One fresh announcement per Search | A repeated sentence blanks the region and re-sets it on the next frame. Test: `two consecutive searches each announce the feed update once`; browser `FEED12` observes `["", "Feed updated from this search."]` for the second Search with a MutationObserver on `.ht-status`. |
+| Red first | `docs/receipts/design-followups/red-announcement.log`: the node suite with the bundle at the reviewed head — 109 run, 105 pass, 4 fail. |
+| Mutation evidence | `docs/receipts/design-followups/red-mutations-announcement.log`: 4 single-piece mutations, each red in its named test, file restored. |
+| UI06/UI07 qualification | Both scenarios now distinguish a Search started in this page session from a recovered one; no product decision changed. Strict validation and coverage still pass. |
+
+`python -m pytest tests -q`: **314 passed, 0 failed**. Node/browser: **110
+passed, 0 failed, 0 skipped**. Probes and both plugin checks exit 0; strict
+OpenSpec 1 passed / 0 failed; coverage PASS. Not claimed: a measured
+screen-reader utterance (the evidence is observed DOM mutations), or a render of
+the change under an installed host gateway.
