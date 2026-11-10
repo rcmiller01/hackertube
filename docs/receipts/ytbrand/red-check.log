@@ -1,0 +1,31 @@
+[compact-row icon] node exit=1
+   ✖ failing tests: | ✖ a compact YouTube row keeps the official linked Icon and the short note (2.230375ms) | ✖ a compact YouTube row keeps the official linked Icon with a 44px tap target (30316.039708ms)
+[compact-row icon] restored identical=True
+[compact-row icon] RED CONFIRMED=True
+
+[youtube thumbnail] node exit=1
+   ✖ a YouTube card shows the unaltered thumbnail beside the linked official Icon (2.765ms) | ✖ a thumbnail that fails to load falls back to the official Icon without a broken image (0.341125ms) | ✖ a YouTube card hotlinks the unaltered thumbnail beside the linked Icon (30293.42325ms)
+[youtube thumbnail] restored identical=True
+[youtube thumbnail] RED CONFIRMED=True
+
+[thumbnail fallback] node exit=1
+   ✖ failing tests: | ✖ a thumbnail that fails to load falls back to the official Icon without a broken image (2.235792ms) | ✖ a YouTube thumbnail that fails to load leaves the linked Icon and no broken image (30313.193959ms)
+[thumbnail fallback] restored identical=True
+[thumbnail fallback] RED CONFIRMED=True
+
+[computed badge scope] node exit=1
+   ℹ fail 1 | ✖ failing tests: | ✖ compact format badges are measured in the browser, not read from the stylesheet (30326.82525ms)
+[computed badge scope] restored identical=True
+[computed badge scope] RED CONFIRMED=True
+
+[retrieval art_check wiring] pytest exit=1
+   1 failed in 0.04s
+[retrieval art_check wiring] restored identical=True
+[retrieval art_check wiring] RED CONFIRMED=True
+
+[adapter thumbnail parse] pytest exit=1
+   1 failed in 0.02s
+[adapter thumbnail parse] restored identical=True
+[adapter thumbnail parse] RED CONFIRMED=True
+
+ALL RED CHECKS CONFIRMED

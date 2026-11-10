@@ -125,9 +125,11 @@ The dashboard now rereads the local catalog and interest-ranked feed once when t
 
 Missing artwork is currently an implementation limitation, rather than a missing model or search credential:
 
-- YouTube: `adapters/youtube.py` intentionally produces blank artwork even for hydrated Data API records. `renderArt` in the dashboard substitutes the YouTube branding image for every YouTube item before checking artwork. Both paths would need updating for actual thumbnails. The configured YouTube integration already retrieves video metadata.
+- YouTube: **updated November 10.** `adapters/youtube.py` keeps the largest official `https` thumbnail URL from `snippet.thumbnails` on the existing keyed `videos.list` payload and stores it only after a display check: one `free` GET of the public thumbnail host that reads the status and content type and never reads the image body. No Data API, oEmbed, metered, or paid call was added, and no image bytes are downloaded or cached (Developer Policies III.E.1). The dashboard hotlinks the stored URL, shows it unaltered (its own aspect ratio, no crop, no overlay), and keeps the official linked Icon beside it. A record without a display-cleared thumbnail, or an image that fails to load, shows the linked Icon only.
 - Apple podcasts/audiobooks: `adapters/itunes.py` deliberately omits artwork because the current cards lack the required store-badge presentation described by its policy. Another API key does not change this.
 - Open Library: `adapters/openlibrary.py` emits blank artwork for new results; cover use is only assigned when building the curated seed. The dashboard renders approved seed hotlinks, explaining why some older books have covers while new ones do not.
 - Podcast Index: its adapter emits blank artwork independently of credential availability. Adding its missing key/secret can improve podcast coverage but does not enable artwork in these adapters.
 
 No artwork behavior is changed here. A dedicated artwork follow-up should map provider-supplied images and attribution through adapters, stored records, and rendering, with source-specific lifecycle checks.
+
+**November 10 update:** the YouTube half of that follow-up is done, as described above. The other providers are unchanged.

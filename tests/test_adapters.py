@@ -70,6 +70,130 @@ def test_youtube_doc_sample_and_unknown_duration():
     assert parsed.items[0].duration_seconds is None
 
 
+def _video_payload(thumbnails):
+    payload = json.loads(DOC.read_text())
+    if thumbnails is None:
+        payload["items"][0]["snippet"].pop("thumbnails", None)
+    else:
+        payload["items"][0]["snippet"]["thumbnails"] = thumbnails
+    return payload
+
+
+THUMBNAILS = {
+    "default": {"url": "https://i.ytimg.com/vi/docSampleId/default.jpg", "width": 120, "height": 90},
+    "medium": {"url": "https://i.ytimg.com/vi/docSampleId/mqdefault.jpg", "width": 320, "height": 180},
+    "high": {"url": "https://i.ytimg.com/vi/docSampleId/hqdefault.jpg", "width": 480, "height": 360},
+}
+HQ = THUMBNAILS["high"]["url"]
+
+
+def test_youtube_stores_the_api_thumbnail_only_after_a_display_clear_answer():
+    seen = []
+
+    def cleared(url):
+        seen.append(url)
+        return True
+
+    parsed = youtube.parse_data_api(_video_payload(THUMBNAILS), NOW, cleared)
+    item = parsed.items[0]
+    assert seen == [HQ], "the largest official thumbnail is the one checked"
+    assert item.art_url == HQ
+    assert item.art_hotlink is True
+    assert item.art_cache is False, "a hotlink is never cached as bytes"
+    assert item.art_http_status == 200
+    assert item.art_checked_at == NOW
+    assert "snippet.thumbnails" not in parsed.ignored_fields
+
+    blank = youtube.parse_data_api(_video_payload(THUMBNAILS), NOW)
+    assert blank.items[0].art_url is None, "no display check means no artwork"
+    assert blank.items[0].art_hotlink is False
+
+    refused = youtube.parse_data_api(_video_payload(THUMBNAILS), NOW, lambda url: False)
+    assert refused.items[0].art_url is None
+    assert refused.items[0].art_reason == youtube.UNCLEARED_THUMBNAIL_REASON
+
+
+def test_youtube_never_uses_a_thumbnail_url_it_was_not_given():
+    for thumbnails in (
+        None,
+        {"high": {"url": "https://i.ytimg.com.evil.example/vi/docSampleId/hq.jpg"}},
+        {"high": {"url": "http://i.ytimg.com/vi/docSampleId/hqdefault.jpg"}},
+        {"high": {"url": "https://example.com/vi/docSampleId/hqdefault.jpg"}},
+        {"high": {"url": "/vi/docSampleId/hqdefault.jpg"}},
+        {"high": "not-a-table"},
+    ):
+        parsed = youtube.parse_data_api(_video_payload(thumbnails), NOW, lambda url: True)
+        assert parsed.items[0].art_url is None, thumbnails
+        assert parsed.items[0].art_reason == youtube.NO_THUMBNAIL_REASON
+    # A payload without thumbnails never asks for a synthesized URL either.
+    assert youtube.thumbnail_url({}) is None
+    assert youtube.thumbnail_url({"thumbnails": {"high": {"url": "https://i.ytimg.com/vi/x/hq.jpg"}}}) == (
+        "https://i.ytimg.com/vi/x/hq.jpg"
+    )
+
+
+def test_youtube_thumbnail_display_check_is_a_free_image_read(monkeypatch):
+    calls = []
+
+    def status(url, **kwargs):
+        calls.append((url, kwargs))
+        return {"status": 200, "content_type": "image/jpeg; charset=utf-8"}
+
+    monkeypatch.setattr("hackertube_core.adapters.youtube.read_image_status", status)
+    assert youtube.thumbnail_is_display_clear(HQ) is True
+    assert calls[0][0] == HQ
+    assert calls[0][1]["classification"] == outbound.FREE, "a public image read is free"
+    assert "cost" not in calls[0][1]
+
+    # The real transport helper counts one free attempt and reads headers only.
+    from hackertube_core.http import read_image_status
+
+    class Response:
+        status = 200
+        headers = {"Content-Type": "image/jpeg"}
+        read_called = False
+
+        def read(self, *args):
+            self.read_called = True
+            raise AssertionError("the image body must not be downloaded")
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *exc):
+            return False
+
+    class Opener:
+        def __init__(self):
+            self.response = Response()
+
+        def open(self, request, timeout=None):
+            return self.response
+
+    opener = Opener()
+    with outbound.request_scope() as scope:
+        answer = read_image_status(
+            HQ,
+            classification=outbound.FREE,
+            opener=opener,
+            resolve=lambda host, port=None, *args, **kwargs: [(0, 0, 6, "", ("1.1.1.1", 0))],
+        )
+    assert answer == {"status": 200, "content_type": "image/jpeg"}
+    assert opener.response.read_called is False
+    assert scope.counters() == {"free": 1, "paid": 0, "metered": 0}
+
+    monkeypatch.setattr(
+        "hackertube_core.adapters.youtube.read_image_status",
+        lambda url, **kwargs: {"status": 200, "content_type": "text/html"},
+    )
+    assert youtube.thumbnail_is_display_clear(HQ) is False, "a non-image answer is not display-cleared"
+    monkeypatch.setattr(
+        "hackertube_core.adapters.youtube.read_image_status",
+        lambda url, **kwargs: {"status": 404, "content_type": "image/jpeg"},
+    )
+    assert youtube.thumbnail_is_display_clear(HQ) is False
+
+
 def test_oembed_fetch_is_disabled():
     seen = {}
 

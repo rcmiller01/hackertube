@@ -372,6 +372,25 @@ class SourceRetriever:
 
                 def video():
                     headers = {"X-Goog-Api-Key": key}
+                    cleared = {}
+
+                    def art_check(url):
+                        """Is this Data API thumbnail safe to show, unaltered?
+
+                        The image check is a FREE read of the public thumbnail
+                        host. It is not a Data API call: it spends no quota, is
+                        never labelled metered or paid, and takes no slot from
+                        the Search work budget. It does respect the deadline.
+                        """
+                        if url in cleared:
+                            return cleared[url]
+                        budget.remaining()
+                        try:
+                            cleared[url] = youtube.thumbnail_is_display_clear(url)
+                        except Exception:
+                            cleared[url] = False
+                        return cleared[url]
+
                     payload = budget.read(
                         "https://www.googleapis.com/youtube/v3/search?"
                         + urlencode(
@@ -409,7 +428,7 @@ class SourceRetriever:
                         classification=outbound.METERED,
                         headers=headers,
                     )
-                    parsed = youtube.parse_data_api(payload, now)
+                    parsed = youtube.parse_data_api(payload, now, art_check)
                     # Only a structurally valid successful response can invalidate
                     # previously stored IDs; transport/provider failures cannot.
                     if isinstance(payload, dict) and payload.get("kind") == "youtube#videoListResponse":
