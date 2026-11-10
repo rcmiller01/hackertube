@@ -1,0 +1,36 @@
+{
+  "rows": [
+    {
+      "width": 390,
+      "base_rowHeight": 358.7,
+      "head_rowHeight": 471,
+      "delta": 112.3,
+      "base_markFileHeight": 100,
+      "head_markFileHeight": 186,
+      "base_visibleMarkHeight": 53.86,
+      "head_visibleMarkHeight": 100.18,
+      "base_sideWidth": null,
+      "head_sideWidth": 344.6,
+      "base_flexDirection": null,
+      "head_flexDirection": "column",
+      "base_fullCardHeight": 772.8,
+      "head_fullCardHeight": 858.8
+    },
+    {
+      "width": 1280,
+      "base_rowHeight": 318,
+      "head_rowHeight": 234,
+      "delta": -84,
+      "base_markFileHeight": 100,
+      "head_markFileHeight": 186,
+      "base_visibleMarkHeight": 53.86,
+      "head_visibleMarkHeight": 100.18,
+      "base_sideWidth": null,
+      "head_sideWidth": 344.6,
+      "base_flexDirection": null,
+      "head_flexDirection": "row",
+      "base_fullCardHeight": 755,
+      "head_fullCardHeight": 841
+    }
+  ]
+}

@@ -368,7 +368,7 @@
 .hackertube .ht-art.ht-youtube-brand { height: auto; min-height: 180px; max-height: none; aspect-ratio: auto; }
 .hackertube .ht-art.ht-youtube-brand a { display: inline-block; padding: 40px; }
 .hackertube .ht-art.ht-youtube-brand .ht-youtube-action { display: block; margin-top: 40px; }
-.hackertube .ht-art.ht-youtube-brand img { height: 100px; width: auto; max-width: none; object-fit: contain; }
+.hackertube .ht-art.ht-youtube-brand img { height: 186px; width: auto; max-width: none; object-fit: contain; }
 /* Unaltered YouTube thumbnail: the image's own aspect ratio, no crop, no
    overlay, and no corner radius. A border-radius clips the image's corners,
    which alters it, so the rule carries none — and no wrapper of the thumbnail
@@ -390,9 +390,12 @@
 }
 /* Compact rows keep the same unmodified image at a row-sized width. */
 .hackertube .ht-thumb-compact { width: 6.5rem; flex: 0 0 auto; }
-/* Compact-row attribution: the official linked Icon at the brand site's
-   published 100px digital minimum height, beside the thumbnail. The link is
-   the tap target (>=44px), so the mark is never shrunk to fit. */
+/* Compact-row attribution: the official linked Icon. The brand site's published
+   100px digital minimum applies to the VISIBLE red mark, not to the PNG file
+   box, and the official file ships with built-in clear space: the mark occupies
+   578/1075 of the image height. Drawing the image at 186px therefore renders the
+   mark at 100px (186 x 0.538). The link is the tap target (>=44px), so the mark
+   is never shrunk to fit. */
 .hackertube .ht-youtube-compact {
   display: flex;
   flex-wrap: wrap;
@@ -410,9 +413,40 @@
   padding: 0.5rem;
 }
 .hackertube .ht-youtube-compact a img {
-  height: 100px;
+  height: 186px;
   width: auto;
   max-width: none;
   object-fit: contain;
   display: block;
+}
+/* Compact YouTube row layout. Below 640px the logo + thumbnail block stacks
+   above the row text, exactly as before. At 640px and up they share a side
+   column beside the text, so the row no longer stacks the art above it. The
+   wrapper clips nothing (see the unaltered-thumbnail note above); it only
+   arranges the two parts. Full cards never use these wrappers. */
+.hackertube .ht-compact-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  width: 100%;
+  min-width: 0;
+}
+.hackertube .ht-compact-main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  width: 100%;
+  min-width: 0;
+}
+.hackertube .ht-compact-side { min-width: 0; }
+@media (min-width: 640px) {
+  .hackertube .ht-compact-row {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .hackertube .ht-compact-side { flex: 0 0 auto; }
+  .hackertube .ht-compact-main { flex: 1 1 auto; }
 }

@@ -1,0 +1,46 @@
+{
+  "home": "/Users/robert/.hermes/cache/scratch/p32-cp-1794354407",
+  "page": "/Users/robert/.hermes/cache/scratch/p32-cp-1794354407/plugins/hackertube/dashboard/dist/index.js",
+  "style": "/Users/robert/.hermes/cache/scratch/p32-cp-1794354407/plugins/hackertube/dashboard/dist/style.css",
+  "foreignHost": {
+    "label": "non-YouTube host",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "fullCardIconBox": {
+      "x": 54.1875,
+      "y": 509.96875,
+      "width": 297.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "foreignRequests": 0
+  },
+  "failedLoad": {
+    "label": "official host, image fails to load",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "fullCardIconBox": {
+      "x": 54.1875,
+      "y": 509.96875,
+      "width": 297.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s."
+  }
+}

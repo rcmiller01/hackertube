@@ -49,6 +49,51 @@ def test_community_mention_cannot_extend_youtube_metadata_retention():
     assert not active.evidence, "Discard evidence pointing to purged metadata too"
 
 
+def test_stored_youtube_thumbnail_url_is_dropped_at_the_30_day_read_boundary():
+    """Developer Policies III.E.4.d: metadata and its thumbnail URL age together.
+
+    The adapter sets ``refresh_after = retrieved_at + 30 days`` on the YouTube
+    catalog evidence and stores the hotlinked thumbnail URL on the same item.
+    ``without_expired`` is the read-time filter every profile read runs
+    (``profile.py`` uses it for the catalog and the stored search), so the URL is
+    served only while its metadata is unexpired and disappears with the item at
+    the deadline -- it is dropped at read time, never refreshed in place.
+    """
+    thumb = "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg"
+    video = item(
+        "youtube:LCEmiRjPEtQ",
+        "video",
+        "Gardening lesson",
+        art_url=thumb,
+        art_hotlink=True,
+        art_cache=False,
+        art_checked_at="2026-11-06T12:22:23Z",
+        art_http_status=200,
+    )
+    cat = build(
+        [video],
+        [
+            evidence(
+                "youtube:LCEmiRjPEtQ",
+                video["item_id"],
+                "youtube",
+                refresh_after="2026-12-06T12:22:23Z",
+            )
+        ],
+        [source("youtube", "YouTube")],
+    )
+    fresh = without_expired(cat, "2026-12-06T12:22:22Z")
+    assert [row.art_url for row in fresh.items] == [thumb], (
+        "a stored thumbnail URL is served while its metadata is within 30 days"
+    )
+    expired = without_expired(cat, "2026-12-06T12:22:23Z")
+    assert not expired.items, "at the 30-day deadline the item is dropped, not refreshed in place"
+    assert not expired.evidence
+    assert all(row.art_url != thumb for row in expired.items), (
+        "the stored thumbnail URL leaves with the expired metadata"
+    )
+
+
 def test_failed_paid_web_attempt_keeps_total_cost_unknown(tmp_path):
     def invoke(raw):
         if json.loads(raw)["stage"] == "interpret":
