@@ -1,0 +1,458 @@
+✖ SEARCH01 the Search control posts the question with the accepted disclosure (3.687834ms)
+✖ search helpers format a cost, a limit, and a refusal without a score (0.255875ms)
+✖ plain Search status summary: known cost (0.090958ms)
+✖ plain Search status summary: zero cost (0.049708ms)
+✖ plain Search status summary: missing cost (0.040541ms)
+✖ plain Search status summary: unconfirmed cost (0.048417ms)
+✖ plain Search status summary: non-numeric or non-finite cost 0.02 (0.045917ms)
+✖ plain Search status summary: non-numeric or non-finite cost null (0.043208ms)
+✖ plain Search status summary: non-numeric or non-finite cost true (0.052333ms)
+✖ plain Search status summary: non-numeric or non-finite cost undefined (0.071333ms)
+✖ plain Search status summary: non-numeric or non-finite cost NaN (0.040334ms)
+✖ plain Search status summary: non-numeric or non-finite cost Infinity (0.031291ms)
+✖ plain Search status summary: queued (0.046ms)
+✖ plain Search status summary: running (0.025167ms)
+✖ plain Search status summary: partial (0.034958ms)
+✖ plain Search status summary: failed (0.033209ms)
+✖ plain Search status summary: cancelled (0.045709ms)
+✖ plain Search status summary: timed_out (0.04675ms)
+✖ plain Search status summary: interrupted (0.030708ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 0
+ℹ fail 19
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 40.327375
+
+✖ failing tests:
+
+test at tests/test_dashboard_page.js:1570:1
+✖ SEARCH01 the Search control posts the question with the accepted disclosure (3.687834ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: stub. State: succeeded.'
+  - 'Finished · 1 provider request · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:1589:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.start (node:internal/test_runner/test:1257:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: stub. State: succeeded.',
+    expected: 'Finished · 1 provider request · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2114:1
+✖ search helpers format a cost, a limit, and a refusal without a score (0.255875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: stub. State: succeeded.'
+  - 'Finished · provider requests unknown · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2154:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: stub. State: succeeded.',
+    expected: 'Finished · provider requests unknown · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2683:3
+✖ plain Search status summary: known cost (0.090958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: succeeded.'
+  - 'Finished · 11 provider requests · cost $0.0123'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2684:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: succeeded.',
+    expected: 'Finished · 11 provider requests · cost $0.0123',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2683:3
+✖ plain Search status summary: zero cost (0.049708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: succeeded.'
+  - 'Finished · 0 provider requests · cost $0.0000'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2684:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: succeeded.',
+    expected: 'Finished · 0 provider requests · cost $0.0000',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2683:3
+✖ plain Search status summary: missing cost (0.040541ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: succeeded.'
+  - 'Finished · 1 provider request · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2684:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: succeeded.',
+    expected: 'Finished · 1 provider request · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2683:3
+✖ plain Search status summary: unconfirmed cost (0.048417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: succeeded.'
+  - 'Finished · 2 provider requests · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2684:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: succeeded.',
+    expected: 'Finished · 2 provider requests · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2683:3
+✖ plain Search status summary: non-numeric or non-finite cost 0.02 (0.045917ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: succeeded.'
+  - 'Finished · 2 provider requests · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2684:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: succeeded.',
+    expected: 'Finished · 2 provider requests · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2683:3
+✖ plain Search status summary: non-numeric or non-finite cost null (0.043208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: succeeded.'
+  - 'Finished · 2 provider requests · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2684:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: succeeded.',
+    expected: 'Finished · 2 provider requests · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2683:3
+✖ plain Search status summary: non-numeric or non-finite cost true (0.052333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: succeeded.'
+  - 'Finished · 2 provider requests · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2684:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: succeeded.',
+    expected: 'Finished · 2 provider requests · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2683:3
+✖ plain Search status summary: non-numeric or non-finite cost undefined (0.071333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: succeeded.'
+  - 'Finished · 2 provider requests · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2684:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: succeeded.',
+    expected: 'Finished · 2 provider requests · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2683:3
+✖ plain Search status summary: non-numeric or non-finite cost NaN (0.040334ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: succeeded.'
+  - 'Finished · 2 provider requests · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2684:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: succeeded.',
+    expected: 'Finished · 2 provider requests · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2683:3
+✖ plain Search status summary: non-numeric or non-finite cost Infinity (0.031291ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: succeeded.'
+  - 'Finished · 2 provider requests · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2684:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: succeeded.',
+    expected: 'Finished · 2 provider requests · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2692:3
+✖ plain Search status summary: queued (0.046ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: queued.'
+  - 'Queued · 2 provider requests · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2693:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: queued.',
+    expected: 'Queued · 2 provider requests · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2692:3
+✖ plain Search status summary: running (0.025167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: running.'
+  - 'Searching · 2 provider requests · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2693:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: running.',
+    expected: 'Searching · 2 provider requests · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2692:3
+✖ plain Search status summary: partial (0.034958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: partial.'
+  - 'Partially finished · 2 provider requests · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2693:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: partial.',
+    expected: 'Partially finished · 2 provider requests · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2692:3
+✖ plain Search status summary: failed (0.033209ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: failed.'
+  - 'Failed · 2 provider requests · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2693:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: failed.',
+    expected: 'Failed · 2 provider requests · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2692:3
+✖ plain Search status summary: cancelled (0.045709ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: cancelled.'
+  - 'Cancelled · 2 provider requests · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2693:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: cancelled.',
+    expected: 'Cancelled · 2 provider requests · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2692:3
+✖ plain Search status summary: timed_out (0.04675ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: timed_out.'
+  - 'Timed out · 2 provider requests · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2693:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: timed_out.',
+    expected: 'Timed out · 2 provider requests · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2692:3
+✖ plain Search status summary: interrupted (0.030708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Provider: unknown. State: interrupted.'
+  - 'Interrupted · 2 provider requests · cost unknown'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_dashboard_page.js:2693:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Provider: unknown. State: interrupted.',
+    expected: 'Interrupted · 2 provider requests · cost unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

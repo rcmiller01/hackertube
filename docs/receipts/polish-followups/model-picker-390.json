@@ -1,0 +1,34 @@
+{
+  "viewport_width": 390,
+  "document_scroll_width": 390,
+  "root_scroll_width": 390,
+  "picker_width": 727,
+  "select_width": 727,
+  "selected_value": "[\"stub\",\"offline-fixture/long-model-id-for-narrow-viewport-verification-2026-11-context-extended\"]",
+  "selected_label": "Offline stub · offline-fixture/long-model-id-for-narrow-viewport-verification-2026-11-context-extended",
+  "picker_display": "flex",
+  "picker_wrap": "wrap",
+  "body_font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+  "host_stylesheet_loaded": true,
+  "overflowing_elements": [
+    "picker_width",
+    "select_width"
+  ],
+  "host_css_path": "/Users/robert/.hermes/hermes-agent/hermes_cli/web_dist/assets/index-CXKdN8QE.css",
+  "host_css_sha256": "b108549924729a099113081f9f8883c8c7cb9913964750027af07ca1e4c8f0ac",
+  "attempted_requests": [
+    "http://127.0.0.1:51445/",
+    "http://127.0.0.1:51445/host-dashboard.css",
+    "http://127.0.0.1:51445/style.css",
+    "http://127.0.0.1:51445/bundle.js",
+    "http://127.0.0.1:51445/api/plugins/hackertube/privacy",
+    "http://127.0.0.1:51445/api/plugins/hackertube/catalog",
+    "http://127.0.0.1:51445/api/plugins/hackertube/feed",
+    "http://127.0.0.1:51445/api/plugins/hackertube/profile",
+    "http://127.0.0.1:51445/api/plugins/hackertube/status",
+    "https://covers.openlibrary.org/b/id/1001-M.jpg",
+    "http://127.0.0.1:51445/api/model/auxiliary",
+    "http://127.0.0.1:51445/api/plugins/hackertube/sources",
+    "http://127.0.0.1:51445/api/model/options?explicit_only=true"
+  ]
+}

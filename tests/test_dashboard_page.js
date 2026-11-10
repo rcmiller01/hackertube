@@ -1586,9 +1586,10 @@ test("SEARCH01 the Search control posts the question with the accepted disclosur
     });
     const results = ui.text((node) => node.props && node.props.className === "ht-results");
     assert.match(results, /Question: What can I read by Jane Austen\?/);
-    assert.match(results, /Provider: stub\./);
+    assert.equal(ui.text((node) => node.props && node.props.id === "hackertube-job-status"),
+      "Finished · 1 provider request · cost unknown");
     assert.doesNotMatch(results, /Job job:1\./, "the internal job id is not rendered");
-    assert.match(results, /State: succeeded\./);
+    assert.doesNotMatch(results, /Provider:|State:/, "no internal provider/state labels");
     assert.match(results, /Source: Open Library/);
     assert.match(results, /Matched the question: jane austen\./);
   } finally {
@@ -1754,7 +1755,7 @@ test("JOB03 a partial job labels incomplete coverage and keeps its results", () 
   try {
     submitSearch(ui, "What can I read by Jane Austen?");
     const status = ui.text((node) => node.props && node.props.id === "hackertube-job-status");
-    assert.match(status, /State: partial\./);
+    assert.equal(status, "Partially finished · 1 provider request · cost unknown");
     const results = ui.text((node) => node.props && node.props.className === "ht-results");
     assert.match(results, /Stopped at the 2-request work limit\. Coverage is incomplete\./);
     assert.match(results, /Source: Open Library/);
@@ -2031,17 +2032,17 @@ test("a stale Search response does not overwrite a newer Search's result", () =>
 
     const feedReads = () => ui.requests.filter(row => row.url.endsWith("/feed")).length;
     const originalReads = feedReads();
-    defer.pending[0].onOk(Object.assign(defaultSearchResult(), { provider: "stale-provider" }));
+    defer.pending[0].onOk(Object.assign(defaultSearchResult(), { interpretation: { topic: "stale-receipt" } }));
     assert.equal(feedReads(), originalReads, "stale completion does not refresh the feed");
     const afterStale = ui.text((node) => node.props && node.props.className === "ht-results");
-    assert.doesNotMatch(afterStale, /stale-provider/, "the stale response is ignored");
+    assert.doesNotMatch(afterStale, /stale-receipt/, "the stale response is ignored");
     assert.match(afterStale, /Search running\./, "the newer Search is still running");
 
-    defer.pending[1].onOk(Object.assign(defaultSearchResult(), { provider: "fresh-provider" }));
+    defer.pending[1].onOk(Object.assign(defaultSearchResult(), { interpretation: { topic: "fresh-receipt" } }));
     const afterFresh = ui.text((node) => node.props && node.props.className === "ht-results");
-    assert.match(afterFresh, /fresh-provider/, "the newest response renders");
+    assert.match(afterFresh, /fresh-receipt/, "the newest response renders");
     assert.equal(feedReads(), originalReads + 1, "only the current Search refreshes the feed");
-    assert.doesNotMatch(afterFresh, /stale-provider/, "the stale response never renders");
+    assert.doesNotMatch(afterFresh, /stale-receipt/, "the stale response never renders");
   } finally {
     ui.restore();
   }
@@ -2088,7 +2089,7 @@ test("Back to discovery closes a Search whose stub job failed with HTTP 200", as
   try {
     submitSearch(ui, "What can I read by Jane Austen?");
     const status = ui.text((node) => node.props && node.props.id === "hackertube-job-status");
-    assert.match(status, /State: failed\./, "the HTTP 200 body carries a failed job state");
+    assert.equal(status, "Failed · 1 provider request · cost unknown", "the HTTP 200 body carries a failed job state");
     const back = ui.find((node) => (node.children || []).some((child) => child === "Back to discovery"));
     assert.equal(back.props.disabled, false, "Back is enabled once the failed job has settled");
     back.props.onClick();
@@ -2152,7 +2153,7 @@ test("search helpers format a cost, a limit, and a refusal without a score", () 
   );
   assert.equal(
     page.searchStatusLine({ provider: "stub", job: { job_id: "job:27:2366196e", state: "succeeded" } }),
-    "Provider: stub. State: succeeded.",
+    "Finished · provider requests unknown · cost unknown",
   );
   assert.doesNotMatch(
     page.searchStatusLine({ provider: "stub", job: { job_id: "job:27:2366196e", state: "succeeded" } }),
@@ -2487,7 +2488,7 @@ test("Cancel search can be queued before the supervised job id arrives", () => {
     deferred.pending[0].onOk({ job: { job_id: "job:99", state: "running", limits: { deadline_seconds: 5 } } });
     assert.match(deferred.pending[1].url, /\/search\/jobs\/job%3A99\/cancel$/);
     deferred.pending[1].onOk(searchResult({}, { job: { job_id: "job:99", state: "cancelled" } }));
-    assert.match(ui.text((node) => node.props && node.props.id === "hackertube-job-status"), /cancelled/);
+    assert.equal(ui.text((node) => node.props && node.props.id === "hackertube-job-status"), "Cancelled · 1 provider request · cost unknown");
   } finally { ui.restore(); }
 });
 
@@ -2553,7 +2554,7 @@ test("Cancel search keeps the busy guard until the server confirms termination",
     deferred.pending[1].onOk(searchResult({}, { job: { job_id: "job:9", state: "cancelled" } }));
     assert.equal(ui.find((node) => node.props && node.props.type === "submit" && (node.children || []).includes("Search")).props.disabled, false);
     deferred.pending[0].onOk(searchResult({}, { job: { job_id: "job:9", state: "succeeded" } }));
-    assert.match(ui.text((node) => node.props && node.props.id === "hackertube-job-status"), /cancelled/);
+    assert.equal(ui.text((node) => node.props && node.props.id === "hackertube-job-status"), "Cancelled · 1 provider request · cost unknown");
   } finally { ui.restore(); }
 });
 
@@ -2647,6 +2648,7 @@ test("a YouTube card opens the source from one labelled link and does not repeat
       node.type === "a" && node.props && node.props.href === YOUTUBE_ITEM.destination);
     assert.equal(links.length, 1, "one source-opening link per card");
     assert.equal(links[0].props["aria-label"], "Open “AI introduction” on YouTube");
+    assert.match(textOf(links[0]), /Watch on YouTube/, "visible action inside the sole source link");
     const logo = ui.within(isArticle, (node) => node.type === "img");
     assert.equal(logo.length, 1);
     assert.equal(logo[0].props.alt, "YouTube");
@@ -2667,6 +2669,31 @@ test("a YouTube card opens the source from one labelled link and does not repeat
     ui.restore();
   }
 });
+
+for (const [label, usage, expected] of [
+  ["known cost", {requests_used:11,cost_known:true,cost_usd:0.0123}, "11 provider requests · cost $0.0123"],
+  ["zero cost", {requests_used:0,cost_known:true,cost_usd:0}, "0 provider requests · cost $0.0000"],
+  ["missing cost", {requests_used:1}, "1 provider request · cost unknown"],
+  ["unconfirmed cost", {requests_used:2,cost_known:false,cost_usd:0}, "2 provider requests · cost unknown"],
+  ...["0.02",null,true,undefined,NaN,Infinity].map(value => [
+    "non-numeric or non-finite cost " + String(value),
+    {requests_used:2,cost_known:true,cost_usd:value}, "2 provider requests · cost unknown",
+  ]),
+]) {
+  test("plain Search status summary: " + label, () => {
+    assert.equal(page.searchStatusLine({job:{state:"succeeded"},usage}), "Finished · " + expected);
+  });
+}
+
+for (const [state, label] of Object.entries({
+  queued:"Queued",running:"Searching",partial:"Partially finished",failed:"Failed",
+  cancelled:"Cancelled",timed_out:"Timed out",interrupted:"Interrupted",
+})) {
+  test("plain Search status summary: " + state, () => {
+    assert.equal(page.searchStatusLine({job:{state},usage:{requests_used:2}}),
+      label + " · 2 provider requests · cost unknown");
+  });
+}
 
 test("the model picker row wraps at a narrow viewport", () => {
   const css = require("node:fs").readFileSync(
@@ -2832,7 +2859,7 @@ test("N2 a Search recovered on page load finishes without moving focus", async (
     await new Promise((resolve) => setTimeout(resolve, 600));
     const heading = ui.find((node) => node.type === "h2" && node.children[0] === "Search results");
     assert.ok(heading, "the recovered Search rendered its results");
-    assert.match(ui.text((node) => node.props && node.props.id === "hackertube-job-status"), /State: succeeded/);
+    assert.equal(ui.text((node) => node.props && node.props.id === "hackertube-job-status"), "Finished · 1 provider request · cost unknown");
     assert.notEqual(ui.focused.current, heading, "a recovered Search does not move focus");
     assert.equal(ui.focused.current && ui.focused.current.props.id, "hackertube-question");
   } finally {

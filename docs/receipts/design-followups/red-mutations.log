@@ -89,3 +89,7 @@
 restored index.js: True
 restored style.css: True
 ALL MUTATIONS RED, ALL FILES RESTORED
+
+Receipt annotation, polish follow-up: original line 50 and the repeated test
+name below it are pre-rework receipts. The original log above is unchanged.
+Current test: a finished Search announces the feed update once, after the feed refresh is accepted.

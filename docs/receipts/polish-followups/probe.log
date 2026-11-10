@@ -1,0 +1,404 @@
+/Users/robert/Developer/hackertube-polish/.venv/lib/python3.14/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+{
+  "add_interest": {
+    "counters": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "dispatched": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    }
+  },
+  "dismiss": {
+    "counters": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "dispatched": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    }
+  },
+  "feed04_counters": {
+    "free": 0,
+    "metered": 0,
+    "paid": 0
+  },
+  "feed04_usage": {
+    "cost_usd": 0.0,
+    "free": 0,
+    "metered": 0,
+    "paid": 0,
+    "unknown_cost_calls": 0
+  },
+  "feed_after_dismiss": {
+    "counters": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "dispatched": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    }
+  },
+  "feed_after_save": {
+    "counters": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "dispatched": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    }
+  },
+  "job02_counters": {
+    "free": 0,
+    "metered": 0,
+    "paid": 0
+  },
+  "job02_loads": {
+    "load_0": {
+      "counters": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "dispatched": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      }
+    },
+    "load_1": {
+      "counters": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "dispatched": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      }
+    },
+    "load_2": {
+      "counters": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "dispatched": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      }
+    },
+    "load_3": {
+      "counters": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "dispatched": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      }
+    },
+    "load_4": {
+      "counters": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "dispatched": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      }
+    }
+  },
+  "job02_usage": {
+    "cost_usd": 0.0,
+    "free": 0,
+    "metered": 0,
+    "paid": 0,
+    "unknown_cost_calls": 0
+  },
+  "labels": [
+    "free",
+    "metered",
+    "paid"
+  ],
+  "metered_youtube_read": {
+    "cost_usd": 0.0,
+    "free": 0,
+    "metered": 1,
+    "paid": 0,
+    "unknown_cost_calls": 0
+  },
+  "now": "2026-11-06T12:24:15Z",
+  "open_catalog": {
+    "counters": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "dispatched": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    }
+  },
+  "open_feed": {
+    "counters": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "dispatched": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    }
+  },
+  "open_item": {
+    "counters": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "dispatched": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    }
+  },
+  "open_profile": {
+    "counters": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "dispatched": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    }
+  },
+  "paging": {
+    "dispatched": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "first_screen": 4,
+    "ranked_items": 10,
+    "revealed_by_show_more": 6
+  },
+  "paid_with_reported_cost": {
+    "cost_usd": 0.25,
+    "free": 0,
+    "metered": 0,
+    "paid": 1,
+    "unknown_cost_calls": 0
+  },
+  "paid_without_reported_cost": {
+    "cost_usd": null,
+    "free": 0,
+    "metered": 0,
+    "paid": 1,
+    "unknown_cost_calls": 1
+  },
+  "pref08_counters": {
+    "free": 0,
+    "metered": 0,
+    "paid": 0
+  },
+  "pref08_phases": {
+    "feed:AI": {
+      "counters": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "dispatched": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      }
+    },
+    "feed:C++": {
+      "counters": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "dispatched": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      }
+    },
+    "feed:gardening": {
+      "counters": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "dispatched": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      }
+    },
+    "feed:jane austen": {
+      "counters": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "dispatched": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      }
+    },
+    "interest:AI": {
+      "counters": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "dispatched": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      }
+    },
+    "interest:C++": {
+      "counters": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "dispatched": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      }
+    },
+    "interest:gardening": {
+      "counters": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "dispatched": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      }
+    },
+    "interest:jane austen": {
+      "counters": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "dispatched": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      }
+    }
+  },
+  "pref08_usage": {
+    "cost_usd": 0.0,
+    "free": 0,
+    "metered": 0,
+    "paid": 0,
+    "unknown_cost_calls": 0
+  },
+  "reopen_catalog": {
+    "counters": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "dispatched": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    }
+  },
+  "reopen_feed": {
+    "counters": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "dispatched": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    }
+  },
+  "reopen_persisted": {
+    "dismissed": true,
+    "opens": 1
+  },
+  "reopen_profile": {
+    "counters": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "dispatched": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    }
+  },
+  "rerank_feed": {
+    "counters": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "dispatched": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    }
+  },
+  "save": {
+    "counters": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "dispatched": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    }
+  },
+  "unmetered_source_read": {
+    "cost_usd": 0.0,
+    "free": 1,
+    "metered": 0,
+    "paid": 0,
+    "unknown_cost_calls": 0
+  }
+}

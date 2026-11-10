@@ -720,7 +720,7 @@ only. No live or paid call; `HACKERTUBE_MODEL_KEY` was not set or read.
 | 6. YouTube attribution | One source-opening link per card. The linked official icon is that link on a YouTube card (the branding guidelines require a shown logo to link to YouTube content), named `Open "<title>" on YouTube`; the duplicate `Open at source` control and the bare `YouTube` destination line are gone there; the remaining `Open at source` links name their destination. Tests: `a YouTube card opens the source from one labelled link and does not repeat the bare source name`; `a non-YouTube card keeps its labelled source link and its destination line`. The 100px embedded icon and its digest assertion are unchanged. |
 | 7. Search panel copy | The work-budget sentence appears once (the form note); the internal job id is not rendered. `search helpers format a cost, a limit, and a refusal without a score` and SEARCH01 now assert the removal. |
 | 8. Model picker at 390px | Wrapping row with a `0.5rem` gap and a capped `select`. Test: `the model picker row wraps at a narrow viewport`; measured reflow in [the receipt](../../../docs/receipts/design-followups/README.md). |
-| 9. Feed refresh | A terminal Search writes `Feed updated from this search.` once to the persistent polite status region. Test: `a finished Search announces the feed update once in the status region`. |
+| 9. Feed refresh | A terminal Search requests a feed reread; after that response is accepted, it writes `Feed updated from this search.` once to the persistent polite status region. Test: `a finished Search announces the feed update once, after the feed refresh is accepted`. |
 | 10. Provider note | The static provider note no longer carries `role="status"`. |
 | N1 | `endSearch` expands collapsed controls before focusing the results heading or the alert. Test: `N1 a Search that ends while the controls are collapsed expands them before moving focus`. This changes the behaviour UI07 described, so the scenario text was amended in the same change: a profile write still preserves the collapsed state, and a Search that ends expands the controls. FEED11's previous "feed updates leave controls collapsed" expectation is replaced by the amended behaviour, and its `/feed` stub was completed to all four section groups. |
 | N2 | A job recovered on page load is marked recovered and never moves focus when it ends. Test: `N2 a Search recovered on page load finishes without moving focus`. |
@@ -768,3 +768,38 @@ passed, 0 failed, 0 skipped**. Probes and both plugin checks exit 0; strict
 OpenSpec 1 passed / 0 failed; coverage PASS. Not claimed: a measured
 screen-reader utterance (the evidence is observed DOM mutations), or a render of
 the change under an installed host gateway.
+
+## PR #27 polish follow-ups
+
+Branch `hermes/polish-followups`, base `d874ed20e6ef2fcb96778be1cc32b18d2bfdc7ce`.
+P3's verification row now references the current feed-acceptance test. The two
+historical red logs retain every original byte, with appended pre-rework
+annotations (`audit.json`).
+
+The shared YouTube link adds visible `Watch on YouTube` under the unchanged
+attribution icon, preserving one source link and its accessible name. Privacy
+acceptance sets its heading-focus hand-off before mounting, independently of
+promise-callback batching; the loaded controlled policy remains mounted with
+`hidden` when closed. Search's summary uses existing state/usage for plain
+status, request count and cost; non-numeric/non-finite/unconfirmed cost remains
+unknown. UI04, UI06 and JOB04 record these scoped changes.
+
+Required checks: **314 Python passed**, one Starlette/httpx warning; **127 Node
+and browser passed, 0 failed, 0 skipped**. The three request probes, native
+plugin validate/doctor, strict OpenSpec and coverage checks exit 0. Genuine red
+logs cover the YouTube text, unbatched focus, persistent policy target, summary
+and cost cases, plus a removed-clear-space mutation. Clean profile: plugin
+copied and enabled, enabled listing read back, policy accepted; unavailable
+service fails closed at **503 provider_unavailable**; **stub** succeeds at 200
+with 4 results and zero backend outbound requests. No model key was set or
+read, and no live source or paid inference call was made.
+
+The requested 390px screenshot now loads the real compiled host stylesheet
+and selects a long fixture model ID. It exposes clipping: root/document
+scrollWidth **390px**, picker/select **727px**. The capture and JSON are saved,
+not represented as passing reflow. `--check-reflow` exits 1; layout repair is
+held for follow-up **t_0544b6fb** rather than added to this evidence-only scope.
+One intermediate FEED12 blank-mutation failure is retained; the final full
+suite passed without changing that test or production announcement behavior.
+Exact logs, site enumeration, reproduction commands and bounded integration
+claims: [polish-followups receipt](../../../docs/receipts/polish-followups/README.md).
