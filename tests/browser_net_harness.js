@@ -36,7 +36,10 @@ const HARNESS_SOURCE = `
     return React.createElement("button", {
       type: props.type || "button",
       className: props.className,
+      disabled: props.disabled,
       "aria-disabled": props["aria-disabled"],
+      "aria-expanded": props["aria-expanded"],
+      "aria-controls": props["aria-controls"],
       "aria-label": props["aria-label"],
       title: props.title,
       onClick: props.onClick,

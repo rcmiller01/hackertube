@@ -54,3 +54,34 @@ test("YouTube attribution renders without an authenticated image request", async
     assert.equal(await logo.evaluate(el=>el.getBoundingClientRect().height),100);
   } finally {await browser.close();await fixture.close();}
 });
+
+
+test("the privacy disclosure reports its expanded state and accepting it moves focus to the page heading", async () => {
+  const fixture=await startFixture(fixtureItems(1), {accepted:false});
+  const browser=await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    const ui=await browser.newPage();
+    await ui.route("https://covers.openlibrary.org/**", route => route.abort());
+    await ui.goto(fixture.origin);
+    const toggle=ui.getByRole("button",{name:"Privacy",exact:true});
+    await toggle.waitFor();
+    // While the policy is unaccepted it is forced open, so the toggle reports
+    // the state of the section it controls rather than a stale flag.
+    assert.equal(await toggle.getAttribute("aria-expanded"),"true");
+    assert.equal(await toggle.getAttribute("aria-controls"),"hackertube-privacy-policy");
+    assert.equal(await ui.getByRole("region",{name:"Privacy policy"}).count(),1);
+    await ui.getByLabel("I agree to the HackerTube privacy policy",{exact:false}).check();
+    await ui.getByRole("button",{name:"Agree and continue"}).click();
+    await ui.getByRole("heading",{name:"HackerTube",exact:true}).waitFor();
+    // The gate hands focus to the page it mounts instead of dropping it.
+    assert.equal(await ui.evaluate(()=>document.activeElement&&document.activeElement.id),"discover");
+    assert.equal(await toggle.getAttribute("aria-expanded"),"false");
+    assert.equal(await ui.getByRole("region",{name:"Privacy policy"}).count(),0);
+    await toggle.click();
+    assert.equal(await toggle.getAttribute("aria-expanded"),"true");
+    await ui.getByRole("region",{name:"Privacy policy"}).waitFor();
+    await toggle.click();
+    assert.equal(await toggle.getAttribute("aria-expanded"),"false");
+    assert.equal(await ui.getByRole("region",{name:"Privacy policy"}).count(),0);
+  } finally {await browser.close();await fixture.close();}
+});

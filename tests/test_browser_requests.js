@@ -35,9 +35,17 @@ test("FEED11 background Search completion updates the rendered feed without a re
       }
       if (completed && url.pathname === base + "/feed") {
         reads.feed++;
+        // A real /feed document carries all four section groups; acceptDiscovery
+        // rejects an incomplete one, which would leave a stale error in the
+        // status region instead of the feed-update announcement.
         return respond({ schema: "hackertube.discovery/1", personalized: true, interests: ["Jane Austen"],
           feed: [item.item_id], why: { [item.item_id]: ["Matched interest"] }, signals: ["matched interest"],
-          sections: { books: { matches: [item.item_id], browse: [], match_count: 1, browse_count: 0 } } });
+          sections: {
+            videos: { matches: [], browse: [], match_count: 0, browse_count: 0 },
+            podcasts: { matches: [], browse: [], match_count: 0, browse_count: 0 },
+            books: { matches: [item.item_id], browse: [], match_count: 1, browse_count: 0 },
+            audiobooks: { matches: [], browse: [], match_count: 0, browse_count: 0 },
+          } });
       }
       return route.continue();
     });
@@ -56,12 +64,19 @@ test("FEED11 background Search completion updates the rendered feed without a re
     assert.equal(await tab.locator("#hackertube-question").isVisible(), false);
     await tab.locator("#ranked-feed").getByText("New search discovery", { exact: true }).waitFor({ timeout: 5000 });
     assert.deepEqual(reads, { feed: 1, catalog: 1, starts: 1 });
-    assert.equal(await panel.getAttribute("open"), null, "feed updates leave controls collapsed");
-    assert.equal(await toggle.isVisible(), true, "the reopen control remains visible");
-    await toggle.press("Enter");
+    // N1: a Search that ends while the controls are collapsed expands them, so
+    // its results and the feed update are reachable.
+    assert.notEqual(await panel.getAttribute("open"), null, "a finished Search expands the collapsed controls");
     await tab.locator("#hackertube-question").waitFor({ state: "visible" });
     assert.equal(await tab.locator("#hackertube-question").inputValue(), "Jane Austen books");
+    assert.equal(
+      await tab.evaluate(() => document.activeElement && document.activeElement.textContent),
+      "Search results",
+      "the results heading takes focus",
+    );
+    assert.equal(await tab.locator(".ht-status").textContent(), "Feed updated from this search.");
     assert.equal(await tab.locator("#hackertube-results").getByText("Search running.", { exact: true }).count(), 0);
+    assert.equal(await toggle.isVisible(), true, "the controls summary remains visible");
   } finally {
     if (browser) await browser.close();
     await fixture.close();

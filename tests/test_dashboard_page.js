@@ -1559,7 +1559,7 @@ test("SEARCH01 the Search control posts the question with the accepted disclosur
     const results = ui.text((node) => node.props && node.props.className === "ht-results");
     assert.match(results, /Question: What can I read by Jane Austen\?/);
     assert.match(results, /Provider: stub\./);
-    assert.match(results, /Job job:1\./);
+    assert.doesNotMatch(results, /Job job:1\./, "the internal job id is not rendered");
     assert.match(results, /State: succeeded\./);
     assert.match(results, /Source: Open Library/);
     assert.match(results, /Matched the question: jane austen\./);
@@ -1625,6 +1625,11 @@ test("the panel warns before submitting when the live provider has no key", () =
     const note = ui.text((node) => node.props && node.props.id === "hackertube-provider-note");
     assert.equal(note, page.SEARCH_PROVIDER_NOTE);
     assert.match(note, /configured Hermes providers/);
+    assert.equal(
+      ui.find((node) => node.props && node.props.id === "hackertube-provider-note").props.role,
+      undefined,
+      "a static note is not a live region",
+    );
   } finally {
     ui.restore();
   }
@@ -2110,7 +2115,21 @@ test("search helpers format a cost, a limit, and a refusal without a score", () 
   );
   assert.equal(
     page.limitsLine({ max_hits: 12, max_requests: 2, deadline_seconds: 5 }, { requests_used: 2 }),
-    "Work limits for this job: at most 2 provider requests, 12 results, a 5 second work budget. Provider requests used: 2. Search stops local work at its deadline. Cancel search stops it early. A provider may still bill for a request already accepted.",
+    "Work limits for this job: at most 2 provider requests, 12 results, a 5 second work budget. Provider requests used: 2.",
+  );
+  assert.doesNotMatch(
+    page.limitsLine({ max_hits: 12, max_requests: 2, deadline_seconds: 5 }, { requests_used: 2 }),
+    /Search stops local work at its deadline/,
+    "the work-budget note is stated once, in the form",
+  );
+  assert.equal(
+    page.searchStatusLine({ provider: "stub", job: { job_id: "job:27:2366196e", state: "succeeded" } }),
+    "Provider: stub. State: succeeded.",
+  );
+  assert.doesNotMatch(
+    page.searchStatusLine({ provider: "stub", job: { job_id: "job:27:2366196e", state: "succeeded" } }),
+    /job:27/,
+    "the internal job id is not user-facing copy",
   );
   assert.equal(page.constraintLine({ max_duration_seconds: null }), "Time limit: none requested.");
   assert.match(page.constraintLine({ max_duration_seconds: 3600 }), /longer than 1 hour are excluded/);
@@ -2563,4 +2582,154 @@ test("Apple Books destinations and catalog attribution do not say Apple Podcasts
   const evidence = [{item_id:item.item_id, source_id:"itunes", kind:"catalog", retrieved_at:"2026-11-08T00:00:00Z"}];
   assert.equal(page.destinationLabel(item), "Apple Books");
   assert.equal(page.presentEvidence(item, evidence, [{source_id:"itunes",name:"Apple Podcasts"}]).sourceName, "Apple Books");
+});
+
+/* ------------------------------------------------------------------ *
+ * Post-merge review follow-ups: findings 5-10 and N1/N2.
+ * ------------------------------------------------------------------ */
+
+const YOUTUBE_ITEM = {
+  item_id: "youtube:LCEmiRjPEtQ",
+  format: "video",
+  title: "AI introduction",
+  destination: "https://www.youtube.com/watch?v=LCEmiRjPEtQ",
+  capture_order: 1,
+  contributors: ["A channel"],
+  duration_seconds: null,
+  art_url: null,
+  art_hotlink: false,
+};
+
+const YOUTUBE_CATALOG = {
+  fixture: true,
+  catalog: { items: [YOUTUBE_ITEM], evidence: [], sources: [], editions: [] },
+};
+
+const isArticle = (node) => node.type === "article";
+
+test("a YouTube card opens the source from one labelled link and does not repeat the bare source name", () => {
+  const ui = mountPage(YOUTUBE_CATALOG);
+  try {
+    const article = ui.find(isArticle);
+    assert.ok(article);
+    // The linked official icon is the one source-opening link on this card:
+    // the branding guidelines require the logo to link to the content, so no
+    // second link to the same destination is rendered.
+    const links = ui.within(isArticle, (node) =>
+      node.type === "a" && node.props && node.props.href === YOUTUBE_ITEM.destination);
+    assert.equal(links.length, 1, "one source-opening link per card");
+    assert.equal(links[0].props["aria-label"], "Open “AI introduction” on YouTube");
+    const logo = ui.within(isArticle, (node) => node.type === "img");
+    assert.equal(logo.length, 1);
+    assert.equal(logo[0].props.alt, "YouTube");
+    assert.equal(logo[0].props.src.slice(0, 22), "data:image/png;base64,");
+    assert.equal(
+      ui.within(isArticle, (node) => node.props && /(^|\s)ht-open(\s|$)/.test(node.props.className || "")).length,
+      0,
+      "no duplicate Open at source control",
+    );
+    assert.equal(
+      ui.within(isArticle, (node) => node.props && node.props.className === "ht-destination").length,
+      0,
+      "the bare YouTube destination line is not repeated",
+    );
+    assert.doesNotMatch(textOf(article), /Open at source/);
+    assert.match(textOf(article), /YouTube metadata/);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("the model picker row wraps at a narrow viewport", () => {
+  const css = require("node:fs").readFileSync(
+    require("node:path").join(__dirname, "../hackertube/dashboard/dist/style.css"),
+    "utf8",
+  );
+  const picker = css.slice(
+    css.indexOf(".hackertube .ht-model-picker {"),
+    css.indexOf(".hackertube .ht-feed-controls {"),
+  );
+  assert.match(picker, /flex-wrap:\s*wrap/);
+  assert.match(picker, /gap:\s*0\.5rem/);
+  assert.match(picker, /max-width:\s*100%/);
+});
+
+test("a non-YouTube card keeps its labelled source link and its destination line", () => {
+  const ui = mountPage(SAMPLE_CATALOG);
+  try {
+    const open = ui.within(isArticle, (node) => node.props && /(^|\s)ht-open(\s|$)/.test(node.props.className || ""));
+    assert.equal(open.length, 1);
+    assert.equal(open[0].props.href, "https://openlibrary.org/works/OL66513W");
+    assert.equal(open[0].props["aria-label"], "Open at source: Open Library");
+    assert.equal(ui.text((node) => node.props && node.props.className === "ht-destination"), "Open Library");
+  } finally {
+    ui.restore();
+  }
+});
+
+test("a finished Search announces the feed update once in the status region", () => {
+  const deferred = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, deferred);
+  try {
+    const statusText = () => ui.text((node) => node.props && node.props.className === "ht-status");
+    submitSearch(ui, "What can I read by Jane Austen?");
+    assert.doesNotMatch(statusText(), /Feed updated from this search/);
+    deferred.pending[0].onOk(defaultSearchResult());
+    assert.equal(statusText(), "Feed updated from this search.");
+    deferred.pending[0].onOk(defaultSearchResult());
+    assert.equal(
+      statusText().split("Feed updated from this search.").length - 1,
+      1,
+      "a duplicate terminal response does not announce again",
+    );
+  } finally {
+    ui.restore();
+  }
+});
+
+test("N1 a Search that ends while the controls are collapsed expands them before moving focus", () => {
+  const deferred = { pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, deferred);
+  try {
+    const details = () => ui.find((node) => node.props && node.props.className === "ht-feed-controls");
+    submitSearch(ui, "What can I read by Jane Austen?");
+    assert.equal(details().props.open, true);
+    details().props.onToggle({ currentTarget: { open: false } });
+    assert.equal(details().props.open, false, "the user collapsed the controls while the Search ran");
+    ui.focused.current = null;
+    deferred.pending[0].onOk(defaultSearchResult());
+    assert.equal(details().props.open, true, "the collapsed controls expand when the Search ends");
+    assert.equal(ui.focused.current && ui.focused.current.type, "h2");
+    assert.equal(ui.focused.current.children[0], "Search results");
+    assert.equal(ui.focused.current.props.tabIndex, -1);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("N2 a Search recovered on page load finishes without moving focus", async () => {
+  const outcome = {
+    value: {
+      job: {
+        job_id: "job:7",
+        state: "running",
+        question: "Earlier AI question",
+        limits: { deadline_seconds: 5 },
+      },
+    },
+  };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, outcome, { provider: "hermes" });
+  try {
+    assert.match(ui.text((node) => node.props && node.props.id === "hackertube-results"), /Search running/);
+    // The supervised job reports a terminal state on the next poll.
+    outcome.value = Object.assign(defaultSearchResult(), { job: { job_id: "job:7", state: "succeeded" } });
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    const heading = ui.find((node) => node.type === "h2" && node.children[0] === "Search results");
+    assert.ok(heading, "the recovered Search rendered its results");
+    assert.match(ui.text((node) => node.props && node.props.id === "hackertube-job-status"), /State: succeeded/);
+    assert.notEqual(ui.focused.current, heading, "a recovered Search does not move focus");
+    assert.equal(ui.focused.current && ui.focused.current.props.id, "hackertube-question");
+  } finally {
+    ui.restore();
+  }
 });

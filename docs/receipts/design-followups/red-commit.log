@@ -1,0 +1,334 @@
+✖ FEED11 background Search completion updates the rendered feed without a reload (1594.750917ms)
+✔ PREF16 interest remove button works by keyboard and stays removed after reload (338.908958ms)
+✔ browser inventory refuses unknown destinations, routes and artwork queries (0.233917ms)
+✔ observer catches a rendered artwork request outside the approved inventory (2521.684ms)
+✔ FEED04 browser requests include artwork and match independent server/interception counts (2193.640875ms)
+✔ public https destinations are allowed (0.989208ms)
+✔ unsafe schemes are refused (0.11ms)
+✔ private-network destinations are refused (0.24625ms)
+✔ ipv6 private, loopback, and mapped forms are refused (0.175166ms)
+✔ public ipv6 literal is allowed (0.048292ms)
+✔ credentials in a destination are refused (0.0305ms)
+✔ LIB01 save twice keeps one saved record (0.264125ms)
+✔ dismiss does not duplicate and does not remove the id (0.044833ms)
+✔ LIB03 open records an event and leaves completion unchanged (0.105625ms)
+✔ PREF01 gardening interest is accepted and kept (0.171625ms)
+✔ section order is capture order and library is newest save first (0.086583ms)
+✔ show more keeps the first four until expanded (0.033083ms)
+✔ hacker news evidence stays on the item it names (0.0935ms)
+✔ hacker news endorsement is a link line and catalog evidence is a source candidate (0.044417ms)
+✔ unknown duration and missing art stay unknown (0.061084ms)
+✔ demo question and disclosure text are the approved lines (0.03125ms)
+✔ empty question alert receives focus after it mounts (1.42075ms)
+✔ section navigation focuses the section heading (0.29875ms)
+✔ LIB02 loaded profile shows the saved item after a fresh page (0.3295ms)
+✔ PREF16 removing an interest posts its exact text and refreshes the feed (0.688125ms)
+✔ PREF16 a rejected removal keeps the interest available for retry (0.220667ms)
+✔ PREF01 loaded gardening interest stays on the page (0.127959ms)
+✔ LIB01 page save posts only the item id (0.360541ms)
+✔ evidence and about links use the text link class (0.147958ms)
+✔ FEED01 ranked opening feed shows the interest match without a question (0.270583ms)
+✔ FEED02 the page explains the signals used (0.405625ms)
+✔ FEED03 a publisher record is labeled a source candidate (0.130125ms)
+✔ FEED04 refresh paging and save stay on local routes (0.146291ms)
+✔ FEED04 Show more is the rendered control, and it dispatches no request (0.3405ms)
+✔ FEED04 Save, Dismiss, and Open controls post to the profile routes (1.309625ms)
+✔ FEED05 a dismissed item stays out of discovery and remains in the library (0.1235ms)
+✔ FEED06 AI interest is a personalized profile with no unrelated fill (0.193833ms)
+✔ FEED06 C++ interest is a personalized profile with no unrelated fill (0.100291ms)
+✔ a short interest beside a match still shows the ranked match (0.1ms)
+✔ FEED06 no matches explain the coverage limit and offer focused search (0.215916ms)
+✔ FEED07 no interests offer setup and refresh without a personalized claim (0.145208ms)
+✔ Show more Enter focuses the fifth item heading (337.481666ms)
+✔ an expired evidence id omitted by the section payload stays hidden (0.239208ms)
+✔ FEED10 a section lists matches then a not-matched group with no why-line (0.265166ms)
+✔ SEARCH07 browse items are not presented as verified recommendations (0.191333ms)
+✖ SEARCH01 the Search control posts the question with the accepted disclosure (1.029917ms)
+✔ JOB09 and JOB10 the disclosure and its control are at the action every time (0.260667ms)
+✔ JOB09 an unaccepted disclosure alerts and dispatches no request (0.175ms)
+✖ the panel warns before submitting when the live provider has no key (0.259416ms)
+✔ the panel does not warn when the stub provider is selected (0.093333ms)
+✔ JOB04 the rendered job cost is unknown, never zero (0.46025ms)
+✔ JOB04 a provider-reported cost is rendered as a value (0.474ms)
+✔ JOB04 a non-numeric cost is rendered as unknown, never zero (0.440708ms)
+✔ skipped source codes render as one plain-language sentence (0.61475ms)
+✔ JOB03 a partial job labels incomplete coverage and keeps its results (0.538792ms)
+✔ SEARCH04 an unverified constraint is labeled on the result (0.473666ms)
+✔ SEARCH05 a broader-web result is labeled and claims no endorsement (0.422916ms)
+✔ SEARCH07 an unfilled format reports insufficient evidence (0.438291ms)
+✔ SEARCH08 a previously saved result shows its recorded state (1.006542ms)
+✔ a refused search renders the route's clear message (0.841375ms)
+✔ a rejected search request renders the message and no job (0.333166ms)
+✔ Back to discovery closes a completed Search and keeps the typed question (1.725375ms)
+✔ Back to discovery closes a failed Search (2.071625ms)
+✔ Back to discovery is disabled and inert while a Search is running (0.432625ms)
+✔ a second submit after Back while a Search is running sends no second POST (0.372834ms)
+✔ a stale Search response does not overwrite a newer Search's result (0.5945ms)
+✔ a stale Search error does not overwrite a newer Search (0.459333ms)
+✔ Back to discovery closes a Search whose stub job failed with HTTP 200 (1.5ms)
+✖ search helpers format a cost, a limit, and a refusal without a score (0.209292ms)
+✔ navigation, status, and alerts stay outside the collapsible controls (0.145833ms)
+✔ the remove control and the controls summary meet the focus and target rules (0.183375ms)
+✔ the refreshed page declares the search schema and disclosure copy (0.022334ms)
+✔ the search picker lists Hermes providers and saves only the HackerTube model slot (0.287458ms)
+✔ newly retrieved search items have Save and Open controls (0.689291ms)
+✔ source controls save an explicit choice without starting retrieval (0.198209ms)
+✔ Search waits for the pending model setting write (0.404ms)
+✔ Search waits for the pending sources setting write (0.2925ms)
+✔ an expired saved item's state remains visible without cached metadata (0.201917ms)
+✔ failed model setting writes block Search until a successful retry (0.554792ms)
+✔ failed sources setting writes block Search until a successful retry (0.369167ms)
+✔ search shows the retrieval subject separately and labels inferred relevance (0.282083ms)
+✔ beginner search does not claim that no relevance constraints were applied (0.206625ms)
+✔ Hermes search explains the work-budget limitation before dispatch (0.133125ms)
+✔ Hermes work-budget limitation remains visible while the provider has not returned (0.678791ms)
+✔ the offline stub does not show a Hermes in-flight budget note (0.0845ms)
+✔ pending Search cannot hide the Hermes limitation by closing the panel (0.174375ms)
+✔ Cancel search can be queued before the supervised job id arrives (0.305958ms)
+✔ a finished Search moves focus to the results heading (0.1915ms)
+✔ a failed Search moves focus to the error alert (0.158459ms)
+✔ Stopping search stays focusable and a confirmed cancel focuses the results heading (0.23975ms)
+✔ Cancel search keeps the busy guard until the server confirms termination (0.241ms)
+✔ a lost start acknowledgement attaches to existing work without another paid start (0.250083ms)
+✔ FEED11 succeeded Search refreshes catalog and feed once without another search (0.385292ms)
+✔ FEED11 failed Search refreshes catalog and feed once without another search (0.275417ms)
+✔ FEED11 timed_out Search refreshes catalog and feed once without another search (0.269292ms)
+✔ FEED11 cancelled Search refreshes catalog and feed once without another search (0.715583ms)
+✔ Apple Books destinations and catalog attribution do not say Apple Podcasts (0.054583ms)
+✖ a YouTube card opens the source from one labelled link and does not repeat the bare source name (0.170167ms)
+✖ the model picker row wraps at a narrow viewport (0.184709ms)
+✖ a non-YouTube card keeps its labelled source link and its destination line (0.131875ms)
+✖ a finished Search announces the feed update once in the status region (0.257291ms)
+✖ N1 a Search that ends while the controls are collapsed expands them before moving focus (0.27525ms)
+✖ N2 a Search recovered on page load finishes without moving focus (602.166333ms)
+✔ privacy gates real rendered features; deletion failure retains state and success revokes access (1577.929042ms)
+✔ YouTube attribution renders without an authenticated image request (244.809625ms)
+✖ the privacy disclosure reports its expanded state and accepting it moves focus to the page heading (186.447416ms)
+ℹ tests 106
+ℹ suites 0
+ℹ pass 95
+ℹ fail 11
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6685.84075
+
+✖ failing tests:
+
+test at tests/test_browser_requests.js:6:1
+✖ FEED11 background Search completion updates the rendered feed without a reload (1594.750917ms)
+  AssertionError [ERR_ASSERTION]: a finished Search expands the collapsed controls
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_browser_requests.js:69:12)
+      at async Test.run (node:internal/test_runner/test:1404:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: null,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:1542:1
+✖ SEARCH01 the Search control posts the question with the accepted disclosure (1.029917ms)
+  AssertionError [ERR_ASSERTION]: the internal job id is not rendered
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:1562:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'Search resultsQuestion: What can I read by Jane Austen?Provider: stub. Job job:1. State: succeeded.Topic: jane austen. Level: unspecified.Time limit: none requested.Cost: unknown. The provider reported no cost information.Work limits for this job: at most 2 provider requests, 12 results, a 5 second work budget. Provider requests used: 1. Search stops local work at its deadline. Cancel search stops it early. A provider may still bill for a request already accepted.Books · 1 verifiedBookEmmaJane AustenBook · cover unavailableOpen LibraryRecommended in Hacker Newsretrieved November 6, 2026, 12:22 UTCLength unknownOpen at sourceSaveDismissSource: Open LibraryMatched the question: jane austen.Back to discovery',
+    expected: /Job job:1\./,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:1614:1
+✖ the panel warns before submitting when the live provider has no key (0.259416ms)
+  AssertionError [ERR_ASSERTION]: a static note is not a live region
+  + actual - expected
+  
+  + 'status'
+  - undefined
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:1628:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'status',
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2085:1
+✖ search helpers format a cost, a limit, and a refusal without a score (0.209292ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Work limits for this job: at most 2 provider requests, 12 results, a 5 second work budget. Provider requests used: 2. Search stops local work at its deadline. Cancel search stops it early. A provider may still bill for a request already accepted.'
+  - 'Work limits for this job: at most 2 provider requests, 12 results, a 5 second work budget. Provider requests used: 2.'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2116:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Work limits for this job: at most 2 provider requests, 12 results, a 5 second work budget. Provider requests used: 2. Search stops local work at its deadline. Cancel search stops it early. A provider may still bill for a request already accepted.',
+    expected: 'Work limits for this job: at most 2 provider requests, 12 results, a 5 second work budget. Provider requests used: 2.',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2610:1
+✖ a YouTube card opens the source from one labelled link and does not repeat the bare source name (0.170167ms)
+  AssertionError [ERR_ASSERTION]: one source-opening link per card
+  
+  2 !== 1
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2620:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2643:1
+✖ the model picker row wraps at a narrow viewport (0.184709ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /flex-wrap:\s*wrap/. Input:
+  
+  ''
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2652:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: /flex-wrap:\s*wrap/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2657:1
+✖ a non-YouTube card keeps its labelled source link and its destination line (0.131875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'Open at source: Open Library'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2663:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'Open at source: Open Library',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2670:1
+✖ a finished Search announces the feed update once in the status region (0.257291ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + ''
+  - 'Feed updated from this search.'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2678:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'Feed updated from this search.',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2690:1
+✖ N1 a Search that ends while the controls are collapsed expands them before moving focus (0.27525ms)
+  AssertionError [ERR_ASSERTION]: the collapsed controls expand when the Search ends
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2701:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2710:1
+✖ N2 a Search recovered on page load finishes without moving focus (602.166333ms)
+  AssertionError [ERR_ASSERTION]: a recovered Search does not move focus
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2730:12)
+      at async Test.run (node:internal/test_runner/test:1404:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [Object],
+    expected: [Object],
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:59:1
+✖ the privacy disclosure reports its expanded state and accepting it moves focus to the page heading (186.447416ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  null !== 'true'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_privacy_browser.js:70:12)
+      at async Test.run (node:internal/test_runner/test:1404:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: 'true',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
