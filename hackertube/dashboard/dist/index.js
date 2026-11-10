@@ -242,6 +242,16 @@
     return "Public source";
   }
 
+  // The YouTube Branding Guidelines are an integral part of the YouTube API
+  // Terms of Service: any YouTube logo shown in an application must link back
+  // to YouTube content. A card that shows the linked official icon therefore
+  // already carries its one source-opening link, and no second link to the
+  // same destination is rendered (post-merge review finding 6).
+  function usesYouTubeBrandLink(item) {
+    if (!item || String(item.item_id || "").indexOf("youtube:") !== 0) return false;
+    return destinationDecision(item.destination).ok;
+  }
+
   function sourceName(sources, sourceId, item) {
     if (sourceId === "itunes" && item) {
       var store = destinationLabel(item);
@@ -703,8 +713,10 @@
     var hits = safe.max_hits === undefined ? "?" : safe.max_hits;
     var deadline = safe.deadline_seconds === undefined ? "?" : safe.deadline_seconds;
     var used = usage && typeof usage.requests_used === "number" ? usage.requests_used : 0;
+    // The work-budget note is stated once, in the form (hackertube-budget-note).
+    // Repeating it on every limits line duplicated the same sentence.
     return SEARCH_LIMIT_NOTE + " at most " + requests + " provider requests, " + hits +
-      " results, a " + deadline + " second work budget. Provider requests used: " + used + ". " + SEARCH_BUDGET_NOTE;
+      " results, a " + deadline + " second work budget. Provider requests used: " + used + ".";
   }
 
   function constraintLine(interpretation) {
@@ -716,8 +728,9 @@
 
   function searchStatusLine(result) {
     var job = (result && result.job) || {};
+    // The internal job id is not user-facing copy; the provider and the state
+    // are the parts a reader acts on.
     return "Provider: " + ((result && result.provider) || "unknown") +
-      ". Job " + (job.job_id || "unrecorded") +
       ". State: " + (SEARCH_STATES[job.state] || job.state || "unknown") + ".";
   }
 
@@ -746,7 +759,12 @@
     var Label = components.Label;
     var Separator = components.Separator;
 
-    function HackerTubePage() {
+    function HackerTubePage(props) {
+      // The privacy gate passes focusHeading when it mounts this page, so the
+      // heading receives focus instead of the gate dropping focus to the body
+      // (review finding 5).
+      var focusHeadingOnMount = !!(props && props.focusHeading);
+      var headingFocusDone = useRef(false);
       var catalogState = useState(null);
       var catalog = catalogState[0];
       var setCatalog = catalogState[1];
@@ -809,6 +827,7 @@
       var searchAlertRef = useRef(null);
       var interestInputRef = useRef(null);
       var searchEndTarget = useRef("results");
+      var searchEndFocus = useRef(true);
       var pendingSection = useRef("");
       var alertNonceState = useState(0);
       var alertNonce = alertNonceState[0];
@@ -882,7 +901,9 @@
           if (gone || searchEpoch.current !== 0 || !body || !body.job) return;
           var job = body.job;
           if (["running", "queued", "cancelling"].indexOf(job.state) !== -1) {
-            var session = { epoch: ++searchEpoch.current, id: job.job_id, finished: false, cancelRequested: false, cancelSent: false };
+            // Recovered work: the user did not start it in this session, so it
+            // must not move focus when it ends (N2).
+            var session = { epoch: ++searchEpoch.current, id: job.job_id, finished: false, cancelRequested: false, cancelSent: false, recovered: true };
             activeSearch.current = session;
             setSubmitted(job.question || "");
             setSearchOpen(true);
@@ -971,6 +992,12 @@
       }, [view]);
 
       useEffect(function () {
+        if (!focusHeadingOnMount || headingFocusDone.current) return;
+        headingFocusDone.current = true;
+        if (headingRef.current && headingRef.current.focus) headingRef.current.focus();
+      }, []);
+
+      useEffect(function () {
         if (searchOpen && !wasOpen.current && inputRef.current) inputRef.current.focus();
         wasOpen.current = searchOpen;
       }, [searchOpen]);
@@ -987,11 +1014,19 @@
 
       useEffect(function () {
         if (searchEnd === 0) return;
+        // A search recovered on page load does not move focus: nothing was
+        // started in this session (N2).
+        if (!searchEndFocus.current) return;
         var node = searchEndTarget.current === "alert" ? searchAlertRef.current : resultsRef.current;
         if (node && node.focus) node.focus();
       }, [searchEnd]);
 
-      function endSearch(target) {
+      function endSearch(target, focus) {
+        // The results heading and the error alert both live inside the
+        // collapsible controls, so a panel collapsed while the search ran has
+        // to be expanded before the focus move below can reach its target (N1).
+        if (focus !== false) setControlsExpanded(true);
+        searchEndFocus.current = focus !== false;
         searchEndTarget.current = target;
         setSearchEnd(function (value) { return value + 1; });
       }
@@ -1172,7 +1207,7 @@
                 session.finished = true;
                 setSearchStatus("error");
                 setSearchError("Search status is unavailable. Local work still stops at its deadline. Reopen Search to check it.");
-                endSearch("alert");
+                endSearch("alert", !session.recovered);
                 return;
               }
               pollSearch(session);
@@ -1197,7 +1232,7 @@
         if (!body || body.error) {
           setSearchStatus("error");
           setSearchError(searchRefusalMessage(body));
-          endSearch("alert");
+          endSearch("alert", !session.recovered);
           return;
         }
         if (body.catalog) setCatalog(body.catalog);
@@ -1207,7 +1242,10 @@
         // after cancellation. Reread both local catalog and interest rankings.
         // The session/epoch guards above make this once per current Search.
         setPreparedNonce(function (nonce) { return nonce + 1; });
-        endSearch("results");
+        // The ranked feed below just changed; announce it once, in the
+        // persistent polite status region (review finding 9).
+        setStatus("Feed updated from this search.");
+        endSearch("results", !session.recovered);
       }
 
       function sendCancel(session) {
@@ -1425,9 +1463,17 @@
       }
 
       function renderArt(item) {
-        if (String(item.item_id || "").indexOf("youtube:") === 0 && destinationDecision(item.destination).ok) {
+        if (usesYouTubeBrandLink(item)) {
+          // The logo links to the video: that is this card's single
+          // source-opening link, and its name says what it opens.
           return h("div", { className: "ht-art ht-youtube-brand" },
-            h("a", { href: item.destination, target: "_blank", rel: "noopener noreferrer", onClick: function () { onOpen(item); } },
+            h("a", {
+              href: destinationDecision(item.destination).href,
+              target: "_blank",
+              rel: "noopener noreferrer",
+              "aria-label": "Open “" + String(item.title || "this item") + "” on YouTube",
+              onClick: function () { onOpen(item); },
+            },
               h("img", { src: YOUTUBE_ICON, alt: "YouTube" })));
         }
         var decision = item.art_url ? destinationDecision(item.art_url) : { ok: false };
@@ -1487,15 +1533,23 @@
         var state = itemState(profile, item.item_id);
         var isSaved = state.saved;
         var isDismissed = state.dismissed;
-        var openControl = decision.ok
-          ? h("a", {
-              className: "ht-action ht-open",
-              href: decision.href,
-              target: "_blank",
-              rel: "noopener noreferrer",
-              onClick: function () { onOpen(item); },
-            }, "Open at source")
-          : h("p", { className: "ht-alert", role: "alert" }, refusalMessage(decision));
+        var openControl;
+        if (!decision.ok) {
+          openControl = h("p", { className: "ht-alert", role: "alert" }, refusalMessage(decision));
+        } else if (usesYouTubeBrandLink(item)) {
+          // One source-opening link per card: the linked attribution icon
+          // above already opens this destination (review finding 6).
+          openControl = null;
+        } else {
+          openControl = h("a", {
+            className: "ht-action ht-open",
+            href: decision.href,
+            target: "_blank",
+            rel: "noopener noreferrer",
+            "aria-label": "Open at source: " + destinationLabel(item),
+            onClick: function () { onOpen(item); },
+          }, "Open at source");
+        }
         var saveButton = h(Button, {
           type: "button",
           className: "ht-action",
@@ -1551,7 +1605,12 @@
               whyText(whyLines),
               h("p", { className: "ht-creator" }, creatorLine(item, byId)),
               renderArt(item),
-              h("p", { className: "ht-destination" }, destinationLabel(item)),
+              // A YouTube card already names the source with the linked
+              // attribution icon and the note below; the bare "YouTube" line
+              // repeated it on every card (review finding 6).
+              usesYouTubeBrandLink(item)
+                ? null
+                : h("p", { className: "ht-destination" }, destinationLabel(item)),
               renderEvidence(item, evidence, sources),
               String(item.item_id || "").indexOf("youtube:") === 0 ? h("p", { className: "ht-note" }, "YouTube metadata. Relevance explanations and library actions are HackerTube features, not from YouTube.") : null,
               length ? h("p", { className: "ht-length" }, length) : null,
@@ -1866,7 +1925,7 @@
                   ? h("p", { id: "hackertube-budget-note", className: "ht-note" }, SEARCH_BUDGET_NOTE)
                   : null,
                 showProviderNote
-                  ? h("p", { id: "hackertube-provider-note", className: "ht-note", role: "status" }, SEARCH_PROVIDER_NOTE)
+                  ? h("p", { id: "hackertube-provider-note", className: "ht-note" }, SEARCH_PROVIDER_NOTE)
                   : null,
                 formAlert
                   ? h("p", { className: "ht-alert", role: "alert", tabIndex: -1, ref: alertRef }, formAlert)
@@ -2098,6 +2157,7 @@
       var showState = useState(false), show = showState[0], setShow = showState[1];
       var ackState = useState(false), ack = ackState[0], setAck = ackState[1];
       var deleteState = useState(false), deleting = deleteState[0], setDeleting = deleteState[1];
+      var focusState = useState(false), focusHeading = focusState[0], setFocusHeading = focusState[1];
       useEffect(function () {
         var gone = false;
         if (!SDK.fetchJSON) { setError("Privacy policy could not be loaded. Reopen HackerTube to retry."); return; }
@@ -2116,13 +2176,30 @@
         }).then(function (body) {
           if (!body || typeof body.accepted !== "boolean" || !body.version) throw new Error("privacy response");
           setPolicy(body); setShow(false); setAck(false); setDeleting(false);
+          // Accepting mounts the page below. It has no focus target of its own,
+          // so focus is handed to that page's heading instead of being dropped
+          // to the body (review finding 5).
+          if (!remove) setFocusHeading(true);
         }).catch(function () { setError(remove ? "Deletion did not complete. Cancel any active Search and retry. Your data has not been cleared." : "Agreement could not be saved. Please retry."); })
           .finally(function () { setBusy(false); });
       }
       function link(url, label) { return h("a", { href: url, target: "_blank", rel: "noopener noreferrer" }, label); }
+      // The gate has to render even if the host is missing its component set,
+      // so the SDK button falls back to a native one.
+      var GateButton = Button || "button";
+      var policyShown = !!(policy && (!policy.accepted || show));
       return h("div", { className: "hackertube" },
-        h("button", { type: "button", onClick: function () { setShow(!show); } }, "Privacy"),
-        policy && (!policy.accepted || show) ? h("section", { "aria-label": "Privacy policy" },
+        h(GateButton, {
+          type: "button",
+          outlined: true,
+          className: "ht-action",
+          // The toggle reports the state of the section it controls: while the
+          // policy is unaccepted it is forced open, so it reads expanded.
+          "aria-expanded": policyShown ? "true" : "false",
+          "aria-controls": "hackertube-privacy-policy",
+          onClick: function () { setShow(!show); },
+        }, "Privacy"),
+        policyShown ? h("section", { id: "hackertube-privacy-policy", "aria-label": "Privacy policy" },
           h("h1", null, "HackerTube privacy and terms"),
           h("p", null, "Read the policy and agree before using HackerTube. Version " + policy.version),
           h("div", { style: { whiteSpace: "pre-wrap" } }, policy.text),
@@ -2130,16 +2207,16 @@
           !policy.accepted ? h("div", null,
             h("label", null, h("input", { type: "checkbox", checked: ack, disabled: busy,
               onChange: function (event) { setAck(!!event.target.checked); } }), " I agree to the HackerTube privacy policy and terms, including the YouTube Terms of Service."),
-            h("button", { type: "button", disabled: busy || !ack, onClick: function () { update(false); } }, "Agree and continue")
+            h(GateButton, { type: "button", disabled: busy || !ack, onClick: function () { update(false); } }, "Agree and continue")
           ) : null,
           h("p", null, "Deletion removes this profile’s HackerTube library, history, searches, source settings and agreement. It does not change data held by YouTube or remove Hermes credentials. Cancel an active Search first."),
           h("label", null, h("input", { type: "checkbox", checked: deleting, disabled: busy,
             onChange: function (event) { setDeleting(!!event.target.checked); } }), " Delete all HackerTube data in this profile"),
-          h("button", { type: "button", disabled: busy || !deleting, onClick: function () { update(true); } }, "Delete HackerTube data and revoke agreement")
+          h(GateButton, { type: "button", outlined: true, disabled: busy || !deleting, onClick: function () { update(true); } }, "Delete HackerTube data and revoke agreement")
         ) : null,
         error ? h("p", { role: "alert" }, error) : null,
         !policy && !error ? h("p", null, "Loading privacy policy…") : null,
-        policy && policy.accepted ? h(HackerTubePage) : null
+        policy && policy.accepted ? h(HackerTubePage, { focusHeading: focusHeading }) : null
       );
     }
     // Content is exposed for the component-only harness; production mounts PrivacyPage.

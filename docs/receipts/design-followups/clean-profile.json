@@ -1,0 +1,68 @@
+{
+  "agreement": {
+    "accepted": true,
+    "status": 200
+  },
+  "hermes_home": "/Users/robert/.hermes/cache/scratch/htdesign-cp3",
+  "keyless_jobs": [],
+  "keyless_request_counts": {
+    "free": 0,
+    "metered": 0,
+    "paid": 0
+  },
+  "keyless_search": {
+    "body": {
+      "error": "provider_unavailable",
+      "message": "The Hermes search service is unavailable. No request was sent.",
+      "provider": "hermes"
+    },
+    "status": 503
+  },
+  "model_key_in_environment": false,
+  "plugin_api": "/Users/robert/.hermes/cache/scratch/htdesign-cp3/plugins/hackertube/dashboard/plugin_api.py",
+  "plugin_data_dir": "/Users/robert/.hermes/cache/scratch/htdesign-cp3/plugin-data/hackertube",
+  "plugin_db_module": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+  "status_default": {
+    "data_root": "/Users/robert/.hermes/cache/scratch/htdesign-cp3/plugin-data/hackertube",
+    "name": "HackerTube",
+    "provider": "hermes"
+  },
+  "status_stub": {
+    "data_root": "/Users/robert/.hermes/cache/scratch/htdesign-cp3/plugin-data/hackertube",
+    "name": "HackerTube",
+    "provider": "stub"
+  },
+  "stored_jobs": [
+    {
+      "job_id": "job:1",
+      "state": "succeeded"
+    }
+  ],
+  "stub_request_counts": {
+    "free": 0,
+    "metered": 0,
+    "paid": 0
+  },
+  "stub_search": {
+    "provider": "stub",
+    "results": 10,
+    "sections": {
+      "audiobooks": 4,
+      "books": 4,
+      "podcasts": 2
+    },
+    "state": "succeeded",
+    "status": 200,
+    "usage": {
+      "cost_known": false,
+      "cost_usd": null,
+      "paid_calls": 0,
+      "request_counts": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "requests_used": 1
+    }
+  }
+}

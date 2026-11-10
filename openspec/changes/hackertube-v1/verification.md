@@ -706,3 +706,43 @@ Seven findings from the post-merge review of `ae5386f`. No live or paid call. `H
 | Non-numeric cost | Python covers a string, a boolean, a mapping, and a non-numeric rank cost. The page renders `cost_known: true` with `cost_usd: "0.02"` as unknown, not `$0.0000`. |
 
 `python -m pytest tests -q`: **314 passed, 0 failed**, one existing Starlette/httpx deprecation warning. `node --test tests/test_dashboard_page.js tests/test_browser_requests.js tests/test_privacy_browser.js`: **99 passed, 0 failed, 0 skipped**. `python3 scripts/check_spec_coverage.py`: PASS, 100 scenarios, 32 PRD IDs. Scenarios touched: UI06, UI07, PREF16, JOB04, JOB07.
+
+## Design follow-ups: privacy gate, attribution, copy, picker, feed notice, N1/N2
+
+Eight remaining low-priority items from the post-merge review of `ae5386f`
+(findings 5-10) and its re-review of PR #26 (N1, N2). Branch
+`hermes/design-followups`; base `main` `b1ec55c`. Dashboard bundle and tests
+only. No live or paid call; `HACKERTUBE_MODEL_KEY` was not set or read.
+
+| Item | Check |
+|---|---|
+| 5. Privacy gate | The gate's toggle and its two actions render the SDK `Button` (native fallback when the host has no component set). The toggle reports the state of the section it controls with `aria-expanded` + `aria-controls`; accepting the policy hands focus to the mounted page's heading. Browser test: `the privacy disclosure reports its expanded state and accepting it moves focus to the page heading`. |
+| 6. YouTube attribution | One source-opening link per card. The linked official icon is that link on a YouTube card (the branding guidelines require a shown logo to link to YouTube content), named `Open "<title>" on YouTube`; the duplicate `Open at source` control and the bare `YouTube` destination line are gone there; the remaining `Open at source` links name their destination. Tests: `a YouTube card opens the source from one labelled link and does not repeat the bare source name`; `a non-YouTube card keeps its labelled source link and its destination line`. The 100px embedded icon and its digest assertion are unchanged. |
+| 7. Search panel copy | The work-budget sentence appears once (the form note); the internal job id is not rendered. `search helpers format a cost, a limit, and a refusal without a score` and SEARCH01 now assert the removal. |
+| 8. Model picker at 390px | Wrapping row with a `0.5rem` gap and a capped `select`. Test: `the model picker row wraps at a narrow viewport`; measured reflow in [the receipt](../../../docs/receipts/design-followups/README.md). |
+| 9. Feed refresh | A terminal Search writes `Feed updated from this search.` once to the persistent polite status region. Test: `a finished Search announces the feed update once in the status region`. |
+| 10. Provider note | The static provider note no longer carries `role="status"`. |
+| N1 | `endSearch` expands collapsed controls before focusing the results heading or the alert. Test: `N1 a Search that ends while the controls are collapsed expands them before moving focus`. This changes the behaviour UI07 described, so the scenario text was amended in the same change: a profile write still preserves the collapsed state, and a Search that ends expands the controls. FEED11's previous "feed updates leave controls collapsed" expectation is replaced by the amended behaviour, and its `/feed` stub was completed to all four section groups. |
+| N2 | A job recovered on page load is marked recovered and never moves focus when it ends. Test: `N2 a Search recovered on page load finishes without moving focus`. |
+
+Red regressions: 12 production mutations, each red in the named test and each
+restored (see [red-mutations.log](../../../docs/receipts/design-followups/red-mutations.log)).
+Gate: zero failures.
+
+`python -m pytest tests -q`: **314 passed, 0 failed**, one existing
+Starlette/httpx warning. `node --test tests/test_dashboard_page.js
+tests/test_browser_requests.js tests/test_privacy_browser.js`: **106 passed, 0
+failed, 0 skipped** (99 at base). `bypass_probe.py`, `red_against_main.py` and
+`probe.py` each exited 0. `hermes plugins validate .` and
+`hermes plugins doctor . --ci` both exited 0. Strict OpenSpec validation: 1
+passed, 0 failed; `scripts/check_spec_coverage.py`: PASS. Clean profile
+(`HERMES_HOME` disposable, plugin enabled, real `plugin_db` and
+`hermes_cli.config`): the keyless default provider answers **503
+`provider_unavailable`** with no outbound request and no job row — it fails
+closed — while the stub provider returns a succeeded job at 200. Scenarios
+touched: UI04, UI06, and UI07 (amended above), whose texts bear on the source
+link set, accessible names and focus, and the collapse behaviour; no other
+scenario text changed. Not claimed:
+an installed-host render of the change, or any assistive-technology run.
+Full scope, logs, measurements and limits:
+[design-followups receipt](../../../docs/receipts/design-followups/README.md).

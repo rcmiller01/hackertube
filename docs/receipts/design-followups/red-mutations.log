@@ -1,0 +1,91 @@
+--- finding 5 aria-expanded (tests/test_privacy_browser.js)
+    ✖ the privacy disclosure reports its expanded state and accepting it moves focus to the page heading (295.290667ms)
+    ℹ pass 0
+    ℹ fail 1
+    ✖ failing tests:
+    ✖ the privacy disclosure reports its expanded state and accepting it moves focus to the page heading (295.290667ms)
+--- finding 5 focus after acceptance (tests/test_privacy_browser.js)
+    ✖ the privacy disclosure reports its expanded state and accepting it moves focus to the page heading (732.180417ms)
+    ℹ pass 0
+    ℹ fail 1
+    ✖ failing tests:
+    ✖ the privacy disclosure reports its expanded state and accepting it moves focus to the page heading (732.180417ms)
+--- finding 6 single source link (tests/test_dashboard_page.js)
+    ✖ a YouTube card opens the source from one labelled link and does not repeat the bare source name (2.42225ms)
+    ℹ pass 0
+    ℹ fail 1
+    ✖ failing tests:
+    ✖ a YouTube card opens the source from one labelled link and does not repeat the bare source name (2.42225ms)
+--- finding 6 descriptive label (tests/test_dashboard_page.js)
+    ✖ a YouTube card opens the source from one labelled link and does not repeat the bare source name (1.891792ms)
+    ℹ pass 0
+    ℹ fail 1
+    ✖ failing tests:
+    ✖ a YouTube card opens the source from one labelled link and does not repeat the bare source name (1.891792ms)
+--- finding 6 repeated source line (tests/test_dashboard_page.js)
+    ✖ a YouTube card opens the source from one labelled link and does not repeat the bare source name (2.143375ms)
+    ℹ pass 0
+    ℹ fail 1
+    ✖ failing tests:
+    ✖ a YouTube card opens the source from one labelled link and does not repeat the bare source name (2.143375ms)
+--- finding 7 duplicated budget note (tests/test_dashboard_page.js)
+    ✖ search helpers format a cost, a limit, and a refusal without a score (1.109416ms)
+    ℹ pass 0
+    ℹ fail 1
+    ✖ failing tests:
+    ✖ search helpers format a cost, a limit, and a refusal without a score (1.109416ms)
+--- finding 7 job id (tests/test_dashboard_page.js)
+    ✖ SEARCH01 the Search control posts the question with the accepted disclosure (3.714666ms)
+    ℹ pass 0
+    ℹ fail 1
+    ✖ failing tests:
+    ✖ SEARCH01 the Search control posts the question with the accepted disclosure (3.714666ms)
+--- finding 8 picker wrap (tests/test_dashboard_page.js)
+    ✖ the model picker row wraps at a narrow viewport (0.942458ms)
+    ℹ pass 0
+    ℹ fail 1
+    ✖ failing tests:
+    ✖ the model picker row wraps at a narrow viewport (0.942458ms)
+--- finding 9 feed announcement (tests/test_dashboard_page.js)
+    ✖ a finished Search announces the feed update once in the status region (3.339958ms)
+    ℹ pass 0
+    ℹ fail 1
+    ✖ failing tests:
+    ✖ a finished Search announces the feed update once in the status region (3.339958ms)
+--- finding 10 static note role (tests/test_dashboard_page.js)
+    ✖ the panel warns before submitting when the live provider has no key (2.319791ms)
+    ℹ pass 0
+    ℹ fail 1
+    ✖ failing tests:
+    ✖ the panel warns before submitting when the live provider has no key (2.319791ms)
+--- N1 expand before focus (tests/test_dashboard_page.js)
+    ✖ N1 a Search that ends while the controls are collapsed expands them before moving focus (3.416042ms)
+    ℹ pass 0
+    ℹ fail 1
+    ✖ failing tests:
+    ✖ N1 a Search that ends while the controls are collapsed expands them before moving focus (3.416042ms)
+--- N2 recovered search focus (tests/test_dashboard_page.js)
+    ✖ N2 a Search recovered on page load finishes without moving focus (604.698959ms)
+    ℹ pass 0
+    ℹ fail 1
+    ✖ failing tests:
+    ✖ N2 a Search recovered on page load finishes without moving focus (604.698959ms)
+
+| mutation | test | exit | verdict |
+| --- | --- | --- | --- |
+| finding 5 aria-expanded | test_privacy_browser.js | 1 | RED as expected |
+| finding 5 focus after acceptance | test_privacy_browser.js | 1 | RED as expected |
+| finding 6 single source link | test_dashboard_page.js | 1 | RED as expected |
+| finding 6 descriptive label | test_dashboard_page.js | 1 | RED as expected |
+| finding 6 repeated source line | test_dashboard_page.js | 1 | RED as expected |
+| finding 7 duplicated budget note | test_dashboard_page.js | 1 | RED as expected |
+| finding 7 job id | test_dashboard_page.js | 1 | RED as expected |
+| finding 8 picker wrap | test_dashboard_page.js | 1 | RED as expected |
+| finding 9 feed announcement | test_dashboard_page.js | 1 | RED as expected |
+| finding 10 static note role | test_dashboard_page.js | 1 | RED as expected |
+| N1 expand before focus | test_dashboard_page.js | 1 | RED as expected |
+| N2 recovered search focus | test_dashboard_page.js | 1 | RED as expected |
+
+restored index.js: True
+restored style.css: True
+ALL MUTATIONS RED, ALL FILES RESTORED
