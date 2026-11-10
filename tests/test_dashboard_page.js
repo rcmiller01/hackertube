@@ -2656,7 +2656,10 @@ test("a YouTube card opens the source from one labelled link and does not repeat
       "the bare YouTube destination line is not repeated",
     );
     assert.doesNotMatch(textOf(article), /Open at source/);
-    assert.match(textOf(article), /YouTube metadata/);
+    // T28: the approved short note, pinned exactly (curly apostrophe included).
+    const notes = ui.within(isArticle, (node) => node.props && node.props.className === "ht-note");
+    assert.equal(notes.length, 1, "one YouTube metadata note per YouTube card");
+    assert.equal(textOf(notes[0]), "Metadata from YouTube. Explanations and library actions are HackerTube’s.");
   } finally {
     ui.restore();
   }
@@ -2926,6 +2929,10 @@ test("visual CSS F1 F2 F5 F6 F7 F10 F11 F12 F13 F15 F16 F17 F19 F23 token layout
   assert.match(rule(".hackertube .ht-grid"), /repeat\(auto-fill, minmax\(min\(100%, 17rem\), 1fr\)\)/);
   assert.match(rule(".hackertube .ht-count"), /font-weight:\s*400/);
   assert.match(rule(".hackertube .ht-format"), /font-size:\s*0\.8125rem/);
+  assert.match(rule(".hackertube .ht-compact .ht-format"), /display:\s*none/);
+  assert.match(rule(".hackertube .ht-model-picker a"), /min-height:\s*44px/);
+  assert.match(rule(".hackertube .ht-model-picker a"), /display:\s*inline-flex/);
+  assert.match(rule(".hackertube .ht-model-picker select"), /min-height:\s*44px/);
   assert.match(rule(".hackertube .ht-status:empty"), /min-height:\s*0/);
   assert.match(rule(".hackertube h3"), /font-weight:\s*600/);
   assert.doesNotMatch(css, /#[0-9a-f]{3,8}\b/i);
@@ -2999,6 +3006,9 @@ test("visual atomic F21 section matches are compact but the feed is not", () => 
     assert.equal(ui.within(n => n.props.id === "books", n => n.props.className === "ht-card ht-compact").length, 1);
     assert.equal(ui.within(n => n.props.id === "ranked-feed", n => n.props.className === "ht-card").length, 1);
     assert.equal(ui.within(n => n.props.id === "books", n => n.props.className === "ht-actions").length, 1);
+    // The badge stays in the markup on both; compact rows hide it in CSS only.
+    assert.equal(ui.within(n => n.props.id === "books", n => n.props.className === "ht-format").length, 1);
+    assert.equal(ui.within(n => n.props.id === "ranked-feed", n => n.props.className === "ht-format").length, 1);
   } finally { ui.restore(); }
 });
 

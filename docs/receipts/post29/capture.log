@@ -1,0 +1,162 @@
+{
+  "hostStylesheet": "/Users/robert/.hermes/hermes-agent/hermes_cli/web_dist/assets/index-CXKdN8QE.css",
+  "scope": "Production bundle and stylesheet in React fixture with stub SDK/API. No installed dashboard or live provider claim.",
+  "viewports": [
+    {
+      "width": 1280,
+      "noteText": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+      "compactBadges": 3,
+      "compactDisplay": "none",
+      "fullBadges": 4,
+      "fullDisplay": "block",
+      "targets": {
+        "link": {
+          "height": 44,
+          "width": 196.4375,
+          "right": 318.9375,
+          "display": "flex"
+        },
+        "select": {
+          "height": 44,
+          "width": 345.71875,
+          "right": 659.921875,
+          "display": "block"
+        }
+      },
+      "searchBoxes": [
+        {
+          "tag": "FORM",
+          "id": "hackertube-search-panel",
+          "class": "",
+          "width": 660,
+          "right": 782.5,
+          "scrollWidth": 660,
+          "clientWidth": 660
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "class": "ht-model-picker",
+          "width": 660,
+          "right": 782.5,
+          "scrollWidth": 660,
+          "clientWidth": 660
+        },
+        {
+          "tag": "SELECT",
+          "id": "hackertube-search-model",
+          "class": "",
+          "width": 345.71875,
+          "right": 659.921875,
+          "scrollWidth": 346,
+          "clientWidth": 346
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "class": "",
+          "width": 196.4375,
+          "right": 318.9375,
+          "scrollWidth": 196,
+          "clientWidth": 196
+        },
+        {
+          "tag": "INPUT",
+          "id": "hackertube-question",
+          "class": "ht-input",
+          "width": 660,
+          "right": 782.5,
+          "scrollWidth": 660,
+          "clientWidth": 660
+        },
+        {
+          "tag": "P",
+          "id": "hackertube-disclosure",
+          "class": "ht-disclosure",
+          "width": 660,
+          "right": 782.5,
+          "scrollWidth": 658,
+          "clientWidth": 658
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "noteText": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+      "compactBadges": 3,
+      "compactDisplay": "none",
+      "fullBadges": 4,
+      "fullDisplay": "block",
+      "targets": {
+        "link": {
+          "height": 44,
+          "width": 196.4375,
+          "right": 334.015625,
+          "display": "flex"
+        },
+        "select": {
+          "height": 44,
+          "width": 360,
+          "right": 375,
+          "display": "block"
+        }
+      },
+      "searchBoxes": [
+        {
+          "tag": "FORM",
+          "id": "hackertube-search-panel",
+          "class": "",
+          "width": 360,
+          "right": 375,
+          "scrollWidth": 360,
+          "clientWidth": 360
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "class": "ht-model-picker",
+          "width": 360,
+          "right": 375,
+          "scrollWidth": 360,
+          "clientWidth": 360
+        },
+        {
+          "tag": "SELECT",
+          "id": "hackertube-search-model",
+          "class": "",
+          "width": 360,
+          "right": 375,
+          "scrollWidth": 360,
+          "clientWidth": 360
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "class": "",
+          "width": 196.4375,
+          "right": 334.015625,
+          "scrollWidth": 196,
+          "clientWidth": 196
+        },
+        {
+          "tag": "INPUT",
+          "id": "hackertube-question",
+          "class": "ht-input",
+          "width": 360,
+          "right": 375,
+          "scrollWidth": 360,
+          "clientWidth": 360
+        },
+        {
+          "tag": "P",
+          "id": "hackertube-disclosure",
+          "class": "ht-disclosure",
+          "width": 360,
+          "right": 375,
+          "scrollWidth": 358,
+          "clientWidth": 358
+        }
+      ]
+    }
+  ]
+}
