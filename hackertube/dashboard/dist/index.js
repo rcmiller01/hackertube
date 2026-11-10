@@ -55,7 +55,6 @@
   var SEARCH_COST_KNOWN_PREFIX = "Cost: $";
   var SEARCH_LIMIT_NOTE = "Work limits for this job:";
   var SEARCH_BUDGET_NOTE = "Search stops local work at its deadline. Cancel search stops it early. A provider may still bill for a request already accepted.";
-  var SEARCH_STATES = { queued: "queued", running: "running", succeeded: "succeeded", partial: "partial", failed: "failed" };
   var ORDER_NOTE = "Seeded catalog, in capture order.";
   var DISCOVERY_SCHEMA = "hackertube.discovery/1";
   var FEED_UPDATE_NOTICE = "Feed updated from this search.";
@@ -729,10 +728,16 @@
 
   function searchStatusLine(result) {
     var job = (result && result.job) || {};
-    // The internal job id is not user-facing copy; the provider and the state
-    // are the parts a reader acts on.
-    return "Provider: " + ((result && result.provider) || "unknown") +
-      ". State: " + (SEARCH_STATES[job.state] || job.state || "unknown") + ".";
+    var usage = (result && result.usage) || {};
+    var labels = { queued: "Queued", running: "Searching", succeeded: "Finished",
+      partial: "Partially finished", failed: "Failed", cancelled: "Cancelled",
+      timed_out: "Timed out", interrupted: "Interrupted" };
+    var used = usage.requests_used;
+    var requests = typeof used === "number" && isFinite(used) && used >= 0
+      ? used + " provider request" + (used === 1 ? "" : "s") : "provider requests unknown";
+    var cost = usage.cost_known === true && typeof usage.cost_usd === "number" && isFinite(usage.cost_usd)
+      ? "cost $" + usage.cost_usd.toFixed(4) : "cost unknown";
+    return (labels[job.state] || "Status unknown") + " · " + requests + " · " + cost;
   }
 
   function resultWhy(result) {
@@ -1504,7 +1509,8 @@
               "aria-label": "Open “" + String(item.title || "this item") + "” on YouTube",
               onClick: function () { onOpen(item); },
             },
-              h("img", { src: YOUTUBE_ICON, alt: "YouTube" })));
+              h("img", { src: YOUTUBE_ICON, alt: "YouTube" }),
+              h("span", { className: "ht-youtube-action" }, "Watch on YouTube")));
         }
         var decision = item.art_url ? destinationDecision(item.art_url) : { ok: false };
         var showImage = !!(item.art_url && item.art_hotlink && decision.ok && !artFailed[item.item_id]);
@@ -2205,11 +2211,10 @@
           body: JSON.stringify(remove ? {} : { version: policy.version, accepted: true }),
         }).then(function (body) {
           if (!body || typeof body.accepted !== "boolean" || !body.version) throw new Error("privacy response");
-          setPolicy(body); setShow(false); setAck(false); setDeleting(false);
-          // Accepting mounts the page below. It has no focus target of its own,
-          // so focus is handed to that page's heading instead of being dropped
-          // to the body (review finding 5).
+          // Set the hand-off before mounting the page, including on hosts
+          // that do not batch promise-callback state updates.
           if (!remove) setFocusHeading(true);
+          setPolicy(body); setShow(false); setAck(false); setDeleting(false);
         }).catch(function () { setError(remove ? "Deletion did not complete. Cancel any active Search and retry. Your data has not been cleared." : "Agreement could not be saved. Please retry."); })
           .finally(function () { setBusy(false); });
       }
@@ -2229,7 +2234,7 @@
           "aria-controls": "hackertube-privacy-policy",
           onClick: function () { setShow(!show); },
         }, "Privacy"),
-        policyShown ? h("section", { id: "hackertube-privacy-policy", "aria-label": "Privacy policy" },
+        policy ? h("section", { id: "hackertube-privacy-policy", "aria-label": "Privacy policy", hidden: !policyShown },
           h("h1", null, "HackerTube privacy and terms"),
           h("p", null, "Read the policy and agree before using HackerTube. Version " + policy.version),
           h("div", { style: { whiteSpace: "pre-wrap" } }, policy.text),

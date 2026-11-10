@@ -52,12 +52,24 @@ test("YouTube attribution renders without an authenticated image request", async
     assert.equal(require("node:crypto").createHash("sha256").update(bytes).digest("hex"),"1027b1b0517727adb9697155a270744381c3ce9b047b1c8bd8a9389dc7d07a83","official asset must remain unmodified");
     await ui.waitForFunction(()=>document.querySelector('img[alt="YouTube"]').naturalWidth>0);
     assert.equal(await logo.evaluate(el=>el.getBoundingClientRect().height),100);
+    const action=ui.locator("article").first().getByRole("link",{name:"Open “AI introduction” on YouTube"});
+    assert.equal(await action.count(),1);
+    const text=action.getByText("Watch on YouTube",{exact:true});
+    await text.waitFor();
+    const geometry=await text.evaluate(el=>{
+      const label=el.getBoundingClientRect();
+      const art=el.closest(".ht-art").getBoundingClientRect();
+      const icon=el.parentElement.querySelector("img").getBoundingClientRect();
+      return {gap:label.top-icon.bottom,visible:label.top>=art.top && label.bottom<=art.bottom};
+    });
+    assert.ok(geometry.gap>=40,"keep the icon's existing clear space before the text");
+    assert.equal(geometry.visible,true,"action must not be clipped by the art container");
   } finally {await browser.close();await fixture.close();}
 });
 
 
 test("the privacy disclosure reports its expanded state and accepting it moves focus to the page heading", async () => {
-  const fixture=await startFixture(fixtureItems(1), {accepted:false});
+  const fixture=await startFixture(fixtureItems(1), {accepted:false, unbatchedPrivacy:true});
   const browser=await loadNodeModule("playwright").chromium.launch({headless:true});
   try {
     const ui=await browser.newPage();
@@ -77,6 +89,8 @@ test("the privacy disclosure reports its expanded state and accepting it moves f
     assert.equal(await ui.evaluate(()=>document.activeElement&&document.activeElement.id),"discover");
     assert.equal(await toggle.getAttribute("aria-expanded"),"false");
     assert.equal(await ui.getByRole("region",{name:"Privacy policy"}).count(),0);
+    assert.equal(await ui.locator("#hackertube-privacy-policy").count(),1,"aria-controls target remains mounted");
+    assert.equal(await ui.locator("#hackertube-privacy-policy").getAttribute("hidden"),"");
     await toggle.click();
     assert.equal(await toggle.getAttribute("aria-expanded"),"true");
     await ui.getByRole("region",{name:"Privacy policy"}).waitFor();

@@ -160,7 +160,23 @@ async function startFixture(items, privacyOptions = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "ht-browser-boundary-"));
   const harness = path.join(dir, "harness.js");
   const bundle = path.join(dir, "bundle.js");
-  fs.writeFileSync(harness, HARNESS_SOURCE);
+  // Flush each asynchronous privacy-acceptance setter separately, matching
+  // pre-automatic-batching hosts even when the test runtime is modern React.
+  const source = privacyOptions.unbatchedPrivacy ? HARNESS_SOURCE.replace(
+    '    React,',
+    `    React: Object.assign({}, React, { useState(initial) {
+      const [value, setValue] = React.useState(initial);
+      return [value, next => window.__unbatchedPrivacy
+        ? require("react-dom").flushSync(() => setValue(next)) : setValue(next)];
+    }}),`,
+  ).replace(
+    'return response.json();',
+    `return response.json().then(body => {
+      if (init && init.method === "POST" && url.endsWith("/privacy")) window.__unbatchedPrivacy = true;
+      return body;
+    });`,
+  ) : HARNESS_SOURCE;
+  fs.writeFileSync(harness, source);
   await esbuild.build({
     entryPoints: [harness],
     bundle: true,

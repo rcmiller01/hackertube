@@ -1,0 +1,98 @@
+{
+  "base": "d874ed20e6ef2fcb96778be1cc32b18d2bfdc7ce",
+  "historical_receipt_prefixes": {
+    "docs/receipts/design-followups/red-mutations.log": "byte-identical original prefix; annotation appended",
+    "docs/receipts/design-followups/red-commit.log": "byte-identical original prefix; annotation appended"
+  },
+  "sites": {
+    "renderCard(": {
+      "count": 4,
+      "matches": [
+        {
+          "line": 1702,
+          "text": "return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, inLibrary, focusId);"
+        },
+        {
+          "line": 1733,
+          "text": "return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, false, focusId, lines);"
+        },
+        {
+          "line": 1754,
+          "text": "return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, false, focusId, lines);"
+        },
+        {
+          "line": 1848,
+          "text": "? renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, false, \"\", null)"
+        }
+      ]
+    },
+    "renderArt(": {
+      "count": 1,
+      "matches": [
+        {
+          "line": 1643,
+          "text": "renderArt(item),"
+        }
+      ]
+    },
+    "usesYouTubeBrandLink(": {
+      "count": 3,
+      "matches": [
+        {
+          "line": 1501,
+          "text": "if (usesYouTubeBrandLink(item)) {"
+        },
+        {
+          "line": 1575,
+          "text": "} else if (usesYouTubeBrandLink(item)) {"
+        },
+        {
+          "line": 1647,
+          "text": "usesYouTubeBrandLink(item)"
+        }
+      ]
+    },
+    "searchStatusLine(": {
+      "count": 1,
+      "matches": [
+        {
+          "line": 1877,
+          "text": "h(\"p\", { className: \"ht-meta\", id: \"hackertube-job-status\" }, searchStatusLine(result)),"
+        }
+      ]
+    },
+    "setFocusHeading(": {
+      "count": 1,
+      "matches": [
+        {
+          "line": 2216,
+          "text": "if (!remove) setFocusHeading(true);"
+        }
+      ]
+    },
+    "hackertube-privacy-policy": {
+      "count": 2,
+      "matches": [
+        {
+          "line": 2234,
+          "text": "\"aria-controls\": \"hackertube-privacy-policy\","
+        },
+        {
+          "line": 2237,
+          "text": "policy ? h(\"section\", { id: \"hackertube-privacy-policy\", \"aria-label\": \"Privacy policy\", hidden: !policyShown },"
+        }
+      ]
+    }
+  },
+  "preserved_copy_literal_counts": true,
+  "node_pass": 127,
+  "node_fail": 0,
+  "new_node_tests": 17,
+  "red_logs": {
+    "red-youtube.log": 1,
+    "red-focus.log": 1,
+    "red-hidden.log": 1,
+    "red-status.log": 19,
+    "red-youtube-clearspace.log": 1
+  }
+}

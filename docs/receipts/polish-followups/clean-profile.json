@@ -1,0 +1,33 @@
+{
+  "profile": "/Users/robert/Developer/hackertube-polish/.venv/polish-profile-2r9037u1",
+  "enable_output": "\u2713 Plugin hackertube enabled.\nhackertube may not override built-in tools. Re-run `hermes plugins enable \nhackertube --allow-tool-override` to grant this later.\n",
+  "enabled_listing": [
+    {
+      "name": "hackertube",
+      "status": "enabled",
+      "version": "0.2.2",
+      "description": "Source-backed media search and discovery in the Hermes web dashboard.",
+      "source": "user",
+      "removed": null
+    }
+  ],
+  "route_result": {
+    "agreement": true,
+    "keyless_status": 503,
+    "keyless_body": {
+      "error": "provider_unavailable",
+      "message": "The Hermes search service is unavailable. No request was sent.",
+      "provider": "hermes"
+    },
+    "stub_status": 200,
+    "stub_state": "succeeded",
+    "stub_results": 4,
+    "request_counts": {
+      "free": 0,
+      "paid": 0,
+      "metered": 0
+    }
+  },
+  "route_stderr": "",
+  "exit": 0
+}

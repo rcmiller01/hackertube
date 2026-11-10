@@ -332,3 +332,7 @@ test at tests/test_privacy_browser.js:59:1
     operator: 'strictEqual',
     diff: 'simple'
   }
+
+Receipt annotation, polish follow-up: original line 101 and the repeated test
+name in the failure detail are pre-rework receipts. The original log above is unchanged.
+Current test: a finished Search announces the feed update once, after the feed refresh is accepted.

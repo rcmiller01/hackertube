@@ -120,3 +120,12 @@ Receipts: docs/receipts/pr19-demo/README.md. Tasks 4.4/4.5/5.1/5.3 retain their 
 - [x] 15.2 Add durable interest removal with a visible Remove control at least 2.5rem tall, local reranking, library preservation and retry after rejection; verify PREF16.
 - [x] 15.3 Collapse interest, search, and section controls above Ranked feed with a keyboard-accessible reopen control, leaving navigation, the polite status region, and load alerts visible; verify UI07 and Search completion while collapsed.
 - [x] 15.4 Record artwork limitations, run clean-checkout validation and review the exact candidate head. Scheduled searches via Hermes's scheduled jobs list remain a separate update.
+
+## 16. PR #27 polish follow-ups
+
+- [x] 16.1 Correct the current feed-announcement test reference while annotating, not rewriting, historical red receipts.
+- [x] 16.2 Add visible Watch on YouTube text inside the single attribution link, preserve its accessible name and icon clear space, and exercise UI04.
+- [x] 16.3 Make privacy heading focus independent of promise batching and retain the loaded controlled policy section with hidden after acceptance; exercise UI06.
+- [x] 16.4 Render a plain Search status/request/cost summary from existing data, including unknown non-numeric costs; exercise JOB04.
+- [x] 16.5 Capture the selected long-model picker at 390px with the real host stylesheet, saving actual screenshot and width JSON. This evidence exposes clipping, not passing reflow; repair is separately tracked as t_0544b6fb.
+- [ ] 16.6 Obtain exact-head independent review of the new PR. Required suites and probes have passed; see verification.md and docs/receipts/polish-followups/README.md.

@@ -30,7 +30,7 @@ Selecting an item SHALL open its validated public destination through the suppor
 
 #### Scenario: UI04 Open a recommendation
 - **WHEN** the user opens a valid recommendation
-- **THEN** the destination opens and HackerTube neither downloads media nor starts playback itself
+- **THEN** the destination opens and HackerTube neither downloads media nor starts playback itself; a YouTube card has one source-opening link, containing the attribution icon and visible Watch on YouTube text beneath it, with the accessible name Open “<title>” on YouTube
 
 #### Scenario: UI05 Unsafe destination
 - **WHEN** a destination uses an unsafe scheme or a private-network target
@@ -41,7 +41,7 @@ Navigation, search, filters, saving, dismissal, and source links SHALL have acce
 
 #### Scenario: UI06 Keyboard journey
 - **WHEN** the user navigates, searches, filters, saves, dismisses, and opens a source using a keyboard
-- **THEN** each action is reachable, has visible focus, and has an accessible name; a finished or cancelled Search started in this page session moves focus to the results heading, and a failed one moves focus to its alert, while a Search recovered on page load finishes without moving focus; while Search is stopping, Cancel stays focusable and exposes aria-disabled
+- **THEN** each action is reachable, has visible focus, and has an accessible name; accepting the privacy policy moves focus to the page heading even without automatic state batching, and its controlled policy section remains mounted with hidden when closed after acceptance; a finished or cancelled Search started in this page session moves focus to the results heading, and a failed one moves focus to its alert, while a Search recovered on page load finishes without moving focus; while Search is stopping, Cancel stays focusable and exposes aria-disabled
 
 #### Scenario: UI07 Collapse feed controls
 - **WHEN** the user collapses the controls between the opening description and Ranked feed

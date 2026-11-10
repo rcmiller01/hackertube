@@ -32,7 +32,7 @@ Each search or refresh SHALL expose progress, terminal status, finite deadlines 
 
 #### Scenario: JOB04 Provider omits cost
 - **WHEN** a provider returns no reliable cost information
-- **THEN** the job displays total cost as unknown, including a non-numeric cost report and an attempted paid request that failed without reporting cost, and counts only its own dispatches rather than overlapping jobs, preserving durable observations even when termination precedes the worker's progress notification
+- **THEN** the job displays total cost as unknown, including a non-numeric cost report and an attempted paid request that failed without reporting cost, and counts only its own dispatches rather than overlapping jobs, preserving durable observations even when termination precedes the worker's progress notification; the dashboard summary uses a plain status, the existing provider-request count and cost (unknown unless reported as a finite number), without internal provider or state labels
 
 ### Requirement: Cancellation and restart recovery
 Cancelling a job SHALL prevent further dispatch and expose the disposition of in-flight calls. Interrupted jobs SHALL NOT silently resume paid work after restart.
