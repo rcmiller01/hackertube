@@ -1522,20 +1522,59 @@
         );
       }
 
+      function markArtFailed(itemId) {
+        setArtFailed(function (prev) {
+          if (prev[itemId]) return prev;
+          var next = Object.assign({}, prev);
+          next[itemId] = true;
+          return next;
+        });
+      }
+
+      function renderThumbnail(item, extraClassName) {
+        // A YouTube thumbnail is shown exactly as the Data API returned it:
+        // no crop, no overlay, no play button over the image. The official
+        // linked Icon stays beside it as attribution. A thumbnail that fails
+        // to load drops out and leaves the Icon: never a broken image hole.
+        if (!item.art_url || !item.art_hotlink || artFailed[item.item_id]) return null;
+        var decision = destinationDecision(item.art_url);
+        if (!decision.ok) return null;
+        return h("img", {
+          className: "ht-thumb" + (extraClassName ? " " + extraClassName : ""),
+          src: decision.href,
+          alt: "",
+          onError: function () { markArtFailed(item.item_id); },
+        });
+      }
+
+      function renderYouTubeBrand(item, compact) {
+        // The logo links to the video: that is this card's single
+        // source-opening link, and its name says what it opens. The mark is
+        // the official asset at the brand site's published digital minimum
+        // height (100px), unaltered, and the link is the tap target.
+        var link = h("a", {
+          className: compact ? "ht-youtube-icon" : undefined,
+          href: destinationDecision(item.destination).href,
+          target: "_blank",
+          rel: "noopener noreferrer",
+          "aria-label": 'Watch "' + String(item.title || "this item") + '" on YouTube',
+          onClick: function () { onOpen(item); },
+        },
+          h("img", { src: YOUTUBE_ICON, alt: "YouTube" }),
+          compact ? null : h("span", { className: "ht-youtube-action" }, "Watch on YouTube"));
+        if (compact) {
+          return h("div", { className: "ht-youtube-compact" },
+            renderThumbnail(item, "ht-thumb-compact"),
+            link);
+        }
+        return h("div", { className: "ht-youtube-media" },
+          renderThumbnail(item),
+          h("div", { className: "ht-art ht-youtube-brand" }, link));
+      }
+
       function renderArt(item) {
         if (usesYouTubeBrandLink(item)) {
-          // The logo links to the video: that is this card's single
-          // source-opening link, and its name says what it opens.
-          return h("div", { className: "ht-art ht-youtube-brand" },
-            h("a", {
-              href: destinationDecision(item.destination).href,
-              target: "_blank",
-              rel: "noopener noreferrer",
-              "aria-label": 'Watch "' + String(item.title || "this item") + '" on YouTube',
-              onClick: function () { onOpen(item); },
-            },
-              h("img", { src: YOUTUBE_ICON, alt: "YouTube" }),
-              h("span", { className: "ht-youtube-action" }, "Watch on YouTube")));
+          return renderYouTubeBrand(item, false);
         }
         var decision = item.art_url ? destinationDecision(item.art_url) : { ok: false };
         var showImage = !!(item.art_url && item.art_hotlink && decision.ok && !artFailed[item.item_id]);
@@ -1548,14 +1587,7 @@
             src: decision.href,
             alt: "",
             className: fit,
-            onError: function () {
-              setArtFailed(function (prev) {
-                if (prev[item.item_id]) return prev;
-                var next = Object.assign({}, prev);
-                next[item.item_id] = true;
-                return next;
-              });
-            },
+            onError: function () { markArtFailed(item.item_id); },
           })
         );
       }
@@ -1606,9 +1638,10 @@
         var openControl;
         if (!decision.ok) {
           openControl = h("p", { className: "ht-alert", role: "alert" }, refusalMessage(decision));
-        } else if (usesYouTubeBrandLink(item) && !compact) {
+        } else if (usesYouTubeBrandLink(item)) {
           // One source-opening link per card: the linked attribution icon
-          // above already opens this destination (review finding 6).
+          // above already opens this destination, in a compact row too
+          // (review finding 6).
           openControl = null;
         } else {
           openControl = h("a", {
@@ -1674,7 +1707,9 @@
                 : h("p", { className: "ht-format" }, format),
               title,
               creatorLine(item, byId) ? h("p", { className: "ht-creator" }, creatorLine(item, byId)) : null,
-              compact ? null : renderArt(item),
+              compact
+                ? (usesYouTubeBrandLink(item) ? renderYouTubeBrand(item, true) : null)
+                : renderArt(item),
               renderEvidence(item, evidence, sources, length),
               whyText(whyLines),
               note ? h("p", { className: "ht-meta" }, note) : null,
@@ -2182,7 +2217,7 @@
           renderNav("about"),
           h("h2", null, "Sources"),
           h("p", null, "Explicit searches retrieve from enabled Hacker News, Apple/iTunes, Open Library, LibriVox, and configured Hermes web search. YouTube Data API and Podcast Index need their own source credentials. Reddit stays disabled until approved. Results name unavailable sources. Artwork and media files are not downloaded by search."),
-          h("p", null, "Book covers load from Open Library only when the catalog marks them as hotlinks. This page does not cache those images. Apple artwork is not loaded."),
+          h("p", null, "Book covers load from Open Library and YouTube thumbnails load from the official YouTube thumbnail host, and only when the catalog marks them as verified hotlinks. This page does not cache those images. A YouTube thumbnail is shown unaltered and is never cropped or covered. Apple artwork is not loaded."),
           h("h2", null, "Coverage"),
           h("p", null, "The opening feed recommends an item only after a word match in the title or a contributor name. Matching items are ordered with fixed weights for community evidence, freshness, and variety. The line on each recommendation names only the signals that applied to that item. This page does not show scores. Community evidence means an established endorsement on the record. A mention is not an endorsement. This catalog has no established Hacker News endorsement to rank. An item needs catalog evidence that has not passed its refresh time. Dismissed and completed items stay out of the ranked feed and the section lists. Each format section lists matches first. The not-matched group stays in capture order and is not a recommendation. Coverage is the seeded titles and contributors. A subject outside that set has no ranked match. A format can be empty. Unknown duration and unknown length stay unknown. Saves and interests stay in this profile. Opening a source records that open and does not mark the item completed."),
           h("h2", null, "Search and privacy"),

@@ -1,0 +1,41 @@
+[red] new tests against the production CSS at the reviewed head 1c67561
+      (detached worktree at 1c67561, only tests/browser_net_harness.js,
+       tests/test_dashboard_page.js and tests/test_privacy_browser.js copied in)
+✖ the YouTube thumbnail presentation never crops the image (0.319333ms)
+✖ a YouTube card hotlinks the unaltered thumbnail beside the linked Icon (213.868459ms)
+✖ a compact YouTube row keeps the official linked Icon with a 44px tap target (220.327708ms)
+ℹ tests 161
+ℹ pass 158
+ℹ fail 3
+ℹ skipped 0
+✖ the YouTube thumbnail presentation never crops the image (0.319333ms)
+✖ a YouTube card hotlinks the unaltered thumbnail beside the linked Icon (213.868459ms)
+✖ a compact YouTube row keeps the official linked Icon with a 44px tap target (220.327708ms)
+
+[red] computed borderRadius on the thumbnail at 1c67561:
+  '8px' !== '0px'
+
+[red] receipt capture with border-radius restored (real host stylesheet):
+AssertionError [ERR_ASSERTION]: compact row: the corners are not clipped by a border radius
+'7.5px' !== '0px'
+      NOTE: capture.js does not close its browser on the failure path, so that
+      mutated run had to be killed after the assertion; the mutation was
+      restored from a copy and verified by sha256.
+
+[green] same three files at the fix:
+ℹ tests 161
+ℹ pass 161
+ℹ fail 0
+ℹ skipped 0
+
+[green] FEED12, five consecutive runs:
+✔ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (1094.347125ms)
+exit=0
+✔ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (1192.357791ms)
+exit=0
+✔ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (1413.12325ms)
+exit=0
+✔ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (1186.59425ms)
+exit=0
+✔ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (1554.638667ms)
+exit=0

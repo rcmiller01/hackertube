@@ -13,16 +13,58 @@ const http = require("http");
 const os = require("os");
 const path = require("path");
 
-const PAGE_PATH = path.resolve(__dirname, "../hackertube/dashboard/dist/index.js");
-const STYLE_PATH = path.resolve(__dirname, "../hackertube/dashboard/dist/style.css");
+const PAGE_PATH = process.env.HACKERTUBE_PAGE_PATH
+  || path.resolve(__dirname, "../hackertube/dashboard/dist/index.js");
+const STYLE_PATH = process.env.HACKERTUBE_STYLE_PATH
+  || path.resolve(__dirname, "../hackertube/dashboard/dist/style.css");
 
-/** The approved external artwork host: a public read that costs nothing. */
+/** The approved external artwork hosts: public reads that cost nothing. */
 const FREE_ART_HOST = "covers.openlibrary.org";
+/** The official YouTube thumbnail host. A hotlinked image read, never a Data API call. */
+const THUMB_HOST = "i.ytimg.com";
+/** Section each format belongs to, so a fixture row renders in its own section. */
+const SECTION_OF_FORMAT = {
+  video: "videos",
+  podcast_episode: "podcasts",
+  podcast_show: "podcasts",
+  book: "books",
+  audiobook: "audiobooks",
+};
 
 const PIXEL_PNG = Buffer.from(
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
   "base64",
 );
+
+/* A 480x360 (4:3) PNG, the frame shape of YouTube's official `hqdefault`
+ * thumbnail, so a test can check that the rendered box keeps the image's own
+ * aspect ratio instead of a square 1x1 pixel hiding a crop. */
+const THUMB_PNG = Buffer.from(
+  "iVBORw0KGgoAAAANSUhEUgAAAeAAAAFoCAIAAAAAVb93AAAD1klEQVR42u3UIQEAAAzDsPmZf39zcHyQSChoCsBLkQDAoAEwaACDBsCgAQwaAIMGwKABDBoAgwYwaAAMGgCDBjBoAAwawKABMGgAgwbAoAEwaACDBsCgAQwaAIMGwKABDBoAgwYwaAAMGsCgATBoAAwawKABMGgAgwbAoAEwaACDBsCgAQwaAIMGMGgADBoAgwYwaAAMGsCgATBoAAwawKABMGgAgwbAoAEwaACDBsCgAQwaAIMGMGgADBoAgwYwaAAMGsCgATBoAAwawKABMGgAgwbAoAEMGgCDBsCgAQwaAIMGMGgADBoAgwYwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGgCDBsCgAQwaAIMGMGgADBoAgwYwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGgCDBsCgAQwaAIMGMGgADBrAoAEwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaAAMGsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaACDBsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaACDBsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwawKABMGgADBrAoAEwaACDBsCgATBoAIMGwKABDBoAgwYwaAAMGgCDBjBoAAwawKABMGgADBrAoAEwaACDBsCgATBoAIMGwKABDBoAgwYwaAAMGgCDBjBoAAwawKABMGgADBrAoAEwaACDBsCgAQwaAIMGwKABDBoAgwYwaAAMGgCDBjBoAAwawKABMGgAgwbAoAEwaACDBsCgAQwaAIMGwKABDBoAgwYwaAAMGsCgJQAwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGgCDBsCgAQwaAIMGMGgADBrAoAEwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaAAMGsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaAAMGsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaACDBsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwawKABMGgADBrAoAEwaACDBsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwawKABMGgALgOsFTbtua4aFwAAAABJRU5ErkJggg==",
+  "base64",
+);
+
+/* The plugin stylesheet consumes host design tokens (`var(--radius)`,
+ * `var(--color-*)`, `var(--theme-*)`) and declares none of them itself. Without
+ * a host token block a `var()` reference is invalid at computed-value time and
+ * the property silently falls back to its initial value, so a computed-style
+ * assertion about a tokenised property (border-radius here) would pass
+ * vacuously whatever the plugin declared. The values are the compiled host's
+ * (`hermes_cli/web_dist/assets/index-*.css`: `--radius: .5rem`); the real
+ * dashboard scales rem through the host's own `html` font-size, so its effective
+ * radius reads 7.5px at 390px. What matters for the assertion is only that the
+ * token resolves to a NON-ZERO radius — that is what makes `"0px"` meaningful. */
+const HOST_TOKENS_CSS = `:root {
+  --radius: 0.5rem;
+  --color-border: #d4d4d4;
+  --color-muted: #f4f4f5;
+  --color-muted-foreground: #52525b;
+  --color-primary: #18181b;
+  --color-primary-foreground: #fafafa;
+  --color-ring: #18181b;
+  --theme-font-display: system-ui, sans-serif;
+  --theme-line-height: 1.55;
+}`;
 
 const HARNESS_SOURCE = `
   const React = require("react");
@@ -126,6 +168,20 @@ async function startFixture(items, privacyOptions = {}) {
       editions: [],
     },
   };
+  const bySection = { videos: [], podcasts: [], books: [], audiobooks: [] };
+  items.forEach((item) => {
+    const name = SECTION_OF_FORMAT[item.format];
+    if (name) bySection[name].push(item.item_id);
+  });
+  const sections = {};
+  Object.keys(bySection).forEach((name) => {
+    sections[name] = {
+      matches: bySection[name],
+      browse: [],
+      match_count: bySection[name].length,
+      browse_count: 0,
+    };
+  });
   const feed = {
     schema: "hackertube.discovery/1",
     personalized: true,
@@ -134,17 +190,7 @@ async function startFixture(items, privacyOptions = {}) {
     signals: ["matched interest"],
     feed: items.map((item) => item.item_id),
     why: Object.fromEntries(items.map((item) => [item.item_id, ["Matched interest"]])),
-    sections: {
-      videos: { matches: [], browse: [], match_count: 0, browse_count: 0 },
-      podcasts: { matches: [], browse: [], match_count: 0, browse_count: 0 },
-      books: {
-        matches: items.map((item) => item.item_id),
-        browse: [],
-        match_count: items.length,
-        browse_count: 0,
-      },
-      audiobooks: { matches: [], browse: [], match_count: 0, browse_count: 0 },
-    },
+    sections,
   };
   let profile = { schema: "hackertube.profile/1", interests: ["Jane Austen"], items: [] };
   // The search panel reads the provider state from /status. The fixture
@@ -201,7 +247,8 @@ async function startFixture(items, privacyOptions = {}) {
       record();
       response.writeHead(200, { "content-type": "text/html" });
       response.end(
-        '<!doctype html><html><head><link rel="stylesheet" href="/style.css"></head>'
+        '<!doctype html><html><head><style>' + HOST_TOKENS_CSS + '</style>'
+          + '<link rel="stylesheet" href="/style.css"></head>'
           + '<body><div id="root"></div><script src="/bundle.js"></script></body></html>',
       );
       return;
@@ -314,6 +361,10 @@ function labelOf(url, fixture) {
     "/api/plugins/hackertube/profile/opens", "/api/plugins/hackertube/profile/interests"];
   if (target.origin === fixture.origin && local.includes(target.pathname)) return "local";
   if (target.origin === "https://" + FREE_ART_HOST && /^\/b\/id\/100[1-5]-M\.jpg$/.test(target.pathname)
+      && !target.search) return "free";
+  // A YouTube thumbnail is a hotlinked PUBLIC image: free, and never the Data API.
+  if (target.origin === "https://" + THUMB_HOST
+      && /^\/vi\/[A-Za-z0-9_-]{11}\/[a-z0-9]+\.(?:jpg|png|webp)$/.test(target.pathname)
       && !target.search) return "free";
   return "outside";
 }
@@ -461,7 +512,9 @@ async function runBrowserWalk(items) {
 
 module.exports = {
   FREE_ART_HOST,
+  THUMB_HOST,
   PIXEL_PNG,
+  THUMB_PNG,
   fixtureItems,
   labelOf,
   loadNodeModule,

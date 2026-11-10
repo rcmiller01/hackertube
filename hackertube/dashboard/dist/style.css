@@ -369,3 +369,50 @@
 .hackertube .ht-art.ht-youtube-brand a { display: inline-block; padding: 40px; }
 .hackertube .ht-art.ht-youtube-brand .ht-youtube-action { display: block; margin-top: 40px; }
 .hackertube .ht-art.ht-youtube-brand img { height: 100px; width: auto; max-width: none; object-fit: contain; }
+/* Unaltered YouTube thumbnail: the image's own aspect ratio, no crop, no
+   overlay, and no corner radius. A border-radius clips the image's corners,
+   which alters it, so the rule carries none — and no wrapper of the thumbnail
+   (`ht-youtube-media`, `ht-youtube-compact`) may clip it either. */
+.hackertube .ht-youtube-media {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  max-width: 100%;
+  margin: 0.35rem 0;
+}
+.hackertube .ht-thumb {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  background: var(--color-muted);
+}
+/* Compact rows keep the same unmodified image at a row-sized width. */
+.hackertube .ht-thumb-compact { width: 6.5rem; flex: 0 0 auto; }
+/* Compact-row attribution: the official linked Icon at the brand site's
+   published 100px digital minimum height, beside the thumbnail. The link is
+   the tap target (>=44px), so the mark is never shrunk to fit. */
+.hackertube .ht-youtube-compact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  max-width: 100%;
+  margin: 0.35rem 0;
+}
+.hackertube .ht-youtube-compact a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.5rem;
+}
+.hackertube .ht-youtube-compact a img {
+  height: 100px;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  display: block;
+}

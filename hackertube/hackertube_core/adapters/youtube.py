@@ -4,19 +4,28 @@ The explicit search path can use a configured Data API key with 30-day
 metadata expiry. The static seed and legacy ingestion defaults remain disabled.
 """
 
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlsplit
 
 from hackertube_core import outbound
 from hackertube_core.adapters.base import ParseResult
 from hackertube_core.errors import RecordError
-from hackertube_core.http import read_json
+from hackertube_core.http import read_image_status, read_json
 from hackertube_core.records import Evidence, MediaItem, blank_art
-from hackertube_core.text import iso_duration_seconds, plus_days
+from hackertube_core.text import iso_duration_seconds, plus_days, public_https_url
 
 DATA_API = "https://www.googleapis.com/youtube/v3/videos"
 ENABLED = False
 BLOCKED_REASON = "unresolved-terms"
 ART_REASON = "YouTube art is not stored while the adapter is disabled."
+NO_THUMBNAIL_REASON = "The Data API response carried no official thumbnail URL."
+UNCLEARED_THUMBNAIL_REASON = "The Data API thumbnail did not clear the display check."
+#: Hosts that serve an official YouTube thumbnail. A URL the Data API did not
+#: return, or one on any other host, is never turned into stored artwork.
+THUMBNAIL_HOSTS = ("i.ytimg.com", "img.youtube.com")
+#: Largest first. ``hqdefault`` and smaller letterbox the 16:9 image; that
+#: letterboxing is part of the official image and must not be cropped away,
+#: so the presentation keeps the image's own aspect ratio.
+THUMBNAIL_KEYS = ("maxres", "standard", "high", "medium", "default")
 POLICY = {
     "source_id": "youtube",
     "name": "YouTube",
@@ -40,8 +49,29 @@ def watch_url(video_id):
     return f"https://www.youtube.com/watch?v={video_id}"
 
 
-def _video(video_id, title, contributors, duration, availability, retrieved_at, art_reason):
+def _video(
+    video_id,
+    title,
+    contributors,
+    duration,
+    availability,
+    retrieved_at,
+    art_reason,
+    art=None,
+):
     item_id = f"youtube:{video_id}"
+    artwork = blank_art(art_reason)
+    if art is not None:
+        # Zero paid calls: this URL came back on the keyed videos.list payload
+        # the search already reads, and only a FREE image check cleared it.
+        artwork = {
+            "art_url": art["url"],
+            "art_hotlink": True,
+            "art_cache": False,
+            "art_reason": art_reason,
+            "art_checked_at": art["checked_at"],
+            "art_http_status": 200,
+        }
     return MediaItem(
         item_id=item_id,
         format="video",
@@ -54,8 +84,52 @@ def _video(video_id, title, contributors, duration, availability, retrieved_at, 
         show_id=None,
         capture_order=1,
         captured_at=retrieved_at,
-        **blank_art(art_reason),
+        **artwork,
     )
+
+
+def thumbnail_url(snippet):
+    """The largest official https thumbnail URL the Data API returned, or None.
+
+    The URL is taken only from ``snippet.thumbnails`` and only from an official
+    thumbnail host. Nothing is synthesized from the video id.
+    """
+    table = snippet.get("thumbnails")
+    if not isinstance(table, dict):
+        return None
+    for key in THUMBNAIL_KEYS:
+        row = table.get(key)
+        if not isinstance(row, dict):
+            continue
+        value = row.get("url")
+        if not isinstance(value, str):
+            continue
+        try:
+            url = public_https_url(value)
+        except RecordError:
+            continue
+        if (urlsplit(url).hostname or "").lower() not in THUMBNAIL_HOSTS:
+            continue
+        return url
+    return None
+
+
+def thumbnail_is_display_clear(url, *, opener=None, resolve=None, timeout=10):
+    """One FREE image request on the public thumbnail host.
+
+    This is not a Data API read: it spends no quota and is not billed, so it is
+    classified ``free`` and never counted as metered or paid. The image bytes
+    are not downloaded or cached; only the status and content type are read.
+    """
+    answer = read_image_status(
+        url,
+        classification=outbound.FREE,
+        opener=opener,
+        resolve=resolve,
+        timeout=timeout,
+    )
+    content_type = str(answer.get("content_type") or "").lower()
+    return answer.get("status") == 200 and content_type.startswith("image/")
 
 
 def _evidence(video_id, retrieved_at):
@@ -73,8 +147,14 @@ def _evidence(video_id, retrieved_at):
     )
 
 
-def parse_data_api(payload, retrieved_at):
-    """Parse a videos.list body. Unknown duration stays unknown."""
+def parse_data_api(payload, retrieved_at, art_check=None):
+    """Parse a videos.list body. Unknown duration stays unknown.
+
+    ``art_check`` is an optional callable that answers whether a thumbnail URL
+    is display-cleared. Without it the record keeps blank artwork, exactly as
+    before. When it answers yes, the URL the Data API returned is stored as a
+    hotlink; no image bytes and no extra Data API request are involved.
+    """
     if not isinstance(payload, dict) or payload.get("kind") != "youtube#videoListResponse":
         return ParseResult((), (), (), ("payload",))
     items = []
@@ -104,6 +184,20 @@ def parse_data_api(payload, retrieved_at):
         if availability == "private":
             rejected.append(video_id)
             continue
+        thumb = thumbnail_url(snippet)
+        art = None
+        art_reason = (
+            NO_THUMBNAIL_REASON if thumb is None else UNCLEARED_THUMBNAIL_REASON
+        )
+        if thumb is not None and art_check is not None:
+            try:
+                cleared = bool(art_check(thumb))
+            except Exception:
+                # A thumbnail that cannot be checked is shown as no artwork;
+                # it never fails the item or the source.
+                cleared = False
+            if cleared:
+                art = {"url": thumb, "checked_at": retrieved_at}
         try:
             items.append(
                 _video(
@@ -113,7 +207,8 @@ def parse_data_api(payload, retrieved_at):
                     iso_duration_seconds(details.get("duration")),
                     availability,
                     retrieved_at,
-                    "Data API sample did not supply a display-cleared thumbnail.",
+                    art_reason,
+                    art,
                 )
             )
         except RecordError:
@@ -125,6 +220,7 @@ def parse_data_api(payload, retrieved_at):
         "snippet",
         "snippet.title",
         "snippet.channelTitle",
+        "snippet.thumbnails",
         "contentDetails",
         "contentDetails.duration",
         "status",

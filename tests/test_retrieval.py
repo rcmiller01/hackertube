@@ -420,6 +420,80 @@ def test_youtube_search_hydrates_only_api_ids_and_retains_expiry(tmp_path, monke
     )
 
 
+def test_youtube_thumbnail_display_check_is_free_and_takes_no_budget_slot(tmp_path, monkeypatch):
+    store = store_at(tmp_path)
+    store.set_source_enabled("youtube", True)
+    google, images = [], []
+    thumb = "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg"
+
+    def read(url, **kw):
+        if "googleapis.com" in url:
+            google.append((url, kw))
+            if "/search?" in url:
+                return {"items": [{"id": {"videoId": "LCEmiRjPEtQ"}}]}
+            return {
+                "kind": "youtube#videoListResponse",
+                "items": [
+                    {
+                        "id": "LCEmiRjPEtQ",
+                        "snippet": {
+                            "title": "Gardening lesson",
+                            "channelTitle": "Grower",
+                            "thumbnails": {
+                                "medium": {
+                                    "url": "https://i.ytimg.com/vi/LCEmiRjPEtQ/mqdefault.jpg",
+                                    "width": 320,
+                                    "height": 180,
+                                },
+                                "high": {"url": thumb, "width": 480, "height": 360},
+                            },
+                        },
+                        "status": {"privacyStatus": "public"},
+                        "contentDetails": {"duration": "PT10M"},
+                    }
+                ],
+            }
+        return public_read(url, **kw)
+
+    def check(url):
+        images.append(url)
+        return True
+
+    monkeypatch.setattr("hackertube_core.retrieval.read_json", read)
+    monkeypatch.setattr("hackertube_core.adapters.youtube.thumbnail_is_display_clear", check)
+    budget = Budget(LIVE_LIMITS)
+    cat, _ = SourceRetriever(
+        store,
+        get_secret=lambda name: "youtube-key-test" if name == "YOUTUBE_API_KEY" else None,
+    )(interpret_question("gardening videos"), NOW, budget)
+
+    video = next(x for x in cat.items if x.format == "video")
+    # The URL came back on the videos.list payload the search already read.
+    assert len(google) == 2, "no third Data API request was added"
+    assert all(kw["classification"] == outbound.METERED for _, kw in google)
+    assert images == [thumb]
+    assert video.art_url == thumb
+    assert video.art_hotlink is True
+    assert video.art_cache is False
+    assert video.art_http_status == 200
+    assert video.art_checked_at == NOW
+
+    # The display check takes no work-budget slot: a run that refuses every
+    # thumbnail spends the same slots and issues the same Data API reads.
+    monkeypatch.setattr(
+        "hackertube_core.adapters.youtube.thumbnail_is_display_clear",
+        lambda url: False,
+    )
+    baseline_budget = Budget(LIVE_LIMITS)
+    google.clear()
+    SourceRetriever(
+        store,
+        get_secret=lambda name: "youtube-key-test" if name == "YOUTUBE_API_KEY" else None,
+    )(interpret_question("gardening videos"), NOW, baseline_budget)
+    assert budget.used == baseline_budget.used
+    assert len(google) == 2
+
+
 def test_hn_links_book_mentions_without_claiming_endorsement(tmp_path, monkeypatch):
     def read(url, **kw):
         if "hn.algolia.com" in url:

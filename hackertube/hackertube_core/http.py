@@ -212,6 +212,47 @@ def read_json(url, *, classification, cost=None, timeout=15, opener=None, header
     )
 
 
+def read_image_status(url, *, classification, timeout=10, opener=None, resolve=None):
+    """Check one image URL through the outbound boundary; never keep the body.
+
+    YouTube requires its thumbnails to be displayed unaltered, and this
+    application hotlinks them instead of storing a copy. A display check
+    still needs to know the URL answers with an image before it is stored, so
+    this reads the response headers and closes without reading the body: no
+    image bytes are downloaded, decoded, or cached. ``classification`` is
+    required by the same rule as ``read_json``.
+    """
+    if classification not in outbound.LABELS:
+        raise ValueError(f"unknown request label: {classification!r}")
+    public_https_url(url)
+    host = (urlsplit(url.strip()).hostname or "").rstrip(".").lower()
+    request = Request(
+        url,
+        headers={"User-Agent": USER_AGENT, "Accept": "image/*"},
+        method="GET",
+    )
+
+    def perform():
+        pinned = connection_targets(host, resolve=resolve)
+        download = opener or _pinned_opener(host, pinned)
+        with download.open(request, timeout=timeout) as opened:
+            return {
+                "status": getattr(opened, "status", 200),
+                "content_type": opened.headers.get("Content-Type") or "",
+            }
+
+    try:
+        return outbound.dispatch(classification, perform)
+    except RecordError:
+        raise
+    except HTTPError as exc:
+        raise HttpError(f"http {exc.code}") from None
+    except HttpError:
+        raise
+    except Exception:
+        raise HttpError("request failed") from None
+
+
 def post_json(
     url,
     *,

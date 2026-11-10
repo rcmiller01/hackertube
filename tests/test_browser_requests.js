@@ -247,9 +247,15 @@ test("browser inventory refuses unknown destinations, routes and artwork queries
   const fixture = { origin: "http://127.0.0.1:1234" };
   assert.equal(labelOf(fixture.origin + "/api/plugins/hackertube/feed", fixture), "local");
   assert.equal(labelOf("https://covers.openlibrary.org/b/id/1001-M.jpg", fixture), "free");
+  // An official YouTube thumbnail is a public image read, and it is never
+  // mistaken for the metered Data API.
+  assert.equal(labelOf("https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg", fixture), "free");
   for (const url of ["https://api.openai.com/v1/responses", "https://www.googleapis.com/youtube/v3/videos",
     "https://unknown.example/image.png", fixture.origin + "/unknown",
-    "https://covers.openlibrary.org/b/id/1001-M.jpg?personal=context"]) {
+    "https://covers.openlibrary.org/b/id/1001-M.jpg?personal=context",
+    "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg?token=1",
+    "https://i.ytimg.com.evil.example/vi/LCEmiRjPEtQ/hqdefault.jpg",
+    "https://i.ytimg.com/tracking/pixel.gif"]) {
     assert.equal(labelOf(url, fixture), "outside", url);
   }
 });

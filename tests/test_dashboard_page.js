@@ -2665,6 +2665,127 @@ test("a YouTube card opens the source from one labelled link and does not repeat
   }
 });
 
+const YOUTUBE_THUMB = "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg";
+const YOUTUBE_THUMB_ITEM = {
+  ...YOUTUBE_ITEM,
+  art_url: YOUTUBE_THUMB,
+  art_hotlink: true,
+  art_http_status: 200,
+  art_checked_at: "2026-11-06T12:22:23Z",
+};
+const YOUTUBE_THUMB_CATALOG = {
+  fixture: true,
+  catalog: { items: [YOUTUBE_THUMB_ITEM], evidence: [], sources: [], editions: [] },
+};
+
+function youtubeFeed(catalog) {
+  return {
+    ...harnessDiscovery(catalog),
+    personalized: true,
+    feed: [catalog.catalog.items[0].item_id],
+    why: { [catalog.catalog.items[0].item_id]: ["Matched interest"] },
+  };
+}
+
+test("a YouTube card shows the unaltered thumbnail beside the linked official Icon", () => {
+  const ui = mountPage(YOUTUBE_THUMB_CATALOG, page.emptyProfile(), null, youtubeFeed(YOUTUBE_THUMB_CATALOG));
+  try {
+    const article = ui.find(isArticle);
+    const thumbs = ui.within(isArticle, (node) => node.type === "img" && /(^|\s)ht-thumb(\s|$)/.test(node.props.className || ""));
+    assert.equal(thumbs.length, 1, "the Data API thumbnail is rendered");
+    assert.equal(thumbs[0].props.src, YOUTUBE_THUMB);
+    assert.doesNotMatch(thumbs[0].props.className, /ht-cover/, "a YouTube thumbnail is never cropped");
+    assert.doesNotMatch(thumbs[0].props.className, /ht-contain/, "the image keeps its own aspect ratio");
+    const icons = ui.within(isArticle, (node) => node.type === "img" && node.props.alt === "YouTube");
+    assert.equal(icons.length, 1, "the official linked Icon stays as attribution");
+    assert.match(icons[0].props.src, /^data:image\/png;base64,/);
+    const links = ui.within(isArticle, (node) => node.type === "a" && node.props && node.props.href === YOUTUBE_ITEM.destination);
+    assert.equal(links.length, 1, "one source-opening link: the Icon");
+    assert.equal(links[0].props["aria-label"], 'Watch "AI introduction" on YouTube');
+    // The thumbnail itself carries no overlay and no play control.
+    assert.equal(ui.within(isArticle, (node) => node.props && node.props.className === "ht-youtube-action").length, 1);
+    const notes = ui.within(isArticle, (node) => node.props && node.props.className === "ht-note");
+    assert.equal(notes.length, 1);
+    assert.equal(textOf(notes[0]), "Metadata from YouTube. Explanations and library actions are HackerTube’s.");
+  } finally {
+    ui.restore();
+  }
+});
+
+test("a compact YouTube row keeps the official linked Icon and the short note", () => {
+  const ui = mountPage(YOUTUBE_THUMB_CATALOG);
+  const compact = (node) => node.props && node.props.className === "ht-card ht-compact";
+  try {
+    assert.equal(ui.within((node) => node.props && node.props.id === "videos", compact).length, 1);
+    const links = ui.within(compact, (node) => node.type === "a" && node.props && node.props.href === YOUTUBE_ITEM.destination);
+    assert.equal(links.length, 1, "the compact row's attribution link opens the video");
+    assert.equal(links[0].props.className, "ht-youtube-icon");
+    assert.equal(links[0].props["aria-label"], 'Watch "AI introduction" on YouTube');
+    const icons = ui.within(compact, (node) => node.type === "img" && node.props.alt === "YouTube");
+    assert.equal(icons.length, 1, "the compact row shows the official mark");
+    assert.match(icons[0].props.src, /^data:image\/png;base64,/);
+    const thumbs = ui.within(compact, (node) => node.type === "img" && /(^|\s)ht-thumb(\s|$)/.test(node.props.className || ""));
+    assert.equal(thumbs.length, 1, "a compact row keeps the unaltered thumbnail too");
+    assert.equal(thumbs[0].props.src, YOUTUBE_THUMB);
+    assert.equal(ui.within(compact, (node) => node.props && /(^|\s)ht-open(\s|$)/.test(node.props.className || "")).length, 0,
+      "no second link to the same destination");
+    const notes = ui.within(compact, (node) => node.props && node.props.className === "ht-note");
+    assert.equal(notes.length, 1);
+    assert.equal(textOf(notes[0]), "Metadata from YouTube. Explanations and library actions are HackerTube’s.");
+  } finally {
+    ui.restore();
+  }
+});
+
+test("a YouTube card without display-cleared art still shows the linked Icon", () => {
+  const ui = mountPage(YOUTUBE_CATALOG, page.emptyProfile(), null, youtubeFeed(YOUTUBE_CATALOG));
+  try {
+    assert.equal(ui.within(isArticle, (node) => node.type === "img" && /ht-thumb/.test(node.props.className || "")).length, 0);
+    assert.equal(ui.within(isArticle, (node) => node.type === "img" && node.props.alt === "YouTube").length, 1);
+  } finally {
+    ui.restore();
+  }
+});
+
+test("a thumbnail that fails to load falls back to the official Icon without a broken image", () => {
+  const ui = mountPage(YOUTUBE_THUMB_CATALOG, page.emptyProfile(), null, youtubeFeed(YOUTUBE_THUMB_CATALOG));
+  try {
+    const thumb = ui.find((node) => node.type === "img" && /ht-thumb/.test(node.props.className || ""));
+    assert.ok(thumb, "the thumbnail renders first");
+    thumb.props.onError();
+    assert.equal(ui.within(isArticle, (node) => node.type === "img" && /ht-thumb/.test(node.props.className || "")).length, 0,
+      "the failed image is removed, not left as a hole");
+    assert.equal(ui.within(isArticle, (node) => node.type === "img" && node.props.alt === "YouTube").length, 1,
+      "the official linked Icon remains");
+    assert.equal(ui.within(isArticle, (node) => node.type === "a" && node.props.href === YOUTUBE_ITEM.destination).length, 1);
+    const notes = ui.within(isArticle, (node) => node.props && node.props.className === "ht-note");
+    assert.equal(textOf(notes[0]), "Metadata from YouTube. Explanations and library actions are HackerTube’s.");
+  } finally {
+    ui.restore();
+  }
+});
+
+test("the YouTube thumbnail presentation never crops the image", () => {
+  const css = require("node:fs").readFileSync(
+    require("node:path").join(__dirname, "../hackertube/dashboard/dist/style.css"),
+    "utf8",
+  );
+  const rule = (selector) => {
+    const start = css.indexOf(selector + " {");
+    assert.notEqual(start, -1, selector);
+    return css.slice(start, css.indexOf("}", start));
+  };
+  const thumb = rule(".hackertube .ht-thumb");
+  assert.doesNotMatch(thumb, /object-fit:\s*cover/);
+  assert.doesNotMatch(thumb, /height:\s*\d/);
+  assert.match(thumb, /height:\s*auto/);
+  assert.doesNotMatch(thumb, /border-radius/, "a corner radius clips the official thumbnail");
+  assert.doesNotMatch(rule(".hackertube .ht-thumb-compact"), /border-radius/, "the compact thumbnail is not clipped either");
+  assert.match(rule(".hackertube .ht-youtube-compact a"), /min-height:\s*44px/);
+  assert.match(rule(".hackertube .ht-youtube-compact a"), /min-width:\s*44px/);
+  assert.match(rule(".hackertube .ht-youtube-compact a"), /display:\s*inline-flex/);
+});
+
 for (const [label, usage, expected] of [
   ["known cost", {requests_used:11,cost_known:true,cost_usd:0.0123}, "11 provider requests · cost $0.0123"],
   ["zero cost", {requests_used:0,cost_known:true,cost_usd:0}, "0 provider requests · cost $0.0000"],
@@ -3040,14 +3161,10 @@ test("visual atomic F21b compact Podcasts rows keep the Show vs Episode badge", 
   } finally { ui.restore(); }
 });
 
-test("visual atomic F21c the stylesheet hides the compact badge only outside Podcasts", () => {
-  const css = require("node:fs").readFileSync(require("node:path").join(__dirname, "../hackertube/dashboard/dist/style.css"), "utf8");
-  const hideRules = css.split("\n").filter(line => line.includes(".ht-compact .ht-format") && /display:\s*none/.test(line));
-  assert.equal(hideRules.length, 1, "exactly one rule hides the compact badge");
-  assert.match(hideRules[0], /^\s*\.hackertube :is\(#videos,#books,#audiobooks\) \.ht-compact \.ht-format\s*\{\s*display:\s*none;\s*\}\s*$/);
-  assert.doesNotMatch(hideRules[0], /#podcasts/, "the hide rule must not scope in Podcasts");
-  assert.doesNotMatch(css, /\.hackertube\s+\.ht-compact\s+\.ht-format/, "the old unscoped rule is gone");
-});
+// F21c was a stylesheet-text-only gate for the compact badge. The behaviour it
+// claimed is now measured in a real browser (getComputedStyle) by
+// "compact format badges are computed, not asserted from the stylesheet text"
+// in tests/test_privacy_browser.js; do not reintroduce a CSS-source-only gate.
 
 test("visual atomic T copy retains approved boundaries and Library wording", () => {
   assert.equal(page.FEED07_NOTE, "Add an interest to rank this catalog for you. Reloading does not start a search.");

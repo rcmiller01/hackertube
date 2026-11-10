@@ -1,0 +1,39 @@
+{
+  "home": "/Users/robert/.hermes/cache/scratch/ht32-cp",
+  "storage": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+  "assets": {
+    "note": true,
+    "compact_attribution": true,
+    "thumbnail_rule_uncropped": true,
+    "compact_badge_scope": true
+  },
+  "policy_accepted": true,
+  "status": {
+    "name": "HackerTube",
+    "data_root": "/Users/robert/.hermes/cache/scratch/ht32-cp/plugin-data/hackertube",
+    "provider": "hermes"
+  },
+  "catalog": {
+    "status": 200,
+    "items": 12,
+    "unavailable_videos": 3,
+    "ytimg_in_seed": false
+  },
+  "source_outage": {
+    "sources": 7,
+    "items": 0,
+    "counts": {
+      "free": 0,
+      "paid": 0,
+      "metered": 0
+    }
+  },
+  "thumbnail_display_check": {
+    "cleared": true,
+    "counts": {
+      "free": 1,
+      "paid": 0,
+      "metered": 0
+    }
+  }
+}
