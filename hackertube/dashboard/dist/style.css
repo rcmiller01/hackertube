@@ -110,16 +110,30 @@
   max-width: 44rem;
 }
 
-/* The picker row wraps instead of running off a 390px viewport. */
+/* The picker row wraps instead of running off a 390px viewport.
+   The form is a shrink-to-fit flex item and a <select>'s intrinsic min-content
+   size equals its widest option, so without an explicit bound both propagate
+   that content width outward and overflow a narrow viewport. Constrain the
+   containing width and let the select shrink into it rather than widening
+   every ancestor. */
+.hackertube .ht-search > form {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
 .hackertube .ht-model-picker {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
   width: 100%;
+  min-width: 0;
 }
 
 .hackertube .ht-model-picker select {
+  width: 100%;
+  min-width: 0;
   max-width: 100%;
 }
 
