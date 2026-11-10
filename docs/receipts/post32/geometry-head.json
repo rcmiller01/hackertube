@@ -1,0 +1,180 @@
+{
+  "label": "head",
+  "assets": {
+    "page": "hackertube/dashboard/dist/index.js",
+    "style": "hackertube/dashboard/dist/style.css"
+  },
+  "scope": "Production bundle and stylesheet in a React fixture with stub SDK components and a stub local API, plus the compiled host stylesheet. Fixture images are served locally for the i.ytimg.com paths; this is not an installed dashboard, not a live-provider receipt, and not a real YouTube image.",
+  "hostStylesheet": "/Users/robert/.hermes/hermes-agent/hermes_cli/web_dist/assets/index-CXKdN8QE.css",
+  "note": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+  "viewports": [
+    {
+      "width": 390,
+      "compactTapTarget": {
+        "width": 232,
+        "height": 201
+      },
+      "mark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "layout": {
+        "hasColumns": true,
+        "rowHeight": 471,
+        "sideWidth": 344.6,
+        "sideHeight": 211.5,
+        "sideLeft": 15,
+        "sideRight": 359.6,
+        "sideTop": 1888.5,
+        "sideBottom": 2100,
+        "mainLeft": 15,
+        "mainTop": 2104.5,
+        "mainWidth": 360,
+        "flexDirection": "column",
+        "sideHasThumb": true,
+        "sideHasLogo": true
+      },
+      "compactThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb ht-thumb-compact",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 97.5,
+        "boxHeight": 73.1,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "fullHeight": 772.8,
+      "fullThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 360,
+        "boxHeight": 270,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "searchThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 360,
+        "boxHeight": 270,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "badges": {
+        "videos": "none",
+        "podcasts": "block",
+        "books": "none",
+        "audiobooks": "none"
+      }
+    },
+    {
+      "width": 1280,
+      "compactTapTarget": {
+        "width": 232,
+        "height": 201
+      },
+      "mark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "layout": {
+        "hasColumns": true,
+        "rowHeight": 234,
+        "sideWidth": 344.6,
+        "sideHeight": 211.5,
+        "sideLeft": 122.5,
+        "sideRight": 467.1,
+        "sideTop": 1473.4,
+        "sideBottom": 1684.9,
+        "mainLeft": 482.1,
+        "mainTop": 1473.4,
+        "mainWidth": 675.4,
+        "flexDirection": "row",
+        "sideHasThumb": true,
+        "sideHasLogo": true
+      },
+      "compactThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb ht-thumb-compact",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 97.5,
+        "boxHeight": 73.1,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "fullHeight": 755,
+      "fullThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 336.3,
+        "boxHeight": 252.2,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "searchThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 480,
+        "boxHeight": 360,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "badges": {
+        "videos": "none",
+        "podcasts": "block",
+        "books": "none",
+        "audiobooks": "none"
+      }
+    }
+  ]
+}

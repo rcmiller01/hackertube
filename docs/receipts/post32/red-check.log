@@ -1,0 +1,21 @@
+========================================================================
+RED (expected fail): host check reverted to destinationDecision
+------------------------------------------------------------------------
+✖ a thumbnail from a non-YouTube host falls back to the linked Icon at render time (307.098833ms)
+ℹ pass 0
+ℹ fail 1
+✖ failing tests:
+✖ a thumbnail from a non-YouTube host falls back to the linked Icon at render time (307.098833ms)
+  AssertionError [ERR_ASSERTION]: #ranked-feed: a non-YouTube host is never rendered as a thumbnail
+
+========================================================================
+RED (expected fail): ancestor clip on .ht-youtube-compact
+------------------------------------------------------------------------
+✖ a compact YouTube row keeps the official linked Icon with a 44px tap target (318.44925ms)
+ℹ pass 0
+ℹ fail 1
+✖ failing tests:
+✖ a compact YouTube row keeps the official linked Icon with a 44px tap target (318.44925ms)
+  AssertionError [ERR_ASSERTION]: compact YouTube row: no ancestor clips the thumbnail up to the card
+
+restored sha256: True True

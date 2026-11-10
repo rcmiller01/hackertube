@@ -108,7 +108,12 @@ const THUMB = "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg";
 
 /* A YouTube thumbnail must reach the viewer unaltered: no corner clip, no
  * clip-path, no filter, and the rendered box must keep the image's own aspect
- * ratio. Measured from computed style and layout, not from the stylesheet. */
+ * ratio. Measured from computed style and layout, not from the stylesheet.
+ *
+ * An ancestor can clip it just as a rule on the image can: a wrapper with a
+ * border-radius plus `overflow: hidden`/`clip`, a clip-path, or a filter
+ * alters the pixels the reader sees. So the walk does not stop at the image:
+ * it climbs every ancestor up to the card and fails if any of them clips. */
 async function assertUnalteredThumbnail(thumb, label) {
   const paint = await thumb.evaluate(el => {
     const style = getComputedStyle(el);
@@ -134,6 +139,35 @@ async function assertUnalteredThumbnail(thumb, label) {
     label + ": the rendered aspect ratio matches the image within 1% (" +
       natural.toFixed(4) + " natural vs " + rendered.toFixed(4) + " rendered)",
   );
+  await assertNoAncestorClips(thumb, label);
+}
+
+/* Walk the ancestors of the thumbnail up to its card and report any that clip. */
+async function assertNoAncestorClips(thumb, label) {
+  const offenders = await thumb.evaluate(el => {
+    const found = [];
+    const name = (node) => node.tagName.toLowerCase() +
+      (node.className ? "." + String(node.className).trim().split(/\s+/).join(".") : "");
+    let node = el.parentElement;
+    while (node) {
+      const style = getComputedStyle(node);
+      if (style.clipPath && style.clipPath !== "none") found.push(name(node) + " clip-path:" + style.clipPath);
+      if (style.filter && style.filter !== "none") found.push(name(node) + " filter:" + style.filter);
+      const overflow = [style.overflow, style.overflowX, style.overflowY];
+      const clips = overflow.some((value) => value === "hidden" || value === "clip");
+      const radius = style.borderRadius || "0px";
+      const rounded = !/^0px(\s+0px)*$/.test(radius.trim());
+      if (clips && rounded) {
+        found.push(name(node) + " radius:" + radius + " overflow:" + overflow.filter(Boolean).join("/"));
+      }
+      // The card is the boundary: everything above it is page chrome, not the
+      // card's own presentation.
+      if (node.tagName === "ARTICLE" || node.classList.contains("ht-card")) break;
+      node = node.parentElement;
+    }
+    return found;
+  });
+  assert.deepEqual(offenders, [], label + ": no ancestor clips the thumbnail up to the card");
 }
 
 function youtubeRow(overrides) {
@@ -175,7 +209,10 @@ test("compact format badges are measured in the browser, not read from the style
     await ui.route("https://i.ytimg.com/**", route => route.fulfill({status:200, contentType:"image/png", body:require("./browser_net_harness").PIXEL_PNG}));
     await ui.route("https://covers.openlibrary.org/**", route => route.abort());
     await ui.goto(fixture.origin);
-    await ui.locator("#podcasts .ht-compact .ht-format").first().waitFor();
+    // `attached`, not the default `visible`: the badge must be in the DOM for
+    // getComputedStyle to report its display value, and a hidden badge is
+    // exactly what this test measures.
+    await ui.locator("#podcasts .ht-compact .ht-format").first().waitFor({ state: "attached" });
     const measured = await ui.evaluate(() => {
       const rows = {};
       for (const id of ["videos", "podcasts", "books", "audiobooks"]) {
@@ -293,5 +330,207 @@ test("a compact YouTube row keeps the official linked Icon with a 44px tap targe
     assert.equal(note, 1);
     // The row is still a compact row, not a full card.
     assert.equal(await row.evaluate(el => el.className), "ht-card ht-compact");
+  } finally { await browser.close(); await fixture.close(); }
+});
+
+/* ------------------------------------------------------------------ *
+ * Post-#32 follow-ups: the visible mark, the side column, and the
+ * render-time host check.
+ * ------------------------------------------------------------------ */
+
+/* The brand site's 100px minimum applies to the visible red mark, not to the
+ * PNG file box: the official asset ships with built-in clear space. Measure the
+ * mark itself by decoding the served data URI and finding the pixel bounding
+ * box, then multiply by the rendered height. This is the only measurement that
+ * can tell a 100px mark from a 100px file box. */
+async function measureVisibleMark(link) {
+  return link.evaluate(async (el) => {
+    const img = el.querySelector("img");
+    const box = img.getBoundingClientRect();
+    const asset = new Image();
+    await new Promise((resolve, reject) => {
+      asset.onload = resolve;
+      asset.onerror = reject;
+      asset.src = img.getAttribute("src");
+    });
+    const canvas = document.createElement("canvas");
+    canvas.width = asset.naturalWidth;
+    canvas.height = asset.naturalHeight;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(asset, 0, 0);
+    const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let minX = canvas.width, minY = canvas.height, maxX = -1, maxY = -1;
+    for (let y = 0; y < canvas.height; y += 1) {
+      for (let x = 0; x < canvas.width; x += 1) {
+        // alpha coverage: the mark and its antialiased edge, not the clear space
+        if (data[(y * canvas.width + x) * 4 + 3] > 8) {
+          if (x < minX) minX = x;
+          if (x > maxX) maxX = x;
+          if (y < minY) minY = y;
+          if (y > maxY) maxY = y;
+        }
+      }
+    }
+    const ratioY = (maxY - minY + 1) / canvas.height;
+    const ratioX = (maxX - minX + 1) / canvas.width;
+    return {
+      fileHeight: box.height,
+      fileWidth: box.width,
+      naturalWidth: asset.naturalWidth,
+      naturalHeight: asset.naturalHeight,
+      markRatioY: ratioY,
+      visibleMarkHeight: box.height * ratioY,
+      visibleMarkWidth: box.width * ratioX,
+      assetSha256: null,
+    };
+  });
+}
+
+test("the compact YouTube mark's visible red area is at least 100px at 390 and 1280", async () => {
+  const { THUMB_PNG } = require("./browser_net_harness");
+  const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    for (const width of [390, 1280]) {
+      const fixture = await startFixture(sectionRows());
+      const ui = await browser.newPage();
+      await ui.setViewportSize({ width, height: 900 });
+      await ui.route("https://i.ytimg.com/**", route => route.fulfill({status:200, contentType:"image/png", body:THUMB_PNG}));
+      await ui.goto(fixture.origin);
+      const row = ui.locator("#videos .ht-compact").first();
+      await row.waitFor();
+      const link = row.getByRole("link", { name: 'Watch "AI introduction" on YouTube' });
+      await link.waitFor();
+      const mark = await measureVisibleMark(link);
+      assert.ok(
+        mark.fileHeight >= 185.5,
+        `at ${width}px the icon image is drawn at ~186px (file box ${mark.fileHeight})`,
+      );
+      assert.ok(
+        Math.abs(mark.markRatioY - 578 / 1075) <= 0.01,
+        `at ${width}px the asset still has its built-in clear space (mark ratio ${mark.markRatioY.toFixed(4)})`,
+      );
+      assert.ok(
+        mark.visibleMarkHeight >= 100,
+        `at ${width}px the visible red mark is >= 100px (measured ${mark.visibleMarkHeight.toFixed(2)}px from a ${mark.fileHeight.toFixed(1)}px file box)`,
+      );
+      await ui.close();
+      await fixture.close();
+    }
+  } finally { await browser.close(); }
+});
+
+test("a compact YouTube row puts the logo and thumbnail in a side column at 1280 and stacks them at 390", async () => {
+  const { THUMB_PNG } = require("./browser_net_harness");
+  const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    for (const [width, expected] of [[1280, "beside"], [390, "above"]]) {
+      const fixture = await startFixture(sectionRows());
+      const ui = await browser.newPage();
+      await ui.setViewportSize({ width, height: 900 });
+      await ui.route("https://i.ytimg.com/**", route => route.fulfill({status:200, contentType:"image/png", body:THUMB_PNG}));
+      await ui.goto(fixture.origin);
+      const row = ui.locator("#videos .ht-compact").first();
+      await row.waitFor();
+      await row.locator("img.ht-thumb").waitFor();
+      const geometry = await row.evaluate((el) => {
+        const side = el.querySelector(".ht-compact-side");
+        const main = el.querySelector(".ht-compact-main");
+        if (!side || !main) return { hasColumns: false };
+        const s = side.getBoundingClientRect();
+        const m = main.getBoundingClientRect();
+        const thumb = el.querySelector("img.ht-thumb");
+        const logo = el.querySelector(".ht-youtube-icon img");
+        return {
+          hasColumns: true,
+          sideLeft: s.left, sideRight: s.right, sideTop: s.top, sideBottom: s.bottom,
+          mainLeft: m.left, mainTop: m.top,
+          sideHasThumb: !!thumb && side.contains(thumb),
+          sideHasLogo: !!logo && side.contains(logo),
+        };
+      });
+      assert.equal(geometry.hasColumns, true, `at ${width}px the row has a side column and a text column`);
+      assert.equal(geometry.sideHasThumb, true, `at ${width}px the thumbnail is in the side column`);
+      assert.equal(geometry.sideHasLogo, true, `at ${width}px the logo is in the side column`);
+      if (expected === "beside") {
+        assert.ok(
+          geometry.sideRight <= geometry.mainLeft + 1,
+          `at ${width}px the side column (right ${geometry.sideRight.toFixed(1)}) sits left of the text (left ${geometry.mainLeft.toFixed(1)})`,
+        );
+        assert.ok(
+          Math.abs(geometry.sideTop - geometry.mainTop) <= 2,
+          `at ${width}px the side column and the text share the row (tops ${geometry.sideTop.toFixed(1)} vs ${geometry.mainTop.toFixed(1)})`,
+        );
+      } else {
+        assert.ok(
+          geometry.sideBottom <= geometry.mainTop + 1,
+          `at ${width}px the art stacks above the text (art bottom ${geometry.sideBottom.toFixed(1)}, text top ${geometry.mainTop.toFixed(1)})`,
+        );
+      }
+      await ui.close();
+      await fixture.close();
+    }
+  } finally { await browser.close(); }
+});
+
+test("a thumbnail from a non-YouTube host falls back to the linked Icon at render time", async () => {
+  const { THUMB_PNG } = require("./browser_net_harness");
+  const foreign = "https://images.example.com/vi/LCEmiRjPEtQ/hqdefault.jpg";
+  const fixture = await startFixture([youtubeRow({ art_url: foreign })]);
+  const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    const ui = await browser.newPage();
+    let foreignRequests = 0;
+    await ui.route("https://images.example.com/**", route => {
+      foreignRequests += 1;
+      return route.fulfill({ status: 200, contentType: "image/png", body: THUMB_PNG });
+    });
+    await ui.goto(fixture.origin);
+    const note = "Metadata from YouTube. Explanations and library actions are HackerTube’s.";
+    for (const scope of ["#ranked-feed", "#videos"]) {
+      const card = ui.locator(scope + " article").first();
+      await card.waitFor();
+      assert.equal(
+        await card.locator("img.ht-thumb").count(), 0,
+        `${scope}: a non-YouTube host is never rendered as a thumbnail`,
+      );
+      const icon = card.getByRole("link", { name: 'Watch "AI introduction" on YouTube' });
+      assert.equal(await icon.count(), 1, `${scope}: the linked Icon remains`);
+      assert.equal(await card.getByText(note, { exact: true }).count(), 1, `${scope}: the short note remains`);
+    }
+    assert.equal(foreignRequests, 0, "the foreign host is never requested");
+  } finally { await browser.close(); await fixture.close(); }
+});
+
+test("the unaltered check fails when an ancestor clips the thumbnail, and passes once it is removed", async () => {
+  const { THUMB_PNG } = require("./browser_net_harness");
+  const fixture = await startFixture([youtubeRow()]);
+  const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    const ui = await browser.newPage();
+    await ui.route("https://i.ytimg.com/**", route => route.fulfill({status:200, contentType:"image/png", body:THUMB_PNG}));
+    await ui.goto(fixture.origin);
+    const card = ui.locator("#ranked-feed article").first();
+    const thumb = card.locator("img.ht-thumb");
+    await thumb.waitFor();
+    await ui.waitForFunction(() => document.querySelector("#ranked-feed img.ht-thumb").naturalWidth > 0);
+    await assertUnalteredThumbnail(thumb, "unmutated card");
+    // A wrapper that clips, exactly the regression the walk exists to catch.
+    await thumb.evaluate((el) => {
+      const wrapper = el.parentElement;
+      wrapper.style.borderRadius = "12px";
+      wrapper.style.overflow = "hidden";
+    });
+    await assert.rejects(
+      () => assertUnalteredThumbnail(thumb, "mutated card"),
+      /no ancestor clips the thumbnail up to the card/,
+      "an ancestor radius + overflow must fail the unaltered check",
+    );
+    // Removing the clip restores the green result: the failure was the clip.
+    await thumb.evaluate((el) => {
+      const wrapper = el.parentElement;
+      wrapper.style.borderRadius = "";
+      wrapper.style.overflow = "";
+    });
+    await assertUnalteredThumbnail(thumb, "restored card");
   } finally { await browser.close(); await fixture.close(); }
 });

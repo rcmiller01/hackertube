@@ -1,0 +1,156 @@
+{
+  "label": "base",
+  "assets": {
+    "page": "/Users/robert/.hermes/cache/scratch/p32-base/index.js",
+    "style": "/Users/robert/.hermes/cache/scratch/p32-base/style.css"
+  },
+  "scope": "Production bundle and stylesheet in a React fixture with stub SDK components and a stub local API, plus the compiled host stylesheet. Fixture images are served locally for the i.ytimg.com paths; this is not an installed dashboard, not a live-provider receipt, and not a real YouTube image.",
+  "hostStylesheet": "/Users/robert/.hermes/hermes-agent/hermes_cli/web_dist/assets/index-CXKdN8QE.css",
+  "note": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+  "viewports": [
+    {
+      "width": 390,
+      "compactTapTarget": {
+        "width": 132,
+        "height": 115
+      },
+      "mark": {
+        "fileWidth": 116.7,
+        "fileHeight": 100,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 53.86,
+        "visibleMarkWidth": 76.92
+      },
+      "layout": {
+        "hasColumns": false,
+        "rowHeight": 358.7
+      },
+      "compactThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb ht-thumb-compact",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 97.5,
+        "boxHeight": 73.1,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "fullHeight": 772.8,
+      "fullThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 360,
+        "boxHeight": 270,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "searchThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 360,
+        "boxHeight": 270,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "badges": {
+        "videos": "none",
+        "podcasts": "block",
+        "books": "none",
+        "audiobooks": "none"
+      }
+    },
+    {
+      "width": 1280,
+      "compactTapTarget": {
+        "width": 132,
+        "height": 115
+      },
+      "mark": {
+        "fileWidth": 116.7,
+        "fileHeight": 100,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 53.86,
+        "visibleMarkWidth": 76.92
+      },
+      "layout": {
+        "hasColumns": false,
+        "rowHeight": 318
+      },
+      "compactThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb ht-thumb-compact",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 97.5,
+        "boxHeight": 73.1,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "fullHeight": 755,
+      "fullThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 336.3,
+        "boxHeight": 252.2,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "searchThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 480,
+        "boxHeight": 360,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "badges": {
+        "videos": "none",
+        "podcasts": "block",
+        "books": "none",
+        "audiobooks": "none"
+      }
+    }
+  ]
+}

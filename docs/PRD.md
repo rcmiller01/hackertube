@@ -37,6 +37,22 @@ The intended outcome is a useful next item to watch, hear, or read, with enough 
 | Ordinary browsing | Opening and browsing the saved feed makes no paid calls |
 | Placement | A plugin page in the Hermes web UI, comparable in access to Kanban |
 
+### November 10, 2026 — YouTube branding in compact rows (post-#32)
+
+Robert answered the post-#32 follow-up card. Both answers are quoted exactly:
+
+- "Make the visible mark 100px, drawn at 186px like full cards"
+- "Compact rows: side column with logo and thumbnail at 640px and up"
+
+Implementation reading, kept to those two statements. The brand site's 100px
+digital minimum is measured on the visible red mark, not on the PNG file box, and
+the official file ships with built-in clear space, so the compact row draws the
+icon image at 186px tall to render a 100px visible mark. At viewport widths 640px
+and up the compact row's logo and thumbnail sit together in a side column beside
+the row text instead of above it; below 640px the previous stacked layout is
+unchanged. Full cards are unchanged. The icon stays inside its single link to
+YouTube and is not recoloured. No other product decision is claimed here.
+
 ## 4. Core user journeys
 
 ### Browse without asking

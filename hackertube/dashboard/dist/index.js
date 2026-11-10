@@ -99,6 +99,28 @@
     return { ok: true, href: url.href };
   }
 
+  //: The only hosts that may serve a YouTube thumbnail. The adapter stores an
+  //: art_url only from these hosts, but the render path checks again: a stored
+  //: record whose URL was edited, or one from an older build, must not become a
+  //: third-party image request. Any other host falls back to the linked Icon.
+  var YOUTUBE_THUMBNAIL_HOSTS = ["i.ytimg.com", "img.youtube.com"];
+
+  function thumbnailDecision(value) {
+    var decision = destinationDecision(value);
+    if (!decision.ok) return decision;
+    var host = "";
+    try {
+      host = String(new URL(decision.href).hostname || "")
+        .replace(/^\[|\]$/g, "").replace(/\.$/, "").toLowerCase();
+    } catch (err) {
+      return { ok: false, reason: "invalid" };
+    }
+    if (YOUTUBE_THUMBNAIL_HOSTS.indexOf(host) === -1) {
+      return { ok: false, reason: "host" };
+    }
+    return decision;
+  }
+
   function isPrivateHost(host) {
     if (host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local") || host.endsWith(".internal")) {
       return true;
@@ -1537,7 +1559,9 @@
         // linked Icon stays beside it as attribution. A thumbnail that fails
         // to load drops out and leaves the Icon: never a broken image hole.
         if (!item.art_url || !item.art_hotlink || artFailed[item.item_id]) return null;
-        var decision = destinationDecision(item.art_url);
+        // Render-time host check: the stored URL must still point at an official
+        // YouTube thumbnail host. Anything else drops out and leaves the Icon.
+        var decision = thumbnailDecision(item.art_url);
         if (!decision.ok) return null;
         return h("img", {
           className: "ht-thumb" + (extraClassName ? " " + extraClassName : ""),
@@ -1699,29 +1723,66 @@
         var title = focusId || !CardTitle
           ? h("h3", titleProps, item.title)
           : h(CardTitle, titleProps, item.title);
+        var badge = Badge
+          ? h(Badge, { tone: "secondary", className: "ht-format" }, format)
+          : h("p", { className: "ht-format" }, format);
+        var creator = creatorLine(item, byId)
+          ? h("p", { className: "ht-creator" }, creatorLine(item, byId))
+          : null;
+        var noteEl = note ? h("p", { className: "ht-meta" }, note) : null;
+        // T28: approved short attribution note, secondary tier only.
+        var youtubeNote = String(item.item_id || "").indexOf("youtube:") === 0
+          ? h("p", { className: "ht-note" }, "Metadata from YouTube. Explanations and library actions are HackerTube’s.")
+          : null;
+        var libraryNote = inLibrary
+          ? h("p", { className: "ht-meta" },
+              (itemState(profile, item.item_id).opens.length ? "Opened" : "Not opened") + " · " +
+              (itemState(profile, item.item_id).completed ? "Completed" : "Not completed"))
+          : null;
+        var actions = renderActions(item, compact);
+        // The row text, in order. The art is placed separately: in a full card
+        // between the creator line and the evidence, and in a compact row in a
+        // side column beside this text at 640px and up.
+        var text = [
+          badge,
+          title,
+          creator,
+          renderEvidence(item, evidence, sources, length),
+          whyText(whyLines),
+          noteEl,
+          youtubeNote,
+          libraryNote,
+          actions,
+        ];
+        var art = compact
+          ? (usesYouTubeBrandLink(item) ? renderYouTubeBrand(item, true) : null)
+          : null;
+        var body;
+        if (compact) {
+          // Side column: logo and thumbnail together beside the row text at
+          // 640px and up; below 640px the two parts stack (art above the text).
+          body = art
+            ? h("div", { className: "ht-compact-row" },
+                h("div", { className: "ht-compact-side" }, art),
+                h("div", { className: "ht-compact-main" }, text))
+            : text;
+        } else {
+          body = [
+            badge,
+            title,
+            creator,
+            renderArt(item),
+            text[3],
+            text[4],
+            text[5],
+            text[6],
+            text[7],
+            text[8],
+          ];
+        }
         return h("article", { key: item.item_id },
           h(Card, { className: "ht-card" + (compact ? " ht-compact" : "") },
-            h(CardContent, null,
-              Badge
-                ? h(Badge, { tone: "secondary", className: "ht-format" }, format)
-                : h("p", { className: "ht-format" }, format),
-              title,
-              creatorLine(item, byId) ? h("p", { className: "ht-creator" }, creatorLine(item, byId)) : null,
-              compact
-                ? (usesYouTubeBrandLink(item) ? renderYouTubeBrand(item, true) : null)
-                : renderArt(item),
-              renderEvidence(item, evidence, sources, length),
-              whyText(whyLines),
-              note ? h("p", { className: "ht-meta" }, note) : null,
-              // T28: approved short attribution note, secondary tier only.
-              String(item.item_id || "").indexOf("youtube:") === 0 ? h("p", { className: "ht-note" }, "Metadata from YouTube. Explanations and library actions are HackerTube’s.") : null,
-              inLibrary
-                ? h("p", { className: "ht-meta" },
-                    (itemState(profile, item.item_id).opens.length ? "Opened" : "Not opened") + " · " +
-                    (itemState(profile, item.item_id).completed ? "Completed" : "Not completed"))
-                : null,
-              renderActions(item, compact)
-            )
+            h(CardContent, null, body)
           )
         );
       }
