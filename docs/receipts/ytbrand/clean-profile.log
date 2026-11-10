@@ -1,5 +1,5 @@
 {
-  "home": "/Users/robert/.hermes/cache/scratch/ytbrand-profile-1",
+  "home": "/Users/robert/.hermes/cache/scratch/ht32-cp",
   "storage": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
   "assets": {
     "note": true,
@@ -10,7 +10,7 @@
   "policy_accepted": true,
   "status": {
     "name": "HackerTube",
-    "data_root": "/Users/robert/.hermes/cache/scratch/ytbrand-profile-1/plugin-data/hackertube",
+    "data_root": "/Users/robert/.hermes/cache/scratch/ht32-cp/plugin-data/hackertube",
     "provider": "hermes"
   },
   "catalog": {

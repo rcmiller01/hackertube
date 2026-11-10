@@ -4,6 +4,42 @@ Branch `hermes/youtube-branding`, exact base `f28e519b56cfc4db435891b867b4f178ee
 (#31 squash merge). This receipt records implementation and self-verification. It is
 not independent review and not permission to merge.
 
+## Review fix 1 (t_e10fbe4a): the thumbnail is never clipped
+
+Picasso's blocking finding on PR #32: `.hackertube .ht-thumb` carried
+`border-radius: var(--radius)`, which clips the official thumbnail's corners and so
+alters it (Developer Policies III.C.5 / the policies guide's "The video thumbnail must
+not be altered"; our own About copy says "never cropped or covered"). The declaration
+is removed from `.hackertube .ht-thumb`. No compact or thumb variant clipped the
+`<img>` or its wrapper: grepping the stylesheet for `border-radius|clip-path|overflow|
+filter` returns nine declarations — `.hackertube`'s `overflow-x: hidden`, two
+`overflow-wrap` rules (`.ht-card p` area, `.ht-title`), the `.ht-disclosure`,
+`a.ht-open` and `.ht-alert` radii, the `.ht-art` radius + `overflow: hidden` pair, and
+`.ht-art img.ht-contain`'s radius — and the only one that applied to the thumbnail or a
+wrapper of it was the removed line. `.ht-thumb-compact` sets width only; `.ht-youtube-media`
+and `.ht-youtube-compact` carry no `overflow`, `clip-path`, `filter` or radius; and the
+`.ht-art` clipping pair never contains a YouTube thumbnail (that branch renders
+`img.ht-cover`/`img.ht-contain` for non-YouTube artwork). The rule's comment now
+records the no-clip rule.
+
+The regression is measured, not read: `assertUnalteredThumbnail` in
+`tests/test_privacy_browser.js` asserts the thumbnail's computed `border-radius` is
+`"0px"`, its computed `clip-path` is `"none"`, its computed `filter` is `"none"`, and
+its rendered box keeps the image's own aspect ratio within 1%. It runs on the
+ranked-feed card and on the compact row. The stylesheet contract test
+(`the YouTube thumbnail presentation never crops the image`) also asserts the
+`.ht-thumb` and `.ht-thumb-compact` rules declare no `border-radius`.
+
+One test-infrastructure defect had to be fixed for that assertion to mean anything:
+the browser fixture served the plugin stylesheet with **no host token block**, so
+`var(--radius)` was invalid at computed-value time and every radius read back `0px` —
+the assertion would have passed whatever the plugin declared. `tests/browser_net_harness.js`
+now serves the host's token block (`--radius: .5rem` and the `--color-*`/`--theme-*`
+tokens the stylesheet consumes) ahead of the plugin stylesheet, as the real dashboard
+does. The fixture image for these tests is a 480×360 PNG (`THUMB_PNG`, the shape of the
+official `hqdefault` frame) rather than the previous 1×1 pixel, so the aspect check has
+something to measure.
+
 ## What changed
 
 | Item | Change |
@@ -26,6 +62,17 @@ Podcasts compact-badge rule, and the "keep compact rows for everyone" callers.
 - `node.log`: `node --test tests/test_dashboard_page.js tests/test_browser_requests.js
   tests/test_privacy_browser.js` — **161 tests, 161 passed, 0 failed, 0 skipped**
   (153 at the base; +9 new, −1 removed F21c).
+- `red-check-clip.log` (review fix 1): the new tests run in a detached worktree at the
+  reviewed head `1c67561` with only the three test files copied in — **161 tests, 158
+  passed, 3 failed**, the three failures being exactly the thumbnail assertions, with
+  the computed `border-radius` on the thumbnail reported as `8px` against the expected
+  `0px`. The same three files at the fix: **161 passed**. A mutation that restores the
+  `border-radius` in the real-dashboard receipt capture (which loads the compiled host
+  stylesheet, so `--radius` resolves) also fails, reporting `7.5px` — the effective
+  value the host's own `html` font-size chain produces at 390px. The mutation was
+  restored from a copy and verified by sha256.
+- FEED12 (`two consecutive searches announce the feed update once each`), five
+  consecutive runs on the fixed head: **5/5 passed**, exit 0 each time.
 - `plugin-validate.log`: `hermes plugins validate .` — `Validation passed.`
 - `plugin-doctor.log`: `hermes plugins doctor . --ci` — `OK: runtime discovery,
   manifest parsing, import, and registration passed`.
@@ -42,10 +89,13 @@ Podcasts compact-badge rule, and the "keep compact rows for everyone" callers.
   (≥44px), compact mark height (100px), thumbnail `object-fit` (`fill`, never `cover`),
   rendered-vs-natural aspect within 0.02, thumbnail not inside a link and carrying no
   child overlay, compact badge display (`videos/books/audiobooks: none`,
-  `podcasts: block`), Podcasts labels `Show`/`Episode`.
+  `podcasts: block`), Podcasts labels `Show`/`Episode`. Review fix 1 adds
+  `borderRadius` (`0px` on all four thumbnail scopes at both viewports), `clipPath`
+  (`none`) and `filter` (`none`) to the same record, and the capture asserts them.
 - `clean_profile_probe.py` (fresh `HERMES_HOME`, plugin enabled by the real
   `hermes plugins enable`): the enabled profile's own `index.js`/`style.css` carry the
-  compact attribution block, the uncropped thumbnail rule and the scoped badge rule;
+  compact attribution block, the uncropped thumbnail rule and the scoped badge rule
+  (the rule is also asserted to declare no `border-radius` in review fix 1);
   privacy accepted; `/status` and `/catalog` 200 with 12 items, 3 unavailable videos,
   `ytimg_in_seed: false`; a source-outage pass returns with **free 0 / metered 0 /
   paid 0**; the thumbnail display check counts as **free 1 / metered 0 / paid 0**.
@@ -80,6 +130,10 @@ the fallback and the computed badge state.
 - The `hqdefault` letterboxing is part of the official image; the fixture does not
   reproduce it, so "no crop" is proven by the rendered-vs-natural aspect check rather
   than by a real letterboxed frame.
+- `capture.js` closes its browser only on the success path, so a capture that fails an
+  assertion prints the failure and then hangs until it is killed. The mutation
+  red-check in `red-check-clip.log` hit that: the assertion is real, and the run had to
+  be terminated after it was recorded.
 - The Icon is 100px in compact rows because that is the brand site's published digital
   minimum. The row is compact relative to the full card, not icon-free; if the intent
   was a smaller mark, that is a policy question for Eve, not a styling choice here.

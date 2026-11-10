@@ -82,6 +82,9 @@ async function readThumb(tab, scope) {
       src: el.getAttribute("src"),
       className: el.getAttribute("class"),
       objectFit: style.objectFit,
+      borderRadius: style.borderRadius,
+      clipPath: style.clipPath,
+      filter: style.filter,
       naturalWidth: el.naturalWidth,
       naturalHeight: el.naturalHeight,
       boxWidth: Math.round(box.width * 10) / 10,
@@ -96,6 +99,9 @@ function assertUncropped(thumb, label) {
   assert.equal(thumb.src, THUMB, label + ": the stored Data API URL is hotlinked");
   assert.doesNotMatch(thumb.className || "", /ht-cover/, label + ": no cover fit class");
   assert.notEqual(thumb.objectFit, "cover", label + ": computed object-fit is not cover");
+  assert.equal(thumb.borderRadius, "0px", label + ": the corners are not clipped by a border radius");
+  assert.equal(thumb.clipPath, "none", label + ": no clip-path alters the image");
+  assert.equal(thumb.filter, "none", label + ": no filter alters the image");
   assert.equal(thumb.insideLink, false, label + ": no play control or link over the image");
   assert.equal(thumb.childElements, 0, label + ": the image carries no overlay");
   const natural = thumb.naturalWidth / thumb.naturalHeight;

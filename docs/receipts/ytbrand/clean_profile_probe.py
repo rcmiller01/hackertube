@@ -36,6 +36,7 @@ thumb_rule = css[css.index(".hackertube .ht-thumb {"):]
 thumb_rule = thumb_rule[: thumb_rule.index("}")]
 assert "object-fit: cover" not in thumb_rule, "the thumbnail rule must never crop"
 assert "height: auto" in thumb_rule, "the thumbnail keeps its own aspect ratio"
+assert "border-radius" not in thumb_rule, "a corner radius would clip the official thumbnail"
 assert ".hackertube :is(#videos,#books,#audiobooks) .ht-compact .ht-format { display: none; }" in css
 record["assets"] = {
     "note": True,

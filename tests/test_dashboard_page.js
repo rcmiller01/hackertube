@@ -2779,6 +2779,8 @@ test("the YouTube thumbnail presentation never crops the image", () => {
   assert.doesNotMatch(thumb, /object-fit:\s*cover/);
   assert.doesNotMatch(thumb, /height:\s*\d/);
   assert.match(thumb, /height:\s*auto/);
+  assert.doesNotMatch(thumb, /border-radius/, "a corner radius clips the official thumbnail");
+  assert.doesNotMatch(rule(".hackertube .ht-thumb-compact"), /border-radius/, "the compact thumbnail is not clipped either");
   assert.match(rule(".hackertube .ht-youtube-compact a"), /min-height:\s*44px/);
   assert.match(rule(".hackertube .ht-youtube-compact a"), /min-width:\s*44px/);
   assert.match(rule(".hackertube .ht-youtube-compact a"), /display:\s*inline-flex/);

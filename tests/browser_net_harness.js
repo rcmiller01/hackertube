@@ -36,6 +36,36 @@ const PIXEL_PNG = Buffer.from(
   "base64",
 );
 
+/* A 480x360 (4:3) PNG, the frame shape of YouTube's official `hqdefault`
+ * thumbnail, so a test can check that the rendered box keeps the image's own
+ * aspect ratio instead of a square 1x1 pixel hiding a crop. */
+const THUMB_PNG = Buffer.from(
+  "iVBORw0KGgoAAAANSUhEUgAAAeAAAAFoCAIAAAAAVb93AAAD1klEQVR42u3UIQEAAAzDsPmZf39zcHyQSChoCsBLkQDAoAEwaACDBsCgAQwaAIMGwKABDBoAgwYwaAAMGgCDBjBoAAwawKABMGgAgwbAoAEwaACDBsCgAQwaAIMGwKABDBoAgwYwaAAMGsCgATBoAAwawKABMGgAgwbAoAEwaACDBsCgAQwaAIMGMGgADBoAgwYwaAAMGsCgATBoAAwawKABMGgAgwbAoAEwaACDBsCgAQwaAIMGMGgADBoAgwYwaAAMGsCgATBoAAwawKABMGgAgwbAoAEMGgCDBsCgAQwaAIMGMGgADBoAgwYwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGgCDBsCgAQwaAIMGMGgADBoAgwYwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGgCDBsCgAQwaAIMGMGgADBrAoAEwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaAAMGsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaACDBsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaACDBsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwawKABMGgADBrAoAEwaACDBsCgATBoAIMGwKABDBoAgwYwaAAMGgCDBjBoAAwawKABMGgADBrAoAEwaACDBsCgATBoAIMGwKABDBoAgwYwaAAMGgCDBjBoAAwawKABMGgADBrAoAEwaACDBsCgAQwaAIMGwKABDBoAgwYwaAAMGgCDBjBoAAwawKABMGgAgwbAoAEwaACDBsCgAQwaAIMGwKABDBoAgwYwaAAMGsCgJQAwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGgCDBsCgAQwaAIMGMGgADBrAoAEwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaAAMGsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaAAMGsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaACDBsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwawKABMGgADBrAoAEwaACDBsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwawKABMGgALgOsFTbtua4aFwAAAABJRU5ErkJggg==",
+  "base64",
+);
+
+/* The plugin stylesheet consumes host design tokens (`var(--radius)`,
+ * `var(--color-*)`, `var(--theme-*)`) and declares none of them itself. Without
+ * a host token block a `var()` reference is invalid at computed-value time and
+ * the property silently falls back to its initial value, so a computed-style
+ * assertion about a tokenised property (border-radius here) would pass
+ * vacuously whatever the plugin declared. The values are the compiled host's
+ * (`hermes_cli/web_dist/assets/index-*.css`: `--radius: .5rem`); the real
+ * dashboard scales rem through the host's own `html` font-size, so its effective
+ * radius reads 7.5px at 390px. What matters for the assertion is only that the
+ * token resolves to a NON-ZERO radius — that is what makes `"0px"` meaningful. */
+const HOST_TOKENS_CSS = `:root {
+  --radius: 0.5rem;
+  --color-border: #d4d4d4;
+  --color-muted: #f4f4f5;
+  --color-muted-foreground: #52525b;
+  --color-primary: #18181b;
+  --color-primary-foreground: #fafafa;
+  --color-ring: #18181b;
+  --theme-font-display: system-ui, sans-serif;
+  --theme-line-height: 1.55;
+}`;
+
 const HARNESS_SOURCE = `
   const React = require("react");
   const { createRoot } = require("react-dom/client");
@@ -217,7 +247,8 @@ async function startFixture(items, privacyOptions = {}) {
       record();
       response.writeHead(200, { "content-type": "text/html" });
       response.end(
-        '<!doctype html><html><head><link rel="stylesheet" href="/style.css"></head>'
+        '<!doctype html><html><head><style>' + HOST_TOKENS_CSS + '</style>'
+          + '<link rel="stylesheet" href="/style.css"></head>'
           + '<body><div id="root"></div><script src="/bundle.js"></script></body></html>',
       );
       return;
@@ -483,6 +514,7 @@ module.exports = {
   FREE_ART_HOST,
   THUMB_HOST,
   PIXEL_PNG,
+  THUMB_PNG,
   fixtureItems,
   labelOf,
   loadNodeModule,

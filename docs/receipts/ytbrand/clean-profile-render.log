@@ -1,19 +1,19 @@
 {
-  "home": "/Users/robert/.hermes/cache/scratch/ytbrand-profile-1",
-  "page": "/Users/robert/.hermes/cache/scratch/ytbrand-profile-1/plugins/hackertube/dashboard/dist/index.js",
-  "style": "/Users/robert/.hermes/cache/scratch/ytbrand-profile-1/plugins/hackertube/dashboard/dist/style.css",
+  "home": "/Users/robert/.hermes/cache/scratch/ht32-cp",
+  "page": "/Users/robert/.hermes/cache/scratch/ht32-cp/plugins/hackertube/dashboard/dist/index.js",
+  "style": "/Users/robert/.hermes/cache/scratch/ht32-cp/plugins/hackertube/dashboard/dist/style.css",
   "note": "Jane Austen introduction",
   "thumbnailRemoved": true,
   "iconPresent": true,
   "iconBox": {
     "x": 64,
-    "y": 507.734375,
+    "y": 509.96875,
     "width": 202.171875,
     "height": 238
   },
   "brandBlock": {
     "x": 64,
-    "y": 507.734375,
+    "y": 509.96875,
     "width": 202.171875,
     "height": 238
   },

@@ -106,6 +106,36 @@ test("the privacy disclosure reports its expanded state and accepting it moves f
 
 const THUMB = "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg";
 
+/* A YouTube thumbnail must reach the viewer unaltered: no corner clip, no
+ * clip-path, no filter, and the rendered box must keep the image's own aspect
+ * ratio. Measured from computed style and layout, not from the stylesheet. */
+async function assertUnalteredThumbnail(thumb, label) {
+  const paint = await thumb.evaluate(el => {
+    const style = getComputedStyle(el);
+    const box = el.getBoundingClientRect();
+    return {
+      borderRadius: style.borderRadius,
+      clipPath: style.clipPath,
+      filter: style.filter,
+      naturalWidth: el.naturalWidth,
+      naturalHeight: el.naturalHeight,
+      boxWidth: box.width,
+      boxHeight: box.height,
+    };
+  });
+  assert.equal(paint.borderRadius, "0px", label + ": the thumbnail corners are not clipped by a border radius");
+  assert.equal(paint.clipPath, "none", label + ": no clip-path alters the thumbnail");
+  assert.equal(paint.filter, "none", label + ": no filter alters the thumbnail");
+  assert.ok(paint.naturalWidth > 0 && paint.naturalHeight > 0, label + ": the fixture image decoded");
+  const natural = paint.naturalWidth / paint.naturalHeight;
+  const rendered = paint.boxWidth / paint.boxHeight;
+  assert.ok(
+    Math.abs(natural - rendered) / natural <= 0.01,
+    label + ": the rendered aspect ratio matches the image within 1% (" +
+      natural.toFixed(4) + " natural vs " + rendered.toFixed(4) + " rendered)",
+  );
+}
+
 function youtubeRow(overrides) {
   return {
     item_id: "youtube:LCEmiRjPEtQ",
@@ -168,13 +198,13 @@ test("compact format badges are measured in the browser, not read from the style
 });
 
 test("a YouTube card hotlinks the unaltered thumbnail beside the linked Icon", async () => {
-  const { PIXEL_PNG } = require("./browser_net_harness");
+  const { THUMB_PNG } = require("./browser_net_harness");
   const fixture = await startFixture([youtubeRow()]);
   const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
   try {
     const ui = await browser.newPage();
     let thumbRequests = 0;
-    await ui.route("https://i.ytimg.com/**", route => { thumbRequests += 1; return route.fulfill({status:200, contentType:"image/png", body:PIXEL_PNG}); });
+    await ui.route("https://i.ytimg.com/**", route => { thumbRequests += 1; return route.fulfill({status:200, contentType:"image/png", body:THUMB_PNG}); });
     await ui.goto(fixture.origin);
     const card = ui.locator("#ranked-feed article").first();
     const thumb = card.locator("img.ht-thumb");
@@ -192,6 +222,7 @@ test("a YouTube card hotlinks the unaltered thumbnail beside the linked Icon", a
     assert.notEqual(shape.objectFit, "cover", "the image is never cropped by CSS");
     assert.equal(shape.insideLink, false, "no play control or link is laid over the image");
     assert.equal(shape.overlays, 0, "the thumbnail carries no overlay");
+    await assertUnalteredThumbnail(thumb, "ranked-feed YouTube card");
     const icon = card.getByRole("link", {name:'Watch "AI introduction" on YouTube'});
     assert.equal(await icon.count(), 1, "the official Icon is the linked attribution");
     assert.equal(await card.getByText("Metadata from YouTube. Explanations and library actions are HackerTube’s.", {exact:true}).count(), 1);
@@ -222,13 +253,13 @@ test("a YouTube thumbnail that fails to load leaves the linked Icon and no broke
 });
 
 test("a compact YouTube row keeps the official linked Icon with a 44px tap target", async () => {
-  const { PIXEL_PNG } = require("./browser_net_harness");
+  const { THUMB_PNG } = require("./browser_net_harness");
   const fixture = await startFixture(sectionRows());
   const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
   try {
     const ui = await browser.newPage();
     await ui.setViewportSize({width:390, height:900});
-    await ui.route("https://i.ytimg.com/**", route => route.fulfill({status:200, contentType:"image/png", body:PIXEL_PNG}));
+    await ui.route("https://i.ytimg.com/**", route => route.fulfill({status:200, contentType:"image/png", body:THUMB_PNG}));
     await ui.goto(fixture.origin);
     const row = ui.locator("#videos .ht-compact").first();
     await row.waitFor();
@@ -253,6 +284,11 @@ test("a compact YouTube row keeps the official linked Icon with a 44px tap targe
     assert.match(geometry.src, /^data:image\/png;base64,/, "the official asset is served inline, unaltered");
     const thumb = row.locator("img.ht-thumb");
     assert.equal(await thumb.count(), 1, "the compact row keeps the thumbnail beside the Icon");
+    await ui.waitForFunction(() => {
+      const el = document.querySelector("#videos .ht-compact img.ht-thumb");
+      return el && el.naturalWidth > 0;
+    });
+    await assertUnalteredThumbnail(thumb, "compact YouTube row");
     const note = await row.getByText("Metadata from YouTube. Explanations and library actions are HackerTube’s.", {exact:true}).count();
     assert.equal(note, 1);
     // The row is still a compact row, not a full card.
