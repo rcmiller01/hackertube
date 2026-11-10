@@ -1,0 +1,198 @@
+✔ FEED11 background Search completion updates the rendered feed without a reload (1623.10175ms)
+✔ PREF16 interest remove button works by keyboard and stays removed after reload (329.015834ms)
+✖ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (966.765208ms)
+✔ browser inventory refuses unknown destinations, routes and artwork queries (0.441958ms)
+✔ observer catches a rendered artwork request outside the approved inventory (2350.36075ms)
+✔ FEED04 browser requests include artwork and match independent server/interception counts (1902.595083ms)
+✔ public https destinations are allowed (0.928ms)
+✔ unsafe schemes are refused (0.102834ms)
+✔ private-network destinations are refused (0.231375ms)
+✔ ipv6 private, loopback, and mapped forms are refused (0.17325ms)
+✔ public ipv6 literal is allowed (0.048791ms)
+✔ credentials in a destination are refused (0.033375ms)
+✔ LIB01 save twice keeps one saved record (0.269ms)
+✔ dismiss does not duplicate and does not remove the id (0.045166ms)
+✔ LIB03 open records an event and leaves completion unchanged (0.096542ms)
+✔ PREF01 gardening interest is accepted and kept (0.184958ms)
+✔ section order is capture order and library is newest save first (0.081583ms)
+✔ show more keeps the first four until expanded (0.034084ms)
+✔ hacker news evidence stays on the item it names (0.09025ms)
+✔ hacker news endorsement is a link line and catalog evidence is a source candidate (0.042ms)
+✔ unknown duration and missing art stay unknown (0.060375ms)
+✔ demo question and disclosure text are the approved lines (0.031583ms)
+✔ empty question alert receives focus after it mounts (1.394208ms)
+✔ section navigation focuses the section heading (0.336542ms)
+✔ LIB02 loaded profile shows the saved item after a fresh page (0.335708ms)
+✔ PREF16 removing an interest posts its exact text and refreshes the feed (0.713ms)
+✔ PREF16 a rejected removal keeps the interest available for retry (0.188167ms)
+✔ PREF01 loaded gardening interest stays on the page (0.096333ms)
+✔ LIB01 page save posts only the item id (0.309917ms)
+✔ evidence and about links use the text link class (0.158416ms)
+✔ FEED01 ranked opening feed shows the interest match without a question (0.25075ms)
+✔ FEED02 the page explains the signals used (0.448791ms)
+✔ FEED03 a publisher record is labeled a source candidate (0.127292ms)
+✔ FEED04 refresh paging and save stay on local routes (0.140667ms)
+✔ FEED04 Show more is the rendered control, and it dispatches no request (0.364791ms)
+✔ FEED04 Save, Dismiss, and Open controls post to the profile routes (1.397291ms)
+✔ FEED05 a dismissed item stays out of discovery and remains in the library (0.194084ms)
+✔ FEED06 AI interest is a personalized profile with no unrelated fill (0.229917ms)
+✔ FEED06 C++ interest is a personalized profile with no unrelated fill (0.115791ms)
+✔ a short interest beside a match still shows the ranked match (0.111083ms)
+✔ FEED06 no matches explain the coverage limit and offer focused search (0.202958ms)
+✔ FEED07 no interests offer setup and refresh without a personalized claim (0.136083ms)
+✔ Show more Enter focuses the fifth item heading (337.838125ms)
+✔ an expired evidence id omitted by the section payload stays hidden (0.23175ms)
+✔ FEED10 a section lists matches then a not-matched group with no why-line (0.263708ms)
+✔ SEARCH07 browse items are not presented as verified recommendations (0.170875ms)
+✔ SEARCH01 the Search control posts the question with the accepted disclosure (0.775416ms)
+✔ JOB09 and JOB10 the disclosure and its control are at the action every time (0.213667ms)
+✔ JOB09 an unaccepted disclosure alerts and dispatches no request (0.137209ms)
+✔ the panel warns before submitting when the live provider has no key (0.09075ms)
+✔ the panel does not warn when the stub provider is selected (0.072042ms)
+✔ JOB04 the rendered job cost is unknown, never zero (0.396959ms)
+✔ JOB04 a provider-reported cost is rendered as a value (0.488834ms)
+✔ JOB04 a non-numeric cost is rendered as unknown, never zero (0.515666ms)
+✔ skipped source codes render as one plain-language sentence (0.727291ms)
+✔ JOB03 a partial job labels incomplete coverage and keeps its results (0.68575ms)
+✔ SEARCH04 an unverified constraint is labeled on the result (0.5855ms)
+✔ SEARCH05 a broader-web result is labeled and claims no endorsement (0.510125ms)
+✔ SEARCH07 an unfilled format reports insufficient evidence (1.009791ms)
+✔ SEARCH08 a previously saved result shows its recorded state (0.368083ms)
+✔ a refused search renders the route's clear message (0.90975ms)
+✔ a rejected search request renders the message and no job (0.416334ms)
+✔ Back to discovery closes a completed Search and keeps the typed question (1.461167ms)
+✔ Back to discovery closes a failed Search (1.968959ms)
+✔ Back to discovery is disabled and inert while a Search is running (0.420916ms)
+✔ a second submit after Back while a Search is running sends no second POST (0.224458ms)
+✔ a stale Search response does not overwrite a newer Search's result (0.391ms)
+✔ a stale Search error does not overwrite a newer Search (0.279583ms)
+✔ Back to discovery closes a Search whose stub job failed with HTTP 200 (1.908833ms)
+✔ search helpers format a cost, a limit, and a refusal without a score (0.12025ms)
+✔ navigation, status, and alerts stay outside the collapsible controls (0.1225ms)
+✔ the remove control and the controls summary meet the focus and target rules (0.185708ms)
+✔ the refreshed page declares the search schema and disclosure copy (0.020541ms)
+✔ the search picker lists Hermes providers and saves only the HackerTube model slot (0.265083ms)
+✔ newly retrieved search items have Save and Open controls (0.702292ms)
+✔ source controls save an explicit choice without starting retrieval (0.200334ms)
+✔ Search waits for the pending model setting write (0.453583ms)
+✔ Search waits for the pending sources setting write (0.296458ms)
+✔ an expired saved item's state remains visible without cached metadata (0.150209ms)
+✔ failed model setting writes block Search until a successful retry (1.146ms)
+✔ failed sources setting writes block Search until a successful retry (0.367875ms)
+✔ search shows the retrieval subject separately and labels inferred relevance (0.288416ms)
+✔ beginner search does not claim that no relevance constraints were applied (0.216084ms)
+✔ Hermes search explains the work-budget limitation before dispatch (0.135459ms)
+✔ Hermes work-budget limitation remains visible while the provider has not returned (0.168333ms)
+✔ the offline stub does not show a Hermes in-flight budget note (0.065917ms)
+✔ pending Search cannot hide the Hermes limitation by closing the panel (0.155708ms)
+✔ Cancel search can be queued before the supervised job id arrives (0.338709ms)
+✔ a finished Search moves focus to the results heading (0.2055ms)
+✔ a failed Search moves focus to the error alert (0.162625ms)
+✔ Stopping search stays focusable and a confirmed cancel focuses the results heading (0.392916ms)
+✔ Cancel search keeps the busy guard until the server confirms termination (0.384875ms)
+✔ a lost start acknowledgement attaches to existing work without another paid start (1.004625ms)
+✔ FEED11 succeeded Search refreshes catalog and feed once without another search (0.467584ms)
+✔ FEED11 failed Search refreshes catalog and feed once without another search (0.31775ms)
+✔ FEED11 timed_out Search refreshes catalog and feed once without another search (0.304125ms)
+✔ FEED11 cancelled Search refreshes catalog and feed once without another search (0.286792ms)
+✔ Apple Books destinations and catalog attribution do not say Apple Podcasts (0.043541ms)
+✔ a YouTube card opens the source from one labelled link and does not repeat the bare source name (0.166792ms)
+✔ the model picker row wraps at a narrow viewport (0.126ms)
+✔ a non-YouTube card keeps its labelled source link and its destination line (0.0765ms)
+✖ a finished Search announces the feed update once, after the feed refresh is accepted (0.481458ms)
+✖ two consecutive searches each announce the feed update once (0.658375ms)
+✖ a failed feed refresh after a Search never announces the success (0.305542ms)
+✔ N1 a Search that ends while the controls are collapsed expands them before moving focus (0.673917ms)
+✔ N2 a Search recovered on page load finishes without moving focus (602.857875ms)
+✔ privacy gates real rendered features; deletion failure retains state and success revokes access (1262.148084ms)
+✔ YouTube attribution renders without an authenticated image request (235.1065ms)
+✔ the privacy disclosure reports its expanded state and accepting it moves focus to the page heading (893.919042ms)
+ℹ tests 109
+ℹ suites 0
+ℹ pass 105
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7209.077
+
+✖ failing tests:
+
+test at tests/test_browser_requests.js:113:1
+✖ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (966.765208ms)
+  AssertionError [ERR_ASSERTION]: no notice is written while the first refresh is still in flight
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_browser_requests.js:185:12)
+      at async Test.run (node:internal/test_runner/test:1404:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'Feed updated from this search.',
+    expected: 'Feed updated from this search.',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2698:1
+✖ a finished Search announces the feed update once, after the feed refresh is accepted (0.481458ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /Feed updated from this search/. Input:
+  
+  'Feed updated from this search.'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2710:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Feed updated from this search.',
+    expected: /Feed updated from this search/,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2724:1
+✖ two consecutive searches each announce the feed update once (0.658375ms)
+  AssertionError [ERR_ASSERTION]: the region is cleared before the second announcement
+  + actual - expected
+  
+  + 'Feed updated from this search.'
+  - ''
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2743:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'Feed updated from this search.',
+    expected: '',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_dashboard_page.js:2751:1
+✖ a failed feed refresh after a Search never announces the success (0.305542ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /Feed updated from this search/. Input:
+  
+  'Feed updated from this search.'
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2760:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Feed updated from this search.',
+    expected: /Feed updated from this search/,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }

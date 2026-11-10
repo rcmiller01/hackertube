@@ -1,0 +1,12 @@
+........................................................................ [ 22%]
+........................................................................ [ 45%]
+........................................................................ [ 68%]
+........................................................................ [ 91%]
+..........................                                               [100%]
+=============================== warnings summary ===============================
+tests/test_privacy.py::test_all_dashboard_features_require_current_privacy_agreement
+  /Users/robert/.cache/uv/archive-v0/I9KElpfcvy-qZnQf/lib/python3.14/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+314 passed, 1 warning in 7.07s

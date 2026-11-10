@@ -110,6 +110,19 @@
   max-width: 44rem;
 }
 
+/* The picker row wraps instead of running off a 390px viewport. */
+.hackertube .ht-model-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.hackertube .ht-model-picker select {
+  max-width: 100%;
+}
+
 .hackertube .ht-feed-controls {
   margin: 1rem 0;
 }

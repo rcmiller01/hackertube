@@ -41,8 +41,8 @@ Navigation, search, filters, saving, dismissal, and source links SHALL have acce
 
 #### Scenario: UI06 Keyboard journey
 - **WHEN** the user navigates, searches, filters, saves, dismisses, and opens a source using a keyboard
-- **THEN** each action is reachable, has visible focus, and has an accessible name; a finished or cancelled Search moves focus to the results heading, and a failed Search moves focus to its alert; while Search is stopping, Cancel stays focusable and exposes aria-disabled
+- **THEN** each action is reachable, has visible focus, and has an accessible name; a finished or cancelled Search started in this page session moves focus to the results heading, and a failed one moves focus to its alert, while a Search recovered on page load finishes without moving focus; while Search is stopping, Cancel stays focusable and exposes aria-disabled
 
 #### Scenario: UI07 Collapse feed controls
 - **WHEN** the user collapses the controls between the opening description and Ranked feed
-- **THEN** interest entry, focused search, and section links are hidden together while Discover, Library, and About navigation, the polite status region, catalog and feed alerts, the ranked feed, and a keyboard-operable reopen control remain visible; the reopen control's focus outline uses the host ring color; feed updates preserve the collapsed state and reopening preserves entered interests, the question, and Search results
+- **THEN** interest entry, focused search, and section links are hidden together while Discover, Library, and About navigation, the polite status region, catalog and feed alerts, the ranked feed, and a keyboard-operable reopen control remain visible; the reopen control's focus outline uses the host ring color; a feed update caused by a profile write preserves the collapsed state, while a Search started in this page session that ends expands the controls and moves focus to its results heading or its alert (a Search recovered on page load does neither), and reopening preserves entered interests, the question, and Search results
