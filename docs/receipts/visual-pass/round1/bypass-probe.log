@@ -1,0 +1,5 @@
+urlopen on the feed path refused as expected: urllib.request.urlopen
+connect_ex outside the boundary refused as expected: socket.socket.connect_ex
+counters after refusals: {'free': 0, 'paid': 0, 'metered': 0}
+connect_ex inside a boundary request connected: rc=0
+counters after an allowed request: {'free': 1, 'paid': 0, 'metered': 0}

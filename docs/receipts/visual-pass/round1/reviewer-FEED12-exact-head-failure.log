@@ -1,0 +1,30 @@
+✖ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (1024.784209ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1058.619333
+
+✖ failing tests:
+
+test at tests/test_browser_requests.js:127:1
+✖ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (1024.784209ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + ''
+  - 'Feed updated from this search.'
+  
+      at TestContext.<anonymous> (/Users/robert/.hermes/kanban/workspaces/t_59a26348/candidate/tests/test_browser_requests.js:233:12)
+      at async Test.run (node:internal/test_runner/test:1404:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'Feed updated from this search.',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

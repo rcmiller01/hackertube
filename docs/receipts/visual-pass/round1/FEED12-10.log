@@ -1,0 +1,9 @@
+✔ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (1021.415917ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1058.748834

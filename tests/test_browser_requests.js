@@ -208,10 +208,11 @@ test("FEED12 two consecutive searches announce the feed update once each, only a
       "the polite status region stays quiet until the refresh is accepted",
     );
     await held.shift().fulfill({ json: feedDocument() });
-    await tab.waitForFunction(() => document.querySelector(".ht-status").textContent === "Feed updated from this search.");
+    // Wait for this operation's observer record, not text that a previous
+    // operation may already have left in the live region.
+    await tab.waitForFunction(() => window.__feedNotice.includes("Feed updated from this search."));
     const firstChanges = await tab.evaluate(() => window.__feedNotice);
-    assert.ok(firstChanges.length > 0, "the accepted refresh announces once");
-    assert.equal(firstChanges[firstChanges.length - 1], "Feed updated from this search.");
+    assert.deepEqual(firstChanges, ["Feed updated from this search."], "the accepted refresh announces exactly once");
     await tab.locator("#ranked-feed").getByText("Book 1", { exact: true }).waitFor();
     // A second distinct Search: its sentence is identical to the one already in
     // the region, so a fresh announcement needs a fresh live-region change.
@@ -225,12 +226,15 @@ test("FEED12 two consecutive searches announce the feed update once each, only a
       "the second refresh is still in flight and says nothing yet",
     );
     await held.shift().fulfill({ json: feedDocument() });
-    await tab.waitForFunction(() => document.querySelector(".ht-status").textContent === "Feed updated from this search.");
+    await tab.waitForFunction(() => {
+      const changes = window.__feedNotice;
+      return changes[0] === "" && changes.slice(1).includes("Feed updated from this search.");
+    });
     const secondChanges = await tab.evaluate(() => window.__feedNotice);
-    // The second Search's sentence is the one the region already held, so the
-    // fresh announcement is a blank followed by the sentence again.
-    assert.ok(secondChanges.includes(""), "the region is blanked for the second announcement");
-    assert.equal(secondChanges[secondChanges.length - 1], "Feed updated from this search.");
+    // Observe a fresh, ordered blank → notice for this operation. The old
+    // sentence remaining in the DOM cannot satisfy this predicate.
+    assert.deepEqual(secondChanges, ["", "Feed updated from this search."],
+      "the region is blanked, then announces the second accepted refresh exactly once");
     assert.equal(await tab.locator(".ht-status").textContent(), "Feed updated from this search.");
     assert.equal(searches, 2, "exactly two searches ran");
   } finally {

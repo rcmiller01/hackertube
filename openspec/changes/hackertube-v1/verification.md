@@ -835,3 +835,16 @@ gateway render or a fresh source/provider retrieval. The selected long model at
 root with overflow hidden. Before/after images and exact first-card offsets are in
 [the receipt](../../../docs/receipts/visual-pass/README.md). No live or paid Search
 and no credential read/write was performed. Independent exact-head review is pending.
+
+### Round-1 FEED12 observation correction
+
+Independent review at `7b839c4ac245fc63cb85adce967c2fc4d8a671b2` reproduced a
+remaining test race: waiting for the old notice text could finish before the new
+blank/refill. The original five passing trials are historical, not proof the
+flake was fixed. The correction of record and raw failure are in
+[round1/README.md](../../../docs/receipts/visual-pass/round1/README.md).
+Both announcement waits now observe the current operation's mutation history;
+the second requires ordered blank then notice. Exact arrays assert one notice
+per operation; held-response/no-premature-notice checks remain unchanged. No
+production code changed in this correction. New exact-head results are pinned
+in the PR/card review handoff; independent re-review remains required.
