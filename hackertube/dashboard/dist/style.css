@@ -368,7 +368,7 @@
 .hackertube .ht-art.ht-youtube-brand { height: auto; min-height: 180px; max-height: none; aspect-ratio: auto; }
 .hackertube .ht-art.ht-youtube-brand a { display: inline-block; padding: 40px; }
 .hackertube .ht-art.ht-youtube-brand .ht-youtube-action { display: block; margin-top: 40px; }
-.hackertube .ht-art.ht-youtube-brand img { height: 100px; width: auto; max-width: none; object-fit: contain; }
+.hackertube .ht-art.ht-youtube-brand img { height: 186px; width: auto; max-width: none; object-fit: contain; }
 /* Unaltered YouTube thumbnail: the image's own aspect ratio, no crop, no
    overlay, and no corner radius. A border-radius clips the image's corners,
    which alters it, so the rule carries none — and no wrapper of the thumbnail

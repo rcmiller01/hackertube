@@ -14,7 +14,7 @@
       "base_flexDirection": null,
       "head_flexDirection": "column",
       "base_fullCardHeight": 772.8,
-      "head_fullCardHeight": 772.8
+      "head_fullCardHeight": 858.8
     },
     {
       "width": 1280,
@@ -30,7 +30,7 @@
       "base_flexDirection": null,
       "head_flexDirection": "row",
       "base_fullCardHeight": 755,
-      "head_fullCardHeight": 755
+      "head_fullCardHeight": 841
     }
   ]
 }

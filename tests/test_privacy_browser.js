@@ -51,7 +51,8 @@ test("YouTube attribution renders without an authenticated image request", async
     const bytes=Buffer.from(src.split(",")[1],"base64");
     assert.equal(require("node:crypto").createHash("sha256").update(bytes).digest("hex"),"1027b1b0517727adb9697155a270744381c3ce9b047b1c8bd8a9389dc7d07a83","official asset must remain unmodified");
     await ui.waitForFunction(()=>document.querySelector('img[alt="YouTube"]').naturalWidth>0);
-    assert.equal(await logo.evaluate(el=>el.getBoundingClientRect().height),100);
+    // 186px file box -> 100px visible mark (the asset's 578/1075 clear space).
+    assert.equal(await logo.evaluate(el=>el.getBoundingClientRect().height),186);
     const action=ui.locator("article").first().getByRole("link",{name:'Watch "AI introduction" on YouTube'});
     assert.equal(await action.count(),1);
     const text=action.getByText("Watch on YouTube",{exact:true});
@@ -415,6 +416,48 @@ test("the compact YouTube mark's visible red area is at least 100px at 390 and 1
       );
       await ui.close();
       await fixture.close();
+    }
+  } finally { await browser.close(); }
+});
+
+test("the full feed card's YouTube mark's visible red area is at least 100px at 390 and 1280", async () => {
+  const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    for (const width of [390, 1280]) {
+      const items = fixtureItems(1);
+      items[0] = {...items[0], item_id:"youtube:LCEmiRjPEtQ", format:"video", title:"AI introduction",
+        destination:"https://www.youtube.com/watch?v=LCEmiRjPEtQ", art_url:null, art_hotlink:false};
+      const fixture = await startFixture(items);
+      const ui = await browser.newPage();
+      try {
+        await ui.setViewportSize({ width, height: 900 });
+        await ui.goto(fixture.origin);
+        const card = ui.locator("article").first();
+        await card.waitFor();
+        const link = card.getByRole("link", { name: 'Watch "AI introduction" on YouTube' });
+        await link.waitFor();
+        const mark = await measureVisibleMark(link);
+        assert.ok(
+          mark.fileHeight >= 185.5,
+          `at ${width}px the full card draws the icon at ~186px like compact rows (file box ${mark.fileHeight})`,
+        );
+        assert.ok(
+          Math.abs(mark.markRatioY - 578 / 1075) <= 0.01,
+          `at ${width}px the asset still has its built-in clear space (mark ratio ${mark.markRatioY.toFixed(4)})`,
+        );
+        assert.ok(
+          mark.visibleMarkHeight >= 100,
+          `at ${width}px the full card's visible red mark is >= 100px (measured ${mark.visibleMarkHeight.toFixed(2)}px from a ${mark.fileHeight.toFixed(1)}px file box)`,
+        );
+        const overflow = await ui.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+        assert.ok(
+          overflow <= 1,
+          `at ${width}px the full card does not overflow horizontally (overflow ${overflow}px)`,
+        );
+      } finally {
+        await ui.close();
+        await fixture.close();
+      }
     }
   } finally { await browser.close(); }
 });

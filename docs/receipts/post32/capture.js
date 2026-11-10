@@ -290,7 +290,15 @@ function assertUncropped(thumb, labelText) {
       const fullThumb = await readThumb(tab, "#ranked-feed");
       assertUncropped(fullThumb, "full card");
       const fullHeight = await fullCard.evaluate(el => Math.round(el.getBoundingClientRect().height * 10) / 10);
-      assert.equal(await fullCard.getByRole("link", { name: 'Watch "Jane Austen introduction" on YouTube' }).count(), 1, "full card keeps the linked Icon");
+      const fullLink = fullCard.getByRole("link", { name: 'Watch "Jane Austen introduction" on YouTube' });
+      assert.equal(await fullLink.count(), 1, "full card keeps the linked Icon");
+      const fullMark = await readMark(fullLink);
+      const fullOverflow = await tab.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+      if (expectNewLayout) {
+        assert.ok(fullMark.visibleMarkHeight >= 100, "full card visible mark >= 100px: " + fullMark.visibleMarkHeight);
+        assert.ok(fullMark.fileHeight >= 185.5, "full card icon file box drawn at ~186px: " + fullMark.fileHeight);
+        assert.ok(fullOverflow <= 1, "full card does not overflow horizontally at " + width + "px: " + fullOverflow);
+      }
       assert.equal(await fullCard.getByText(NOTE, { exact: true }).count(), 1, "full card keeps the short note");
 
       const badges = {};
@@ -306,6 +314,7 @@ function assertUncropped(thumb, labelText) {
       if (shots) {
         await tab.screenshot({ path: path.join(out, `discover-${width}.png`), fullPage: true });
         await tab.locator("#videos").screenshot({ path: path.join(out, `videos-${width}.png`) });
+        await fullCard.screenshot({ path: path.join(out, `feed-card-${width}.png`) });
       }
 
       // --- Search results -----------------------------------------
@@ -324,7 +333,7 @@ function assertUncropped(thumb, labelText) {
         await tab.locator("#hackertube-results").screenshot({ path: path.join(out, `search-${width}.png`) });
       }
 
-      measures.viewports.push({ width, compactTapTarget: tap, mark, layout, compactThumb, fullHeight, fullThumb, searchThumb, badges });
+      measures.viewports.push({ width, compactTapTarget: tap, mark, layout, compactThumb, fullHeight, fullMark, fullOverflow, fullThumb, searchThumb, badges });
       } finally {
         await tab.close();
         await fixture.close();

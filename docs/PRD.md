@@ -46,11 +46,11 @@ Robert answered the post-#32 follow-up card. Both answers are quoted exactly:
 
 Implementation reading, kept to those two statements. The brand site's 100px
 digital minimum is measured on the visible red mark, not on the PNG file box, and
-the official file ships with built-in clear space, so the compact row draws the
-icon image at 186px tall to render a 100px visible mark. At viewport widths 640px
-and up the compact row's logo and thumbnail sit together in a side column beside
-the row text instead of above it; below 640px the previous stacked layout is
-unchanged. Full cards are unchanged. The icon stays inside its single link to
+the official file ships with built-in clear space, so the compact row and the
+full feed card both draw the icon image at 186px tall to render a 100px visible
+mark. At viewport widths 640px and up the compact row's logo and thumbnail sit
+together in a side column beside the row text instead of above it; below 640px
+the previous stacked layout is unchanged. The icon stays inside its single link to
 YouTube and is not recoloured. No other product decision is claimed here.
 
 ## 4. Core user journeys

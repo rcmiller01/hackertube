@@ -43,6 +43,16 @@
         "ancestorClips": []
       },
       "fullHeight": 772.8,
+      "fullMark": {
+        "fileWidth": 116.7,
+        "fileHeight": 100,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 53.86,
+        "visibleMarkWidth": 76.92
+      },
+      "fullOverflow": 0,
       "fullThumb": {
         "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
         "className": "ht-thumb",
@@ -115,6 +125,16 @@
         "ancestorClips": []
       },
       "fullHeight": 755,
+      "fullMark": {
+        "fileWidth": 116.7,
+        "fileHeight": 100,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 53.86,
+        "visibleMarkWidth": 76.92
+      },
+      "fullOverflow": 0,
       "fullThumb": {
         "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
         "className": "ht-thumb",

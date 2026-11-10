@@ -36,6 +36,32 @@ const base = {
   art_checked_at: "2026-11-06T12:22:23Z",
 };
 
+async function readMark(link) {
+  return link.evaluate(async (el) => {
+    const img = el.querySelector("img");
+    const box = img.getBoundingClientRect();
+    const asset = new Image();
+    await new Promise((res, rej) => { asset.onload = res; asset.onerror = rej; asset.src = img.getAttribute("src"); });
+    const canvas = document.createElement("canvas");
+    canvas.width = asset.naturalWidth; canvas.height = asset.naturalHeight;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(asset, 0, 0);
+    const d = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let minY = canvas.height, maxY = -1;
+    for (let y = 0; y < canvas.height; y += 1) {
+      for (let x = 0; x < canvas.width; x += 1) {
+        if (d[(y * canvas.width + x) * 4 + 3] > 8) { if (y < minY) minY = y; if (y > maxY) maxY = y; }
+      }
+    }
+    const ratioY = (maxY - minY + 1) / canvas.height;
+    return {
+      fileHeight: Math.round(box.height * 10) / 10,
+      markRatioY: Math.round(ratioY * 10000) / 10000,
+      visibleMarkHeight: Math.round(box.height * ratioY * 100) / 100,
+    };
+  });
+}
+
 async function assertFallback(browser, artUrl, routeRule, label) {
   const fixture = await startFixture([{ ...base, art_url: artUrl }]);
   const record = { label };
@@ -48,7 +74,9 @@ async function assertFallback(browser, artUrl, routeRule, label) {
     record.fullCardThumbs = await card.locator("img.ht-thumb").count();
     record.fullCardIcon = await card.getByRole("link", { name: 'Watch "Jane Austen introduction" on YouTube' }).count();
     record.fullCardNote = await card.locator(".ht-note").textContent();
-    record.fullCardIconBox = await card.getByRole("link", { name: 'Watch "Jane Austen introduction" on YouTube' }).boundingBox();
+    const fullCardLink = card.getByRole("link", { name: 'Watch "Jane Austen introduction" on YouTube' });
+    record.fullCardIconBox = await fullCardLink.boundingBox();
+    record.fullCardMark = await readMark(fullCardLink);
     const row = tab.locator("#videos .ht-compact").first();
     await row.waitFor();
     record.compactThumbs = await row.locator("img.ht-thumb").count();
@@ -58,6 +86,8 @@ async function assertFallback(browser, artUrl, routeRule, label) {
     assert.equal(record.fullCardIcon, 1, label + ": the full card keeps the linked Icon");
     assert.ok(record.fullCardIconBox && record.fullCardIconBox.height > 0, label + ": the Icon is laid out");
     assert.equal(record.fullCardNote, NOTE, label + ": the short note remains");
+    assert.ok(record.fullCardMark.fileHeight >= 185.5, label + ": the installed CSS draws the full card icon at ~186px (" + record.fullCardMark.fileHeight + ")");
+    assert.ok(record.fullCardMark.visibleMarkHeight >= 100, label + ": the full card's visible mark is >= 100px (" + record.fullCardMark.visibleMarkHeight + ")");
     assert.equal(record.compactThumbs, 0, label + ": the compact row has no broken image hole");
     assert.equal(record.compactIcon, 1, label + ": the compact row keeps the linked Icon");
     assert.equal(record.compactNote, NOTE, label + ": the compact row keeps the short note");
