@@ -385,6 +385,15 @@ function submitSearch(ui, question, options) {
   form.props.onSubmit({ preventDefault() {} });
 }
 
+function submitSearchInPlace(ui, question) {
+  // The panel stays mounted after a completed Search, so a second Search is
+  // submitted without toggling the disclosure shut first.
+  const input = ui.find((node) => node.props && node.props.id === "hackertube-question");
+  input.props.onChange({ target: { value: question } });
+  const form = ui.find((node) => node.type === "form" && node.props.id === "hackertube-search-panel");
+  form.props.onSubmit({ preventDefault() {} });
+}
+
 function textOf(node) {
   if (node == null || node === false) return "";
   if (typeof node === "string" || typeof node === "number") return String(node);
@@ -393,7 +402,7 @@ function textOf(node) {
   return "";
 }
 
-function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, statusBody, deferSearch, modelResponses, deferSettings) {
+function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, statusBody, deferSearch, modelResponses, deferSettings, deferFeed) {
   const previous = {
     window: global.window,
     document: global.document,
@@ -554,6 +563,25 @@ function mountPage(catalogBody, profileBody, respond, feedBody, searchOutcome, s
         // through deferSearch.pending[i].onOk / .onErr.
         const entry = { url: target, onOk: null, onErr: null };
         deferSearch.pending.push(entry);
+        return {
+          then(onOk, onErr) {
+            entry.onOk = onOk;
+            entry.onErr = onErr;
+            return {
+              catch(fn) {
+                if (!entry.onErr) entry.onErr = fn;
+                return this;
+              },
+            };
+          },
+        };
+      }
+      if (deferFeed && deferFeed.hold && target.indexOf("/feed") !== -1) {
+        // Hold the feed reread so a test can observe that no announcement is
+        // made while the refresh is still in flight, then settle it through
+        // deferFeed.pending[i].onOk(body) / .onErr(error).
+        const entry = { url: target, onOk: null, onErr: null };
+        deferFeed.pending.push(entry);
         return {
           then(onOk, onErr) {
             entry.onOk = onOk;
@@ -2667,14 +2695,20 @@ test("a non-YouTube card keeps its labelled source link and its destination line
   }
 });
 
-test("a finished Search announces the feed update once in the status region", () => {
+test("a finished Search announces the feed update once, after the feed refresh is accepted", () => {
   const deferred = { pending: [] };
-  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, deferred);
+  const feed = { hold: false, pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, deferred, null, null, feed);
   try {
     const statusText = () => ui.text((node) => node.props && node.props.className === "ht-status");
+    feed.hold = true;
     submitSearch(ui, "What can I read by Jane Austen?");
-    assert.doesNotMatch(statusText(), /Feed updated from this search/);
     deferred.pending[0].onOk(defaultSearchResult());
+    assert.equal(feed.pending.length, 1, "the Search re-reads the feed");
+    // The feed has not been re-ranked yet: the refresh is what does it, so the
+    // notice must not be written while that read is still in flight.
+    assert.doesNotMatch(statusText(), /Feed updated from this search/);
+    feed.pending.shift().onOk(harnessDiscovery(SAMPLE_CATALOG));
     assert.equal(statusText(), "Feed updated from this search.");
     deferred.pending[0].onOk(defaultSearchResult());
     assert.equal(
@@ -2682,6 +2716,51 @@ test("a finished Search announces the feed update once in the status region", ()
       1,
       "a duplicate terminal response does not announce again",
     );
+  } finally {
+    ui.restore();
+  }
+});
+
+test("two consecutive searches each announce the feed update once", async () => {
+  const deferred = { pending: [] };
+  const feed = { hold: false, pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, deferred, null, null, feed);
+  try {
+    const statusText = () => ui.text((node) => node.props && node.props.className === "ht-status");
+    feed.hold = true;
+    submitSearch(ui, "What can I read by Jane Austen?");
+    deferred.pending[0].onOk(defaultSearchResult());
+    feed.pending.shift().onOk(harnessDiscovery(SAMPLE_CATALOG));
+    assert.equal(statusText(), "Feed updated from this search.");
+    submitSearchInPlace(ui, "What can I read by Jane Austen?");
+    deferred.pending[1].onOk(defaultSearchResult());
+    assert.equal(statusText(), "Feed updated from this search.", "the first Search keeps its notice while the second runs");
+    assert.equal(feed.pending.length, 1, "the second Search re-reads the feed");
+    feed.pending.shift().onOk(harnessDiscovery(SAMPLE_CATALOG));
+    // A polite region ignores a re-set of the text it already holds, so the
+    // second distinct Search clears the region and re-sets the sentence on the
+    // next task: that fresh change is what a screen reader announces.
+    assert.equal(statusText(), "", "the region is cleared before the second announcement");
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    assert.equal(statusText(), "Feed updated from this search.", "the second Search announces again");
+  } finally {
+    ui.restore();
+  }
+});
+
+test("a failed feed refresh after a Search never announces the success", () => {
+  const deferred = { pending: [] };
+  const feed = { hold: false, pending: [] };
+  const ui = mountPage(SAMPLE_CATALOG, page.emptyProfile(), null, null, null, null, deferred, null, null, feed);
+  try {
+    const statusText = () => ui.text((node) => node.props && node.props.className === "ht-status");
+    feed.hold = true;
+    submitSearch(ui, "What can I read by Jane Austen?");
+    deferred.pending[0].onOk(defaultSearchResult());
+    assert.doesNotMatch(statusText(), /Feed updated from this search/);
+    feed.pending.shift().onErr(new Error("feed unavailable"));
+    assert.match(statusText(), /could not be read again/);
+    assert.doesNotMatch(statusText(), /Feed updated from this search/, "a failed refresh is not a success");
   } finally {
     ui.restore();
   }
