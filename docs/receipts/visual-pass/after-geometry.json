@@ -1,0 +1,137 @@
+{
+  "phase": "after",
+  "hostStylesheet": "/Users/robert/.hermes/hermes-agent/hermes_cli/web_dist/assets/index-CXKdN8QE.css",
+  "scope": "Production bundle and stylesheet in React fixture with stub SDK/API. No installed dashboard or live provider claim.",
+  "viewports": [
+    {
+      "width": 1280,
+      "firstFeedCardTop": 371.578125,
+      "controlsOpen": false,
+      "searchBoxes": [
+        {
+          "tag": "FORM",
+          "id": "hackertube-search-panel",
+          "class": "",
+          "width": 660,
+          "right": 782.5,
+          "scrollWidth": 660,
+          "clientWidth": 660
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "class": "ht-model-picker",
+          "width": 660,
+          "right": 782.5,
+          "scrollWidth": 660,
+          "clientWidth": 660
+        },
+        {
+          "tag": "SELECT",
+          "id": "hackertube-search-model",
+          "class": "",
+          "width": 345.71875,
+          "right": 659.921875,
+          "scrollWidth": 346,
+          "clientWidth": 346
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "class": "",
+          "width": 196.4375,
+          "right": 318.9375,
+          "scrollWidth": 196,
+          "clientWidth": 196
+        },
+        {
+          "tag": "INPUT",
+          "id": "hackertube-question",
+          "class": "ht-input",
+          "width": 660,
+          "right": 782.5,
+          "scrollWidth": 660,
+          "clientWidth": 660
+        },
+        {
+          "tag": "P",
+          "id": "hackertube-disclosure",
+          "class": "ht-disclosure",
+          "width": 660,
+          "right": 782.5,
+          "scrollWidth": 658,
+          "clientWidth": 658
+        }
+      ],
+      "youTubeArt": {
+        "width": 336.25,
+        "parent": 336.25
+      }
+    },
+    {
+      "width": 390,
+      "firstFeedCardTop": 391.078125,
+      "controlsOpen": false,
+      "searchBoxes": [
+        {
+          "tag": "FORM",
+          "id": "hackertube-search-panel",
+          "class": "",
+          "width": 360,
+          "right": 375,
+          "scrollWidth": 360,
+          "clientWidth": 360
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "class": "ht-model-picker",
+          "width": 360,
+          "right": 375,
+          "scrollWidth": 360,
+          "clientWidth": 360
+        },
+        {
+          "tag": "SELECT",
+          "id": "hackertube-search-model",
+          "class": "",
+          "width": 360,
+          "right": 375,
+          "scrollWidth": 360,
+          "clientWidth": 360
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "class": "",
+          "width": 196.4375,
+          "right": 334.015625,
+          "scrollWidth": 196,
+          "clientWidth": 196
+        },
+        {
+          "tag": "INPUT",
+          "id": "hackertube-question",
+          "class": "ht-input",
+          "width": 360,
+          "right": 375,
+          "scrollWidth": 360,
+          "clientWidth": 360
+        },
+        {
+          "tag": "P",
+          "id": "hackertube-disclosure",
+          "class": "ht-disclosure",
+          "width": 360,
+          "right": 375,
+          "scrollWidth": 358,
+          "clientWidth": 358
+        }
+      ],
+      "youTubeArt": {
+        "width": 360,
+        "parent": 360
+      }
+    }
+  ]
+}

@@ -3,6 +3,17 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const { fixtureItems, labelOf, runBrowserWalk } = require("./browser_net_harness");
 
+async function revealControls(tab) {
+  const controls = tab.locator('details.ht-feed-controls');
+  await controls.waitFor();
+  if (!(await controls.evaluate(el => el.open))) {
+    const summary = controls.locator(':scope > summary');
+    await summary.focus();
+    await summary.press('Enter');
+    await tab.waitForFunction(() => document.querySelector('details.ht-feed-controls').open);
+  }
+}
+
 test("FEED11 background Search completion updates the rendered feed without a reload", async () => {
   const { startFixture, loadNodeModule } = require("./browser_net_harness");
   const fixture = await startFixture(fixtureItems(1).map(item => ({ ...item, art_url: null })));
@@ -51,12 +62,13 @@ test("FEED11 background Search completion updates the rendered feed without a re
     });
     await tab.goto(fixture.origin);
     await tab.locator("#ranked-feed").getByText("Book 1", { exact: true }).waitFor();
+    await revealControls(tab);
     await tab.getByRole("button", { name: "Focused search", exact: true }).click();
     await tab.locator("#hackertube-question").fill("Jane Austen books");
     await tab.locator("#hackertube-disclosure-ack").check();
     await tab.getByRole("button", { name: "Search", exact: true }).click();
     const panel = tab.locator("details.ht-feed-controls");
-    const toggle = panel.locator("summary");
+    const toggle = panel.locator(":scope > summary");
     await toggle.waitFor({ timeout: 1000 });
     await toggle.focus();
     await toggle.press("Enter");
@@ -92,6 +104,8 @@ test("PREF16 interest remove button works by keyboard and stays removed after re
     const tab = await browser.newPage();
     await tab.route("https://covers.openlibrary.org/**", route => route.abort());
     await tab.goto(fixture.origin);
+    await tab.locator('#ranked-feed article').first().waitFor();
+    await revealControls(tab);
     const remove = tab.getByRole("button", { name: "Remove interest Jane Austen", exact: true });
     await remove.waitFor();
     const previousReads = fixture.served.filter(row => row.path.endsWith("/feed")).length;
@@ -170,6 +184,7 @@ test("FEED12 two consecutive searches announce the feed update once each, only a
     };
     await tab.goto(fixture.origin);
     await tab.locator("#ranked-feed").getByText("Book 1", { exact: true }).waitFor();
+    await revealControls(tab);
     await tab.getByRole("button", { name: "Focused search", exact: true }).click();
     await tab.locator("#hackertube-question").fill("Jane Austen books");
     await tab.locator("#hackertube-disclosure-ack").check();
@@ -193,10 +208,11 @@ test("FEED12 two consecutive searches announce the feed update once each, only a
       "the polite status region stays quiet until the refresh is accepted",
     );
     await held.shift().fulfill({ json: feedDocument() });
-    await tab.waitForFunction(() => document.querySelector(".ht-status").textContent === "Feed updated from this search.");
+    // Wait for this operation's observer record, not text that a previous
+    // operation may already have left in the live region.
+    await tab.waitForFunction(() => window.__feedNotice.includes("Feed updated from this search."));
     const firstChanges = await tab.evaluate(() => window.__feedNotice);
-    assert.ok(firstChanges.length > 0, "the accepted refresh announces once");
-    assert.equal(firstChanges[firstChanges.length - 1], "Feed updated from this search.");
+    assert.deepEqual(firstChanges, ["Feed updated from this search."], "the accepted refresh announces exactly once");
     await tab.locator("#ranked-feed").getByText("Book 1", { exact: true }).waitFor();
     // A second distinct Search: its sentence is identical to the one already in
     // the region, so a fresh announcement needs a fresh live-region change.
@@ -210,12 +226,15 @@ test("FEED12 two consecutive searches announce the feed update once each, only a
       "the second refresh is still in flight and says nothing yet",
     );
     await held.shift().fulfill({ json: feedDocument() });
-    await tab.waitForFunction(() => document.querySelector(".ht-status").textContent === "Feed updated from this search.");
+    await tab.waitForFunction(() => {
+      const changes = window.__feedNotice;
+      return changes[0] === "" && changes.slice(1).includes("Feed updated from this search.");
+    });
     const secondChanges = await tab.evaluate(() => window.__feedNotice);
-    // The second Search's sentence is the one the region already held, so the
-    // fresh announcement is a blank followed by the sentence again.
-    assert.ok(secondChanges.includes(""), "the region is blanked for the second announcement");
-    assert.equal(secondChanges[secondChanges.length - 1], "Feed updated from this search.");
+    // Observe a fresh, ordered blank → notice for this operation. The old
+    // sentence remaining in the DOM cannot satisfy this predicate.
+    assert.deepEqual(secondChanges, ["", "Feed updated from this search."],
+      "the region is blanked, then announces the second accepted refresh exactly once");
     assert.equal(await tab.locator(".ht-status").textContent(), "Feed updated from this search.");
     assert.equal(searches, 2, "exactly two searches ran");
   } finally {

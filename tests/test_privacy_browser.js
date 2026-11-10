@@ -17,17 +17,17 @@ test("privacy gates real rendered features; deletion failure retains state and s
     assert.equal(await ui.getByRole("link",{name:"YouTube Terms of Service"}).getAttribute("href"),"https://www.youtube.com/t/terms");
     await ui.getByLabel("I agree to the HackerTube privacy policy",{exact:false}).check();
     await agree.click();
-    await ui.getByRole("heading",{name:"HackerTube",exact:true}).waitFor();
+    await ui.getByRole("heading",{name:"Discover",exact:true}).waitFor();
     const accepted = fixture.served.find(x => x.method === "POST" && x.path.endsWith("/privacy"));
     assert.deepEqual(JSON.parse(accepted.body),{version:"test",accepted:true});
     await ui.getByRole("button",{name:"Privacy",exact:true}).click();
     await ui.getByLabel("Delete all HackerTube data in this profile").check();
     await ui.getByRole("button",{name:"Delete HackerTube data and revoke agreement"}).click();
     await ui.getByRole("alert").filter({hasText:"Deletion did not complete"}).waitFor();
-    assert.equal(await ui.getByRole("heading",{name:"HackerTube",exact:true}).count(),1);
+    assert.equal(await ui.getByRole("heading",{name:"Discover",exact:true}).count(),1);
     await ui.getByRole("button",{name:"Delete HackerTube data and revoke agreement"}).click();
     await agree.waitFor();
-    assert.equal(await ui.getByRole("heading",{name:"HackerTube",exact:true}).count(),0);
+    assert.equal(await ui.getByRole("heading",{name:"Discover",exact:true}).count(),0);
     assert.equal(await agree.isDisabled(),true);
   } finally { await browser.close(); await fixture.close(); }
 });
@@ -52,7 +52,7 @@ test("YouTube attribution renders without an authenticated image request", async
     assert.equal(require("node:crypto").createHash("sha256").update(bytes).digest("hex"),"1027b1b0517727adb9697155a270744381c3ce9b047b1c8bd8a9389dc7d07a83","official asset must remain unmodified");
     await ui.waitForFunction(()=>document.querySelector('img[alt="YouTube"]').naturalWidth>0);
     assert.equal(await logo.evaluate(el=>el.getBoundingClientRect().height),100);
-    const action=ui.locator("article").first().getByRole("link",{name:"Open “AI introduction” on YouTube"});
+    const action=ui.locator("article").first().getByRole("link",{name:'Watch "AI introduction" on YouTube'});
     assert.equal(await action.count(),1);
     const text=action.getByText("Watch on YouTube",{exact:true});
     await text.waitFor();
@@ -84,7 +84,7 @@ test("the privacy disclosure reports its expanded state and accepting it moves f
     assert.equal(await ui.getByRole("region",{name:"Privacy policy"}).count(),1);
     await ui.getByLabel("I agree to the HackerTube privacy policy",{exact:false}).check();
     await ui.getByRole("button",{name:"Agree and continue"}).click();
-    await ui.getByRole("heading",{name:"HackerTube",exact:true}).waitFor();
+    await ui.getByRole("heading",{name:"Discover",exact:true}).waitFor();
     // The gate hands focus to the page it mounts instead of dropping it.
     assert.equal(await ui.evaluate(()=>document.activeElement&&document.activeElement.id),"discover");
     assert.equal(await toggle.getAttribute("aria-expanded"),"false");

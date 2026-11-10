@@ -803,3 +803,48 @@ One intermediate FEED12 blank-mutation failure is retained; the final full
 suite passed without changing that test or production announcement behavior.
 Exact logs, site enumeration, reproduction commands and bounded integration
 claims: [polish-followups receipt](../../../docs/receipts/polish-followups/README.md).
+
+## Approved visual pass (t_59a26348)
+
+Branch `hermes/visual-pass`, exact base `1de0e625a8d31cb0e664bb4fbd7db49ce522586d`.
+Picasso's approved F1-F23 and copy are implemented in the shared card/rendering
+boundary and token-only stylesheet. T28 takes the finding's permitted conservative
+option: retain the existing YouTube attribution sentence, demoting its visual tier.
+Full cards remain in Ranked feed, Library and Search results; format sections use
+art-free compact rows. Four renderCard caller sites cover those paths, including
+both personalized match/browse groups and the unpersonalized catalog. Both usage
+summaries share one finite, non-negative count validator. The backend disclosure
+copy stays synchronized with the form, with the existing Python equality test.
+
+Saved-interest controls start closed (including in real React, not just the hook
+harness), first-run setup opens, and browser journeys now exercise the keyboard
+reopen path. Repeated feed notices refill from an effect after the blank commits;
+FEED12 observes DOM mutations, not a claimed screen-reader utterance.
+
+The generated [summary table](../../../docs/receipts/visual-pass/summary-table.md)
+comes from raw logs and geometry JSON, not transcribed figures. The three required
+request probes and both native plugin checks exit zero. Strict OpenSpec validation
+and scenario coverage pass. Clean enabled profile: privacy accepted before testing
+the unavailable default service, which returns 503 provider_unavailable with no
+outbound request; the explicit stub path succeeds with no outbound request.
+
+The screenshot harness loads the real plugin bundle/styles and compiled host CSS,
+with stub SDK components/API and blocked external artwork. It is not an installed
+gateway render or a fresh source/provider retrieval. The selected long model at
+390px, Question, Manage providers and disclosure fit their own boxes, not merely a
+root with overflow hidden. Before/after images and exact first-card offsets are in
+[the receipt](../../../docs/receipts/visual-pass/README.md). No live or paid Search
+and no credential read/write was performed. Independent exact-head review is pending.
+
+### Round-1 FEED12 observation correction
+
+Independent review at `7b839c4ac245fc63cb85adce967c2fc4d8a671b2` reproduced a
+remaining test race: waiting for the old notice text could finish before the new
+blank/refill. The original five passing trials are historical, not proof the
+flake was fixed. The correction of record and raw failure are in
+[round1/README.md](../../../docs/receipts/visual-pass/round1/README.md).
+Both announcement waits now observe the current operation's mutation history;
+the second requires ordered blank then notice. Exact arrays assert one notice
+per operation; held-response/no-premature-notice checks remain unchanged. No
+production code changed in this correction. New exact-head results are pinned
+in the PR/card review handoff; independent re-review remains required.

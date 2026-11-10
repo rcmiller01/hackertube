@@ -1,0 +1,209 @@
+[
+  {
+    "name": "pytest-collect",
+    "command": [
+      "/Users/robert/.hermes/cache/scratch/ht-visual-venv/bin/python",
+      "-m",
+      "pytest",
+      "tests",
+      "--collect-only",
+      "-q"
+    ],
+    "exit_code": 0,
+    "log": "pytest-collect.log"
+  },
+  {
+    "name": "pytest",
+    "command": [
+      "/Users/robert/.hermes/cache/scratch/ht-visual-venv/bin/python",
+      "-m",
+      "pytest",
+      "tests",
+      "-q"
+    ],
+    "exit_code": 0,
+    "log": "pytest.log"
+  },
+  {
+    "name": "node",
+    "command": [
+      "node",
+      "--test",
+      "tests/test_dashboard_page.js",
+      "tests/test_browser_requests.js",
+      "tests/test_privacy_browser.js"
+    ],
+    "exit_code": 0,
+    "log": "node.log"
+  },
+  {
+    "name": "FEED12-1",
+    "command": [
+      "node",
+      "--test",
+      "--test-name-pattern",
+      "FEED12",
+      "tests/test_browser_requests.js"
+    ],
+    "exit_code": 0,
+    "log": "FEED12-1.log"
+  },
+  {
+    "name": "FEED12-2",
+    "command": [
+      "node",
+      "--test",
+      "--test-name-pattern",
+      "FEED12",
+      "tests/test_browser_requests.js"
+    ],
+    "exit_code": 0,
+    "log": "FEED12-2.log"
+  },
+  {
+    "name": "FEED12-3",
+    "command": [
+      "node",
+      "--test",
+      "--test-name-pattern",
+      "FEED12",
+      "tests/test_browser_requests.js"
+    ],
+    "exit_code": 0,
+    "log": "FEED12-3.log"
+  },
+  {
+    "name": "FEED12-4",
+    "command": [
+      "node",
+      "--test",
+      "--test-name-pattern",
+      "FEED12",
+      "tests/test_browser_requests.js"
+    ],
+    "exit_code": 0,
+    "log": "FEED12-4.log"
+  },
+  {
+    "name": "FEED12-5",
+    "command": [
+      "node",
+      "--test",
+      "--test-name-pattern",
+      "FEED12",
+      "tests/test_browser_requests.js"
+    ],
+    "exit_code": 0,
+    "log": "FEED12-5.log"
+  },
+  {
+    "name": "FEED12-6",
+    "command": [
+      "node",
+      "--test",
+      "--test-name-pattern",
+      "FEED12",
+      "tests/test_browser_requests.js"
+    ],
+    "exit_code": 0,
+    "log": "FEED12-6.log"
+  },
+  {
+    "name": "FEED12-7",
+    "command": [
+      "node",
+      "--test",
+      "--test-name-pattern",
+      "FEED12",
+      "tests/test_browser_requests.js"
+    ],
+    "exit_code": 0,
+    "log": "FEED12-7.log"
+  },
+  {
+    "name": "FEED12-8",
+    "command": [
+      "node",
+      "--test",
+      "--test-name-pattern",
+      "FEED12",
+      "tests/test_browser_requests.js"
+    ],
+    "exit_code": 0,
+    "log": "FEED12-8.log"
+  },
+  {
+    "name": "FEED12-9",
+    "command": [
+      "node",
+      "--test",
+      "--test-name-pattern",
+      "FEED12",
+      "tests/test_browser_requests.js"
+    ],
+    "exit_code": 0,
+    "log": "FEED12-9.log"
+  },
+  {
+    "name": "FEED12-10",
+    "command": [
+      "node",
+      "--test",
+      "--test-name-pattern",
+      "FEED12",
+      "tests/test_browser_requests.js"
+    ],
+    "exit_code": 0,
+    "log": "FEED12-10.log"
+  },
+  {
+    "name": "bypass-probe",
+    "command": [
+      "/Users/robert/.hermes/cache/scratch/ht-visual-venv/bin/python",
+      "docs/receipts/requests/bypass_probe.py"
+    ],
+    "exit_code": 0,
+    "log": "bypass-probe.log"
+  },
+  {
+    "name": "requests-red-against-main",
+    "command": [
+      "/Users/robert/.hermes/cache/scratch/ht-visual-venv/bin/python",
+      "docs/receipts/requests/red_against_main.py"
+    ],
+    "exit_code": 0,
+    "log": "requests-red-against-main.log"
+  },
+  {
+    "name": "requests-probe",
+    "command": [
+      "/Users/robert/.hermes/cache/scratch/ht-visual-venv/bin/python",
+      "docs/receipts/requests/probe.py"
+    ],
+    "exit_code": 0,
+    "log": "requests-probe.log"
+  },
+  {
+    "name": "plugin-validate",
+    "command": [
+      "hermes",
+      "plugins",
+      "validate",
+      "."
+    ],
+    "exit_code": 0,
+    "log": "plugin-validate.log"
+  },
+  {
+    "name": "plugin-doctor",
+    "command": [
+      "hermes",
+      "plugins",
+      "doctor",
+      ".",
+      "--ci"
+    ],
+    "exit_code": 0,
+    "log": "plugin-doctor.log"
+  }
+]

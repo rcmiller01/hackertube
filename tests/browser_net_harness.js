@@ -378,6 +378,11 @@ async function runBrowserWalk(items) {
     });
 
     await phase("section browse", async () => {
+      const controls = page.locator('details.ht-feed-controls');
+      if (!(await controls.evaluate(el => el.open))) {
+        await controls.locator(':scope > summary').focus();
+        await page.keyboard.press('Enter');
+      }
       await page.locator('a[href="#books"]').first().click();
       await page.locator("#books").waitFor();
     });

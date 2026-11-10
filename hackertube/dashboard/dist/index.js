@@ -46,8 +46,8 @@
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December",
   ];
-  var DISCLOSURE = "Configured sources and the broader web may be searched. Model, search, and provider credits or quota may be used. Browsing is free.";
-  var DISCLOSURE_ACK = "I understand this Search may use model, search, or provider credits or quota.";
+  var DISCLOSURE = "Search may query your configured sources and the web, and may use model, search, or provider credits or quota. Browsing is free. Search stops at its deadline or when you cancel; a provider may still bill for a request it already accepted.";
+  var DISCLOSURE_ACK = "I understand this search may use credits or quota.";
   var DISCLOSURE_ACK_ALERT = "Confirm the disclosure before searching.";
   var SEARCH_PROVIDER_NOTE = "Search uses your configured Hermes providers. Choose a model above or manage HackerTube search in Hermes Models → Auxiliary.";
   var SEARCH_SCHEMA = "hackertube.search/1";
@@ -59,14 +59,14 @@
   var DISCOVERY_SCHEMA = "hackertube.discovery/1";
   var FEED_UPDATE_NOTICE = "Feed updated from this search.";
   var FEED06_NOTE = "No seeded record matches these interests. Coverage is limited to the titles and contributors in this catalog.";
-  var FEED07_NOTE = "Nothing here is ranked for you yet. Add an interest to rank the seeded catalog. Refresh prepared catalog reads the saved catalog again and does not start a search.";
+  var FEED07_NOTE = "Add an interest to rank this catalog for you. Reloading does not start a search.";
   var RANK_NOTE = "Dismissed and completed items stay out of this feed. Opening an item does not change the order. A source candidate is not a community recommendation.";
   var POLICY_NOTE = "Interest match is required. Community evidence, freshness, and variety are the weighted components. The line on each recommendation names only the signals that applied to that item, and it says nothing about endorsement when the record has none. Scores are not shown.";
-  var SECTION_NOTE = "Matches are listed first. The group under the not-matched heading is the rest of this catalog for that format. Those items are not recommendations.";
-  var SECTION_CATALOG_NOTE = "An item is hidden when its catalog evidence has expired. This list is not a personalized feed.";
+  var SECTION_NOTE = "Each section lists matches first. Items under “not matched” are not recommendations.";
+  var SECTION_CATALOG_NOTE = "This list is not personalized. Items with expired evidence are hidden.";
 
   function browseHeading(label) {
-    return "More in " + label + ", not matched to your interests";
+    return "Other " + label.toLowerCase() + ", not matched";
   }
 
   function matchPhrase(count) {
@@ -328,18 +328,22 @@
   }
 
   function creatorLine(item, itemsById) {
-    var names = item.contributors && item.contributors.length ? item.contributors.join(", ") : "Contributor unknown";
+    var names = item.contributors && item.contributors.length ? item.contributors.join(", ") : "";
     if (item.format === "podcast_episode") {
       var show = item.show_id ? itemsById[item.show_id] : null;
-      return names + ". Show: " + (show ? show.title : "Show unknown");
+      return [names, show && show.title ? "Show: " + show.title : ""].filter(Boolean).join(". ");
     }
     return names;
   }
 
   function lengthLine(item) {
     if (item.format === "podcast_show") return null;
-    if (item.format === "book") return "Length unknown";
-    return formatDuration(item.duration_seconds) || "Duration unknown";
+    if (item.format === "book") return null;
+    var seconds = item.duration_seconds;
+    if (typeof seconds !== "number" || !isFinite(seconds) || seconds < 0) return "Duration unknown";
+    var hours = Math.floor(seconds / 3600);
+    var minutes = Math.floor((seconds % 3600) / 60);
+    return hours ? hours + " h" + (minutes ? " " + minutes + " min" : "") : minutes ? minutes + " min" : Math.floor(seconds) + " s";
   }
 
   function editionNote(item, editions, itemsById) {
@@ -569,7 +573,9 @@
         if (section.formats.indexOf(item.format) !== -1) counts[section.id] += 1;
       });
     });
-    return "Videos " + counts.videos + ", Podcasts " + counts.podcasts + ", Books " + counts.books + ", Audiobooks " + counts.audiobooks + ".";
+    return SECTIONS.filter(function (section) { return counts[section.id] > 0; }).map(function (section) {
+      return section.label + " " + counts[section.id];
+    }).join(", ") + (items && items.length ? "." : "");
   }
 
   function acceptDiscovery(body) {
@@ -707,12 +713,18 @@
     return SEARCH_COST_KNOWN_PREFIX + value.toFixed(4) + " reported by the provider.";
   }
 
+  function usageCount(usage) {
+    var value = usage && usage.requests_used;
+    return typeof value === "number" && isFinite(value) && value >= 0 ? value : null;
+  }
+
   function limitsLine(limits, usage) {
     var safe = limits || {};
     var requests = safe.max_requests === undefined ? "?" : safe.max_requests;
     var hits = safe.max_hits === undefined ? "?" : safe.max_hits;
     var deadline = safe.deadline_seconds === undefined ? "?" : safe.deadline_seconds;
-    var used = usage && typeof usage.requests_used === "number" ? usage.requests_used : 0;
+    var used = usageCount(usage);
+    if (used === null) used = "unknown";
     // The work-budget note is stated once, in the form (hackertube-budget-note).
     // Repeating it on every limits line duplicated the same sentence.
     return SEARCH_LIMIT_NOTE + " at most " + requests + " provider requests, " + hits +
@@ -732,8 +744,8 @@
     var labels = { queued: "Queued", running: "Searching", succeeded: "Finished",
       partial: "Partially finished", failed: "Failed", cancelled: "Cancelled",
       timed_out: "Timed out", interrupted: "Interrupted" };
-    var used = usage.requests_used;
-    var requests = typeof used === "number" && isFinite(used) && used >= 0
+    var used = usageCount(usage);
+    var requests = used !== null
       ? used + " provider request" + (used === 1 ? "" : "s") : "provider requests unknown";
     var cost = usage.cost_known === true && typeof usage.cost_usd === "number" && isFinite(usage.cost_usd)
       ? "cost $" + usage.cost_usd.toFixed(4) : "cost unknown";
@@ -790,7 +802,8 @@
       var openState = useState(false);
       var searchOpen = openState[0];
       var setSearchOpen = openState[1];
-      var controlsState = useState(true);
+      var controlsState = useState(false);
+      var controlsChosen = useRef(false);
       var controlsExpanded = controlsState[0];
       var setControlsExpanded = controlsState[1];
       var questionState = useState("");
@@ -830,6 +843,9 @@
       var expanded = expandState[0];
       var setExpanded = expandState[1];
       var statusState = useState("");
+      var feedAnnouncement = useState(0);
+      var feedAnnouncementNonce = feedAnnouncement[0];
+      var requestFeedAnnouncement = feedAnnouncement[1];
       var statusMessage = statusState[0];
       var setStatus = statusState[1];
       var headingRef = useRef(null);
@@ -1042,17 +1058,25 @@
         if (node && node.focus) node.focus();
       }, [searchEnd]);
 
+      useEffect(function () {
+        if (!feedAnnouncementNonce || statusMessage !== "") return;
+        // This effect only runs after React committed the blank live region.
+        // Scheduling here, not beside setStatus(""), prevents automatic batching
+        // from swallowing the blank, including when a frame runs before commit.
+        var cancelled = false;
+        pushNextFrame(function () {
+          if (!cancelled) setStatus(FEED_UPDATE_NOTICE);
+        });
+        return function () { cancelled = true; };
+      }, [feedAnnouncementNonce, statusMessage]);
+
       function announceFeedUpdate() {
-        // A polite region ignores a re-set of the sentence it already holds, so
-        // a second Search whose notice reads the same would be silent. Blank
-        // the region, let that commit land, then re-set the sentence on the
-        // next frame: the region emits a fresh change once per distinct Search.
-        if (statusMessage === FEED_UPDATE_NOTICE) {
-          setStatus("");
-          pushNextFrame(function () { setStatus(FEED_UPDATE_NOTICE); });
+        if (statusMessage !== FEED_UPDATE_NOTICE) {
+          setStatus(FEED_UPDATE_NOTICE);
           return;
         }
-        setStatus(FEED_UPDATE_NOTICE);
+        setStatus("");
+        requestFeedAnnouncement(function (nonce) { return nonce + 1; });
       }
 
       function endSearch(target, focus) {
@@ -1103,6 +1127,7 @@
             return;
           }
           profileRef.current = next;
+          if (!controlsChosen.current) setControlsExpanded(next.interests.length === 0);
           setProfile(next);
           setProfileStatus("ready");
         }).catch(function () {
@@ -1506,7 +1531,7 @@
               href: destinationDecision(item.destination).href,
               target: "_blank",
               rel: "noopener noreferrer",
-              "aria-label": "Open “" + String(item.title || "this item") + "” on YouTube",
+              "aria-label": 'Watch "' + String(item.title || "this item") + '" on YouTube',
               onClick: function () { onOpen(item); },
             },
               h("img", { src: YOUTUBE_ICON, alt: "YouTube" }),
@@ -1515,10 +1540,10 @@
         var decision = item.art_url ? destinationDecision(item.art_url) : { ok: false };
         var showImage = !!(item.art_url && item.art_hotlink && decision.ok && !artFailed[item.item_id]);
         if (!showImage) {
-          return h("div", { className: "ht-art is-fallback" }, artFallback(item));
+          return null;
         }
         var fit = item.format === "video" ? "ht-cover" : "ht-contain";
-        return h("div", { className: "ht-art" },
+        return h("div", { className: "ht-art" + (fit === "ht-contain" ? " ht-art-cover" : "") },
           h("img", {
             src: decision.href,
             alt: "",
@@ -1535,7 +1560,7 @@
         );
       }
 
-      function renderEvidence(item, evidence, sources) {
+      function renderEvidence(item, evidence, sources, length) {
         var presented = presentEvidence(item, evidence, sources);
         var body;
         if (presented.href) {
@@ -1556,15 +1581,24 @@
         var sourceBit = presented.kind === "candidate" && presented.sourceName
           ? ", " + presented.sourceName
           : "";
+        var retrieved = formatRetrieved(presented.retrievedAt);
+        var shortDate = /^(\d{4})-(\d{2})-(\d{2})T/.exec(String(presented.retrievedAt || ""));
+        var shortRetrieved = shortDate && retrieved !== "retrieved time unknown"
+          ? "retrieved " + MONTHS[Number(shortDate[2]) - 1].slice(0, 3) + " " + Number(shortDate[3]) + ", " + shortDate[1]
+          : "retrieved time unknown";
+        var destination = destinationLabel(item);
+        var sameSource = presented.kind === "candidate" && presented.sourceName === destination;
         return h("div", { className: "ht-evidence" },
-          h("p", null, body, sourceBit),
-          h("p", { className: "ht-meta" },
-            h("time", { dateTime: presented.retrievedAt || "" }, formatRetrieved(presented.retrievedAt))
-          )
+          presented.kind === "candidate" ? null : h("p", null, body),
+          h("p", { className: "ht-meta-line" },
+            presented.kind === "candidate" ? [body, sourceBit, " · "] : null,
+            !sameSource && !usesYouTubeBrandLink(item) ? destination + " · " : null,
+            h("time", { dateTime: presented.retrievedAt || "", title: retrieved }, shortRetrieved),
+            length ? " · " + length : null)
         );
       }
 
-      function renderActions(item) {
+      function renderActions(item, compact) {
         var decision = destinationDecision(item.destination);
         var state = itemState(profile, item.item_id);
         var isSaved = state.saved;
@@ -1572,7 +1606,7 @@
         var openControl;
         if (!decision.ok) {
           openControl = h("p", { className: "ht-alert", role: "alert" }, refusalMessage(decision));
-        } else if (usesYouTubeBrandLink(item)) {
+        } else if (usesYouTubeBrandLink(item) && !compact) {
           // One source-opening link per card: the linked attribution icon
           // above already opens this destination (review finding 6).
           openControl = null;
@@ -1582,12 +1616,13 @@
             href: decision.href,
             target: "_blank",
             rel: "noopener noreferrer",
-            "aria-label": "Open at source: " + destinationLabel(item),
+            "aria-label": usesYouTubeBrandLink(item) ? 'Watch "' + String(item.title || "this item") + '" on YouTube' : "Open at source: " + destinationLabel(item),
             onClick: function () { onOpen(item); },
-          }, "Open at source");
+          }, usesYouTubeBrandLink(item) ? "Watch on YouTube" : "Open at source");
         }
         var saveButton = h(Button, {
           type: "button",
+          outlined: true,
           className: "ht-action",
           "aria-disabled": isSaved ? "true" : undefined,
           onClick: function (event) {
@@ -1601,7 +1636,7 @@
         var dismissButton = h(Button, {
           type: "button",
           outlined: true,
-          className: "ht-action",
+          className: "ht-action ht-dismiss",
           "aria-disabled": isDismissed ? "true" : undefined,
           onClick: function (event) {
             if (isDismissed) {
@@ -1619,7 +1654,7 @@
         return h("p", { className: "ht-why" }, lines.join(". ") + ".");
       }
 
-      function renderCard(item, byId, evidence, sources, editions, inLibrary, focusId, whyLines) {
+      function renderCard(item, byId, evidence, sources, editions, inLibrary, focusId, whyLines, compact) {
         var note = editionNote(item, editions, byId);
         var length = lengthLine(item);
         var format = FORMAT_LABEL[item.format] || item.format;
@@ -1632,32 +1667,25 @@
           ? h("h3", titleProps, item.title)
           : h(CardTitle, titleProps, item.title);
         return h("article", { key: item.item_id },
-          h(Card, { className: "ht-card" },
+          h(Card, { className: "ht-card" + (compact ? " ht-compact" : "") },
             h(CardContent, null,
               Badge
                 ? h(Badge, { tone: "secondary", className: "ht-format" }, format)
                 : h("p", { className: "ht-format" }, format),
               title,
+              creatorLine(item, byId) ? h("p", { className: "ht-creator" }, creatorLine(item, byId)) : null,
+              compact ? null : renderArt(item),
+              renderEvidence(item, evidence, sources, length),
               whyText(whyLines),
-              h("p", { className: "ht-creator" }, creatorLine(item, byId)),
-              renderArt(item),
-              // A YouTube card already names the source with the linked
-              // attribution icon and the note below; the bare "YouTube" line
-              // repeated it on every card (review finding 6).
-              usesYouTubeBrandLink(item)
-                ? null
-                : h("p", { className: "ht-destination" }, destinationLabel(item)),
-              renderEvidence(item, evidence, sources),
-              String(item.item_id || "").indexOf("youtube:") === 0 ? h("p", { className: "ht-note" }, "YouTube metadata. Relevance explanations and library actions are HackerTube features, not from YouTube.") : null,
-              length ? h("p", { className: "ht-length" }, length) : null,
               note ? h("p", { className: "ht-meta" }, note) : null,
+              // Keep the established attribution wording; only its visual tier changes.
+              String(item.item_id || "").indexOf("youtube:") === 0 ? h("p", { className: "ht-note" }, "YouTube metadata. Relevance explanations and library actions are HackerTube features, not from YouTube.") : null,
               inLibrary
-                ? h("p", { className: "ht-meta" }, itemState(profile, item.item_id).opens.length ? "Opened" : "Not opened")
+                ? h("p", { className: "ht-meta" },
+                    (itemState(profile, item.item_id).opens.length ? "Opened" : "Not opened") + " · " +
+                    (itemState(profile, item.item_id).completed ? "Completed" : "Not completed"))
                 : null,
-              inLibrary
-                ? h("p", { className: "ht-meta" }, itemState(profile, item.item_id).completed ? "Completed" : "Not completed")
-                : null,
-              renderActions(item)
+              renderActions(item, compact)
             )
           )
         );
@@ -1697,9 +1725,9 @@
             h("span", { className: "ht-count" }, " " + rows.length)
           ),
           rows.length
-            ? h("div", { className: "ht-grid" }, shown.map(function (item, index) {
+            ? h("div", { className: inLibrary ? "ht-grid" : "ht-rows" }, shown.map(function (item, index) {
                 var focusId = expanded[section.id] && index === INITIAL_CARDS ? "ht-expanded-" + section.id : "";
-                return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, inLibrary, focusId);
+                return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, inLibrary, focusId, null, !inLibrary);
               }))
             : h("p", null, empty),
           rows.length > shown.length ? showMore(section.id, rows.length) : null
@@ -1727,10 +1755,10 @@
 
       function cardGrid(rows, key, byId, withWhy) {
         var shown = visibleSlice(rows, !!expanded[key], INITIAL_CARDS);
-        return h("div", { className: "ht-grid" }, shown.map(function (item, index) {
+        return h("div", { className: "ht-rows" }, shown.map(function (item, index) {
           var focusId = expanded[key] && index === INITIAL_CARDS ? "ht-expanded-" + key : "";
           var lines = withWhy && discovery.why ? discovery.why[item.item_id] : null;
-          return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, false, focusId, lines);
+          return renderCard(item, byId, catalog.evidence, catalog.sources, catalog.editions, false, focusId, lines, true);
         }));
       }
 
@@ -1745,9 +1773,11 @@
           discovery.personalized
             ? rows.length
               ? h("div", null,
-                  h("p", { id: "hackertube-ranked-counts" }, countLine(rows)),
-                  h("p", { id: "hackertube-signals", className: "ht-note" }, POLICY_NOTE),
-                  h("p", { className: "ht-note" }, RANK_NOTE),
+                  h("p", { id: "hackertube-ranked-counts", className: "ht-meta" }, countLine(rows)),
+                  h("details", { className: "ht-explain" },
+                    h("summary", null, "How this feed is ordered"),
+                    h("p", { id: "hackertube-signals", className: "ht-note" }, POLICY_NOTE),
+                    h("p", { className: "ht-note" }, RANK_NOTE)),
                   h("div", { className: "ht-grid" }, shown.map(function (item, index) {
                     var focusId = expanded.ranked && index === INITIAL_CARDS ? "ht-expanded-ranked" : "";
                     var lines = discovery.why ? discovery.why[item.item_id] : null;
@@ -1761,7 +1791,7 @@
                 )
             : h("div", null,
                 h("p", { id: "hackertube-feed-note" }, FEED07_NOTE),
-                h(Button, { type: "button", className: "ht-action", onClick: reloadPrepared }, "Refresh prepared catalog")
+                h(Button, { type: "button", className: "ht-action", onClick: reloadPrepared }, "Reload catalog")
               )
         );
       }
@@ -1780,18 +1810,16 @@
           matches.length > visibleSlice(matches, !!expanded[matchKey], INITIAL_CARDS).length
             ? showMore(matchKey, matches.length)
             : null,
-          h("div", { className: "ht-browse", id: browseKey },
+          browse.length ? h("div", { className: "ht-browse", id: browseKey },
             h("h3", { id: section.id + "-browse-heading" },
               browseHeading(section.label),
               h("span", { className: "ht-count" }, " " + browse.length)
             ),
-            browse.length
-              ? cardGrid(browse, browseKey, byId, false)
-              : h("p", null, "Nothing else from this catalog is in this section."),
+            cardGrid(browse, browseKey, byId, false),
             browse.length > visibleSlice(browse, !!expanded[browseKey], INITIAL_CARDS).length
               ? showMore(browseKey, browse.length)
               : null
-          )
+          ) : null
         );
       }
 
@@ -1875,20 +1903,21 @@
         var notes = coverage.notes || [];
         return h("div", { className: "ht-job" },
           h("p", { className: "ht-meta", id: "hackertube-job-status" }, searchStatusLine(result)),
+          h("details", { className: "ht-explain ht-search-details" },
+          h("summary", null, "Search details"),
           result && result.interpretation ? h("p", { className: "ht-meta" },
             "Topic: " + (result.interpretation.retrieval_query || result.interpretation.topic || "unknown") +
             ". Level: " + (result.interpretation.depth || "unspecified") + ".") : null,
           h("p", { className: "ht-constraints" }, constraintLine(result && result.interpretation)),
           h("p", { className: "ht-cost", id: "hackertube-job-cost" }, formatCost(usage)),
-          h("p", { className: "ht-meta", id: "hackertube-job-limits" }, limitsLine(job.limits, usage)),
+          h("p", { className: "ht-meta", id: "hackertube-job-limits" }, limitsLine(job.limits, usage))),
           notes.length ? h("p", { className: "ht-note", id: "hackertube-coverage-notes", role: "status" }, plainCoverageNotes(notes).join(" ")) : null,
           renderResultSections(result)
         );
       }
 
       function renderSearch() {
-        var showProviderNote = !statusInfo || statusInfo.provider !== "stub";
-        var searchDescriptionIds = "hackertube-disclosure" + (showProviderNote ? " hackertube-budget-note" : "");
+        var searchDescriptionIds = "hackertube-disclosure";
         return h("div", { className: "ht-search" },
           h(Button, {
             type: "button",
@@ -1957,12 +1986,6 @@
                   }),
                   " " + DISCLOSURE_ACK
                 ),
-                showProviderNote
-                  ? h("p", { id: "hackertube-budget-note", className: "ht-note" }, SEARCH_BUDGET_NOTE)
-                  : null,
-                showProviderNote
-                  ? h("p", { id: "hackertube-provider-note", className: "ht-note" }, SEARCH_PROVIDER_NOTE)
-                  : null,
                 formAlert
                   ? h("p", { className: "ht-alert", role: "alert", tabIndex: -1, ref: alertRef }, formAlert)
                   : null,
@@ -2014,7 +2037,7 @@
 
       function renderDiscover() {
         return h("div", null,
-          h("h1", { id: "discover", tabIndex: -1, ref: headingRef }, "HackerTube"),
+          h("h1", { id: "discover", tabIndex: -1, ref: headingRef }, "Discover"),
           h("p", { className: "ht-lead" }, "Browse videos, podcasts, books, and audiobooks, then open them at their sources."),
           renderNav("discover"),
           h("div", { className: "ht-status", role: "status", "aria-live": "polite" }, statusMessage),
@@ -2031,7 +2054,7 @@
           h("details", {
             className: "ht-feed-controls",
             open: controlsExpanded,
-            onToggle: function (event) { setControlsExpanded(event.currentTarget.open); },
+            onToggle: function (event) { controlsChosen.current = true; setControlsExpanded(event.currentTarget.open); },
           },
             h("summary", null, controlsExpanded ? "Hide controls" : "Show controls", searchBusy ? " · Search running" : ""),
             h("div", { className: "ht-feed-controls-body" },
@@ -2097,7 +2120,7 @@
                   onChange: function (event) { setInterestDraft(event.target.value); },
                 }),
                 h("p", { id: "hackertube-interest-note", className: "ht-note" },
-                  "Interests can be any subject. They are not limited to technology. Up to 80 characters. A word match is required before an item is recommended."
+                  "Any subject, up to 80 characters. An item is recommended only when a word in its title or contributor matches."
                 ),
                 h(Button, { type: "submit", className: "ht-action" }, "Add interest")
               )
@@ -2130,7 +2153,7 @@
         var count = Object.keys(savedMap(profile)).length;
         return h("div", null,
           h("h1", { id: "library", tabIndex: -1, ref: headingRef }, "Library"),
-          h("p", { className: "ht-lead" }, "Saved items stay in this profile after a refresh or a restart. Saving does not open this view."),
+          h("p", { className: "ht-lead" }, "Items you save stay here, across refreshes and restarts."),
           renderNav("library"),
           h("div", { className: "ht-status", role: "status", "aria-live": "polite" }, statusMessage),
           renderInterests(false),

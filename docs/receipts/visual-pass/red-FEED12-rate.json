@@ -1,0 +1,25 @@
+{
+  "base": "1de0e625a8d31cb0e664bb4fbd7db49ce522586d",
+  "runs": [
+    {
+      "run": 1,
+      "exit": 0
+    },
+    {
+      "run": 2,
+      "exit": 1
+    },
+    {
+      "run": 3,
+      "exit": 0
+    },
+    {
+      "run": 4,
+      "exit": 0
+    },
+    {
+      "run": 5,
+      "exit": 0
+    }
+  ]
+}

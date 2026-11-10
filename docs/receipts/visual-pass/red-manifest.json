@@ -1,0 +1,27 @@
+{
+  "base": "1de0e625a8d31cb0e664bb4fbd7db49ce522586d",
+  "returncode": 1,
+  "failingSubtests": [
+    "visual F3 saved interests collapse controls; first run stays open",
+    "visual F4 F8 F9 F18 cards remove empty art and merge honest metadata",
+    "visual F3 F15 F21 feed retains full cards and sections use compact rows",
+    "visual F22 T34 T35 T36 search details and one complete credit disclosure",
+    "visual usage count is finite nonnegative consistently: undefined undefined",
+    "visual usage count is finite nonnegative consistently: object null",
+    "visual usage count is finite nonnegative consistently: string 2",
+    "visual usage count is finite nonnegative consistently: boolean true",
+    "visual usage count is finite nonnegative consistently: number -1",
+    "visual usage count is finite nonnegative consistently: number NaN",
+    "visual usage count is finite nonnegative consistently: number Infinity",
+    "visual usage count is finite nonnegative consistently: number -Infinity",
+    "visual CSS F1 F2 F5 F6 F7 F10 F11 F12 F13 F15 F16 F17 F19 F23 token layout contract",
+    "visual atomic F3 ranking notes are in a closed disclosure",
+    "visual atomic F4 full feed cards omit unavailable artwork",
+    "visual atomic F8 full cards have one metadata line and no book length placeholder",
+    "visual atomic F14 Discover heading keeps the original focus target",
+    "visual atomic F15 empty browse group renders no heading or placeholder",
+    "visual atomic F18 omit unknown creator parts without losing known parts",
+    "visual atomic F21 section matches are compact but the feed is not",
+    "visual atomic T copy retains approved boundaries and Library wording"
+  ]
+}

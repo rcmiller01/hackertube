@@ -1,0 +1,40 @@
+{
+  "home": "/Users/robert/.hermes/cache/scratch/ht-visual-clean-382",
+  "policy_accepted": true,
+  "refusal_counts": {
+    "free": 0,
+    "metered": 0,
+    "paid": 0
+  },
+  "storage": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+  "stub": {
+    "counts": {
+      "free": 0,
+      "metered": 0,
+      "paid": 0
+    },
+    "provider": "stub",
+    "results": 10,
+    "state": "succeeded",
+    "status": 200,
+    "usage": {
+      "cost_known": false,
+      "cost_usd": null,
+      "paid_calls": 0,
+      "request_counts": {
+        "free": 0,
+        "metered": 0,
+        "paid": 0
+      },
+      "requests_used": 1
+    }
+  },
+  "unconfigured_refusal": {
+    "body": {
+      "error": "provider_unavailable",
+      "message": "The Hermes search service is unavailable. No request was sent.",
+      "provider": "hermes"
+    },
+    "status": 503
+  }
+}

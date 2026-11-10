@@ -1,0 +1,635 @@
+TAP version 13
+# Subtest: visual F3 saved interests collapse controls; first run stays open
+not ok 1 - visual F3 saved interests collapse controls; first run stays open
+  ---
+  duration_ms: 2.172458
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2835:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'HackerTube'
+    - 'Discover'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'Discover'
+  actual: 'HackerTube'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2840:14)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.start (node:internal/test_runner/test:1262:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+  ...
+# Subtest: visual F4 F8 F9 F18 cards remove empty art and merge honest metadata
+not ok 2 - visual F4 F8 F9 F18 cards remove empty art and merge honest metadata
+  ---
+  duration_ms: 0.671084
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2845:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2849:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: visual F3 F15 F21 feed retains full cards and sections use compact rows
+not ok 3 - visual F3 F15 F21 feed retains full cards and sections use compact rows
+  ---
+  duration_ms: 0.428167
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2864:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2876:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual F22 T34 T35 T36 search details and one complete credit disclosure
+not ok 4 - visual F22 T34 T35 T36 search details and one complete credit disclosure
+  ---
+  duration_ms: 2.778
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2886:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(detail)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2892:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual usage count is finite nonnegative consistently: undefined undefined
+not ok 5 - visual usage count is finite nonnegative consistently: undefined undefined
+  ---
+  duration_ms: 0.113875
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2903:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Provider requests used: unknown\./. Input:
+    
+    'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: 0.'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: 'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: 0.'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2906:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual usage count is finite nonnegative consistently: object null
+not ok 6 - visual usage count is finite nonnegative consistently: object null
+  ---
+  duration_ms: 0.052333
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2903:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Provider requests used: unknown\./. Input:
+    
+    'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: 0.'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: 'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: 0.'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2906:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual usage count is finite nonnegative consistently: string 2
+not ok 7 - visual usage count is finite nonnegative consistently: string 2
+  ---
+  duration_ms: 0.033916
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2903:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Provider requests used: unknown\./. Input:
+    
+    'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: 0.'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: 'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: 0.'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2906:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual usage count is finite nonnegative consistently: boolean true
+not ok 8 - visual usage count is finite nonnegative consistently: boolean true
+  ---
+  duration_ms: 0.037292
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2903:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Provider requests used: unknown\./. Input:
+    
+    'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: 0.'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: 'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: 0.'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2906:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual usage count is finite nonnegative consistently: number -1
+not ok 9 - visual usage count is finite nonnegative consistently: number -1
+  ---
+  duration_ms: 0.048125
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2903:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Provider requests used: unknown\./. Input:
+    
+    'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: -1.'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: 'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: -1.'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2906:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual usage count is finite nonnegative consistently: number NaN
+not ok 10 - visual usage count is finite nonnegative consistently: number NaN
+  ---
+  duration_ms: 0.07575
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2903:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Provider requests used: unknown\./. Input:
+    
+    'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: NaN.'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: 'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: NaN.'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2906:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual usage count is finite nonnegative consistently: number Infinity
+not ok 11 - visual usage count is finite nonnegative consistently: number Infinity
+  ---
+  duration_ms: 0.045625
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2903:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Provider requests used: unknown\./. Input:
+    
+    'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: Infinity.'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: 'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: Infinity.'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2906:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual usage count is finite nonnegative consistently: number -Infinity
+not ok 12 - visual usage count is finite nonnegative consistently: number -Infinity
+  ---
+  duration_ms: 0.036542
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2903:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Provider requests used: unknown\./. Input:
+    
+    'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: -Infinity.'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: 'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: -Infinity.'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2906:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual usage count is finite nonnegative consistently: number 0
+ok 13 - visual usage count is finite nonnegative consistently: number 0
+  ---
+  duration_ms: 0.0555
+  type: 'test'
+  ...
+# Subtest: visual usage count is finite nonnegative consistently: number 1
+ok 14 - visual usage count is finite nonnegative consistently: number 1
+  ---
+  duration_ms: 0.037208
+  type: 'test'
+  ...
+# Subtest: visual usage count is finite nonnegative consistently: number 2.5
+ok 15 - visual usage count is finite nonnegative consistently: number 2.5
+  ---
+  duration_ms: 0.027916
+  type: 'test'
+  ...
+# Subtest: visual CSS F1 F2 F5 F6 F7 F10 F11 F12 F13 F15 F16 F17 F19 F23 token layout contract
+not ok 16 - visual CSS F1 F2 F5 F6 F7 F10 F11 F12 F13 F15 F16 F17 F19 F23 token layout contract
+  ---
+  duration_ms: 0.181292
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2911:1'
+  failureType: 'testCodeFailure'
+  error: '.hackertube .ht-search > form'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: -1
+  actual: -1
+  operator: 'notStrictEqual'
+  stack: |-
+    rule (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2915:12)
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2918:16)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual atomic F3 ranking notes are in a closed disclosure
+not ok 17 - visual atomic F3 ranking notes are in a closed disclosure
+  ---
+  duration_ms: 0.255459
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2942:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(details)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2946:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual atomic F4 full feed cards omit unavailable artwork
+not ok 18 - visual atomic F4 full feed cards omit unavailable artwork
+  ---
+  duration_ms: 0.151459
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2954:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2957:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual atomic F8 full cards have one metadata line and no book length placeholder
+not ok 19 - visual atomic F8 full cards have one metadata line and no book length placeholder
+  ---
+  duration_ms: 0.11375
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2962:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2965:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual atomic F14 Discover heading keeps the original focus target
+not ok 20 - visual atomic F14 Discover heading keeps the original focus target
+  ---
+  duration_ms: 0.105542
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2971:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'HackerTube'
+    - 'Discover'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'Discover'
+  actual: 'HackerTube'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2975:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual atomic F15 empty browse group renders no heading or placeholder
+not ok 21 - visual atomic F15 empty browse group renders no heading or placeholder
+  ---
+  duration_ms: 0.323084
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2981:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + {
+    +   children: [
+    +     {
+    +       children: [
+    +         'More in Books, not matched to your interests',
+    +         {
+    +           children: [
+    +             ' 0'
+    +           ],
+    +           props: {
+    +             className: 'ht-count'
+    +           },
+    +           type: 'span'
+    +         }
+    +       ],
+    +       props: {
+    +         id: 'books-browse-heading'
+    +       },
+    +       type: 'h3'
+    +     },
+    +     {
+    +       children: [
+    +         'Nothing else from this catalog is in this section.'
+    +       ],
+    +       props: {},
+    +       type: 'p'
+    +     },
+    +     null
+    +   ],
+    +   props: {
+    +     className: 'ht-browse',
+    +     id: 'books-browse'
+    +   },
+    +   type: 'div'
+    + }
+    - null
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ~
+  actual:
+    type: 'div'
+    props:
+      className: 'ht-browse'
+      id: 'books-browse'
+    children:
+      0:
+        type: 'h3'
+        props:
+          id: 'books-browse-heading'
+        children:
+          0: 'More in Books, not matched to your interests'
+          1:
+            type: 'span'
+            props:
+              className: 'ht-count'
+            children:
+              0: ' 0'
+      1:
+        type: 'p'
+        props:
+        children:
+          0: 'Nothing else from this catalog is in this section.'
+      2: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2984:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual atomic F18 omit unknown creator parts without losing known parts
+not ok 22 - visual atomic F18 omit unknown creator parts without losing known parts
+  ---
+  duration_ms: 0.047917
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2989:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'Contributor unknown. Show: Show unknown'
+    - ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: 'Contributor unknown. Show: Show unknown'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2990:10)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual atomic F21 section matches are compact but the feed is not
+not ok 23 - visual atomic F21 section matches are compact but the feed is not
+  ---
+  duration_ms: 0.327375
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2996:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2999:12)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: visual atomic T copy retains approved boundaries and Library wording
+not ok 24 - visual atomic T copy retains approved boundaries and Library wording
+  ---
+  duration_ms: 0.060417
+  type: 'test'
+  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:3005:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'Nothing here is ranked for you yet. Add an interest to rank the seeded catalog. Refresh prepared catalog reads the saved catalog again and does not start a search.'
+    - 'Add an interest to rank this catalog for you. Reloading does not start a search.'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'Add an interest to rank this catalog for you. Reloading does not start a search.'
+  actual: 'Nothing here is ranked for you yet. Add an interest to rank the seeded catalog. Refresh prepared catalog reads the saved catalog again and does not start a search.'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:3006:10)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 3
+# fail 21
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 48.3665
