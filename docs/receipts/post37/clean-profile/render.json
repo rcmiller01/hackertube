@@ -1,0 +1,362 @@
+{
+  "home": "/Users/robert/.hermes/cache/scratch/p37-cp-1794411197",
+  "page": "/Users/robert/.hermes/cache/scratch/p37-cp-1794411197/plugins/hackertube/dashboard/dist/index.js",
+  "style": "/Users/robert/.hermes/cache/scratch/p37-cp-1794411197/plugins/hackertube/dashboard/dist/style.css",
+  "lookalikeHost": {
+    "label": "look-alike host",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "fullCardIconBox": {
+      "x": 64,
+      "y": 509.96875,
+      "width": 217.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "fileWidth": 217.1,
+      "aspect": 1.1674,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18,
+      "visibleMarkWidth": 143.09
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "lookalikeRequests": 0
+  },
+  "suffixHost": {
+    "label": "suffix look-alike host",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "fullCardIconBox": {
+      "x": 64,
+      "y": 509.96875,
+      "width": 217.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "fileWidth": 217.1,
+      "aspect": 1.1674,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18,
+      "visibleMarkWidth": 143.09
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "suffixRequests": 0
+  },
+  "foreignHost": {
+    "label": "unrelated host",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "fullCardIconBox": {
+      "x": 64,
+      "y": 509.96875,
+      "width": 217.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "fileWidth": 217.1,
+      "aspect": 1.1674,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18,
+      "visibleMarkWidth": 143.09
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "foreignRequests": 0
+  },
+  "failedLoad": {
+    "label": "official host, image fails to load",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "fullCardIconBox": {
+      "x": 64,
+      "y": 509.96875,
+      "width": 217.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "fileWidth": 217.1,
+      "aspect": 1.1674,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18,
+      "visibleMarkWidth": 143.09
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s."
+  },
+  "layout": [
+    {
+      "width": 320,
+      "mark": {
+        "fileHeight": 186,
+        "fileWidth": 217.1,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "watch": {
+        "box": {
+          "left": 31.921875,
+          "right": 288.0625,
+          "height": 324
+        },
+        "ring": {
+          "left": 28.921875,
+          "right": 291.0625,
+          "top": 764.5625,
+          "bottom": 1094.5625
+        },
+        "card": {
+          "left": 24,
+          "right": 296
+        },
+        "clippers": [],
+        "img": {
+          "left": 51.421875,
+          "right": 268.5625,
+          "top": 807.5625,
+          "bottom": 993.5625,
+          "height": 186
+        }
+      },
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
+      "mediaPrecedesText": true,
+      "display": "flex",
+      "rowGap": 4.8,
+      "gapUnderHeader": 362.8,
+      "sideWidth": 272,
+      "thumbBox": [
+        192,
+        144
+      ],
+      "thumbBesideIcon": false,
+      "thumbnailOnOwnLine": true,
+      "offenders": []
+    },
+    {
+      "width": 390,
+      "mark": {
+        "fileHeight": 186,
+        "fileWidth": 217.1,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "watch": {
+        "box": {
+          "left": 46.421875,
+          "right": 343.5625,
+          "height": 324
+        },
+        "ring": {
+          "left": 43.421875,
+          "right": 346.5625,
+          "top": 792.265625,
+          "bottom": 1122.265625
+        },
+        "card": {
+          "left": 24,
+          "right": 366
+        },
+        "clippers": [],
+        "img": {
+          "left": 86.421875,
+          "right": 303.5625,
+          "top": 835.265625,
+          "bottom": 1021.265625,
+          "height": 186
+        }
+      },
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
+      "mediaPrecedesText": true,
+      "display": "flex",
+      "rowGap": 4.8,
+      "gapUnderHeader": 362.8,
+      "sideWidth": 342,
+      "thumbBox": [
+        192,
+        144
+      ],
+      "thumbBesideIcon": false,
+      "thumbnailOnOwnLine": true,
+      "offenders": []
+    },
+    {
+      "width": 767,
+      "mark": {
+        "fileHeight": 186,
+        "fileWidth": 217.1,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "watch": {
+        "box": {
+          "left": 51.671875,
+          "right": 348.8125,
+          "height": 324
+        },
+        "ring": {
+          "left": 48.671875,
+          "right": 351.8125,
+          "top": 775.34375,
+          "bottom": 1105.34375
+        },
+        "card": {
+          "left": 24,
+          "right": 376.5
+        },
+        "clippers": [],
+        "img": {
+          "left": 91.671875,
+          "right": 308.8125,
+          "top": 818.34375,
+          "bottom": 1004.34375,
+          "height": 186
+        }
+      },
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
+      "mediaPrecedesText": true,
+      "display": "flex",
+      "rowGap": 4.8,
+      "gapUnderHeader": 206.8,
+      "sideWidth": 421.1,
+      "thumbBox": [
+        192,
+        144
+      ],
+      "thumbBesideIcon": true,
+      "thumbnailOnOwnLine": false,
+      "offenders": []
+    },
+    {
+      "width": 768,
+      "mark": {
+        "fileHeight": 186,
+        "fileWidth": 217.1,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "watch": {
+        "box": {
+          "left": 51.921875,
+          "right": 349.0625,
+          "height": 324
+        },
+        "ring": {
+          "left": 48.921875,
+          "right": 352.0625,
+          "top": 775.71875,
+          "bottom": 1105.71875
+        },
+        "card": {
+          "left": 24,
+          "right": 377
+        },
+        "clippers": [],
+        "img": {
+          "left": 91.921875,
+          "right": 309.0625,
+          "top": 818.71875,
+          "bottom": 1004.71875,
+          "height": 186
+        }
+      },
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
+      "mediaPrecedesText": true,
+      "display": "grid",
+      "rowGap": 4.8,
+      "gapUnderHeader": 4.8,
+      "sideWidth": 430,
+      "thumbBox": [
+        192,
+        144
+      ],
+      "thumbBesideIcon": true,
+      "thumbnailOnOwnLine": false,
+      "offenders": []
+    },
+    {
+      "width": 1280,
+      "mark": {
+        "fileHeight": 186,
+        "fileWidth": 217.1,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "watch": {
+        "box": {
+          "left": 71.921875,
+          "right": 333.5625,
+          "height": 324
+        },
+        "ring": {
+          "left": 68.921875,
+          "right": 336.5625,
+          "top": 723.09375,
+          "bottom": 1053.09375
+        },
+        "card": {
+          "left": 64,
+          "right": 341.5
+        },
+        "clippers": [],
+        "img": {
+          "left": 94.171875,
+          "right": 311.3125,
+          "top": 766.09375,
+          "bottom": 952.09375,
+          "height": 186
+        }
+      },
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
+      "mediaPrecedesText": true,
+      "display": "grid",
+      "rowGap": 4.8,
+      "gapUnderHeader": 4.8,
+      "sideWidth": 430,
+      "thumbBox": [
+        192,
+        144
+      ],
+      "thumbBesideIcon": true,
+      "thumbnailOnOwnLine": false,
+      "offenders": []
+    }
+  ]
+}

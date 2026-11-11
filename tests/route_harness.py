@@ -46,7 +46,7 @@ DEFAULT_SETTINGS = {"provider": "stub", "model_endpoint": ""}
 SECRETS = {}
 
 
-def install_host(data_root, settings=None, *, monkeypatch):
+def install_host(data_root, settings=None, *, monkeypatch=None):
     """Put the host modules in ``sys.modules`` for a temporary root.
 
     ``settings`` is the plugin's declared settings mapping. The default is
@@ -56,8 +56,12 @@ def install_host(data_root, settings=None, *, monkeypatch):
     The required ``monkeypatch`` installs the stubs through
     ``monkeypatch.setitem``: pytest restores whatever was in ``sys.modules``
     before the test (usually nothing) at teardown, so the stub does not leak
-    into later tests. There is no unscoped installation path.
+    into later tests. There is no unscoped installation path: ``None`` (or an
+    omitted value) is refused explicitly, because installing a host stub
+    directly is exactly the leak this harness fixed.
     """
+    if monkeypatch is None:
+        raise TypeError("monkeypatch is required")
     root = Path(data_root)
     root.mkdir(parents=True, exist_ok=True)
 
@@ -123,7 +127,9 @@ def client(app):
 class Dashboard:
     """One dashboard process: a router load plus a client, over one data root."""
 
-    def __init__(self, data_root, name="hackertube_plugin_api_under_test", settings=None, *, monkeypatch):
+    def __init__(self, data_root, name="hackertube_plugin_api_under_test", settings=None, *, monkeypatch=None):
+        if monkeypatch is None:
+            raise TypeError("monkeypatch is required")
         self.root = install_host(data_root, settings=settings, monkeypatch=monkeypatch)
         self.module, self.app = load_api(name)
         self.http = client(self.app)
@@ -144,12 +150,15 @@ class Dashboard:
             close()
 
 
-def start(data_root, name="hackertube_plugin_api_under_test", settings=None, *, monkeypatch):
+def start(data_root, name="hackertube_plugin_api_under_test", settings=None, *, monkeypatch=None):
     """Load the plugin over ``data_root``.
 
     Pass the test's ``monkeypatch`` fixture so the host stubs are registered
     through ``monkeypatch.setitem`` and pytest removes them at teardown: the
     route tests then restore the prior state of ``sys.modules``. Omitting
-    ``monkeypatch`` is an error rather than an unscoped installation.
+    ``monkeypatch`` (or passing ``None``) is refused with a ``TypeError``
+    rather than running an unscoped installation.
     """
+    if monkeypatch is None:
+        raise TypeError("monkeypatch is required")
     return Dashboard(data_root, name=name, settings=settings, monkeypatch=monkeypatch)

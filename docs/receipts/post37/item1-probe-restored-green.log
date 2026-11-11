@@ -1,0 +1,7 @@
+# RESTORED GREEN: the FIXED probe on a clean run (no leak) exits 0
+$ PYTHONPATH=/Users/robert/Developer/hackertube-post37/docs/receipts/post35 python -m pytest -p teardown_probe -q -s tests/test_urls.py
+[teardown_probe] before_session= []
+...................................[teardown_probe] leaked_after_session= []
+
+35 passed in 0.03s
+exit_code=0

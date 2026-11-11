@@ -1,0 +1,17 @@
+# MUTATION 1 (absent guard): every 'raise TypeError(...)' guard becomes 'pass'
+        for name, module in stubs.items():
+>           monkeypatch.setitem(sys.modules, name, module)
+            ^^^^^^^^^^^^^^^^^^^
+E           AttributeError: 'NoneType' object has no attribute 'setitem'
+
+tests/route_harness.py:104: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_route_harness.py::test_host_entry_points_require_monkeypatch[omitted-start]
+FAILED tests/test_route_harness.py::test_host_entry_points_require_monkeypatch[omitted-install_host]
+FAILED tests/test_route_harness.py::test_host_entry_points_require_monkeypatch[omitted-Dashboard]
+FAILED tests/test_route_harness.py::test_host_entry_points_require_monkeypatch[explicit_none-start]
+FAILED tests/test_route_harness.py::test_host_entry_points_require_monkeypatch[explicit_none-install_host]
+FAILED tests/test_route_harness.py::test_host_entry_points_require_monkeypatch[explicit_none-Dashboard]
+6 failed in 0.03s
+command exit_code=1
+restored original bytes: /Users/robert/Developer/hackertube-post37/tests/route_harness.py

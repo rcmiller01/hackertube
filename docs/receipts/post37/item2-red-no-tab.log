@@ -1,0 +1,33 @@
+# RED: the Watch link is given tabIndex:-1, so Tab from the card title skips it
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (496.99275ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 533.714958
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:1120:1
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (496.99275ms)
+  AssertionError [ERR_ASSERTION]: at 320px Tab from the card title reaches the Watch link
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-post37/tests/test_privacy_browser.js:1154:14)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:541:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+command exit_code=1

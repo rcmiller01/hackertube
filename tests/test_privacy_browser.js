@@ -1141,7 +1141,21 @@ test("the full card's Watch link and its focus ring stay inside the card, at 320
       await link.scrollIntoViewIfNeeded();
       await link.evaluate(el => el.blur());
       const unfocused = await ui.screenshot();
-      await link.focus();
+      // Reach the Watch link the way a keyboard user does: focus the card's
+      // own title (a heading, reached by heading navigation) and press Tab. No
+      // link.focus() shortcut, so the focused state proves the link is
+      // reachable by keyboard in this row's own focus order.
+      await ui.evaluate(() => {
+        const title = document.querySelector("#ranked-feed .ht-title");
+        title.setAttribute("tabindex", "-1");
+        title.focus();
+      });
+      await ui.keyboard.press("Tab");
+      assert.equal(
+        await link.evaluate(el => document.activeElement === el),
+        true,
+        `at ${width}px Tab from the card title reaches the Watch link`,
+      );
       const geometry = await link.evaluate(el => {
         const style = getComputedStyle(el);
         const box = el.getBoundingClientRect();
@@ -1171,6 +1185,7 @@ test("the full card's Watch link and its focus ring stay inside the card, at 320
         return {
           focused: document.activeElement === el,
           outlineStyle: style.outlineStyle,
+          outlineColor: style.outlineColor,
           outlineWidth: parseFloat(style.outlineWidth),
           outlineOffset: parseFloat(style.outlineOffset),
           padding: style.padding,
@@ -1190,7 +1205,7 @@ test("the full card's Watch link and its focus ring stay inside the card, at 320
       // Decode Chromium's actual screenshots in canvas (no PNG dependency).
       // Sample each side's straight segment at the outline's centreline; a
       // transparent or clipped outline has geometry but no changed pixels.
-      const painted = await ui.evaluate(async ({before, after, box, offset, thickness}) => {
+      const ring = await ui.evaluate(async ({before, after, box, offset, thickness, outlineColor}) => {
         async function pixels(base64) {
           const image = new Image();
           image.src = "data:image/png;base64," + base64;
@@ -1209,7 +1224,17 @@ test("the full card's Watch link and its focus ring stay inside the card, at 320
           top: [box.left + 12, box.top - spread, box.right - 12, box.top - spread],
           bottom: [box.left + 12, box.bottom + spread, box.right - 12, box.bottom + spread],
         };
-        return Object.fromEntries(Object.entries(sides).map(([side, [x1,y1,x2,y2]]) => {
+        // WCAG relative luminance and contrast ratio (non-text contrast, 3:1).
+        const channel = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+        const luminance = (rgb) => 0.2126 * channel(rgb[0]) + 0.7152 * channel(rgb[1]) + 0.0722 * channel(rgb[2]);
+        const ratio = (fg, bg) => {
+          const l1 = luminance(fg), l2 = luminance(bg);
+          const hi = Math.max(l1, l2), lo = Math.min(l1, l2);
+          return (hi + 0.05) / (lo + 0.05);
+        };
+        const ringRgb = (String(outlineColor).match(/\d+(?:\.\d+)?/g) || []).slice(0, 3).map(Number);
+        const painted = {}, surface = {}, contrast = {};
+        for (const [side, [x1, y1, x2, y2]] of Object.entries(sides)) {
           let changed = 0, total = 0;
           for (let y = Math.floor(y1); y <= Math.floor(y2); y++) {
             for (let x = Math.floor(x1); x <= Math.floor(x2); x++) {
@@ -1219,11 +1244,39 @@ test("the full card's Watch link and its focus ring stay inside the card, at 320
               if ([0,1,2].some(c => Math.abs(a.data[i+c] - b.data[i+c]) > 20)) changed++;
             }
           }
-          return [side, {changed, total}];
-        }));
+          // The surface the ring is seen against: the pixel at the ring's own
+          // centreline in the UNFOCUSED capture — the colour the ring paints
+          // over — measured from the render, not the stylesheet.
+          const sx = (side === "left" || side === "right") ? Math.round(x1) : Math.round((x1 + x2) / 2);
+          const sy = (side === "top" || side === "bottom") ? Math.round(y1) : Math.round((y1 + y2) / 2);
+          let bg = null;
+          if (sx >= 0 && sy >= 0 && sx < a.width && sy < a.height) {
+            const i = 4 * (sy * a.width + sx);
+            bg = [a.data[i], a.data[i+1], a.data[i+2]];
+          }
+          painted[side] = {changed, total};
+          surface[side] = bg;
+          contrast[side] = (bg && ringRgb.length === 3 && ringRgb.every(Number.isFinite))
+            ? Number(ratio(ringRgb, bg).toFixed(3)) : null;
+        }
+        return {painted, surface, contrast, ringRgb};
       }, {before: unfocused.toString("base64"), after: focused.toString("base64"), box: geometry.box,
-          offset: geometry.outlineOffset, thickness: geometry.outlineWidth});
-      for (const [side, {changed, total}] of Object.entries(painted)) {
+          offset: geometry.outlineOffset, thickness: geometry.outlineWidth, outlineColor: geometry.outlineColor});
+      // WCAG 2.4.11 / 1.4.11: the focus indicator must reach 3:1 against the
+      // rendered surface it sits on, at every existing viewport width. The ring
+      // colour is read from computed style; the surface from the screenshot.
+      // Checked before the pixel-diff so a ring painted in the surface colour
+      // fails here (its contrast), not on the changed-pixel count.
+      for (const [side, value] of Object.entries(ring.contrast)) {
+        const bg = ring.surface[side];
+        assert.ok(
+          value !== null && value >= 3,
+          `at ${width}px the focus ring contrast against the rendered surface is >= 3:1 on the ${side}` +
+            ` (measured ${value === null ? "unparsed" : value.toFixed(2)}:1, ring rgb(${ring.ringRgb.join(",")})` +
+            ` on surface ${bg ? "rgb(" + bg.join(",") + ")" : "offscreen"})`,
+        );
+      }
+      for (const [side, {changed, total}] of Object.entries(ring.painted)) {
         assert.ok(total > 0 && changed / total >= 0.95,
           `at ${width}px the focus ring is painted on the ${side}: ${changed}/${total} pixels`);
       }
@@ -1265,8 +1318,6 @@ test("the full card's Watch link and its focus ring stay inside the card, at 320
       const mark = await measureVisibleMark(link);
       assert.ok(mark.visibleMarkHeight >= 100, `at ${width}px the visible mark stays >= 100px (${mark.visibleMarkHeight})`);
       assert.ok(mark.visibleMarkWidth >= 140, `at ${width}px the visible mark stays >= 140px wide (${mark.visibleMarkWidth})`);
-      await ui.close();
-      await fixture.close();
     }
   } finally { await browser.close(); }
 });
