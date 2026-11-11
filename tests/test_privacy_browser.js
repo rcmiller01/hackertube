@@ -1135,6 +1135,13 @@ test("the full card's Watch link and its focus ring stay inside the card, at 320
       await card.waitFor();
       const link = card.getByRole("link", { name: 'Watch "AI introduction" on YouTube' });
       await link.waitFor();
+      // Keep the whole ring in the screenshot, even near the fold. Capture
+      // before focusing so a computed outline cannot stand in for actual paint.
+      await ui.setViewportSize({ width, height: 1600 });
+      await link.scrollIntoViewIfNeeded();
+      await link.evaluate(el => el.blur());
+      const unfocused = await ui.screenshot();
+      await link.focus();
       const geometry = await link.evaluate(el => {
         const style = getComputedStyle(el);
         const box = el.getBoundingClientRect();
@@ -1162,6 +1169,10 @@ test("the full card's Watch link and its focus ring stay inside the card, at 320
         const img = el.querySelector("img");
         const imgBox = img.getBoundingClientRect();
         return {
+          focused: document.activeElement === el,
+          outlineStyle: style.outlineStyle,
+          outlineWidth: parseFloat(style.outlineWidth),
+          outlineOffset: parseFloat(style.outlineOffset),
           padding: style.padding,
           box: { left: box.left, right: box.right, top: box.top, bottom: box.bottom, width: box.width, height: box.height },
           ring: { left: box.left - spread, right: box.right + spread, top: box.top - spread, bottom: box.bottom + spread, spread },
@@ -1171,7 +1182,51 @@ test("the full card's Watch link and its focus ring stay inside the card, at 320
           imgRadius: getComputedStyle(img).borderRadius,
         };
       });
+      assert.equal(geometry.focused, true, "measure the focused Watch link");
+      assert.notEqual(geometry.outlineStyle, "none", "the focused link must have an outline");
+      assert.ok(geometry.outlineWidth > 0, "the focus outline has nonzero width");
       assert.ok(geometry.ring.spread > 0, "the link carries a real focus ring to keep: " + geometry.ring.spread);
+      const focused = await ui.screenshot();
+      // Decode Chromium's actual screenshots in canvas (no PNG dependency).
+      // Sample each side's straight segment at the outline's centreline; a
+      // transparent or clipped outline has geometry but no changed pixels.
+      const painted = await ui.evaluate(async ({before, after, box, offset, thickness}) => {
+        async function pixels(base64) {
+          const image = new Image();
+          image.src = "data:image/png;base64," + base64;
+          await image.decode();
+          const canvas = document.createElement("canvas");
+          canvas.width = image.width; canvas.height = image.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(image, 0, 0);
+          return {data: ctx.getImageData(0, 0, canvas.width, canvas.height).data, width: canvas.width, height: canvas.height};
+        }
+        const a = await pixels(before), b = await pixels(after);
+        const spread = offset + thickness / 2;
+        const sides = {
+          left: [box.left - spread, box.top + 12, box.left - spread, box.bottom - 12],
+          right: [box.right + spread, box.top + 12, box.right + spread, box.bottom - 12],
+          top: [box.left + 12, box.top - spread, box.right - 12, box.top - spread],
+          bottom: [box.left + 12, box.bottom + spread, box.right - 12, box.bottom + spread],
+        };
+        return Object.fromEntries(Object.entries(sides).map(([side, [x1,y1,x2,y2]]) => {
+          let changed = 0, total = 0;
+          for (let y = Math.floor(y1); y <= Math.floor(y2); y++) {
+            for (let x = Math.floor(x1); x <= Math.floor(x2); x++) {
+              total++;
+              if (x < 0 || y < 0 || x >= a.width || y >= a.height) continue;
+              const i = 4 * (y * a.width + x);
+              if ([0,1,2].some(c => Math.abs(a.data[i+c] - b.data[i+c]) > 20)) changed++;
+            }
+          }
+          return [side, {changed, total}];
+        }));
+      }, {before: unfocused.toString("base64"), after: focused.toString("base64"), box: geometry.box,
+          offset: geometry.outlineOffset, thickness: geometry.outlineWidth});
+      for (const [side, {changed, total}] of Object.entries(painted)) {
+        assert.ok(total > 0 && changed / total >= 0.95,
+          `at ${width}px the focus ring is painted on the ${side}: ${changed}/${total} pixels`);
+      }
       assert.ok(
         geometry.box.left >= geometry.card.left - 0.01 && geometry.box.right <= geometry.card.right + 0.01,
         `at ${width}px the Watch link fits inside the card (${geometry.box.left.toFixed(1)}..${geometry.box.right.toFixed(1)} in ${geometry.card.left.toFixed(1)}..${geometry.card.right.toFixed(1)})`,
