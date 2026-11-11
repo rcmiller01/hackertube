@@ -1,0 +1,50 @@
+--- FEED12 run 1 ---
+✔ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (812.927625ms)
+ℹ tests 1
+ℹ pass 1
+ℹ fail 0
+--- FEED12 run 2 ---
+✔ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (917.918458ms)
+ℹ tests 1
+ℹ pass 1
+ℹ fail 0
+--- FEED12 run 3 ---
+✔ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (1048.90425ms)
+ℹ tests 1
+ℹ pass 1
+ℹ fail 0
+--- FEED12 run 4 ---
+✔ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (861.027125ms)
+ℹ tests 1
+ℹ pass 1
+ℹ fail 0
+--- FEED12 run 5 ---
+✔ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (1099.538167ms)
+ℹ tests 1
+ℹ pass 1
+ℹ fail 0
+--- FEED12 run 6 ---
+✔ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (987.627667ms)
+ℹ tests 1
+ℹ pass 1
+ℹ fail 0
+--- FEED12 run 7 ---
+✔ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (949.516042ms)
+ℹ tests 1
+ℹ pass 1
+ℹ fail 0
+--- FEED12 run 8 ---
+✔ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (890.399958ms)
+ℹ tests 1
+ℹ pass 1
+ℹ fail 0
+--- FEED12 run 9 ---
+✔ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (920.079125ms)
+ℹ tests 1
+ℹ pass 1
+ℹ fail 0
+--- FEED12 run 10 ---
+✔ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (700.895375ms)
+ℹ tests 1
+ℹ pass 1
+ℹ fail 0

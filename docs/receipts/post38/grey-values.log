@@ -1,0 +1,10 @@
+opaque greys (chosen from the measured ratio against #f4f4f5)
+  target 2.50 -> #9c9c9c   surf=2.498  white=2.745
+  target 2.90 -> #909090   surf=2.904  white=3.193
+  target 3.23 -> #888888   surf=3.225  white=3.545
+the shipping ring token
+  #18181b                     surf=16.118  white=17.717
+mutations that paint a blend the old check never sees
+  outline-color rgba(24,24,27,.25) -> (189, 189, 190)  surf=1.708
+  opacity: .3 on the link          -> (178, 178, 180)  surf=1.926
+  color(srgb .6 .6 .6)             -> rgb(153,153,153)  surf=2.592
