@@ -1,0 +1,1131 @@
+{
+  "base": "http://127.0.0.1:9232",
+  "mode": "fix",
+  "dark": false,
+  "measurements": [
+    {
+      "width": 320,
+      "theme": {
+        "pageBackground": "color(srgb 0.0156863 0.109804 0.109804)",
+        "ringToken": "color-mix(in srgb, #ffe6cb 100%, transparent)",
+        "rootFontSize": "15px"
+      },
+      "active": true,
+      "geometry": {
+        "focused": true,
+        "outlineStyle": "solid",
+        "outlineColor": "color(srgb 1 0.901961 0.796078)",
+        "outlineWidth": 2,
+        "outlineOffset": 2,
+        "box": {
+          "left": 42.25,
+          "right": 259.390625,
+          "top": 714.6875,
+          "bottom": 900.6875
+        },
+        "spread": 4,
+        "card": {
+          "left": 26.25,
+          "right": 282.75,
+          "top": 485.171875,
+          "bottom": 1088.65625
+        },
+        "clippers": [
+          {
+            "name": "hackertube",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px 4px",
+            "left": 22.25,
+            "top": -463.25,
+            "right": 286.75,
+            "bottom": 4462.234375
+          },
+          {
+            "name": "hackertube",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "15px",
+            "left": 11.25,
+            "top": -522.25,
+            "right": 297.75,
+            "bottom": 4477.234375
+          },
+          {
+            "name": "min-h-0.w-full.min-w-0.flex-1.flex.flex-col.overflow-y-auto.",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 450.25,
+            "right": 320,
+            "bottom": 1600
+          },
+          {
+            "name": "flex.min-h-0.w-full.min-w-0.flex-1.flex-col.overflow-hidden",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 408,
+            "right": 320,
+            "bottom": 1600
+          },
+          {
+            "name": "flex.min-h-0.min-w-0.flex-1.flex-col.overflow-hidden",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 408,
+            "right": 320,
+            "bottom": 1600
+          },
+          {
+            "name": "flex.h-dvh.max-h-dvh.min-h-0.flex-col.overflow-hidden.bg-bac",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 0,
+            "right": 320,
+            "bottom": 1600
+          },
+          {
+            "name": "DIV",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 0,
+            "right": 320,
+            "bottom": 1600
+          },
+          {
+            "name": "BODY",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 0,
+            "right": 320,
+            "bottom": 1600
+          },
+          {
+            "name": "HTML",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 0,
+            "right": 320,
+            "bottom": 1600
+          }
+        ],
+        "wrappers": [
+          {
+            "classes": "hackertube",
+            "padding": "0px 4px",
+            "margin": "0px -4px",
+            "overflowX": "hidden",
+            "fontSize": "15px",
+            "box": {
+              "left": 22.25,
+              "right": 286.75,
+              "top": -463.25,
+              "bottom": 4462.234375
+            },
+            "innerWidth": 265,
+            "scrollWidth": 265
+          },
+          {
+            "classes": "hackertube",
+            "padding": "15px",
+            "margin": "0px",
+            "overflowX": "hidden",
+            "fontSize": "15px",
+            "box": {
+              "left": 11.25,
+              "right": 297.75,
+              "top": -522.25,
+              "bottom": 4477.234375
+            },
+            "innerWidth": 287,
+            "scrollWidth": 287
+          }
+        ],
+        "cardContent": {
+          "classes": "p-4",
+          "padding": "11.25px 15px",
+          "fontSize": "15px",
+          "paddingTop": "11.25px",
+          "paddingRight": "15px",
+          "paddingBottom": "11.25px",
+          "paddingLeft": "15px",
+          "inlineStyle": null,
+          "spacingMul": "1",
+          "isCardChild": true,
+          "box": {
+            "left": 27.25,
+            "right": 281.75,
+            "top": 486.171875,
+            "bottom": 1087.65625
+          }
+        },
+        "paddingRules": [
+          {
+            "selector": "*, ::after, ::before, ::backdrop",
+            "style": "box-sizing: border-box; border: 0px solid; margin: 0px; padding: 0px;",
+            "media": null
+          },
+          {
+            "selector": ".p-4",
+            "style": "padding: calc(calc(.25rem * var(--theme-spacing-mul,1)) * 4);",
+            "media": null
+          }
+        ]
+      },
+      "ring": {
+        "left": {
+          "painted": 163,
+          "total": 163,
+          "frac": 1,
+          "min": 14.674,
+          "minAll": 14.674,
+          "minAt": {
+            "x": 39,
+            "y": 726,
+            "surface": [
+              4,
+              28,
+              28
+            ],
+            "ring": [
+              255,
+              230,
+              203
+            ]
+          }
+        },
+        "right": {
+          "painted": 163,
+          "total": 163,
+          "frac": 1,
+          "min": 14.674,
+          "minAll": 14.674,
+          "minAt": {
+            "x": 262,
+            "y": 726,
+            "surface": [
+              4,
+              28,
+              28
+            ],
+            "ring": [
+              255,
+              230,
+              203
+            ]
+          }
+        },
+        "top": {
+          "painted": 194,
+          "total": 194,
+          "frac": 1,
+          "min": 14.674,
+          "minAll": 14.674,
+          "minAt": {
+            "x": 54,
+            "y": 711,
+            "surface": [
+              4,
+              28,
+              28
+            ],
+            "ring": [
+              255,
+              230,
+              203
+            ]
+          }
+        },
+        "bottom": {
+          "painted": 194,
+          "total": 194,
+          "frac": 1,
+          "min": 14.674,
+          "minAll": 14.674,
+          "minAt": {
+            "x": 54,
+            "y": 903,
+            "surface": [
+              4,
+              28,
+              28
+            ],
+            "ring": [
+              255,
+              230,
+              203
+            ]
+          }
+        }
+      },
+      "cut": {
+        "left": [],
+        "right": [],
+        "top": [],
+        "bottom": []
+      },
+      "clipBox": {
+        "x": 30,
+        "y": 702,
+        "width": 242,
+        "height": 210
+      }
+    },
+    {
+      "width": 390,
+      "theme": {
+        "pageBackground": "color(srgb 0.0156863 0.109804 0.109804)",
+        "ringToken": "color-mix(in srgb, #ffe6cb 100%, transparent)",
+        "rootFontSize": "15px"
+      },
+      "active": true,
+      "geometry": {
+        "focused": true,
+        "outlineStyle": "solid",
+        "outlineColor": "color(srgb 1 0.901961 0.796078)",
+        "outlineWidth": 2,
+        "outlineOffset": 2,
+        "box": {
+          "left": 42.25,
+          "right": 259.390625,
+          "top": 707.3125,
+          "bottom": 893.3125
+        },
+        "spread": 4,
+        "card": {
+          "left": 26.25,
+          "right": 352.75,
+          "top": 477.796875,
+          "bottom": 1060.9375
+        },
+        "clippers": [
+          {
+            "name": "hackertube",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px 4px",
+            "left": 22.25,
+            "top": -374.875,
+            "right": 356.75,
+            "bottom": 3691.734375
+          },
+          {
+            "name": "hackertube",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "15px",
+            "left": 11.25,
+            "top": -433.875,
+            "right": 367.75,
+            "bottom": 3706.734375
+          },
+          {
+            "name": "min-h-0.w-full.min-w-0.flex-1.flex.flex-col.overflow-y-auto.",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 442.625,
+            "right": 390,
+            "bottom": 1600
+          },
+          {
+            "name": "flex.min-h-0.w-full.min-w-0.flex-1.flex-col.overflow-hidden",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 400.375,
+            "right": 390,
+            "bottom": 1600
+          },
+          {
+            "name": "flex.min-h-0.min-w-0.flex-1.flex-col.overflow-hidden",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 400.375,
+            "right": 390,
+            "bottom": 1600
+          },
+          {
+            "name": "flex.h-dvh.max-h-dvh.min-h-0.flex-col.overflow-hidden.bg-bac",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 0,
+            "right": 390,
+            "bottom": 1600
+          },
+          {
+            "name": "DIV",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 0,
+            "right": 390,
+            "bottom": 1600
+          },
+          {
+            "name": "BODY",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 0,
+            "right": 390,
+            "bottom": 1600
+          },
+          {
+            "name": "HTML",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 0,
+            "right": 390,
+            "bottom": 1600
+          }
+        ],
+        "wrappers": [
+          {
+            "classes": "hackertube",
+            "padding": "0px 4px",
+            "margin": "0px -4px",
+            "overflowX": "hidden",
+            "fontSize": "15px",
+            "box": {
+              "left": 22.25,
+              "right": 356.75,
+              "top": -374.875,
+              "bottom": 3691.734375
+            },
+            "innerWidth": 335,
+            "scrollWidth": 335
+          },
+          {
+            "classes": "hackertube",
+            "padding": "15px",
+            "margin": "0px",
+            "overflowX": "hidden",
+            "fontSize": "15px",
+            "box": {
+              "left": 11.25,
+              "right": 367.75,
+              "top": -433.875,
+              "bottom": 3706.734375
+            },
+            "innerWidth": 357,
+            "scrollWidth": 357
+          }
+        ],
+        "cardContent": {
+          "classes": "p-4",
+          "padding": "11.25px 15px",
+          "fontSize": "15px",
+          "paddingTop": "11.25px",
+          "paddingRight": "15px",
+          "paddingBottom": "11.25px",
+          "paddingLeft": "15px",
+          "inlineStyle": null,
+          "spacingMul": "1",
+          "isCardChild": true,
+          "box": {
+            "left": 27.25,
+            "right": 351.75,
+            "top": 478.796875,
+            "bottom": 1059.9375
+          }
+        },
+        "paddingRules": [
+          {
+            "selector": "*, ::after, ::before, ::backdrop",
+            "style": "box-sizing: border-box; border: 0px solid; margin: 0px; padding: 0px;",
+            "media": null
+          },
+          {
+            "selector": ".p-4",
+            "style": "padding: calc(calc(.25rem * var(--theme-spacing-mul,1)) * 4);",
+            "media": null
+          }
+        ]
+      },
+      "ring": {
+        "left": {
+          "painted": 163,
+          "total": 163,
+          "frac": 1,
+          "min": 14.674,
+          "minAll": 14.674,
+          "minAt": {
+            "x": 39,
+            "y": 719,
+            "surface": [
+              4,
+              28,
+              28
+            ],
+            "ring": [
+              255,
+              230,
+              203
+            ]
+          }
+        },
+        "right": {
+          "painted": 163,
+          "total": 163,
+          "frac": 1,
+          "min": 14.674,
+          "minAll": 14.674,
+          "minAt": {
+            "x": 262,
+            "y": 719,
+            "surface": [
+              4,
+              28,
+              28
+            ],
+            "ring": [
+              255,
+              230,
+              203
+            ]
+          }
+        },
+        "top": {
+          "painted": 194,
+          "total": 194,
+          "frac": 1,
+          "min": 14.674,
+          "minAll": 14.674,
+          "minAt": {
+            "x": 54,
+            "y": 704,
+            "surface": [
+              4,
+              28,
+              28
+            ],
+            "ring": [
+              255,
+              230,
+              203
+            ]
+          }
+        },
+        "bottom": {
+          "painted": 194,
+          "total": 194,
+          "frac": 1,
+          "min": 14.674,
+          "minAll": 14.674,
+          "minAt": {
+            "x": 54,
+            "y": 896,
+            "surface": [
+              4,
+              28,
+              28
+            ],
+            "ring": [
+              255,
+              230,
+              203
+            ]
+          }
+        }
+      },
+      "cut": {
+        "left": [],
+        "right": [],
+        "top": [],
+        "bottom": []
+      },
+      "clipBox": {
+        "x": 30,
+        "y": 695,
+        "width": 242,
+        "height": 210
+      }
+    },
+    {
+      "width": 768,
+      "theme": {
+        "pageBackground": "color(srgb 0.0156863 0.109804 0.109804)",
+        "ringToken": "color-mix(in srgb, #ffe6cb 100%, transparent)",
+        "rootFontSize": "15px"
+      },
+      "active": true,
+      "geometry": {
+        "focused": true,
+        "outlineStyle": "solid",
+        "outlineColor": "color(srgb 1 0.901961 0.796078)",
+        "outlineWidth": 2,
+        "outlineOffset": 2,
+        "box": {
+          "left": 256.75,
+          "right": 473.890625,
+          "top": 199.890625,
+          "bottom": 385.890625
+        },
+        "spread": 4,
+        "card": {
+          "left": 37.5,
+          "right": 719.5,
+          "top": 182.390625,
+          "bottom": 429.625
+        },
+        "clippers": [
+          {
+            "name": "hackertube",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px 4px",
+            "left": 33.5,
+            "top": -562.75,
+            "right": 723.5,
+            "bottom": 2795.578125
+          },
+          {
+            "name": "hackertube",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "15px",
+            "left": 22.5,
+            "top": -621.75,
+            "right": 734.5,
+            "bottom": 2810.578125
+          },
+          {
+            "name": "min-h-0.w-full.min-w-0.flex-1.flex.flex-col.overflow-y-auto.",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 147.25,
+            "right": 768,
+            "bottom": 1600
+          },
+          {
+            "name": "flex.min-h-0.w-full.min-w-0.flex-1.flex-col.overflow-hidden",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 94.75,
+            "right": 768,
+            "bottom": 1600
+          },
+          {
+            "name": "flex.min-h-0.min-w-0.flex-1.flex-col.overflow-hidden",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 94.75,
+            "right": 768,
+            "bottom": 1600
+          },
+          {
+            "name": "flex.h-dvh.max-h-dvh.min-h-0.flex-col.overflow-hidden.bg-bac",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 0,
+            "right": 768,
+            "bottom": 1600
+          },
+          {
+            "name": "DIV",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 0,
+            "right": 768,
+            "bottom": 1600
+          },
+          {
+            "name": "BODY",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 0,
+            "right": 768,
+            "bottom": 1600
+          },
+          {
+            "name": "HTML",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 0,
+            "right": 768,
+            "bottom": 1600
+          }
+        ],
+        "wrappers": [
+          {
+            "classes": "hackertube",
+            "padding": "0px 4px",
+            "margin": "0px -4px",
+            "overflowX": "hidden",
+            "fontSize": "15px",
+            "box": {
+              "left": 33.5,
+              "right": 723.5,
+              "top": -562.75,
+              "bottom": 2795.578125
+            },
+            "innerWidth": 690,
+            "scrollWidth": 690
+          },
+          {
+            "classes": "hackertube",
+            "padding": "15px",
+            "margin": "0px",
+            "overflowX": "hidden",
+            "fontSize": "15px",
+            "box": {
+              "left": 22.5,
+              "right": 734.5,
+              "top": -621.75,
+              "bottom": 2810.578125
+            },
+            "innerWidth": 712,
+            "scrollWidth": 712
+          }
+        ],
+        "cardContent": {
+          "classes": "p-4",
+          "padding": "11.25px 15px",
+          "fontSize": "15px",
+          "paddingTop": "11.25px",
+          "paddingRight": "15px",
+          "paddingBottom": "11.25px",
+          "paddingLeft": "15px",
+          "inlineStyle": null,
+          "spacingMul": "1",
+          "isCardChild": true,
+          "box": {
+            "left": 38.5,
+            "right": 718.5,
+            "top": 183.390625,
+            "bottom": 428.625
+          }
+        },
+        "paddingRules": [
+          {
+            "selector": "*, ::after, ::before, ::backdrop",
+            "style": "box-sizing: border-box; border: 0px solid; margin: 0px; padding: 0px;",
+            "media": null
+          },
+          {
+            "selector": ".p-4",
+            "style": "padding: calc(calc(.25rem * var(--theme-spacing-mul,1)) * 4);",
+            "media": null
+          }
+        ]
+      },
+      "ring": {
+        "left": {
+          "painted": 163,
+          "total": 163,
+          "frac": 1,
+          "min": 14.674,
+          "minAll": 14.674,
+          "minAt": {
+            "x": 253,
+            "y": 211,
+            "surface": [
+              4,
+              28,
+              28
+            ],
+            "ring": [
+              255,
+              230,
+              203
+            ]
+          }
+        },
+        "right": {
+          "painted": 163,
+          "total": 163,
+          "frac": 1,
+          "min": 14.674,
+          "minAll": 14.674,
+          "minAt": {
+            "x": 476,
+            "y": 211,
+            "surface": [
+              4,
+              28,
+              28
+            ],
+            "ring": [
+              255,
+              230,
+              203
+            ]
+          }
+        },
+        "top": {
+          "painted": 194,
+          "total": 194,
+          "frac": 1,
+          "min": 14.674,
+          "minAll": 14.674,
+          "minAt": {
+            "x": 268,
+            "y": 196,
+            "surface": [
+              4,
+              28,
+              28
+            ],
+            "ring": [
+              255,
+              230,
+              203
+            ]
+          }
+        },
+        "bottom": {
+          "painted": 194,
+          "total": 194,
+          "frac": 1,
+          "min": 14.674,
+          "minAll": 14.674,
+          "minAt": {
+            "x": 268,
+            "y": 388,
+            "surface": [
+              4,
+              28,
+              28
+            ],
+            "ring": [
+              255,
+              230,
+              203
+            ]
+          }
+        }
+      },
+      "cut": {
+        "left": [],
+        "right": [],
+        "top": [],
+        "bottom": []
+      },
+      "clipBox": {
+        "x": 244,
+        "y": 187,
+        "width": 242,
+        "height": 210
+      }
+    },
+    {
+      "width": 1280,
+      "theme": {
+        "pageBackground": "color(srgb 0.0156863 0.109804 0.109804)",
+        "ringToken": "color-mix(in srgb, #ffe6cb 100%, transparent)",
+        "rootFontSize": "15px"
+      },
+      "active": true,
+      "geometry": {
+        "focused": true,
+        "outlineStyle": "solid",
+        "outlineColor": "color(srgb 1 0.901961 0.796078)",
+        "outlineWidth": 2,
+        "outlineOffset": 2,
+        "box": {
+          "left": 504.25,
+          "right": 721.390625,
+          "top": 104.734375,
+          "bottom": 290.734375
+        },
+        "spread": 4,
+        "card": {
+          "left": 285,
+          "right": 1224,
+          "top": 87.234375,
+          "bottom": 308.234375
+        },
+        "clippers": [
+          {
+            "name": "hackertube",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px 4px",
+            "left": 281,
+            "top": -678.25,
+            "right": 1228,
+            "bottom": 2674.1875
+          },
+          {
+            "name": "hackertube",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "18.75px 22.5px 45px",
+            "left": 262.5,
+            "top": -741,
+            "right": 1246.5,
+            "bottom": 2719.1875
+          },
+          {
+            "name": "min-h-0.w-full.min-w-0.flex-1.flex.flex-col.overflow-y-auto.",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 240,
+            "top": 52.5,
+            "right": 1280,
+            "bottom": 1567
+          },
+          {
+            "name": "flex.min-h-0.w-full.min-w-0.flex-1.flex-col.overflow-hidden",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 240,
+            "top": 0,
+            "right": 1280,
+            "bottom": 1567
+          },
+          {
+            "name": "flex.min-h-0.min-w-0.flex-1.flex-col.overflow-hidden",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 33,
+            "right": 1280,
+            "bottom": 1600
+          },
+          {
+            "name": "flex.h-dvh.max-h-dvh.min-h-0.flex-col.overflow-hidden.bg-bac",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 0,
+            "right": 1280,
+            "bottom": 1600
+          },
+          {
+            "name": "DIV",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 0,
+            "right": 1280,
+            "bottom": 1600
+          },
+          {
+            "name": "BODY",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 0,
+            "right": 1280,
+            "bottom": 1600
+          },
+          {
+            "name": "HTML",
+            "clipsX": true,
+            "clipsY": true,
+            "padding": "0px",
+            "left": 0,
+            "top": 0,
+            "right": 1280,
+            "bottom": 1600
+          }
+        ],
+        "wrappers": [
+          {
+            "classes": "hackertube",
+            "padding": "0px 4px",
+            "margin": "0px -4px",
+            "overflowX": "hidden",
+            "fontSize": "15px",
+            "box": {
+              "left": 281,
+              "right": 1228,
+              "top": -678.25,
+              "bottom": 2674.1875
+            },
+            "innerWidth": 947,
+            "scrollWidth": 947
+          },
+          {
+            "classes": "hackertube",
+            "padding": "18.75px 22.5px 45px",
+            "margin": "0px",
+            "overflowX": "hidden",
+            "fontSize": "15px",
+            "box": {
+              "left": 262.5,
+              "right": 1246.5,
+              "top": -741,
+              "bottom": 2719.1875
+            },
+            "innerWidth": 984,
+            "scrollWidth": 984
+          }
+        ],
+        "cardContent": {
+          "classes": "p-4",
+          "padding": "11.25px 15px",
+          "fontSize": "15px",
+          "paddingTop": "11.25px",
+          "paddingRight": "15px",
+          "paddingBottom": "11.25px",
+          "paddingLeft": "15px",
+          "inlineStyle": null,
+          "spacingMul": "1",
+          "isCardChild": true,
+          "box": {
+            "left": 286,
+            "right": 1223,
+            "top": 88.234375,
+            "bottom": 307.234375
+          }
+        },
+        "paddingRules": [
+          {
+            "selector": "*, ::after, ::before, ::backdrop",
+            "style": "box-sizing: border-box; border: 0px solid; margin: 0px; padding: 0px;",
+            "media": null
+          },
+          {
+            "selector": ".p-4",
+            "style": "padding: calc(calc(.25rem * var(--theme-spacing-mul,1)) * 4);",
+            "media": null
+          }
+        ]
+      },
+      "ring": {
+        "left": {
+          "painted": 163,
+          "total": 163,
+          "frac": 1,
+          "min": 14.674,
+          "minAll": 14.674,
+          "minAt": {
+            "x": 501,
+            "y": 116,
+            "surface": [
+              4,
+              28,
+              28
+            ],
+            "ring": [
+              255,
+              230,
+              203
+            ]
+          }
+        },
+        "right": {
+          "painted": 163,
+          "total": 163,
+          "frac": 1,
+          "min": 14.674,
+          "minAll": 14.674,
+          "minAt": {
+            "x": 724,
+            "y": 116,
+            "surface": [
+              4,
+              28,
+              28
+            ],
+            "ring": [
+              255,
+              230,
+              203
+            ]
+          }
+        },
+        "top": {
+          "painted": 194,
+          "total": 194,
+          "frac": 1,
+          "min": 14.674,
+          "minAll": 14.674,
+          "minAt": {
+            "x": 516,
+            "y": 101,
+            "surface": [
+              4,
+              28,
+              28
+            ],
+            "ring": [
+              255,
+              230,
+              203
+            ]
+          }
+        },
+        "bottom": {
+          "painted": 194,
+          "total": 194,
+          "frac": 1,
+          "min": 14.674,
+          "minAll": 14.674,
+          "minAt": {
+            "x": 516,
+            "y": 293,
+            "surface": [
+              4,
+              28,
+              28
+            ],
+            "ring": [
+              255,
+              230,
+              203
+            ]
+          }
+        }
+      },
+      "cut": {
+        "left": [],
+        "right": [],
+        "top": [],
+        "bottom": []
+      },
+      "clipBox": {
+        "x": 492,
+        "y": 92,
+        "width": 242,
+        "height": 210
+      }
+    }
+  ]
+}

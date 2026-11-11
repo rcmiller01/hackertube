@@ -73,27 +73,54 @@ const HOST_TOKENS_CSS = `:root {
   --theme-font-display: system-ui, sans-serif;
   --theme-line-height: 1.55;
 }
-/* The host's CardContent is a div with class "p-4". Measured in the real
- * dashboard at 320px and 390px its padding is 11.25px 15px (the host's root font
- * size is 15px there). The fixture must draw the same box: that padding, not the
- * plugin's own root padding, is what holds the compact Watch link's ring clear of
- * the inner .hackertube clip at narrow widths, and without it the fixture
- * manufactures a clip the dashboard does not have. */
+/* The host's CardContent is a div with class "p-4" (the host SDK renders
+ * \`z("p-4", className)\`). MEASURED in the real dashboard at 320px, 390px, 768px
+ * and 1280px, the compact row's CardContent element computes
+ * \`padding: 11.25px 15px\` at the host's 15px root font — vertical 11.25px,
+ * inline 15px, not 15px on every side (the host's \`.p-4\` rule is
+ * \`padding: calc(calc(.25rem * var(--theme-spacing-mul,1)) * 4)\`, and the
+ * element's computed padding is asymmetric, so something in the host's own
+ * cascade narrows the block axis). The value is recorded with its provenance in
+ * docs/receipts/post40/host-ring-fix.json (\`cardContent.padding\`, plus the
+ * rules that matched) and cross-checked against
+ * docs/receipts/post39/host-ring.json: the host's compact Watch link sits
+ * 16px inside the inner .hackertube's left edge at 320/390, which is the host
+ * card's 1px border plus this 15px inline padding. The fixture must draw the
+ * same box: that padding, not the plugin's own root padding, is what holds the
+ * compact Watch link's ring clear of the inner .hackertube clip at narrow
+ * widths, and the fixture does not carry the host card's 1px border (its Card is
+ * a plain div), so its clearance is 11px where the host's is 12px. */
 .ht-card-content { padding: 11.25px 15px; }
-/* A dark host theme. The dashboard's own page background is dark in both
- * schemes (measured #041c1c-ish), and the ring there is a light token; this
- * block lets the ring tests run a second time against a dark surface instead of
- * only ever measuring a light one. */
+/* A dark host theme, in the host's OWN idiom and with the host's own measured
+ * values. The dashboard's dark look is its palette (the default "Hermes Teal"
+ * theme is a dark teal at every OS scheme), and its dark VARIANTS are keyed on a
+ * \`.dark\` ancestor class (\`is(.dark *)\`), not on \`prefers-color-scheme\` — so
+ * the tokens hang off \`.dark\` here and a \`.dark\`-ancestor-only run is covered.
+ * Measured in the real dashboard: \`--color-ring\` resolves to #ffe6cb and the
+ * page background to #041c1c (host-ring-fix.json \`theme\`). A dark run that only
+ * emulated the OS scheme would measure a light surface under a light ring — the
+ * scheme is proven in the run itself (see assertPaintedRing). The media-query
+ * block below carries the same values so an OS-dark run measures the same
+ * surface, but no test depends on it. */
+:root.dark, .dark {
+  --color-border: #1d4747;
+  --color-muted: #073030;
+  --color-muted-foreground: #cfe3e1;
+  --color-primary: #ffe6cb;
+  --color-primary-foreground: #041c1c;
+  --color-ring: #ffe6cb;
+}
+.dark { background: #041c1c; color: #edf7f6; }
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-border: #3f3f46;
-    --color-muted: #27272a;
-    --color-muted-foreground: #a1a1aa;
-    --color-primary: #fafafa;
-    --color-primary-foreground: #18181b;
-    --color-ring: #fafafa;
+    --color-border: #1d4747;
+    --color-muted: #073030;
+    --color-muted-foreground: #cfe3e1;
+    --color-primary: #ffe6cb;
+    --color-primary-foreground: #041c1c;
+    --color-ring: #ffe6cb;
   }
-  body { background: #18181b; color: #fafafa; }
+  body { background: #041c1c; color: #edf7f6; }
 }`;
 
 const HARNESS_SOURCE = `

@@ -103,8 +103,8 @@ dark-theme finding recorded at the end of this note rather than a failed capture
 |---|---|---|---|---|---|
 | compact-side clips its own overflow | `hackertube/dashboard/dist/style.css` | compact only | green | red | at 320px light the compact row's Watch link: no ancestor clips the left ring (cut by ht-compact-side; 0/163 of the side is painted) |
 | youtube-compact wrapper clips | `hackertube/dashboard/dist/style.css` | compact only | green | red | at 320px light the compact row's Watch link: no ancestor clips the left ring (cut by ht-youtube-compact; 0/163 of the side is painted) |
-| ring colour 95%-painted but dim (rgba .25) | `hackertube/dashboard/dist/style.css` | both | red | red | at 320px light the full card's Watch link: the painted focus ring reaches >= 3:1 on the left (measured 1.71:1, ring rgb(189,189,190) on surface rgb(244,244,245) at 43,768) |
-| focused media at opacity .3 | `hackertube/dashboard/dist/style.css` | compact only | green | red | at 320px light the compact row's Watch link: the painted focus ring reaches >= 3:1 on the left (measured 1.98:1, ring rgb(184,184,185) on surface rgb(255,255,255) at 36,719) |
+| ring colour dim but fully painted (rgba .25) | `hackertube/dashboard/dist/style.css` | both | red | red | at 320px light the full card's Watch link: the painted focus ring reaches >= 3:1 on the left (measured 1.71:1, ring rgb(189,189,190) on surface rgb(244,244,245) at 43,768) |
+| compact Watch link at opacity .3 (applies with or without focus) | `hackertube/dashboard/dist/style.css` | compact only | green | red | at 320px light the compact row's Watch link: the painted focus ring reaches >= 3:1 on the left (measured 1.98:1, ring rgb(184,184,185) on surface rgb(255,255,255) at 36,719) |
 | ring colour color(srgb .6 .6 .6) | `hackertube/dashboard/dist/style.css` | both | red | red | at 320px light the full card's Watch link: the painted focus ring reaches >= 3:1 on the left (measured 2.59:1, ring rgb(153,153,153) on surface rgb(244,244,245) at 43,768) |
 | ring colour = the surface it paints on | `tests/browser_net_harness.js` | both | red | red | at 320px light the full card's Watch link: the focus ring is painted on the left (0/301 pixels) |
 | dark-only dim ring (harness dark token block) | `tests/browser_net_harness.js` | dark only | red | red | at 320px dark the full card's Watch link: the painted focus ring reaches >= 3:1 on the left (measured 1.43:1, ring rgb(63,63,70) on surface rgb(39,39,42) at 43,768) |
@@ -112,6 +112,19 @@ dark-theme finding recorded at the end of this note rather than a failed capture
 The dark-only mutation fails at `320px dark`; the light run of the same width
 precedes it in `RING_RUNS` and passes, which is what makes it dark-only rather
 than a general dim ring.
+
+**Correction of record (post-#40 follow-up).** Two labels in the table above were
+wrong and are corrected here: the `rgba(.25)` ring is fully PAINTED (it is the
+contrast rule that catches it, not a painted fraction), and the `opacity: .3`
+rule matches the compact Watch link whether or not it is focused. The table,
+`mutations.json`, `mutations.log` and `summary.json` were then re-derived at this
+receipt's own head (`ee6b7c4`) by re-running `mutate_ring.py` and `summarize.py`,
+so the corrected labels and the verdicts are generated, not hand-edited; every
+verdict is unchanged (7/7 red, green control exit 0). Separately, the painted
+fraction in `assertPaintedRing` was only *documented* as a 95% rule here — the
+3:1 minimum was still taken over every sampled pixel, so that rule could never
+fire. That is fixed in the follow-up change, with the measured aggregation and a
+97%-painted control: `docs/receipts/post40`.
 
 ## Clean-profile failure path
 

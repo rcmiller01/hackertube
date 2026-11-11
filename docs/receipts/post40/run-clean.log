@@ -1,0 +1,29 @@
+HERMES_HOME=/Users/robert/.hermes/cache/scratch/p40-cp-1794427535
+chosen profile dir: /Users/robert/.hermes/cache/scratch/p40-cp-1794427535 (created by this run, so fresh by construction)
+== enable ==
+enable exit=0
+✓ Plugin hackertube enabled.
+Restart the gateway for the plugin to take effect:
+  hermes gateway restart
+== installed assets in the enabled profile ==
+total 0
+drwxr-xr-x@  3 robert  staff   96 Nov 11 15:05 .
+drwx------@ 17 robert  staff  544 Nov 11 15:05 ..
+== backend probe (fresh profile, source-down failure path) ==
+probe exit=0
+{
+  "home": "/Users/robert/.hermes/cache/scratch/p40-cp-1794427535",
+  "storage": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+  "installed_ring_rule": ".hackertube :focus,\n.hackertube :focus-visible {\n  outline: 2px solid var(--color-ring);\n  outline-offset: 2px;\n",
+  "source_outage": {
+    "sources": 7,
+    "items": 0,
+    "counts": {
+      "free": 0,
+      "paid": 0,
+      "metered": 0
+    },
+    "down_source": "hn"
+  }
+}
+CLEAN_PROFILE_DIR=/Users/robert/.hermes/cache/scratch/p40-cp-1794427535

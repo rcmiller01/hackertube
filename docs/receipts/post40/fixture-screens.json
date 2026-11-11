@@ -1,0 +1,194 @@
+{
+  "widths": [
+    320,
+    390,
+    768,
+    1280
+  ],
+  "variants": {
+    "fixed": {
+      "320": {
+        "focused": true,
+        "clip": {
+          "x": 27,
+          "y": 695,
+          "width": 242,
+          "height": 210
+        },
+        "pageBytes": 57518,
+        "ringBytes": 3315
+      },
+      "390": {
+        "focused": true,
+        "clip": {
+          "x": 27,
+          "y": 695,
+          "width": 242,
+          "height": 210
+        },
+        "pageBytes": 58883,
+        "ringBytes": 3317
+      },
+      "768": {
+        "focused": true,
+        "clip": {
+          "x": 231,
+          "y": 1384,
+          "width": 242,
+          "height": 210
+        },
+        "pageBytes": 84294,
+        "ringBytes": 3315
+      },
+      "1280": {
+        "focused": true,
+        "clip": {
+          "x": 271,
+          "y": 1353,
+          "width": 242,
+          "height": 210
+        },
+        "pageBytes": 105881,
+        "ringBytes": 3315
+      }
+    },
+    "prefix": {
+      "320": {
+        "focused": true,
+        "clip": {
+          "x": 27,
+          "y": 695,
+          "width": 242,
+          "height": 210
+        },
+        "pageBytes": 57518,
+        "ringBytes": 3315
+      },
+      "390": {
+        "focused": true,
+        "clip": {
+          "x": 27,
+          "y": 695,
+          "width": 242,
+          "height": 210
+        },
+        "pageBytes": 58883,
+        "ringBytes": 3317
+      },
+      "768": {
+        "focused": true,
+        "clip": {
+          "x": 231,
+          "y": 1384,
+          "width": 242,
+          "height": 210
+        },
+        "pageBytes": 84294,
+        "ringBytes": 3315
+      },
+      "1280": {
+        "focused": true,
+        "clip": {
+          "x": 271,
+          "y": 1353,
+          "width": 242,
+          "height": 210
+        },
+        "pageBytes": 105881,
+        "ringBytes": 3315
+      }
+    },
+    "fixed-pad0": {
+      "320": {
+        "focused": true,
+        "clip": {
+          "x": 12,
+          "y": 695,
+          "width": 242,
+          "height": 210
+        },
+        "pageBytes": 56761,
+        "ringBytes": 3315
+      },
+      "390": {
+        "focused": true,
+        "clip": {
+          "x": 12,
+          "y": 695,
+          "width": 242,
+          "height": 210
+        },
+        "pageBytes": 58957,
+        "ringBytes": 3317
+      },
+      "768": {
+        "focused": true,
+        "clip": {
+          "x": 216,
+          "y": 1384,
+          "width": 242,
+          "height": 210
+        },
+        "pageBytes": 83946,
+        "ringBytes": 3315
+      },
+      "1280": {
+        "focused": true,
+        "clip": {
+          "x": 256,
+          "y": 1331,
+          "width": 242,
+          "height": 210
+        },
+        "pageBytes": 105166,
+        "ringBytes": 3315
+      }
+    },
+    "prefix-pad0": {
+      "320": {
+        "focused": true,
+        "clip": {
+          "x": 12,
+          "y": 695,
+          "width": 242,
+          "height": 210
+        },
+        "pageBytes": 56754,
+        "ringBytes": 3293
+      },
+      "390": {
+        "focused": true,
+        "clip": {
+          "x": 12,
+          "y": 695,
+          "width": 242,
+          "height": 210
+        },
+        "pageBytes": 58950,
+        "ringBytes": 3294
+      },
+      "768": {
+        "focused": true,
+        "clip": {
+          "x": 216,
+          "y": 1384,
+          "width": 242,
+          "height": 210
+        },
+        "pageBytes": 83950,
+        "ringBytes": 3315
+      },
+      "1280": {
+        "focused": true,
+        "clip": {
+          "x": 256,
+          "y": 1331,
+          "width": 242,
+          "height": 210
+        },
+        "pageBytes": 105165,
+        "ringBytes": 3315
+      }
+    }
+  }
+}
