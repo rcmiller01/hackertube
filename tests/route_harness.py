@@ -53,9 +53,10 @@ def install_host(data_root, settings=None, monkeypatch=None):
     the stub provider; pass ``{"provider": "live"}`` to drive the keyed
     provider's fail-closed path.
 
-    Pass ``monkeypatch`` to register the same stubs through
-    ``monkeypatch.setitem``: pytest then removes them at the end of the test, so
-    the stub does not leak into later tests. Without it the modules stay in
+    Pass ``monkeypatch`` to install the stubs through
+    ``monkeypatch.setitem``: pytest restores whatever was in ``sys.modules``
+    before the test (usually nothing) at teardown, so the stub does not leak
+    into later tests. Without it the stubs are assigned directly and stay in
     ``sys.modules`` for the rest of the process — a leak that made two privacy
     tests' outcome depend on which test ran first.
     """
@@ -89,12 +90,6 @@ def install_host(data_root, settings=None, monkeypatch=None):
     config_module.load_config_readonly = load_config_readonly
     hermes_cli.config = config_module
 
-    sys.modules["agent"] = agent
-    sys.modules["agent.secret_scope"] = secrets
-    sys.modules["plugins"] = plugins
-    sys.modules["plugins.plugin_storage"] = storage
-    sys.modules["hermes_cli"] = hermes_cli
-    sys.modules["hermes_cli.config"] = config_module
     stubs = {
         "agent": agent,
         "agent.secret_scope": secrets,

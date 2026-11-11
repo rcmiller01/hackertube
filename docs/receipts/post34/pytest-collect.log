@@ -325,4 +325,4 @@ tests/test_urls.py::test_ambient_proxies_are_off
 tests/test_urls.py::test_nat64_with_a_public_embedded_ipv4_is_allowed
 tests/test_urls.py::test_literal_private_address_does_not_resolve
 
-326 tests collected in 0.13s
+326 tests collected in 0.11s

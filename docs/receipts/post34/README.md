@@ -24,6 +24,7 @@ live-provider receipt, and not a real YouTube image.
 | `probe-*.log` | `docs/receipts/requests/{probe,bypass_probe,red_against_main}.py` from the repository root (all exit 0). |
 | `red-check-browser-base.log`, `red-check-python-base.log`, `red-check-mutations.log` | The red evidence: the new tests failing against `e44b825`, the 16:9-crop mutation the old 4:3 test misses, and the loop-stop mutation the old purge test misses. |
 | `plugin-validate.log`, `plugin-doctor.log` | `hermes plugins validate .` and `hermes plugins doctor . --ci` from `hackertube/` (both exit 0). |
+| `teardown_probe.py`, `run-teardown-probe.sh`, `teardown-probe-base.log`, `teardown-probe-head.log`, `teardown-probe-suite.log` | The round-2 isolation evidence: the same teardown probe (which host stubs survive a test in `sys.modules`) at the reviewed head `ee2a613` (all six leak), at this head over `test_installed_search.py` + `test_privacy.py` (none leak), and over the whole suite (first leak site named — a caller that passes no `monkeypatch`). |
 | `clean-profile.log`, `probe.json`, `render.json`, `enable.log`, `clean-plugin-list.log` | The clean-profile run (fresh `HERMES_HOME`, plugin enabled by `hermes plugins enable`): backend probe and browser render, including the named failure paths. |
 | `openspec.log`, `spec-coverage.log` | OpenSpec strict validate and `scripts/check_spec_coverage.py`. |
 | `capture.js`, `run-capture.sh` | Regenerate the geometry files, the comparison and the screenshots. |
@@ -104,6 +105,17 @@ Each fix was made to fail first:
   FAIL at `e44b825` and PASS at head, which patches `_profile_db_path` in each
   test and registers the host stubs through `monkeypatch.setitem`
   (`red-check-python-base.log`). Run alone or in any order they pass at head.
+  **Round-2 correction:** the first cut of that registration was inert — the six
+  stubs were still assigned into `sys.modules` directly *before* the `setitem`
+  loop, so `setitem` recorded the stub as the value to restore and teardown put
+  the stub back. The six direct assignments are gone (the direct update survives
+  only for the `monkeypatch is None` path), the docstring now says which path
+  leaks, and the claim is measured at both revisions by `run-teardown-probe.sh`:
+  `teardown-probe-base.log` (`before_session=[]` →
+  `leaked_after_session=[all six]` at `ee2a613`) vs `teardown-probe-head.log`
+  (`leaked_after_session=[]`). Callers that pass no `monkeypatch` still install
+  the stubs directly, which is the documented behaviour of that path;
+  `teardown-probe-suite.log` names the first whole-suite site that depends on it.
 * **Item 4 (second purge attempt, test gap)** — with the interval loop removed
   from `start_housekeeping.clean()` (a single startup pass, then return), the OLD
   `test_startup_purge_logs_a_warning_and_continues_on_failure` still PASSES while
