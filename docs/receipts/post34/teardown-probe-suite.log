@@ -1,0 +1,4 @@
+[teardown_probe] before_session= []
+.....................................................................................................................................................[teardown_probe] leaked_after_teardown tests/test_request_boundary_routes.py::test_pref16_remove_interest_updates_feed_and_persists_without_outbound_calls: ['agent', 'agent.secret_scope', 'plugins', 'plugins.plugin_storage', 'hermes_cli', 'hermes_cli.config']
+.[teardown_probe] leaked_after_teardown tests/test_request_boundary_routes.py::test_feed04_browsing_paging_saving_dismissing_and_reopening_make_no_request: ['agent', 'agent.secret_scope', 'plugins', 'plugins.plugin_storage', 'hermes_cli', 'hermes_cli.config']
+.[teardown_probe] leaked_after_teardown tests/test_request_boundary_routes.py::test_pref08_read_only_browsing_submits_nothing_outside_the_profile: ['agent', 'agent.secret_scope', 'plugins', 'plugins.plugin_storage', 'hermes_cli', 'hermes_cli.config']

@@ -9,11 +9,11 @@ import pytest
 
 
 @pytest.fixture(autouse=True)
-def agreed_host(tmp_path):
+def agreed_host(tmp_path, monkeypatch):
     import route_harness
     from hackertube_core.profile import ProfileStore, open_profile_db
     from hackertube_core.privacy import VERSION
-    route_harness.install_host(tmp_path / "host")
+    route_harness.install_host(tmp_path / "host", monkeypatch=monkeypatch)
     ProfileStore(open_profile_db).accept_privacy(VERSION)
 
 

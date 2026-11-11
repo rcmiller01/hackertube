@@ -118,6 +118,33 @@ def test_feed09_endorsement_outranks_a_full_freshness_window():
     assert feed.why[1] == (WHY_MATCH, WHY_RECENT)
 
 
+def test_ranking_ignores_expired_community_evidence():
+    """``ranking._active`` must drop a row past its deadline.
+
+    ``prepared_feed`` filters the *items* by unexpired catalog evidence, but it
+    hands the whole evidence tuple to ``rank_matches``. Ranking therefore has to
+    drop expired rows itself: an expired established endorsement must not lift
+    its item (``ENDORSEMENT_WEIGHT`` is larger than the whole freshness window)
+    and must not add the community why-line. Reverting ``_active`` to pass every
+    row through changes both, which is what this pins.
+    """
+    template = next(item for item in load_seed().items if item.format == "book")
+    expired = _item(template, "z-expired", NOW, 1, "book")
+    plain = _item(template, "a-plain", NOW, 2, "book")
+    evidence = (
+        _catalog_row(expired, "openlibrary"),
+        _community(expired, "established", refresh_after=PAST),
+        _catalog_row(plain, "openlibrary"),
+    )
+    feed = _feed((plain, expired), evidence)
+    # Same-day freshness for both, so the tie breaks on item id: the expired
+    # endorsement must not change that.
+    assert [item.item_id for item in feed.items] == ["a-plain", "z-expired"]
+    for lines in feed.why:
+        assert WHY_COMMUNITY not in lines
+    assert feed.why[1] == (WHY_MATCH, WHY_RECENT)
+
+
 def test_feed09_fresher_item_outranks_an_otherwise_equal_older_item():
     template = next(item for item in load_seed().items if item.format == "book")
     fresh = _item(template, "z-fresh", NOW, 1, "book")

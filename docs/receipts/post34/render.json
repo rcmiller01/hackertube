@@ -1,0 +1,227 @@
+{
+  "home": "/Users/robert/.hermes/cache/scratch/p34-cp-1794362182",
+  "page": "/Users/robert/.hermes/cache/scratch/p34-cp-1794362182/plugins/hackertube/dashboard/dist/index.js",
+  "style": "/Users/robert/.hermes/cache/scratch/p34-cp-1794362182/plugins/hackertube/dashboard/dist/style.css",
+  "lookalikeHost": {
+    "label": "look-alike host",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "fullCardIconBox": {
+      "x": 54.1875,
+      "y": 509.96875,
+      "width": 297.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "fileWidth": 217.1,
+      "aspect": 1.1674,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18,
+      "visibleMarkWidth": 143.09
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "lookalikeRequests": 0
+  },
+  "suffixHost": {
+    "label": "suffix look-alike host",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "fullCardIconBox": {
+      "x": 54.1875,
+      "y": 509.96875,
+      "width": 297.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "fileWidth": 217.1,
+      "aspect": 1.1674,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18,
+      "visibleMarkWidth": 143.09
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "suffixRequests": 0
+  },
+  "foreignHost": {
+    "label": "unrelated host",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "fullCardIconBox": {
+      "x": 54.1875,
+      "y": 509.96875,
+      "width": 297.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "fileWidth": 217.1,
+      "aspect": 1.1674,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18,
+      "visibleMarkWidth": 143.09
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "foreignRequests": 0
+  },
+  "failedLoad": {
+    "label": "official host, image fails to load",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "fullCardIconBox": {
+      "x": 54.1875,
+      "y": 509.96875,
+      "width": 297.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "fileWidth": 217.1,
+      "aspect": 1.1674,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18,
+      "visibleMarkWidth": 143.09
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s."
+  },
+  "layout": [
+    {
+      "width": 320,
+      "mark": {
+        "fileHeight": 186,
+        "fileWidth": 217.1,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
+      "mediaPrecedesText": true,
+      "display": "flex",
+      "sideWidth": 272,
+      "thumbBox": [
+        192,
+        144
+      ],
+      "thumbBesideIcon": false,
+      "thumbnailOnOwnLine": true,
+      "offenders": []
+    },
+    {
+      "width": 390,
+      "mark": {
+        "fileHeight": 186,
+        "fileWidth": 217.1,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
+      "mediaPrecedesText": true,
+      "display": "flex",
+      "sideWidth": 342,
+      "thumbBox": [
+        192,
+        144
+      ],
+      "thumbBesideIcon": false,
+      "thumbnailOnOwnLine": true,
+      "offenders": []
+    },
+    {
+      "width": 767,
+      "mark": {
+        "fileHeight": 186,
+        "fileWidth": 217.1,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
+      "mediaPrecedesText": true,
+      "display": "flex",
+      "sideWidth": 421.1,
+      "thumbBox": [
+        192,
+        144
+      ],
+      "thumbBesideIcon": true,
+      "thumbnailOnOwnLine": false,
+      "offenders": []
+    },
+    {
+      "width": 768,
+      "mark": {
+        "fileHeight": 186,
+        "fileWidth": 217.1,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
+      "mediaPrecedesText": true,
+      "display": "grid",
+      "sideWidth": 430,
+      "thumbBox": [
+        192,
+        144
+      ],
+      "thumbBesideIcon": true,
+      "thumbnailOnOwnLine": false,
+      "offenders": []
+    },
+    {
+      "width": 1280,
+      "mark": {
+        "fileHeight": 186,
+        "fileWidth": 217.1,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
+      "mediaPrecedesText": true,
+      "display": "grid",
+      "sideWidth": 430,
+      "thumbBox": [
+        192,
+        144
+      ],
+      "thumbBesideIcon": true,
+      "thumbnailOnOwnLine": false,
+      "offenders": []
+    }
+  ]
+}

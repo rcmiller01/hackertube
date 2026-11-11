@@ -1,0 +1,290 @@
+HERMES_HOME=/Users/robert/.hermes/cache/scratch/p34-cp-1794362182
+== enable ==
+enable exit=0
+✓ Plugin hackertube enabled.
+Restart the gateway for the plugin to take effect:
+  hermes gateway restart
+== installed assets in the enabled profile ==
+total 0
+drwxr-xr-x@  3 robert  staff   96 Nov 10 20:56 .
+drwx------@ 17 robert  staff  544 Nov 10 20:56 ..
+== backend probe (clean profile) ==
+probe exit=0
+{
+  "policy_accepted": true,
+  "catalog": {
+    "status": 200,
+    "items": 12
+  },
+  "fresh_profile": {
+    "db_path": "/Users/robert/.hermes/cache/scratch/p34-cp-1794362182/plugin-data/hackertube/profile.db",
+    "exists_before": false,
+    "exists_after_start_housekeeping": false
+  },
+  "startup_purge": {
+    "expired_row_before": true,
+    "undated_row_before": true,
+    "expired_row_after": false,
+    "undated_row_after": false
+  },
+  "undated_rule": {
+    "active_evidence_ids": [
+      "hn:1"
+    ],
+    "youtube_undated_current": false,
+    "community_undated_current": true,
+    "without_expired_items": 0
+  },
+  "lookalike_host": {
+    "thumbnail_url_lookalike": null,
+    "thumbnail_url_suffix": null,
+    "thumbnail_url_prefix": null,
+    "thumbnail_url_foreign": null,
+    "thumbnail_url_official": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+    "stored_art_url": null
+  },
+  "source_outage": {
+    "sources": 7,
+    "items": 0,
+    "counts": {
+      "free": 0,
+      "paid": 0,
+      "metered": 0
+    }
+  },
+  "thumbnail_display_check": {
+    "cleared": true,
+    "counts": {
+      "free": 1,
+      "paid": 0,
+      "metered": 0
+    }
+  }
+}
+== browser render (clean profile) ==
+render exit=0
+{
+  "lookalikeHost": {
+    "label": "look-alike host",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube\u2019s.",
+    "fullCardIconBox": {
+      "x": 54.1875,
+      "y": 509.96875,
+      "width": 297.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "fileWidth": 217.1,
+      "aspect": 1.1674,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18,
+      "visibleMarkWidth": 143.09
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube\u2019s.",
+    "lookalikeRequests": 0
+  },
+  "suffixHost": {
+    "label": "suffix look-alike host",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube\u2019s.",
+    "fullCardIconBox": {
+      "x": 54.1875,
+      "y": 509.96875,
+      "width": 297.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "fileWidth": 217.1,
+      "aspect": 1.1674,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18,
+      "visibleMarkWidth": 143.09
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube\u2019s.",
+    "suffixRequests": 0
+  },
+  "foreignHost": {
+    "label": "unrelated host",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube\u2019s.",
+    "fullCardIconBox": {
+      "x": 54.1875,
+      "y": 509.96875,
+      "width": 297.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "fileWidth": 217.1,
+      "aspect": 1.1674,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18,
+      "visibleMarkWidth": 143.09
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube\u2019s.",
+    "foreignRequests": 0
+  },
+  "failedLoad": {
+    "label": "official host, image fails to load",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube\u2019s.",
+    "fullCardIconBox": {
+      "x": 54.1875,
+      "y": 509.96875,
+      "width": 297.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "fileWidth": 217.1,
+      "aspect": 1.1674,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18,
+      "visibleMarkWidth": 143.09
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube\u2019s."
+  },
+  "layout": [
+    {
+      "width": 320,
+      "mark": {
+        "fileHeight": 186,
+        "fileWidth": 217.1,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
+      "mediaPrecedesText": true,
+      "display": "flex",
+      "sideWidth": 272,
+      "thumbBox": [
+        192,
+        144
+      ],
+      "thumbBesideIcon": false,
+      "thumbnailOnOwnLine": true,
+      "offenders": []
+    },
+    {
+      "width": 390,
+      "mark": {
+        "fileHeight": 186,
+        "fileWidth": 217.1,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
+      "mediaPrecedesText": true,
+      "display": "flex",
+      "sideWidth": 342,
+      "thumbBox": [
+        192,
+        144
+      ],
+      "thumbBesideIcon": false,
+      "thumbnailOnOwnLine": true,
+      "offenders": []
+    },
+    {
+      "width": 767,
+      "mark": {
+        "fileHeight": 186,
+        "fileWidth": 217.1,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
+      "mediaPrecedesText": true,
+      "display": "flex",
+      "sideWidth": 421.1,
+      "thumbBox": [
+        192,
+        144
+      ],
+      "thumbBesideIcon": true,
+      "thumbnailOnOwnLine": false,
+      "offenders": []
+    },
+    {
+      "width": 768,
+      "mark": {
+        "fileHeight": 186,
+        "fileWidth": 217.1,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
+      "mediaPrecedesText": true,
+      "display": "grid",
+      "sideWidth": 430,
+      "thumbBox": [
+        192,
+        144
+      ],
+      "thumbBesideIcon": true,
+      "thumbnailOnOwnLine": false,
+      "offenders": []
+    },
+    {
+      "width": 1280,
+      "mark": {
+        "fileHeight": 186,
+        "fileWidth": 217.1,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
+      "mediaPrecedesText": true,
+      "display": "grid",
+      "sideWidth": 430,
+      "thumbBox": [
+        192,
+        144
+      ],
+      "thumbBesideIcon": true,
+      "thumbnailOnOwnLine": false,
+      "offenders": []
+    }
+  ]
+}
+CLEAN_PROFILE_DIR=/Users/robert/.hermes/cache/scratch/p34-cp-1794362182

@@ -1,0 +1,76 @@
+### pre-fix head e44b825d23eb1b10fec6114bb8060b31a4ac9ad7, leaked plugins.plugin_storage stub with no profile.db:
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+___________ test_housekeeping_deletes_expired_copies_without_network ___________
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-454/test_housekeeping_deletes_expi0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108fbe2c0>
+
+    def test_housekeeping_deletes_expired_copies_without_network(tmp_path, monkeypatch):
+        import threading
+        from hackertube_core.privacy import start_housekeeping
+        from hackertube_core import outbound
+        store, connect, clock, result = stored_video(tmp_path)
+        clock[0] = "2026-12-02T00:00:00Z"
+        done = threading.Event()
+        def opening(factory):
+            ProfileStore(connect, clock=lambda: clock[0])
+            done.set()
+        monkeypatch.setattr("hackertube_core.profile.ProfileStore", opening)
+        with outbound.guard():
+            stop = start_housekeeping(interval=0.01)
+            try:
+>               assert done.wait(1)
+E               assert False
+E                +  where False = wait(1)
+E                +    where wait = <threading.Event at 0x108f76990: unset>.wait
+
+tests/test_privacy.py:78: AssertionError
+_____ test_expired_youtube_data_is_purged_at_startup_not_only_when_opened ______
+
+tmp_path = PosixPath('/private/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/pytest-of-robert/pytest-454/test_expired_youtube_data_is_p0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108e59cd0>
+
+    def test_expired_youtube_data_is_purged_at_startup_not_only_when_opened(tmp_path, monkeypatch):
+        """Developer Policies III.E.4.d: a dormant profile must not keep expired
+        YouTube metadata and thumbnail URLs on disk.
+    
+        The retention purge used to run only when the profile store was next opened
+        or written -- that is, when HackerTube was opened. It now runs once as soon
+        as the plugin loads, before the first interval. A one-hour interval is used
+        here so that nothing but a startup purge can explain the deletion: no store
+        read or write happens between ``start_housekeeping`` and the raw check.
+        """
+        from hackertube_core.privacy import start_housekeeping
+        from hackertube_core import outbound
+        store, connect, clock, result = stored_video(tmp_path)
+        clock[0] = "2026-12-01T00:00:00Z"  # exact 30-day deadline: the metadata is expired
+        purged = threading.Event()
+        def opening(factory):
+            ProfileStore(connect, clock=lambda: clock[0])
+            purged.set()
+        monkeypatch.setattr("hackertube_core.profile.ProfileStore", opening)
+        with outbound.guard():
+            stop = start_housekeeping(interval=3600)
+            try:
+                # The startup purge runs off the caller's thread, so register() is
+                # not blocked; the pass itself still happens before the first
+                # interval. Wait for that pass, then assert the durable copy is
+                # clean: no other store access has run.
+>               assert purged.wait(5), "the profile store is opened (and purged) at startup, not only later"
+E               AssertionError: the profile store is opened (and purged) at startup, not only later
+E               assert False
+E                +  where False = wait(5)
+E                +    where wait = <threading.Event at 0x10907e520: unset>.wait
+
+tests/test_privacy.py:111: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_privacy.py::test_housekeeping_deletes_expired_copies_without_network
+FAILED tests/test_privacy.py::test_expired_youtube_data_is_purged_at_startup_not_only_when_opened
+2 failed, 11 deselected in 6.51s
+### fixed head, same leaked stub:
+..                                                                       [100%]
+2 passed, 11 deselected in 0.47s
+### fixed head, the two tests alone (no other test selected):
+..                                                                       [100%]
+2 passed, 11 deselected in 0.07s

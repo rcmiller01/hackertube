@@ -1,0 +1,6 @@
+python 3.13.13
+connect_ex outside the boundary: refused (socket.socket.connect_ex)
+counters after connect_ex: {'free': 0, 'paid': 0, 'metered': 0}
+keyed YouTube read usage: {'free': 0, 'paid': 0, 'metered': 1, 'cost_usd': 0.0, 'unknown_cost_calls': 0}
+fixed: the metered read is not counted as free
+read_json without a classification: refused (read_json() missing 1 required keyword-only argument: 'classification')

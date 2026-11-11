@@ -1761,14 +1761,21 @@
           : null;
         var body;
         if (compact) {
-          // The text is the first child and the art follows it, so the DOM
-          // order is badge, title, creator, then the thumbnail and Watch link.
-          // CSS keeps the visual side column at 768px and up; below 768px the
-          // art stacks under the text.
+          // The row HEADER (badge, title, creator) is the first child in the
+          // DOM, then the media column (the thumbnail and its Watch link), then
+          // the rest of the text and its Save/Dismiss actions. A screen-reader
+          // user who jumps to a title and presses Tab therefore reaches that
+          // same row's Watch link, then Save and Dismiss — never the next row's
+          // link (WCAG 1.3.2 reading order, 2.4.3 focus order). CSS keeps the
+          // media column on the LEFT of the text at 768px and up with grid
+          // areas, so the painted order is still media column then text column
+          // and the focusable order (Watch, Save, Dismiss) matches the paint.
+          // Below 768px the three parts stack in DOM order.
           body = art
             ? h("div", { className: "ht-compact-row" },
-                h("div", { className: "ht-compact-main" }, text),
-                h("div", { className: "ht-compact-side" }, art))
+                h("div", { className: "ht-compact-head" }, text.slice(0, 3)),
+                h("div", { className: "ht-compact-side" }, art),
+                h("div", { className: "ht-compact-main" }, text.slice(3)))
             : text;
         } else {
           body = [

@@ -388,8 +388,12 @@
   height: auto;
   background: var(--color-muted);
 }
-/* Compact rows keep the same unmodified image at a row-sized width. */
-.hackertube .ht-thumb-compact { width: 6.5rem; flex: 0 0 auto; }
+/* Compact rows keep the same unmodified image, drawn larger than the official
+   Icon's visible red mark (143x100) in BOTH dimensions at every width: 192px
+   wide keeps the image's own 4:3 ratio, so the box is 192x144. The width is an
+   absolute length, not a rem, so host font scaling cannot shrink it below the
+   mark. `height: auto` and `max-width: 100%` stay from `.ht-thumb`. */
+.hackertube .ht-thumb-compact { width: 192px; flex: 0 0 auto; }
 /* Compact-row attribution: the official linked Icon. The brand site's published
    100px digital minimum applies to the VISIBLE red mark, not to the PNG file
    box, and the official file ships with built-in clear space: the mark occupies
@@ -422,16 +426,30 @@
   object-fit: contain;
   display: block;
 }
-/* Compact YouTube row layout. The DOM puts the row text first and the art after
-   it, so the reading and focus order lead with the badge, title and creator.
-   CSS keeps the visual side column at 768px and up: the row reverses so the
-   art's side column still sits on the left of the text. Below 768px the two
-   stack, text first and art under it. The side column has a fixed width at that
-   breakpoint so a row with a thumbnail and a row without one start their text at
-   the same x. The wrapper clips nothing (see the unaltered-thumbnail note
-   above); it only arranges the two parts. Full cards never use these
-   wrappers. */
+/* Compact YouTube row layout. The DOM leads with the row HEADER (badge, title,
+   creator), then the media column (the thumbnail and its Watch link), then the
+   rest of the text with its Save/Dismiss actions, so a screen-reader user who
+   jumps to a title and presses Tab reaches that row's own Watch link before
+   Save and Dismiss — never the next row's link (WCAG 1.3.2 reading order, 2.4.3
+   focus order). Below 768px the three parts stack in that DOM order. At 768px
+   and up grid areas put the media column back on the LEFT of the text without
+   reordering the DOM: the media spans both rows while the header sits top-right
+   and the rest below it, so the focusable order (Watch, Save, Dismiss) still
+   matches the painted order and focus never jumps back up-left (WCAG 2.4.3).
+   The media column has a fixed width at that breakpoint so a row with a
+   thumbnail and a row without one start their text at the same x; the width
+   fits the 192px thumbnail and the Icon's 217px file box on one line with the
+   row gap. The wrapper clips nothing (see the unaltered-thumbnail note above);
+   it only arranges the three parts. Full cards never use these wrappers. */
 .hackertube .ht-compact-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  width: 100%;
+  min-width: 0;
+}
+.hackertube .ht-compact-head {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -447,13 +465,19 @@
   width: 100%;
   min-width: 0;
 }
-.hackertube .ht-compact-side { min-width: 0; }
+.hackertube .ht-compact-side { min-width: 0; max-width: 100%; }
 @media (min-width: 768px) {
   .hackertube .ht-compact-row {
-    flex-direction: row-reverse;
-    align-items: flex-start;
-    gap: 1rem;
+    display: grid;
+    grid-template-columns: 430px 1fr;
+    grid-template-areas:
+      "media head"
+      "media rest";
+    align-items: start;
+    column-gap: 1rem;
+    row-gap: 0.3rem;
   }
-  .hackertube .ht-compact-side { flex: 0 0 345px; }
-  .hackertube .ht-compact-main { flex: 1 1 auto; }
+  .hackertube .ht-compact-head { grid-area: head; }
+  .hackertube .ht-compact-side { grid-area: media; }
+  .hackertube .ht-compact-main { grid-area: rest; }
 }

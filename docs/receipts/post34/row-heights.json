@@ -1,0 +1,233 @@
+{
+  "base": "e44b825 pre-fix head",
+  "rows": [
+    {
+      "width": 320,
+      "base_rowHeight": 611.2,
+      "head_rowHeight": 611.2,
+      "delta": 0,
+      "base_display": "flex",
+      "head_display": "flex",
+      "base_headChildIndex": null,
+      "head_headChildIndex": 0,
+      "base_sideChildIndex": 0,
+      "head_sideChildIndex": 1,
+      "base_titlePrecedesMedia": false,
+      "head_titlePrecedesMedia": true,
+      "base_tabFromTitle": null,
+      "head_tabFromTitle": null,
+      "base_sideWidth": 290,
+      "head_sideWidth": 290,
+      "base_thumbnail43": [
+        192,
+        144
+      ],
+      "head_thumbnail43": [
+        192,
+        144
+      ],
+      "base_thumbnail169": [
+        192,
+        108
+      ],
+      "head_thumbnail169": [
+        192,
+        108
+      ],
+      "base_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "head_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "base_fullCardHeight": 806.3,
+      "head_fullCardHeight": 806.3
+    },
+    {
+      "width": 390,
+      "base_rowHeight": 611.2,
+      "head_rowHeight": 611.2,
+      "delta": 0,
+      "base_display": "flex",
+      "head_display": "flex",
+      "base_headChildIndex": null,
+      "head_headChildIndex": 0,
+      "base_sideChildIndex": 0,
+      "head_sideChildIndex": 1,
+      "base_titlePrecedesMedia": false,
+      "head_titlePrecedesMedia": true,
+      "base_tabFromTitle": null,
+      "head_tabFromTitle": null,
+      "base_sideWidth": 360,
+      "head_sideWidth": 360,
+      "base_thumbnail43": [
+        192,
+        144
+      ],
+      "head_thumbnail43": [
+        192,
+        144
+      ],
+      "base_thumbnail169": [
+        192,
+        108
+      ],
+      "head_thumbnail169": [
+        192,
+        108
+      ],
+      "base_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "head_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "base_fullCardHeight": 858.8,
+      "head_fullCardHeight": 858.8
+    },
+    {
+      "width": 767,
+      "base_rowHeight": 415.3,
+      "head_rowHeight": 415.3,
+      "delta": 0,
+      "base_display": "flex",
+      "head_display": "flex",
+      "base_headChildIndex": null,
+      "head_headChildIndex": 0,
+      "base_sideChildIndex": 0,
+      "head_sideChildIndex": 1,
+      "base_titlePrecedesMedia": false,
+      "head_titlePrecedesMedia": true,
+      "base_tabFromTitle": null,
+      "head_tabFromTitle": null,
+      "base_sideWidth": 420.4,
+      "head_sideWidth": 420.4,
+      "base_thumbnail43": [
+        192,
+        144
+      ],
+      "head_thumbnail43": [
+        192,
+        144
+      ],
+      "base_thumbnail169": [
+        192,
+        108
+      ],
+      "head_thumbnail169": [
+        192,
+        108
+      ],
+      "base_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "head_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "base_fullCardHeight": 860.3,
+      "head_fullCardHeight": 860.3
+    },
+    {
+      "width": 768,
+      "base_rowHeight": 255,
+      "head_rowHeight": 255,
+      "delta": 0,
+      "base_display": "flex",
+      "head_display": "grid",
+      "base_headChildIndex": null,
+      "head_headChildIndex": 0,
+      "base_sideChildIndex": 0,
+      "head_sideChildIndex": 1,
+      "base_titlePrecedesMedia": false,
+      "head_titlePrecedesMedia": true,
+      "base_tabFromTitle": null,
+      "head_tabFromTitle": null,
+      "base_sideWidth": 430,
+      "head_sideWidth": 430,
+      "base_thumbnail43": [
+        192,
+        144
+      ],
+      "head_thumbnail43": [
+        192,
+        144
+      ],
+      "base_thumbnail169": [
+        192,
+        108
+      ],
+      "head_thumbnail169": [
+        192,
+        108
+      ],
+      "base_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "head_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "base_fullCardHeight": 860.7,
+      "head_fullCardHeight": 860.7
+    },
+    {
+      "width": 1280,
+      "base_rowHeight": 219,
+      "head_rowHeight": 219,
+      "delta": 0,
+      "base_display": "flex",
+      "head_display": "grid",
+      "base_headChildIndex": null,
+      "head_headChildIndex": 0,
+      "base_sideChildIndex": 0,
+      "head_sideChildIndex": 1,
+      "base_titlePrecedesMedia": false,
+      "head_titlePrecedesMedia": true,
+      "base_tabFromTitle": [
+        "Save",
+        "Dismiss",
+        "Watch \"A second YouTube video\" on YouTube"
+      ],
+      "head_tabFromTitle": [
+        "Watch \"Jane Austen introduction\" on YouTube",
+        "Save",
+        "Dismiss"
+      ],
+      "base_sideWidth": 430,
+      "head_sideWidth": 430,
+      "base_thumbnail43": [
+        192,
+        144
+      ],
+      "head_thumbnail43": [
+        192,
+        144
+      ],
+      "base_thumbnail169": [
+        192,
+        108
+      ],
+      "head_thumbnail169": [
+        192,
+        108
+      ],
+      "base_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "head_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "base_fullCardHeight": 841,
+      "head_fullCardHeight": 841
+    }
+  ]
+}

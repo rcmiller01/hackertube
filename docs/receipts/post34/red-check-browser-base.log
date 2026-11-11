@@ -1,0 +1,48 @@
+✖ a compact YouTube row leads with its header, then its media, then its text, in a media column at 768 and up (356.197333ms)
+✖ a compact YouTube row's Tab order reaches its own Watch, Save and Dismiss after its title at 1280 (227.70175ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 622.430875
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:491:1
+✖ a compact YouTube row leads with its header, then its media, then its text, in a media column at 768 and up (356.197333ms)
+  AssertionError [ERR_ASSERTION]: at 767px the row has a header, a media column and a text column
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/private/tmp/ht-base169/tests/test_privacy_browser.js:553:14)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:541:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:966:1
+✖ a compact YouTube row's Tab order reaches its own Watch, Save and Dismiss after its title at 1280 (227.70175ms)
+  AssertionError [ERR_ASSERTION]: the title precedes this row's Watch link in the DOM
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/private/tmp/ht-base169/tests/test_privacy_browser.js:1016:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

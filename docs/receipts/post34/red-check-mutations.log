@@ -1,0 +1,104 @@
+### note 2: .ht-thumb-compact gains 'height:144px; object-fit:cover' (crops a 16:9 image)
+-- OLD 4:3-only size test at e44b825d23eb1b10fec6114bb8060b31a4ac9ad7: passes, the mutation is MISSED
+✔ the compact thumbnail is larger than the official mark in both dimensions at 390, 767, 768 and 1280 (917.962ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 961.424125
+
+EXIT 0
+restored: True
+-- NEW size test at the fixed head: FAILS, the mutation is CAUGHT
+✖ the compact thumbnail is larger than the official mark in both dimensions at 390, 767, 768 and 1280 (543.348209ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 583.207083
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:852:1
+✖ the compact thumbnail is larger than the official mark in both dimensions at 390, 767, 768 and 1280 (543.348209ms)
+  AssertionError [ERR_ASSERTION]: the 16:9 maxres compact thumbnail at 390px: the rendered aspect ratio matches the image within 1% (1.7778 natural vs 1.3333 rendered)
+      at assertUnalteredThumbnail (/Users/robert/Developer/hackertube-post34/tests/test_privacy_browser.js:138:10)
+      at async TestContext.<anonymous> (/Users/robert/Developer/hackertube-post34/tests/test_privacy_browser.js:887:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+EXIT 1
+restored: True
+
+### note 4: the interval loop removed from start_housekeeping.clean() (one startup pass only)
+-- OLD purge test at e44b825d23eb1b10fec6114bb8060b31a4ac9ad7: passes, the mutation is MISSED
+.                                                                        [100%]
+1 passed, 12 deselected in 0.18s
+
+EXIT 0
+restored: True
+-- NEW purge test at the fixed head: FAILS, the mutation is CAUGHT
+                [100%]
+=================================== FAILURES ===================================
+__________ test_startup_purge_logs_a_warning_and_continues_on_failure __________
+
+caplog = <_pytest.logging.LogCaptureFixture object at 0x109300d70>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1093123f0>
+
+    def test_startup_purge_logs_a_warning_and_continues_on_failure(caplog, monkeypatch):
+        """A failed purge is recorded, not swallowed: it logs and keeps going.
+    
+        A short interval is used so the loop makes more than one pass; the test
+        asserts a SECOND attempt actually runs, so a mutation that stops after the
+        startup pass (or after the first interval) is caught, not just the warning.
+        """
+        from hackertube_core import privacy
+        attempts = []
+        second = threading.Event()
+    
+        def failing(factory):
+            attempts.append(1)
+            if len(attempts) >= 2:
+                second.set()
+            raise RuntimeError("purge boom")
+    
+        monkeypatch.setattr("hackertube_core.profile.ProfileStore", failing)
+        monkeypatch.setattr(privacy, "_profile_db_path", lambda: None)
+        with caplog.at_level(logging.WARNING, logger="hackertube.privacy"):
+            stop = privacy.start_housekeeping(interval=0.01)
+            try:
+>               assert second.wait(5), "the purge loop kept going after a failure: a second attempt ran"
+E               AssertionError: the purge loop kept going after a failure: a second attempt ran
+E               assert False
+E                +  where False = wait(5)
+E                +    where wait = <threading.Event at 0x1092d9810: unset>.wait
+
+tests/test_privacy.py:176: AssertionError
+------------------------------ Captured log call -------------------------------
+WARNING  hackertube.privacy:privacy.py:72 HackerTube retention purge failed; will retry
+Traceback (most recent call last):
+  File "/Users/robert/Developer/hackertube-post34/hackertube/hackertube_core/privacy.py", line 67, in purge
+    context.run(ProfileStore, open_profile_db)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robert/Developer/hackertube-post34/tests/test_privacy.py", line 169, in failing
+    raise RuntimeError("purge boom")
+RuntimeError: purge boom
+=========================== short test summary info ============================
+FAILED tests/test_privacy.py::test_startup_purge_logs_a_warning_and_continues_on_failure
+1 failed, 12 deselected in 5.17s
+
+EXIT 1
+restored: True

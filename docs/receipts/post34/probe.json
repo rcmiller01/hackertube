@@ -1,0 +1,74 @@
+{
+  "home": "/Users/robert/.hermes/cache/scratch/p34-cp-1794362182",
+  "storage": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+  "assets": {
+    "note": true,
+    "compact_attribution": true,
+    "dom_media_before_text": true,
+    "breakpoint_768": true,
+    "superseded_breakpoint_640_absent": true,
+    "media_column_fixed_width_430": true,
+    "compact_thumbnail_192px": true,
+    "compact_link_padding_zero": true,
+    "tap_target_44px": true,
+    "render_time_host_allowlist_exact": true,
+    "thumbnail_rule_uncropped": true,
+    "expiry_predicate": true,
+    "startup_purge_on_thread": true,
+    "purge_logs_warning": true,
+    "missing_db_guard": true
+  },
+  "fresh_profile": {
+    "db_path": "/Users/robert/.hermes/cache/scratch/p34-cp-1794362182/plugin-data/hackertube/profile.db",
+    "exists_before": false,
+    "exists_after_start_housekeeping": false
+  },
+  "policy_accepted": true,
+  "status": {
+    "provider": "hermes",
+    "name": "HackerTube"
+  },
+  "catalog": {
+    "status": 200,
+    "items": 12
+  },
+  "startup_purge": {
+    "expired_row_before": true,
+    "undated_row_before": true,
+    "expired_row_after": false,
+    "undated_row_after": false
+  },
+  "undated_rule": {
+    "active_evidence_ids": [
+      "hn:1"
+    ],
+    "youtube_undated_current": false,
+    "community_undated_current": true,
+    "without_expired_items": 0
+  },
+  "lookalike_host": {
+    "thumbnail_url_lookalike": null,
+    "thumbnail_url_suffix": null,
+    "thumbnail_url_prefix": null,
+    "thumbnail_url_foreign": null,
+    "thumbnail_url_official": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+    "stored_art_url": null
+  },
+  "source_outage": {
+    "sources": 7,
+    "items": 0,
+    "counts": {
+      "free": 0,
+      "paid": 0,
+      "metered": 0
+    }
+  },
+  "thumbnail_display_check": {
+    "cleared": true,
+    "counts": {
+      "free": 1,
+      "paid": 0,
+      "metered": 0
+    }
+  }
+}
