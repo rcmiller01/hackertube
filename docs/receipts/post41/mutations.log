@@ -1,0 +1,59 @@
+
+=== the #41 wrapper rule reverted (both copies)  (hackertube/dashboard/dist/style.css, hackertube/dashboard/dist/style.css)
+exit=1 caught=True verdicts={"the full card's Watch link and its focus ring stay inside the card": True, "a compact YouTube row's Watch link focus ring reaches 3:1": False, 'a ring that is 97% painted passes the coverage rule': True}
+AssertionError [ERR_ASSERTION]: at 320px light host-padding-0 the compact row's Watch link: no ancestor clips the left ring (cut by hackertube; 0/163 of the side is painted)
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (1425.644584ms)
+✖ failing tests:
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (1425.644584ms)
+
+=== the #41 wrapper rule reverted (both copies) [base tests (main)]  (hackertube/dashboard/dist/style.css, hackertube/dashboard/dist/style.css)
+exit=0 caught=False verdicts={"the full card's Watch link and its focus ring stay inside the card": True, "a compact YouTube row's Watch link focus ring reaches 3:1": True, 'a ring that is 97% painted passes the coverage rule': True}
+
+
+=== a plugin rule under @media (prefers-color-scheme: dark) kills the ring  (hackertube/dashboard/dist/style.css)
+exit=1 caught=True verdicts={"the full card's Watch link and its focus ring stay inside the card": False, "a compact YouTube row's Watch link focus ring reaches 3:1": False, 'a ring that is 97% painted passes the coverage rule': True}
+AssertionError [ERR_ASSERTION]: at 320px os-dark the full card's Watch link: every painted pixel of the left ring reaches >= 3:1 (min over painted pixels 1.07:1, ring rgb(11,42,43) on surface rgb(7,48,48) at 43,768; min over every sampled pixel 1.07:1)
+AssertionError [ERR_ASSERTION]: at 320px os-dark the compact row's Watch link: every painted pixel of the left ring reaches >= 3:1 (min over painted pixels 1.00:1, ring rgb(9,27,28) on surface rgb(4,28,28) at 36,719; min over every sampled pixel 1.00:1)
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (2639.198958ms)
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (2773.376125ms)
+✖ failing tests:
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (2639.198958ms)
+
+=== a plugin rule under @media (prefers-color-scheme: dark) kills the ring [base tests (main)]  (hackertube/dashboard/dist/style.css)
+exit=0 caught=False verdicts={"the full card's Watch link and its focus ring stay inside the card": True, "a compact YouTube row's Watch link focus ring reaches 3:1": True, 'a ring that is 97% painted passes the coverage rule': True}
+
+
+=== the dark tokens exist only for an ancestor class, not for the media query  (tests/browser_net_harness.js)
+exit=1 caught=True verdicts={"the full card's Watch link and its focus ring stay inside the card": False, "a compact YouTube row's Watch link focus ring reaches 3:1": False, 'a ring that is 97% painted passes the coverage rule': True}
+AssertionError [ERR_ASSERTION]: at 320px dark the full card's Watch link: every painted pixel of the top ring reaches >= 3:1 (min over painted pixels 1.00:1, ring rgb(24,24,27) on surface rgb(4,28,28) at 58,753; min over every sampled pixel 1.00:1)
+AssertionError [ERR_ASSERTION]: at 320px dark the compact row's Watch link: every painted pixel of the left ring reaches >= 3:1 (min over painted pixels 1.00:1, ring rgb(24,24,27) on surface rgb(4,28,28) at 36,719; min over every sampled pixel 1.00:1)
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (1327.778708ms)
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (1330.184917ms)
+✖ failing tests:
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (1327.778708ms)
+
+=== ring colour dim but fully painted (rgba .25)  (hackertube/dashboard/dist/style.css)
+exit=1 caught=True verdicts={"the full card's Watch link and its focus ring stay inside the card": False, "a compact YouTube row's Watch link focus ring reaches 3:1": False, 'a ring that is 97% painted passes the coverage rule': False}
+AssertionError [ERR_ASSERTION]: at 320px light the full card's Watch link: every painted pixel of the left ring reaches >= 3:1 (min over painted pixels 1.71:1, ring rgb(189,189,190) on surface rgb(244,244,245) at 43,768; min over every sampled pixel 1.71:1)
+AssertionError [ERR_ASSERTION]: at 320px light the compact row's Watch link: every painted pixel of the left ring reaches >= 3:1 (min over painted pixels 1.73:1, ring rgb(197,197,198) on surface rgb(255,255,255) at 36,719; min over every sampled pixel 1.73:1)
+AssertionError [ERR_ASSERTION]: the 97% control's painted pixels still reach 3:1 on the left (min over painted pixels 1.725)
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (714.776125ms)
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (746.39575ms)
+✖ a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not; a 1px gap fails as coverage (568.434209ms)
+
+=== the ring's painted test is a fixed channel delta again  (tests/test_privacy_browser.js)
+exit=1 caught=True verdicts={"the full card's Watch link and its focus ring stay inside the card": True, "a compact YouTube row's Watch link focus ring reaches 3:1": True, 'a ring that is 97% painted passes the coverage rule': False}
+AssertionError [ERR_ASSERTION]: the 1px-gap control really leaves a partly-painted pixel on the left ({})
+✖ a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not; a 1px gap fails as coverage (1161.485334ms)
+✖ failing tests:
+✖ a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not; a 1px gap fails as coverage (1161.485334ms)
+
+=== the coverage rule loses its partly-painted half  (tests/test_privacy_browser.js)
+exit=1 caught=True verdicts={"the full card's Watch link and its focus ring stay inside the card": True, "a compact YouTube row's Watch link focus ring reaches 3:1": True, 'a ring that is 97% painted passes the coverage rule': False}
+AssertionError [ERR_ASSERTION]: the 1px-gap control really leaves a partly-painted pixel on the left ({})
+✖ a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not; a 1px gap fails as coverage (1628.782041ms)
+✖ failing tests:
+✖ a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not; a 1px gap fails as coverage (1628.782041ms)
+
+=== green control (all restored)
+exit=0 verdicts={"the full card's Watch link and its focus ring stay inside the card": True, "a compact YouTube row's Watch link focus ring reaches 3:1": True, 'a ring that is 97% painted passes the coverage rule': True}

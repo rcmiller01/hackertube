@@ -1,0 +1,31 @@
+✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (14689.173791ms)
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (1425.644584ms)
+✔ a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not; a 1px gap fails as coverage (1741.883291ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17899.016084
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:1599:1
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (1425.644584ms)
+  AssertionError [ERR_ASSERTION]: at 320px light host-padding-0 the compact row's Watch link: no ancestor clips the left ring (cut by hackertube; 0/163 of the side is painted)
+  
+  1 !== 0
+  
+      at assertPaintedRing (/Users/robert/Developer/hackertube-post41/tests/test_privacy_browser.js:1368:12)
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-post41/tests/test_privacy_browser.js:1656:7)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

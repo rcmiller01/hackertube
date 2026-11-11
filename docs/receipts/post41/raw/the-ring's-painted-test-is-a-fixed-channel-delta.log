@@ -1,0 +1,27 @@
+✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (13357.473291ms)
+✔ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (12874.931959ms)
+✖ a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not; a 1px gap fails as coverage (1161.485334ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27434.346708
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:1694:1
+✖ a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not; a 1px gap fails as coverage (1161.485334ms)
+  AssertionError [ERR_ASSERTION]: the 1px-gap control really leaves a partly-painted pixel on the left ({})
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-post41/tests/test_privacy_browser.js:1810:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

@@ -1109,28 +1109,49 @@ test("a compact row's header sits one row gap above the rest of its text at 768 
   } finally { await browser.close(); }
 });
 
-/* Both colour schemes for each measured width. The dashboard's own page is dark
- * whatever the OS scheme says, so a light-only run never measures a light ring
- * over a dark surface; the fixture's host token block supplies the dark values
- * and `.ht-card-content` supplies the host CardContent padding.
+/* Every measured width in six runs, because three separate defects hide behind
+ * "in light and dark":
  *
- * The dark run turns the host's own `.dark` ancestor class ON and never emulates
- * a media query, because that is how the host switches its dark variants
- * (`is(.dark *)`); `assertPaintedRing` then proves, in the dark run itself, that
- * the OS scheme is still light — so the dark surface can only have come from the
- * ancestor class. */
+ *   * `padding` — the host CardContent padding the fixture draws. At the host's
+ *     own padding (11.25px 15px) the ring is clear of the plugin's clip WHATEVER
+ *     the plugin's wrapper declares, so reverting the wrapper rule stays GREEN
+ *     here; with the padding at 0 only the plugin's own box can keep the ring,
+ *     which is what makes that revert fail a BEHAVIOUR test and not only the
+ *     stylesheet-text contract in test_dashboard_page.js.
+ *   * `scheme` — four entries. `light`: OS light, no `.dark`. `dark`: the host's
+ *     own `.dark` ANCESTOR class with the OS scheme left light (how the host
+ *     switches its dark variants, `is(.dark *)`). `os-dark`:
+ *     `emulateMedia({colorScheme: "dark"})` with NO `.dark` class, which is the
+ *     entry a plugin rule under `@media (prefers-color-scheme: dark)` needs.
+ *     `os-dark-ancestor`: both at once.
+ *
+ * The two rules this drives are: at least 95% of each side painted (with 97% the
+ * CONTROL ring that has to clear that threshold, not the threshold itself), and
+ * 3:1 on every painted pixel. */
 const RING_RUNS = [320, 390, 768, 1280].flatMap((width) => [
-  {width, scheme: "light"}, {width, scheme: "dark"},
+  {width, scheme: "light", padding: "host"},
+  {width, scheme: "dark", padding: "host"},
+  {width, scheme: "light", padding: 0},
+  {width, scheme: "dark", padding: 0},
+  {width, scheme: "os-dark", padding: "host"},
+  {width, scheme: "os-dark-ancestor", padding: "host"},
 ]);
 
-/* Enter a colour scheme the way the host does. `light` is the fixture's own
- * default (OS light, no `.dark` ancestor); `dark` puts the class on an ANCESTOR
- * of the plugin that is not the root element — `body` — and leaves the OS scheme
- * alone, so the dark surface can only have come from an ancestor's class. The
- * class has to be installed as an init script so it is present in the document
- * under test, not only in the blank page the test starts from. */
+/* Enter a colour scheme the way the host does, and leave the other entry alone
+ * so the run proves which one darkened the surface.
+ *
+ *   * `dark` puts the host's class on an ANCESTOR of the plugin that is not the
+ *     root element — `body` — and leaves the OS scheme light;
+ *   * `os-dark` emulates the OS scheme and adds no class;
+ *   * `os-dark-ancestor` does both.
+ *
+ * The class has to be installed as an init script so it is present in the
+ * document under test, not only in the blank page the test starts from. */
 async function enterScheme(ui, scheme) {
-  if (scheme === "dark") {
+  const osDark = scheme === "os-dark" || scheme === "os-dark-ancestor";
+  const ancestorDark = scheme === "dark" || scheme === "os-dark-ancestor";
+  if (osDark) await ui.emulateMedia({colorScheme: "dark"});
+  if (ancestorDark) {
     await ui.addInitScript(() => {
       document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.add("dark");
@@ -1162,9 +1183,18 @@ async function enterScheme(ui, scheme) {
  *   * `minAll` — the same minimum over every sampled pixel, reported only so the
  *                difference is visible in a failure message and in the receipt.
  *
- * Also returned: the painted pixel count (the coverage reading) and — so a side
- * that is clipped away is reported rather than silently measured as 1:1 — which
- * sides the ring falls outside of a clipping ancestor on. */
+ * A pixel is PAINTED when at least half of it carries the ring: its channel
+ * distance from the surface at that point is at least 50% of the strongest the
+ * side shows (`full`). A pixel between the 5% and 50% marks is neither the ring
+ * nor the clean surface and is counted as `partial` — a COVERAGE finding for the
+ * coverage rule, never a contrast reading. (An anti-aliased edge pixel of a 1px
+ * gap reads 1.73:1; under the old fixed `delta > 20` painted test it counted as
+ * painted, so a coverage defect was reported as a contrast one.)
+ *
+ * Also returned: the painted and partly-painted pixel counts (the coverage
+ * readings) and — so a side that is clipped away is reported rather than
+ * silently measured as 1:1 — which sides the ring falls outside of a clipping
+ * ancestor on. */
 async function measurePaintedRing(ui, link, before, after, geometry) {
   const allClippers = await link.evaluate(el => {
     const found = [];
@@ -1215,7 +1245,24 @@ async function measurePaintedRing(ui, link, before, after, geometry) {
     };
     const out = {};
     for (const [side, [x1, y1, x2, y2]] of Object.entries(lines)) {
-      let painted = 0, total = 0, min = Infinity, minAll = Infinity, minAt = null, unpaintedAt = null;
+      // The strength a pixel is measured against is a FRACTION OF THE RING on
+      // that side, not a fixed channel delta: the pixel carrying the most paint
+      // is the ring's full colour (whatever alpha or colour syntax the rule
+      // used), and every pixel is read against it. A fixed delta (> 20) counts
+      // an anti-aliased edge pixel as fully painted, and that is what reported a
+      // coverage defect as a 1.73:1 contrast reading.
+      let full = 0;
+      for (let y = Math.floor(y1); y <= Math.floor(y2); y++) {
+        for (let x = Math.floor(x1); x <= Math.floor(x2); x++) {
+          if (x < 0 || y < 0 || x >= a.width || y >= a.height) continue;
+          const i = 4 * (y * a.width + x);
+          const held = Math.max(Math.abs(a.data[i] - b.data[i]), Math.abs(a.data[i+1] - b.data[i+1]),
+                                Math.abs(a.data[i+2] - b.data[i+2]));
+          if (held > full) full = held;
+        }
+      }
+      let painted = 0, partial = 0, total = 0, min = Infinity, minAll = Infinity, minAt = null, unpaintedAt = null, partialAt = null;
+      const partialFractions = {};
       for (let y = Math.floor(y1); y <= Math.floor(y2); y++) {
         for (let x = Math.floor(x1); x <= Math.floor(x2); x++) {
           if (x < 0 || y < 0 || x >= a.width || y >= a.height) continue;
@@ -1223,15 +1270,31 @@ async function measurePaintedRing(ui, link, before, after, geometry) {
           const i = 4 * (y * a.width + x);
           const surface = [a.data[i], a.data[i+1], a.data[i+2]];
           const ring = [b.data[i], b.data[i+1], b.data[i+2]];
-          const isPainted = [0,1,2].some(c => Math.abs(surface[c] - ring[c]) > 20);
+          const held = Math.max(Math.abs(surface[0] - ring[0]), Math.abs(surface[1] - ring[1]), Math.abs(surface[2] - ring[2]));
+          const fraction = full > 0 ? held / full : 0;
+          const isPainted = fraction >= 0.5;
+          // Three states, not two: PAINTED (>= 50% of the ring), cleanly
+          // UNPAINTED (<= 5% — the plain surface), and PARTLY painted. A
+          // partly-painted pixel is neither, and is a COVERAGE finding — the
+          // ring does not line up with the pixel grid or is only half drawn
+          // there — so it must not be reported as a contrast reading.
           if (isPainted) painted += 1;
+          else if (fraction > 0.05) {
+            partial += 1;
+            const key = fraction.toFixed(2);
+            partialFractions[key] = (partialFractions[key] || 0) + 1;
+            if (!partialAt || fraction < partialAt.fraction) {
+              partialAt = {x, y, surface, ring, fraction: Number(fraction.toFixed(3))};
+            }
+          }
           const r = ratio(ring, surface);
-          if (r < minAll) { minAll = r; if (!isPainted) unpaintedAt = {x, y, surface, ring}; }
+          if (r < minAll) { minAll = r; if (!isPainted) unpaintedAt = {x, y, surface, ring, fraction: Number(fraction.toFixed(3))}; }
           if (isPainted && r < min) { min = r; minAt = {x, y, surface, ring}; }
         }
       }
-      out[side] = {painted, total, min: Number.isFinite(min) ? Number(min.toFixed(3)) : null, minAt,
-                   minAll: Number.isFinite(minAll) ? Number(minAll.toFixed(3)) : null, unpaintedAt};
+      out[side] = {painted, partial, partialFractions, total, full, minAt, unpaintedAt, partialAt,
+                   min: Number.isFinite(min) ? Number(min.toFixed(3)) : null,
+                   minAll: Number.isFinite(minAll) ? Number(minAll.toFixed(3)) : null};
     }
     return out;
   }, {before: before.toString("base64"), after: after.toString("base64"), box: geometry.box,
@@ -1267,6 +1330,8 @@ async function measurePaintedRing(ui, link, before, after, geometry) {
   return {
     sides, cut, clippers: allClippers, ring,
     resolvedRingToken: scheme.resolvedRingToken,
+    osDark: scheme.osDark,
+    ancestorDark: scheme.ancestorDark,
     darkFromAncestor: scheme.ancestorDark && !scheme.osDark,
   };
 }
@@ -1279,12 +1344,17 @@ async function measurePaintedRing(ui, link, before, after, geometry) {
  * nothing is either clipped by an ancestor or the ring is not drawn at all in
  * that colour, and both are defects.
  *
- * The two rules read two different things, so both are live:
+ * The coverage rule has two halves, because a pixel can fail it in two ways:
  *
  *   1. COVERAGE — at least 95% of the side's sampled pixels must be painted
- *      (`painted / total >= 0.95`). A ring that is painted but DIM is fully
- *      covered and must be caught by rule 2 instead; a ring that is 97% covered
- *      passes this rule and is checked by rule 2 on the pixels it does paint.
+ *      (`painted / total >= 0.95`), AND every remaining pixel must be CLEANLY
+ *      unpainted (at most 5% of the ring's own strength on it). A pixel that is
+ *      partly painted — the anti-aliased edge of a 1px gap is the real case —
+ *      is neither the ring nor the clean surface, and is reported here. That is
+ *      the difference between a coverage defect and a contrast reading: before
+ *      this change the edge pixel counted as painted (any channel delta > 20)
+ *      and the side failed at "1.73:1", which is a contrast number for a
+ *      coverage defect.
  *   2. CONTRAST — 3:1 on every PAINTED pixel. The minimum is taken over painted
  *      pixels only: an unpainted pixel is 1:1 by definition and belongs to rule
  *      1, so counting it here would make rule 1 unreachable and would report a
@@ -1305,6 +1375,16 @@ function assertPaintedRing(ring, label, scheme) {
       `${label}: at least 95% of the ${side} ring is painted (${sample.painted}/${sample.total} pixels` +
         `${sample.total ? `, ${(100 * sample.painted / sample.total).toFixed(1)}%` : ""})`,
     );
+    const fractions = Object.entries(sample.partialFractions || {})
+      .map(([fraction, count]) => `${count} at ${(100 * Number(fraction)).toFixed(0)}%`).join(", ");
+    assert.equal(
+      sample.partial, 0,
+      `${label}: the ${side} ring is painted on whole pixels — its coverage reading is a paint/clean ` +
+        `split, and ${sample.partial} of ${sample.total} pixels are partly painted` +
+        `${sample.partialAt ? ` (weakest ring rgb(${sample.partialAt.ring.join(",")}) on surface ` +
+          `rgb(${sample.partialAt.surface.join(",")}) at ${sample.partialAt.x},${sample.partialAt.y})` : ""}` +
+        `${fractions ? ` [${fractions}]` : ""}; that is a COVERAGE defect, not a contrast reading`,
+    );
     const where = sample.minAt;
     assert.ok(
       sample.min !== null && sample.min >= 3,
@@ -1317,23 +1397,40 @@ function assertPaintedRing(ring, label, scheme) {
   }
   // The scheme is what the ring is measured against, so prove the run really
   // landed in it: a dark run that measured a light surface would pass for the
-  // wrong reason, and the light run would never exercise a dark ring. The dark
-  // run's dark surface must come from the `.dark` ANCESTOR class alone, so the
-  // media query is asserted to be light in the same run.
+  // wrong reason, and the light run would never exercise a dark ring. Each dark
+  // entry also asserts WHICH entry darkened it — the `.dark` ancestor class with
+  // the OS scheme left light, the emulated OS scheme with no class, or both — so
+  // an `emulateMedia` run cannot quietly be a `.dark` run (or the reverse).
+  const dark = scheme !== "light";
   const sample = ring.sides.left.minAt || ring.sides.top.minAt;
   const surface = sample.surface;
   const channel = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
   const luminance = 0.2126 * channel(surface[0]) + 0.7152 * channel(surface[1]) + 0.0722 * channel(surface[2]);
-  if (scheme === "dark") {
+  if (dark) {
     assert.ok(luminance < 0.2,
-      `${label}: the dark run measures a dark surface behind the ring (luminance ${luminance.toFixed(3)} on rgb(${surface.join(",")}))`);
-    assert.equal(ring.darkFromAncestor, true,
-      `${label}: the dark surface comes from the .dark ancestor class, with the OS scheme left light`);
+      `${label}: the ${scheme} run measures a dark surface behind the ring (luminance ${luminance.toFixed(3)} on rgb(${surface.join(",")}))`);
   } else {
     assert.ok(luminance > 0.5,
       `${label}: the light run measures a light surface behind the ring (luminance ${luminance.toFixed(3)} on rgb(${surface.join(",")}))`);
   }
-  assert.equal(ring.resolvedRingToken, scheme === "dark" ? "#ffe6cb" : "#18181b",
+  if (scheme === "dark") {
+    assert.equal(ring.darkFromAncestor, true,
+      `${label}: the dark surface comes from the .dark ancestor class, with the OS scheme left light`);
+  }
+  if (scheme === "os-dark") {
+    assert.equal(ring.osDark, true, `${label}: the OS colour scheme is dark, entered with emulateMedia`);
+    assert.equal(ring.ancestorDark, false,
+      `${label}: the OS-dark run carries no .dark class, so only an OS-scheme rule can be what darkens it`);
+  }
+  if (scheme === "os-dark-ancestor") {
+    assert.equal(ring.osDark, true, `${label}: the OS colour scheme is dark, entered with emulateMedia`);
+    assert.equal(ring.ancestorDark, true, `${label}: the .dark ancestor class is set as well`);
+  }
+  if (scheme === "light") {
+    assert.equal(ring.osDark, false, `${label}: the light run's OS scheme is light`);
+    assert.equal(ring.ancestorDark, false, `${label}: the light run carries no .dark class`);
+  }
+  assert.equal(ring.resolvedRingToken, dark ? "#ffe6cb" : "#18181b",
     `${label}: the ring token resolves to the measured host value for the scheme`);
 }
 
@@ -1349,8 +1446,8 @@ test("the full card's Watch link and its focus ring stay inside the card, at 320
   const { THUMB_PNG } = require("./browser_net_harness");
   const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
   try {
-    for (const { width, scheme } of RING_RUNS) {
-      const fixture = await startFixture([youtubeRow()]);
+    for (const { width, scheme, padding } of RING_RUNS) {
+      const fixture = await startFixture([youtubeRow()], {}, {cardPadding: padding});
       const ui = await browser.newPage();
       await enterScheme(ui, scheme);
       t.after(async () => {
@@ -1383,7 +1480,7 @@ test("the full card's Watch link and its focus ring stay inside the card, at 320
       assert.equal(
         await link.evaluate(el => document.activeElement === el),
         true,
-        `at ${width}px ${scheme} Tab from the card title reaches the Watch link`,
+        `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} Tab from the card title reaches the Watch link`,
       );
       const geometry = await link.evaluate(el => {
         const style = getComputedStyle(el);
@@ -1439,64 +1536,72 @@ test("the full card's Watch link and its focus ring stay inside the card, at 320
       // the focused screenshot pixel against the unfocused pixel at the same
       // point instead, and keeps the computed-style checks above as preconditions.
       const ring = await measurePaintedRing(ui, link, unfocused, focused, geometry);
-      assertPaintedRing(ring, `at ${width}px ${scheme} the full card's Watch link`, scheme);
+      assertPaintedRing(ring, `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} the full card's Watch link`, scheme);
       assert.ok(
         geometry.box.left >= geometry.card.left - 0.01 && geometry.box.right <= geometry.card.right + 0.01,
-        `at ${width}px ${scheme} the Watch link fits inside the card (${geometry.box.left.toFixed(1)}..${geometry.box.right.toFixed(1)} in ${geometry.card.left.toFixed(1)}..${geometry.card.right.toFixed(1)})`,
+        `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} the Watch link fits inside the card (${geometry.box.left.toFixed(1)}..${geometry.box.right.toFixed(1)} in ${geometry.card.left.toFixed(1)}..${geometry.card.right.toFixed(1)})`,
       );
       assert.ok(
         geometry.ring.left >= geometry.card.left - 0.01 && geometry.ring.right <= geometry.card.right + 0.01,
-        `at ${width}px ${scheme} the focus ring fits inside the card`,
+        `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} the focus ring fits inside the card`,
       );
       for (const clipper of geometry.clippers) {
         if (clipper.clipsX) {
           assert.ok(
             geometry.ring.left >= clipper.left - 0.01 && geometry.ring.right <= clipper.right + 0.01,
-            `at ${width}px ${scheme} ${clipper.name} clips the ring horizontally (ring ${geometry.ring.left.toFixed(1)}..${geometry.ring.right.toFixed(1)} in ${clipper.left.toFixed(1)}..${clipper.right.toFixed(1)})`,
+            `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} ${clipper.name} clips the ring horizontally (ring ${geometry.ring.left.toFixed(1)}..${geometry.ring.right.toFixed(1)} in ${clipper.left.toFixed(1)}..${clipper.right.toFixed(1)})`,
           );
         }
         if (clipper.clipsY) {
           assert.ok(
             geometry.ring.top >= clipper.top - 0.01 && geometry.ring.bottom <= clipper.bottom + 0.01,
-            `at ${width}px ${scheme} ${clipper.name} clips the ring vertically (ring ${geometry.ring.top.toFixed(1)}..${geometry.ring.bottom.toFixed(1)} in ${clipper.top.toFixed(1)}..${clipper.bottom.toFixed(1)})`,
+            `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} ${clipper.name} clips the ring vertically (ring ${geometry.ring.top.toFixed(1)}..${geometry.ring.bottom.toFixed(1)} in ${clipper.top.toFixed(1)}..${clipper.bottom.toFixed(1)})`,
           );
         }
         // The official mark is never clipped either.
         assert.ok(
           geometry.img.left >= clipper.left - 0.01 && geometry.img.right <= clipper.right + 0.01
             && geometry.img.top >= clipper.top - 0.01 && geometry.img.bottom <= clipper.bottom + 0.01,
-          `at ${width}px ${scheme} ${clipper.name} clips the Icon`,
+          `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} ${clipper.name} clips the Icon`,
         );
       }
-      assert.ok(geometry.box.height >= 44, `at ${width}px ${scheme} the Watch link is a 44px+ tap target (${geometry.box.height})`);
-      assert.ok(Math.abs(geometry.img.height - 186) <= 0.6, `at ${width}px ${scheme} the Icon keeps its 186px box (${geometry.img.height})`);
+      assert.ok(geometry.box.height >= 44, `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} the Watch link is a 44px+ tap target (${geometry.box.height})`);
+      assert.ok(Math.abs(geometry.img.height - 186) <= 0.6, `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} the Icon keeps its 186px box (${geometry.img.height})`);
       assert.ok(
         Math.abs(geometry.img.width / geometry.img.height - 1255 / 1075) <= 0.01,
-        `at ${width}px ${scheme} the Icon keeps its own aspect (${(geometry.img.width / geometry.img.height).toFixed(4)})`,
+        `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} the Icon keeps its own aspect (${(geometry.img.width / geometry.img.height).toFixed(4)})`,
       );
       assert.equal(geometry.imgRadius, "0px", "the Icon is not rounded");
       const mark = await measureVisibleMark(link);
-      assert.ok(mark.visibleMarkHeight >= 100, `at ${width}px ${scheme} the visible mark stays >= 100px (${mark.visibleMarkHeight})`);
-      assert.ok(mark.visibleMarkWidth >= 140, `at ${width}px ${scheme} the visible mark stays >= 140px wide (${mark.visibleMarkWidth})`);
+      assert.ok(mark.visibleMarkHeight >= 100, `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} the visible mark stays >= 100px (${mark.visibleMarkHeight})`);
+      assert.ok(mark.visibleMarkWidth >= 140, `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} the visible mark stays >= 140px wide (${mark.visibleMarkWidth})`);
     }
   } finally { await browser.close(); }
 });
 
 /* The compact row's Watch link carries the same ring as the full card's, one
  * breakpoint lower and at the very edge of its row. At 320px and 390px the
- * media column starts at the inner `.hackertube`'s content edge, so the ring's
- * left stroke only survives because the host's CardContent adds its own `p-4`
- * padding (15px, measured in the real dashboard at both widths). An earlier
- * fixture stubbed CardContent as a bare div, which manufactured a 4px clip the
- * dashboard does not have and let a clipped ring pass as a "reported" side.
- * The fixture now draws the host's padding and no side is exempt: every side
- * must be painted, unclipped and >= 3:1. */
+ * media column starts at the inner `.hackertube`'s content edge, so with the
+ * host's CardContent padding at 0 the ring's left stroke survives only because
+ * the PLUGIN's own wrapper reserves the ring's 4px inside its own padding box.
+ * An earlier fixture stubbed CardContent as a bare div, which manufactured a
+ * 4px clip the dashboard does not have and let a clipped ring pass as a
+ * "reported" side.
+ *
+ * Both host paddings are measured, for the reason the padding-0 runs exist: at
+ * the host's own measured padding (15px inline) the ring clears the wrapper's
+ * clip WHATEVER the wrapper declares, so reverting the wrapper rule leaves these
+ * runs green and only the stylesheet-text contract notices. RING_RUNS therefore
+ * carries a padding-0 entry beside every scheme: only there does the plugin's
+ * own box decide, and reverting the wrapper rule fails a BEHAVIOUR test — the
+ * left ring is cut by `hackertube` at 0/163 painted. No side is exempt in either
+ * case: every side must be painted, unclipped and >= 3:1. */
 test("a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark", async (t) => {
   const { THUMB_PNG } = require("./browser_net_harness");
   const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
   try {
-    for (const { width, scheme } of RING_RUNS) {
-      const fixture = await startFixture(sectionRows());
+    for (const { width, scheme, padding } of RING_RUNS) {
+      const fixture = await startFixture(sectionRows(), {}, {cardPadding: padding});
       const ui = await browser.newPage();
       await enterScheme(ui, scheme);
       t.after(async () => {
@@ -1526,7 +1631,7 @@ test("a compact YouTube row's Watch link focus ring reaches 3:1 against the surf
       assert.equal(
         await link.evaluate(el => document.activeElement === el),
         true,
-        `at ${width}px ${scheme} Tab from the compact row's title reaches its own Watch link`,
+        `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} Tab from the compact row's title reaches its own Watch link`,
       );
       const geometry = await link.evaluate(el => {
         const style = getComputedStyle(el);
@@ -1542,13 +1647,13 @@ test("a compact YouTube row's Watch link focus ring reaches 3:1 against the surf
           ring: {left: box.left - spread, right: box.right + spread, top: box.top - spread, bottom: box.bottom + spread, spread},
         };
       });
-      assert.equal(geometry.focused, true, `at ${width}px ${scheme} measure the focused compact Watch link`);
-      assert.notEqual(geometry.outlineStyle, "none", `at ${width}px ${scheme} the focused compact link must have an outline`);
-      assert.ok(geometry.outlineWidth > 0, `at ${width}px ${scheme} the compact focus outline has nonzero width`);
-      assert.ok(geometry.ring.spread > 0, `at ${width}px ${scheme} the compact link carries a real focus ring to keep: ${geometry.ring.spread}`);
+      assert.equal(geometry.focused, true, `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} measure the focused compact Watch link`);
+      assert.notEqual(geometry.outlineStyle, "none", `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} the focused compact link must have an outline`);
+      assert.ok(geometry.outlineWidth > 0, `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} the compact focus outline has nonzero width`);
+      assert.ok(geometry.ring.spread > 0, `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} the compact link carries a real focus ring to keep: ${geometry.ring.spread}`);
       const focused = await ui.screenshot();
       const ring = await measurePaintedRing(ui, link, unfocused, focused, geometry);
-      assertPaintedRing(ring, `at ${width}px ${scheme} the compact row's Watch link`, scheme);
+      assertPaintedRing(ring, `at ${width}px ${scheme}${padding === 0 ? " host-padding-0" : ""} the compact row's Watch link`, scheme);
     }
   } finally { await browser.close(); }
 });
@@ -1573,21 +1678,34 @@ test("a compact YouTube row's Watch link focus ring reaches 3:1 against the surf
  *   * min over EVERY pixel  = 1.0    -> what the old rule read (it failed here).
  *
  * The same slit widened to 94% must FAIL the coverage rule, so the threshold is
- * shown to bite in both directions. */
-test("a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not", async (t) => {
+ * shown to bite in both directions.
+ *
+ * The third case is the 1px GAP, and it is the one that used to be MISREPORTED.
+ * A 1px slit whose edges fall on a fractional pixel row leaves its two boundary
+ * rows partly painted. The old painted test (any channel delta > 20) counted
+ * those rows as painted, so the coverage rule never saw the gap and the side was
+ * reported as a CONTRAST failure at the partially-painted pixel's ratio
+ * (~1.73:1) — a coverage defect wearing a contrast number. Under the >= 50%
+ * painted rule the boundary row is neither painted nor clean, and the coverage
+ * rule is what speaks. The gap is only one pixel of a 163-pixel side, so its
+ * PAINTED fraction (99.4%) clears 95% on its own: the partly-painted half of the
+ * coverage rule, not the fraction, is what catches it — which is exactly why the
+ * rule has both halves. */
+test("a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not; a 1px gap fails as coverage", async (t) => {
   const { THUMB_PNG } = require("./browser_net_harness");
   const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
   try {
   // A `clip-path` slit through the middle of the focused link: `rows` pixel
-  // rows of the link's outline are removed, starting at an INTEGER pixel row so
-  // no boundary pixel is left half-blended (a blended pixel is a contrast
-  // finding as well as a coverage one, and this control is about coverage). The
-  // slit runs from left of the ring to 60% of the link's width, so it cuts the
-  // LEFT stroke's middle and leaves the right, top and bottom strokes whole.
+  // rows of the link's outline are removed, starting at an INTEGER pixel row
+  // plus `offsetFraction`, so `offsetFraction` 0 removes whole pixel rows and
+  // leaves no boundary pixel half-blended, while a fractional offset splits the
+  // boundary. The slit runs from left of the ring to 60% of the link's width, so
+  // it cuts the LEFT stroke's middle and leaves the right, top and bottom
+  // strokes whole.
   const slit = (y0, y1) => "polygon(" +
     "-20px -20px, calc(100% + 20px) -20px, calc(100% + 20px) calc(100% + 20px), -20px calc(100% + 20px), " +
     `-20px ${y1}px, 60% ${y1}px, 60% ${y0}px, -20px ${y0}px)`;
-  async function measureWithSlit(rows) {
+  async function measureWithSlit(rows, offsetFraction = 0) {
     const fixture = await startFixture(sectionRows());
     const ui = await browser.newPage();
     t.after(async () => {
@@ -1604,11 +1722,11 @@ test("a ring that is 97% painted passes the coverage rule while the old all-pixe
     await link.scrollIntoViewIfNeeded();
     // The slit is part of BOTH captures, so the unfocused pixel at each sampled
     // point is still the surface that pixel paints over.
-    const band = await link.evaluate((el, count) => {
+    const band = await link.evaluate((el, options) => {
       const b = el.getBoundingClientRect();
-      const top = Math.round(b.top + b.height / 2 - count / 2);
-      return {y0: top - b.top, y1: top - b.top + count};
-    }, rows);
+      const top = Math.round(b.top + b.height / 2 - options.rows / 2) + options.offsetFraction;
+      return {y0: top - b.top, y1: top - b.top + options.rows};
+    }, {rows, offsetFraction});
     await link.evaluate((el, path) => { el.style.clipPath = path; }, slit(band.y0, band.y1));
     await link.evaluate(el => el.blur());
     const unfocused = await ui.screenshot();
@@ -1674,6 +1792,35 @@ test("a ring that is 97% painted passes the coverage rule while the old all-pixe
     () => assertPaintedRing(red, "the 94%-painted ring control", "light"),
     /at least 95% of the left ring is painted/,
     "a ring under 95% painted fails the coverage rule",
+  );
+
+  // And the 1px gap — the case that used to be reported as a CONTRAST failure.
+  // Its slit's edges fall on a fractional pixel row, so the two rows it touches
+  // are partly painted; the old painted test (any channel delta > 20) counted
+  // both, so the coverage rule never fired and the side failed at the partial
+  // pixel's own ratio. Now the partial row is neither painted nor clean and the
+  // coverage rule speaks.
+  const gap = await measureWithSlit(1, 0.25);
+  const gapSide = gap.sides.left;
+  assert.ok(
+    gapSide.painted / gapSide.total >= 0.95,
+    `the 1px-gap control's PAINTED fraction clears the 95% threshold on its own ` +
+      `(${gapSide.painted}/${gapSide.total}), so only the partly-painted half of the coverage rule can catch it`,
+  );
+  assert.ok(
+    gapSide.partial > 0,
+    `the 1px-gap control really leaves a partly-painted pixel on the left (${JSON.stringify(gapSide.partialFractions)})`,
+  );
+  assert.ok(
+    gapSide.min !== null && gapSide.min >= 3,
+    `the 1px-gap control's PAINTED pixels still clear 3:1 on the left (min over painted pixels ` +
+      `${gapSide.min}:1, min over every sampled pixel ${gapSide.minAll}:1) — the old rule read the ` +
+      `partly-painted pixel as painted and failed on ITS ratio instead`,
+  );
+  assert.throws(
+    () => assertPaintedRing(gap, "the 1px-gap ring control", "light"),
+    /partly painted/,
+    "a 1px gap fails as a COVERAGE finding, not as a contrast reading",
   );
   } finally { await browser.close(); }
 });
