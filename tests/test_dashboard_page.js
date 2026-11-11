@@ -3079,7 +3079,14 @@ test("visual CSS F1 F2 F5 F6 F7 F10 F11 F12 F13 F15 F16 F17 F19 F23 token layout
   assert.match(rule(".hackertube .ht-search > form"), /min-width:\s*0/);
   assert.match(rule(".hackertube .ht-search > form"), /gap:\s*0\.6rem/);
   assert.match(rule(".hackertube .ht-model-picker select"), /min-width:\s*0/);
-  assert.match(rule(".hackertube .hackertube"), /padding:\s*0/);
+  // The inner wrapper is the plugin's OWN overflow box (`overflow-x: hidden`),
+  // so it reserves the 4px a focused link's ring needs (2px outline + 2px
+  // offset) INSIDE its padding box and takes the same 4px back with a negative
+  // margin: the ring cannot be clipped by a host CardContent with little or no
+  // padding, and no child moves (the padding box grows, the content box does
+  // not).
+  assert.match(rule(".hackertube .hackertube"), /padding:\s*0 4px/);
+  assert.match(rule(".hackertube .hackertube"), /margin:\s*0 -4px/);
   assert.match(css, /line-height:\s*var\(--theme-line-height, 1\.5\)/);
   assert.match(rule(".hackertube a:not(.ht-action)"), /text-decoration:\s*underline/);
   assert.match(rule(".hackertube .ht-remove-interest"), /min-height:\s*44px/);

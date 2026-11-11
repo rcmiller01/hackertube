@@ -7,8 +7,17 @@
   padding: 1.25rem 1.5rem 3rem;
   overflow-x: hidden;
 }
+/* The inner wrapper is the plugin's OWN overflow box (`overflow-x: hidden`
+   below). A focused link's ring is drawn outside the link's box (2px outline +
+   2px offset), so if the host's CardContent pads by less than 4px the ring
+   falls outside this wrapper and is clipped — the plugin would be relying on
+   host padding to keep its own focus indicator visible. Reserve the ring's own
+   4px inside the wrapper's padding box and take the same 4px back with a
+   negative margin, so the clip boundary moves 4px out on each side while every
+   child stays exactly where it was painted before. */
 .hackertube .hackertube {
-  padding: 0;
+  padding: 0 4px;
+  margin: 0 -4px;
   max-width: none;
 }
 .hackertube h1 {
@@ -355,7 +364,7 @@
 .hackertube .ht-alert { border: 1px solid var(--color-border); border-radius: var(--radius); padding: 0.6rem 0.75rem; }
 @media (max-width: 768px) {
   .hackertube { padding: 1rem; }
-  .hackertube .hackertube { padding: 0; }
+  .hackertube .hackertube { padding: 0 4px; }
   .hackertube .ht-search,
   .hackertube .ht-search input,
   .hackertube .ht-interests,

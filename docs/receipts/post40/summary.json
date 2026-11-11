@@ -1,0 +1,772 @@
+{
+  "pytest": {
+    "passed": 334,
+    "failed": 0
+  },
+  "node": {
+    "tests": 179,
+    "passed": 179,
+    "failed": 0
+  },
+  "feed12": {
+    "runs": 10,
+    "passed": 10
+  },
+  "mutations": {
+    "pattern": "in light and dark|97% painted",
+    "test_names": [
+      "the full card's Watch link and its focus ring stay inside the card",
+      "a compact YouTube row's Watch link focus ring reaches 3:1",
+      "a ring that is 97% painted passes the coverage rule"
+    ],
+    "mutations": [
+      {
+        "name": "compact-side clips its own overflow",
+        "files": [
+          "hackertube/dashboard/dist/style.css"
+        ],
+        "variant": "fixed stylesheet",
+        "verdict": {
+          "the full card's Watch link and its focus ring stay inside the card": true,
+          "a compact YouTube row's Watch link focus ring reaches 3:1": false,
+          "a ring that is 97% painted passes the coverage rule": false
+        },
+        "exit": 1,
+        "expect": "compact row only",
+        "caught": true,
+        "failures": [
+          "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (708.916291ms)",
+          "\u2716 a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not (670.356542ms)",
+          "\u2716 failing tests:",
+          "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (708.916291ms)",
+          "  AssertionError [ERR_ASSERTION]: at 320px light the compact row's Watch link: no ancestor clips the left ring (cut by ht-compact-side; 0/163 of the side is painted)",
+          "\u2716 a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not (670.356542ms)"
+        ]
+      },
+      {
+        "name": "youtube-compact wrapper clips",
+        "files": [
+          "hackertube/dashboard/dist/style.css"
+        ],
+        "variant": "fixed stylesheet",
+        "verdict": {
+          "the full card's Watch link and its focus ring stay inside the card": true,
+          "a compact YouTube row's Watch link focus ring reaches 3:1": false,
+          "a ring that is 97% painted passes the coverage rule": false
+        },
+        "exit": 1,
+        "expect": "compact row only",
+        "caught": true,
+        "failures": [
+          "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (785.306791ms)",
+          "\u2716 a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not (767.447292ms)",
+          "\u2716 failing tests:",
+          "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (785.306791ms)",
+          "  AssertionError [ERR_ASSERTION]: at 320px light the compact row's Watch link: no ancestor clips the left ring (cut by ht-youtube-compact; 0/163 of the side is painted)",
+          "\u2716 a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not (767.447292ms)"
+        ]
+      },
+      {
+        "name": "ring colour dim but fully painted (rgba .25)",
+        "files": [
+          "hackertube/dashboard/dist/style.css"
+        ],
+        "variant": "fixed stylesheet",
+        "verdict": {
+          "the full card's Watch link and its focus ring stay inside the card": false,
+          "a compact YouTube row's Watch link focus ring reaches 3:1": false,
+          "a ring that is 97% painted passes the coverage rule": false
+        },
+        "exit": 1,
+        "expect": "both ring tests",
+        "caught": true,
+        "failures": [
+          "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (800.885458ms)",
+          "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (751.211791ms)",
+          "\u2716 a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not (508.299042ms)",
+          "\u2716 failing tests:",
+          "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (800.885458ms)",
+          "  AssertionError [ERR_ASSERTION]: at 320px light the full card's Watch link: every painted pixel of the left ring reaches >= 3:1 (min over painted pixels 1.71:1, ring rgb(189,189,190) on surface rgb(244,244,245) at 43,768; min over every sampled pixel 1.71:1)"
+        ]
+      },
+      {
+        "name": "compact Watch link at opacity .3 (with or without focus)",
+        "files": [
+          "hackertube/dashboard/dist/style.css"
+        ],
+        "variant": "fixed stylesheet",
+        "verdict": {
+          "the full card's Watch link and its focus ring stay inside the card": true,
+          "a compact YouTube row's Watch link focus ring reaches 3:1": false,
+          "a ring that is 97% painted passes the coverage rule": false
+        },
+        "exit": 1,
+        "expect": "compact row only",
+        "caught": true,
+        "failures": [
+          "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (709.105542ms)",
+          "\u2716 a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not (698.183542ms)",
+          "\u2716 failing tests:",
+          "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (709.105542ms)",
+          "  AssertionError [ERR_ASSERTION]: at 320px light the compact row's Watch link: every painted pixel of the left ring reaches >= 3:1 (min over painted pixels 1.98:1, ring rgb(184,184,185) on surface rgb(255,255,255) at 36,719; min over every sampled pixel 1.98:1)",
+          "\u2716 a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not (698.183542ms)"
+        ]
+      },
+      {
+        "name": "ring colour color(srgb .6 .6 .6)",
+        "files": [
+          "hackertube/dashboard/dist/style.css"
+        ],
+        "variant": "fixed stylesheet",
+        "verdict": {
+          "the full card's Watch link and its focus ring stay inside the card": false,
+          "a compact YouTube row's Watch link focus ring reaches 3:1": false,
+          "a ring that is 97% painted passes the coverage rule": false
+        },
+        "exit": 1,
+        "expect": "both ring tests",
+        "caught": true,
+        "failures": [
+          "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (777.834625ms)",
+          "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (450.723917ms)",
+          "\u2716 a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not (490.061084ms)",
+          "\u2716 failing tests:",
+          "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (777.834625ms)",
+          "  AssertionError [ERR_ASSERTION]: at 320px light the full card's Watch link: every painted pixel of the left ring reaches >= 3:1 (min over painted pixels 2.59:1, ring rgb(153,153,153) on surface rgb(244,244,245) at 43,768; min over every sampled pixel 2.59:1)"
+        ]
+      },
+      {
+        "name": "ring colour = the surface it paints on",
+        "files": [
+          "tests/browser_net_harness.js"
+        ],
+        "variant": "fixed stylesheet",
+        "verdict": {
+          "the full card's Watch link and its focus ring stay inside the card": false,
+          "a compact YouTube row's Watch link focus ring reaches 3:1": false,
+          "a ring that is 97% painted passes the coverage rule": false
+        },
+        "exit": 1,
+        "expect": "both ring tests",
+        "caught": true,
+        "failures": [
+          "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (511.259541ms)",
+          "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (514.409ms)",
+          "\u2716 a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not (439.862625ms)",
+          "\u2716 failing tests:",
+          "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (511.259541ms)",
+          "  AssertionError [ERR_ASSERTION]: at 320px light the full card's Watch link: at least 95% of the left ring is painted (0/301 pixels, 0.0%)"
+        ]
+      },
+      {
+        "name": "dark-only dim ring (.dark token block)",
+        "files": [
+          "tests/browser_net_harness.js"
+        ],
+        "variant": "fixed stylesheet",
+        "verdict": {
+          "the full card's Watch link and its focus ring stay inside the card": false,
+          "a compact YouTube row's Watch link focus ring reaches 3:1": false,
+          "a ring that is 97% painted passes the coverage rule": true
+        },
+        "exit": 1,
+        "expect": "the dark runs only",
+        "caught": true,
+        "failures": [
+          "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (864.970916ms)",
+          "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (732.838708ms)",
+          "\u2716 failing tests:",
+          "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (864.970916ms)",
+          "  AssertionError [ERR_ASSERTION]: at 320px dark the full card's Watch link: at least 95% of the left ring is painted (0/301 pixels, 0.0%)",
+          "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (732.838708ms)"
+        ]
+      },
+      {
+        "name": "the dark tokens exist only for the media query, not for an ancestor class",
+        "files": [
+          "tests/browser_net_harness.js"
+        ],
+        "variant": "fixed stylesheet",
+        "verdict": {
+          "the full card's Watch link and its focus ring stay inside the card": false,
+          "a compact YouTube row's Watch link focus ring reaches 3:1": false,
+          "a ring that is 97% painted passes the coverage rule": true
+        },
+        "exit": 1,
+        "expect": "the dark runs only (no .dark ancestor match)",
+        "caught": true,
+        "failures": [
+          "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (994.037375ms)",
+          "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (791.600209ms)",
+          "\u2716 failing tests:",
+          "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (994.037375ms)",
+          "  AssertionError [ERR_ASSERTION]: at 320px dark the full card's Watch link: at least 95% of the top ring is painted (0/204 pixels, 0.0%)",
+          "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (791.600209ms)"
+        ]
+      },
+      {
+        "name": "fixture CardContent padding 0",
+        "files": [
+          "tests/browser_net_harness.js"
+        ],
+        "variant": "fixed stylesheet",
+        "verdict": {
+          "the full card's Watch link and its focus ring stay inside the card": true,
+          "a compact YouTube row's Watch link focus ring reaches 3:1": true,
+          "a ring that is 97% painted passes the coverage rule": true
+        },
+        "exit": 0,
+        "expect": "not caught (the wrapper reserves the ring's 4px)",
+        "caught": false,
+        "failures": []
+      },
+      {
+        "name": "fixture CardContent padding 0 [pre-fix stylesheet]",
+        "files": [
+          "tests/browser_net_harness.js"
+        ],
+        "variant": "pre-fix stylesheet",
+        "verdict": {
+          "the full card's Watch link and its focus ring stay inside the card": true,
+          "a compact YouTube row's Watch link focus ring reaches 3:1": false,
+          "a ring that is 97% painted passes the coverage rule": false
+        },
+        "exit": 1,
+        "expect": "caught (the pre-fix wrapper relies on the host's CardContent padding)",
+        "caught": true,
+        "failures": [
+          "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (516.562833ms)",
+          "\u2716 a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not (547.686875ms)",
+          "\u2716 failing tests:",
+          "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (516.562833ms)",
+          "  AssertionError [ERR_ASSERTION]: at 320px light the compact row's Watch link: no ancestor clips the left ring (cut by hackertube; 0/163 of the side is painted)",
+          "\u2716 a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not (547.686875ms)"
+        ]
+      },
+      {
+        "name": "the coverage rule's minimum is taken over every sampled pixel again",
+        "files": [
+          "tests/test_privacy_browser.js"
+        ],
+        "variant": "fixed stylesheet",
+        "verdict": {
+          "the full card's Watch link and its focus ring stay inside the card": true,
+          "a compact YouTube row's Watch link focus ring reaches 3:1": true,
+          "a ring that is 97% painted passes the coverage rule": false
+        },
+        "exit": 1,
+        "expect": "the 97%-painted control only",
+        "caught": true,
+        "failures": [
+          "\u2716 a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not (476.349708ms)",
+          "\u2716 failing tests:",
+          "\u2716 a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not (476.349708ms)",
+          "  AssertionError [ERR_ASSERTION]: the 97% control's painted pixels still reach 3:1 on the left (min over painted pixels 1)"
+        ]
+      }
+    ],
+    "green_control": {
+      "exit": 0,
+      "verdicts": {
+        "the full card's Watch link and its focus ring stay inside the card": true,
+        "a compact YouTube row's Watch link focus ring reaches 3:1": true,
+        "a ring that is 97% painted passes the coverage rule": true
+      }
+    },
+    "restored_sha256": {
+      "hackertube/dashboard/dist/style.css": "efad35b97aa620558f16f381763395b1fc3738c8ff44ade4ce6e892a8530eb97",
+      "tests/browser_net_harness.js": "47f663857ca7ae3b8dc4a6d0561cacccfa27aa2029d775255deb25fba832d2f9",
+      "tests/test_privacy_browser.js": "ec91ecad861aa3d6bc8c420bb5eb0eeae3ceea94b837eda07665970a20af784b"
+    }
+  },
+  "host_ring": {
+    "base": [
+      {
+        "width": 320,
+        "active": true,
+        "ring_token": "color-mix(in srgb, #ffe6cb 100%, transparent)",
+        "page_background": "color(srgb 0.0156863 0.109804 0.109804)",
+        "root_font_size": "15px",
+        "link_left": 42.25,
+        "ring_left": 38.25,
+        "nearest_clipper": "hackertube",
+        "nearest_clipper_left": 26.25,
+        "nearest_clipper_padding": "0px",
+        "wrapper_padding": "0px",
+        "wrapper_margin": "0px",
+        "wrapper_left": 26.25,
+        "card_content_padding": "11.25px 15px",
+        "card_content_padding_sides": {
+          "paddingTop": null,
+          "paddingRight": null,
+          "paddingBottom": null,
+          "paddingLeft": null
+        },
+        "cut": {},
+        "sides": {
+          "left": {
+            "painted": 163,
+            "total": 163,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "right": {
+            "painted": 163,
+            "total": 163,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "top": {
+            "painted": 194,
+            "total": 194,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "bottom": {
+            "painted": 194,
+            "total": 194,
+            "min": 14.674,
+            "minAll": 14.674
+          }
+        }
+      },
+      {
+        "width": 390,
+        "active": true,
+        "ring_token": "color-mix(in srgb, #ffe6cb 100%, transparent)",
+        "page_background": "color(srgb 0.0156863 0.109804 0.109804)",
+        "root_font_size": "15px",
+        "link_left": 42.25,
+        "ring_left": 38.25,
+        "nearest_clipper": "hackertube",
+        "nearest_clipper_left": 26.25,
+        "nearest_clipper_padding": "0px",
+        "wrapper_padding": "0px",
+        "wrapper_margin": "0px",
+        "wrapper_left": 26.25,
+        "card_content_padding": "11.25px 15px",
+        "card_content_padding_sides": {
+          "paddingTop": null,
+          "paddingRight": null,
+          "paddingBottom": null,
+          "paddingLeft": null
+        },
+        "cut": {},
+        "sides": {
+          "left": {
+            "painted": 163,
+            "total": 163,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "right": {
+            "painted": 163,
+            "total": 163,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "top": {
+            "painted": 194,
+            "total": 194,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "bottom": {
+            "painted": 194,
+            "total": 194,
+            "min": 14.674,
+            "minAll": 14.674
+          }
+        }
+      },
+      {
+        "width": 768,
+        "active": true,
+        "ring_token": "color-mix(in srgb, #ffe6cb 100%, transparent)",
+        "page_background": "color(srgb 0.0156863 0.109804 0.109804)",
+        "root_font_size": "15px",
+        "link_left": 256.75,
+        "ring_left": 252.75,
+        "nearest_clipper": "hackertube",
+        "nearest_clipper_left": 37.5,
+        "nearest_clipper_padding": "0px",
+        "wrapper_padding": "0px",
+        "wrapper_margin": "0px",
+        "wrapper_left": 37.5,
+        "card_content_padding": "11.25px 15px",
+        "card_content_padding_sides": {
+          "paddingTop": null,
+          "paddingRight": null,
+          "paddingBottom": null,
+          "paddingLeft": null
+        },
+        "cut": {},
+        "sides": {
+          "left": {
+            "painted": 163,
+            "total": 163,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "right": {
+            "painted": 163,
+            "total": 163,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "top": {
+            "painted": 194,
+            "total": 194,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "bottom": {
+            "painted": 194,
+            "total": 194,
+            "min": 14.674,
+            "minAll": 14.674
+          }
+        }
+      },
+      {
+        "width": 1280,
+        "active": true,
+        "ring_token": "color-mix(in srgb, #ffe6cb 100%, transparent)",
+        "page_background": "color(srgb 0.0156863 0.109804 0.109804)",
+        "root_font_size": "15px",
+        "link_left": 504.25,
+        "ring_left": 500.25,
+        "nearest_clipper": "hackertube",
+        "nearest_clipper_left": 285,
+        "nearest_clipper_padding": "0px",
+        "wrapper_padding": "0px",
+        "wrapper_margin": "0px",
+        "wrapper_left": 285,
+        "card_content_padding": "11.25px 15px",
+        "card_content_padding_sides": {
+          "paddingTop": null,
+          "paddingRight": null,
+          "paddingBottom": null,
+          "paddingLeft": null
+        },
+        "cut": {},
+        "sides": {
+          "left": {
+            "painted": 163,
+            "total": 163,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "right": {
+            "painted": 163,
+            "total": 163,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "top": {
+            "painted": 194,
+            "total": 194,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "bottom": {
+            "painted": 194,
+            "total": 194,
+            "min": 14.674,
+            "minAll": 14.674
+          }
+        }
+      }
+    ],
+    "fix": [
+      {
+        "width": 320,
+        "active": true,
+        "ring_token": "color-mix(in srgb, #ffe6cb 100%, transparent)",
+        "page_background": "color(srgb 0.0156863 0.109804 0.109804)",
+        "root_font_size": "15px",
+        "link_left": 42.25,
+        "ring_left": 38.25,
+        "nearest_clipper": "hackertube",
+        "nearest_clipper_left": 22.25,
+        "nearest_clipper_padding": "0px 4px",
+        "wrapper_padding": "0px 4px",
+        "wrapper_margin": "0px -4px",
+        "wrapper_left": 22.25,
+        "card_content_padding": "11.25px 15px",
+        "card_content_padding_sides": {
+          "paddingTop": "11.25px",
+          "paddingRight": "15px",
+          "paddingBottom": "11.25px",
+          "paddingLeft": "15px"
+        },
+        "cut": {},
+        "sides": {
+          "left": {
+            "painted": 163,
+            "total": 163,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "right": {
+            "painted": 163,
+            "total": 163,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "top": {
+            "painted": 194,
+            "total": 194,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "bottom": {
+            "painted": 194,
+            "total": 194,
+            "min": 14.674,
+            "minAll": 14.674
+          }
+        }
+      },
+      {
+        "width": 390,
+        "active": true,
+        "ring_token": "color-mix(in srgb, #ffe6cb 100%, transparent)",
+        "page_background": "color(srgb 0.0156863 0.109804 0.109804)",
+        "root_font_size": "15px",
+        "link_left": 42.25,
+        "ring_left": 38.25,
+        "nearest_clipper": "hackertube",
+        "nearest_clipper_left": 22.25,
+        "nearest_clipper_padding": "0px 4px",
+        "wrapper_padding": "0px 4px",
+        "wrapper_margin": "0px -4px",
+        "wrapper_left": 22.25,
+        "card_content_padding": "11.25px 15px",
+        "card_content_padding_sides": {
+          "paddingTop": "11.25px",
+          "paddingRight": "15px",
+          "paddingBottom": "11.25px",
+          "paddingLeft": "15px"
+        },
+        "cut": {},
+        "sides": {
+          "left": {
+            "painted": 163,
+            "total": 163,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "right": {
+            "painted": 163,
+            "total": 163,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "top": {
+            "painted": 194,
+            "total": 194,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "bottom": {
+            "painted": 194,
+            "total": 194,
+            "min": 14.674,
+            "minAll": 14.674
+          }
+        }
+      },
+      {
+        "width": 768,
+        "active": true,
+        "ring_token": "color-mix(in srgb, #ffe6cb 100%, transparent)",
+        "page_background": "color(srgb 0.0156863 0.109804 0.109804)",
+        "root_font_size": "15px",
+        "link_left": 256.75,
+        "ring_left": 252.75,
+        "nearest_clipper": "hackertube",
+        "nearest_clipper_left": 33.5,
+        "nearest_clipper_padding": "0px 4px",
+        "wrapper_padding": "0px 4px",
+        "wrapper_margin": "0px -4px",
+        "wrapper_left": 33.5,
+        "card_content_padding": "11.25px 15px",
+        "card_content_padding_sides": {
+          "paddingTop": "11.25px",
+          "paddingRight": "15px",
+          "paddingBottom": "11.25px",
+          "paddingLeft": "15px"
+        },
+        "cut": {},
+        "sides": {
+          "left": {
+            "painted": 163,
+            "total": 163,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "right": {
+            "painted": 163,
+            "total": 163,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "top": {
+            "painted": 194,
+            "total": 194,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "bottom": {
+            "painted": 194,
+            "total": 194,
+            "min": 14.674,
+            "minAll": 14.674
+          }
+        }
+      },
+      {
+        "width": 1280,
+        "active": true,
+        "ring_token": "color-mix(in srgb, #ffe6cb 100%, transparent)",
+        "page_background": "color(srgb 0.0156863 0.109804 0.109804)",
+        "root_font_size": "15px",
+        "link_left": 504.25,
+        "ring_left": 500.25,
+        "nearest_clipper": "hackertube",
+        "nearest_clipper_left": 281,
+        "nearest_clipper_padding": "0px 4px",
+        "wrapper_padding": "0px 4px",
+        "wrapper_margin": "0px -4px",
+        "wrapper_left": 281,
+        "card_content_padding": "11.25px 15px",
+        "card_content_padding_sides": {
+          "paddingTop": "11.25px",
+          "paddingRight": "15px",
+          "paddingBottom": "11.25px",
+          "paddingLeft": "15px"
+        },
+        "cut": {},
+        "sides": {
+          "left": {
+            "painted": 163,
+            "total": 163,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "right": {
+            "painted": 163,
+            "total": 163,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "top": {
+            "painted": 194,
+            "total": 194,
+            "min": 14.674,
+            "minAll": 14.674
+          },
+          "bottom": {
+            "painted": 194,
+            "total": 194,
+            "min": 14.674,
+            "minAll": 14.674
+          }
+        }
+      }
+    ]
+  },
+  "fixture_screens": {
+    "fixed": {
+      "320": {
+        "focused": true,
+        "page_sha256": "a908b1328a300a0a2b1e0caa99707dd0eb82a7bc6e191f45d73439ccf8bd94b4",
+        "ring_sha256": "294b043712cf295fb561fd922b23a28e8f36e0e082225d54d984efc12e67c86a"
+      },
+      "390": {
+        "focused": true,
+        "page_sha256": "04ac36b5355468843aed43a3fc867686d2d41f56c5e3edffb468c3b789b9347a",
+        "ring_sha256": "20e379170788d22d9016cd96f86a6615e3fee2657e4b5e2b823db2ae83087a6f"
+      },
+      "768": {
+        "focused": true,
+        "page_sha256": "08be80df956fd5fdebe8c6e9e2dbfd457d1b826fa7d3328281354223a1b46227",
+        "ring_sha256": "294b043712cf295fb561fd922b23a28e8f36e0e082225d54d984efc12e67c86a"
+      },
+      "1280": {
+        "focused": true,
+        "page_sha256": "ced4222d95628dc4571a0bc079b73005192dfb85de73815c5a09a9db6ead45dc",
+        "ring_sha256": "ae93aed2da2ec2fafa22eba9af2d32b9b508f82a12abdba61935cd8faa799675"
+      }
+    },
+    "prefix": {
+      "320": {
+        "focused": true,
+        "page_sha256": "a908b1328a300a0a2b1e0caa99707dd0eb82a7bc6e191f45d73439ccf8bd94b4",
+        "ring_sha256": "294b043712cf295fb561fd922b23a28e8f36e0e082225d54d984efc12e67c86a"
+      },
+      "390": {
+        "focused": true,
+        "page_sha256": "04ac36b5355468843aed43a3fc867686d2d41f56c5e3edffb468c3b789b9347a",
+        "ring_sha256": "20e379170788d22d9016cd96f86a6615e3fee2657e4b5e2b823db2ae83087a6f"
+      },
+      "768": {
+        "focused": true,
+        "page_sha256": "08be80df956fd5fdebe8c6e9e2dbfd457d1b826fa7d3328281354223a1b46227",
+        "ring_sha256": "294b043712cf295fb561fd922b23a28e8f36e0e082225d54d984efc12e67c86a"
+      },
+      "1280": {
+        "focused": true,
+        "page_sha256": "ced4222d95628dc4571a0bc079b73005192dfb85de73815c5a09a9db6ead45dc",
+        "ring_sha256": "ae93aed2da2ec2fafa22eba9af2d32b9b508f82a12abdba61935cd8faa799675"
+      }
+    },
+    "fixed-pad0": {
+      "320": {
+        "focused": true,
+        "page_sha256": "67a714f9f21992ef0044fe2c4f00c046df8c41cd7826cd2da0c118c2a708f0e8",
+        "ring_sha256": "ae93aed2da2ec2fafa22eba9af2d32b9b508f82a12abdba61935cd8faa799675"
+      },
+      "390": {
+        "focused": true,
+        "page_sha256": "c9e8573f57cac01e176b1c8660f0e36d0e0460ce987072964ba38a2520b43f60",
+        "ring_sha256": "20e379170788d22d9016cd96f86a6615e3fee2657e4b5e2b823db2ae83087a6f"
+      },
+      "768": {
+        "focused": true,
+        "page_sha256": "72c782d39e4cec6906620e51f9f185b6ccacaac92fe2122b5fa7d9c3bc284e11",
+        "ring_sha256": "294b043712cf295fb561fd922b23a28e8f36e0e082225d54d984efc12e67c86a"
+      },
+      "1280": {
+        "focused": true,
+        "page_sha256": "a8e38565ec694c8be8d165787f0e51c15d805cd3fec1c1e6a5b86e72e2b7e9f6",
+        "ring_sha256": "41c31dc08684af446c8db6c1a45dd9dbdc319981c94e66aa2b2a266f9becccef"
+      }
+    },
+    "prefix-pad0": {
+      "320": {
+        "focused": true,
+        "page_sha256": "e57bf401f64658656a4e56b5fc25ddb838ad90eb233cbbca5fdc53ca173af386",
+        "ring_sha256": "84497cd106ecc720a6354e308802e5e7b43becb6ef91b2b73e05932d82ba5705"
+      },
+      "390": {
+        "focused": true,
+        "page_sha256": "bcd868d48a513b5a3073640ba73f6c06560928cf04d65773d9d2fa41e777bb2d",
+        "ring_sha256": "0c1e91135a441991bbc387c5510d9332d945050ed09819581535dbd90d92f304"
+      },
+      "768": {
+        "focused": true,
+        "page_sha256": "44c2e4385c451f516baf0cc2604c350fbfbfc3a7b0398a5d9965f1840fa4012a",
+        "ring_sha256": "294b043712cf295fb561fd922b23a28e8f36e0e082225d54d984efc12e67c86a"
+      },
+      "1280": {
+        "focused": true,
+        "page_sha256": "76aa0e7f9b21113bb1e945a0920fab9f315f671de9ad3a7cadcc1e35bb672a4b",
+        "ring_sha256": "41c31dc08684af446c8db6c1a45dd9dbdc319981c94e66aa2b2a266f9becccef"
+      }
+    }
+  },
+  "plugin_validate": "exit 0 (Validation passed.)",
+  "plugin_doctor": "exit 0 (OK: runtime discovery)"
+}
