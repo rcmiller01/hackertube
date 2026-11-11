@@ -46,12 +46,18 @@ DEFAULT_SETTINGS = {"provider": "stub", "model_endpoint": ""}
 SECRETS = {}
 
 
-def install_host(data_root, settings=None):
+def install_host(data_root, settings=None, monkeypatch=None):
     """Put the host modules in ``sys.modules`` for a temporary root.
 
     ``settings`` is the plugin's declared settings mapping. The default is
     the stub provider; pass ``{"provider": "live"}`` to drive the keyed
     provider's fail-closed path.
+
+    Pass ``monkeypatch`` to register the same stubs through
+    ``monkeypatch.setitem``: pytest then removes them at the end of the test, so
+    the stub does not leak into later tests. Without it the modules stay in
+    ``sys.modules`` for the rest of the process — a leak that made two privacy
+    tests' outcome depend on which test ran first.
     """
     root = Path(data_root)
     root.mkdir(parents=True, exist_ok=True)
@@ -89,6 +95,19 @@ def install_host(data_root, settings=None):
     sys.modules["plugins.plugin_storage"] = storage
     sys.modules["hermes_cli"] = hermes_cli
     sys.modules["hermes_cli.config"] = config_module
+    stubs = {
+        "agent": agent,
+        "agent.secret_scope": secrets,
+        "plugins": plugins,
+        "plugins.plugin_storage": storage,
+        "hermes_cli": hermes_cli,
+        "hermes_cli.config": config_module,
+    }
+    if monkeypatch is not None:
+        for name, module in stubs.items():
+            monkeypatch.setitem(sys.modules, name, module)
+    else:
+        sys.modules.update(stubs)
     return root
 
 

@@ -119,7 +119,7 @@ async function readLayout(browser) {
   const fixture = await startFixture([{ ...base, art_url: THUMB }]);
   const record = [];
   try {
-    for (const [width, expected] of [[320, "column"], [390, "column"], [767, "column"], [768, "row"], [1280, "row"]]) {
+    for (const [width, expected] of [[320, "flex"], [390, "flex"], [767, "flex"], [768, "grid"], [1280, "grid"]]) {
       const tab = await browser.newPage({ viewport: { width, height: 900 } });
       try {
         await tab.route("https://i.ytimg.com/**", (route) => route.fulfill({ status: 200, contentType: "image/png", body: THUMB_PNG }));
@@ -129,15 +129,17 @@ async function readLayout(browser) {
         await row.locator("img.ht-thumb").waitFor();
         const geometry = await row.evaluate((el) => {
           const container = el.querySelector(".ht-compact-row");
+          const head = el.querySelector(".ht-compact-head");
           const main = el.querySelector(".ht-compact-main");
           const side = el.querySelector(".ht-compact-side");
           const thumbEl = el.querySelector("img.ht-thumb");
           const iconEl = el.querySelector(".ht-youtube-icon img");
+          const titleEl = el.querySelector(".ht-title");
           const thumb = thumbEl.getBoundingClientRect();
           const icon = iconEl.getBoundingClientRect();
           const follows = (a, b) => !!(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
           const offenders = [];
-          for (const selector of [".hackertube", ".ht-compact", ".ht-compact-row", ".ht-compact-side",
+          for (const selector of [".hackertube", ".ht-compact", ".ht-compact-row", ".ht-compact-head", ".ht-compact-side",
             ".ht-youtube-compact", "img.ht-thumb", ".ht-youtube-icon"]) {
             const node = document.querySelector(selector);
             if (!node) continue;
@@ -146,10 +148,12 @@ async function readLayout(browser) {
             if (rect.right > window.innerWidth + 1) offenders.push(selector + " right>viewport");
           }
           return {
+            headChildIndex: Array.prototype.indexOf.call(container.children, head),
             sideChildIndex: Array.prototype.indexOf.call(container.children, side),
             mainChildIndex: Array.prototype.indexOf.call(container.children, main),
+            titlePrecedesMedia: follows(titleEl, side),
             mediaPrecedesText: follows(side, main),
-            flexDirection: getComputedStyle(container).flexDirection,
+            display: getComputedStyle(container).display,
             sideWidth: Math.round(side.getBoundingClientRect().width * 10) / 10,
             thumbBox: [Math.round(thumb.width * 10) / 10, Math.round(thumb.height * 10) / 10],
             thumbBesideIcon: thumb.right <= icon.left + 1,
@@ -158,10 +162,12 @@ async function readLayout(browser) {
           };
         });
         const mark = await readMark(row.getByRole("link", { name: 'Watch "Jane Austen introduction" on YouTube' }));
-        assert.equal(geometry.sideChildIndex, 0, `at ${width} the installed bundle puts the media first in the DOM`);
-        assert.equal(geometry.mainChildIndex, 1, `at ${width} the installed bundle puts the text second`);
-        assert.equal(geometry.mediaPrecedesText, true, `at ${width} the media precedes the text`);
-        assert.equal(geometry.flexDirection, expected, `at ${width} the installed stylesheet uses ${expected}`);
+        assert.equal(geometry.headChildIndex, 0, `at ${width} the installed bundle puts the header first in the DOM`);
+        assert.equal(geometry.sideChildIndex, 1, `at ${width} the installed bundle puts the media second`);
+        assert.equal(geometry.mainChildIndex, 2, `at ${width} the installed bundle puts the rest of the text third`);
+        assert.equal(geometry.titlePrecedesMedia, true, `at ${width} the title precedes the media in the DOM`);
+        assert.equal(geometry.mediaPrecedesText, true, `at ${width} the media precedes the rest of the text`);
+        assert.equal(geometry.display, expected, `at ${width} the installed stylesheet uses ${expected}`);
         assert.ok(geometry.thumbBox[0] > mark.visibleMarkWidth,
           `at ${width} the thumbnail is wider than the visible mark (${geometry.thumbBox[0]} vs ${mark.visibleMarkWidth})`);
         assert.ok(geometry.thumbBox[1] > mark.visibleMarkHeight,

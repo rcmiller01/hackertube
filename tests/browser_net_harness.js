@@ -44,6 +44,14 @@ const THUMB_PNG = Buffer.from(
   "base64",
 );
 
+/* A 480x270 (16:9) PNG, the frame shape of YouTube's `maxresdefault`
+ * thumbnail, so a test can check the compact box's height for a 16:9 image
+ * (192x108, not the 4:3 192x144) and that a 16:9 image is not cropped to 4:3. */
+const THUMB16_9_PNG = Buffer.from(
+  "iVBORw0KGgoAAAANSUhEUgAAAeAAAAEOCAIAAADe+FMwAAAC6ElEQVR42u3UMQ0AAAzDsAIrf1xlMe2wIeRICsBLkQDAoAEwaACDBsCgAQwaAIMGwKABDBoAgwYwaAAMGgCDBjBoAAwawKABMGgAgwbAoAEwaACDBsCgAQwaAIMGwKABDBoAgwYwaAAMGsCgATBoAAwawKABMGgAgwbAoAEwaACDBsCgAQwaAIMGMGgADBoAgwYwaAAMGsCgATBoAAwawKABMGgAgwbAoAEwaACDBsCgAQwaAIMGMGgADBoAgwYwaAAMGsCgATBoAAwawKABMGgAgwbAoAEMGgCDBsCgAQwaAIMGMGgADBoAgwYwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGgCDBsCgAQwaAIMGMGgADBoAgwYwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGgCDBsCgAQwaAIMGMGgADBrAoAEwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaAAMGsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaACDBsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwaAIMGMGgADBrAoAEwaACDBsCgATBoAIMGwKABDBoAgwbAoAEMGgCDBjBoAAwawKABMGgADBrAoAEwaACDBsCgATBoAIMGwKABDBoAgwYwaAAMGgCDBjBoAAwawKABMGgADBrAoAEwaACDBsCgATBoAIMGwKABDBoAgwYwaAAMGgCDBjBoAAwawKABMGgADBrAoAEwaACDBsCgAQwaAIMGwKABDBoAgwYwaAAMGgCDBjBoAAwawKABMGgAgwbAoAEwaACDBsCgAQwaAIMGwKABDBoAgwYwaAAMGsCgJQAwaAAMGsCgATBoAIMGwKABMGgAgwbAoAEMGoBrA9C3Cd0WL8DgAAAAAElFTkSuQmCC",
+  "base64",
+);
+
 /* The plugin stylesheet consumes host design tokens (`var(--radius)`,
  * `var(--color-*)`, `var(--theme-*)`) and declares none of them itself. Without
  * a host token block a `var()` reference is invalid at computed-value time and
@@ -515,6 +523,7 @@ module.exports = {
   THUMB_HOST,
   PIXEL_PNG,
   THUMB_PNG,
+  THUMB16_9_PNG,
   fixtureItems,
   labelOf,
   loadNodeModule,

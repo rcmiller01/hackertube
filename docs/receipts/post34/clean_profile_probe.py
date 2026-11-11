@@ -41,10 +41,13 @@ NOTE = "Metadata from YouTube. Explanations and library actions are HackerTube\u
 # --- The installed bundle and stylesheet carry this branch ------------------
 assert NOTE in js, "the short note is missing from the enabled profile"
 assert "ht-youtube-compact" in js, "the compact attribution block is missing"
-# DOM order: the media (thumbnail + Watch link) is the first child, text after.
-assert 'h("div", { className: "ht-compact-side" }, art),\n' \
-       '                h("div", { className: "ht-compact-main" }, text))' in js, (
-    "the compact row does not put its media before the text in the DOM"
+# DOM order: the header (badge, title, creator) is the first child, then the
+# media (thumbnail + Watch link), then the rest. So heading navigation to the
+# title reaches THIS row's Watch link before Save and Dismiss.
+assert 'h("div", { className: "ht-compact-head" }, text.slice(0, 3)),\n' \
+       '                h("div", { className: "ht-compact-side" }, art),\n' \
+       '                h("div", { className: "ht-compact-main" }, text.slice(3)))' in js, (
+    "the compact row does not put its header, then its media, then the rest in the DOM"
 )
 assert 'YOUTUBE_THUMBNAIL_HOSTS = ["i.ytimg.com", "img.youtube.com"]' in js, (
     "the render-time thumbnail host allowlist is missing"
@@ -57,7 +60,9 @@ assert "YOUTUBE_THUMBNAIL_HOSTS.indexOf(host) === -1" in js, (
 assert "@media (min-width: 768px)" in css, "the 768px media-column breakpoint is missing"
 assert "@media (min-width: 640px)" not in css, "the superseded 640px breakpoint is still present"
 assert "flex-direction: row-reverse" not in css, "the media column is still painted in reverse DOM order"
-assert ".hackertube .ht-compact-side { flex: 0 0 430px; }" in css, "the fixed media column is missing"
+assert ".hackertube .ht-compact-side { min-width: 0; max-width: 100%; }" in css, "the media column wrapper rule is missing"
+assert "grid-template-columns: 430px 1fr;" in css, "the fixed media column is missing"
+assert '"media head"' in css and '"media rest"' in css, "the media/head/rest grid areas are missing"
 assert ".hackertube .ht-thumb-compact { width: 192px; flex: 0 0 auto; }" in css, (
     "the compact thumbnail is not drawn at 192px"
 )

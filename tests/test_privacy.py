@@ -10,8 +10,8 @@ from test_release_sources import stored_video
 from hackertube_core.profile import ProfileStore
 
 
-def test_all_dashboard_features_require_current_privacy_agreement(tmp_path):
-    route_harness.install_host(tmp_path)
+def test_all_dashboard_features_require_current_privacy_agreement(tmp_path, monkeypatch):
+    route_harness.install_host(tmp_path, monkeypatch=monkeypatch)
     module, app = route_harness.load_api("privacy_gate")
     client = route_harness.client(app)
     for path in ("/catalog", "/feed", "/profile", "/sources", "/search", "/status", "/search/jobs/missing", "/search/jobs/privacy"):
@@ -63,6 +63,7 @@ def test_refresh_invalidation_removes_all_metadata_copies_but_preserves_save(tmp
 
 def test_housekeeping_deletes_expired_copies_without_network(tmp_path, monkeypatch):
     import threading
+    from hackertube_core import privacy
     from hackertube_core.privacy import start_housekeeping
     from hackertube_core import outbound
     store, connect, clock, result = stored_video(tmp_path)
@@ -72,6 +73,10 @@ def test_housekeeping_deletes_expired_copies_without_network(tmp_path, monkeypat
         ProfileStore(connect, clock=lambda: clock[0])
         done.set()
     monkeypatch.setattr("hackertube_core.profile.ProfileStore", opening)
+    # Isolate the purge from the host stub route_harness may have left in
+    # sys.modules: with no resolvable path the purge always runs, so this test
+    # does not depend on which test ran before it or on a stray profile.db.
+    monkeypatch.setattr(privacy, "_profile_db_path", lambda: None)
     with outbound.guard():
         stop = start_housekeeping(interval=0.01)
         try:
@@ -92,6 +97,7 @@ def test_expired_youtube_data_is_purged_at_startup_not_only_when_opened(tmp_path
     here so that nothing but a startup purge can explain the deletion: no store
     read or write happens between ``start_housekeeping`` and the raw check.
     """
+    from hackertube_core import privacy
     from hackertube_core.privacy import start_housekeeping
     from hackertube_core import outbound
     store, connect, clock, result = stored_video(tmp_path)
@@ -101,6 +107,10 @@ def test_expired_youtube_data_is_purged_at_startup_not_only_when_opened(tmp_path
         ProfileStore(connect, clock=lambda: clock[0])
         purged.set()
     monkeypatch.setattr("hackertube_core.profile.ProfileStore", opening)
+    # Isolate the purge from any host stub route_harness left in sys.modules:
+    # with no resolvable path the startup purge always runs, so the test does
+    # not depend on test order or on a stray profile.db existing.
+    monkeypatch.setattr(privacy, "_profile_db_path", lambda: None)
     with outbound.guard():
         stop = start_housekeeping(interval=3600)
         try:
@@ -142,26 +152,40 @@ def test_startup_purge_does_not_block_plugin_registration(monkeypatch):
 
 
 def test_startup_purge_logs_a_warning_and_continues_on_failure(caplog, monkeypatch):
-    """A failed purge is recorded, not swallowed: it logs and keeps going."""
+    """A failed purge is recorded, not swallowed: it logs and keeps going.
+
+    A short interval is used so the loop makes more than one pass; the test
+    asserts a SECOND attempt actually runs, so a mutation that stops after the
+    startup pass (or after the first interval) is caught, not just the warning.
+    """
     from hackertube_core import privacy
-    attempted = threading.Event()
+    attempts = []
+    second = threading.Event()
 
     def failing(factory):
-        attempted.set()
+        attempts.append(1)
+        if len(attempts) >= 2:
+            second.set()
         raise RuntimeError("purge boom")
 
     monkeypatch.setattr("hackertube_core.profile.ProfileStore", failing)
     monkeypatch.setattr(privacy, "_profile_db_path", lambda: None)
     with caplog.at_level(logging.WARNING, logger="hackertube.privacy"):
-        stop = privacy.start_housekeeping(interval=600)
+        stop = privacy.start_housekeeping(interval=0.01)
         try:
-            assert attempted.wait(5), "the startup purge ran"
+            assert second.wait(5), "the purge loop kept going after a failure: a second attempt ran"
+            assert len(attempts) >= 2, (
+                f"the failed purge is retried on the next pass, not stopped ({len(attempts)} attempt(s))"
+            )
             deadline = time.monotonic() + 2
-            while time.monotonic() < deadline and not caplog.records:
+            while time.monotonic() < deadline and len(caplog.records) < 2:
                 time.sleep(0.02)
             warnings = [record for record in caplog.records
                         if record.levelno >= logging.WARNING and "purge" in record.getMessage().lower()]
             assert warnings, "a failed purge logs a warning instead of being swallowed silently"
+            assert len(warnings) >= 2, (
+                f"every failed pass logs a warning, not just the first ({len(warnings)})"
+            )
         finally:
             stop()
 

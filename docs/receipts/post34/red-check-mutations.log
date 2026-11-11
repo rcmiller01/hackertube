@@ -1,19 +1,19 @@
-
-===== m1-old(base host tests, mutated head bundle): exit 0
-✔ a thumbnail from a non-YouTube host falls back to the linked Icon at render time (315.627208ms)
-✔ a look-alike i.ytimg.com host falls back to the linked Icon at render time (214.575584ms)
-ℹ tests 2
+### note 2: .ht-thumb-compact gains 'height:144px; object-fit:cover' (crops a 16:9 image)
+-- OLD 4:3-only size test at e44b825d23eb1b10fec6114bb8060b31a4ac9ad7: passes, the mutation is MISSED
+✔ the compact thumbnail is larger than the official mark in both dimensions at 390, 767, 768 and 1280 (917.962ms)
+ℹ tests 1
 ℹ suites 0
-ℹ pass 2
+ℹ pass 1
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 565.79475
+ℹ duration_ms 961.424125
 
-
-===== m1-new(head endsWith test, mutated head bundle): exit 1
-✖ an endsWith-style i.ytimg.com host falls back to the linked Icon at render time (309.454833ms)
+EXIT 0
+restored: True
+-- NEW size test at the fixed head: FAILS, the mutation is CAUGHT
+✖ the compact thumbnail is larger than the official mark in both dimensions at 390, 767, 768 and 1280 (543.348209ms)
 ℹ tests 1
 ℹ suites 0
 ℹ pass 0
@@ -21,121 +21,84 @@
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 346.800917
+ℹ duration_ms 583.207083
 
 ✖ failing tests:
 
-test at tests/test_privacy_browser.js:960:1
-✖ an endsWith-style i.ytimg.com host falls back to the linked Icon at render time (309.454833ms)
-  AssertionError [ERR_ASSERTION]: #ranked-feed: a suffix host https://xi.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg is never rendered as a thumbnail
-  
-  1 !== 0
-  
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-post34/tests/test_privacy_browser.js:981:18)
+test at tests/test_privacy_browser.js:852:1
+✖ the compact thumbnail is larger than the official mark in both dimensions at 390, 767, 768 and 1280 (543.348209ms)
+  AssertionError [ERR_ASSERTION]: the 16:9 maxres compact thumbnail at 390px: the rendered aspect ratio matches the image within 1% (1.7778 natural vs 1.3333 rendered)
+      at assertUnalteredThumbnail (/Users/robert/Developer/hackertube-post34/tests/test_privacy_browser.js:138:10)
+      at async TestContext.<anonymous> (/Users/robert/Developer/hackertube-post34/tests/test_privacy_browser.js:887:9)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: false,
     code: 'ERR_ASSERTION',
-    actual: 1,
-    expected: 0,
-    operator: 'strictEqual',
+    actual: false,
+    expected: true,
+    operator: '==',
     diff: 'simple'
   }
 
+EXIT 1
+restored: True
 
-===== m2-old(base tests, mutated ranking): exit 1
-......F                                                                  [100%]
+### note 4: the interval loop removed from start_housekeeping.clean() (one startup pass only)
+-- OLD purge test at e44b825d23eb1b10fec6114bb8060b31a4ac9ad7: passes, the mutation is MISSED
+.                                                                        [100%]
+1 passed, 12 deselected in 0.18s
+
+EXIT 0
+restored: True
+-- NEW purge test at the fixed head: FAILS, the mutation is CAUGHT
+                [100%]
 =================================== FAILURES ===================================
-_ test_feed09_why_line_omits_endorsement_without_established_community_evidence _
+__________ test_startup_purge_logs_a_warning_and_continues_on_failure __________
 
-    def test_feed09_why_line_omits_endorsement_without_established_community_evidence():
-        template = next(item for item in load_seed().items if item.format == "book")
-        mention = _item(template, "m1", NOW, 1, "book")
-        criticism = _item(template, "c1", NOW, 2, "book")
-        expired = _item(template, "e1", NOW, 3, "book")
-        web = _item(template, "w1", NOW, 4, "book")
-        evidence = (
-            _catalog_row(mention, "openlibrary"),
-            _community(mention, "mention"),
-            _catalog_row(criticism, "openlibrary"),
-            _community(criticism, "criticism"),
-            _catalog_row(expired, "openlibrary"),
-            _community(expired, "established", refresh_after=PAST),
-            _catalog_row(web, "openlibrary"),
-            replace(_community(web, "established"), evidence_id="web-w1", kind="web", display_line=None),
-        )
-        feed = _feed((mention, criticism, expired, web), evidence)
-        for lines in feed.why:
-            assert lines[0] == WHY_MATCH
->           assert WHY_COMMUNITY not in lines
-E           AssertionError: assert 'Community evidence' not in ('Matched interest', 'Community evidence', 'Recent')
+caplog = <_pytest.logging.LogCaptureFixture object at 0x109300d70>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1093123f0>
 
-tests/test_ranking_base38.py:202: AssertionError
-=========================== short test summary info ============================
-FAILED tests/test_ranking_base38.py::test_feed09_why_line_omits_endorsement_without_established_community_evidence
-1 failed, 6 passed in 0.02s
-
-
-===== m2-new(head tests, mutated ranking): exit 1
-...F...F                                                                 [100%]
-=================================== FAILURES ===================================
-_______________ test_ranking_ignores_expired_community_evidence ________________
-
-    def test_ranking_ignores_expired_community_evidence():
-        """``ranking._active`` must drop a row past its deadline.
+    def test_startup_purge_logs_a_warning_and_continues_on_failure(caplog, monkeypatch):
+        """A failed purge is recorded, not swallowed: it logs and keeps going.
     
-        ``prepared_feed`` filters the *items* by unexpired catalog evidence, but it
-        hands the whole evidence tuple to ``rank_matches``. Ranking therefore has to
-        drop expired rows itself: an expired established endorsement must not lift
-        its item (``ENDORSEMENT_WEIGHT`` is larger than the whole freshness window)
-        and must not add the community why-line. Reverting ``_active`` to pass every
-        row through changes both, which is what this pins.
+        A short interval is used so the loop makes more than one pass; the test
+        asserts a SECOND attempt actually runs, so a mutation that stops after the
+        startup pass (or after the first interval) is caught, not just the warning.
         """
-        template = next(item for item in load_seed().items if item.format == "book")
-        expired = _item(template, "z-expired", NOW, 1, "book")
-        plain = _item(template, "a-plain", NOW, 2, "book")
-        evidence = (
-            _catalog_row(expired, "openlibrary"),
-            _community(expired, "established", refresh_after=PAST),
-            _catalog_row(plain, "openlibrary"),
-        )
-        feed = _feed((plain, expired), evidence)
-        # Same-day freshness for both, so the tie breaks on item id: the expired
-        # endorsement must not change that.
->       assert [item.item_id for item in feed.items] == ["a-plain", "z-expired"]
-E       AssertionError: assert ['z-expired', 'a-plain'] == ['a-plain', 'z-expired']
-E         
-E         At index 0 diff: 'z-expired' != 'a-plain'
-E         Use -v to get more diff
+        from hackertube_core import privacy
+        attempts = []
+        second = threading.Event()
+    
+        def failing(factory):
+            attempts.append(1)
+            if len(attempts) >= 2:
+                second.set()
+            raise RuntimeError("purge boom")
+    
+        monkeypatch.setattr("hackertube_core.profile.ProfileStore", failing)
+        monkeypatch.setattr(privacy, "_profile_db_path", lambda: None)
+        with caplog.at_level(logging.WARNING, logger="hackertube.privacy"):
+            stop = privacy.start_housekeeping(interval=0.01)
+            try:
+>               assert second.wait(5), "the purge loop kept going after a failure: a second attempt ran"
+E               AssertionError: the purge loop kept going after a failure: a second attempt ran
+E               assert False
+E                +  where False = wait(5)
+E                +    where wait = <threading.Event at 0x1092d9810: unset>.wait
 
-tests/test_ranking.py:142: AssertionError
-_ test_feed09_why_line_omits_endorsement_without_established_community_evidence _
-
-    def test_feed09_why_line_omits_endorsement_without_established_community_evidence():
-        template = next(item for item in load_seed().items if item.format == "book")
-        mention = _item(template, "m1", NOW, 1, "book")
-        criticism = _item(template, "c1", NOW, 2, "book")
-        expired = _item(template, "e1", NOW, 3, "book")
-        web = _item(template, "w1", NOW, 4, "book")
-        evidence = (
-            _catalog_row(mention, "openlibrary"),
-            _community(mention, "mention"),
-            _catalog_row(criticism, "openlibrary"),
-            _community(criticism, "criticism"),
-            _catalog_row(expired, "openlibrary"),
-            _community(expired, "established", refresh_after=PAST),
-            _catalog_row(web, "openlibrary"),
-            replace(_community(web, "established"), evidence_id="web-w1", kind="web", display_line=None),
-        )
-        feed = _feed((mention, criticism, expired, web), evidence)
-        for lines in feed.why:
-            assert lines[0] == WHY_MATCH
->           assert WHY_COMMUNITY not in lines
-E           AssertionError: assert 'Community evidence' not in ('Matched interest', 'Community evidence', 'Recent')
-
-tests/test_ranking.py:229: AssertionError
+tests/test_privacy.py:176: AssertionError
+------------------------------ Captured log call -------------------------------
+WARNING  hackertube.privacy:privacy.py:72 HackerTube retention purge failed; will retry
+Traceback (most recent call last):
+  File "/Users/robert/Developer/hackertube-post34/hackertube/hackertube_core/privacy.py", line 67, in purge
+    context.run(ProfileStore, open_profile_db)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robert/Developer/hackertube-post34/tests/test_privacy.py", line 169, in failing
+    raise RuntimeError("purge boom")
+RuntimeError: purge boom
 =========================== short test summary info ============================
-FAILED tests/test_ranking.py::test_ranking_ignores_expired_community_evidence
-FAILED tests/test_ranking.py::test_feed09_why_line_omits_endorsement_without_established_community_evidence
-2 failed, 6 passed in 0.02s
+FAILED tests/test_privacy.py::test_startup_purge_logs_a_warning_and_continues_on_failure
+1 failed, 12 deselected in 5.17s
 
+EXIT 1
+restored: True

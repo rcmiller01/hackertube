@@ -28,29 +28,37 @@
       },
       "layout": {
         "hasColumns": true,
-        "rowHeight": 540.4,
-        "mainChildIndex": 0,
-        "sideChildIndex": 1,
-        "mediaPrecedesText": false,
+        "hasHeader": false,
+        "rowHeight": 611.2,
+        "headChildIndex": null,
+        "sideChildIndex": 0,
+        "mainChildIndex": 1,
+        "titlePrecedesMedia": false,
+        "mediaPrecedesText": true,
+        "display": "flex",
         "flexDirection": "column",
         "sideWidth": 290,
         "sideLeft": 15,
-        "sideBottom": 2826.2,
+        "sideTop": 2308.4,
+        "sideBottom": 2660.1,
+        "headLeft": null,
+        "headTop": null,
+        "headBottom": null,
         "mainLeft": 15,
-        "mainTop": 2308.4,
+        "mainTop": 2664.6,
         "sideHasThumb": true,
         "sideHasIcon": true,
         "thumbBox": {
-          "w": 97.5,
-          "h": 73.1,
-          "right": 112.5,
-          "bottom": 2623.7
+          "w": 192,
+          "h": 144,
+          "right": 207,
+          "bottom": 2457.6
         },
         "iconBox": {
           "w": 217.1,
           "h": 186,
           "left": 15,
-          "top": 2635
+          "top": 2468.9
         },
         "thumbnailOnOwnLine": true,
         "thumbBesideIcon": false
@@ -64,13 +72,21 @@
         "filter": "none",
         "naturalWidth": 480,
         "naturalHeight": 360,
-        "boxWidth": 97.5,
-        "boxHeight": 73.1,
+        "boxWidth": 192,
+        "boxHeight": 144,
         "insideLink": false,
         "childElements": 0,
         "ancestorClips": [],
         "naturalAspect": 1.3333333333333333,
         "boxAspect": 1.3333333333333333
+      },
+      "compactThumb169": {
+        "naturalWidth": 480,
+        "naturalHeight": 270,
+        "boxWidth": 192,
+        "boxHeight": 108,
+        "naturalAspect": 1.7777777777777777,
+        "boxAspect": 1.7777777777777777
       },
       "fullHeight": 806.3,
       "fullMark": {
@@ -125,32 +141,40 @@
       },
       "layout": {
         "hasColumns": true,
-        "rowHeight": 456,
-        "mainChildIndex": 0,
-        "sideChildIndex": 1,
-        "mediaPrecedesText": false,
+        "hasHeader": false,
+        "rowHeight": 611.2,
+        "headChildIndex": null,
+        "sideChildIndex": 0,
+        "mainChildIndex": 1,
+        "titlePrecedesMedia": false,
+        "mediaPrecedesText": true,
+        "display": "flex",
         "flexDirection": "column",
-        "sideWidth": 325.9,
+        "sideWidth": 360,
         "sideLeft": 15,
-        "sideBottom": 2771.1,
+        "sideTop": 2337.6,
+        "sideBottom": 2689.4,
+        "headLeft": null,
+        "headTop": null,
+        "headBottom": null,
         "mainLeft": 15,
-        "mainTop": 2337.6,
+        "mainTop": 2693.9,
         "sideHasThumb": true,
         "sideHasIcon": true,
         "thumbBox": {
-          "w": 97.5,
-          "h": 73.1,
-          "right": 112.5,
-          "bottom": 2709.4
+          "w": 192,
+          "h": 144,
+          "right": 207,
+          "bottom": 2486.9
         },
         "iconBox": {
           "w": 217.1,
           "h": 186,
-          "left": 123.8,
-          "top": 2579.9
+          "left": 15,
+          "top": 2498.1
         },
-        "thumbnailOnOwnLine": false,
-        "thumbBesideIcon": true
+        "thumbnailOnOwnLine": true,
+        "thumbBesideIcon": false
       },
       "compactThumb": {
         "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
@@ -161,13 +185,21 @@
         "filter": "none",
         "naturalWidth": 480,
         "naturalHeight": 360,
-        "boxWidth": 97.5,
-        "boxHeight": 73.1,
+        "boxWidth": 192,
+        "boxHeight": 144,
         "insideLink": false,
         "childElements": 0,
         "ancestorClips": [],
         "naturalAspect": 1.3333333333333333,
         "boxAspect": 1.3333333333333333
+      },
+      "compactThumb169": {
+        "naturalWidth": 480,
+        "naturalHeight": 270,
+        "boxWidth": 192,
+        "boxHeight": 108,
+        "naturalAspect": 1.7777777777777777,
+        "boxAspect": 1.7777777777777777
       },
       "fullHeight": 858.8,
       "fullMark": {
@@ -222,29 +254,37 @@
       },
       "layout": {
         "hasColumns": true,
+        "hasHeader": false,
         "rowHeight": 415.3,
-        "mainChildIndex": 0,
-        "sideChildIndex": 1,
-        "mediaPrecedesText": false,
+        "headChildIndex": null,
+        "sideChildIndex": 0,
+        "mainChildIndex": 1,
+        "titlePrecedesMedia": false,
+        "mediaPrecedesText": true,
+        "display": "flex",
         "flexDirection": "column",
-        "sideWidth": 325.9,
+        "sideWidth": 420.4,
         "sideLeft": 15,
-        "sideBottom": 1941.4,
+        "sideTop": 1548.6,
+        "sideBottom": 1745.1,
+        "headLeft": null,
+        "headTop": null,
+        "headBottom": null,
         "mainLeft": 15,
-        "mainTop": 1548.6,
+        "mainTop": 1749.6,
         "sideHasThumb": true,
         "sideHasIcon": true,
         "thumbBox": {
-          "w": 97.5,
-          "h": 73.1,
-          "right": 112.5,
-          "bottom": 1879.7
+          "w": 192,
+          "h": 144,
+          "right": 207,
+          "bottom": 1718.9
         },
         "iconBox": {
           "w": 217.1,
           "h": 186,
-          "left": 123.8,
-          "top": 1750.2
+          "left": 218.3,
+          "top": 1553.9
         },
         "thumbnailOnOwnLine": false,
         "thumbBesideIcon": true
@@ -258,13 +298,21 @@
         "filter": "none",
         "naturalWidth": 480,
         "naturalHeight": 360,
-        "boxWidth": 97.5,
-        "boxHeight": 73.1,
+        "boxWidth": 192,
+        "boxHeight": 144,
         "insideLink": false,
         "childElements": 0,
         "ancestorClips": [],
         "naturalAspect": 1.3333333333333333,
         "boxAspect": 1.3333333333333333
+      },
+      "compactThumb169": {
+        "naturalWidth": 480,
+        "naturalHeight": 270,
+        "boxWidth": 192,
+        "boxHeight": 108,
+        "naturalAspect": 1.7777777777777777,
+        "boxAspect": 1.7777777777777777
       },
       "fullHeight": 860.3,
       "fullMark": {
@@ -319,28 +367,36 @@
       },
       "layout": {
         "hasColumns": true,
+        "hasHeader": false,
         "rowHeight": 255,
-        "mainChildIndex": 0,
-        "sideChildIndex": 1,
-        "mediaPrecedesText": false,
-        "flexDirection": "row-reverse",
-        "sideWidth": 345,
+        "headChildIndex": null,
+        "sideChildIndex": 0,
+        "mainChildIndex": 1,
+        "titlePrecedesMedia": false,
+        "mediaPrecedesText": true,
+        "display": "flex",
+        "flexDirection": "row",
+        "sideWidth": 430,
         "sideLeft": 15,
+        "sideTop": 1549,
         "sideBottom": 1745.5,
-        "mainLeft": 375,
+        "headLeft": null,
+        "headTop": null,
+        "headBottom": null,
+        "mainLeft": 460,
         "mainTop": 1549,
         "sideHasThumb": true,
         "sideHasIcon": true,
         "thumbBox": {
-          "w": 97.5,
-          "h": 73.1,
-          "right": 112.5,
-          "bottom": 1683.8
+          "w": 192,
+          "h": 144,
+          "right": 207,
+          "bottom": 1719.2
         },
         "iconBox": {
           "w": 217.1,
           "h": 186,
-          "left": 123.8,
+          "left": 218.3,
           "top": 1554.2
         },
         "thumbnailOnOwnLine": false,
@@ -355,13 +411,21 @@
         "filter": "none",
         "naturalWidth": 480,
         "naturalHeight": 360,
-        "boxWidth": 97.5,
-        "boxHeight": 73.1,
+        "boxWidth": 192,
+        "boxHeight": 144,
         "insideLink": false,
         "childElements": 0,
         "ancestorClips": [],
         "naturalAspect": 1.3333333333333333,
         "boxAspect": 1.3333333333333333
+      },
+      "compactThumb169": {
+        "naturalWidth": 480,
+        "naturalHeight": 270,
+        "boxWidth": 192,
+        "boxHeight": 108,
+        "naturalAspect": 1.7777777777777777,
+        "boxAspect": 1.7777777777777777
       },
       "fullHeight": 860.7,
       "fullMark": {
@@ -416,28 +480,36 @@
       },
       "layout": {
         "hasColumns": true,
+        "hasHeader": false,
         "rowHeight": 219,
-        "mainChildIndex": 0,
-        "sideChildIndex": 1,
-        "mediaPrecedesText": false,
-        "flexDirection": "row-reverse",
-        "sideWidth": 345,
+        "headChildIndex": null,
+        "sideChildIndex": 0,
+        "mainChildIndex": 1,
+        "titlePrecedesMedia": false,
+        "mediaPrecedesText": true,
+        "display": "flex",
+        "flexDirection": "row",
+        "sideWidth": 430,
         "sideLeft": 122.5,
+        "sideTop": 1533.1,
         "sideBottom": 1729.6,
-        "mainLeft": 482.5,
+        "headLeft": null,
+        "headTop": null,
+        "headBottom": null,
+        "mainLeft": 567.5,
         "mainTop": 1533.1,
         "sideHasThumb": true,
         "sideHasIcon": true,
         "thumbBox": {
-          "w": 97.5,
-          "h": 73.1,
-          "right": 220,
-          "bottom": 1667.9
+          "w": 192,
+          "h": 144,
+          "right": 314.5,
+          "bottom": 1703.3
         },
         "iconBox": {
           "w": 217.1,
           "h": 186,
-          "left": 231.3,
+          "left": 325.8,
           "top": 1538.3
         },
         "thumbnailOnOwnLine": false,
@@ -452,13 +524,21 @@
         "filter": "none",
         "naturalWidth": 480,
         "naturalHeight": 360,
-        "boxWidth": 97.5,
-        "boxHeight": 73.1,
+        "boxWidth": 192,
+        "boxHeight": 144,
         "insideLink": false,
         "childElements": 0,
         "ancestorClips": [],
         "naturalAspect": 1.3333333333333333,
         "boxAspect": 1.3333333333333333
+      },
+      "compactThumb169": {
+        "naturalWidth": 480,
+        "naturalHeight": 270,
+        "boxWidth": 192,
+        "boxHeight": 108,
+        "naturalAspect": 1.7777777777777777,
+        "boxAspect": 1.7777777777777777
       },
       "fullHeight": 841,
       "fullMark": {
@@ -478,11 +558,16 @@
       },
       "tabOrder": {
         "order": [
+          "Watch \"Jane Austen introduction\" on YouTube",
+          "Save",
+          "Dismiss"
+        ],
+        "matchesVisual": true,
+        "fromTitle": [
           "Save",
           "Dismiss",
-          "Watch \"Jane Austen introduction\" on YouTube"
-        ],
-        "matchesVisual": false
+          "Watch \"A second YouTube video\" on YouTube"
+        ]
       },
       "searchThumb": {
         "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",

@@ -1,4 +1,4 @@
-HERMES_HOME=/Users/robert/.hermes/cache/scratch/p34-cp-1794358280
+HERMES_HOME=/Users/robert/.hermes/cache/scratch/p34-cp-1794362182
 == enable ==
 enable exit=0
 ✓ Plugin hackertube enabled.
@@ -6,8 +6,8 @@ Restart the gateway for the plugin to take effect:
   hermes gateway restart
 == installed assets in the enabled profile ==
 total 0
-drwxr-xr-x@  3 robert  staff   96 Nov 10 19:51 .
-drwx------@ 17 robert  staff  544 Nov 10 19:51 ..
+drwxr-xr-x@  3 robert  staff   96 Nov 10 20:56 .
+drwx------@ 17 robert  staff  544 Nov 10 20:56 ..
 == backend probe (clean profile) ==
 probe exit=0
 {
@@ -17,7 +17,7 @@ probe exit=0
     "items": 12
   },
   "fresh_profile": {
-    "db_path": "/Users/robert/.hermes/cache/scratch/p34-cp-1794358280/plugin-data/hackertube/profile.db",
+    "db_path": "/Users/robert/.hermes/cache/scratch/p34-cp-1794362182/plugin-data/hackertube/profile.db",
     "exists_before": false,
     "exists_after_start_housekeeping": false
   },
@@ -170,10 +170,12 @@ render exit=0
         "visibleMarkHeight": 100.18,
         "visibleMarkWidth": 143.09
       },
-      "sideChildIndex": 0,
-      "mainChildIndex": 1,
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
       "mediaPrecedesText": true,
-      "flexDirection": "column",
+      "display": "flex",
       "sideWidth": 272,
       "thumbBox": [
         192,
@@ -193,10 +195,12 @@ render exit=0
         "visibleMarkHeight": 100.18,
         "visibleMarkWidth": 143.09
       },
-      "sideChildIndex": 0,
-      "mainChildIndex": 1,
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
       "mediaPrecedesText": true,
-      "flexDirection": "column",
+      "display": "flex",
       "sideWidth": 342,
       "thumbBox": [
         192,
@@ -216,10 +220,12 @@ render exit=0
         "visibleMarkHeight": 100.18,
         "visibleMarkWidth": 143.09
       },
-      "sideChildIndex": 0,
-      "mainChildIndex": 1,
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
       "mediaPrecedesText": true,
-      "flexDirection": "column",
+      "display": "flex",
       "sideWidth": 421.1,
       "thumbBox": [
         192,
@@ -239,10 +245,12 @@ render exit=0
         "visibleMarkHeight": 100.18,
         "visibleMarkWidth": 143.09
       },
-      "sideChildIndex": 0,
-      "mainChildIndex": 1,
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
       "mediaPrecedesText": true,
-      "flexDirection": "row",
+      "display": "grid",
       "sideWidth": 430,
       "thumbBox": [
         192,
@@ -262,10 +270,12 @@ render exit=0
         "visibleMarkHeight": 100.18,
         "visibleMarkWidth": 143.09
       },
-      "sideChildIndex": 0,
-      "mainChildIndex": 1,
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
       "mediaPrecedesText": true,
-      "flexDirection": "row",
+      "display": "grid",
       "sideWidth": 430,
       "thumbBox": [
         192,
@@ -277,4 +287,4 @@ render exit=0
     }
   ]
 }
-CLEAN_PROFILE_DIR=/Users/robert/.hermes/cache/scratch/p34-cp-1794358280
+CLEAN_PROFILE_DIR=/Users/robert/.hermes/cache/scratch/p34-cp-1794362182

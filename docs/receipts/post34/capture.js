@@ -4,12 +4,17 @@
 //
 // Records the measured claims this card makes at 320 / 390 / 767 / 768 / 1280:
 //   - the compact thumbnail box against the Icon's VISIBLE red mark, in both
-//     dimensions, unaltered (its own 4:3 ratio, no radius/clip/filter/overlay);
+//     dimensions, unaltered (its own aspect, no radius/clip/filter/overlay),
+//     for both the 4:3 `hqdefault` (192x144) and 16:9 `maxresdefault`
+//     (192x108) frame shapes;
 //   - the visible mark stays >= 100px and the Icon link stays >= 44px;
-//   - the media column is the first child in the DOM, so Tab order equals the
-//     painted order (checked at 1280);
+//   - the row HEADER (badge, title, creator) is the first child in the DOM,
+//     then the media column, then the rest, so heading navigation to the title
+//     reaches this row's Watch link before Save and Dismiss; at 768px and up
+//     the media column is still painted left via grid areas, so the focusable
+//     order (Watch, Save, Dismiss — checked at 1280) matches the painted order;
 //   - no owning box overflows horizontally at 320 / 390 / 767;
-//   - the compact row height, so this card can compare it with #34.
+//   - the compact row height, so this card can compare it with the pre-fix head.
 //
 // The thumbnail image is an SVG fixture served for the i.ytimg.com host path; it
 // is NOT a real YouTube image and this receipt makes no live request.
@@ -18,7 +23,7 @@
 //   node capture.js --label head --shots     # writes geometry-head.json + PNGs
 //   node capture.js --label base             # writes geometry-base.json only
 // Asset paths come from HACKERTUBE_PAGE_PATH / HACKERTUBE_STYLE_PATH (the
-// harness reads them), so the base run points at the #34 files.
+// harness reads them), so the base run points at the pre-fix files.
 const fs = require("node:fs");
 const path = require("node:path");
 const assert = require("node:assert/strict");
@@ -47,6 +52,37 @@ const THUMB_SVG = () => `<svg xmlns="http://www.w3.org/2000/svg" width="480" hei
   <rect x="0" y="45" width="480" height="270" fill="#c4302b"/>
   <text x="24" y="200" font-family="Helvetica" font-size="26" fill="#ffffff">fixture thumbnail (not a real YouTube image)</text>
 </svg>`;
+
+/* The 16:9 `maxresdefault` frame shape. A 4:3-only fixture cannot expose a
+ * `cover` crop of a 16:9 image (a 4:3 source fills a 4:3 box exactly), so the
+ * receipt measures this shape too and expects the 192x108 box. */
+const THUMB169_SVG = () => `<svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270">
+  <rect width="480" height="270" fill="#2b2b2b"/>
+  <rect x="0" y="34" width="480" height="202" fill="#c4302b"/>
+  <text x="24" y="150" font-family="Helvetica" font-size="26" fill="#ffffff">16:9 fixture thumbnail (not a real YouTube image)</text>
+</svg>`;
+
+async function readCompactThumb169(browser, fixture, width) {
+  const page = await browser.newPage({ viewport: { width, height: 900 } });
+  try {
+    await page.route("https://i.ytimg.com/**",
+      route => route.fulfill({ contentType: "image/svg+xml", body: THUMB169_SVG() }));
+    await page.goto(fixture.origin);
+    await page.locator("#videos .ht-compact img.ht-thumb").first().waitFor();
+    await page.waitForFunction(() => {
+      const el = document.querySelector("#videos .ht-compact img.ht-thumb");
+      return el && el.naturalWidth > 0;
+    });
+    return await page.locator("#videos .ht-compact img.ht-thumb").first().evaluate(el => {
+      const box = el.getBoundingClientRect();
+      return {
+        naturalWidth: el.naturalWidth, naturalHeight: el.naturalHeight,
+        boxWidth: Math.round(box.width * 10) / 10, boxHeight: Math.round(box.height * 10) / 10,
+        naturalAspect: el.naturalWidth / el.naturalHeight, boxAspect: box.width / box.height,
+      };
+    });
+  } finally { await page.close(); }
+}
 
 const items = [
   { item_id: "youtube:LCEmiRjPEtQ", format: "video", title: "Jane Austen introduction", destination: WATCH,
@@ -177,27 +213,39 @@ function assertUncropped(thumb, labelText) {
 async function readCompactRow(card) {
   return card.evaluate(el => {
     const container = el.querySelector(".ht-compact-row");
+    const head = el.querySelector(".ht-compact-head");
     const side = el.querySelector(".ht-compact-side");
     const main = el.querySelector(".ht-compact-main");
     const rb = el.getBoundingClientRect();
     if (!container || !side || !main) return { hasColumns: false, rowHeight: Math.round(rb.height * 10) / 10 };
     const s = side.getBoundingClientRect();
     const m = main.getBoundingClientRect();
+    const h = head ? head.getBoundingClientRect() : null;
     const thumbEl = el.querySelector("img.ht-thumb");
     const iconEl = el.querySelector(".ht-youtube-icon img");
+    const titleEl = el.querySelector(".ht-title");
     const thumb = thumbEl ? thumbEl.getBoundingClientRect() : null;
     const icon = iconEl ? iconEl.getBoundingClientRect() : null;
     const follows = (a, b) => !!(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
+    const childIndex = node => Array.prototype.indexOf.call(container.children, node);
     return {
       hasColumns: true,
+      hasHeader: !!head,
       rowHeight: Math.round(rb.height * 10) / 10,
-      mainChildIndex: Array.prototype.indexOf.call(container.children, main),
-      sideChildIndex: Array.prototype.indexOf.call(container.children, side),
+      headChildIndex: head ? childIndex(head) : null,
+      sideChildIndex: childIndex(side),
+      mainChildIndex: childIndex(main),
+      titlePrecedesMedia: !!(titleEl && follows(titleEl, side)),
       mediaPrecedesText: follows(side, main),
+      display: getComputedStyle(container).display,
       flexDirection: getComputedStyle(container).flexDirection,
       sideWidth: Math.round(s.width * 10) / 10,
       sideLeft: Math.round(s.left * 10) / 10,
+      sideTop: Math.round(s.top * 10) / 10,
       sideBottom: Math.round(s.bottom * 10) / 10,
+      headLeft: h ? Math.round(h.left * 10) / 10 : null,
+      headTop: h ? Math.round(h.top * 10) / 10 : null,
+      headBottom: h ? Math.round(h.bottom * 10) / 10 : null,
       mainLeft: Math.round(m.left * 10) / 10,
       mainTop: Math.round(m.top * 10) / 10,
       sideHasThumb: !!thumbEl && side.contains(thumbEl),
@@ -212,7 +260,7 @@ async function readCompactRow(card) {
 
 async function readOverflow(tab) {
   return tab.evaluate(() => {
-    const selectors = [".hackertube", ".ht-compact", ".ht-compact-row", ".ht-compact-side",
+    const selectors = [".hackertube", ".ht-compact", ".ht-compact-row", ".ht-compact-head", ".ht-compact-side",
       ".ht-youtube-compact", "img.ht-thumb", ".ht-youtube-icon"];
     const offenders = [];
     for (const selector of selectors) {
@@ -322,7 +370,25 @@ async function readTabOrder(tab) {
         assert.equal(await compact.getByText(NOTE, { exact: true }).count(), 1, "compact row keeps the short note");
         const layout = await readCompactRow(compact);
         const overflow = await readOverflow(tab);
-        const tabOrder = width === 1280 ? await readTabOrder(tab) : null;
+        let tabOrder = null;
+        if (width === 1280) {
+          tabOrder = await readTabOrder(tab);
+          // Heading navigation lands on the title; Tab from there must reach
+          // THIS row's Watch link, then Save, then Dismiss.
+          await tab.evaluate(() => {
+            const title = document.querySelector("#videos .ht-compact .ht-title");
+            title.setAttribute("tabindex", "-1");
+            title.focus();
+          });
+          const fromTitle = [];
+          for (let step = 0; step < 3; step += 1) {
+            await tab.keyboard.press("Tab");
+            fromTitle.push(await tab.evaluate(() =>
+              (document.activeElement.getAttribute("aria-label") || document.activeElement.textContent || "").trim()));
+          }
+          tabOrder.fromTitle = fromTitle;
+        }
+        const compactThumb169 = await readCompactThumb169(browser, fixture, width);
 
         const fullCard = tab.locator("#ranked-feed article").first();
         const fullThumb = await readThumb(tab, "#ranked-feed");
@@ -338,20 +404,36 @@ async function readTabOrder(tab) {
             `at ${width}px the thumbnail is wider than the visible mark (${compactThumb.boxWidth} vs ${mark.visibleMarkWidth})`);
           assert.ok(compactThumb.boxHeight > mark.visibleMarkHeight,
             `at ${width}px the thumbnail is taller than the visible mark (${compactThumb.boxHeight} vs ${mark.visibleMarkHeight})`);
-          assert.ok(compactThumb.boxWidth >= 192, "thumbnail at least 192px wide: " + compactThumb.boxWidth);
-          assert.ok(compactThumb.boxHeight >= 108, "thumbnail at least 108px tall: " + compactThumb.boxHeight);
-          assert.equal(layout.sideChildIndex, 0, "the media is the first child in the DOM");
-          assert.equal(layout.mainChildIndex, 1, "the row text is the second child in the DOM");
-          assert.equal(layout.mediaPrecedesText, true, "the media precedes the text in the DOM");
+          assert.ok(Math.abs(compactThumb.boxWidth - 192) <= 1, "the 4:3 thumbnail box is 192px wide: " + compactThumb.boxWidth);
+          assert.ok(Math.abs(compactThumb.boxHeight - 144) <= 1, "the 4:3 thumbnail box is 144px tall: " + compactThumb.boxHeight);
+          assert.equal(compactThumb169.naturalHeight, 270, "the 16:9 fixture is 270px tall");
+          assert.ok(Math.abs(compactThumb169.boxWidth - 192) <= 1, "the 16:9 thumbnail box is 192px wide: " + compactThumb169.boxWidth);
+          assert.ok(Math.abs(compactThumb169.boxHeight - 108) <= 1,
+            "the 16:9 thumbnail box is 108px tall, its own aspect and not a 4:3 crop: " + compactThumb169.boxHeight);
+          assert.ok(Math.abs(compactThumb169.naturalAspect - compactThumb169.boxAspect) < 0.02,
+            "the 16:9 thumbnail keeps its own aspect (uncropped): " + compactThumb169.naturalAspect.toFixed(3) + " vs " + compactThumb169.boxAspect.toFixed(3));
+          assert.equal(layout.hasHeader, true, "the compact row has a header wrapper");
+          assert.equal(layout.headChildIndex, 0, "the row header is the first child in the DOM");
+          assert.equal(layout.sideChildIndex, 1, "the media is the second child in the DOM");
+          assert.equal(layout.mainChildIndex, 2, "the rest of the text is the third child in the DOM");
+          assert.equal(layout.titlePrecedesMedia, true,
+            "the title precedes the media in the DOM, so heading navigation reaches this row's link before the next row's");
+          assert.equal(layout.mediaPrecedesText, true, "the media precedes the rest of the text in the DOM");
           assert.equal(layout.sideHasThumb, true, "the thumbnail is in the media column");
           assert.equal(layout.sideHasIcon, true, "the Icon is in the media column");
           if (width >= 768) {
-            assert.equal(layout.flexDirection, "row", `at ${width} the media column sits left of the text in a plain row`);
-            assert.ok(layout.sideLeft <= layout.mainLeft, "the media column sits left of the text");
+            assert.equal(layout.display, "grid", `at ${width} the media column sits left of the text via grid areas`);
+            assert.ok(layout.sideLeft < layout.headLeft, "the media column sits left of the header");
+            assert.ok(layout.sideLeft < layout.mainLeft, "the media column sits left of the text");
+            assert.ok(Math.abs(layout.headLeft - layout.mainLeft) <= 1,
+              `at ${width} the header and the text start at the same x (${layout.headLeft} vs ${layout.mainLeft})`);
+            assert.ok(layout.headBottom <= layout.mainTop + 1, `at ${width} the header sits above the rest of the text`);
             assert.ok(Math.abs(layout.sideWidth - MEDIA_COLUMN_WIDTH) <= 1, "the media column has the fixed width: " + layout.sideWidth);
             assert.equal(layout.thumbBesideIcon, true, `at ${width} the thumbnail and Icon share one line`);
           } else {
-            assert.equal(layout.flexDirection, "column", `at ${width} the compact row stacks`);
+            assert.equal(layout.display, "flex", `at ${width} the compact row stacks`);
+            assert.ok(layout.headBottom <= layout.sideTop + 1, `at ${width} the header stacks above the media`);
+            assert.ok(layout.sideBottom <= layout.mainTop + 1, `at ${width} the media stacks above the rest of the text`);
             // 320 and 390 cannot fit the 192px thumbnail beside the 217px Icon
             // (421px + the gap); 767 has the room for one line.
             assert.equal(layout.thumbnailOnOwnLine, width <= 390,
@@ -360,7 +442,13 @@ async function readTabOrder(tab) {
             assert.ok(overflow.scrollWidth <= overflow.innerWidth + 1, `at ${width} the document does not scroll horizontally`);
           }
           assert.ok(fullMark.visibleMarkHeight >= 100, "full card visible mark >= 100px: " + fullMark.visibleMarkHeight);
-          if (tabOrder) assert.equal(tabOrder.matchesVisual, true, "at 1280px Tab order matches the painted order: " + JSON.stringify(tabOrder.order));
+          if (tabOrder) {
+            assert.equal(tabOrder.matchesVisual, true, "at 1280px Tab order matches the painted order: " + JSON.stringify(tabOrder.order));
+            assert.match(tabOrder.fromTitle[0] || "", /^Watch "/,
+              "Tab from the title reaches this row's Watch link: " + JSON.stringify(tabOrder.fromTitle));
+            assert.equal(tabOrder.fromTitle[1], "Save", "Tab then reaches this row's Save: " + JSON.stringify(tabOrder.fromTitle));
+            assert.equal(tabOrder.fromTitle[2], "Dismiss", "Tab then reaches this row's Dismiss: " + JSON.stringify(tabOrder.fromTitle));
+          }
         }
 
         if (shots) {
@@ -383,15 +471,19 @@ async function readTabOrder(tab) {
           await tab.locator("#hackertube-results").screenshot({ path: path.join(out, `search-${width}.png`) });
         }
 
-        measures.viewports.push({ width, compactTapTarget: tap, mark, layout, compactThumb, fullHeight, fullMark, overflow, tabOrder, searchThumb });
+        measures.viewports.push({ width, compactTapTarget: tap, mark, layout, compactThumb, compactThumb169, fullHeight, fullMark, overflow, tabOrder, searchThumb });
       } finally {
         await tab.close();
         await fixture.close();
       }
     }
     fs.writeFileSync(path.join(out, `geometry-${label}.json`), JSON.stringify(measures, null, 2) + "\n");
-    console.log(JSON.stringify(measures.viewports.map(v => ({ width: v.width, flex: v.layout.flexDirection, rowHeight: v.layout.rowHeight,
-      thumb: [v.compactThumb.boxWidth, v.compactThumb.boxHeight], mark: [v.mark.visibleMarkWidth, v.mark.visibleMarkHeight],
-      thumbnailOnOwnLine: v.layout.thumbnailOnOwnLine, thumbBesideIcon: v.layout.thumbBesideIcon, overflow: v.overflow.offenders, tabMatchesVisual: v.tabOrder ? v.tabOrder.matchesVisual : null })), null, 2));
+    console.log(JSON.stringify(measures.viewports.map(v => ({ width: v.width, display: v.layout.display, rowHeight: v.layout.rowHeight,
+      headChildIndex: v.layout.headChildIndex, sideChildIndex: v.layout.sideChildIndex, mainChildIndex: v.layout.mainChildIndex,
+      titlePrecedesMedia: v.layout.titlePrecedesMedia,
+      thumb: [v.compactThumb.boxWidth, v.compactThumb.boxHeight], thumb169: [v.compactThumb169.boxWidth, v.compactThumb169.boxHeight],
+      mark: [v.mark.visibleMarkWidth, v.mark.visibleMarkHeight],
+      thumbnailOnOwnLine: v.layout.thumbnailOnOwnLine, thumbBesideIcon: v.layout.thumbBesideIcon, overflow: v.overflow.offenders,
+      tabMatchesVisual: v.tabOrder ? v.tabOrder.matchesVisual : null, tabFromTitle: v.tabOrder ? v.tabOrder.fromTitle : null })), null, 2));
   } finally { await browser.close(); }
 })().catch(e => { console.error(e); process.exitCode = 1; });

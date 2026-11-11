@@ -1,7 +1,7 @@
 {
-  "home": "/Users/robert/.hermes/cache/scratch/p34-cp-1794358280",
-  "page": "/Users/robert/.hermes/cache/scratch/p34-cp-1794358280/plugins/hackertube/dashboard/dist/index.js",
-  "style": "/Users/robert/.hermes/cache/scratch/p34-cp-1794358280/plugins/hackertube/dashboard/dist/style.css",
+  "home": "/Users/robert/.hermes/cache/scratch/p34-cp-1794362182",
+  "page": "/Users/robert/.hermes/cache/scratch/p34-cp-1794362182/plugins/hackertube/dashboard/dist/index.js",
+  "style": "/Users/robert/.hermes/cache/scratch/p34-cp-1794362182/plugins/hackertube/dashboard/dist/style.css",
   "lookalikeHost": {
     "label": "look-alike host",
     "fullCardThumbs": 0,
@@ -108,10 +108,12 @@
         "visibleMarkHeight": 100.18,
         "visibleMarkWidth": 143.09
       },
-      "sideChildIndex": 0,
-      "mainChildIndex": 1,
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
       "mediaPrecedesText": true,
-      "flexDirection": "column",
+      "display": "flex",
       "sideWidth": 272,
       "thumbBox": [
         192,
@@ -131,10 +133,12 @@
         "visibleMarkHeight": 100.18,
         "visibleMarkWidth": 143.09
       },
-      "sideChildIndex": 0,
-      "mainChildIndex": 1,
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
       "mediaPrecedesText": true,
-      "flexDirection": "column",
+      "display": "flex",
       "sideWidth": 342,
       "thumbBox": [
         192,
@@ -154,10 +158,12 @@
         "visibleMarkHeight": 100.18,
         "visibleMarkWidth": 143.09
       },
-      "sideChildIndex": 0,
-      "mainChildIndex": 1,
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
       "mediaPrecedesText": true,
-      "flexDirection": "column",
+      "display": "flex",
       "sideWidth": 421.1,
       "thumbBox": [
         192,
@@ -177,10 +183,12 @@
         "visibleMarkHeight": 100.18,
         "visibleMarkWidth": 143.09
       },
-      "sideChildIndex": 0,
-      "mainChildIndex": 1,
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
       "mediaPrecedesText": true,
-      "flexDirection": "row",
+      "display": "grid",
       "sideWidth": 430,
       "thumbBox": [
         192,
@@ -200,10 +208,12 @@
         "visibleMarkHeight": 100.18,
         "visibleMarkWidth": 143.09
       },
-      "sideChildIndex": 0,
-      "mainChildIndex": 1,
+      "headChildIndex": 0,
+      "sideChildIndex": 1,
+      "mainChildIndex": 2,
+      "titlePrecedesMedia": true,
       "mediaPrecedesText": true,
-      "flexDirection": "row",
+      "display": "grid",
       "sideWidth": 430,
       "thumbBox": [
         192,
