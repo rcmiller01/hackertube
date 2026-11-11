@@ -1,0 +1,177 @@
+{
+  "python_collected": 334,
+  "python_passed": 334,
+  "python_failed": null,
+  "node": {
+    "tests": 176,
+    "pass": 176,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "feed12": {
+    "pass": 10,
+    "runs": 10
+  },
+  "ring_contrast_per_viewport": [
+    {
+      "width": 320,
+      "ring": [
+        24,
+        24,
+        27
+      ],
+      "surface": {
+        "left": [
+          244,
+          244,
+          245
+        ],
+        "right": [
+          244,
+          244,
+          245
+        ],
+        "top": [
+          255,
+          255,
+          255
+        ],
+        "bottom": [
+          255,
+          255,
+          255
+        ]
+      },
+      "contrast": {
+        "left": 16.118,
+        "right": 16.118,
+        "top": 17.717,
+        "bottom": 17.717
+      }
+    },
+    {
+      "width": 390,
+      "ring": [
+        24,
+        24,
+        27
+      ],
+      "surface": {
+        "left": [
+          244,
+          244,
+          245
+        ],
+        "right": [
+          244,
+          244,
+          245
+        ],
+        "top": [
+          255,
+          255,
+          255
+        ],
+        "bottom": [
+          255,
+          255,
+          255
+        ]
+      },
+      "contrast": {
+        "left": 16.118,
+        "right": 16.118,
+        "top": 17.717,
+        "bottom": 17.717
+      }
+    },
+    {
+      "width": 768,
+      "ring": [
+        24,
+        24,
+        27
+      ],
+      "surface": {
+        "left": [
+          244,
+          244,
+          245
+        ],
+        "right": [
+          244,
+          244,
+          245
+        ],
+        "top": [
+          255,
+          255,
+          255
+        ],
+        "bottom": [
+          255,
+          255,
+          255
+        ]
+      },
+      "contrast": {
+        "left": 16.118,
+        "right": 16.118,
+        "top": 17.717,
+        "bottom": 17.717
+      }
+    },
+    {
+      "width": 1280,
+      "ring": [
+        24,
+        24,
+        27
+      ],
+      "surface": {
+        "left": [
+          244,
+          244,
+          245
+        ],
+        "right": [
+          244,
+          244,
+          245
+        ],
+        "top": [
+          255,
+          255,
+          255
+        ],
+        "bottom": [
+          255,
+          255,
+          255
+        ]
+      },
+      "contrast": {
+        "left": 16.118,
+        "right": 16.118,
+        "top": 17.717,
+        "bottom": 17.717
+      }
+    }
+  ],
+  "ring_contrast_min": 16.118,
+  "ring_contrast_max": 17.717,
+  "item1_probe_original_exit": 0,
+  "item1_probe_fixed_leak_exit": 1,
+  "item1_probe_clean_exit": 0,
+  "item3_restored_green_exit": 0,
+  "item4_restored_green_exit": 0,
+  "item2_restored_green_exit": 0,
+  "mutations_red_fail_counts": {
+    "item3_absent_guard": 6,
+    "item3_wrong_message": 6,
+    "item2_no_tab": 1,
+    "item4_ring_surface_color": 1
+  }
+}

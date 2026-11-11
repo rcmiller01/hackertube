@@ -1,0 +1,15 @@
+# MUTATION 2 (wrong message): 'monkeypatch is required' -> 'monkeypatch needed'
+E         - monkeypatch is required
+E         + monkeypatch needed
+
+tests/test_route_harness.py:46: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_route_harness.py::test_host_entry_points_require_monkeypatch[omitted-start]
+FAILED tests/test_route_harness.py::test_host_entry_points_require_monkeypatch[omitted-install_host]
+FAILED tests/test_route_harness.py::test_host_entry_points_require_monkeypatch[omitted-Dashboard]
+FAILED tests/test_route_harness.py::test_host_entry_points_require_monkeypatch[explicit_none-start]
+FAILED tests/test_route_harness.py::test_host_entry_points_require_monkeypatch[explicit_none-install_host]
+FAILED tests/test_route_harness.py::test_host_entry_points_require_monkeypatch[explicit_none-Dashboard]
+6 failed in 0.02s
+command exit_code=1
+restored original bytes: /Users/robert/Developer/hackertube-post37/tests/route_harness.py

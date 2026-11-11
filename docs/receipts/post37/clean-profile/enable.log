@@ -1,0 +1,3 @@
+✓ Plugin hackertube enabled.
+Restart the gateway for the plugin to take effect:
+  hermes gateway restart

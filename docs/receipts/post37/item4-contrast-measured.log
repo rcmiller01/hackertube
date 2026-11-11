@@ -1,0 +1,18 @@
+# Item 4 measured ring contrast per viewport (temporary console.log, then restored)
+mutation: /Users/robert/Developer/hackertube-post37/tests/test_privacy_browser.js: replacing 1 occurrence(s) of '      }\n      assert.ok(\n        geometry.box.left >= geometry.card.left - 0.01 && geometry.box.right <= geometry.card.right + 0.01,' -> '      }\n      console.log("MEASURED_CONTRAST at " + width + "px ring=" + JSON.stringify(ring.ringRgb) + " surface=" + JSON.stringify(ring.surface) + " contrast=" + JSON.stringify(ring.contrast));\n      assert.ok(\n        geometry.box.left >= geometry.card.left - 0.01 && geometry.box.right <= geometry.card.right + 0.01,'
+MEASURED_CONTRAST at 320px ring=[24,24,27] surface={"left":[244,244,245],"right":[244,244,245],"top":[255,255,255],"bottom":[255,255,255]} contrast={"left":16.118,"right":16.118,"top":17.717,"bottom":17.717}
+MEASURED_CONTRAST at 390px ring=[24,24,27] surface={"left":[244,244,245],"right":[244,244,245],"top":[255,255,255],"bottom":[255,255,255]} contrast={"left":16.118,"right":16.118,"top":17.717,"bottom":17.717}
+MEASURED_CONTRAST at 768px ring=[24,24,27] surface={"left":[244,244,245],"right":[244,244,245],"top":[255,255,255],"bottom":[255,255,255]} contrast={"left":16.118,"right":16.118,"top":17.717,"bottom":17.717}
+MEASURED_CONTRAST at 1280px ring=[24,24,27] surface={"left":[244,244,245],"right":[244,244,245],"top":[255,255,255],"bottom":[255,255,255]} contrast={"left":16.118,"right":16.118,"top":17.717,"bottom":17.717}
+✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (1783.474042ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1822.1
+command exit_code=0
+restored original bytes: /Users/robert/Developer/hackertube-post37/tests/test_privacy_browser.js
+exit_code=0

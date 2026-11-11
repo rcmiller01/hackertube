@@ -34,6 +34,13 @@ def test_start_restores_all_six_host_modules_after_teardown(tmp_path, monkeypatc
 
 
 @pytest.mark.parametrize("factory", [route_harness.start, route_harness.install_host, route_harness.Dashboard])
-def test_host_entry_points_require_monkeypatch(tmp_path, factory):
-    with pytest.raises(TypeError, match="monkeypatch"):
-        factory(tmp_path)
+@pytest.mark.parametrize("call", ["omitted", "explicit_none"])
+def test_host_entry_points_require_monkeypatch(tmp_path, factory, call):
+    # Both ways an unscoped installation can be requested: the argument left
+    # out, and the argument passed as None. Each must raise the SAME explicit
+    # TypeError with the exact message, so a guard that is absent, wrong-typed,
+    # or worded differently fails this test.
+    kwargs = {} if call == "omitted" else {"monkeypatch": None}
+    with pytest.raises(TypeError) as excinfo:
+        factory(tmp_path, **kwargs)
+    assert str(excinfo.value) == "monkeypatch is required"

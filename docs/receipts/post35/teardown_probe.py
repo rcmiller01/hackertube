@@ -31,4 +31,10 @@ def pytest_runtest_teardown(item, nextitem):
 
 
 def pytest_sessionfinish(session, exitstatus):
-    print("[teardown_probe] leaked_after_session=", [n for n in NAMES if n in sys.modules])
+    leaked = [n for n in NAMES if n in sys.modules]
+    print("[teardown_probe] leaked_after_session=", leaked)
+    if leaked:
+        # A host stub left in sys.modules after the whole session is the defect
+        # this probe exists to catch, so the run must FAIL, not just print.
+        # ``session.exitstatus`` is the value pytest returns from the run.
+        session.exitstatus = 1
