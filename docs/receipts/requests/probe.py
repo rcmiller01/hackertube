@@ -27,6 +27,7 @@ sys.path.insert(0, str(ROOT / "tests"))
 # hackertube_core lives in the plugin package, not at the repository root.
 sys.path.insert(0, str(ROOT / "hackertube"))
 
+from pytest import MonkeyPatch  # noqa: E402
 import route_harness  # noqa: E402
 from hackertube_core import outbound  # noqa: E402
 from hackertube_core.adapters import youtube  # noqa: E402
@@ -70,9 +71,9 @@ def _phase(report, name, call):
     return result
 
 
-def browsing(data_root, report):
+def browsing(data_root, report, monkeypatch):
     """FEED04: open, rank, page, save, dismiss, open, and reopen."""
-    dashboard = route_harness.start(data_root, name="probe_feed04")
+    dashboard = route_harness.start(data_root, monkeypatch=monkeypatch, name="probe_feed04")
     try:
         _phase(report, "open_catalog", lambda: dashboard.get("/catalog").status_code)
         first = _phase(report, "open_feed", lambda: dashboard.get("/feed").json())
@@ -108,7 +109,7 @@ def browsing(data_root, report):
     finally:
         dashboard.close()
 
-    reopened = route_harness.start(data_root, name="probe_feed04_reopened")
+    reopened = route_harness.start(data_root, monkeypatch=monkeypatch, name="probe_feed04_reopened")
     try:
         _phase(report, "reopen_catalog", lambda: reopened.get("/catalog").status_code)
         body = _phase(report, "reopen_feed", lambda: reopened.get("/feed").json())
@@ -120,9 +121,9 @@ def browsing(data_root, report):
         reopened.close()
 
 
-def pref08(data_root, report):
+def pref08(data_root, report, monkeypatch):
     """PREF08: browsing with stored interests submits nothing."""
-    dashboard = route_harness.start(data_root, name="probe_pref08")
+    dashboard = route_harness.start(data_root, monkeypatch=monkeypatch, name="probe_pref08")
     phases = {}
     try:
         for interest in ("jane austen", "AI", "C++", "gardening"):
@@ -139,11 +140,11 @@ def pref08(data_root, report):
     report["pref08_phases"] = phases
 
 
-def job02(data_root, report):
+def job02(data_root, report, monkeypatch):
     """JOB02 at the plugin boundary: repeated load and display, no paid job."""
     loads = {}
     for index in range(5):
-        dashboard = route_harness.start(data_root, name=f"probe_job02_{index}")
+        dashboard = route_harness.start(data_root, monkeypatch=monkeypatch, name=f"probe_job02_{index}")
         try:
             _phase(loads, f"load_{index}", lambda: dashboard.get("/feed").status_code)
         finally:
@@ -185,9 +186,9 @@ def main():
             ("pref08", pref08),
             ("job02", job02),
         ):
-            with outbound.guard():
+            with outbound.guard(), MonkeyPatch.context() as monkeypatch:
                 outbound.reset()
-                call(root, report)
+                call(root, report, monkeypatch)
                 report[f"{name}_counters"] = outbound.counters()
                 report[f"{name}_usage"] = outbound.usage()
 
