@@ -6,6 +6,13 @@ Head the measurements were captured at: **`44592fdc904496c39b8e640de2b8174324f21
 the commit after it and changes nothing that was measured. PR #35's earlier head,
 `e44b825`, is the **pre-fix** head this receipt compares against (`before/`).
 
+The round-2 review correction (`1a7d440e5f8fe1c30bb65132ef6d1a09ab904534`, the
+`route_harness` monkeypatch-teardown fix, plus its own teardown-probe receipts and
+a refreshed `pytest.log` / `node.log` / `probe-*.log`) touches **only** test files
+and this receipt directory: the production bundle, the stylesheet and every
+screenshot were byte-identical between `44592fd` and `1a7d440`, which is why the
+geometry tables below still quote the `44592fd` capture.
+
 Scope of every measurement below: the production bundle and stylesheet in a React
 fixture with stub SDK components, a stub local API, and fixture images served
 locally for the `i.ytimg.com` paths — plus, in the clean-profile run, the assets
