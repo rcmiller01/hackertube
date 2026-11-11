@@ -1109,6 +1109,14 @@ test("a compact row's header sits one row gap above the rest of its text at 768 
   } finally { await browser.close(); }
 });
 
+/* Both colour schemes for each measured width. The dashboard's own page is dark
+ * whatever the OS scheme says, so a light-only run never measures a light ring
+ * over a dark surface; the fixture's host token block supplies the dark values
+ * and `.ht-card-content` supplies the host CardContent padding. */
+const RING_RUNS = [320, 390, 768, 1280].flatMap((width) => [
+  {width, scheme: "light"}, {width, scheme: "dark"},
+]);
+
 /* The focus ring as it is actually PAINTED, not as computed style describes it.
  * `outlineColor` alone cannot see a ring's real strength: it drops alpha
  * (`outline-color: rgba(24,24,27,.25)` paints 1.71:1), it ignores `opacity`
@@ -1207,27 +1215,21 @@ async function measurePaintedRing(ui, link, before, after, geometry) {
 }
 
 /* Assert the painted-pixel ring measurement for one focused Watch link. Every
- * side the ring is not cut on must be painted and must reach 3:1 against the
- * surface it covers; a side that IS cut must be entirely unpainted (a partial
- * cut still fails) and is reported instead of measured. */
-function assertPaintedRing(ring, label) {
-  const totals = Object.values(ring.sides).reduce((acc, s) => ({painted: acc.painted + s.painted, total: acc.total + s.total}), {painted: 0, total: 0});
-  assert.ok(
-    totals.painted / totals.total >= 0.5,
-    `${label}: the focus ring is painted around the link at all (${totals.painted}/${totals.total} centreline pixels)`,
-  );
-  const unpainted = Object.entries(ring.cut).filter(([, clippers]) => clippers.length > 0);
-  for (const [side, clippers] of unpainted) {
-    const sample = ring.sides[side];
-    console.log(`REPORT ${label} ${side}: the ring is clipped by ${clippers.map(c => c.name).join(", ")}` +
-      ` (${sample.painted}/${sample.total} painted) — not a contrast reading`);
-    assert.ok(
-      sample.painted === 0 || sample.painted / sample.total >= 0.95,
-      `${label}: the ${side} ring is only partly clipped away (${sample.painted}/${sample.total} painted) — a partially cut ring is a defect`,
-    );
-  }
+ * side must be painted along its whole centreline, must reach 3:1 against the
+ * surface it is painted over, and must not fall outside a clipping ancestor.
+ * There is no aggregate allowance: a ring that paints 60% of its pixels is not
+ * 60% of a focus indicator. Nor is there a per-side skip: a side that paints
+ * nothing is either clipped by an ancestor or the ring is not drawn at all in
+ * that colour, and both are defects. Contrast is checked on every side whose
+ * pixels exist, so 95%-painted-but-dim cannot ride on the painted fraction. */
+function assertPaintedRing(ring, label, scheme) {
   for (const [side, sample] of Object.entries(ring.sides)) {
-    if (ring.cut[side].length > 0) continue;
+    const clippers = ring.cut[side];
+    assert.equal(
+      clippers.length, 0,
+      `${label}: no ancestor clips the ${side} ring (cut by ${clippers.map(c => c.name).join(", ")}; ` +
+        `${sample.painted}/${sample.total} of the side is painted)`,
+    );
     assert.ok(
       sample.total > 0 && sample.painted / sample.total >= 0.95,
       `${label}: the focus ring is painted on the ${side} (${sample.painted}/${sample.total} pixels)`,
@@ -1240,6 +1242,20 @@ function assertPaintedRing(ring, label) {
         ` on surface rgb(${where.surface.join(",")}) at ${where.x},${where.y})`,
     );
   }
+  // The scheme is what the ring is measured against, so prove the run really
+  // landed in it: a dark run that measured a light surface would pass for the
+  // wrong reason, and the light run would never exercise a dark ring.
+  const sample = ring.sides.left.minAt || ring.sides.top.minAt;
+  const surface = sample.surface;
+  const channel = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+  const luminance = 0.2126 * channel(surface[0]) + 0.7152 * channel(surface[1]) + 0.0722 * channel(surface[2]);
+  if (scheme === "dark") {
+    assert.ok(luminance < 0.2,
+      `${label}: the dark run measures a dark surface behind the ring (luminance ${luminance.toFixed(3)} on rgb(${surface.join(",")}))`);
+  } else {
+    assert.ok(luminance > 0.5,
+      `${label}: the light run measures a light surface behind the ring (luminance ${luminance.toFixed(3)} on rgb(${surface.join(",")}))`);
+  }
 }
 
 /* The full card's Watch link was wider than the card on each side — 3.6px at
@@ -1250,13 +1266,14 @@ function assertPaintedRing(ring, label) {
  * The link must fit inside the card, keep a 44px tap target, keep the official
  * mark at its published size and clear space, and have its ring inside every
  * clipping ancestor. */
-test("the full card's Watch link and its focus ring stay inside the card, at 320 through 1280", async (t) => {
+test("the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark", async (t) => {
   const { THUMB_PNG } = require("./browser_net_harness");
   const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
   try {
-    for (const width of [320, 390, 768, 1280]) {
+    for (const { width, scheme } of RING_RUNS) {
       const fixture = await startFixture([youtubeRow()]);
       const ui = await browser.newPage();
+      await ui.emulateMedia({ colorScheme: scheme });
       t.after(async () => {
         await ui.close().catch(() => {});
         await fixture.close().catch(() => {});
@@ -1287,7 +1304,7 @@ test("the full card's Watch link and its focus ring stay inside the card, at 320
       assert.equal(
         await link.evaluate(el => document.activeElement === el),
         true,
-        `at ${width}px Tab from the card title reaches the Watch link`,
+        `at ${width}px ${scheme} Tab from the card title reaches the Watch link`,
       );
       const geometry = await link.evaluate(el => {
         const style = getComputedStyle(el);
@@ -1343,71 +1360,66 @@ test("the full card's Watch link and its focus ring stay inside the card, at 320
       // the focused screenshot pixel against the unfocused pixel at the same
       // point instead, and keeps the computed-style checks above as preconditions.
       const ring = await measurePaintedRing(ui, link, unfocused, focused, geometry);
-      // The card's ring must not be cut away on any side at all: the compact
-      // rows' tolerance below does not apply here.
-      for (const [side, clippers] of Object.entries(ring.cut)) {
-        assert.equal(
-          clippers.length, 0,
-          `at ${width}px the focus ring is cut on the ${side} by ${clippers.map(c => c.name).join(", ")}`,
-        );
-      }
-      assertPaintedRing(ring, `at ${width}px the full card's Watch link`);
+      assertPaintedRing(ring, `at ${width}px ${scheme} the full card's Watch link`, scheme);
       assert.ok(
         geometry.box.left >= geometry.card.left - 0.01 && geometry.box.right <= geometry.card.right + 0.01,
-        `at ${width}px the Watch link fits inside the card (${geometry.box.left.toFixed(1)}..${geometry.box.right.toFixed(1)} in ${geometry.card.left.toFixed(1)}..${geometry.card.right.toFixed(1)})`,
+        `at ${width}px ${scheme} the Watch link fits inside the card (${geometry.box.left.toFixed(1)}..${geometry.box.right.toFixed(1)} in ${geometry.card.left.toFixed(1)}..${geometry.card.right.toFixed(1)})`,
       );
       assert.ok(
         geometry.ring.left >= geometry.card.left - 0.01 && geometry.ring.right <= geometry.card.right + 0.01,
-        `at ${width}px the focus ring fits inside the card`,
+        `at ${width}px ${scheme} the focus ring fits inside the card`,
       );
       for (const clipper of geometry.clippers) {
         if (clipper.clipsX) {
           assert.ok(
             geometry.ring.left >= clipper.left - 0.01 && geometry.ring.right <= clipper.right + 0.01,
-            `at ${width}px ${clipper.name} clips the ring horizontally (ring ${geometry.ring.left.toFixed(1)}..${geometry.ring.right.toFixed(1)} in ${clipper.left.toFixed(1)}..${clipper.right.toFixed(1)})`,
+            `at ${width}px ${scheme} ${clipper.name} clips the ring horizontally (ring ${geometry.ring.left.toFixed(1)}..${geometry.ring.right.toFixed(1)} in ${clipper.left.toFixed(1)}..${clipper.right.toFixed(1)})`,
           );
         }
         if (clipper.clipsY) {
           assert.ok(
             geometry.ring.top >= clipper.top - 0.01 && geometry.ring.bottom <= clipper.bottom + 0.01,
-            `at ${width}px ${clipper.name} clips the ring vertically (ring ${geometry.ring.top.toFixed(1)}..${geometry.ring.bottom.toFixed(1)} in ${clipper.top.toFixed(1)}..${clipper.bottom.toFixed(1)})`,
+            `at ${width}px ${scheme} ${clipper.name} clips the ring vertically (ring ${geometry.ring.top.toFixed(1)}..${geometry.ring.bottom.toFixed(1)} in ${clipper.top.toFixed(1)}..${clipper.bottom.toFixed(1)})`,
           );
         }
         // The official mark is never clipped either.
         assert.ok(
           geometry.img.left >= clipper.left - 0.01 && geometry.img.right <= clipper.right + 0.01
             && geometry.img.top >= clipper.top - 0.01 && geometry.img.bottom <= clipper.bottom + 0.01,
-          `at ${width}px ${clipper.name} clips the Icon`,
+          `at ${width}px ${scheme} ${clipper.name} clips the Icon`,
         );
       }
-      assert.ok(geometry.box.height >= 44, `at ${width}px the Watch link is a 44px+ tap target (${geometry.box.height})`);
-      assert.ok(Math.abs(geometry.img.height - 186) <= 0.6, `at ${width}px the Icon keeps its 186px box (${geometry.img.height})`);
+      assert.ok(geometry.box.height >= 44, `at ${width}px ${scheme} the Watch link is a 44px+ tap target (${geometry.box.height})`);
+      assert.ok(Math.abs(geometry.img.height - 186) <= 0.6, `at ${width}px ${scheme} the Icon keeps its 186px box (${geometry.img.height})`);
       assert.ok(
         Math.abs(geometry.img.width / geometry.img.height - 1255 / 1075) <= 0.01,
-        `at ${width}px the Icon keeps its own aspect (${(geometry.img.width / geometry.img.height).toFixed(4)})`,
+        `at ${width}px ${scheme} the Icon keeps its own aspect (${(geometry.img.width / geometry.img.height).toFixed(4)})`,
       );
       assert.equal(geometry.imgRadius, "0px", "the Icon is not rounded");
       const mark = await measureVisibleMark(link);
-      assert.ok(mark.visibleMarkHeight >= 100, `at ${width}px the visible mark stays >= 100px (${mark.visibleMarkHeight})`);
-      assert.ok(mark.visibleMarkWidth >= 140, `at ${width}px the visible mark stays >= 140px wide (${mark.visibleMarkWidth})`);
+      assert.ok(mark.visibleMarkHeight >= 100, `at ${width}px ${scheme} the visible mark stays >= 100px (${mark.visibleMarkHeight})`);
+      assert.ok(mark.visibleMarkWidth >= 140, `at ${width}px ${scheme} the visible mark stays >= 140px wide (${mark.visibleMarkWidth})`);
     }
   } finally { await browser.close(); }
 });
 
 /* The compact row's Watch link carries the same ring as the full card's, one
  * breakpoint lower and at the very edge of its row. At 320px and 390px the
- * compact media column starts flush with the page root's own padding, so the
- * ring's left segment falls outside `.hackertube`'s `overflow-x: hidden` and is
- * cut away entirely. `assertPaintedRing` reports that side (the ring is not
- * painted there at all) rather than reading it as a 1:1 contrast, and still
- * asserts 3:1 on every side the ring does paint on. */
-test("a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over", async (t) => {
+ * media column starts at the inner `.hackertube`'s content edge, so the ring's
+ * left stroke only survives because the host's CardContent adds its own `p-4`
+ * padding (15px, measured in the real dashboard at both widths). An earlier
+ * fixture stubbed CardContent as a bare div, which manufactured a 4px clip the
+ * dashboard does not have and let a clipped ring pass as a "reported" side.
+ * The fixture now draws the host's padding and no side is exempt: every side
+ * must be painted, unclipped and >= 3:1. */
+test("a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark", async (t) => {
   const { THUMB_PNG } = require("./browser_net_harness");
   const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
   try {
-    for (const width of [320, 390, 768, 1280]) {
+    for (const { width, scheme } of RING_RUNS) {
       const fixture = await startFixture(sectionRows());
       const ui = await browser.newPage();
+      await ui.emulateMedia({ colorScheme: scheme });
       t.after(async () => {
         await ui.close().catch(() => {});
         await fixture.close().catch(() => {});
@@ -1435,7 +1447,7 @@ test("a compact YouTube row's Watch link focus ring reaches 3:1 against the surf
       assert.equal(
         await link.evaluate(el => document.activeElement === el),
         true,
-        `at ${width}px Tab from the compact row's title reaches its own Watch link`,
+        `at ${width}px ${scheme} Tab from the compact row's title reaches its own Watch link`,
       );
       const geometry = await link.evaluate(el => {
         const style = getComputedStyle(el);
@@ -1451,13 +1463,13 @@ test("a compact YouTube row's Watch link focus ring reaches 3:1 against the surf
           ring: {left: box.left - spread, right: box.right + spread, top: box.top - spread, bottom: box.bottom + spread, spread},
         };
       });
-      assert.equal(geometry.focused, true, `at ${width}px measure the focused compact Watch link`);
-      assert.notEqual(geometry.outlineStyle, "none", `at ${width}px the focused compact link must have an outline`);
-      assert.ok(geometry.outlineWidth > 0, `at ${width}px the compact focus outline has nonzero width`);
-      assert.ok(geometry.ring.spread > 0, `at ${width}px the compact link carries a real focus ring to keep: ${geometry.ring.spread}`);
+      assert.equal(geometry.focused, true, `at ${width}px ${scheme} measure the focused compact Watch link`);
+      assert.notEqual(geometry.outlineStyle, "none", `at ${width}px ${scheme} the focused compact link must have an outline`);
+      assert.ok(geometry.outlineWidth > 0, `at ${width}px ${scheme} the compact focus outline has nonzero width`);
+      assert.ok(geometry.ring.spread > 0, `at ${width}px ${scheme} the compact link carries a real focus ring to keep: ${geometry.ring.spread}`);
       const focused = await ui.screenshot();
       const ring = await measurePaintedRing(ui, link, unfocused, focused, geometry);
-      assertPaintedRing(ring, `at ${width}px the compact row's Watch link`);
+      assertPaintedRing(ring, `at ${width}px ${scheme} the compact row's Watch link`, scheme);
     }
   } finally { await browser.close(); }
 });

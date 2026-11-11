@@ -72,6 +72,28 @@ const HOST_TOKENS_CSS = `:root {
   --color-ring: #18181b;
   --theme-font-display: system-ui, sans-serif;
   --theme-line-height: 1.55;
+}
+/* The host's CardContent is a div with class "p-4". Measured in the real
+ * dashboard at 320px and 390px its padding is 11.25px 15px (the host's root font
+ * size is 15px there). The fixture must draw the same box: that padding, not the
+ * plugin's own root padding, is what holds the compact Watch link's ring clear of
+ * the inner .hackertube clip at narrow widths, and without it the fixture
+ * manufactures a clip the dashboard does not have. */
+.ht-card-content { padding: 11.25px 15px; }
+/* A dark host theme. The dashboard's own page background is dark in both
+ * schemes (measured #041c1c-ish), and the ring there is a light token; this
+ * block lets the ring tests run a second time against a dark surface instead of
+ * only ever measuring a light one. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-border: #3f3f46;
+    --color-muted: #27272a;
+    --color-muted-foreground: #a1a1aa;
+    --color-primary: #fafafa;
+    --color-primary-foreground: #18181b;
+    --color-ring: #fafafa;
+  }
+  body { background: #18181b; color: #fafafa; }
 }`;
 
 const HARNESS_SOURCE = `
@@ -95,6 +117,14 @@ const HARNESS_SOURCE = `
       onClick: props.onClick,
     }, props.children);
   }
+  function CardContent(props) {
+    // The host renders a div with class "p-4"; keep its padding (see
+    // .ht-card-content in the host token block) so a ring measurement sees the
+    // same box the dashboard draws.
+    return React.createElement("div", {
+      className: "ht-card-content" + (props.className ? " " + props.className : ""),
+    }, props.children);
+  }
   function CardTitle(props) {
     return React.createElement("h3", props, props.children);
   }
@@ -111,7 +141,7 @@ const HARNESS_SOURCE = `
     },
     components: {
       Card: Pass,
-      CardContent: Pass,
+      CardContent,
       CardTitle,
       Badge: Pass,
       Button,
