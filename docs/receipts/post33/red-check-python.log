@@ -1,0 +1,3 @@
+RED item 5: remove the startup purge (only the interval loop purges) -> exit 1 | 1 failed in 0.06s | restored True
+RED item 6: a YouTube metadata row with no deadline stays current -> exit 1 | 2 failed in 0.03s | restored True
+ALL MUTATIONS RED AND RESTORED

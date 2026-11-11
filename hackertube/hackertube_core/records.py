@@ -124,6 +124,24 @@ class Evidence:
             object.__setattr__(self, "refresh_after", canon_time(self.refresh_after))
 
 
+def evidence_is_current(record, now):
+    """True only while an evidence row is still current at ``now``.
+
+    This is the one predicate for every reader of ``refresh_after``: the
+    activity filter in ``boundaries`` and the ranking's own copy. A row past
+    its deadline is expired. So is a YouTube metadata row (``source_id ==
+    "youtube"`` and ``kind == "catalog"``) that carries no deadline at all:
+    YouTube API metadata is retained for 30 days (Developer Policies
+    III.E.4.d), so a stored row without one is treated as expired rather than
+    kept forever. Community and web rows legitimately carry ``None`` and stay.
+    """
+    if record.source_id == "youtube" and record.kind == "catalog" and record.refresh_after is None:
+        return False
+    if record.refresh_after is not None and record.refresh_after <= now:
+        return False
+    return True
+
+
 @dataclass(frozen=True)
 class SourceRecord:
     source_id: str

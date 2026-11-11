@@ -1,0 +1,514 @@
+{
+  "label": "base",
+  "assets": {
+    "page": "/Users/robert/.hermes/cache/scratch/p33-base/index.js",
+    "style": "/Users/robert/.hermes/cache/scratch/p33-base/style.css"
+  },
+  "scope": "Production bundle and stylesheet in a React fixture with stub SDK components and a stub local API, plus the compiled host stylesheet. Fixture images are served locally for the i.ytimg.com paths; this is not an installed dashboard, not a live-provider receipt, and not a real YouTube image.",
+  "hostStylesheet": "/Users/robert/.hermes/hermes-agent/hermes_cli/web_dist/assets/index-CXKdN8QE.css",
+  "note": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+  "iconAspect": 1.1674418604651162,
+  "sideColumnWidth": 345,
+  "viewports": [
+    {
+      "width": 390,
+      "compactTapTarget": {
+        "width": 232,
+        "height": 201
+      },
+      "mark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "oneLine": {
+        "padding": "7.5px 7.5px",
+        "linkWidth": 232.1,
+        "linkHeight": 201,
+        "iconWidth": 217.1,
+        "iconHeight": 186,
+        "sameLine": true,
+        "thumbBeforeIcon": true,
+        "gap": 22.5
+      },
+      "layout": {
+        "hasColumns": true,
+        "rowHeight": 471,
+        "mainChildIndex": 1,
+        "sideChildIndex": 0,
+        "textPrecedesArt": false,
+        "titlePrecedesArt": false,
+        "badgePrecedesArt": false,
+        "sideWidth": 344.6,
+        "sideLeft": 15,
+        "sideRight": 359.6,
+        "sideTop": 2337.6,
+        "sideBottom": 2549.1,
+        "mainLeft": 15,
+        "mainTop": 2553.6,
+        "mainBottom": 2786.1,
+        "mainWidth": 360,
+        "flexDirection": "column",
+        "sideHasThumb": true,
+        "sideHasLogo": true
+      },
+      "sideBySide": [
+        {
+          "title": "Jane Austen introduction",
+          "mainLeft": 15,
+          "sideWidth": 344.6,
+          "hasThumb": true
+        },
+        {
+          "title": "A second YouTube video",
+          "mainLeft": 15,
+          "sideWidth": 232.1,
+          "hasThumb": false
+        }
+      ],
+      "compactThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb ht-thumb-compact",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 97.5,
+        "boxHeight": 73.1,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "fullHeight": 858.8,
+      "fullMark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "fullOverflow": 0,
+      "fullThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 360,
+        "boxHeight": 270,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "searchThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 360,
+        "boxHeight": 270,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "badges": {
+        "videos": "none",
+        "podcasts": "block",
+        "books": "none",
+        "audiobooks": "none"
+      }
+    },
+    {
+      "width": 767,
+      "compactTapTarget": {
+        "width": 232,
+        "height": 201
+      },
+      "mark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "oneLine": {
+        "padding": "7.5px 7.5px",
+        "linkWidth": 232.1,
+        "linkHeight": 201,
+        "iconWidth": 217.1,
+        "iconHeight": 186,
+        "sameLine": true,
+        "thumbBeforeIcon": true,
+        "gap": 22.5
+      },
+      "layout": {
+        "hasColumns": true,
+        "rowHeight": 255,
+        "mainChildIndex": 1,
+        "sideChildIndex": 0,
+        "textPrecedesArt": false,
+        "titlePrecedesArt": false,
+        "badgePrecedesArt": false,
+        "sideWidth": 344.6,
+        "sideLeft": 15,
+        "sideRight": 359.6,
+        "sideTop": 1548.6,
+        "sideBottom": 1760.1,
+        "mainLeft": 374.6,
+        "mainTop": 1548.6,
+        "mainBottom": 1781.1,
+        "mainWidth": 377.4,
+        "flexDirection": "row",
+        "sideHasThumb": true,
+        "sideHasLogo": true
+      },
+      "sideBySide": [
+        {
+          "title": "Jane Austen introduction",
+          "mainLeft": 374.6,
+          "sideWidth": 344.6,
+          "hasThumb": true
+        },
+        {
+          "title": "A second YouTube video",
+          "mainLeft": 262.1,
+          "sideWidth": 232.1,
+          "hasThumb": false
+        }
+      ],
+      "compactThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb ht-thumb-compact",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 97.5,
+        "boxHeight": 73.1,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "fullHeight": 860.3,
+      "fullMark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "fullOverflow": 0,
+      "fullThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 361.9,
+        "boxHeight": 271.5,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "searchThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 480,
+        "boxHeight": 360,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "badges": {
+        "videos": "none",
+        "podcasts": "block",
+        "books": "none",
+        "audiobooks": "none"
+      }
+    },
+    {
+      "width": 768,
+      "compactTapTarget": {
+        "width": 232,
+        "height": 201
+      },
+      "mark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "oneLine": {
+        "padding": "7.5px 7.5px",
+        "linkWidth": 232.1,
+        "linkHeight": 201,
+        "iconWidth": 217.1,
+        "iconHeight": 186,
+        "sameLine": true,
+        "thumbBeforeIcon": true,
+        "gap": 22.5
+      },
+      "layout": {
+        "hasColumns": true,
+        "rowHeight": 255,
+        "mainChildIndex": 1,
+        "sideChildIndex": 0,
+        "textPrecedesArt": false,
+        "titlePrecedesArt": false,
+        "badgePrecedesArt": false,
+        "sideWidth": 344.6,
+        "sideLeft": 15,
+        "sideRight": 359.6,
+        "sideTop": 1549,
+        "sideBottom": 1760.5,
+        "mainLeft": 374.6,
+        "mainTop": 1549,
+        "mainBottom": 1781.5,
+        "mainWidth": 378.4,
+        "flexDirection": "row",
+        "sideHasThumb": true,
+        "sideHasLogo": true
+      },
+      "sideBySide": [
+        {
+          "title": "Jane Austen introduction",
+          "mainLeft": 374.6,
+          "sideWidth": 344.6,
+          "hasThumb": true
+        },
+        {
+          "title": "A second YouTube video",
+          "mainLeft": 262.1,
+          "sideWidth": 232.1,
+          "hasThumb": false
+        }
+      ],
+      "compactThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb ht-thumb-compact",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 97.5,
+        "boxHeight": 73.1,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "fullHeight": 860.7,
+      "fullMark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "fullOverflow": 0,
+      "fullThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 362.4,
+        "boxHeight": 271.8,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "searchThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 480,
+        "boxHeight": 360,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "badges": {
+        "videos": "none",
+        "podcasts": "block",
+        "books": "none",
+        "audiobooks": "none"
+      }
+    },
+    {
+      "width": 1280,
+      "compactTapTarget": {
+        "width": 232,
+        "height": 201
+      },
+      "mark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "oneLine": {
+        "padding": "7.5px 7.5px",
+        "linkWidth": 232.1,
+        "linkHeight": 201,
+        "iconWidth": 217.1,
+        "iconHeight": 186,
+        "sameLine": true,
+        "thumbBeforeIcon": true,
+        "gap": 22.5
+      },
+      "layout": {
+        "hasColumns": true,
+        "rowHeight": 234,
+        "mainChildIndex": 1,
+        "sideChildIndex": 0,
+        "textPrecedesArt": false,
+        "titlePrecedesArt": false,
+        "badgePrecedesArt": false,
+        "sideWidth": 344.6,
+        "sideLeft": 122.5,
+        "sideRight": 467.1,
+        "sideTop": 1533.1,
+        "sideBottom": 1744.6,
+        "mainLeft": 482.1,
+        "mainTop": 1533.1,
+        "mainBottom": 1724.9,
+        "mainWidth": 675.4,
+        "flexDirection": "row",
+        "sideHasThumb": true,
+        "sideHasLogo": true
+      },
+      "sideBySide": [
+        {
+          "title": "Jane Austen introduction",
+          "mainLeft": 482.1,
+          "sideWidth": 344.6,
+          "hasThumb": true
+        },
+        {
+          "title": "A second YouTube video",
+          "mainLeft": 369.6,
+          "sideWidth": 232.1,
+          "hasThumb": false
+        }
+      ],
+      "compactThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb ht-thumb-compact",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 97.5,
+        "boxHeight": 73.1,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "fullHeight": 841,
+      "fullMark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "fullOverflow": 0,
+      "fullThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 336.3,
+        "boxHeight": 252.2,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "searchThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 480,
+        "boxHeight": 360,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": []
+      },
+      "badges": {
+        "videos": "none",
+        "podcasts": "block",
+        "books": "none",
+        "audiobooks": "none"
+      }
+    }
+  ]
+}

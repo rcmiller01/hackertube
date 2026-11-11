@@ -329,6 +329,29 @@ test("a compact YouTube row keeps the official linked Icon with a 44px tap targe
     await assertUnalteredThumbnail(thumb, "compact YouTube row");
     const note = await row.getByText("Metadata from YouTube. Explanations and library actions are HackerTube’s.", {exact:true}).count();
     assert.equal(note, 1);
+    // At 390px the thumbnail and the Icon share one line and the link carries no
+    // padding of its own, so the Icon box is not the row's most prominent
+    // element and the built-in clear space is what separates them.
+    const line = await link.evaluate(el => {
+      const icon = el.querySelector("img").getBoundingClientRect();
+      const box = el.getBoundingClientRect();
+      const thumb = el.closest(".ht-compact").querySelector("img.ht-thumb").getBoundingClientRect();
+      const style = getComputedStyle(el);
+      return {
+        padding: style.paddingTop + " " + style.paddingLeft,
+        linkWidth: box.width, linkHeight: box.height,
+        iconWidth: icon.width, iconHeight: icon.height,
+        sameLine: Math.abs((thumb.top + thumb.height / 2) - (icon.top + icon.height / 2)) <= 2,
+        thumbBeforeIcon: thumb.right <= icon.left + 1,
+        gap: icon.left - thumb.right,
+      };
+    });
+    assert.equal(line.padding, "0px 0px", "the link carries no padding; the file's clear space is the icon's");
+    assert.equal(line.sameLine, true, "the thumbnail and the Icon share one line at 390px");
+    assert.equal(line.thumbBeforeIcon, true, "the thumbnail sits before the Icon on that line");
+    assert.ok(Math.abs(line.gap - 12) <= 1, "the one-line gap is 0.75rem: " + line.gap.toFixed(1));
+    assert.ok(Math.abs(line.linkWidth - line.iconWidth) <= 1, "the link box is the icon box, so touching the icon opens it");
+    assert.ok(Math.abs(line.linkHeight - line.iconHeight) <= 1, "the link box is the icon box in height too");
     // The row is still a compact row, not a full card.
     assert.equal(await row.evaluate(el => el.className), "ht-card ht-compact");
   } finally { await browser.close(); await fixture.close(); }
@@ -462,13 +485,21 @@ test("the full feed card's YouTube mark's visible red area is at least 100px at 
   } finally { await browser.close(); }
 });
 
-test("a compact YouTube row puts the logo and thumbnail in a side column at 1280 and stacks them at 390", async () => {
+test("a compact YouTube row leads with its text and keeps the logo and thumbnail in a side column at 768 and up", async (t) => {
   const { THUMB_PNG } = require("./browser_net_harness");
   const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
   try {
-    for (const [width, expected] of [[1280, "beside"], [390, "above"]]) {
+    // 767 is the last stacked width, 768 the first side-column width: the
+    // breakpoint is pinned on both sides, not just sampled far from it.
+    for (const [width, expected] of [[767, "below"], [768, "beside"], [1280, "beside"]]) {
       const fixture = await startFixture(sectionRows());
       const ui = await browser.newPage();
+      // An assertion failure must FAIL this test, not leave the fixture server
+      // open and hang the runner: close both however the iteration ends.
+      t.after(async () => {
+        await ui.close().catch(() => {});
+        await fixture.close().catch(() => {});
+      });
       await ui.setViewportSize({ width, height: 900 });
       await ui.route("https://i.ytimg.com/**", route => route.fulfill({status:200, contentType:"image/png", body:THUMB_PNG}));
       await ui.goto(fixture.origin);
@@ -478,23 +509,45 @@ test("a compact YouTube row puts the logo and thumbnail in a side column at 1280
       const geometry = await row.evaluate((el) => {
         const side = el.querySelector(".ht-compact-side");
         const main = el.querySelector(".ht-compact-main");
-        if (!side || !main) return { hasColumns: false };
+        const container = el.querySelector(".ht-compact-row");
+        if (!side || !main || !container) return { hasColumns: false };
         const s = side.getBoundingClientRect();
         const m = main.getBoundingClientRect();
         const thumb = el.querySelector("img.ht-thumb");
         const logo = el.querySelector(".ht-youtube-icon img");
+        const title = el.querySelector(".ht-title");
+        // DOM order: the badge, title and creator come first, then the side
+        // column that carries the thumbnail and the Watch link (WCAG 1.3.2).
+        const follows = (a, b) => !!(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
+        const badge = el.querySelector(".ht-format");
         return {
           hasColumns: true,
+          mainChildIndex: Array.prototype.indexOf.call(container.children, main),
+          sideChildIndex: Array.prototype.indexOf.call(container.children, side),
+          textPrecedesArt: follows(main, side),
+          titlePrecedesArt: follows(title, side),
+          badgePrecedesArt: badge ? follows(badge, side) : null,
           sideLeft: s.left, sideRight: s.right, sideTop: s.top, sideBottom: s.bottom,
-          mainLeft: m.left, mainTop: m.top,
+          sideWidth: s.width,
+          mainLeft: m.left, mainTop: m.top, mainBottom: m.bottom,
+          flexDirection: getComputedStyle(container).flexDirection,
           sideHasThumb: !!thumb && side.contains(thumb),
           sideHasLogo: !!logo && side.contains(logo),
         };
       });
       assert.equal(geometry.hasColumns, true, `at ${width}px the row has a side column and a text column`);
+      assert.equal(geometry.mainChildIndex, 0, `at ${width}px the row text is the first child in the DOM`);
+      assert.equal(geometry.sideChildIndex, 1, `at ${width}px the art is the second child in the DOM`);
+      assert.equal(geometry.textPrecedesArt, true, `at ${width}px the text precedes the art in the DOM`);
+      assert.equal(geometry.titlePrecedesArt, true, `at ${width}px the title precedes the thumbnail and Watch link (WCAG 1.3.2)`);
+      if (geometry.badgePrecedesArt !== null) {
+        assert.equal(geometry.badgePrecedesArt, true, `at ${width}px the badge precedes the art`);
+      }
       assert.equal(geometry.sideHasThumb, true, `at ${width}px the thumbnail is in the side column`);
       assert.equal(geometry.sideHasLogo, true, `at ${width}px the logo is in the side column`);
       if (expected === "beside") {
+        assert.equal(geometry.flexDirection, "row-reverse",
+          `at ${width}px the side column still sits left of the text while the DOM keeps the text first`);
         assert.ok(
           geometry.sideRight <= geometry.mainLeft + 1,
           `at ${width}px the side column (right ${geometry.sideRight.toFixed(1)}) sits left of the text (left ${geometry.mainLeft.toFixed(1)})`,
@@ -503,10 +556,15 @@ test("a compact YouTube row puts the logo and thumbnail in a side column at 1280
           Math.abs(geometry.sideTop - geometry.mainTop) <= 2,
           `at ${width}px the side column and the text share the row (tops ${geometry.sideTop.toFixed(1)} vs ${geometry.mainTop.toFixed(1)})`,
         );
-      } else {
         assert.ok(
-          geometry.sideBottom <= geometry.mainTop + 1,
-          `at ${width}px the art stacks above the text (art bottom ${geometry.sideBottom.toFixed(1)}, text top ${geometry.mainTop.toFixed(1)})`,
+          Math.abs(geometry.sideWidth - 345) <= 1,
+          `at ${width}px the side column has the fixed width so thumbnail-less rows align (width ${geometry.sideWidth.toFixed(1)})`,
+        );
+      } else {
+        assert.equal(geometry.flexDirection, "column", `at ${width}px the compact row stacks`);
+        assert.ok(
+          geometry.mainBottom <= geometry.sideTop + 1,
+          `at ${width}px the art stacks under the text, so the Icon is not the prominent element (text bottom ${geometry.mainBottom.toFixed(1)}, art top ${geometry.sideTop.toFixed(1)})`,
         );
       }
       await ui.close();
@@ -575,5 +633,170 @@ test("the unaltered check fails when an ancestor clips the thumbnail, and passes
       wrapper.style.overflow = "";
     });
     await assertUnalteredThumbnail(thumb, "restored card");
+  } finally { await browser.close(); await fixture.close(); }
+});
+
+/* ------------------------------------------------------------------ *
+ * Post-#33 follow-ups: the Icon box aspect, side-column alignment, and
+ * the look-alike thumbnail host.
+ * ------------------------------------------------------------------ */
+
+/* The official asset is 1255x1075. A height-only rule that is not paired with
+ * `width: auto` squashes the icon, so a `width: 150px` icon would still draw a
+ * 69px visible mark and pass a height-multiplying check. Assert the box's own
+ * aspect ratio within 1% on BOTH the compact row and the full card. */
+const YOUTUBE_ICON_ASPECT = 1255 / 1075;
+
+async function readIconBox(link) {
+  return link.locator("img").evaluate(el => {
+    const box = el.getBoundingClientRect();
+    return {
+      width: box.width, height: box.height,
+      naturalWidth: el.naturalWidth, naturalHeight: el.naturalHeight,
+      heightPx: getComputedStyle(el).height,
+      widthPx: getComputedStyle(el).width,
+    };
+  });
+}
+
+test("the official Icon keeps its 1255:1075 box aspect on compact rows and full cards", async () => {
+  const { THUMB_PNG } = require("./browser_net_harness");
+  const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    for (const width of [390, 1280]) {
+      // ---- compact row ----
+      const sections = await startFixture(sectionRows());
+      const ui = await browser.newPage();
+      try {
+        await ui.setViewportSize({ width, height: 900 });
+        await ui.route("https://i.ytimg.com/**", route => route.fulfill({status:200, contentType:"image/png", body:THUMB_PNG}));
+        await ui.goto(sections.origin);
+        const row = ui.locator("#videos .ht-compact").first();
+        await row.waitFor();
+        const compactLink = row.getByRole("link", { name: 'Watch "AI introduction" on YouTube' });
+        await compactLink.waitFor();
+        await ui.waitForFunction(() => {
+          const el = document.querySelector("#videos .ht-compact .ht-youtube-icon img");
+          return el && el.naturalWidth > 0;
+        });
+        const compact = await readIconBox(compactLink);
+        assert.equal(compact.naturalWidth, 1255, `compact row at ${width}px serves the official 1255px asset`);
+        assert.equal(compact.naturalHeight, 1075, `compact row at ${width}px serves the official 1075px asset`);
+        const compactRatio = compact.width / compact.height;
+        assert.ok(
+          Math.abs(compactRatio - YOUTUBE_ICON_ASPECT) / YOUTUBE_ICON_ASPECT <= 0.01,
+          `compact row at ${width}px keeps the icon box aspect (${compactRatio.toFixed(4)} vs ${YOUTUBE_ICON_ASPECT.toFixed(4)})`,
+        );
+        assert.ok(compact.height >= 185.5, `compact row at ${width}px draws the box at ~186px (${compact.height})`);
+      } finally {
+        await ui.close();
+        await sections.close();
+      }
+
+      // ---- full card ----
+      const items = fixtureItems(1);
+      items[0] = {...items[0], item_id:"youtube:LCEmiRjPEtQ", format:"video", title:"AI introduction",
+        destination:"https://www.youtube.com/watch?v=LCEmiRjPEtQ", art_url:null, art_hotlink:false};
+      const feed = await startFixture(items);
+      const tab = await browser.newPage();
+      try {
+        await tab.setViewportSize({ width, height: 900 });
+        await tab.goto(feed.origin);
+        const card = tab.locator("article").first();
+        await card.waitFor();
+        const fullLink = card.getByRole("link", { name: 'Watch "AI introduction" on YouTube' });
+        await fullLink.waitFor();
+        await tab.waitForFunction(() => {
+          const el = document.querySelector('article img[alt="YouTube"]');
+          return el && el.naturalWidth > 0;
+        });
+        const full = await readIconBox(fullLink);
+        assert.equal(full.naturalWidth, 1255, `full card at ${width}px serves the official 1255px asset`);
+        assert.equal(full.naturalHeight, 1075, `full card at ${width}px serves the official 1075px asset`);
+        const fullRatio = full.width / full.height;
+        assert.ok(
+          Math.abs(fullRatio - YOUTUBE_ICON_ASPECT) / YOUTUBE_ICON_ASPECT <= 0.01,
+          `full card at ${width}px keeps the icon box aspect (${fullRatio.toFixed(4)} vs ${YOUTUBE_ICON_ASPECT.toFixed(4)})`,
+        );
+      } finally {
+        await tab.close();
+        await feed.close();
+      }
+    }
+  } finally { await browser.close(); }
+});
+
+test("a compact YouTube row with no thumbnail starts its text at the same x as one with", async () => {
+  const { THUMB_PNG } = require("./browser_net_harness");
+  const rows = [
+    youtubeRow(),
+    youtubeRow({ item_id: "youtube:AAAAAAAAAAA", title: "Second video", capture_order: 2,
+      destination: "https://www.youtube.com/watch?v=AAAAAAAAAAA", art_url: null, art_hotlink: false }),
+  ];
+  const fixture = await startFixture(rows);
+  const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    const ui = await browser.newPage();
+    await ui.setViewportSize({ width: 1280, height: 900 });
+    await ui.route("https://i.ytimg.com/**", route => route.fulfill({status:200, contentType:"image/png", body:THUMB_PNG}));
+    await ui.goto(fixture.origin);
+    await ui.locator("#videos .ht-compact").first().waitFor();
+    await ui.locator("#videos .ht-compact img.ht-thumb").waitFor();
+    const measured = await ui.evaluate(() => {
+      const cards = Array.from(document.querySelectorAll("#videos .ht-compact"));
+      return cards.map(card => {
+        const main = card.querySelector(".ht-compact-main");
+        const side = card.querySelector(".ht-compact-side");
+        return {
+          title: card.querySelector(".ht-title").textContent,
+          mainLeft: main.getBoundingClientRect().left,
+          sideWidth: side ? side.getBoundingClientRect().width : null,
+          hasThumb: !!card.querySelector("img.ht-thumb"),
+        };
+      });
+    });
+    assert.equal(measured.length, 2, "both YouTube rows render");
+    const withThumb = measured.find(row => row.hasThumb);
+    const withoutThumb = measured.find(row => !row.hasThumb);
+    assert.ok(withThumb && withoutThumb, "one row has a thumbnail and one does not");
+    assert.ok(
+      Math.abs(withThumb.mainLeft - withoutThumb.mainLeft) <= 1,
+      `both rows start their text at the same x (${withThumb.mainLeft.toFixed(1)} vs ${withoutThumb.mainLeft.toFixed(1)})`,
+    );
+    assert.ok(
+      Math.abs(withThumb.sideWidth - withoutThumb.sideWidth) <= 1,
+      `the side column has the same fixed width in both rows (${withThumb.sideWidth.toFixed(1)} vs ${withoutThumb.sideWidth.toFixed(1)})`,
+    );
+  } finally { await browser.close(); await fixture.close(); }
+});
+
+test("a look-alike i.ytimg.com host falls back to the linked Icon at render time", async () => {
+  const { THUMB_PNG } = require("./browser_net_harness");
+  // A host that only PREFIX-matches the official one: indexOf/suffix checks pass
+  // for it, an exact host match does not. Nothing may be requested from it.
+  const lookalike = "https://i.ytimg.com.evil.example/vi/LCEmiRjPEtQ/hqdefault.jpg";
+  const fixture = await startFixture([youtubeRow({ art_url: lookalike })]);
+  const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    const ui = await browser.newPage();
+    let lookalikeRequests = 0;
+    await ui.route("https://i.ytimg.com.evil.example/**", route => {
+      lookalikeRequests += 1;
+      return route.fulfill({ status: 200, contentType: "image/png", body: THUMB_PNG });
+    });
+    await ui.goto(fixture.origin);
+    const note = "Metadata from YouTube. Explanations and library actions are HackerTube’s.";
+    for (const scope of ["#ranked-feed", "#videos"]) {
+      const card = ui.locator(scope + " article").first();
+      await card.waitFor();
+      assert.equal(
+        await card.locator("img.ht-thumb").count(), 0,
+        `${scope}: a look-alike host is never rendered as a thumbnail`,
+      );
+      const icon = card.getByRole("link", { name: 'Watch "AI introduction" on YouTube' });
+      assert.equal(await icon.count(), 1, `${scope}: the linked Icon remains`);
+      assert.equal(await card.getByText(note, { exact: true }).count(), 1, `${scope}: the short note remains`);
+    }
+    assert.equal(lookalikeRequests, 0, "the look-alike host is never requested");
   } finally { await browser.close(); await fixture.close(); }
 });

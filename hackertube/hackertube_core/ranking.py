@@ -35,6 +35,7 @@ the same order.
 
 from datetime import datetime, timezone
 
+from hackertube_core.records import evidence_is_current
 from hackertube_core.text import canon_time
 
 ENDORSEMENT_WEIGHT = 1000
@@ -74,12 +75,7 @@ def age_days(captured_at, now):
 
 
 def _active(evidence, now):
-    kept = []
-    for record in evidence:
-        if record.refresh_after is not None and record.refresh_after <= now:
-            continue
-        kept.append(record)
-    return kept
+    return tuple(record for record in evidence if evidence_is_current(record, now))
 
 
 def established_community(item_id, evidence, now):

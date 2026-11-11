@@ -395,12 +395,15 @@
    box, and the official file ships with built-in clear space: the mark occupies
    578/1075 of the image height. Drawing the image at 186px therefore renders the
    mark at 100px (186 x 0.538). The link is the tap target (>=44px), so the mark
-   is never shrunk to fit. */
+   is never shrunk to fit. The link carries no padding of its own: the file's
+   built-in clear space is the icon's clear space, and at 390px the thumbnail and
+   the Icon then share one line, so the Icon box is not the row's most prominent
+   element (Branding Guidelines). */
 .hackertube .ht-youtube-compact {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   max-width: 100%;
   margin: 0.35rem 0;
 }
@@ -410,7 +413,7 @@
   justify-content: center;
   min-height: 44px;
   min-width: 44px;
-  padding: 0.5rem;
+  padding: 0;
 }
 .hackertube .ht-youtube-compact a img {
   height: 186px;
@@ -419,11 +422,15 @@
   object-fit: contain;
   display: block;
 }
-/* Compact YouTube row layout. Below 640px the logo + thumbnail block stacks
-   above the row text, exactly as before. At 640px and up they share a side
-   column beside the text, so the row no longer stacks the art above it. The
-   wrapper clips nothing (see the unaltered-thumbnail note above); it only
-   arranges the two parts. Full cards never use these wrappers. */
+/* Compact YouTube row layout. The DOM puts the row text first and the art after
+   it, so the reading and focus order lead with the badge, title and creator.
+   CSS keeps the visual side column at 768px and up: the row reverses so the
+   art's side column still sits on the left of the text. Below 768px the two
+   stack, text first and art under it. The side column has a fixed width at that
+   breakpoint so a row with a thumbnail and a row without one start their text at
+   the same x. The wrapper clips nothing (see the unaltered-thumbnail note
+   above); it only arranges the two parts. Full cards never use these
+   wrappers. */
 .hackertube .ht-compact-row {
   display: flex;
   flex-direction: column;
@@ -441,12 +448,12 @@
   min-width: 0;
 }
 .hackertube .ht-compact-side { min-width: 0; }
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .hackertube .ht-compact-row {
-    flex-direction: row;
+    flex-direction: row-reverse;
     align-items: flex-start;
     gap: 1rem;
   }
-  .hackertube .ht-compact-side { flex: 0 0 auto; }
+  .hackertube .ht-compact-side { flex: 0 0 345px; }
   .hackertube .ht-compact-main { flex: 1 1 auto; }
 }

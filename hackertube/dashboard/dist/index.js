@@ -1741,8 +1741,10 @@
           : null;
         var actions = renderActions(item, compact);
         // The row text, in order. The art is placed separately: in a full card
-        // between the creator line and the evidence, and in a compact row in a
-        // side column beside this text at 640px and up.
+        // between the creator line and the evidence, and in a compact row after
+        // this text, so heading and focus order lead with the badge, title and
+        // creator and reach the thumbnail and Watch link last (WCAG 1.3.2 and
+        // 2.4.3). CSS arranges the side column at 768px and up.
         var text = [
           badge,
           title,
@@ -1759,12 +1761,14 @@
           : null;
         var body;
         if (compact) {
-          // Side column: logo and thumbnail together beside the row text at
-          // 640px and up; below 640px the two parts stack (art above the text).
+          // The text is the first child and the art follows it, so the DOM
+          // order is badge, title, creator, then the thumbnail and Watch link.
+          // CSS keeps the visual side column at 768px and up; below 768px the
+          // art stacks under the text.
           body = art
             ? h("div", { className: "ht-compact-row" },
-                h("div", { className: "ht-compact-side" }, art),
-                h("div", { className: "ht-compact-main" }, text))
+                h("div", { className: "ht-compact-main" }, text),
+                h("div", { className: "ht-compact-side" }, art))
             : text;
         } else {
           body = [

@@ -1,0 +1,10 @@
+RED  item 1: compact-row DOM order swapped back to art-first -> status 1 pass 0 fail 1 restored true
+RED  item 2a: .ht-youtube-compact gap back to 1rem -> status 1 pass 0 fail 1 restored true
+RED  item 2b: link padding back to 0.5rem -> status 1 pass 0 fail 1 restored true
+RED  item 3a: side-column breakpoint back to 640px -> status 1 pass 0 fail 1 restored true
+RED  item 3b: side column shrink-to-fit instead of the fixed width -> status 1 pass 0 fail 1 restored true
+RED  item 3b: side column shrink-to-fit (alignment test) -> status 1 pass 0 fail 1 restored true
+RED  item 4: compact-row icon squashed to width:150px -> status 1 pass 0 fail 1 restored true
+RED  item 4: full-card icon squashed to width:150px -> status 1 pass 0 fail 1 restored true
+RED  item 7: thumbnail host check turned into a prefix match -> status 1 pass 0 fail 1 restored true
+ALL MUTATIONS RED AND RESTORED

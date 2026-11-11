@@ -94,6 +94,64 @@ def test_stored_youtube_thumbnail_url_is_dropped_at_the_30_day_read_boundary():
     )
 
 
+def test_a_youtube_evidence_row_without_a_refresh_deadline_is_expired():
+    """Cracked review finding 1 (``boundaries.py``): a stored YouTube metadata
+    row (``source_id == "youtube"``, ``kind == "catalog"``) with no
+    ``refresh_after`` counts as expired, not as kept forever.
+
+    Only rows stored before the 30-day deadline existed lack one, so this is
+    limited to those. A community row legitimately carries no deadline and
+    stays current, so the rule is scoped to YouTube metadata rows.
+    """
+    from hackertube_core.boundaries import active_evidence
+
+    video = item("youtube:LCEmiRjPEtQ", "video", "Gardening lesson")
+    catalog = build(
+        [video],
+        [
+            evidence("youtube:LCEmiRjPEtQ", video["item_id"], "youtube", refresh_after=None),
+            evidence("hn:1", video["item_id"], "hn", kind="community",
+                     endorsement="mention", refresh_after=None),
+        ],
+        [source("youtube", "YouTube"), source("hn", "Hacker News", role="community")],
+    )
+    kept = active_evidence(catalog.evidence, NOW)
+    assert [record.evidence_id for record in kept] == ["hn:1"], (
+        "an undated youtube: row is expired; an undated community row is not"
+    )
+
+
+def test_a_youtube_row_without_a_deadline_drops_its_item_at_the_read_boundary():
+    """The same rule at the read boundary: an undated YouTube metadata row
+    cannot keep the item, or a stored thumbnail URL, on disk or on the page."""
+    thumb = "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg"
+    video = item(
+        "youtube:LCEmiRjPEtQ",
+        "video",
+        "Gardening lesson",
+        art_url=thumb,
+        art_hotlink=True,
+        art_cache=False,
+        art_checked_at="2026-11-06T12:22:23Z",
+        art_http_status=200,
+    )
+    cat = build(
+        [video],
+        [
+            evidence("youtube:LCEmiRjPEtQ", video["item_id"], "youtube", refresh_after=None),
+            evidence("hn:1", video["item_id"], "hn", kind="community",
+                     endorsement="mention", refresh_after=None),
+        ],
+        [source("youtube", "YouTube"), source("hn", "Hacker News", role="community")],
+    )
+    active = without_expired(cat, NOW)
+    assert not active.items, "an undated YouTube metadata row is expired, not kept forever"
+    assert not active.evidence
+    assert all(row.art_url != thumb for row in active.items), (
+        "the stored thumbnail URL leaves with the undated metadata"
+    )
+
+
 def test_failed_paid_web_attempt_keeps_total_cost_unknown(tmp_path):
     def invoke(raw):
         if json.loads(raw)["stage"] == "interpret":
