@@ -17,6 +17,9 @@ live-provider receipt, and not a real YouTube image.
 | `geometry-base.json` | The same measurements taken from the **#33** production files (`093d078`), run with this card's own capture script. |
 | `row-heights.json` | The head-vs-#33 comparison derived from the two geometry files. |
 | `videos-*.png`, `search-*.png`, `discover-*.png` | Screenshots of Videos, Search and Discover at 390 / 767 / 768 / 1280. |
+| `pytest.log`, `pytest-collect.log`, `node.log`, `feed12.log` | The suite runs quoted above, at this head. |
+| `red-check-browser.log`, `red-check-python.log` | The mutation red-checks: each production change reverted one at a time, the matching test red, the file restored and sha256-verified. |
+| `plugin-validate.log`, `plugin-doctor.log` | `hermes plugins validate .` and `hermes plugins doctor . --ci` from `hackertube/` (both exit 0). |
 | `clean-enable.log`, `clean-profile.json`, `clean-profile-render.json` | The clean-profile run (fresh `HERMES_HOME`, plugin enabled by `hermes plugins enable`): backend probe and browser render, including the two named failure paths. |
 | `capture.js`, `run-capture.sh` | Regenerate the geometry files, the comparison and the screenshots. |
 | `clean_profile_probe.py`, `clean_profile_render.js`, `run-clean.sh` | Regenerate the clean-profile run. |
