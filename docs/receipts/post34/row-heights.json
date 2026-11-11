@@ -1,0 +1,145 @@
+{
+  "base": "3788fe6 #34",
+  "rows": [
+    {
+      "width": 320,
+      "base_rowHeight": 540.4,
+      "head_rowHeight": 611.2,
+      "delta": 70.8,
+      "base_flexDirection": "column",
+      "head_flexDirection": "column",
+      "base_sideWidth": 290,
+      "head_sideWidth": 290,
+      "base_thumbnail": [
+        97.5,
+        73.1
+      ],
+      "head_thumbnail": [
+        192,
+        144
+      ],
+      "base_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "head_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "base_fullCardHeight": 806.3,
+      "head_fullCardHeight": 806.3
+    },
+    {
+      "width": 390,
+      "base_rowHeight": 456,
+      "head_rowHeight": 611.2,
+      "delta": 155.2,
+      "base_flexDirection": "column",
+      "head_flexDirection": "column",
+      "base_sideWidth": 325.9,
+      "head_sideWidth": 360,
+      "base_thumbnail": [
+        97.5,
+        73.1
+      ],
+      "head_thumbnail": [
+        192,
+        144
+      ],
+      "base_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "head_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "base_fullCardHeight": 858.8,
+      "head_fullCardHeight": 858.8
+    },
+    {
+      "width": 767,
+      "base_rowHeight": 415.3,
+      "head_rowHeight": 415.3,
+      "delta": 0,
+      "base_flexDirection": "column",
+      "head_flexDirection": "column",
+      "base_sideWidth": 325.9,
+      "head_sideWidth": 420.4,
+      "base_thumbnail": [
+        97.5,
+        73.1
+      ],
+      "head_thumbnail": [
+        192,
+        144
+      ],
+      "base_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "head_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "base_fullCardHeight": 860.3,
+      "head_fullCardHeight": 860.3
+    },
+    {
+      "width": 768,
+      "base_rowHeight": 255,
+      "head_rowHeight": 255,
+      "delta": 0,
+      "base_flexDirection": "row-reverse",
+      "head_flexDirection": "row",
+      "base_sideWidth": 345,
+      "head_sideWidth": 430,
+      "base_thumbnail": [
+        97.5,
+        73.1
+      ],
+      "head_thumbnail": [
+        192,
+        144
+      ],
+      "base_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "head_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "base_fullCardHeight": 860.7,
+      "head_fullCardHeight": 860.7
+    },
+    {
+      "width": 1280,
+      "base_rowHeight": 219,
+      "head_rowHeight": 219,
+      "delta": 0,
+      "base_flexDirection": "row-reverse",
+      "head_flexDirection": "row",
+      "base_sideWidth": 345,
+      "head_sideWidth": 430,
+      "base_thumbnail": [
+        97.5,
+        73.1
+      ],
+      "head_thumbnail": [
+        192,
+        144
+      ],
+      "base_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "head_visibleMark": [
+        143.09,
+        100.18
+      ],
+      "base_fullCardHeight": 841,
+      "head_fullCardHeight": 841
+    }
+  ]
+}

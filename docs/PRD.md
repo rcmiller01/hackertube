@@ -78,6 +78,30 @@ compact row's icon keeps the asset's 1255:1075 box aspect, the host check is
 pinned against a look-alike host, and the 767/768 breakpoint is pinned on both
 sides. No other product decision is claimed here.
 
+### November 10, 2026 — Post-#34 follow-ups (compact thumbnail and small fixes)
+
+Robert answered the follow-up card for PR #34 (7:34 PM ET). His words, quoted
+exactly:
+
+- "Queue one card for the small #34 fixes and make the compact thumbnail bigger
+  than the logo"
+
+Implementation reading, kept to that statement and the six notes it queues. The
+compact row's thumbnail is now drawn larger than the official Icon's visible red
+mark in both dimensions at every width — 192px wide at the image's own 4:3 ratio,
+so a 192x144 box against the 143x100 mark — still unaltered (no radius, clip,
+filter, cover or overlay), and the mark itself stays at the brand-site 100px
+minimum with a 44px tap target. Because the wider thumbnail no longer shares a
+line with the Icon at 390px, it takes its own line with the Icon after it there;
+below 768px the media sits above the row text instead of below it, and the
+compact row's DOM order now leads with the media column and reaches the text and
+its Save/Dismiss actions after it, so Tab order follows the painted order and
+focus no longer jumps back up-left at 768px and up (WCAG 2.4.3). The media column
+keeps a fixed width at that breakpoint so thumbnail-less rows still align. The
+startup retention purge no longer blocks `register()`, logs a warning instead of
+swallowing a failure, and does not create the profile database when it does not
+exist yet. No other product decision is claimed here.
+
 ## 4. Core user journeys
 
 ### Browse without asking

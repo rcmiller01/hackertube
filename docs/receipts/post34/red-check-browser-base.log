@@ -1,0 +1,100 @@
+✔ privacy gates real rendered features; deletion failure retains state and success revokes access (1219.737166ms)
+✔ YouTube attribution renders without an authenticated image request (246.070583ms)
+✔ the privacy disclosure reports its expanded state and accepting it moves focus to the page heading (1147.351834ms)
+✔ compact format badges are measured in the browser, not read from the stylesheet (216.817792ms)
+✔ a YouTube card hotlinks the unaltered thumbnail beside the linked Icon (218.990875ms)
+✔ a YouTube thumbnail that fails to load leaves the linked Icon and no broken image (212.788125ms)
+✖ a compact YouTube row keeps the official linked Icon with a 44px tap target (232.200333ms)
+✔ the compact YouTube mark's visible red area is at least 100px at 390 and 1280 (375.894958ms)
+✔ the full feed card's YouTube mark's visible red area is at least 100px at 390 and 1280 (376.61625ms)
+✖ a compact YouTube row leads with its thumbnail and Watch link, then its text, in a media column at 768 and up (212.197167ms)
+✔ a thumbnail from a non-YouTube host falls back to the linked Icon at render time (204.925208ms)
+✔ the unaltered check fails when an ancestor clips the thumbnail, and passes once it is removed (221.897333ms)
+✔ the official Icon keeps its 1255:1075 box aspect on compact rows and full cards (627.5975ms)
+✔ a compact YouTube row with no thumbnail starts its text at the same x as one with (207.365125ms)
+✔ a look-alike i.ytimg.com host falls back to the linked Icon at render time (201.202666ms)
+✖ the compact thumbnail is larger than the official mark in both dimensions at 390, 767, 768 and 1280 (241.407583ms)
+✔ a compact YouTube row does not overflow horizontally at 320, 390 and 767 (458.543042ms)
+✖ a compact YouTube row's Tab order matches its visual order at 1280 (207.08ms)
+✔ an endsWith-style i.ytimg.com host falls back to the linked Icon at render time (468.737167ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 15
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7332.875792
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:293:1
+✖ a compact YouTube row keeps the official linked Icon with a 44px tap target (232.200333ms)
+  AssertionError [ERR_ASSERTION]: at 390px the thumbnail is on its own line with the Icon after it
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/private/tmp/ht34-base/tests/test_privacy_browser.js:352:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:491:1
+✖ a compact YouTube row leads with its thumbnail and Watch link, then its text, in a media column at 768 and up (212.197167ms)
+  AssertionError [ERR_ASSERTION]: at 767px the media is the first child in the DOM
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/private/tmp/ht34-base/tests/test_privacy_browser.js:543:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:816:1
+✖ the compact thumbnail is larger than the official mark in both dimensions at 390, 767, 768 and 1280 (241.407583ms)
+  AssertionError [ERR_ASSERTION]: at 390px the thumbnail is wider than the visible mark (104.0 vs 143.1)
+      at TestContext.<anonymous> (/private/tmp/ht34-base/tests/test_privacy_browser.js:846:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:914:1
+✖ a compact YouTube row's Tab order matches its visual order at 1280 (207.08ms)
+  AssertionError [ERR_ASSERTION]: the Tab order of the row's controls matches their painted order at 1280px
+  + actual - expected
+  
+    [
+  -   'Watch "AI introduction" on YouTube',
+      'Save',
+      'Dismiss',
+  +   'Watch "AI introduction" on YouTube'
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/ht34-base/tests/test_privacy_browser.js:945:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'Save', 'Dismiss', 'Watch "AI introduction" on YouTube' ],
+    expected: [ 'Watch "AI introduction" on YouTube', 'Save', 'Dismiss' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

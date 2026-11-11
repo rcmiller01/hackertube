@@ -1,0 +1,506 @@
+{
+  "label": "base",
+  "assets": {
+    "page": "/Users/robert/.hermes/cache/scratch/p34-base/index.js",
+    "style": "/Users/robert/.hermes/cache/scratch/p34-base/style.css"
+  },
+  "scope": "Production bundle and stylesheet in a React fixture with stub SDK components and a stub local API, plus the compiled host stylesheet. Fixture images are served locally for the i.ytimg.com paths; this is not an installed dashboard, not a live-provider receipt, and not a real YouTube image.",
+  "hostStylesheet": "/Users/robert/.hermes/hermes-agent/hermes_cli/web_dist/assets/index-CXKdN8QE.css",
+  "note": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+  "iconAspect": 1.1674418604651162,
+  "mediaColumnWidth": 430,
+  "viewports": [
+    {
+      "width": 320,
+      "compactTapTarget": {
+        "width": 217,
+        "height": 186
+      },
+      "mark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "layout": {
+        "hasColumns": true,
+        "rowHeight": 540.4,
+        "mainChildIndex": 0,
+        "sideChildIndex": 1,
+        "mediaPrecedesText": false,
+        "flexDirection": "column",
+        "sideWidth": 290,
+        "sideLeft": 15,
+        "sideBottom": 2826.2,
+        "mainLeft": 15,
+        "mainTop": 2308.4,
+        "sideHasThumb": true,
+        "sideHasIcon": true,
+        "thumbBox": {
+          "w": 97.5,
+          "h": 73.1,
+          "right": 112.5,
+          "bottom": 2623.7
+        },
+        "iconBox": {
+          "w": 217.1,
+          "h": 186,
+          "left": 15,
+          "top": 2635
+        },
+        "thumbnailOnOwnLine": true,
+        "thumbBesideIcon": false
+      },
+      "compactThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb ht-thumb-compact",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 97.5,
+        "boxHeight": 73.1,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": [],
+        "naturalAspect": 1.3333333333333333,
+        "boxAspect": 1.3333333333333333
+      },
+      "fullHeight": 806.3,
+      "fullMark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "overflow": {
+        "offenders": [],
+        "scrollWidth": 320,
+        "innerWidth": 320
+      },
+      "tabOrder": null,
+      "searchThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 290,
+        "boxHeight": 217.5,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": [],
+        "naturalAspect": 1.3333333333333333,
+        "boxAspect": 1.3333333333333333
+      }
+    },
+    {
+      "width": 390,
+      "compactTapTarget": {
+        "width": 217,
+        "height": 186
+      },
+      "mark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "layout": {
+        "hasColumns": true,
+        "rowHeight": 456,
+        "mainChildIndex": 0,
+        "sideChildIndex": 1,
+        "mediaPrecedesText": false,
+        "flexDirection": "column",
+        "sideWidth": 325.9,
+        "sideLeft": 15,
+        "sideBottom": 2771.1,
+        "mainLeft": 15,
+        "mainTop": 2337.6,
+        "sideHasThumb": true,
+        "sideHasIcon": true,
+        "thumbBox": {
+          "w": 97.5,
+          "h": 73.1,
+          "right": 112.5,
+          "bottom": 2709.4
+        },
+        "iconBox": {
+          "w": 217.1,
+          "h": 186,
+          "left": 123.8,
+          "top": 2579.9
+        },
+        "thumbnailOnOwnLine": false,
+        "thumbBesideIcon": true
+      },
+      "compactThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb ht-thumb-compact",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 97.5,
+        "boxHeight": 73.1,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": [],
+        "naturalAspect": 1.3333333333333333,
+        "boxAspect": 1.3333333333333333
+      },
+      "fullHeight": 858.8,
+      "fullMark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "overflow": {
+        "offenders": [],
+        "scrollWidth": 390,
+        "innerWidth": 390
+      },
+      "tabOrder": null,
+      "searchThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 360,
+        "boxHeight": 270,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": [],
+        "naturalAspect": 1.3333333333333333,
+        "boxAspect": 1.3333333333333333
+      }
+    },
+    {
+      "width": 767,
+      "compactTapTarget": {
+        "width": 217,
+        "height": 186
+      },
+      "mark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "layout": {
+        "hasColumns": true,
+        "rowHeight": 415.3,
+        "mainChildIndex": 0,
+        "sideChildIndex": 1,
+        "mediaPrecedesText": false,
+        "flexDirection": "column",
+        "sideWidth": 325.9,
+        "sideLeft": 15,
+        "sideBottom": 1941.4,
+        "mainLeft": 15,
+        "mainTop": 1548.6,
+        "sideHasThumb": true,
+        "sideHasIcon": true,
+        "thumbBox": {
+          "w": 97.5,
+          "h": 73.1,
+          "right": 112.5,
+          "bottom": 1879.7
+        },
+        "iconBox": {
+          "w": 217.1,
+          "h": 186,
+          "left": 123.8,
+          "top": 1750.2
+        },
+        "thumbnailOnOwnLine": false,
+        "thumbBesideIcon": true
+      },
+      "compactThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb ht-thumb-compact",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 97.5,
+        "boxHeight": 73.1,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": [],
+        "naturalAspect": 1.3333333333333333,
+        "boxAspect": 1.3333333333333333
+      },
+      "fullHeight": 860.3,
+      "fullMark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "overflow": {
+        "offenders": [],
+        "scrollWidth": 767,
+        "innerWidth": 767
+      },
+      "tabOrder": null,
+      "searchThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 480,
+        "boxHeight": 360,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": [],
+        "naturalAspect": 1.3333333333333333,
+        "boxAspect": 1.3333333333333333
+      }
+    },
+    {
+      "width": 768,
+      "compactTapTarget": {
+        "width": 217,
+        "height": 186
+      },
+      "mark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "layout": {
+        "hasColumns": true,
+        "rowHeight": 255,
+        "mainChildIndex": 0,
+        "sideChildIndex": 1,
+        "mediaPrecedesText": false,
+        "flexDirection": "row-reverse",
+        "sideWidth": 345,
+        "sideLeft": 15,
+        "sideBottom": 1745.5,
+        "mainLeft": 375,
+        "mainTop": 1549,
+        "sideHasThumb": true,
+        "sideHasIcon": true,
+        "thumbBox": {
+          "w": 97.5,
+          "h": 73.1,
+          "right": 112.5,
+          "bottom": 1683.8
+        },
+        "iconBox": {
+          "w": 217.1,
+          "h": 186,
+          "left": 123.8,
+          "top": 1554.2
+        },
+        "thumbnailOnOwnLine": false,
+        "thumbBesideIcon": true
+      },
+      "compactThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb ht-thumb-compact",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 97.5,
+        "boxHeight": 73.1,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": [],
+        "naturalAspect": 1.3333333333333333,
+        "boxAspect": 1.3333333333333333
+      },
+      "fullHeight": 860.7,
+      "fullMark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "overflow": {
+        "offenders": [],
+        "scrollWidth": 768,
+        "innerWidth": 768
+      },
+      "tabOrder": null,
+      "searchThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 480,
+        "boxHeight": 360,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": [],
+        "naturalAspect": 1.3333333333333333,
+        "boxAspect": 1.3333333333333333
+      }
+    },
+    {
+      "width": 1280,
+      "compactTapTarget": {
+        "width": 217,
+        "height": 186
+      },
+      "mark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "layout": {
+        "hasColumns": true,
+        "rowHeight": 219,
+        "mainChildIndex": 0,
+        "sideChildIndex": 1,
+        "mediaPrecedesText": false,
+        "flexDirection": "row-reverse",
+        "sideWidth": 345,
+        "sideLeft": 122.5,
+        "sideBottom": 1729.6,
+        "mainLeft": 482.5,
+        "mainTop": 1533.1,
+        "sideHasThumb": true,
+        "sideHasIcon": true,
+        "thumbBox": {
+          "w": 97.5,
+          "h": 73.1,
+          "right": 220,
+          "bottom": 1667.9
+        },
+        "iconBox": {
+          "w": 217.1,
+          "h": 186,
+          "left": 231.3,
+          "top": 1538.3
+        },
+        "thumbnailOnOwnLine": false,
+        "thumbBesideIcon": true
+      },
+      "compactThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb ht-thumb-compact",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 97.5,
+        "boxHeight": 73.1,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": [],
+        "naturalAspect": 1.3333333333333333,
+        "boxAspect": 1.3333333333333333
+      },
+      "fullHeight": 841,
+      "fullMark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "aspect": 1.1674,
+        "markRatioY": 0.5386,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "overflow": {
+        "offenders": [],
+        "scrollWidth": 1280,
+        "innerWidth": 1280
+      },
+      "tabOrder": {
+        "order": [
+          "Save",
+          "Dismiss",
+          "Watch \"Jane Austen introduction\" on YouTube"
+        ],
+        "matchesVisual": false
+      },
+      "searchThumb": {
+        "src": "https://i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+        "className": "ht-thumb",
+        "objectFit": "fill",
+        "borderRadius": "0px",
+        "clipPath": "none",
+        "filter": "none",
+        "naturalWidth": 480,
+        "naturalHeight": 360,
+        "boxWidth": 480,
+        "boxHeight": 360,
+        "insideLink": false,
+        "childElements": 0,
+        "ancestorClips": [],
+        "naturalAspect": 1.3333333333333333,
+        "boxAspect": 1.3333333333333333
+      }
+    }
+  ]
+}

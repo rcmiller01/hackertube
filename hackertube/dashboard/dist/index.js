@@ -1761,14 +1761,16 @@
           : null;
         var body;
         if (compact) {
-          // The text is the first child and the art follows it, so the DOM
-          // order is badge, title, creator, then the thumbnail and Watch link.
-          // CSS keeps the visual side column at 768px and up; below 768px the
-          // art stacks under the text.
+          // The art is the first child and the text follows it, so the DOM
+          // (and therefore Tab) order leads with the thumbnail and its Watch
+          // link and then reaches the row's text and its Save/Dismiss buttons.
+          // CSS keeps the media in the top/left side column, so the visible
+          // order at 768px and up is: media column, then the text column with
+          // its actions — matching what Tab visits (WCAG 2.4.3 focus order).
           body = art
             ? h("div", { className: "ht-compact-row" },
-                h("div", { className: "ht-compact-main" }, text),
-                h("div", { className: "ht-compact-side" }, art))
+                h("div", { className: "ht-compact-side" }, art),
+                h("div", { className: "ht-compact-main" }, text))
             : text;
         } else {
           body = [

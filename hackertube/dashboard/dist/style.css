@@ -388,8 +388,12 @@
   height: auto;
   background: var(--color-muted);
 }
-/* Compact rows keep the same unmodified image at a row-sized width. */
-.hackertube .ht-thumb-compact { width: 6.5rem; flex: 0 0 auto; }
+/* Compact rows keep the same unmodified image, drawn larger than the official
+   Icon's visible red mark (143x100) in BOTH dimensions at every width: 192px
+   wide keeps the image's own 4:3 ratio, so the box is 192x144. The width is an
+   absolute length, not a rem, so host font scaling cannot shrink it below the
+   mark. `height: auto` and `max-width: 100%` stay from `.ht-thumb`. */
+.hackertube .ht-thumb-compact { width: 192px; flex: 0 0 auto; }
 /* Compact-row attribution: the official linked Icon. The brand site's published
    100px digital minimum applies to the VISIBLE red mark, not to the PNG file
    box, and the official file ships with built-in clear space: the mark occupies
@@ -422,15 +426,19 @@
   object-fit: contain;
   display: block;
 }
-/* Compact YouTube row layout. The DOM puts the row text first and the art after
-   it, so the reading and focus order lead with the badge, title and creator.
-   CSS keeps the visual side column at 768px and up: the row reverses so the
-   art's side column still sits on the left of the text. Below 768px the two
-   stack, text first and art under it. The side column has a fixed width at that
-   breakpoint so a row with a thumbnail and a row without one start their text at
-   the same x. The wrapper clips nothing (see the unaltered-thumbnail note
-   above); it only arranges the two parts. Full cards never use these
-   wrappers. */
+/* Compact YouTube row layout. The DOM puts the media first and the row text
+   after it, so Tab order leads with the thumbnail's Watch link and only then
+   reaches Save and Dismiss — the same left-to-right, top-to-bottom order the
+   media column and the text column are painted in (WCAG 2.4.3), so focus never
+   jumps back up-left. Below 768px the two stack with the media on top and the
+   text under it; at 768px and up they sit side by side with the media column on
+   the left (a plain `row`: no `row-reverse`, which would paint the DOM order
+   backwards so the link Tab reaches first would be painted last). The side
+   column has a fixed width at that breakpoint so a row with a thumbnail and a
+   row without one start their text at the same x; the width fits the 192px
+   thumbnail and the Icon's 217px file box on one line with the row gap. The
+   wrapper clips nothing (see the unaltered-thumbnail note above); it only
+   arranges the two parts. Full cards never use these wrappers. */
 .hackertube .ht-compact-row {
   display: flex;
   flex-direction: column;
@@ -447,13 +455,13 @@
   width: 100%;
   min-width: 0;
 }
-.hackertube .ht-compact-side { min-width: 0; }
+.hackertube .ht-compact-side { min-width: 0; max-width: 100%; }
 @media (min-width: 768px) {
   .hackertube .ht-compact-row {
-    flex-direction: row-reverse;
+    flex-direction: row;
     align-items: flex-start;
     gap: 1rem;
   }
-  .hackertube .ht-compact-side { flex: 0 0 345px; }
+  .hackertube .ht-compact-side { flex: 0 0 430px; }
   .hackertube .ht-compact-main { flex: 1 1 auto; }
 }

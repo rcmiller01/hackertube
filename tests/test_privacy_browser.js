@@ -329,27 +329,30 @@ test("a compact YouTube row keeps the official linked Icon with a 44px tap targe
     await assertUnalteredThumbnail(thumb, "compact YouTube row");
     const note = await row.getByText("Metadata from YouTube. Explanations and library actions are HackerTube’s.", {exact:true}).count();
     assert.equal(note, 1);
-    // At 390px the thumbnail and the Icon share one line and the link carries no
-    // padding of its own, so the Icon box is not the row's most prominent
-    // element and the built-in clear space is what separates them.
+    // The thumbnail is now bigger than the mark (post-#34), so at 390px it no
+    // longer fits beside the Icon on one line: it takes its own line and the
+    // Icon follows it, both unaltered, with the link still carrying no padding.
     const line = await link.evaluate(el => {
-      const icon = el.querySelector("img").getBoundingClientRect();
+      const iconEl = el.querySelector("img");
+      const icon = iconEl.getBoundingClientRect();
       const box = el.getBoundingClientRect();
-      const thumb = el.closest(".ht-compact").querySelector("img.ht-thumb").getBoundingClientRect();
+      const thumbEl = el.closest(".ht-compact").querySelector("img.ht-thumb");
+      const thumb = thumbEl.getBoundingClientRect();
       const style = getComputedStyle(el);
       return {
         padding: style.paddingTop + " " + style.paddingLeft,
         linkWidth: box.width, linkHeight: box.height,
         iconWidth: icon.width, iconHeight: icon.height,
-        sameLine: Math.abs((thumb.top + thumb.height / 2) - (icon.top + icon.height / 2)) <= 2,
-        thumbBeforeIcon: thumb.right <= icon.left + 1,
-        gap: icon.left - thumb.right,
+        iconBelowThumb: icon.top >= thumb.bottom - 1,
+        thumbBeforeIcon: !!(thumbEl.compareDocumentPosition(iconEl) & Node.DOCUMENT_POSITION_FOLLOWING),
+        noOverlap: thumb.right <= icon.left + 1 || icon.top >= thumb.bottom - 1,
       };
     });
     assert.equal(line.padding, "0px 0px", "the link carries no padding; the file's clear space is the icon's");
-    assert.equal(line.sameLine, true, "the thumbnail and the Icon share one line at 390px");
-    assert.equal(line.thumbBeforeIcon, true, "the thumbnail sits before the Icon on that line");
-    assert.ok(Math.abs(line.gap - 12) <= 1, "the one-line gap is 0.75rem: " + line.gap.toFixed(1));
+    assert.equal(line.iconBelowThumb, true,
+      "at 390px the thumbnail is on its own line with the Icon after it");
+    assert.equal(line.thumbBeforeIcon, true, "the thumbnail precedes the Icon in the DOM");
+    assert.equal(line.noOverlap, true, "the thumbnail and the Icon do not overlap");
     assert.ok(Math.abs(line.linkWidth - line.iconWidth) <= 1, "the link box is the icon box, so touching the icon opens it");
     assert.ok(Math.abs(line.linkHeight - line.iconHeight) <= 1, "the link box is the icon box in height too");
     // The row is still a compact row, not a full card.
@@ -485,7 +488,7 @@ test("the full feed card's YouTube mark's visible red area is at least 100px at 
   } finally { await browser.close(); }
 });
 
-test("a compact YouTube row leads with its text and keeps the logo and thumbnail in a side column at 768 and up", async (t) => {
+test("a compact YouTube row leads with its thumbnail and Watch link, then its text, in a media column at 768 and up", async (t) => {
   const { THUMB_PNG } = require("./browser_net_harness");
   const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
   try {
@@ -516,17 +519,18 @@ test("a compact YouTube row leads with its text and keeps the logo and thumbnail
         const thumb = el.querySelector("img.ht-thumb");
         const logo = el.querySelector(".ht-youtube-icon img");
         const title = el.querySelector(".ht-title");
-        // DOM order: the badge, title and creator come first, then the side
-        // column that carries the thumbnail and the Watch link (WCAG 1.3.2).
+        // DOM order: the media column (thumbnail then Watch link) comes first,
+        // then the text column with its actions, so Tab order and the painted
+        // order agree and focus never jumps back up-left (WCAG 2.4.3).
         const follows = (a, b) => !!(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
         const badge = el.querySelector(".ht-format");
         return {
           hasColumns: true,
           mainChildIndex: Array.prototype.indexOf.call(container.children, main),
           sideChildIndex: Array.prototype.indexOf.call(container.children, side),
-          textPrecedesArt: follows(main, side),
-          titlePrecedesArt: follows(title, side),
-          badgePrecedesArt: badge ? follows(badge, side) : null,
+          artPrecedesText: follows(side, main),
+          artPrecedesTitle: follows(side, title),
+          artPrecedesBadge: badge ? follows(side, badge) : null,
           sideLeft: s.left, sideRight: s.right, sideTop: s.top, sideBottom: s.bottom,
           sideWidth: s.width,
           mainLeft: m.left, mainTop: m.top, mainBottom: m.bottom,
@@ -535,36 +539,36 @@ test("a compact YouTube row leads with its text and keeps the logo and thumbnail
           sideHasLogo: !!logo && side.contains(logo),
         };
       });
-      assert.equal(geometry.hasColumns, true, `at ${width}px the row has a side column and a text column`);
-      assert.equal(geometry.mainChildIndex, 0, `at ${width}px the row text is the first child in the DOM`);
-      assert.equal(geometry.sideChildIndex, 1, `at ${width}px the art is the second child in the DOM`);
-      assert.equal(geometry.textPrecedesArt, true, `at ${width}px the text precedes the art in the DOM`);
-      assert.equal(geometry.titlePrecedesArt, true, `at ${width}px the title precedes the thumbnail and Watch link (WCAG 1.3.2)`);
-      if (geometry.badgePrecedesArt !== null) {
-        assert.equal(geometry.badgePrecedesArt, true, `at ${width}px the badge precedes the art`);
+      assert.equal(geometry.hasColumns, true, `at ${width}px the row has a media column and a text column`);
+      assert.equal(geometry.sideChildIndex, 0, `at ${width}px the media is the first child in the DOM`);
+      assert.equal(geometry.mainChildIndex, 1, `at ${width}px the row text is the second child in the DOM`);
+      assert.equal(geometry.artPrecedesText, true, `at ${width}px the media precedes the text in the DOM, so Tab and the paint order agree`);
+      assert.equal(geometry.artPrecedesTitle, true, `at ${width}px the thumbnail and Watch link precede the title`);
+      if (geometry.artPrecedesBadge !== null) {
+        assert.equal(geometry.artPrecedesBadge, true, `at ${width}px the media precedes the badge`);
       }
-      assert.equal(geometry.sideHasThumb, true, `at ${width}px the thumbnail is in the side column`);
-      assert.equal(geometry.sideHasLogo, true, `at ${width}px the logo is in the side column`);
+      assert.equal(geometry.sideHasThumb, true, `at ${width}px the thumbnail is in the media column`);
+      assert.equal(geometry.sideHasLogo, true, `at ${width}px the logo is in the media column`);
       if (expected === "beside") {
-        assert.equal(geometry.flexDirection, "row-reverse",
-          `at ${width}px the side column still sits left of the text while the DOM keeps the text first`);
+        assert.equal(geometry.flexDirection, "row",
+          `at ${width}px the media column sits left of the text in a plain row, so the item Tab reaches first is painted first`);
         assert.ok(
           geometry.sideRight <= geometry.mainLeft + 1,
-          `at ${width}px the side column (right ${geometry.sideRight.toFixed(1)}) sits left of the text (left ${geometry.mainLeft.toFixed(1)})`,
+          `at ${width}px the media column (right ${geometry.sideRight.toFixed(1)}) sits left of the text (left ${geometry.mainLeft.toFixed(1)})`,
         );
         assert.ok(
           Math.abs(geometry.sideTop - geometry.mainTop) <= 2,
-          `at ${width}px the side column and the text share the row (tops ${geometry.sideTop.toFixed(1)} vs ${geometry.mainTop.toFixed(1)})`,
+          `at ${width}px the media column and the text share the row (tops ${geometry.sideTop.toFixed(1)} vs ${geometry.mainTop.toFixed(1)})`,
         );
         assert.ok(
-          Math.abs(geometry.sideWidth - 345) <= 1,
-          `at ${width}px the side column has the fixed width so thumbnail-less rows align (width ${geometry.sideWidth.toFixed(1)})`,
+          Math.abs(geometry.sideWidth - 430) <= 1,
+          `at ${width}px the media column has the fixed width so thumbnail-less rows align (width ${geometry.sideWidth.toFixed(1)})`,
         );
       } else {
         assert.equal(geometry.flexDirection, "column", `at ${width}px the compact row stacks`);
         assert.ok(
-          geometry.mainBottom <= geometry.sideTop + 1,
-          `at ${width}px the art stacks under the text, so the Icon is not the prominent element (text bottom ${geometry.mainBottom.toFixed(1)}, art top ${geometry.sideTop.toFixed(1)})`,
+          geometry.sideBottom <= geometry.mainTop + 1,
+          `at ${width}px the media stacks above the text (media bottom ${geometry.sideBottom.toFixed(1)}, text top ${geometry.mainTop.toFixed(1)})`,
         );
       }
       await ui.close();
@@ -799,4 +803,199 @@ test("a look-alike i.ytimg.com host falls back to the linked Icon at render time
     }
     assert.equal(lookalikeRequests, 0, "the look-alike host is never requested");
   } finally { await browser.close(); await fixture.close(); }
+});
+
+/* ------------------------------------------------------------------ *
+ * Post-#34 follow-ups: the compact thumbnail's size, no narrow-viewport
+ * overflow, Tab order, and suffix host matches.
+ * ------------------------------------------------------------------ */
+
+/* The visible mark is 143x100 on a compact row. The compact thumbnail must be
+ * larger than that in BOTH dimensions at every width, unaltered: its own 4:3
+ * ratio, no crop, no radius, no overlay. Measure both boxes in the browser. */
+test("the compact thumbnail is larger than the official mark in both dimensions at 390, 767, 768 and 1280", async (t) => {
+  const { THUMB_PNG } = require("./browser_net_harness");
+  const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    for (const width of [390, 767, 768, 1280]) {
+      const fixture = await startFixture(sectionRows());
+      const ui = await browser.newPage();
+      t.after(async () => {
+        await ui.close().catch(() => {});
+        await fixture.close().catch(() => {});
+      });
+      await ui.setViewportSize({ width, height: 900 });
+      await ui.route("https://i.ytimg.com/**", route => route.fulfill({status:200, contentType:"image/png", body:THUMB_PNG}));
+      await ui.goto(fixture.origin);
+      const row = ui.locator("#videos .ht-compact").first();
+      await row.waitFor();
+      const link = row.getByRole("link", { name: 'Watch "AI introduction" on YouTube' });
+      await link.waitFor();
+      const thumb = row.locator("img.ht-thumb").first();
+      await thumb.waitFor();
+      await ui.waitForFunction(() => {
+        const el = document.querySelector("#videos .ht-compact img.ht-thumb");
+        return el && el.naturalWidth > 0;
+      });
+      const mark = await measureVisibleMark(link);
+      const box = await thumb.evaluate(el => {
+        const b = el.getBoundingClientRect();
+        return { width: b.width, height: b.height };
+      });
+      await assertUnalteredThumbnail(thumb, `the compact thumbnail at ${width}px`);
+      assert.ok(
+        box.width > mark.visibleMarkWidth,
+        `at ${width}px the thumbnail is wider than the visible mark (${box.width.toFixed(1)} vs ${mark.visibleMarkWidth.toFixed(1)})`,
+      );
+      assert.ok(
+        box.height > mark.visibleMarkHeight,
+        `at ${width}px the thumbnail is taller than the visible mark (${box.height.toFixed(1)} vs ${mark.visibleMarkHeight.toFixed(1)})`,
+      );
+      assert.ok(box.width >= 192, `at ${width}px the thumbnail is at least 192px wide (${box.width.toFixed(1)})`);
+      assert.ok(box.height >= 108, `at ${width}px the thumbnail is at least 108px tall (${box.height.toFixed(1)})`);
+      await ui.close();
+      await fixture.close();
+    }
+  } finally { await browser.close(); }
+});
+
+/* A wider thumbnail must not push a narrow row off the screen. The host clips
+ * document overflow, so assert each owning box's own box, like the 390px
+ * layout fix: scrollWidth <= clientWidth per box and right edge <= viewport. */
+test("a compact YouTube row does not overflow horizontally at 320, 390 and 767", async (t) => {
+  const { THUMB_PNG } = require("./browser_net_harness");
+  const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    for (const width of [320, 390, 767]) {
+      const fixture = await startFixture(sectionRows());
+      const ui = await browser.newPage();
+      t.after(async () => {
+        await ui.close().catch(() => {});
+        await fixture.close().catch(() => {});
+      });
+      await ui.setViewportSize({ width, height: 900 });
+      await ui.route("https://i.ytimg.com/**", route => route.fulfill({status:200, contentType:"image/png", body:THUMB_PNG}));
+      await ui.goto(fixture.origin);
+      await ui.locator("#videos .ht-compact").first().waitFor();
+      await ui.locator("#videos .ht-compact img.ht-thumb").waitFor();
+      const measured = await ui.evaluate(() => {
+        const card = document.querySelector("#videos .ht-compact");
+        const selectors = [".hackertube", ".ht-compact", ".ht-compact-row", ".ht-compact-side",
+          ".ht-youtube-compact", "img.ht-thumb", ".ht-youtube-icon"];
+        const offenders = [];
+        for (const selector of selectors) {
+          const el = selector === ".ht-compact" ? card : document.querySelector(selector);
+          if (!el) continue;
+          const rect = el.getBoundingClientRect();
+          if (el.scrollWidth - el.clientWidth > 1) {
+            offenders.push(`${selector} scrollWidth ${el.scrollWidth} > clientWidth ${el.clientWidth}`);
+          }
+          if (rect.right > window.innerWidth + 1) {
+            offenders.push(`${selector} right ${rect.right.toFixed(1)} > viewport ${window.innerWidth}`);
+          }
+          if (rect.left < -1) offenders.push(`${selector} left ${rect.left.toFixed(1)} < 0`);
+        }
+        return { offenders, scrollWidth: document.documentElement.scrollWidth, innerWidth: window.innerWidth };
+      });
+      assert.deepEqual(measured.offenders, [], `at ${width}px no owning box overflows horizontally`);
+      assert.ok(
+        measured.scrollWidth <= measured.innerWidth + 1,
+        `at ${width}px the document does not scroll horizontally (${measured.scrollWidth} vs ${measured.innerWidth})`,
+      );
+      await ui.close();
+      await fixture.close();
+    }
+  } finally { await browser.close(); }
+});
+
+/* Tab order must follow the painted order at 1280: the media column (thumbnail
+ * then Watch link) is painted first and left, so Tab reaches it before Save and
+ * Dismiss. The old DOM put the media last, so focus jumped back up-left. */
+test("a compact YouTube row's Tab order matches its visual order at 1280", async (t) => {
+  const { THUMB_PNG } = require("./browser_net_harness");
+  const fixture = await startFixture(sectionRows());
+  const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    const ui = await browser.newPage();
+    t.after(async () => {
+      await ui.close().catch(() => {});
+      await fixture.close().catch(() => {});
+    });
+    await ui.setViewportSize({ width: 1280, height: 900 });
+    await ui.route("https://i.ytimg.com/**", route => route.fulfill({status:200, contentType:"image/png", body:THUMB_PNG}));
+    await ui.goto(fixture.origin);
+    await ui.locator("#videos .ht-compact").first().waitFor();
+    await ui.locator("#videos .ht-compact img.ht-thumb").waitFor();
+    const order = await ui.evaluate(() => {
+      const card = document.querySelector("#videos .ht-compact");
+      const focused = Array.from(card.querySelectorAll("a[href], button, input, select, textarea, [tabindex]"))
+        .filter(el => el.getAttribute("tabindex") !== "-1" && !el.disabled);
+      const describe = el => {
+        const box = el.getBoundingClientRect();
+        return {
+          key: (el.getAttribute("aria-label") || el.textContent || el.className || el.tagName).trim(),
+          top: Math.round(box.top),
+          left: Math.round(box.left),
+        };
+      };
+      const dom = focused.map(describe);
+      const visual = focused.map(describe).sort((a, b) => (a.top - b.top) || (a.left - b.left));
+      return { dom, visual };
+    });
+    assert.deepEqual(
+      order.dom.map(entry => entry.key),
+      order.visual.map(entry => entry.key),
+      "the Tab order of the row's controls matches their painted order at 1280px",
+    );
+    const index = prefix => order.dom.findIndex(entry => entry.key.startsWith(prefix));
+    assert.ok(index('Watch "') !== -1, "the Watch/thumbnail link is focusable");
+    assert.ok(index('Watch "') < index("Save"), "the Watch/thumbnail link is reached before Save");
+    assert.ok(index("Save") < index("Dismiss"), "Save is reached before Dismiss");
+  } finally { await browser.close(); await fixture.close(); }
+});
+
+/* The render-time host check is an EXACT match. A host that only ends with
+ * `i.ytimg.com` (`xi.ytimg.com`, `evil-i.ytimg.com`) or prefixes it
+ * (`noti.ytimg.com`) must be refused, and nothing may be requested from it. */
+test("an endsWith-style i.ytimg.com host falls back to the linked Icon at render time", async () => {
+  const { THUMB_PNG } = require("./browser_net_harness");
+  const lookalikes = ["https://xi.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+    "https://evil-i.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg",
+    "https://noti.ytimg.com/vi/LCEmiRjPEtQ/hqdefault.jpg"];
+  const note = "Metadata from YouTube. Explanations and library actions are HackerTube’s.";
+  const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    for (const host of lookalikes) {
+      const fixture = await startFixture([youtubeRow({ art_url: host })]);
+      const ui = await browser.newPage();
+      let requests = 0;
+      await ui.route(new URL(host).origin + "/**", route => {
+        requests += 1;
+        return route.fulfill({ status: 200, contentType: "image/png", body: THUMB_PNG });
+      });
+      try {
+        await ui.goto(fixture.origin);
+        for (const scope of ["#ranked-feed", "#videos"]) {
+          const card = ui.locator(scope + " article").first();
+          await card.waitFor();
+          assert.equal(
+            await card.locator("img.ht-thumb").count(), 0,
+            `${scope}: a suffix host ${host} is never rendered as a thumbnail`,
+          );
+          assert.equal(
+            await card.getByRole("link", { name: 'Watch "AI introduction" on YouTube' }).count(), 1,
+            `${scope}: the linked Icon remains for ${host}`,
+          );
+          assert.equal(
+            await card.getByText(note, { exact: true }).count(), 1,
+            `${scope}: the short note remains for ${host}`,
+          );
+        }
+        assert.equal(requests, 0, `${host} is never requested`);
+      } finally {
+        await ui.close();
+        await fixture.close();
+      }
+    }
+  } finally { await browser.close(); }
 });
