@@ -1,0 +1,136 @@
+{
+  "pattern": "in light and dark",
+  "mutations": [
+    {
+      "name": "compact-side clips its own overflow",
+      "file": "hackertube/dashboard/dist/style.css",
+      "verdict": {
+        "the full card's Watch link and its focus ring stay inside the card": true,
+        "a compact YouTube row's Watch link focus ring reaches 3:1": false
+      },
+      "exit": 1,
+      "expect": "compact only",
+      "failures": [
+        "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (520.789916ms)",
+        "\u2716 failing tests:",
+        "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (520.789916ms)",
+        "  AssertionError [ERR_ASSERTION]: at 320px light the compact row's Watch link: no ancestor clips the left ring (cut by ht-compact-side; 0/163 of the side is painted)"
+      ]
+    },
+    {
+      "name": "youtube-compact wrapper clips",
+      "file": "hackertube/dashboard/dist/style.css",
+      "verdict": {
+        "the full card's Watch link and its focus ring stay inside the card": true,
+        "a compact YouTube row's Watch link focus ring reaches 3:1": false
+      },
+      "exit": 1,
+      "expect": "compact only",
+      "failures": [
+        "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (511.983042ms)",
+        "\u2716 failing tests:",
+        "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (511.983042ms)",
+        "  AssertionError [ERR_ASSERTION]: at 320px light the compact row's Watch link: no ancestor clips the left ring (cut by ht-youtube-compact; 0/163 of the side is painted)"
+      ]
+    },
+    {
+      "name": "ring colour 95%-painted but dim (rgba .25)",
+      "file": "hackertube/dashboard/dist/style.css",
+      "verdict": {
+        "the full card's Watch link and its focus ring stay inside the card": false,
+        "a compact YouTube row's Watch link focus ring reaches 3:1": false
+      },
+      "exit": 1,
+      "expect": "both",
+      "failures": [
+        "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (503.013584ms)",
+        "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (558.749125ms)",
+        "\u2716 failing tests:",
+        "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (503.013584ms)",
+        "  AssertionError [ERR_ASSERTION]: at 320px light the full card's Watch link: the painted focus ring reaches >= 3:1 on the left (measured 1.71:1, ring rgb(189,189,190) on surface rgb(244,244,245) at 43,768)",
+        "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (558.749125ms)"
+      ]
+    },
+    {
+      "name": "focused media at opacity .3",
+      "file": "hackertube/dashboard/dist/style.css",
+      "verdict": {
+        "the full card's Watch link and its focus ring stay inside the card": true,
+        "a compact YouTube row's Watch link focus ring reaches 3:1": false
+      },
+      "exit": 1,
+      "expect": "compact only",
+      "failures": [
+        "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (506.035791ms)",
+        "\u2716 failing tests:",
+        "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (506.035791ms)",
+        "  AssertionError [ERR_ASSERTION]: at 320px light the compact row's Watch link: the painted focus ring reaches >= 3:1 on the left (measured 1.98:1, ring rgb(184,184,185) on surface rgb(255,255,255) at 36,719)"
+      ]
+    },
+    {
+      "name": "ring colour color(srgb .6 .6 .6)",
+      "file": "hackertube/dashboard/dist/style.css",
+      "verdict": {
+        "the full card's Watch link and its focus ring stay inside the card": false,
+        "a compact YouTube row's Watch link focus ring reaches 3:1": false
+      },
+      "exit": 1,
+      "expect": "both",
+      "failures": [
+        "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (672.648833ms)",
+        "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (396.600125ms)",
+        "\u2716 failing tests:",
+        "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (672.648833ms)",
+        "  AssertionError [ERR_ASSERTION]: at 320px light the full card's Watch link: the painted focus ring reaches >= 3:1 on the left (measured 2.59:1, ring rgb(153,153,153) on surface rgb(244,244,245) at 43,768)",
+        "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (396.600125ms)"
+      ]
+    },
+    {
+      "name": "ring colour = the surface it paints on",
+      "file": "tests/browser_net_harness.js",
+      "verdict": {
+        "the full card's Watch link and its focus ring stay inside the card": false,
+        "a compact YouTube row's Watch link focus ring reaches 3:1": false
+      },
+      "exit": 1,
+      "expect": "both",
+      "failures": [
+        "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (529.072583ms)",
+        "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (554.4735ms)",
+        "\u2716 failing tests:",
+        "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (529.072583ms)",
+        "  AssertionError [ERR_ASSERTION]: at 320px light the full card's Watch link: the focus ring is painted on the left (0/301 pixels)",
+        "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (554.4735ms)"
+      ]
+    },
+    {
+      "name": "dark-only dim ring (harness dark token block)",
+      "file": "tests/browser_net_harness.js",
+      "verdict": {
+        "the full card's Watch link and its focus ring stay inside the card": false,
+        "a compact YouTube row's Watch link focus ring reaches 3:1": false
+      },
+      "exit": 1,
+      "expect": "dark only",
+      "failures": [
+        "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (872.259709ms)",
+        "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (898.010083ms)",
+        "\u2716 failing tests:",
+        "\u2716 the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (872.259709ms)",
+        "  AssertionError [ERR_ASSERTION]: at 320px dark the full card's Watch link: the painted focus ring reaches >= 3:1 on the left (measured 1.43:1, ring rgb(63,63,70) on surface rgb(39,39,42) at 43,768)",
+        "\u2716 a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (898.010083ms)"
+      ]
+    }
+  ],
+  "green_control": {
+    "exit": 0,
+    "verdicts": {
+      "the full card's Watch link and its focus ring stay inside the card": true,
+      "a compact YouTube row's Watch link focus ring reaches 3:1": true
+    }
+  },
+  "restored_sha256": {
+    "hackertube/dashboard/dist/style.css": "6dda1f947fb3ec381b6a8defa6bd49fcf00d788684c470fdb65d524cf7e825e6",
+    "tests/browser_net_harness.js": "565093c7bcdf683ea8fe6e527bb0e149e6adfa6565be31874cf532086e6bd7f3"
+  }
+}
