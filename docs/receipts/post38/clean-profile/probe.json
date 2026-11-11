@@ -1,0 +1,15 @@
+{
+  "home": "/Users/robert/.hermes/cache/scratch/p38-cp-1794417509",
+  "storage": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+  "installed_ring_rule": ".hackertube :focus,\n.hackertube :focus-visible {\n  outline: 2px solid var(--color-ring);\n  outline-offset: 2px;\n",
+  "source_outage": {
+    "sources": 7,
+    "items": 0,
+    "counts": {
+      "free": 0,
+      "paid": 0,
+      "metered": 0
+    },
+    "down_source": "hn"
+  }
+}

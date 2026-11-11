@@ -1109,6 +1109,139 @@ test("a compact row's header sits one row gap above the rest of its text at 768 
   } finally { await browser.close(); }
 });
 
+/* The focus ring as it is actually PAINTED, not as computed style describes it.
+ * `outlineColor` alone cannot see a ring's real strength: it drops alpha
+ * (`outline-color: rgba(24,24,27,.25)` paints 1.71:1), it ignores `opacity`
+ * (`.3` on the focused link paints 1.97:1), and it misreads non-`rgb()` syntax
+ * (`color(srgb .6 .6 .6)` paints 2.59:1 but parses as near-black). Decode
+ * Chromium's own screenshots in canvas and, at EVERY point along each side's
+ * centreline, compare the FOCUSED pixel (the ring) with the UNFOCUSED pixel at
+ * the same point (the surface the ring is painted over). Return the painted
+ * pixel count, the MINIMUM ratio on each side, and — so a side that is clipped
+ * away is reported rather than silently measured as 1:1 — which sides the ring
+ * falls outside of a clipping ancestor on. */
+async function measurePaintedRing(ui, link, before, after, geometry) {
+  const allClippers = await link.evaluate(el => {
+    const found = [];
+    for (let node = el.parentElement; node; node = node.parentElement) {
+      const s = getComputedStyle(node);
+      const clipsX = s.overflowX !== "visible";
+      const clipsY = s.overflowY !== "visible";
+      if (clipsX || clipsY) {
+        const r = node.getBoundingClientRect();
+        found.push({
+          name: (typeof node.className === "string" && node.className) || node.tagName,
+          clipsX, clipsY,
+          left: r.left + parseFloat(s.borderLeftWidth),
+          top: r.top + parseFloat(s.borderTopWidth),
+          right: r.right - parseFloat(s.borderRightWidth),
+          bottom: r.bottom - parseFloat(s.borderBottomWidth),
+        });
+      }
+    }
+    return found;
+  });
+  const sides = await ui.evaluate(async ({before, after, box, offset, thickness}) => {
+    async function pixels(base64) {
+      const image = new Image();
+      image.src = "data:image/png;base64," + base64;
+      await image.decode();
+      const canvas = document.createElement("canvas");
+      canvas.width = image.width; canvas.height = image.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(image, 0, 0);
+      return {data: ctx.getImageData(0, 0, canvas.width, canvas.height).data, width: canvas.width, height: canvas.height};
+    }
+    const a = await pixels(before), b = await pixels(after);
+    const spread = offset + thickness / 2;
+    const lines = {
+      left: [box.left - spread, box.top + 12, box.left - spread, box.bottom - 12],
+      right: [box.right + spread, box.top + 12, box.right + spread, box.bottom - 12],
+      top: [box.left + 12, box.top - spread, box.right - 12, box.top - spread],
+      bottom: [box.left + 12, box.bottom + spread, box.right - 12, box.bottom + spread],
+    };
+    // WCAG relative luminance and contrast ratio (non-text contrast, 3:1).
+    const channel = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+    const luminance = (rgb) => 0.2126 * channel(rgb[0]) + 0.7152 * channel(rgb[1]) + 0.0722 * channel(rgb[2]);
+    const ratio = (fg, bg) => {
+      const l1 = luminance(fg), l2 = luminance(bg);
+      const hi = Math.max(l1, l2), lo = Math.min(l1, l2);
+      return (hi + 0.05) / (lo + 0.05);
+    };
+    const out = {};
+    for (const [side, [x1, y1, x2, y2]] of Object.entries(lines)) {
+      let painted = 0, total = 0, min = Infinity, minAt = null;
+      for (let y = Math.floor(y1); y <= Math.floor(y2); y++) {
+        for (let x = Math.floor(x1); x <= Math.floor(x2); x++) {
+          if (x < 0 || y < 0 || x >= a.width || y >= a.height) continue;
+          total += 1;
+          const i = 4 * (y * a.width + x);
+          const surface = [a.data[i], a.data[i+1], a.data[i+2]];
+          const ring = [b.data[i], b.data[i+1], b.data[i+2]];
+          if ([0,1,2].some(c => Math.abs(surface[c] - ring[c]) > 20)) painted += 1;
+          const r = ratio(ring, surface);
+          if (r < min) { min = r; minAt = {x, y, surface, ring}; }
+        }
+      }
+      out[side] = {painted, total, min: Number.isFinite(min) ? Number(min.toFixed(3)) : null, minAt};
+    }
+    return out;
+  }, {before: before.toString("base64"), after: after.toString("base64"), box: geometry.box,
+      offset: geometry.outlineOffset, thickness: geometry.outlineWidth});
+  // A side whose ring span falls outside a clipping ancestor is not painted at
+  // all; that is a clipping finding to report, not a contrast reading of 1:1.
+  const spread = geometry.outlineWidth + geometry.outlineOffset;
+  const ring = {
+    left: geometry.box.left - spread, right: geometry.box.right + spread,
+    top: geometry.box.top - spread, bottom: geometry.box.bottom + spread,
+  };
+  const EPS = 0.5;
+  const cut = {};
+  for (const side of Object.keys(sides)) {
+    cut[side] = allClippers.filter(side === "left" ? c => c.clipsX && ring.left < c.left - EPS
+      : side === "right" ? c => c.clipsX && ring.right > c.right + EPS
+      : side === "top" ? c => c.clipsY && ring.top < c.top - EPS
+      : c => c.clipsY && ring.bottom > c.bottom + EPS);
+  }
+  return {sides, cut, clippers: allClippers, ring};
+}
+
+/* Assert the painted-pixel ring measurement for one focused Watch link. Every
+ * side the ring is not cut on must be painted and must reach 3:1 against the
+ * surface it covers; a side that IS cut must be entirely unpainted (a partial
+ * cut still fails) and is reported instead of measured. */
+function assertPaintedRing(ring, label) {
+  const totals = Object.values(ring.sides).reduce((acc, s) => ({painted: acc.painted + s.painted, total: acc.total + s.total}), {painted: 0, total: 0});
+  assert.ok(
+    totals.painted / totals.total >= 0.5,
+    `${label}: the focus ring is painted around the link at all (${totals.painted}/${totals.total} centreline pixels)`,
+  );
+  const unpainted = Object.entries(ring.cut).filter(([, clippers]) => clippers.length > 0);
+  for (const [side, clippers] of unpainted) {
+    const sample = ring.sides[side];
+    console.log(`REPORT ${label} ${side}: the ring is clipped by ${clippers.map(c => c.name).join(", ")}` +
+      ` (${sample.painted}/${sample.total} painted) — not a contrast reading`);
+    assert.ok(
+      sample.painted === 0 || sample.painted / sample.total >= 0.95,
+      `${label}: the ${side} ring is only partly clipped away (${sample.painted}/${sample.total} painted) — a partially cut ring is a defect`,
+    );
+  }
+  for (const [side, sample] of Object.entries(ring.sides)) {
+    if (ring.cut[side].length > 0) continue;
+    assert.ok(
+      sample.total > 0 && sample.painted / sample.total >= 0.95,
+      `${label}: the focus ring is painted on the ${side} (${sample.painted}/${sample.total} pixels)`,
+    );
+    const where = sample.minAt;
+    assert.ok(
+      sample.min !== null && sample.min >= 3,
+      `${label}: the painted focus ring reaches >= 3:1 on the ${side}` +
+        ` (measured ${sample.min === null ? "unpainted" : sample.min.toFixed(2) + ":1"}, ring rgb(${where.ring.join(",")})` +
+        ` on surface rgb(${where.surface.join(",")}) at ${where.x},${where.y})`,
+    );
+  }
+}
+
 /* The full card's Watch link was wider than the card on each side — 3.6px at
  * 320px — and the block that holds it clipped at its own edge, which is exactly
  * the link's edge, so the focus ring was cut away on every side. The card is
@@ -1202,84 +1335,23 @@ test("the full card's Watch link and its focus ring stay inside the card, at 320
       assert.ok(geometry.outlineWidth > 0, "the focus outline has nonzero width");
       assert.ok(geometry.ring.spread > 0, "the link carries a real focus ring to keep: " + geometry.ring.spread);
       const focused = await ui.screenshot();
-      // Decode Chromium's actual screenshots in canvas (no PNG dependency).
-      // Sample each side's straight segment at the outline's centreline; a
-      // transparent or clipped outline has geometry but no changed pixels.
-      const ring = await ui.evaluate(async ({before, after, box, offset, thickness, outlineColor}) => {
-        async function pixels(base64) {
-          const image = new Image();
-          image.src = "data:image/png;base64," + base64;
-          await image.decode();
-          const canvas = document.createElement("canvas");
-          canvas.width = image.width; canvas.height = image.height;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(image, 0, 0);
-          return {data: ctx.getImageData(0, 0, canvas.width, canvas.height).data, width: canvas.width, height: canvas.height};
-        }
-        const a = await pixels(before), b = await pixels(after);
-        const spread = offset + thickness / 2;
-        const sides = {
-          left: [box.left - spread, box.top + 12, box.left - spread, box.bottom - 12],
-          right: [box.right + spread, box.top + 12, box.right + spread, box.bottom - 12],
-          top: [box.left + 12, box.top - spread, box.right - 12, box.top - spread],
-          bottom: [box.left + 12, box.bottom + spread, box.right - 12, box.bottom + spread],
-        };
-        // WCAG relative luminance and contrast ratio (non-text contrast, 3:1).
-        const channel = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
-        const luminance = (rgb) => 0.2126 * channel(rgb[0]) + 0.7152 * channel(rgb[1]) + 0.0722 * channel(rgb[2]);
-        const ratio = (fg, bg) => {
-          const l1 = luminance(fg), l2 = luminance(bg);
-          const hi = Math.max(l1, l2), lo = Math.min(l1, l2);
-          return (hi + 0.05) / (lo + 0.05);
-        };
-        const ringRgb = (String(outlineColor).match(/\d+(?:\.\d+)?/g) || []).slice(0, 3).map(Number);
-        const painted = {}, surface = {}, contrast = {};
-        for (const [side, [x1, y1, x2, y2]] of Object.entries(sides)) {
-          let changed = 0, total = 0;
-          for (let y = Math.floor(y1); y <= Math.floor(y2); y++) {
-            for (let x = Math.floor(x1); x <= Math.floor(x2); x++) {
-              total++;
-              if (x < 0 || y < 0 || x >= a.width || y >= a.height) continue;
-              const i = 4 * (y * a.width + x);
-              if ([0,1,2].some(c => Math.abs(a.data[i+c] - b.data[i+c]) > 20)) changed++;
-            }
-          }
-          // The surface the ring is seen against: the pixel at the ring's own
-          // centreline in the UNFOCUSED capture — the colour the ring paints
-          // over — measured from the render, not the stylesheet.
-          const sx = (side === "left" || side === "right") ? Math.round(x1) : Math.round((x1 + x2) / 2);
-          const sy = (side === "top" || side === "bottom") ? Math.round(y1) : Math.round((y1 + y2) / 2);
-          let bg = null;
-          if (sx >= 0 && sy >= 0 && sx < a.width && sy < a.height) {
-            const i = 4 * (sy * a.width + sx);
-            bg = [a.data[i], a.data[i+1], a.data[i+2]];
-          }
-          painted[side] = {changed, total};
-          surface[side] = bg;
-          contrast[side] = (bg && ringRgb.length === 3 && ringRgb.every(Number.isFinite))
-            ? Number(ratio(ringRgb, bg).toFixed(3)) : null;
-        }
-        return {painted, surface, contrast, ringRgb};
-      }, {before: unfocused.toString("base64"), after: focused.toString("base64"), box: geometry.box,
-          offset: geometry.outlineOffset, thickness: geometry.outlineWidth, outlineColor: geometry.outlineColor});
       // WCAG 2.4.11 / 1.4.11: the focus indicator must reach 3:1 against the
-      // rendered surface it sits on, at every existing viewport width. The ring
-      // colour is read from computed style; the surface from the screenshot.
-      // Checked before the pixel-diff so a ring painted in the surface colour
-      // fails here (its contrast), not on the changed-pixel count.
-      for (const [side, value] of Object.entries(ring.contrast)) {
-        const bg = ring.surface[side];
-        assert.ok(
-          value !== null && value >= 3,
-          `at ${width}px the focus ring contrast against the rendered surface is >= 3:1 on the ${side}` +
-            ` (measured ${value === null ? "unparsed" : value.toFixed(2)}:1, ring rgb(${ring.ringRgb.join(",")})` +
-            ` on surface ${bg ? "rgb(" + bg.join(",") + ")" : "offscreen"})`,
+      // surface it is PAINTED over, at every existing viewport width, on every
+      // side and at every point along it. The old check read the ring colour
+      // from computed `outlineColor` and one surface pixel per side, which
+      // alpha, `opacity` and non-`rgb()` syntax all slip past; this measures
+      // the focused screenshot pixel against the unfocused pixel at the same
+      // point instead, and keeps the computed-style checks above as preconditions.
+      const ring = await measurePaintedRing(ui, link, unfocused, focused, geometry);
+      // The card's ring must not be cut away on any side at all: the compact
+      // rows' tolerance below does not apply here.
+      for (const [side, clippers] of Object.entries(ring.cut)) {
+        assert.equal(
+          clippers.length, 0,
+          `at ${width}px the focus ring is cut on the ${side} by ${clippers.map(c => c.name).join(", ")}`,
         );
       }
-      for (const [side, {changed, total}] of Object.entries(ring.painted)) {
-        assert.ok(total > 0 && changed / total >= 0.95,
-          `at ${width}px the focus ring is painted on the ${side}: ${changed}/${total} pixels`);
-      }
+      assertPaintedRing(ring, `at ${width}px the full card's Watch link`);
       assert.ok(
         geometry.box.left >= geometry.card.left - 0.01 && geometry.box.right <= geometry.card.right + 0.01,
         `at ${width}px the Watch link fits inside the card (${geometry.box.left.toFixed(1)}..${geometry.box.right.toFixed(1)} in ${geometry.card.left.toFixed(1)}..${geometry.card.right.toFixed(1)})`,
@@ -1318,6 +1390,74 @@ test("the full card's Watch link and its focus ring stay inside the card, at 320
       const mark = await measureVisibleMark(link);
       assert.ok(mark.visibleMarkHeight >= 100, `at ${width}px the visible mark stays >= 100px (${mark.visibleMarkHeight})`);
       assert.ok(mark.visibleMarkWidth >= 140, `at ${width}px the visible mark stays >= 140px wide (${mark.visibleMarkWidth})`);
+    }
+  } finally { await browser.close(); }
+});
+
+/* The compact row's Watch link carries the same ring as the full card's, one
+ * breakpoint lower and at the very edge of its row. At 320px and 390px the
+ * compact media column starts flush with the page root's own padding, so the
+ * ring's left segment falls outside `.hackertube`'s `overflow-x: hidden` and is
+ * cut away entirely. `assertPaintedRing` reports that side (the ring is not
+ * painted there at all) rather than reading it as a 1:1 contrast, and still
+ * asserts 3:1 on every side the ring does paint on. */
+test("a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over", async (t) => {
+  const { THUMB_PNG } = require("./browser_net_harness");
+  const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    for (const width of [320, 390, 768, 1280]) {
+      const fixture = await startFixture(sectionRows());
+      const ui = await browser.newPage();
+      t.after(async () => {
+        await ui.close().catch(() => {});
+        await fixture.close().catch(() => {});
+      });
+      await ui.setViewportSize({ width, height: 900 });
+      await ui.route("https://i.ytimg.com/**", route => route.fulfill({status:200, contentType:"image/png", body:THUMB_PNG}));
+      await ui.goto(fixture.origin);
+      await ui.locator("#videos .ht-compact").first().waitFor();
+      const link = ui.locator("#videos .ht-compact").first().locator(".ht-youtube-icon");
+      await link.waitFor();
+      // Keep the whole ring in the screenshot, even near the fold. Capture
+      // before focusing so a computed outline cannot stand in for actual paint.
+      await ui.setViewportSize({ width, height: 1600 });
+      await link.scrollIntoViewIfNeeded();
+      await link.evaluate(el => el.blur());
+      const unfocused = await ui.screenshot();
+      // Reach the compact row's Watch link the way a keyboard user does: focus
+      // the row's own title (a heading, reached by heading navigation) and Tab.
+      await ui.evaluate(() => {
+        const title = document.querySelector("#videos .ht-compact .ht-title");
+        title.setAttribute("tabindex", "-1");
+        title.focus();
+      });
+      await ui.keyboard.press("Tab");
+      assert.equal(
+        await link.evaluate(el => document.activeElement === el),
+        true,
+        `at ${width}px Tab from the compact row's title reaches its own Watch link`,
+      );
+      const geometry = await link.evaluate(el => {
+        const style = getComputedStyle(el);
+        const box = el.getBoundingClientRect();
+        const spread = parseFloat(style.outlineWidth) + parseFloat(style.outlineOffset);
+        return {
+          focused: document.activeElement === el,
+          outlineStyle: style.outlineStyle,
+          outlineColor: style.outlineColor,
+          outlineWidth: parseFloat(style.outlineWidth),
+          outlineOffset: parseFloat(style.outlineOffset),
+          box: {left: box.left, right: box.right, top: box.top, bottom: box.bottom},
+          ring: {left: box.left - spread, right: box.right + spread, top: box.top - spread, bottom: box.bottom + spread, spread},
+        };
+      });
+      assert.equal(geometry.focused, true, `at ${width}px measure the focused compact Watch link`);
+      assert.notEqual(geometry.outlineStyle, "none", `at ${width}px the focused compact link must have an outline`);
+      assert.ok(geometry.outlineWidth > 0, `at ${width}px the compact focus outline has nonzero width`);
+      assert.ok(geometry.ring.spread > 0, `at ${width}px the compact link carries a real focus ring to keep: ${geometry.ring.spread}`);
+      const focused = await ui.screenshot();
+      const ring = await measurePaintedRing(ui, link, unfocused, focused, geometry);
+      assertPaintedRing(ring, `at ${width}px the compact row's Watch link`);
     }
   } finally { await browser.close(); }
 });

@@ -1,0 +1,133 @@
+hackertube/dashboard/dist/style.css sha256 before: 6dda1f947fb3ec381b6a8defa6bd49fcf00d788684c470fdb65d524cf7e825e6
+tests/browser_net_harness.js sha256 before: 7f313687fe323510895f5ab1fba9d9552eee338a757bf996b557d83bc3a10441
+base test copy written: /Users/robert/Developer/hackertube-post38/tests/.ht38-base.js
+
+=== MUTATION: ring rgba(24,24,27,.25) in tests/browser_net_harness.js  (expect red) ===
+      ✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (611.988125ms)
+      REPORT at 320px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      ✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (445.409708ms)
+      ✖ failing tests:
+      ✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (611.988125ms)
+      AssertionError [ERR_ASSERTION]: at 320px the full card's Watch link: the painted focus ring reaches >= 3:1 on the left (measured 1.71:1, ring rgb(189,189,190) on surface rgb(244,244,245) at 28,779)
+      ✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (445.409708ms)
+      AssertionError [ERR_ASSERTION]: at 320px the compact row's Watch link: the painted focus ring reaches >= 3:1 on the right (measured 1.73:1, ring rgb(197,197,198) on surface rgb(255,255,255) at 244,719)
+  [new check] exit=1
+      ✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (1520.97975ms)
+  [OLD check (base test file)] exit=0
+  restore verified sha256=7f313687fe323510895f5ab1fba9d9552eee338a757bf996b557d83bc3a10441
+      ✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (1743.625292ms)
+      REPORT at 320px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      REPORT at 390px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      ✔ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (1347.946208ms)
+  [green after revert] exit=0
+
+=== MUTATION: opacity .3 on the ring in hackertube/dashboard/dist/style.css  (expect red) ===
+      ✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (470.415ms)
+      REPORT at 320px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      ✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (384.362375ms)
+      ✖ failing tests:
+      ✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (470.415ms)
+      AssertionError [ERR_ASSERTION]: at 320px the full card's Watch link: the painted focus ring reaches >= 3:1 on the left (measured 1.97:1, ring rgb(176,176,178) on surface rgb(244,244,245) at 28,779)
+      ✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (384.362375ms)
+      AssertionError [ERR_ASSERTION]: at 320px the compact row's Watch link: the painted focus ring reaches >= 3:1 on the right (measured 1.98:1, ring rgb(184,184,185) on surface rgb(255,255,255) at 244,719)
+  [new check] exit=1
+      ✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (1605.510792ms)
+  [OLD check (base test file)] exit=0
+  restore verified sha256=6dda1f947fb3ec381b6a8defa6bd49fcf00d788684c470fdb65d524cf7e825e6
+      ✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (1596.962541ms)
+      REPORT at 320px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      REPORT at 390px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      ✔ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (1620.535792ms)
+  [green after revert] exit=0
+
+=== MUTATION: ring color(srgb .6 .6 .6) in tests/browser_net_harness.js  (expect red) ===
+      ✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (619.906958ms)
+      REPORT at 320px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      ✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (393.436917ms)
+      ✖ failing tests:
+      ✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (619.906958ms)
+      AssertionError [ERR_ASSERTION]: at 320px the full card's Watch link: the painted focus ring reaches >= 3:1 on the left (measured 2.59:1, ring rgb(153,153,153) on surface rgb(244,244,245) at 28,779)
+      ✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (393.436917ms)
+      AssertionError [ERR_ASSERTION]: at 320px the compact row's Watch link: the painted focus ring reaches >= 3:1 on the right (measured 2.85:1, ring rgb(153,153,153) on surface rgb(255,255,255) at 244,719)
+  [new check] exit=1
+      ✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (1589.925208ms)
+  [OLD check (base test file)] exit=0
+  restore verified sha256=7f313687fe323510895f5ab1fba9d9552eee338a757bf996b557d83bc3a10441
+      ✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (1634.21125ms)
+      REPORT at 320px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      REPORT at 390px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      ✔ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (1643.857125ms)
+  [green after revert] exit=0
+
+=== MUTATION: ring set to the surface colour in tests/browser_net_harness.js  (expect red) ===
+      ✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (558.61625ms)
+      ✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (421.696958ms)
+      ✖ failing tests:
+      ✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (558.61625ms)
+      AssertionError [ERR_ASSERTION]: at 320px the full card's Watch link: the focus ring is painted around the link at all (0/1070 centreline pixels)
+      ✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (421.696958ms)
+      AssertionError [ERR_ASSERTION]: at 320px the compact row's Watch link: the focus ring is painted around the link at all (0/714 centreline pixels)
+  [new check] exit=1
+  restore verified sha256=7f313687fe323510895f5ab1fba9d9552eee338a757bf996b557d83bc3a10441
+      ✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (1579.881541ms)
+      REPORT at 320px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      REPORT at 390px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      ✔ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (1371.547834ms)
+  [green after revert] exit=0
+
+=== MUTATION: opaque grey 2.50:1 in tests/browser_net_harness.js  (expect red) ===
+      ✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (556.877292ms)
+      REPORT at 320px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      ✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (458.298542ms)
+      ✖ failing tests:
+      ✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (556.877292ms)
+      AssertionError [ERR_ASSERTION]: at 320px the full card's Watch link: the painted focus ring reaches >= 3:1 on the left (measured 2.50:1, ring rgb(156,156,156) on surface rgb(244,244,245) at 28,779)
+      ✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (458.298542ms)
+      AssertionError [ERR_ASSERTION]: at 320px the compact row's Watch link: the painted focus ring reaches >= 3:1 on the right (measured 2.75:1, ring rgb(156,156,156) on surface rgb(255,255,255) at 244,719)
+  [new check] exit=1
+  restore verified sha256=7f313687fe323510895f5ab1fba9d9552eee338a757bf996b557d83bc3a10441
+      ✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (1685.917666ms)
+      REPORT at 320px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      REPORT at 390px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      ✔ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (1457.400667ms)
+  [green after revert] exit=0
+
+=== MUTATION: opaque grey 2.90:1 in tests/browser_net_harness.js  (expect red) ===
+      ✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (564.696333ms)
+      REPORT at 320px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      REPORT at 390px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      ✔ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (1799.291834ms)
+      ✖ failing tests:
+      ✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (564.696333ms)
+      AssertionError [ERR_ASSERTION]: at 320px the full card's Watch link: the painted focus ring reaches >= 3:1 on the left (measured 2.90:1, ring rgb(144,144,144) on surface rgb(244,244,245) at 28,779)
+  [new check] exit=1
+  restore verified sha256=7f313687fe323510895f5ab1fba9d9552eee338a757bf996b557d83bc3a10441
+      ✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (1572.954416ms)
+      REPORT at 320px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      REPORT at 390px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      ✔ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (1490.379125ms)
+  [green after revert] exit=0
+
+=== MUTATION: opaque grey 3.23:1 in tests/browser_net_harness.js  (expect green) ===
+      ✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (1549.435542ms)
+      REPORT at 320px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      REPORT at 390px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      ✔ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (1524.335792ms)
+  [new check] exit=0
+  restore verified sha256=7f313687fe323510895f5ab1fba9d9552eee338a757bf996b557d83bc3a10441
+      ✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (1806.917708ms)
+      REPORT at 320px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      REPORT at 390px the compact row's Watch link left: the ring is clipped by hackertube (0/163 painted) — not a contrast reading
+      ✔ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over (1742.175875ms)
+  [green after revert] exit=0
+
+
+================ SUMMARY ================
+ring rgba(24,24,27,.25)            new=red   want=red   green-after-revert=pass  old-check=GREEN -> MISSED  OK
+opacity .3 on the ring             new=red   want=red   green-after-revert=pass  old-check=GREEN -> MISSED  OK
+ring color(srgb .6 .6 .6)          new=red   want=red   green-after-revert=pass  old-check=GREEN -> MISSED  OK
+ring set to the surface colour     new=red   want=red   green-after-revert=pass  OK
+opaque grey 2.50:1                 new=red   want=red   green-after-revert=pass  OK
+opaque grey 2.90:1                 new=red   want=red   green-after-revert=pass  OK
+opaque grey 3.23:1                 new=green want=green green-after-revert=pass  OK
+ALL OK

@@ -1,0 +1,154 @@
+{
+  "pytest_passed": 334,
+  "pytest_failed": 0,
+  "node_full_suite_runs": [
+    {
+      "tests": 178,
+      "pass": 178,
+      "fail": 0
+    },
+    {
+      "tests": 178,
+      "pass": 178,
+      "fail": 0
+    },
+    {
+      "tests": 178,
+      "pass": 178,
+      "fail": 0
+    }
+  ],
+  "node_flake_run": {
+    "tests": 178,
+    "pass": 177,
+    "fail": 1
+  },
+  "node_flake_test": "PREF16 interest remove button works by keyboard and stays removed after reload",
+  "node_flake_file": "tests/test_browser_requests.js",
+  "feed12_runs": 10,
+  "feed12_passed": 10,
+  "plugin_validate_exit_0": true,
+  "plugin_doctor_exit_0": true,
+  "plugin_validate_warnings": [],
+  "mutations": [
+    {
+      "mutation": "ring rgba(24,24,27,.25)",
+      "new": "red",
+      "want": "red",
+      "green_after_revert": "pass",
+      "old_check": "GREEN -> MISSED",
+      "verdict": "OK"
+    },
+    {
+      "mutation": "opacity .3 on the ring",
+      "new": "red",
+      "want": "red",
+      "green_after_revert": "pass",
+      "old_check": "GREEN -> MISSED",
+      "verdict": "OK"
+    },
+    {
+      "mutation": "ring color(srgb .6 .6 .6)",
+      "new": "red",
+      "want": "red",
+      "green_after_revert": "pass",
+      "old_check": "GREEN -> MISSED",
+      "verdict": "OK"
+    },
+    {
+      "mutation": "ring set to the surface colour",
+      "new": "red",
+      "want": "red",
+      "green_after_revert": "pass",
+      "old_check": null,
+      "verdict": "OK"
+    },
+    {
+      "mutation": "opaque grey 2.50:1",
+      "new": "red",
+      "want": "red",
+      "green_after_revert": "pass",
+      "old_check": null,
+      "verdict": "OK"
+    },
+    {
+      "mutation": "opaque grey 2.90:1",
+      "new": "red",
+      "want": "red",
+      "green_after_revert": "pass",
+      "old_check": null,
+      "verdict": "OK"
+    },
+    {
+      "mutation": "opaque grey 3.23:1",
+      "new": "green",
+      "want": "green",
+      "green_after_revert": "pass",
+      "old_check": null,
+      "verdict": "OK"
+    }
+  ],
+  "mutations_all_ok": true,
+  "measured_mutation_ratios": {
+    "ring rgba(24,24,27,.25)": {
+      "side": "left",
+      "ratio": 1.71,
+      "ring": "189,189,190",
+      "surface": "244,244,245"
+    },
+    "opacity .3 on the ring": {
+      "side": "left",
+      "ratio": 1.97,
+      "ring": "176,176,178",
+      "surface": "244,244,245"
+    },
+    "ring color(srgb .6 .6 .6)": {
+      "side": "left",
+      "ratio": 2.59,
+      "ring": "153,153,153",
+      "surface": "244,244,245"
+    },
+    "ring set to the surface colour": {
+      "ratio": 1.0,
+      "painted": "0/1070"
+    },
+    "opaque grey 2.50:1": {
+      "side": "left",
+      "ratio": 2.5,
+      "ring": "156,156,156",
+      "surface": "244,244,245"
+    },
+    "opaque grey 2.90:1": {
+      "side": "left",
+      "ratio": 2.9,
+      "ring": "144,144,144",
+      "surface": "244,244,245"
+    }
+  },
+  "compact_clipped_sides": [
+    {
+      "width": 320,
+      "side": "left",
+      "clippers": "hackertube"
+    },
+    {
+      "width": 390,
+      "side": "left",
+      "clippers": "hackertube"
+    }
+  ],
+  "clean_profile": {
+    "home": "/Users/robert/.hermes/cache/scratch/p38-cp-1794417509",
+    "installed_ring_rule": ".hackertube :focus,\n.hackertube :focus-visible {\n  outline: 2px solid var(--color-ring);\n  outline-offset: 2px;\n",
+    "source_outage": {
+      "sources": 7,
+      "items": 0,
+      "counts": {
+        "free": 0,
+        "paid": 0,
+        "metered": 0
+      },
+      "down_source": "hn"
+    }
+  }
+}
