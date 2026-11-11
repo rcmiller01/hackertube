@@ -25,8 +25,8 @@ PRIDE = "ol:OL66554W"
 ZERO = {"free": 0, "paid": 0, "metered": 0}
 
 
-def _start(root, name):
-    return route_harness.start(root, name=name)
+def _start(root, name, monkeypatch):
+    return route_harness.start(root, name=name, monkeypatch=monkeypatch)
 
 
 def _no_request(where):
@@ -40,10 +40,10 @@ def root(tmp_path):
     return tmp_path / "plugin-data"
 
 
-def test_pref16_remove_interest_updates_feed_and_persists_without_outbound_calls(root):
+def test_pref16_remove_interest_updates_feed_and_persists_without_outbound_calls(root, monkeypatch):
     with outbound.guard():
         outbound.reset()
-        dashboard = _start(root, "hackertube_remove_interest")
+        dashboard = _start(root, "hackertube_remove_interest", monkeypatch)
         try:
             dashboard.post("/profile/interests", {"text": "jane austen"})
             assert dashboard.get("/feed").json()["feed"]
@@ -58,7 +58,7 @@ def test_pref16_remove_interest_updates_feed_and_persists_without_outbound_calls
             _no_request("remove interest and rerank")
         finally:
             dashboard.close()
-        reopened = _start(root, "hackertube_remove_interest_reopened")
+        reopened = _start(root, "hackertube_remove_interest_reopened", monkeypatch)
         try:
             assert reopened.get("/profile").json()["interests"] == []
             assert reopened.get("/feed").json()["feed"] == []
@@ -67,11 +67,11 @@ def test_pref16_remove_interest_updates_feed_and_persists_without_outbound_calls
             reopened.close()
 
 
-def test_feed04_browsing_paging_saving_dismissing_and_reopening_make_no_request(root):
+def test_feed04_browsing_paging_saving_dismissing_and_reopening_make_no_request(root, monkeypatch):
     """Open, page, save, dismiss, reopen — through the routes the page calls."""
     with outbound.guard():
         outbound.reset()
-        dashboard = _start(root, "hackertube_feed04")
+        dashboard = _start(root, "hackertube_feed04", monkeypatch)
         try:
             # Opening the dashboard: catalog, feed, profile — three page reads.
             assert dashboard.get("/catalog").status_code == 200
@@ -139,7 +139,7 @@ def test_feed04_browsing_paging_saving_dismissing_and_reopening_make_no_request(
 
         # Reopening the dashboard: a fresh plugin load and client over the same
         # data root, so the store is re-read from disk rather than from memory.
-        reopened = _start(root, "hackertube_feed04_reopened")
+        reopened = _start(root, "hackertube_feed04_reopened", monkeypatch)
         try:
             assert reopened.get("/catalog").status_code == 200
             _no_request("GET /catalog (reopen)")
@@ -156,11 +156,11 @@ def test_feed04_browsing_paging_saving_dismissing_and_reopening_make_no_request(
             reopened.close()
 
 
-def test_pref08_read_only_browsing_submits_nothing_outside_the_profile(root):
+def test_pref08_read_only_browsing_submits_nothing_outside_the_profile(root, monkeypatch):
     """PREF08: browsing sends no personal context, because it sends nothing."""
     with outbound.guard():
         outbound.reset()
-        dashboard = _start(root, "hackertube_pref08")
+        dashboard = _start(root, "hackertube_pref08", monkeypatch)
         try:
             for interest in ("jane austen", "AI", "C++", "gardening"):
                 dashboard.post("/profile/interests", {"text": interest})
@@ -183,7 +183,7 @@ def test_pref08_read_only_browsing_submits_nothing_outside_the_profile(root):
     }
 
 
-def test_job02_loading_the_plugin_repeatedly_starts_no_paid_job(root):
+def test_job02_loading_the_plugin_repeatedly_starts_no_paid_job(root, monkeypatch):
     """JOB02 at the plugin boundary: repeated load and display, no job.
 
     The Hermes host install/load walk was not run on this box (the ``hermes``
@@ -195,7 +195,7 @@ def test_job02_loading_the_plugin_repeatedly_starts_no_paid_job(root):
     with outbound.guard():
         outbound.reset()
         for index in range(5):
-            dashboard = _start(root, f"hackertube_job02_{index}")
+            dashboard = _start(root, f"hackertube_job02_{index}", monkeypatch)
             try:
                 assert dashboard.get("/feed").status_code == 200
                 _no_request(f"plugin load {index}")
@@ -228,7 +228,7 @@ def test_job04_a_paid_call_with_no_reported_cost_is_ledger_unknown():
         assert outbound.counters() == {"free": 0, "paid": 1, "metered": 1}
 
 
-def test_job04_the_feed_reports_the_count_but_not_the_cost(root):
+def test_job04_the_feed_reports_the_count_but_not_the_cost(root, monkeypatch):
     """JOB04: ``GET /feed`` carries the paid count, never the cost fields.
 
     ``discovery_dict`` reports only counts, so an unknown cost is a ledger
@@ -238,7 +238,7 @@ def test_job04_the_feed_reports_the_count_but_not_the_cost(root):
     """
     with outbound.guard():
         outbound.reset()
-        dashboard = _start(root, "hackertube_job04_feed")
+        dashboard = _start(root, "hackertube_job04_feed", monkeypatch)
         try:
             outbound.dispatch(outbound.PAID, lambda: "provider call", cost=None)
             body = dashboard.get("/feed").json()

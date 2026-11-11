@@ -1036,6 +1036,185 @@ test("a compact YouTube row's Tab order reaches its own Watch, Save and Dismiss 
   } finally { await browser.close(); await fixture.close(); }
 });
 
+/* The compact row is a grid at 768px and up. The media column spans both
+ * tracks and is often the tallest thing in the row, so without an explicit row
+ * template the grid grows BOTH tracks to absorb it and the header drifts down
+ * inside a tall first track: the gap under the header read ~22px at 1280 while
+ * the row gap is 0.3rem. `grid-template-rows: auto 1fr` caps the first track at
+ * the header's own height and lets the second take the slack, so the header
+ * hugs the top and the rest of the text starts exactly one row gap below it. */
+test("a compact row's header sits one row gap above the rest of its text at 768 and 1280", async (t) => {
+  const { THUMB_PNG } = require("./browser_net_harness");
+  const thirdRow = {
+    item_id: "youtube:BBBBBBBBBBB", format: "video", title: "A third view",
+    destination: "https://www.youtube.com/watch?v=BBBBBBBBBBB", capture_order: 3,
+    contributors: ["A channel"], duration_seconds: null, art_url: THUMB, art_hotlink: true,
+    art_http_status: 200, art_checked_at: "2026-11-06T12:22:23Z",
+  };
+  const secondRow = { ...thirdRow, item_id: "youtube:AAAAAAAAAAA", title: "A second view",
+    destination: "https://www.youtube.com/watch?v=AAAAAAAAAAA", capture_order: 2,
+    contributors: [], art_url: null, art_hotlink: false };
+  const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    for (const width of [768, 1280]) {
+      const fixture = await startFixture([youtubeRow(), secondRow, thirdRow]);
+      const ui = await browser.newPage();
+      t.after(async () => {
+        await ui.close().catch(() => {});
+        await fixture.close().catch(() => {});
+      });
+      await ui.setViewportSize({ width, height: 900 });
+      await ui.route("https://i.ytimg.com/**", route => route.fulfill({status:200, contentType:"image/png", body:THUMB_PNG}));
+      await ui.goto(fixture.origin);
+      await ui.locator("#videos .ht-compact").first().waitFor();
+      const rows = await ui.evaluate(() => Array.from(document.querySelectorAll("#videos .ht-compact")).map(el => {
+        const container = el.querySelector(".ht-compact-row");
+        const head = el.querySelector(".ht-compact-head");
+        const main = el.querySelector(".ht-compact-main");
+        const side = el.querySelector(".ht-compact-side");
+        const style = getComputedStyle(container);
+        const hb = head.getBoundingClientRect();
+        const mb = main.getBoundingClientRect();
+        const sb = side.getBoundingClientRect();
+        return {
+          display: style.display,
+          rowGap: parseFloat(style.rowGap),
+          gapUnderHeader: mb.top - hb.bottom,
+          headerTopDelta: hb.top - sb.top,
+          mediaOverhang: sb.bottom - mb.bottom,
+          mediaTallerThanText: sb.height > (mb.bottom - hb.top),
+        };
+      }));
+      assert.ok(rows.length >= 2, `at ${width}px there is more than one compact row to measure`);
+      for (const [index, row] of rows.entries()) {
+        assert.equal(row.display, "grid", `at ${width}px row ${index} is the side-column grid`);
+        assert.ok(
+          Math.abs(row.gapUnderHeader - row.rowGap) <= 0.6,
+          `at ${width}px row ${index} the header sits one row gap (${row.rowGap}px) above the text, not ${row.gapUnderHeader.toFixed(1)}px`,
+        );
+        assert.ok(
+          Math.abs(row.headerTopDelta) <= 0.6,
+          `at ${width}px row ${index} the header hugs the top of the row, level with its media column`,
+        );
+      }
+      if (width >= 1280) {
+        assert.ok(
+          rows.some(row => row.mediaTallerThanText),
+          "at least one row's media column is taller than its text, which is the case this pins",
+        );
+      }
+      await ui.close();
+      await fixture.close();
+    }
+  } finally { await browser.close(); }
+});
+
+/* The full card's Watch link was wider than the card on each side — 3.6px at
+ * 320px — and the block that holds it clipped at its own edge, which is exactly
+ * the link's edge, so the focus ring was cut away on every side. The card is
+ * what constrains the link, not the viewport: a one-item ranked feed is a single
+ * 17rem grid track at EVERY width, so the same overhang appears at 1280 too.
+ * The link must fit inside the card, keep a 44px tap target, keep the official
+ * mark at its published size and clear space, and have its ring inside every
+ * clipping ancestor. */
+test("the full card's Watch link and its focus ring stay inside the card, at 320 through 1280", async (t) => {
+  const { THUMB_PNG } = require("./browser_net_harness");
+  const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
+  try {
+    for (const width of [320, 390, 768, 1280]) {
+      const fixture = await startFixture([youtubeRow()]);
+      const ui = await browser.newPage();
+      t.after(async () => {
+        await ui.close().catch(() => {});
+        await fixture.close().catch(() => {});
+      });
+      await ui.setViewportSize({ width, height: 900 });
+      await ui.route("https://i.ytimg.com/**", route => route.fulfill({status:200, contentType:"image/png", body:THUMB_PNG}));
+      await ui.goto(fixture.origin);
+      const card = ui.locator("#ranked-feed article").first();
+      await card.waitFor();
+      const link = card.getByRole("link", { name: 'Watch "AI introduction" on YouTube' });
+      await link.waitFor();
+      const geometry = await link.evaluate(el => {
+        const style = getComputedStyle(el);
+        const box = el.getBoundingClientRect();
+        const spread = parseFloat(style.outlineWidth) + parseFloat(style.outlineOffset);
+        const cardEl = el.closest(".ht-card");
+        const cardBox = cardEl.getBoundingClientRect();
+        const clippers = [];
+        for (let node = el.parentElement; node; node = node.parentElement) {
+          const s = getComputedStyle(node);
+          const clipsX = s.overflowX !== "visible";
+          const clipsY = s.overflowY !== "visible";
+          if (clipsX || clipsY) {
+            const r = node.getBoundingClientRect();
+            clippers.push({
+              name: node.className || node.tagName,
+              clipsX, clipsY,
+              left: r.left + parseFloat(s.borderLeftWidth),
+              top: r.top + parseFloat(s.borderTopWidth),
+              right: r.right - parseFloat(s.borderRightWidth),
+              bottom: r.bottom - parseFloat(s.borderBottomWidth),
+            });
+          }
+          if (node === cardEl) break;
+        }
+        const img = el.querySelector("img");
+        const imgBox = img.getBoundingClientRect();
+        return {
+          padding: style.padding,
+          box: { left: box.left, right: box.right, top: box.top, bottom: box.bottom, width: box.width, height: box.height },
+          ring: { left: box.left - spread, right: box.right + spread, top: box.top - spread, bottom: box.bottom + spread, spread },
+          card: { left: cardBox.left, right: cardBox.right },
+          clippers,
+          img: { left: imgBox.left, right: imgBox.right, top: imgBox.top, bottom: imgBox.bottom, width: imgBox.width, height: imgBox.height },
+          imgRadius: getComputedStyle(img).borderRadius,
+        };
+      });
+      assert.ok(geometry.ring.spread > 0, "the link carries a real focus ring to keep: " + geometry.ring.spread);
+      assert.ok(
+        geometry.box.left >= geometry.card.left - 0.01 && geometry.box.right <= geometry.card.right + 0.01,
+        `at ${width}px the Watch link fits inside the card (${geometry.box.left.toFixed(1)}..${geometry.box.right.toFixed(1)} in ${geometry.card.left.toFixed(1)}..${geometry.card.right.toFixed(1)})`,
+      );
+      assert.ok(
+        geometry.ring.left >= geometry.card.left - 0.01 && geometry.ring.right <= geometry.card.right + 0.01,
+        `at ${width}px the focus ring fits inside the card`,
+      );
+      for (const clipper of geometry.clippers) {
+        if (clipper.clipsX) {
+          assert.ok(
+            geometry.ring.left >= clipper.left - 0.01 && geometry.ring.right <= clipper.right + 0.01,
+            `at ${width}px ${clipper.name} clips the ring horizontally (ring ${geometry.ring.left.toFixed(1)}..${geometry.ring.right.toFixed(1)} in ${clipper.left.toFixed(1)}..${clipper.right.toFixed(1)})`,
+          );
+        }
+        if (clipper.clipsY) {
+          assert.ok(
+            geometry.ring.top >= clipper.top - 0.01 && geometry.ring.bottom <= clipper.bottom + 0.01,
+            `at ${width}px ${clipper.name} clips the ring vertically (ring ${geometry.ring.top.toFixed(1)}..${geometry.ring.bottom.toFixed(1)} in ${clipper.top.toFixed(1)}..${clipper.bottom.toFixed(1)})`,
+          );
+        }
+        // The official mark is never clipped either.
+        assert.ok(
+          geometry.img.left >= clipper.left - 0.01 && geometry.img.right <= clipper.right + 0.01
+            && geometry.img.top >= clipper.top - 0.01 && geometry.img.bottom <= clipper.bottom + 0.01,
+          `at ${width}px ${clipper.name} clips the Icon`,
+        );
+      }
+      assert.ok(geometry.box.height >= 44, `at ${width}px the Watch link is a 44px+ tap target (${geometry.box.height})`);
+      assert.ok(Math.abs(geometry.img.height - 186) <= 0.6, `at ${width}px the Icon keeps its 186px box (${geometry.img.height})`);
+      assert.ok(
+        Math.abs(geometry.img.width / geometry.img.height - 1255 / 1075) <= 0.01,
+        `at ${width}px the Icon keeps its own aspect (${(geometry.img.width / geometry.img.height).toFixed(4)})`,
+      );
+      assert.equal(geometry.imgRadius, "0px", "the Icon is not rounded");
+      const mark = await measureVisibleMark(link);
+      assert.ok(mark.visibleMarkHeight >= 100, `at ${width}px the visible mark stays >= 100px (${mark.visibleMarkHeight})`);
+      assert.ok(mark.visibleMarkWidth >= 140, `at ${width}px the visible mark stays >= 140px wide (${mark.visibleMarkWidth})`);
+      await ui.close();
+      await fixture.close();
+    }
+  } finally { await browser.close(); }
+});
 /* The render-time host check is an EXACT match. A host that only ends with
  * `i.ytimg.com` (`xi.ytimg.com`, `evil-i.ytimg.com`) or prefixes it
  * (`noti.ytimg.com`) must be refused, and nothing may be requested from it. */

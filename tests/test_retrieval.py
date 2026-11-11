@@ -148,7 +148,7 @@ def test_hermes_ranked_new_item_survives_save_open_and_reopen(tmp_path, monkeypa
         }
 
     monkeypatch.setattr("hackertube_core.hermes.handler", lambda: invoke)
-    dashboard = route_harness.start(tmp_path / "data", settings={"provider": "hermes"})
+    dashboard = route_harness.start(tmp_path / "data", settings={"provider": "hermes"}, monkeypatch=monkeypatch)
     # This test keeps its injected HTTP/model seams in-process to exercise
     # retrieval + route + library behavior. Process ownership/cancellation is
     # exercised with real children in test_supervised_routes.py.
@@ -184,7 +184,7 @@ def test_hermes_ranked_new_item_survives_save_open_and_reopen(tmp_path, monkeypa
     )
     dashboard.close()
     before = outbound.counters().copy()
-    dashboard = route_harness.start(tmp_path / "data", name="ht-reopened")
+    dashboard = route_harness.start(tmp_path / "data", name="ht-reopened", monkeypatch=monkeypatch)
     assert any(
         x["item_id"] == "ol:OL999999W"
         for x in dashboard.get("/catalog").json()["catalog"]["items"]
@@ -234,8 +234,19 @@ def test_native_registration_starts_no_model_or_tool_work(monkeypatch):
 
 
 def test_hermes_memory_disabled_payload_contains_only_request_and_retrieved_candidates(
-    monkeypatch,
+    tmp_path, monkeypatch,
 ):
+    import route_harness
+
+    from hackertube_core.privacy import VERSION
+    from hackertube_core.profile import ProfileStore, open_profile_db
+
+    # The provider's service() reads the consent gate from the profile store, so
+    # this test installs the host seam itself through monkeypatch. It used to
+    # inherit whatever `plugins.plugin_storage` stub an earlier route test had
+    # left in sys.modules, which made its outcome depend on test order.
+    route_harness.install_host(tmp_path / "host", monkeypatch=monkeypatch)
+    ProfileStore(open_profile_db).accept_privacy(VERSION)
     monkeypatch.setitem(
         __import__("sys").modules,
         "hermes_constants",
@@ -334,7 +345,7 @@ def test_slow_search_does_not_block_feed_reads(tmp_path, monkeypatch):
     import route_harness
     from hackertube_core.search import StubProvider
 
-    dashboard = route_harness.start(tmp_path / "data")
+    dashboard = route_harness.start(tmp_path / "data", monkeypatch=monkeypatch)
     original = dashboard.module._search_binding
     feed_read = threading.Event()
     entered = threading.Event()

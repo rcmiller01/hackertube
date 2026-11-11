@@ -1740,15 +1740,16 @@
               (itemState(profile, item.item_id).completed ? "Completed" : "Not completed"))
           : null;
         var actions = renderActions(item, compact);
-        // The row text, in order. The art is placed separately: in a full card
-        // between the creator line and the evidence, and in a compact row after
-        // this text, so heading and focus order lead with the badge, title and
-        // creator and reach the thumbnail and Watch link last (WCAG 1.3.2 and
+        // The compact row's HEADER is exactly these three lines, named rather
+        // than sliced out of a longer list so a later edit to that list cannot
+        // silently move a line in or out of the header. The art is placed
+        // separately: in a full card between the creator line and the
+        // evidence, and in a compact row between the header and the rest, so
+        // heading navigation leads with the badge, title and creator and this
+        // row's own Watch link, Save and Dismiss follow it (WCAG 1.3.2 and
         // 2.4.3). CSS arranges the side column at 768px and up.
-        var text = [
-          badge,
-          title,
-          creator,
+        var header = [badge, title, creator];
+        var rest = [
           renderEvidence(item, evidence, sources, length),
           whyText(whyLines),
           noteEl,
@@ -1773,23 +1774,12 @@
           // Below 768px the three parts stack in DOM order.
           body = art
             ? h("div", { className: "ht-compact-row" },
-                h("div", { className: "ht-compact-head" }, text.slice(0, 3)),
+                h("div", { className: "ht-compact-head" }, header),
                 h("div", { className: "ht-compact-side" }, art),
-                h("div", { className: "ht-compact-main" }, text.slice(3)))
-            : text;
+                h("div", { className: "ht-compact-main" }, rest))
+            : header.concat(rest);
         } else {
-          body = [
-            badge,
-            title,
-            creator,
-            renderArt(item),
-            text[3],
-            text[4],
-            text[5],
-            text[6],
-            text[7],
-            text[8],
-          ];
+          body = header.concat([renderArt(item)], rest);
         }
         return h("article", { key: item.item_id },
           h(Card, { className: "ht-card" + (compact ? " ht-compact" : "") },

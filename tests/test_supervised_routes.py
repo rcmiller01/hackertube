@@ -30,7 +30,7 @@ def setup(tmp_path, monkeypatch):
             str(server.getsockname()[1]),
         ],
     )
-    dashboard = route_harness.start(root)
+    dashboard = route_harness.start(root, monkeypatch=monkeypatch)
     monkeypatch.setattr(dashboard.module, "_supervisor", lambda store: manager)
     monkeypatch.setattr(
         "hackertube_core.search.DEFAULT_LIMITS", Limits(deadline_seconds=0.6)

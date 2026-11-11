@@ -1,0 +1,14 @@
+# new browser tests against the pre-fix head 6ba4e4fd33efbe6273a138ad12c5e376178fca2a (production files at that SHA)
+## a compact row's header sits one row gap above the rest of its text
+✖ a compact row's header sits one row gap above the rest of its text at 768 and 1280 (436.182583ms)
+✖ failing tests:
+✖ a compact row's header sits one row gap above the rest of its text at 768 and 1280 (436.182583ms)
+  AssertionError [ERR_ASSERTION]: at 1280px row 1 the header sits one row gap (4.8px) above the text, not 8.6px
+## the full card's Watch link and its focus ring stay inside the card at 320
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (312.435459ms)
+✖ failing tests:
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (312.435459ms)
+  AssertionError [ERR_ASSERTION]: at 320px the Watch link fits inside the card (11.4..308.6 in 24.0..296.0)
+## the compact-row header contents test (production is not wrong here, so this PASSES:
+##   its red evidence is the mutation below, not this run)
+✔ a compact row's header holds exactly the badge, the title and the creator (2.41925ms)

@@ -1,0 +1,295 @@
+{
+  "base": "6ba4e4f pre-fix head",
+  "rows": [
+    {
+      "width": 320,
+      "base_gapUnderHeader": [
+        360.8,
+        205.5,
+        360.8
+      ],
+      "head_gapUnderHeader": [
+        360.8,
+        205.5,
+        360.8
+      ],
+      "rowGap": [
+        4.5,
+        4.5,
+        4.5
+      ],
+      "base_mediaTallerThanText": [
+        false,
+        false,
+        false
+      ],
+      "head_mediaTallerThanText": [
+        false,
+        false,
+        false
+      ],
+      "base_rowHeight": [
+        611.2,
+        424.4,
+        611.2
+      ],
+      "head_rowHeight": [
+        611.2,
+        424.4,
+        611.2
+      ],
+      "base_watchLink": [
+        11.4,
+        308.6
+      ],
+      "head_watchLink": [
+        22.9,
+        297.1
+      ],
+      "base_card": [
+        15,
+        305
+      ],
+      "head_card": [
+        15,
+        305
+      ],
+      "base_watchPadding": "40px",
+      "head_watchPadding": "40px 28.5px",
+      "base_fullHeight": 806.3,
+      "head_fullHeight": 806.3
+    },
+    {
+      "width": 390,
+      "base_gapUnderHeader": [
+        360.8,
+        205.5,
+        360.8
+      ],
+      "head_gapUnderHeader": [
+        360.8,
+        205.5,
+        360.8
+      ],
+      "rowGap": [
+        4.5,
+        4.5,
+        4.5
+      ],
+      "base_mediaTallerThanText": [
+        false,
+        false,
+        false
+      ],
+      "head_mediaTallerThanText": [
+        false,
+        false,
+        false
+      ],
+      "base_rowHeight": [
+        611.2,
+        424.4,
+        611.2
+      ],
+      "head_rowHeight": [
+        611.2,
+        424.4,
+        611.2
+      ],
+      "base_watchLink": [
+        46.4,
+        343.6
+      ],
+      "head_watchLink": [
+        46.4,
+        343.6
+      ],
+      "base_card": [
+        15,
+        375
+      ],
+      "head_card": [
+        15,
+        375
+      ],
+      "base_watchPadding": "40px",
+      "head_watchPadding": "40px",
+      "base_fullHeight": 858.8,
+      "head_fullHeight": 858.8
+    },
+    {
+      "width": 767,
+      "base_gapUnderHeader": [
+        205.5,
+        205.5,
+        205.5
+      ],
+      "head_gapUnderHeader": [
+        205.5,
+        205.5,
+        205.5
+      ],
+      "rowGap": [
+        4.5,
+        4.5,
+        4.5
+      ],
+      "base_mediaTallerThanText": [
+        false,
+        false,
+        false
+      ],
+      "head_mediaTallerThanText": [
+        false,
+        false,
+        false
+      ],
+      "base_rowHeight": [
+        415.3,
+        383.8,
+        415.3
+      ],
+      "head_rowHeight": [
+        415.3,
+        383.8,
+        415.3
+      ],
+      "base_watchLink": [
+        47.4,
+        344.5
+      ],
+      "head_watchLink": [
+        47.4,
+        344.5
+      ],
+      "base_card": [
+        15,
+        376.9
+      ],
+      "head_card": [
+        15,
+        376.9
+      ],
+      "base_watchPadding": "40px",
+      "head_watchPadding": "40px",
+      "base_fullHeight": 860.3,
+      "head_fullHeight": 860.3
+    },
+    {
+      "width": 768,
+      "base_gapUnderHeader": [
+        4.5,
+        4.5,
+        4.5
+      ],
+      "head_gapUnderHeader": [
+        4.5,
+        4.5,
+        4.5
+      ],
+      "rowGap": [
+        4.5,
+        4.5,
+        4.5
+      ],
+      "base_mediaTallerThanText": [
+        false,
+        false,
+        false
+      ],
+      "head_mediaTallerThanText": [
+        false,
+        false,
+        false
+      ],
+      "base_rowHeight": [
+        255,
+        223.4,
+        255
+      ],
+      "head_rowHeight": [
+        255,
+        223.4,
+        255
+      ],
+      "base_watchLink": [
+        47.6,
+        344.8
+      ],
+      "head_watchLink": [
+        47.6,
+        344.8
+      ],
+      "base_card": [
+        15,
+        377.4
+      ],
+      "head_card": [
+        15,
+        377.4
+      ],
+      "base_watchPadding": "40px",
+      "head_watchPadding": "40px",
+      "base_fullHeight": 860.7,
+      "head_fullHeight": 860.7
+    },
+    {
+      "width": 1280,
+      "base_gapUnderHeader": [
+        6.8,
+        22.6,
+        6.8
+      ],
+      "head_gapUnderHeader": [
+        4.5,
+        4.5,
+        4.5
+      ],
+      "rowGap": [
+        4.5,
+        4.5,
+        4.5
+      ],
+      "base_mediaTallerThanText": [
+        true,
+        true,
+        true
+      ],
+      "head_mediaTallerThanText": [
+        true,
+        true,
+        true
+      ],
+      "base_rowHeight": [
+        219,
+        219,
+        219
+      ],
+      "head_rowHeight": [
+        219,
+        219,
+        219
+      ],
+      "base_watchLink": [
+        142,
+        439.2
+      ],
+      "head_watchLink": [
+        142,
+        439.2
+      ],
+      "base_card": [
+        122.5,
+        458.8
+      ],
+      "head_card": [
+        122.5,
+        458.8
+      ],
+      "base_watchPadding": "40px",
+      "head_watchPadding": "40px",
+      "base_fullHeight": 841,
+      "head_fullHeight": 841
+    }
+  ]
+}

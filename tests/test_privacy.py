@@ -154,18 +154,20 @@ def test_startup_purge_does_not_block_plugin_registration(monkeypatch):
 def test_startup_purge_logs_a_warning_and_continues_on_failure(caplog, monkeypatch):
     """A failed purge is recorded, not swallowed: it logs and keeps going.
 
-    A short interval is used so the loop makes more than one pass; the test
-    asserts a SECOND attempt actually runs, so a mutation that stops after the
-    startup pass (or after the first interval) is caught, not just the warning.
+    A short interval is used so the loop makes many passes. The test waits for a
+    THIRD attempt, not a second one: at two, "the startup pass plus the pass
+    after the first interval, then stop" scores the same as a loop that keeps
+    running, so the assertion would pass on a broken loop. Three attempts can
+    only happen if the loop survived the first interval.
     """
     from hackertube_core import privacy
     attempts = []
-    second = threading.Event()
+    third = threading.Event()
 
     def failing(factory):
         attempts.append(1)
-        if len(attempts) >= 2:
-            second.set()
+        if len(attempts) >= 3:
+            third.set()
         raise RuntimeError("purge boom")
 
     monkeypatch.setattr("hackertube_core.profile.ProfileStore", failing)
@@ -173,18 +175,18 @@ def test_startup_purge_logs_a_warning_and_continues_on_failure(caplog, monkeypat
     with caplog.at_level(logging.WARNING, logger="hackertube.privacy"):
         stop = privacy.start_housekeeping(interval=0.01)
         try:
-            assert second.wait(5), "the purge loop kept going after a failure: a second attempt ran"
-            assert len(attempts) >= 2, (
-                f"the failed purge is retried on the next pass, not stopped ({len(attempts)} attempt(s))"
+            assert third.wait(5), "the purge loop kept going after failures: a third attempt ran"
+            assert len(attempts) >= 3, (
+                f"the failed purge is retried on every later pass, not stopped ({len(attempts)} attempt(s))"
             )
             deadline = time.monotonic() + 2
-            while time.monotonic() < deadline and len(caplog.records) < 2:
+            while time.monotonic() < deadline and len(caplog.records) < 3:
                 time.sleep(0.02)
             warnings = [record for record in caplog.records
                         if record.levelno >= logging.WARNING and "purge" in record.getMessage().lower()]
             assert warnings, "a failed purge logs a warning instead of being swallowed silently"
-            assert len(warnings) >= 2, (
-                f"every failed pass logs a warning, not just the first ({len(warnings)})"
+            assert len(warnings) >= 3, (
+                f"every failed pass logs a warning, not just the first two ({len(warnings)})"
             )
         finally:
             stop()

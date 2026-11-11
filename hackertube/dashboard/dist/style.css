@@ -364,9 +364,25 @@
 @media (max-width: 480px) {
   .hackertube .ht-art-cover { height: 9rem; }
 }
-/* Unmodified official icon, linked to the original video. Keep clear space. */
-.hackertube .ht-art.ht-youtube-brand { height: auto; min-height: 180px; max-height: none; aspect-ratio: auto; }
-.hackertube .ht-art.ht-youtube-brand a { display: inline-block; padding: 40px; }
+/* Unmodified official icon, linked to the original video. Keep clear space.
+   `overflow: visible` overrides `.ht-art`'s clip here: nothing in this branch
+   can reach the block's rounded corners (the icon is inset by the link's own
+   padding, so no corner radius can crop it), while the clip WAS cutting the
+   link's focus ring — the ring is drawn outside the link's box and the block
+   is sized to the link, so `hidden` removed it on every side. */
+.hackertube .ht-art.ht-youtube-brand { height: auto; min-height: 180px; max-height: none; aspect-ratio: auto; overflow: visible; }
+/* The link is the 217px Icon file box plus its own padding, so a fixed 40px
+   padding made it 297px wide. That fits a wide card but not a narrow one: the
+   full card can be a single `17rem` grid track (~272px) at ANY viewport width,
+   and at 320px the card's content box is 290px — in both cases the link
+   overhung the card on each side and, because the block was sized to the link,
+   its focus ring was cut. The horizontal padding therefore shrinks with the
+   card: 40px while there is room, down to whatever the card's own width leaves
+   (the 233px is the 217px file box plus 8px on each side for the ring). Only
+   the ADDITIONAL padding narrows — the official file's own clear space is
+   inside the box — so the mark keeps its 186px box (a 100px visible mark) and
+   the link keeps its height. */
+.hackertube .ht-art.ht-youtube-brand a { display: inline-block; padding: 40px min(40px, max(0px, calc((100% - 233px) / 2))); }
 .hackertube .ht-art.ht-youtube-brand .ht-youtube-action { display: block; margin-top: 40px; }
 .hackertube .ht-art.ht-youtube-brand img { height: 186px; width: auto; max-width: none; object-fit: contain; }
 /* Unaltered YouTube thumbnail: the image's own aspect ratio, no crop, no
@@ -473,6 +489,14 @@
     grid-template-areas:
       "media head"
       "media rest";
+    /* `auto 1fr` is what keeps the header tight against the rest of the text.
+       The media column is usually the tallest thing in the row, and it spans
+       both tracks: without an explicit row template the grid grows BOTH tracks
+       to absorb it, so the header floated in a tall first track and the gap
+       under it read ~22px instead of the 0.3rem row gap. `auto` is capped at
+       the header's own height and `1fr` takes the slack, so the header hugs
+       the top and the rest starts one row gap below it. */
+    grid-template-rows: auto 1fr;
     align-items: start;
     column-gap: 1rem;
     row-gap: 0.3rem;

@@ -1,0 +1,19 @@
+# item 3: the reported mutations of text.slice(0, 3) on the pre-fix bundle
+
+## mutation: text.slice(0, 3) -> text.slice(0, 2)
+mutated hackertube/dashboard/dist/index.js: 'text.slice(0, 3)' -> 'text.slice(0, 2)'
+-- OLD test file (the pre-fix head's own tests):
+ℹ tests 148 ℹ pass 148 ℹ fail 0 
+-- NEW test file:
+✖ a compact row's header holds exactly the badge, the title and the creator (2.077708ms)
+✖ failing tests:
+✖ a compact row's header holds exactly the badge, the title and the creator (2.077708ms)
+
+## mutation: text.slice(0, 3) -> text.slice(0, 4)
+mutated hackertube/dashboard/dist/index.js: 'text.slice(0, 3)' -> 'text.slice(0, 4)'
+-- OLD test file (the pre-fix head's own tests):
+ℹ tests 148 ℹ pass 148 ℹ fail 0 
+-- NEW test file:
+✖ a compact row's header holds exactly the badge, the title and the creator (2.536333ms)
+✖ failing tests:
+✖ a compact row's header holds exactly the badge, the title and the creator (2.536333ms)
