@@ -128,8 +128,8 @@ def client(app):
 class Dashboard:
     """One dashboard process: a router load plus a client, over one data root."""
 
-    def __init__(self, data_root, name="hackertube_plugin_api_under_test", settings=None):
-        self.root = install_host(data_root, settings=settings)
+    def __init__(self, data_root, name="hackertube_plugin_api_under_test", settings=None, monkeypatch=None):
+        self.root = install_host(data_root, settings=settings, monkeypatch=monkeypatch)
         self.module, self.app = load_api(name)
         self.http = client(self.app)
         from hackertube_core.privacy import VERSION
@@ -149,5 +149,13 @@ class Dashboard:
             close()
 
 
-def start(data_root, name="hackertube_plugin_api_under_test", settings=None):
-    return Dashboard(data_root, name=name, settings=settings)
+def start(data_root, name="hackertube_plugin_api_under_test", settings=None, monkeypatch=None):
+    """Load the plugin over ``data_root``.
+
+    Pass the test's ``monkeypatch`` fixture so the host stubs are registered
+    through ``monkeypatch.setitem`` and pytest removes them at teardown: the
+    route tests then leave nothing behind in ``sys.modules``. A caller that
+    passes no ``monkeypatch`` installs the stubs directly, which is why the
+    stub for ``plugins.plugin_storage`` used to survive the whole session.
+    """
+    return Dashboard(data_root, name=name, settings=settings, monkeypatch=monkeypatch)

@@ -1,0 +1,10 @@
+# item 4: the purge loop stops after the first interval (startup pass + one pass, then return)
+# on the pre-fix head 6ba4e4fd33efbe6273a138ad12c5e376178fca2a, with the OLD test file, then with the NEW one
+mutated hackertube/hackertube_core/privacy.py: '        while not stop.wait(interval):\n            purge()' -> '        while not stop.wait(interval):\n            purge()\n            break'
+-- OLD test file:
+.                                                                        [100%]
+1 passed, 12 deselected in 0.18s
+-- NEW test file:
+=========================== short test summary info ============================
+FAILED tests/test_privacy.py::test_startup_purge_logs_a_warning_and_continues_on_failure
+1 failed, 12 deselected in 5.19s

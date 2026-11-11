@@ -2737,6 +2737,43 @@ test("a compact YouTube row keeps the official linked Icon and the short note", 
   }
 });
 
+test("a compact row's header holds exactly the badge, the title and the creator", () => {
+  const ui = mountPage(YOUTUBE_THUMB_CATALOG);
+  const compact = (node) => node.props && node.props.className === "ht-card ht-compact";
+  const isHead = (node) => node.props && node.props.className === "ht-compact-head";
+  const isMain = (node) => node.props && node.props.className === "ht-compact-main";
+  const hasClass = (className) => (node) => node.props && node.props.className === className;
+  // The row passes one array of children, so flatten one level before comparing
+  // the header's own list with the lines the page built.
+  const flat = (kids) => (kids || []).reduce(
+    (all, kid) => all.concat(Array.isArray(kid) ? flat(kid) : [kid]), [],
+  );
+  try {
+    const heads = ui.within(compact, isHead);
+    assert.equal(heads.length, 1, "the compact row has one header wrapper");
+    const direct = flat(heads[0].children);
+    // Exactly three lines. A slice of the text list (0,2 or 0,4) either drops
+    // the creator or lets the evidence block in, and both fail here.
+    assert.equal(direct.length, 3, "the header holds exactly three lines: " + direct.length);
+    assert.equal(direct[0].props.className, "ht-format");
+    assert.equal(textOf(direct[0]), "Video", "the header leads with the format badge");
+    assert.equal(direct[1].props.className, "ht-title");
+    assert.equal(textOf(direct[1]), "AI introduction", "the title is in the header");
+    assert.equal(direct[2].props.className, "ht-creator");
+    assert.equal(textOf(direct[2]), "A channel", "the creator line is in the header");
+    // The same boundary from the other side: nothing past the creator leaks in,
+    // and the evidence that used to be shifted into the header stays below it.
+    for (const className of ["ht-evidence", "ht-meta", "ht-note", "ht-actions", "ht-open"]) {
+      assert.equal(ui.within(isHead, hasClass(className)).length, 0,
+        "the header holds no " + className);
+    }
+    assert.equal(ui.within(isMain, hasClass("ht-evidence")).length, 1,
+      "the evidence stays in the rest of the text");
+  } finally {
+    ui.restore();
+  }
+});
+
 test("a YouTube card without display-cleared art still shows the linked Icon", () => {
   const ui = mountPage(YOUTUBE_CATALOG, page.emptyProfile(), null, youtubeFeed(YOUTUBE_CATALOG));
   try {

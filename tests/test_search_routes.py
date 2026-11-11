@@ -43,10 +43,10 @@ def root(tmp_path):
     return tmp_path / "plugin-data"
 
 
-def test_job09_the_route_refuses_a_submit_without_the_disclosure(root):
+def test_job09_the_route_refuses_a_submit_without_the_disclosure(root, monkeypatch):
     with outbound.guard():
         outbound.reset()
-        dashboard = route_harness.start(root, name="hackertube_search_disclosure")
+        dashboard = route_harness.start(root, name="hackertube_search_disclosure", monkeypatch=monkeypatch)
         try:
             for body in ({}, {"question": QUESTION}, {"question": QUESTION, "disclosure_accepted": False}):
                 refused = dashboard.post("/search", body)
@@ -60,7 +60,7 @@ def test_job09_the_route_refuses_a_submit_without_the_disclosure(root):
             dashboard.close()
 
 
-def test_acceptance1_a_keyless_live_provider_fails_closed_with_no_outbound_call(root):
+def test_acceptance1_a_keyless_live_provider_fails_closed_with_no_outbound_call(root, monkeypatch):
     """The declared key is absent, so the live provider refuses before a call."""
     with outbound.guard():
         outbound.reset()
@@ -69,6 +69,7 @@ def test_acceptance1_a_keyless_live_provider_fails_closed_with_no_outbound_call(
             root,
             name="hackertube_search_live_absent",
             settings={"provider": "live", "model_endpoint": "https://example.org/v1/chat/completions"},
+            monkeypatch=monkeypatch,
         )
         try:
             status = dashboard.get("/status")
@@ -94,7 +95,7 @@ def test_acceptance1_a_keyless_live_provider_fails_closed_with_no_outbound_call(
             dashboard.close()
 
 
-def test_acceptance1_an_undeclared_provider_name_falls_back_to_live_and_fails_closed(root):
+def test_acceptance1_an_undeclared_provider_name_falls_back_to_live_and_fails_closed(root, monkeypatch):
     """A provider name outside the declared choices selects the live provider.
 
     The route never guesses a cheaper provider: an undeclared name behaves
@@ -103,7 +104,8 @@ def test_acceptance1_an_undeclared_provider_name_falls_back_to_live_and_fails_cl
     with outbound.guard():
         outbound.reset()
         dashboard = route_harness.start(
-            root, name="hackertube_search_unknown_provider", settings={"provider": "free-tier"}
+            root, name="hackertube_search_unknown_provider", settings={"provider": "free-tier"},
+            monkeypatch=monkeypatch,
         )
         try:
             refused = dashboard.post("/search", {"question": QUESTION, "disclosure_accepted": True})
@@ -115,10 +117,10 @@ def test_acceptance1_an_undeclared_provider_name_falls_back_to_live_and_fails_cl
             dashboard.close()
 
 
-def test_search01_the_stub_provider_runs_the_demo_question_through_the_route(root):
+def test_search01_the_stub_provider_runs_the_demo_question_through_the_route(root, monkeypatch):
     with outbound.guard():
         outbound.reset()
-        dashboard = route_harness.start(root, name="hackertube_search_demo")
+        dashboard = route_harness.start(root, name="hackertube_search_demo", monkeypatch=monkeypatch)
         try:
             info = dashboard.get("/search")
             assert info.status_code == 200
@@ -163,14 +165,14 @@ def test_search01_the_stub_provider_runs_the_demo_question_through_the_route(roo
             dashboard.close()
 
 
-def test_job04_the_route_reports_an_unknown_cost_and_the_page_renders_it(root):
+def test_job04_the_route_reports_an_unknown_cost_and_the_page_renders_it(root, monkeypatch):
     """The route carries an unknown cost as null and a paid count of zero.
 
     The rendered half is pinned in ``tests/test_dashboard_page.js``.
     """
     with outbound.guard():
         outbound.reset()
-        dashboard = route_harness.start(root, name="hackertube_search_cost")
+        dashboard = route_harness.start(root, name="hackertube_search_cost", monkeypatch=monkeypatch)
         try:
             body = dashboard.post(
                 "/search", {"question": QUESTION, "disclosure_accepted": True}
@@ -186,11 +188,11 @@ def test_job04_the_route_reports_an_unknown_cost_and_the_page_renders_it(root):
             dashboard.close()
 
 
-def test_job02_browsing_and_reloading_start_no_job_and_no_paid_call(root):
+def test_job02_browsing_and_reloading_start_no_job_and_no_paid_call(root, monkeypatch):
     with outbound.guard():
         outbound.reset()
         for index in range(3):
-            dashboard = route_harness.start(root, name=f"hackertube_search_job02_{index}")
+            dashboard = route_harness.start(root, name=f"hackertube_search_job02_{index}", monkeypatch=monkeypatch)
             try:
                 assert dashboard.get("/catalog").status_code == 200
                 assert dashboard.get("/feed").status_code == 200
@@ -205,10 +207,10 @@ def test_job02_browsing_and_reloading_start_no_job_and_no_paid_call(root):
     assert outbound.counters() == ZERO
 
 
-def test_the_route_refuses_a_question_the_boundary_rejects(root):
+def test_the_route_refuses_a_question_the_boundary_rejects(root, monkeypatch):
     with outbound.guard():
         outbound.reset()
-        dashboard = route_harness.start(root, name="hackertube_search_bad_question")
+        dashboard = route_harness.start(root, name="hackertube_search_bad_question", monkeypatch=monkeypatch)
         try:
             for question in ("", "   ", "a" * 201, 17):
                 refused = dashboard.post("/search", {"question": question, "disclosure_accepted": True})
@@ -221,10 +223,10 @@ def test_the_route_refuses_a_question_the_boundary_rejects(root):
             dashboard.close()
 
 
-def test_each_search_appends_one_job_row(root):
+def test_each_search_appends_one_job_row(root, monkeypatch):
     with outbound.guard():
         outbound.reset()
-        dashboard = route_harness.start(root, name="hackertube_search_rows")
+        dashboard = route_harness.start(root, name="hackertube_search_rows", monkeypatch=monkeypatch)
         try:
             for expected in ("job:1", "job:2", "job:3"):
                 body = dashboard.post(

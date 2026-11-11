@@ -1,0 +1,625 @@
+{
+  "label": "base",
+  "assets": {
+    "page": "/Users/robert/.hermes/cache/scratch/p35-base-assets/index.js",
+    "style": "/Users/robert/.hermes/cache/scratch/p35-base-assets/style.css"
+  },
+  "scope": "Production bundle and stylesheet in a React fixture with stub SDK components and a stub local API, plus the compiled host stylesheet. Fixture images are served locally for the i.ytimg.com paths; this is not an installed dashboard, not a live-provider receipt, and not a real YouTube image.",
+  "hostStylesheet": "/Users/robert/.hermes/hermes-agent/hermes_cli/web_dist/assets/index-CXKdN8QE.css",
+  "note": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+  "iconAspect": 1.1674418604651162,
+  "mediaColumnWidth": 430,
+  "viewports": [
+    {
+      "width": 320,
+      "mark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "rows": [
+        {
+          "title": "Jane Austen introduction",
+          "display": "flex",
+          "gridTemplateRows": "none",
+          "rowGap": 4.5,
+          "gapUnderHeader": 360.8,
+          "headerTopDelta": -56.8,
+          "mediaTallerThanText": false,
+          "mediaOverhang": -180.2,
+          "mediaLeft": 15,
+          "headLeft": 15,
+          "mainLeft": 15,
+          "mediaWidth": 290,
+          "rowHeight": 611.2,
+          "headChildIndex": 0,
+          "sideChildIndex": 1,
+          "mainChildIndex": 2
+        },
+        {
+          "title": "A second YouTube video",
+          "display": "flex",
+          "gridTemplateRows": "none",
+          "rowGap": 4.5,
+          "gapUnderHeader": 205.5,
+          "headerTopDelta": -25.2,
+          "mediaTallerThanText": false,
+          "mediaOverhang": -180.2,
+          "mediaLeft": 15,
+          "headLeft": 15,
+          "mainLeft": 15,
+          "mediaWidth": 217.1,
+          "rowHeight": 424.4,
+          "headChildIndex": 0,
+          "sideChildIndex": 1,
+          "mainChildIndex": 2
+        },
+        {
+          "title": "A third YouTube video",
+          "display": "flex",
+          "gridTemplateRows": "none",
+          "rowGap": 4.5,
+          "gapUnderHeader": 360.8,
+          "headerTopDelta": -56.8,
+          "mediaTallerThanText": false,
+          "mediaOverhang": -180.2,
+          "mediaLeft": 15,
+          "headLeft": 15,
+          "mainLeft": 15,
+          "mediaWidth": 290,
+          "rowHeight": 611.2,
+          "headChildIndex": 0,
+          "sideChildIndex": 1,
+          "mainChildIndex": 2
+        }
+      ],
+      "fullHeight": 806.3,
+      "watch": {
+        "padding": "40px",
+        "outline": {
+          "width": 3,
+          "offset": 0,
+          "spread": 3
+        },
+        "box": {
+          "left": 11.4,
+          "right": 308.6,
+          "top": 716.4,
+          "bottom": 1045.7,
+          "width": 297.1,
+          "height": 329.3
+        },
+        "ring": {
+          "left": 8.4,
+          "right": 311.6,
+          "top": 713.4,
+          "bottom": 1048.7
+        },
+        "card": {
+          "left": 15,
+          "right": 305,
+          "width": 290
+        },
+        "clippers": [
+          {
+            "name": "ht-art ht-youtube-brand",
+            "clipsX": true,
+            "clipsY": true,
+            "left": 15,
+            "top": 716.4,
+            "right": 305,
+            "bottom": 1045.7
+          }
+        ],
+        "img": {
+          "left": 51.4,
+          "right": 268.6,
+          "top": 756.4,
+          "bottom": 942.4,
+          "width": 217.1,
+          "height": 186
+        },
+        "imgAspect": 1.1674
+      },
+      "ring": {
+        "clip": {
+          "x": 0,
+          "y": 705,
+          "width": 320,
+          "height": 352
+        },
+        "linkInClip": {
+          "left": 11.4,
+          "right": 308.6,
+          "top": 11.4,
+          "bottom": 340.7
+        },
+        "ringSpread": 3
+      },
+      "tabOrder": null
+    },
+    {
+      "width": 390,
+      "mark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "rows": [
+        {
+          "title": "Jane Austen introduction",
+          "display": "flex",
+          "gridTemplateRows": "none",
+          "rowGap": 4.5,
+          "gapUnderHeader": 360.8,
+          "headerTopDelta": -56.8,
+          "mediaTallerThanText": false,
+          "mediaOverhang": -180.2,
+          "mediaLeft": 15,
+          "headLeft": 15,
+          "mainLeft": 15,
+          "mediaWidth": 360,
+          "rowHeight": 611.2,
+          "headChildIndex": 0,
+          "sideChildIndex": 1,
+          "mainChildIndex": 2
+        },
+        {
+          "title": "A second YouTube video",
+          "display": "flex",
+          "gridTemplateRows": "none",
+          "rowGap": 4.5,
+          "gapUnderHeader": 205.5,
+          "headerTopDelta": -25.2,
+          "mediaTallerThanText": false,
+          "mediaOverhang": -180.2,
+          "mediaLeft": 15,
+          "headLeft": 15,
+          "mainLeft": 15,
+          "mediaWidth": 217.1,
+          "rowHeight": 424.4,
+          "headChildIndex": 0,
+          "sideChildIndex": 1,
+          "mainChildIndex": 2
+        },
+        {
+          "title": "A third YouTube video",
+          "display": "flex",
+          "gridTemplateRows": "none",
+          "rowGap": 4.5,
+          "gapUnderHeader": 360.8,
+          "headerTopDelta": -56.8,
+          "mediaTallerThanText": false,
+          "mediaOverhang": -180.2,
+          "mediaLeft": 15,
+          "headLeft": 15,
+          "mainLeft": 15,
+          "mediaWidth": 360,
+          "rowHeight": 611.2,
+          "headChildIndex": 0,
+          "sideChildIndex": 1,
+          "mainChildIndex": 2
+        }
+      ],
+      "fullHeight": 858.8,
+      "watch": {
+        "padding": "40px",
+        "outline": {
+          "width": 3,
+          "offset": 0,
+          "spread": 3
+        },
+        "box": {
+          "left": 46.4,
+          "right": 343.6,
+          "top": 745.7,
+          "bottom": 1074.9,
+          "width": 297.1,
+          "height": 329.3
+        },
+        "ring": {
+          "left": 43.4,
+          "right": 346.6,
+          "top": 742.7,
+          "bottom": 1077.9
+        },
+        "card": {
+          "left": 15,
+          "right": 375,
+          "width": 360
+        },
+        "clippers": [
+          {
+            "name": "ht-art ht-youtube-brand",
+            "clipsX": true,
+            "clipsY": true,
+            "left": 15,
+            "top": 745.7,
+            "right": 375,
+            "bottom": 1074.9
+          }
+        ],
+        "img": {
+          "left": 86.4,
+          "right": 303.6,
+          "top": 785.7,
+          "bottom": 971.7,
+          "width": 217.1,
+          "height": 186
+        },
+        "imgAspect": 1.1674
+      },
+      "ring": null,
+      "tabOrder": null
+    },
+    {
+      "width": 767,
+      "mark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "rows": [
+        {
+          "title": "Jane Austen introduction",
+          "display": "flex",
+          "gridTemplateRows": "none",
+          "rowGap": 4.5,
+          "gapUnderHeader": 205.5,
+          "headerTopDelta": -56.8,
+          "mediaTallerThanText": false,
+          "mediaOverhang": -139.5,
+          "mediaLeft": 15,
+          "headLeft": 15,
+          "mainLeft": 15,
+          "mediaWidth": 420.4,
+          "rowHeight": 415.3,
+          "headChildIndex": 0,
+          "sideChildIndex": 1,
+          "mainChildIndex": 2
+        },
+        {
+          "title": "A second YouTube video",
+          "display": "flex",
+          "gridTemplateRows": "none",
+          "rowGap": 4.5,
+          "gapUnderHeader": 205.5,
+          "headerTopDelta": -25.2,
+          "mediaTallerThanText": false,
+          "mediaOverhang": -139.5,
+          "mediaLeft": 15,
+          "headLeft": 15,
+          "mainLeft": 15,
+          "mediaWidth": 217.1,
+          "rowHeight": 383.8,
+          "headChildIndex": 0,
+          "sideChildIndex": 1,
+          "mainChildIndex": 2
+        },
+        {
+          "title": "A third YouTube video",
+          "display": "flex",
+          "gridTemplateRows": "none",
+          "rowGap": 4.5,
+          "gapUnderHeader": 205.5,
+          "headerTopDelta": -56.8,
+          "mediaTallerThanText": false,
+          "mediaOverhang": -139.5,
+          "mediaLeft": 15,
+          "headLeft": 15,
+          "mainLeft": 15,
+          "mediaWidth": 420.4,
+          "rowHeight": 415.3,
+          "headChildIndex": 0,
+          "sideChildIndex": 1,
+          "mainChildIndex": 2
+        }
+      ],
+      "fullHeight": 860.3,
+      "watch": {
+        "padding": "40px",
+        "outline": {
+          "width": 3,
+          "offset": 0,
+          "spread": 3
+        },
+        "box": {
+          "left": 47.4,
+          "right": 344.5,
+          "top": 723.9,
+          "bottom": 1053.1,
+          "width": 297.1,
+          "height": 329.3
+        },
+        "ring": {
+          "left": 44.4,
+          "right": 347.5,
+          "top": 720.9,
+          "bottom": 1056.1
+        },
+        "card": {
+          "left": 15,
+          "right": 376.9,
+          "width": 361.9
+        },
+        "clippers": [
+          {
+            "name": "ht-art ht-youtube-brand",
+            "clipsX": true,
+            "clipsY": true,
+            "left": 15,
+            "top": 723.9,
+            "right": 376.9,
+            "bottom": 1053.1
+          }
+        ],
+        "img": {
+          "left": 87.4,
+          "right": 304.5,
+          "top": 763.9,
+          "bottom": 949.9,
+          "width": 217.1,
+          "height": 186
+        },
+        "imgAspect": 1.1674
+      },
+      "ring": null,
+      "tabOrder": null
+    },
+    {
+      "width": 768,
+      "mark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "rows": [
+        {
+          "title": "Jane Austen introduction",
+          "display": "grid",
+          "gridTemplateRows": "52.2656px 175.719px",
+          "rowGap": 4.5,
+          "gapUnderHeader": 4.5,
+          "headerTopDelta": 0,
+          "mediaTallerThanText": false,
+          "mediaOverhang": -36,
+          "mediaLeft": 15,
+          "headLeft": 460,
+          "mainLeft": 460,
+          "mediaWidth": 430,
+          "rowHeight": 255,
+          "headChildIndex": 0,
+          "sideChildIndex": 1,
+          "mainChildIndex": 2
+        },
+        {
+          "title": "A second YouTube video",
+          "display": "grid",
+          "gridTemplateRows": "20.7188px 175.719px",
+          "rowGap": 4.5,
+          "gapUnderHeader": 4.5,
+          "headerTopDelta": 0,
+          "mediaTallerThanText": false,
+          "mediaOverhang": -4.4,
+          "mediaLeft": 15,
+          "headLeft": 460,
+          "mainLeft": 460,
+          "mediaWidth": 430,
+          "rowHeight": 223.4,
+          "headChildIndex": 0,
+          "sideChildIndex": 1,
+          "mainChildIndex": 2
+        },
+        {
+          "title": "A third YouTube video",
+          "display": "grid",
+          "gridTemplateRows": "52.2656px 175.719px",
+          "rowGap": 4.5,
+          "gapUnderHeader": 4.5,
+          "headerTopDelta": 0,
+          "mediaTallerThanText": false,
+          "mediaOverhang": -36,
+          "mediaLeft": 15,
+          "headLeft": 460,
+          "mainLeft": 460,
+          "mediaWidth": 430,
+          "rowHeight": 255,
+          "headChildIndex": 0,
+          "sideChildIndex": 1,
+          "mainChildIndex": 2
+        }
+      ],
+      "fullHeight": 860.7,
+      "watch": {
+        "padding": "40px",
+        "outline": {
+          "width": 3,
+          "offset": 0,
+          "spread": 3
+        },
+        "box": {
+          "left": 47.6,
+          "right": 344.8,
+          "top": 724.3,
+          "bottom": 1053.5,
+          "width": 297.1,
+          "height": 329.3
+        },
+        "ring": {
+          "left": 44.6,
+          "right": 347.8,
+          "top": 721.3,
+          "bottom": 1056.5
+        },
+        "card": {
+          "left": 15,
+          "right": 377.4,
+          "width": 362.4
+        },
+        "clippers": [
+          {
+            "name": "ht-art ht-youtube-brand",
+            "clipsX": true,
+            "clipsY": true,
+            "left": 15,
+            "top": 724.3,
+            "right": 377.4,
+            "bottom": 1053.5
+          }
+        ],
+        "img": {
+          "left": 87.6,
+          "right": 304.8,
+          "top": 764.3,
+          "bottom": 950.3,
+          "width": 217.1,
+          "height": 186
+        },
+        "imgAspect": 1.1674
+      },
+      "ring": null,
+      "tabOrder": null
+    },
+    {
+      "width": 1280,
+      "mark": {
+        "fileWidth": 217.1,
+        "fileHeight": 186,
+        "naturalWidth": 1255,
+        "naturalHeight": 1075,
+        "visibleMarkHeight": 100.18,
+        "visibleMarkWidth": 143.09
+      },
+      "rows": [
+        {
+          "title": "Jane Austen introduction",
+          "display": "grid",
+          "gridTemplateRows": "54.6094px 137.391px",
+          "rowGap": 4.5,
+          "gapUnderHeader": 6.8,
+          "headerTopDelta": 0,
+          "mediaTallerThanText": true,
+          "mediaOverhang": 2.4,
+          "mediaLeft": 122.5,
+          "headLeft": 567.5,
+          "mainLeft": 567.5,
+          "mediaWidth": 430,
+          "rowHeight": 219,
+          "headChildIndex": 0,
+          "sideChildIndex": 1,
+          "mainChildIndex": 2
+        },
+        {
+          "title": "A second YouTube video",
+          "display": "grid",
+          "gridTemplateRows": "38.8438px 153.156px",
+          "rowGap": 4.5,
+          "gapUnderHeader": 22.6,
+          "headerTopDelta": 0,
+          "mediaTallerThanText": true,
+          "mediaOverhang": 18.1,
+          "mediaLeft": 122.5,
+          "headLeft": 567.5,
+          "mainLeft": 567.5,
+          "mediaWidth": 430,
+          "rowHeight": 219,
+          "headChildIndex": 0,
+          "sideChildIndex": 1,
+          "mainChildIndex": 2
+        },
+        {
+          "title": "A third YouTube video",
+          "display": "grid",
+          "gridTemplateRows": "54.6094px 137.391px",
+          "rowGap": 4.5,
+          "gapUnderHeader": 6.8,
+          "headerTopDelta": 0,
+          "mediaTallerThanText": true,
+          "mediaOverhang": 2.4,
+          "mediaLeft": 122.5,
+          "headLeft": 567.5,
+          "mainLeft": 567.5,
+          "mediaWidth": 430,
+          "rowHeight": 219,
+          "headChildIndex": 0,
+          "sideChildIndex": 1,
+          "mainChildIndex": 2
+        }
+      ],
+      "fullHeight": 841,
+      "watch": {
+        "padding": "40px",
+        "outline": {
+          "width": 3,
+          "offset": 0,
+          "spread": 3
+        },
+        "box": {
+          "left": 142,
+          "right": 439.2,
+          "top": -384.6,
+          "bottom": -55.4,
+          "width": 297.1,
+          "height": 329.3
+        },
+        "ring": {
+          "left": 139,
+          "right": 442.2,
+          "top": -387.6,
+          "bottom": -52.4
+        },
+        "card": {
+          "left": 122.5,
+          "right": 458.8,
+          "width": 336.3
+        },
+        "clippers": [
+          {
+            "name": "ht-art ht-youtube-brand",
+            "clipsX": true,
+            "clipsY": true,
+            "left": 122.5,
+            "top": -384.6,
+            "right": 458.8,
+            "bottom": -55.4
+          }
+        ],
+        "img": {
+          "left": 182,
+          "right": 399.2,
+          "top": -344.6,
+          "bottom": -158.6,
+          "width": 217.1,
+          "height": 186
+        },
+        "imgAspect": 1.1674
+      },
+      "ring": null,
+      "tabOrder": {
+        "order": [
+          "Watch \"Jane Austen introduction\" on YouTube",
+          "Save",
+          "Dismiss"
+        ],
+        "matchesVisual": true,
+        "fromTitle": [
+          "Watch \"Jane Austen introduction\" on YouTube",
+          "Save",
+          "Dismiss"
+        ]
+      }
+    }
+  ]
+}
