@@ -53,6 +53,31 @@ together in a side column beside the row text instead of above it; below 640px
 the previous stacked layout is unchanged. The icon stays inside its single link to
 YouTube and is not recoloured. No other product decision is claimed here.
 
+### November 10, 2026 — Post-#33 follow-ups (compact-row accessibility and layout)
+
+Robert answered the follow-up card for PR #33 (6:57 PM ET). His words, quoted
+exactly:
+
+- "Queue all 7 post-#33 notes as one card now"
+
+Implementation reading, kept to that statement and the seven notes it queues.
+One of those notes supersedes a detail of the 5:58 PM pick recorded above: the
+compact side-column switch moves from **640px to 768px**, so compact rows stack
+below 768px and share the side column at 768px and up. The side column itself
+stays: it keeps a fixed width at that breakpoint so a row with a thumbnail and a
+row without one start their text at the same x, and the compact row's DOM order
+now leads with the badge, title and creator and reaches the thumbnail and Watch
+link last, with CSS keeping the visual column (WCAG 1.3.2 and 2.4.3). At 390px
+the thumbnail and the linked Icon share one line and the link carries no padding
+of its own, so the Icon box is not the row's most prominent element; the visible
+mark stays at the brand-site 100px minimum and the tap target at 44px. The
+retention purge for expired YouTube metadata (Developer Policies III.E.4.d) now
+runs at plugin startup as well as on store access, and a YouTube metadata row
+with no `refresh_after` is treated as expired rather than kept forever. The
+compact row's icon keeps the asset's 1255:1075 box aspect, the host check is
+pinned against a look-alike host, and the 767/768 breakpoint is pinned on both
+sides. No other product decision is claimed here.
+
 ## 4. Core user journeys
 
 ### Browse without asking

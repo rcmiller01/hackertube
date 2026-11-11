@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 from hackertube_core.errors import RecordError
 from hackertube_core.ranking import rank_matches
-from hackertube_core.records import HN_RECOMMENDATION_LINE, SECTIONS
+from hackertube_core.records import HN_RECOMMENDATION_LINE, SECTIONS, evidence_is_current
 from hackertube_core.text import render_untrusted, tokens, source_display_name
 
 _CRITICISM = (
@@ -136,12 +136,12 @@ def explain_item(item, evidence, sources):
 
 
 def active_evidence(evidence, now):
-    kept = []
-    for record in evidence:
-        if record.refresh_after is not None and record.refresh_after <= now:
-            continue
-        kept.append(record)
-    return tuple(kept)
+    """The unexpired evidence rows. One predicate, ``evidence_is_current``.
+
+    A ``youtube:`` row with no ``refresh_after`` is expired, not kept forever
+    (Developer Policies III.E.4.d); see ``records.evidence_is_current``.
+    """
+    return tuple(record for record in evidence if evidence_is_current(record, now))
 
 
 def visible_item_ids(evidence, now):

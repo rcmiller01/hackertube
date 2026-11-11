@@ -1,0 +1,102 @@
+{
+  "home": "/Users/robert/.hermes/cache/scratch/p33-cp-1794356280",
+  "page": "/Users/robert/.hermes/cache/scratch/p33-cp-1794356280/plugins/hackertube/dashboard/dist/index.js",
+  "style": "/Users/robert/.hermes/cache/scratch/p33-cp-1794356280/plugins/hackertube/dashboard/dist/style.css",
+  "lookalikeHost": {
+    "label": "look-alike host",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "fullCardIconBox": {
+      "x": 54.1875,
+      "y": 509.96875,
+      "width": 297.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "fileWidth": 217.1,
+      "aspect": 1.1674,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "lookalikeRequests": 0
+  },
+  "foreignHost": {
+    "label": "unrelated host",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "fullCardIconBox": {
+      "x": 54.1875,
+      "y": 509.96875,
+      "width": 297.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "fileWidth": 217.1,
+      "aspect": 1.1674,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "foreignRequests": 0
+  },
+  "failedLoad": {
+    "label": "official host, image fails to load",
+    "fullCardThumbs": 0,
+    "fullCardIcon": 1,
+    "fullCardNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
+    "fullCardIconBox": {
+      "x": 54.1875,
+      "y": 509.96875,
+      "width": 297.140625,
+      "height": 324
+    },
+    "fullCardMark": {
+      "fileHeight": 186,
+      "fileWidth": 217.1,
+      "aspect": 1.1674,
+      "markRatioY": 0.5386,
+      "visibleMarkHeight": 100.18
+    },
+    "compactThumbs": 0,
+    "compactIcon": 1,
+    "compactNote": "Metadata from YouTube. Explanations and library actions are HackerTube’s."
+  },
+  "layout": [
+    {
+      "width": 390,
+      "mainChildIndex": 0,
+      "sideChildIndex": 1,
+      "textPrecedesArt": true,
+      "titlePrecedesArt": true,
+      "flexDirection": "column",
+      "sideWidth": 217.1
+    },
+    {
+      "width": 767,
+      "mainChildIndex": 0,
+      "sideChildIndex": 1,
+      "textPrecedesArt": true,
+      "titlePrecedesArt": true,
+      "flexDirection": "column",
+      "sideWidth": 217.1
+    },
+    {
+      "width": 768,
+      "mainChildIndex": 0,
+      "sideChildIndex": 1,
+      "textPrecedesArt": true,
+      "titlePrecedesArt": true,
+      "flexDirection": "row-reverse",
+      "sideWidth": 345
+    }
+  ]
+}

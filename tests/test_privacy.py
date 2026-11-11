@@ -78,6 +78,41 @@ def test_housekeeping_deletes_expired_copies_without_network(tmp_path, monkeypat
     assert store.job_result(result["job"]["job_id"])["results"] == []
 
 
+def test_expired_youtube_data_is_purged_at_startup_not_only_when_opened(tmp_path, monkeypatch):
+    """Developer Policies III.E.4.d: a dormant profile must not keep expired
+    YouTube metadata and thumbnail URLs on disk.
+
+    The retention purge used to run only when the profile store was next opened
+    or written -- that is, when HackerTube was opened. It now runs once as soon
+    as the plugin loads, before the first interval. A one-hour interval is used
+    here so that nothing but a startup purge can explain the deletion: no store
+    read or write happens between ``start_housekeeping`` and the raw check.
+    """
+    from hackertube_core.privacy import start_housekeeping
+    from hackertube_core import outbound
+    store, connect, clock, result = stored_video(tmp_path)
+    clock[0] = "2026-12-01T00:00:00Z"  # exact 30-day deadline: the metadata is expired
+    opened = []
+    def opening(factory):
+        opened.append(1)
+        return ProfileStore(connect, clock=lambda: clock[0])
+    monkeypatch.setattr("hackertube_core.profile.ProfileStore", opening)
+    with outbound.guard():
+        stop = start_housekeeping(interval=3600)
+        try:
+            assert opened, "the profile store is opened (and purged) at startup, not only later"
+            assert outbound.counters() == {"free": 0, "paid": 0, "metered": 0}
+            # The durable copy is already clean: no other store access has run.
+            with connect() as conn:
+                raw = " ".join(row[0] for row in conn.execute("SELECT document FROM retrieved_catalog"))
+            assert "AI retention sentinel title" not in raw, (
+                "expired YouTube metadata is purged at plugin startup, not only when HackerTube opens"
+            )
+        finally:
+            stop()
+    assert store.job_result(result["job"]["job_id"])["results"] == []
+
+
 def test_supervisor_refuses_unagreed_profile_and_deletion_while_active(tmp_path):
     from hackertube_core.search_jobs import SearchSupervisor, SearchBusy
     from hackertube_core.search import Limits, DisclosureRequired
