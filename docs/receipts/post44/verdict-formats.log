@@ -1,0 +1,30 @@
+node (default, spec): <home>/.hermes/tools/node-26.12.1-darwin-arm64/bin
+
+=== ring tests, default Node (spec reporter) (exit 0)
+    pre-fix parser: 5 entries, 5 passed
+    fixed parser  : 5 entries, 5 passed
+      PASS  the full card's Watch link and its focus ring stay inside the card
+      PASS  a compact YouTube row's Watch link focus ring reaches 3:1
+      PASS  every pixel of every side of the ring must be painted
+      PASS  a fully painted ring over a gradient surface is not read as partly painted
+      PASS  a two-tone ring from one outline colour over a surface that changes
+node 22 (TAP): <home>/.npm/_npx/52027bd8fc0022aa/node_modules/node/bin
+
+=== ring tests, Node 22 (TAP reporter) (exit 0)
+    pre-fix parser: 0 entries, 0 passed
+    fixed parser  : 5 entries, 5 passed
+      PASS  the full card's Watch link and its focus ring stay inside the card
+      PASS  a compact YouTube row's Watch link focus ring reaches 3:1
+      PASS  every pixel of every side of the ring must be painted
+      PASS  a fully painted ring over a gradient surface is not read as partly painted
+      PASS  a two-tone ring from one outline colour over a surface that changes
+
+restored tests/test_privacy_browser.js, sha256 e7fe3db8716aede794371e96db8d7148589ae4c8a484bc96180a1d963184fea8
+
+=== strongest-difference mutation, Node 22 (TAP reporter) (exit 1)
+    pre-fix parser: 0 entries, 0 passed
+    fixed parser  : 2 entries, 0 passed
+      FAIL  a fully painted ring over a gradient surface is not read as partly painted
+      FAIL  a two-tone ring from one outline colour over a surface that changes
+
+VERDICT: the fixed parser reads both formats

@@ -1,0 +1,32 @@
+[
+  {
+    "name": "strongest-pixel-red",
+    "exit": 1,
+    "expected": 1,
+    "restored": true
+  },
+  {
+    "name": "ignored-dpr-red",
+    "exit": 1,
+    "expected": 1,
+    "restored": true
+  },
+  {
+    "name": "old-slit-red",
+    "exit": 1,
+    "expected": 1,
+    "restored": true
+  },
+  {
+    "name": "lighter-gradient-green",
+    "exit": 0,
+    "expected": 0,
+    "restored": true
+  },
+  {
+    "name": "bytecode-walk-red",
+    "exit": 1,
+    "expected": 1,
+    "restored": true
+  }
+]

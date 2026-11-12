@@ -101,6 +101,54 @@ const GRADIENT_SURFACE_CSS = `.ht-card-content {
   background-image: linear-gradient(90deg, #ffffff, #e8e8e8);
 }`;
 
+/* The surface and the ring COLOUR of the two-tone ring fixture, appended by
+ * `renderOptions.twoToneSurface`.
+ *
+ * A ring's painted colour is only the computed `outline-color` where the ring is
+ * opaque. Any alpha in the outline composites with whatever is underneath, so a
+ * ring drawn over a surface that changes colour is itself two-tone — and that is
+ * the case Picasso's finding is about: the sampler used to take the single
+ * most-changed pixel on a side as the side's "ring colour", so the weaker of two
+ * legitimate ring tones was measured against the stronger one and reported as a
+ * coverage defect. The two tones here are composites of ONE outline colour over
+ * two flat surfaces, so every pixel of the ring is the ring's own colour
+ * composited over its own surface — which is what the classifier must accept:
+ *
+ *     over #ffffff:  rgba(112,112,112,.92) -> rgb(123,123,123), 4.23:1
+ *     over #000000:  rgba(112,112,112,.92) -> rgb(103,103,103), 3.71:1
+ *
+ * Both clear 3:1, both are the ring, and the split is placed rather than guessed:
+ * measured at 320px (`docs/receipts/post44/two-tone.json`), the compact card
+ * content is 272px wide with its left edge at x=24, the compact Watch link's box
+ * runs x=39..256, so the LEFT stroke's sample line sits 4.4% along the content and
+ * the RIGHT stroke's at 86.4%; the top and bottom strokes span 9.9%..80.9%. A
+ * boundary at 24% therefore leaves the left stroke wholly on the light band, the
+ * right stroke wholly on the dark one, and puts ~20% of each horizontal stroke's
+ * samples on the light band — the finding's own "20% of the stroke" shape, with
+ * the dark band's ~80% the part that used to be misread.
+ *
+ * The 80% dark band is what makes the fixture a case the OLD classifier got
+ * wrong (measured: 38/194 painted, 156 partly painted on the top stroke under
+ * the strongest-pixel rule, 194/194 under the per-pixel composite). The fixture
+ * is synthetic in exactly the way the gradient fixture is, and for the same
+ * reason: it isolates the classifier from the plugin's own stylesheet. */
+const TWO_TONE_SURFACE_CSS = `.ht-card-content {
+  background-image: linear-gradient(90deg, #ffffff 0 24%, #000000 24% 100%);
+}`;
+/* The ring colour is declared with a HIGHER specificity than the plugin's own
+ * `.hackertube :focus` rule, deliberately: the fixture's host block is written
+ * before the plugin stylesheet, so an override at equal specificity would lose to
+ * the plugin's `outline` shorthand and the fixture would quietly measure the
+ * plugin's opaque ring. `.hackertube .hackertube :focus` (the page has two nested
+ * `.hackertube` divs) and `.hackertube :focus:focus-visible` both out-specify it;
+ * the test asserts the alpha it got, so a selector that stopped matching fails
+ * loudly instead of measuring the wrong ring. */
+const TWO_TONE_RING_CSS = `.hackertube .hackertube :focus,
+.hackertube .hackertube :focus-visible,
+.hackertube :focus:focus-visible {
+  outline-color: rgba(112, 112, 112, 0.92);
+}`;
+
 const HOST_TOKENS_CSS = `:root {
   --radius: 0.5rem;
   --color-border: #d4d4d4;
@@ -356,6 +404,12 @@ async function startFixture(items, privacyOptions = {}, renderOptions = {}) {
   // so that ring's surface varies along the stroke.
   if (renderOptions.gradientSurface) {
     hostCss = hostCss + "\n" + GRADIENT_SURFACE_CSS;
+  }
+  // The two-tone ring fixture: a semi-transparent outline colour over a two-tone
+  // surface, so the painted ring itself has two legitimate tones. See
+  // TWO_TONE_SURFACE_CSS above for the measurement behind the 24% split.
+  if (renderOptions.twoToneSurface) {
+    hostCss = hostCss + "\n" + TWO_TONE_SURFACE_CSS + "\n" + TWO_TONE_RING_CSS;
   }
 
   const served = [];

@@ -1,0 +1,29 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______________ test_a_stray_local_bytecode_file_is_not_scanned ________________
+
+    def test_a_stray_local_bytecode_file_is_not_scanned():
+        """The regression this change is for: gitignored bytecode under a scanned tree.
+
+        `docs/receipts/post42/redact_paths.py`, `post42/summarize.py` and
+        `post43/summarize.py` compile to `.pyc` files that carry the home-path token,
+        and running one of them rebuilds them. They are gitignored, they are deleted by
+        `post43/redact_paths.py` before the check runs, and no reader of the receipts
+        ever sees them — so a stray local `__pycache__` must not be able to fail this
+        check. Planted here (the same bytes the scan forbids) rather than described, and
+        removed in a `finally`, so the guard is proven rather than asserted.
+        """
+        bytecode = REPO / "docs" / "__pycache__" / "planted_home_path_sample.pyc"
+        try:
+            bytecode.parent.mkdir(parents=True, exist_ok=True)
+            bytecode.write_bytes(b"cwd: <Users-root>/someone/.hermes\n")
+            files = _files(REPO / "docs")
+>           assert bytecode not in files, (
+                "a gitignored __pycache__ file is not part of the published set and must not be scanned")
+E               AssertionError: a gitignored __pycache__ file is not part of the published set and must not be scanned
+E               assert PosixPath('<repo>/docs/__pycache__/planted_home_path_sample.pyc') not in [PosixPath('<repo>/docs/PRD.md'), PosixPath('<home>/Developer/hackertube-pos...ckertube-post44/docs/real-search.md'), PosixPath('<repo>/docs/pr16-review.md'), ...]
+
+tests/test_receipt_paths.py:93: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_receipt_paths.py::test_a_stray_local_bytecode_file_is_not_scanned
+1 failed, 3 deselected in 0.02s

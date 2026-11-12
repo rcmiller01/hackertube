@@ -1,0 +1,49 @@
+✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (15357.332417ms)
+✔ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (14254.340667ms)
+✔ every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage (33357.46925ms)
+✖ a fully painted ring over a gradient surface is not read as partly painted (792.139083ms)
+✖ a two-tone ring from one outline colour over a surface that changes is not read as partly painted (663.049625ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 3
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 64464.389708
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:2063:1
+✖ a fully painted ring over a gradient surface is not read as partly painted (792.139083ms)
+  AssertionError [ERR_ASSERTION]: the full ring over the gradient paints every pixel of its top side (133/194 painted; 61 partly painted {"0.95":12,"0.94":24,"0.93":25})
+
+  133 !== 194
+
+      at TestContext.<anonymous> (<repo>-post44/tests/test_privacy_browser.js:2194:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 133,
+    expected: 194,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:2255:1
+✖ a two-tone ring from one outline colour over a surface that changes is not read as partly painted (663.049625ms)
+  AssertionError [ERR_ASSERTION]: the two-tone ring paints every pixel of its top side (38/194, 156 partly painted {"0.78":156})
+
+  38 !== 194
+
+      at TestContext.<anonymous> (<repo>-post44/tests/test_privacy_browser.js:2365:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 38,
+    expected: 194,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

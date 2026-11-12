@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark
+ok 1 - the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark
+  ---
+  duration_ms: 16014.505292
+  type: 'test'
+  ...
+# Subtest: a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark
+ok 2 - a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark
+  ---
+  duration_ms: 13854.726
+  type: 'test'
+  ...
+# Subtest: every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage
+ok 3 - every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage
+  ---
+  duration_ms: 33796.89425
+  type: 'test'
+  ...
+# Subtest: a fully painted ring over a gradient surface is not read as partly painted
+ok 4 - a fully painted ring over a gradient surface is not read as partly painted
+  ---
+  duration_ms: 1240.18625
+  type: 'test'
+  ...
+# Subtest: a two-tone ring from one outline colour over a surface that changes is not read as partly painted
+ok 5 - a two-tone ring from one outline colour over a surface that changes is not read as partly painted
+  ---
+  duration_ms: 1044.998958
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 65992.910459

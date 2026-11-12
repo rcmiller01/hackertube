@@ -1,0 +1,54 @@
+TAP version 13
+# Subtest: a fully painted ring over a gradient surface is not read as partly painted
+not ok 1 - a fully painted ring over a gradient surface is not read as partly painted
+  ---
+  duration_ms: 893.102417
+  type: 'test'
+  location: '<repo>/tests/test_privacy_browser.js:2063:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    the full ring over the gradient paints every pixel of its top side (133/194 painted; 61 partly painted {"0.95":12,"0.94":24,"0.93":25})
+
+    133 !== 194
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 194
+  actual: 133
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (<repo>/tests/test_privacy_browser.js:2194:14)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: a two-tone ring from one outline colour over a surface that changes is not read as partly painted
+not ok 2 - a two-tone ring from one outline colour over a surface that changes is not read as partly painted
+  ---
+  duration_ms: 729.674042
+  type: 'test'
+  location: '<repo>/tests/test_privacy_browser.js:2255:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    the two-tone ring paints every pixel of its top side (38/194, 156 partly painted {"0.78":156})
+
+    38 !== 194
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 194
+  actual: 38
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (<repo>/tests/test_privacy_browser.js:2365:14)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1658.969875
