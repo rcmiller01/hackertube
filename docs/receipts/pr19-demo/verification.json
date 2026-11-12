@@ -4,7 +4,7 @@
   "demo_threshold_seconds": 90,
   "demo_bytes": 945160,
   "demo_sha256": "194615b065bd9b9d703982569b2fc4b6133a61c23cba703067eae63086215408",
-  "demo_file": "/Users/robert/Documents/Codex/2026-11-08/hackertube-demo-pr19/hackertube-pr19-demo.mp4",
+  "demo_file": "<home>/Documents/Codex/2026-11-08/hackertube-demo-pr19/hackertube-pr19-demo.mp4",
   "capture_frames": 120,
   "capture_wall_seconds": 29.039,
   "capture_max_frame_gap_seconds": 0.482,

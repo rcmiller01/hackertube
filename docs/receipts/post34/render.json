@@ -1,7 +1,7 @@
 {
-  "home": "/Users/robert/.hermes/cache/scratch/p34-cp-1794362182",
-  "page": "/Users/robert/.hermes/cache/scratch/p34-cp-1794362182/plugins/hackertube/dashboard/dist/index.js",
-  "style": "/Users/robert/.hermes/cache/scratch/p34-cp-1794362182/plugins/hackertube/dashboard/dist/style.css",
+  "home": "<hermes-home>/cache/scratch/p34-cp-1794362182",
+  "page": "<hermes-home>/cache/scratch/p34-cp-1794362182/plugins/hackertube/dashboard/dist/index.js",
+  "style": "<hermes-home>/cache/scratch/p34-cp-1794362182/plugins/hackertube/dashboard/dist/style.css",
   "lookalikeHost": {
     "label": "look-alike host",
     "fullCardThumbs": 0,

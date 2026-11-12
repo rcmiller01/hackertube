@@ -13,7 +13,7 @@
 test at tests/test_browser_requests.js:127:1
 ✖ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (707.194625ms)
   AssertionError [ERR_ASSERTION]: the region is blanked for the second announcement
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_browser_requests.js:232:12)
+      at TestContext.<anonymous> (<repo>-visual/tests/test_browser_requests.js:232:12)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: false,

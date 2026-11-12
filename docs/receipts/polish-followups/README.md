@@ -36,8 +36,8 @@ remain. Cancel/partial/failed/recovered tests assert the new exact summaries.
 | `OPENSPEC_TELEMETRY=0 npx --yes --package @fission-ai/openspec@1.16.0 openspec validate --all --strict --no-interactive` | 1 passed, 0 failed, `openspec.log` |
 | `.venv/bin/python docs/receipts/polish-followups/audit_receipts.py` | exit 0, `audit.json` |
 
-Browser dependencies were resolved from `NODE_PATH=/Users/robert/.hermes/cache/scratch/node-modules/node_modules`
-and `PLAYWRIGHT_BROWSERS_PATH=/Users/robert/.hermes/tools`.
+Browser dependencies were resolved from `NODE_PATH=<hermes-home>/cache/scratch/node-modules/node_modules`
+and `PLAYWRIGHT_BROWSERS_PATH=<hermes-home>/tools`.
 
 One intermediate full browser run hit the existing FEED12 blank-mutation
 assertion and an incorrectly page-wide link-count assertion in the new visual

@@ -74,7 +74,7 @@
 
 test at tests/test_browser_requests.js:17:1
 ✖ observer catches a rendered artwork request outside the approved inventory (134.718833ms)
-  browserType.launch: Executable doesn't exist at /Users/robert/Library/Caches/ms-playwright/chromium_headless_shell-1254/chrome-headless-shell-mac-arm64/chrome-headless-shell
+  browserType.launch: Executable doesn't exist at <home>/Library/Caches/ms-playwright/chromium_headless_shell-1254/chrome-headless-shell-mac-arm64/chrome-headless-shell
   ╔════════════════════════════════════════════════════════════╗
   ║ Looks like Playwright was just installed or updated.       ║
   ║ Please run the following command to download new browsers: ║
@@ -83,15 +83,15 @@ test at tests/test_browser_requests.js:17:1
   ║                                                            ║
   ║ <3 Playwright Team                                         ║
   ╚════════════════════════════════════════════════════════════╝
-      at runBrowserWalk (/Users/robert/Developer/hackertube/tests/browser_net_harness.js:284:30)
-      at async TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_browser_requests.js:20:18) {
+      at runBrowserWalk (<repo>/tests/browser_net_harness.js:284:30)
+      at async TestContext.<anonymous> (<repo>/tests/test_browser_requests.js:20:18) {
     name: 'Error',
     log: []
   }
 
 test at tests/test_browser_requests.js:27:1
 ✖ FEED04 browser requests include artwork and match independent server/interception counts (29.545125ms)
-  browserType.launch: Executable doesn't exist at /Users/robert/Library/Caches/ms-playwright/chromium_headless_shell-1254/chrome-headless-shell-mac-arm64/chrome-headless-shell
+  browserType.launch: Executable doesn't exist at <home>/Library/Caches/ms-playwright/chromium_headless_shell-1254/chrome-headless-shell-mac-arm64/chrome-headless-shell
   ╔════════════════════════════════════════════════════════════╗
   ║ Looks like Playwright was just installed or updated.       ║
   ║ Please run the following command to download new browsers: ║
@@ -100,15 +100,15 @@ test at tests/test_browser_requests.js:27:1
   ║                                                            ║
   ║ <3 Playwright Team                                         ║
   ╚════════════════════════════════════════════════════════════╝
-      at runBrowserWalk (/Users/robert/Developer/hackertube/tests/browser_net_harness.js:284:30)
-      at async TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_browser_requests.js:28:18) {
+      at runBrowserWalk (<repo>/tests/browser_net_harness.js:284:30)
+      at async TestContext.<anonymous> (<repo>/tests/test_browser_requests.js:28:18) {
     name: 'Error',
     log: []
   }
 
 test at tests/test_dashboard_page.js:1187:1
 ✖ Show more Enter focuses the fifth item heading (131.028833ms)
-  browserType.launch: Executable doesn't exist at /Users/robert/Library/Caches/ms-playwright/chromium_headless_shell-1254/chrome-headless-shell-mac-arm64/chrome-headless-shell
+  browserType.launch: Executable doesn't exist at <home>/Library/Caches/ms-playwright/chromium_headless_shell-1254/chrome-headless-shell-mac-arm64/chrome-headless-shell
   ╔════════════════════════════════════════════════════════════╗
   ║ Looks like Playwright was just installed or updated.       ║
   ║ Please run the following command to download new browsers: ║
@@ -117,7 +117,7 @@ test at tests/test_dashboard_page.js:1187:1
   ║                                                            ║
   ║ <3 Playwright Team                                         ║
   ╚════════════════════════════════════════════════════════════╝
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_dashboard_page.js:1303:34) {
+      at TestContext.<anonymous> (<repo>/tests/test_dashboard_page.js:1303:34) {
     name: 'Error',
     log: []
   }

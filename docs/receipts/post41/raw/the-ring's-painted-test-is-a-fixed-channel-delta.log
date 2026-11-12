@@ -15,7 +15,7 @@
 test at tests/test_privacy_browser.js:1694:1
 ✖ a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not; a 1px gap fails as coverage (1161.485334ms)
   AssertionError [ERR_ASSERTION]: the 1px-gap control really leaves a partly-painted pixel on the left ({})
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-post41/tests/test_privacy_browser.js:1810:10)
+      at TestContext.<anonymous> (<repo>-post41/tests/test_privacy_browser.js:1810:10)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     generatedMessage: false,

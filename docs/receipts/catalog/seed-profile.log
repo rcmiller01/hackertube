@@ -1,5 +1,5 @@
 hermes python: 3.11.16
-plugin data root: /Users/robert/.hermes/cache/scratch/ht24-profile/plugin-data/hackertube
+plugin data root: <hermes-home>/cache/scratch/ht24-profile/plugin-data/hackertube
 build counts: {'free': 6, 'paid': 0, 'metered': 0}
 items/evidence/sources: 12 12 7
 profile.db exists: True bytes: 57344

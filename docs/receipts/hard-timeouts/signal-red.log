@@ -24,63 +24,63 @@ E             + cancelling
 tests/test_search_supervisor.py:287: AssertionError
 =============================== warnings summary ===============================
 tests/test_search_supervisor.py::test_watchdog_can_stop_cancelled_work_if_parent_signal_is_denied
-  /Users/robert/Developer/hackertube/.venv/lib/python3.14/site-packages/_pytest/threadexception.py:54: PytestUnhandledThreadExceptionWarning: Exception in thread hackertube-search-supervisor
+  <repo>/.venv/lib/python3.14/site-packages/_pytest/threadexception.py:54: PytestUnhandledThreadExceptionWarning: Exception in thread hackertube-search-supervisor
 
   Traceback (most recent call last):
-    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 214, in _stop
+    File "<repo>/hackertube/hackertube_core/search_jobs.py", line 214, in _stop
       os.killpg(process.pid, signal.SIGKILL)
       ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    File "/Users/robert/Developer/hackertube/tests/test_search_supervisor.py", line 283, in denied
+    File "<repo>/tests/test_search_supervisor.py", line 283, in denied
       raise PermissionError("simulated signal permission race")
   PermissionError: simulated signal permission race
 
   During handling of the above exception, another exception occurred:
 
   Traceback (most recent call last):
-    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 349, in _monitor
+    File "<repo>/hackertube/hackertube_core/search_jobs.py", line 349, in _monitor
       self._stop(entry)
       ~~~~~~~~~~^^^^^^^
-    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 220, in _stop
+    File "<repo>/hackertube/hackertube_core/search_jobs.py", line 220, in _stop
       process.wait(timeout=0.25)
       ~~~~~~~~~~~~^^^^^^^^^^^^^^
-    File "/Users/robert/.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/subprocess.py", line 1279, in wait
+    File "<hermes-home>/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/subprocess.py", line 1279, in wait
       return self._wait(timeout=timeout)
              ~~~~~~~~~~^^^^^^^^^^^^^^^^^
-    File "/Users/robert/.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/subprocess.py", line 2076, in _wait
+    File "<hermes-home>/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/subprocess.py", line 2076, in _wait
       raise TimeoutExpired(self.args, timeout)
-  subprocess.TimeoutExpired: Command '['/Users/robert/Developer/hackertube/.venv/bin/python', '/Users/robert/Developer/hackertube/tests/fixtures/search_worker_probe.py', 'hang', '55797']' timed out after 0.25 seconds
+  subprocess.TimeoutExpired: Command '['<repo>/.venv/bin/python', '<repo>/tests/fixtures/search_worker_probe.py', 'hang', '55797']' timed out after 0.25 seconds
 
   During handling of the above exception, another exception occurred:
 
   Traceback (most recent call last):
-    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 214, in _stop
+    File "<repo>/hackertube/hackertube_core/search_jobs.py", line 214, in _stop
       os.killpg(process.pid, signal.SIGKILL)
       ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    File "/Users/robert/Developer/hackertube/tests/test_search_supervisor.py", line 283, in denied
+    File "<repo>/tests/test_search_supervisor.py", line 283, in denied
       raise PermissionError("simulated signal permission race")
   PermissionError: simulated signal permission race
 
   During handling of the above exception, another exception occurred:
 
   Traceback (most recent call last):
-    File "/Users/robert/.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    File "<hermes-home>/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
       self._context.run(self.run)
       ~~~~~~~~~~~~~~~~~^^^^^^^^^^
-    File "/Users/robert/.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/threading.py", line 1024, in run
+    File "<hermes-home>/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/threading.py", line 1024, in run
       self._target(*self._args, **self._kwargs)
       ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 352, in _monitor
+    File "<repo>/hackertube/hackertube_core/search_jobs.py", line 352, in _monitor
       self._stop(entry)
       ~~~~~~~~~~^^^^^^^
-    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 220, in _stop
+    File "<repo>/hackertube/hackertube_core/search_jobs.py", line 220, in _stop
       process.wait(timeout=0.25)
       ~~~~~~~~~~~~^^^^^^^^^^^^^^
-    File "/Users/robert/.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/subprocess.py", line 1279, in wait
+    File "<hermes-home>/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/subprocess.py", line 1279, in wait
       return self._wait(timeout=timeout)
              ~~~~~~~~~~^^^^^^^^^^^^^^^^^
-    File "/Users/robert/.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/subprocess.py", line 2076, in _wait
+    File "<hermes-home>/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/subprocess.py", line 2076, in _wait
       raise TimeoutExpired(self.args, timeout)
-  subprocess.TimeoutExpired: Command '['/Users/robert/Developer/hackertube/.venv/bin/python', '/Users/robert/Developer/hackertube/tests/fixtures/search_worker_probe.py', 'hang', '55797']' timed out after 0.25 seconds
+  subprocess.TimeoutExpired: Command '['<repo>/.venv/bin/python', '<repo>/tests/fixtures/search_worker_probe.py', 'hang', '55797']' timed out after 0.25 seconds
 
   Enable tracemalloc to get traceback where the object was allocated.
   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.

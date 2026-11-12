@@ -118,7 +118,7 @@
 test at tests/test_browser_requests.js:6:1
 ✖ FEED11 background Search completion updates the rendered feed without a reload (1594.750917ms)
   AssertionError [ERR_ASSERTION]: a finished Search expands the collapsed controls
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_browser_requests.js:69:12)
+      at TestContext.<anonymous> (<repo>-design/tests/test_browser_requests.js:69:12)
       at async Test.run (node:internal/test_runner/test:1404:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: false,
@@ -132,7 +132,7 @@ test at tests/test_browser_requests.js:6:1
 test at tests/test_dashboard_page.js:1542:1
 ✖ SEARCH01 the Search control posts the question with the accepted disclosure (1.029917ms)
   AssertionError [ERR_ASSERTION]: the internal job id is not rendered
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:1562:12)
+      at TestContext.<anonymous> (<repo>-design/tests/test_dashboard_page.js:1562:12)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
@@ -155,7 +155,7 @@ test at tests/test_dashboard_page.js:1614:1
   + 'status'
   - undefined
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:1628:12)
+      at TestContext.<anonymous> (<repo>-design/tests/test_dashboard_page.js:1628:12)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
@@ -178,7 +178,7 @@ test at tests/test_dashboard_page.js:2085:1
   + 'Work limits for this job: at most 2 provider requests, 12 results, a 5 second work budget. Provider requests used: 2. Search stops local work at its deadline. Cancel search stops it early. A provider may still bill for a request already accepted.'
   - 'Work limits for this job: at most 2 provider requests, 12 results, a 5 second work budget. Provider requests used: 2.'
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2116:10)
+      at TestContext.<anonymous> (<repo>-design/tests/test_dashboard_page.js:2116:10)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
@@ -199,7 +199,7 @@ test at tests/test_dashboard_page.js:2610:1
   
   2 !== 1
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2620:12)
+      at TestContext.<anonymous> (<repo>-design/tests/test_dashboard_page.js:2620:12)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
@@ -220,7 +220,7 @@ test at tests/test_dashboard_page.js:2643:1
   
   ''
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2652:10)
+      at TestContext.<anonymous> (<repo>-design/tests/test_dashboard_page.js:2652:10)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
@@ -243,7 +243,7 @@ test at tests/test_dashboard_page.js:2657:1
   + undefined
   - 'Open at source: Open Library'
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2663:12)
+      at TestContext.<anonymous> (<repo>-design/tests/test_dashboard_page.js:2663:12)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
@@ -266,7 +266,7 @@ test at tests/test_dashboard_page.js:2670:1
   + ''
   - 'Feed updated from this search.'
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2678:12)
+      at TestContext.<anonymous> (<repo>-design/tests/test_dashboard_page.js:2678:12)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
@@ -287,7 +287,7 @@ test at tests/test_dashboard_page.js:2690:1
   
   false !== true
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2701:12)
+      at TestContext.<anonymous> (<repo>-design/tests/test_dashboard_page.js:2701:12)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
@@ -305,7 +305,7 @@ test at tests/test_dashboard_page.js:2690:1
 test at tests/test_dashboard_page.js:2710:1
 ✖ N2 a Search recovered on page load finishes without moving focus (602.166333ms)
   AssertionError [ERR_ASSERTION]: a recovered Search does not move focus
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2730:12)
+      at TestContext.<anonymous> (<repo>-design/tests/test_dashboard_page.js:2730:12)
       at async Test.run (node:internal/test_runner/test:1404:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
     generatedMessage: false,
@@ -322,7 +322,7 @@ test at tests/test_privacy_browser.js:59:1
   
   null !== 'true'
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_privacy_browser.js:70:12)
+      at TestContext.<anonymous> (<repo>-design/tests/test_privacy_browser.js:70:12)
       at async Test.run (node:internal/test_runner/test:1404:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
     generatedMessage: true,

@@ -10,11 +10,16 @@ Picasso (1, 2, 3, 4) left on #41.
 
 ## The three statements, plainly
 
-1. **The painted-fraction threshold is 95%.** "97%" is the CONTROL ring that has
-   to clear it — it is not the threshold. The control is a `clip-path` slit that
-   removes 5 whole pixel rows of a 163-pixel stroke (158/163 = 96.9%), and the
-   same slit widened to 12 rows (92.6%) must fail, so the threshold is shown to
-   bite in both directions.
+1. **The painted-fraction threshold was 95% here; the rule that ships is 100%
+   coverage.** As this card left it, "97%" was the CONTROL ring that had to clear
+   a 95% fraction — it was not the threshold — and the control was a `clip-path`
+   slit that removes 5 whole pixel rows of a 163-pixel stroke (158/163 = 96.9%),
+   with the same slit widened to 12 rows (92.6%) failing, so the fraction bit in
+   both directions. Post-#42 removed the allowance
+   (`docs/receipts/post42/README.md`): a side passes only when EVERY sampled pixel
+   carries the ring, so the 97% control is now a FAILING coverage case and the
+   full ring is the passing control. Everything else in this file is this card's
+   own record at `e5278dc`'s follow-up head.
 2. **The dark runs enter the scheme through the host's `.dark` ancestor class**,
    with the OS scheme asserted to be light in the same run, and post-#41 adds two
    `emulateMedia({colorScheme: "dark"})` entries beside it — one with no `.dark`
@@ -97,10 +102,28 @@ own strength) — is what catches it, and that is why the rule has both halves.
 position and fraction, and says in as many words that it is a coverage defect and
 not a contrast reading.
 
-The 97% control still passes (its slit is aligned to whole pixel rows, so it has
-no partly-painted pixel), the 94% case still fails the fraction, and two test
-mutations pin the new rule: reverting the painted test to the fixed delta, and
-removing the partly-painted half, each turn ONLY the 1px-gap control red.
+The 97% control still passes **under this card's 95% fraction** (its slit is
+aligned to whole pixel rows, so it has no partly-painted pixel), the 94% case
+still fails the fraction, and two test mutations pin the new rule: reverting the
+painted test to the fixed delta, and removing the partly-painted half, each turn
+ONLY the 1px-gap control red. Post-#42 removes the fraction entirely, which is
+why that same 97% control is a failing coverage case there — see the correction
+of record below.
+
+## Correction of record (post-#42, 2026-11-11)
+
+The owner raised the rule from a 95% painted fraction to **100% coverage**: every
+sampled pixel of every side must be painted, and an unpainted or partly-painted
+pixel fails as a COVERAGE defect with the count ("162/163 painted"). Two files in
+this receipt state the old threshold as the shipped rule and are corrected here
+rather than rewritten: statement 1 above (now marked) and the paragraph in "Item
+3" (now marked) that says the 97% control still passes. Their measured numbers
+are unchanged and still correct for this card's revision; only the rule they are
+measured against has moved. The mutation table's failure messages in
+`mutation-table.md`, `mutations.json` and `mutations.log` are verbatim output of
+`e5278dc`'s test file and are left exactly as they were produced.
+`docs/receipts/post42/README.md` carries the rule as it now ships, with the
+measurement that shows why the fraction could not be kept.
 
 ## Item 4 — the 11.25px is the PLUGIN's own rule (Picasso 4)
 

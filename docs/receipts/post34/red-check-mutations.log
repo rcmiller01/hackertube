@@ -28,8 +28,8 @@ restored: True
 test at tests/test_privacy_browser.js:852:1
 ✖ the compact thumbnail is larger than the official mark in both dimensions at 390, 767, 768 and 1280 (543.348209ms)
   AssertionError [ERR_ASSERTION]: the 16:9 maxres compact thumbnail at 390px: the rendered aspect ratio matches the image within 1% (1.7778 natural vs 1.3333 rendered)
-      at assertUnalteredThumbnail (/Users/robert/Developer/hackertube-post34/tests/test_privacy_browser.js:138:10)
-      at async TestContext.<anonymous> (/Users/robert/Developer/hackertube-post34/tests/test_privacy_browser.js:887:9)
+      at assertUnalteredThumbnail (<repo>-post34/tests/test_privacy_browser.js:138:10)
+      at async TestContext.<anonymous> (<repo>-post34/tests/test_privacy_browser.js:887:9)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: false,
@@ -90,10 +90,10 @@ tests/test_privacy.py:176: AssertionError
 ------------------------------ Captured log call -------------------------------
 WARNING  hackertube.privacy:privacy.py:72 HackerTube retention purge failed; will retry
 Traceback (most recent call last):
-  File "/Users/robert/Developer/hackertube-post34/hackertube/hackertube_core/privacy.py", line 67, in purge
+  File "<repo>-post34/hackertube/hackertube_core/privacy.py", line 67, in purge
     context.run(ProfileStore, open_profile_db)
     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/robert/Developer/hackertube-post34/tests/test_privacy.py", line 169, in failing
+  File "<repo>-post34/tests/test_privacy.py", line 169, in failing
     raise RuntimeError("purge boom")
 RuntimeError: purge boom
 =========================== short test summary info ============================

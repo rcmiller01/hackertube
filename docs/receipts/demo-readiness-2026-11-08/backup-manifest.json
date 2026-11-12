@@ -1,6 +1,6 @@
 {
-  "archive": "/Users/robert/Documents/Codex/2026-11-08/hackertube-consolidation/task-worktrees.tar.gz",
+  "archive": "<home>/Documents/Codex/2026-11-08/hackertube-consolidation/task-worktrees.tar.gz",
   "archive_sha256": "25f3629ee6bc76f588ae8a443bee2f0ab3f2d83edeb11feade9f79f8e0334b6e",
   "verified_files": 4069,
-  "branch_bundle": "/Users/robert/Documents/Codex/2026-11-08/hackertube-consolidation/all-branches.bundle"
+  "branch_bundle": "<home>/Documents/Codex/2026-11-08/hackertube-consolidation/all-branches.bundle"
 }

@@ -3,7 +3,7 @@
     "accepted": true,
     "status": 200
   },
-  "hermes_home": "/Users/robert/.hermes/cache/scratch/htdesign-cp4",
+  "hermes_home": "<hermes-home>/cache/scratch/htdesign-cp4",
   "keyless_jobs": [],
   "keyless_request_counts": {
     "free": 0,
@@ -19,16 +19,16 @@
     "status": 503
   },
   "model_key_in_environment": false,
-  "plugin_api": "/Users/robert/.hermes/cache/scratch/htdesign-cp4/plugins/hackertube/dashboard/plugin_api.py",
-  "plugin_data_dir": "/Users/robert/.hermes/cache/scratch/htdesign-cp4/plugin-data/hackertube",
-  "plugin_db_module": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+  "plugin_api": "<hermes-home>/cache/scratch/htdesign-cp4/plugins/hackertube/dashboard/plugin_api.py",
+  "plugin_data_dir": "<hermes-home>/cache/scratch/htdesign-cp4/plugin-data/hackertube",
+  "plugin_db_module": "<hermes-home>/hermes-agent/plugins/plugin_storage.py",
   "status_default": {
-    "data_root": "/Users/robert/.hermes/cache/scratch/htdesign-cp4/plugin-data/hackertube",
+    "data_root": "<hermes-home>/cache/scratch/htdesign-cp4/plugin-data/hackertube",
     "name": "HackerTube",
     "provider": "hermes"
   },
   "status_stub": {
-    "data_root": "/Users/robert/.hermes/cache/scratch/htdesign-cp4/plugin-data/hackertube",
+    "data_root": "<hermes-home>/cache/scratch/htdesign-cp4/plugin-data/hackertube",
     "name": "HackerTube",
     "provider": "stub"
   },

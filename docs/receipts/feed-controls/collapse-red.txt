@@ -16,7 +16,7 @@ test at tests/test_browser_requests.js:6:1
   Call log:
     - waiting for locator('details.ht-feed-controls').locator('summary') to be visible
 
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_browser_requests.js:52:18) {
+      at TestContext.<anonymous> (<repo>/tests/test_browser_requests.js:52:18) {
     name: 'TimeoutError',
     log: [ "  - waiting for locator('details.ht-feed-controls').locator('summary') to be visible" ]
   }

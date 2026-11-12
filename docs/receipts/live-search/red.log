@@ -21,7 +21,7 @@ E             from hackertube_core import load_seed
 E         ModuleNotFoundError: No module named 'hackertube_core'
 E         
 E       assert 1 == 0
-E        +  where 1 = CompletedProcess(args=['/Users/robert/Developer/hackertube/.venv/bin/python', '-I', '-c', "import runpy; m=runpy.run_p... in _load_seed\n    from hackertube_core import load_seed\nModuleNotFoundError: No module named \'hackertube_core\'\n').returncode
+E        +  where 1 = CompletedProcess(args=['<repo>/.venv/bin/python', '-I', '-c', "import runpy; m=runpy.run_p... in _load_seed\n    from hackertube_core import load_seed\nModuleNotFoundError: No module named \'hackertube_core\'\n').returncode
 
 tests/test_live_search.py:22: AssertionError
 __________ test_live_provider_decodes_chat_completion_and_sends_model __________

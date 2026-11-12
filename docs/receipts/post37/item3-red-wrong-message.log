@@ -12,4 +12,4 @@ FAILED tests/test_route_harness.py::test_host_entry_points_require_monkeypatch[e
 FAILED tests/test_route_harness.py::test_host_entry_points_require_monkeypatch[explicit_none-Dashboard]
 6 failed in 0.02s
 command exit_code=1
-restored original bytes: /Users/robert/Developer/hackertube-post37/tests/route_harness.py
+restored original bytes: <repo>-post37/tests/route_harness.py

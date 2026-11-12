@@ -1,0 +1,281 @@
+{"label":"no slit (the full ring)","total":163,"this_card_95":{"painted":163,"partial":0,"unpainted":0,"total":163,"paintedFraction":1,"smallest":[1,1,1,1]},"previous_50":{"painted":163,"partial":0,"unpainted":0,"total":163,"paintedFraction":1,"smallest":[1,1,1,1]}}
+{"label":"1px slit, integer offset","total":163,"this_card_95":{"painted":162,"partial":0,"unpainted":1,"total":163,"paintedFraction":0.9939,"smallest":[0,1,1,1]},"previous_50":{"painted":162,"partial":0,"unpainted":1,"total":163,"paintedFraction":0.9939,"smallest":[0,1,1,1]}}
+{"label":"1px slit, .25px offset","total":163,"this_card_95":{"painted":161,"partial":2,"unpainted":0,"total":163,"paintedFraction":0.9877,"smallest":[0.2510822510822511,0.7532467532467533,1,1]},"previous_50":{"painted":162,"partial":1,"unpainted":0,"total":163,"paintedFraction":0.9939,"smallest":[0.2510822510822511,0.7532467532467533,1,1]}}
+{"label":"1px slit, .5px offset","total":163,"this_card_95":{"painted":161,"partial":2,"unpainted":0,"total":163,"paintedFraction":0.9877,"smallest":[0.5021645021645021,0.5021645021645021,1,1]},"previous_50":{"painted":163,"partial":0,"unpainted":0,"total":163,"paintedFraction":1,"smallest":[0.5021645021645021,0.5021645021645021,1,1]}}
+{"label":"1px slit, .75px offset","total":163,"this_card_95":{"painted":161,"partial":2,"unpainted":0,"total":163,"paintedFraction":0.9877,"smallest":[0.2510822510822511,0.7532467532467533,1,1]},"previous_50":{"painted":162,"partial":1,"unpainted":0,"total":163,"paintedFraction":0.9939,"smallest":[0.2510822510822511,0.7532467532467533,1,1]}}
+{"label":"5px slit (the old 97% control)","total":163,"this_card_95":{"painted":158,"partial":0,"unpainted":5,"total":163,"paintedFraction":0.9693,"smallest":[0,0,0,0]},"previous_50":{"painted":158,"partial":0,"unpainted":5,"total":163,"paintedFraction":0.9693,"smallest":[0,0,0,0]}}
+{"label":"12px slit (94%)","total":163,"this_card_95":{"painted":151,"partial":0,"unpainted":12,"total":163,"paintedFraction":0.9264,"smallest":[0,0,0,0]},"previous_50":{"painted":151,"partial":0,"unpainted":12,"total":163,"paintedFraction":0.9264,"smallest":[0,0,0,0]}}
+
+=== table ===
+| slit | this card: fully painted (>= 95%) | partly painted | clean | verdict | the previous 50% band | verdict |
+|---|---|---|---|---|---|---|
+| no slit (the full ring) | 163/163 (100.0%) | 0 | 0 | PASSES | 163/163 (100.0%) | PASSES |
+| 1px slit, integer offset | 162/163 (99.4%) | 0 | 1 | FAILS coverage (162/163 painted) | 162/163 (99.4%) | FAILS coverage (162/163 painted) |
+| 1px slit, .25px offset | 161/163 (98.8%) | 2 | 0 | FAILS coverage (161/163 painted) | 162/163 (99.4%) | FAILS coverage (162/163 painted) |
+| 1px slit, .5px offset | 161/163 (98.8%) | 2 | 0 | FAILS coverage (161/163 painted) | 163/163 (100.0%) | PASSES |
+| 1px slit, .75px offset | 161/163 (98.8%) | 2 | 0 | FAILS coverage (161/163 painted) | 162/163 (99.4%) | FAILS coverage (162/163 painted) |
+| 5px slit (the old 97% control) | 158/163 (96.9%) | 0 | 5 | FAILS coverage (158/163 painted) | 158/163 (96.9%) | FAILS coverage (158/163 painted) |
+| 12px slit (94%) | 151/163 (92.6%) | 0 | 12 | FAILS coverage (151/163 painted) | 151/163 (92.6%) | FAILS coverage (151/163 painted) |
+{
+  "runs": [
+    {
+      "label": "no slit (the full ring)",
+      "rows": 0,
+      "offset": 0,
+      "total": 163,
+      "full": 231,
+      "band": {
+        "y0": 92.531,
+        "y1": 92.531
+      },
+      "this_card_95": {
+        "painted": 163,
+        "partial": 0,
+        "unpainted": 0,
+        "total": 163,
+        "paintedFraction": 1,
+        "smallest": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "previous_50": {
+        "painted": 163,
+        "partial": 0,
+        "unpainted": 0,
+        "total": 163,
+        "paintedFraction": 1,
+        "smallest": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "label": "1px slit, integer offset",
+      "rows": 1,
+      "offset": 0,
+      "total": 163,
+      "full": 231,
+      "band": {
+        "y0": 92.531,
+        "y1": 93.531
+      },
+      "this_card_95": {
+        "painted": 162,
+        "partial": 0,
+        "unpainted": 1,
+        "total": 163,
+        "paintedFraction": 0.9939,
+        "smallest": [
+          0,
+          1,
+          1,
+          1
+        ]
+      },
+      "previous_50": {
+        "painted": 162,
+        "partial": 0,
+        "unpainted": 1,
+        "total": 163,
+        "paintedFraction": 0.9939,
+        "smallest": [
+          0,
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "label": "1px slit, .25px offset",
+      "rows": 1,
+      "offset": 0.25,
+      "total": 163,
+      "full": 231,
+      "band": {
+        "y0": 92.781,
+        "y1": 93.781
+      },
+      "this_card_95": {
+        "painted": 161,
+        "partial": 2,
+        "unpainted": 0,
+        "total": 163,
+        "paintedFraction": 0.9877,
+        "smallest": [
+          0.2510822510822511,
+          0.7532467532467533,
+          1,
+          1
+        ]
+      },
+      "previous_50": {
+        "painted": 162,
+        "partial": 1,
+        "unpainted": 0,
+        "total": 163,
+        "paintedFraction": 0.9939,
+        "smallest": [
+          0.2510822510822511,
+          0.7532467532467533,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "label": "1px slit, .5px offset",
+      "rows": 1,
+      "offset": 0.5,
+      "total": 163,
+      "full": 231,
+      "band": {
+        "y0": 93.031,
+        "y1": 94.031
+      },
+      "this_card_95": {
+        "painted": 161,
+        "partial": 2,
+        "unpainted": 0,
+        "total": 163,
+        "paintedFraction": 0.9877,
+        "smallest": [
+          0.5021645021645021,
+          0.5021645021645021,
+          1,
+          1
+        ]
+      },
+      "previous_50": {
+        "painted": 163,
+        "partial": 0,
+        "unpainted": 0,
+        "total": 163,
+        "paintedFraction": 1,
+        "smallest": [
+          0.5021645021645021,
+          0.5021645021645021,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "label": "1px slit, .75px offset",
+      "rows": 1,
+      "offset": 0.75,
+      "total": 163,
+      "full": 231,
+      "band": {
+        "y0": 93.281,
+        "y1": 94.281
+      },
+      "this_card_95": {
+        "painted": 161,
+        "partial": 2,
+        "unpainted": 0,
+        "total": 163,
+        "paintedFraction": 0.9877,
+        "smallest": [
+          0.2510822510822511,
+          0.7532467532467533,
+          1,
+          1
+        ]
+      },
+      "previous_50": {
+        "painted": 162,
+        "partial": 1,
+        "unpainted": 0,
+        "total": 163,
+        "paintedFraction": 0.9939,
+        "smallest": [
+          0.2510822510822511,
+          0.7532467532467533,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "label": "5px slit (the old 97% control)",
+      "rows": 5,
+      "offset": 0,
+      "total": 163,
+      "full": 231,
+      "band": {
+        "y0": 90.531,
+        "y1": 95.531
+      },
+      "this_card_95": {
+        "painted": 158,
+        "partial": 0,
+        "unpainted": 5,
+        "total": 163,
+        "paintedFraction": 0.9693,
+        "smallest": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "previous_50": {
+        "painted": 158,
+        "partial": 0,
+        "unpainted": 5,
+        "total": 163,
+        "paintedFraction": 0.9693,
+        "smallest": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "12px slit (94%)",
+      "rows": 12,
+      "offset": 0,
+      "total": 163,
+      "full": 231,
+      "band": {
+        "y0": 86.531,
+        "y1": 98.531
+      },
+      "this_card_95": {
+        "painted": 151,
+        "partial": 0,
+        "unpainted": 12,
+        "total": 163,
+        "paintedFraction": 0.9264,
+        "smallest": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "previous_50": {
+        "painted": 151,
+        "partial": 0,
+        "unpainted": 12,
+        "total": 163,
+        "paintedFraction": 0.9264,
+        "smallest": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  ]
+}

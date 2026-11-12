@@ -13,7 +13,9 @@ one text-only correction, and the receipts for all of them:
    CardContent padding, now measured, and a dark theme keyed on the host's own
    `.dark` ancestor class with the host's measured dark values.
 3. **`tests/test_privacy_browser.js`** — the 3:1 minimum is taken over PAINTED
-   pixels only, so the `>= 95%` painted rule can actually fire; a 97%-painted
+   pixels only, so the painted rule can actually fire (it was a `>= 95%` fraction
+   here; post-#42 replaced it with 100% coverage — every sampled pixel painted —
+   see `docs/receipts/post42/README.md`); a 97%-painted
    control pins the difference; the dark runs enter the scheme through the `.dark`
    ancestor class.
 4. **`tests/test_dashboard_page.js`** — the stylesheet contract assertion for the
@@ -110,15 +112,17 @@ every side is not what the host does, and the fixture keeps the measured
 `11.25px 15px`.** Nothing else about the fixture's geometry changed, so no
 expectation moves.
 
-## 3. The 95% painted rule, and the 97%-painted control
+## 3. The painted rule and the 97%-painted control (a 95% fraction here; 100% coverage as of post-#42)
 
 `assertPaintedRing` documented a `>= 95%` painted rule and a `>= 3:1` rule, but
 the 3:1 minimum was taken over EVERY sampled pixel — and an unpainted pixel is
 1:1 by construction. Any coverage defect therefore failed as a contrast defect
 first, at "1.00:1", and the 95% rule could never fire. The two readings are now
-separate:
+separate — and post-#42 removed the fraction in favour of 100% coverage, every
+sampled pixel painted, which is the rule `docs/receipts/post42/README.md` records:
 
-* **coverage** — `painted / total >= 0.95` on every side;
+* **coverage** — a painted fraction of `painted / total >= 0.95` on every side in
+  this receipt (post-#42: `painted === total`, i.e. 100%, on every side);
 * **contrast** — the minimum over PAINTED pixels only (`sample.min`), with
   `sample.minAll` (over every sampled pixel) reported in the failure message so
   the two can never be confused again.
@@ -219,7 +223,7 @@ hackertube`), then `clean_profile_probe.py` — the source-down failure path, ru
 with the Hermes venv python so `plugin_db` is the real one:
 
 ```json
-{"storage": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+{"storage": "<hermes-home>/hermes-agent/plugins/plugin_storage.py",
  "installed_ring_rule": ".hackertube :focus,\n.hackertube :focus-visible {\n  outline: 2px solid var(--color-ring);\n  outline-offset: 2px;\n",
  "source_outage": {"sources": 7, "items": 0, "counts": {"free": 0, "paid": 0, "metered": 0}, "down_source": "hn"}}
 ```
@@ -261,8 +265,10 @@ token and declares none of its own.
   `.p-4` and the universal reset because it scanned the HOST stylesheet. The
   inline value (15px) is confirmed independently by the link's position, and the
   block value by the element's own computed style.
-* The painted-fraction rule's threshold is `>= 95%`, and "97%" is the CONTROL
-  ring that has to clear it — 97% is not the threshold. The dark runs enter the
+* The painted-fraction rule's threshold is `>= 95%` in this receipt (post-#42
+  replaced the fraction with 100% coverage, `docs/receipts/post42/README.md`),
+  and "97%" is the CONTROL ring that has to clear it — 97% is not the threshold.
+  The dark runs enter the
   scheme through the host's `.dark` ancestor class (post-#41 adds `emulateMedia`
   entries beside it); the three statements above are made plainly in
   `docs/receipts/post41/README.md`.

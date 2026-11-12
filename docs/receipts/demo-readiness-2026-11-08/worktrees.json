@@ -1,6 +1,6 @@
 [
   {
-    "path": "/Users/robert/Developer/hackertube-2.3",
+    "path": "<repo>-2.3",
     "head": "98170b82f6862174d78b75224139eea8b4e7b070",
     "status": "?? .DS_Store\n?? hackertube/.DS_Store\n?? hackertube_core/.DS_Store\n?? openspec/.DS_Store\n?? tests/.DS_Store\n",
     "diff_files_vs_current": [
@@ -55,7 +55,7 @@
     ]
   },
   {
-    "path": "/Users/robert/Developer/hackertube-2.4",
+    "path": "<repo>-2.4",
     "head": "81c9e9158853f837320aec1a08b17ee92f5f1c22",
     "status": "?? .DS_Store\n?? hackertube/.DS_Store\n?? hackertube_core/.DS_Store\n?? openspec/.DS_Store\n?? tests/.DS_Store\n",
     "diff_files_vs_current": [
@@ -88,7 +88,7 @@
     ]
   },
   {
-    "path": "/Users/robert/Developer/hackertube-3.3",
+    "path": "<repo>-3.3",
     "head": "8253298c8193985cdc743f1694c535d7ac82ecdc",
     "status": "?? .DS_Store\n?? hackertube_core/.DS_Store\n?? openspec/.DS_Store\n?? tests/.DS_Store\n",
     "diff_files_vs_current": [
@@ -145,7 +145,7 @@
     ]
   },
   {
-    "path": "/Users/robert/Developer/hackertube-4.1",
+    "path": "<repo>-4.1",
     "head": "a4993e6fa12c9515eb737ab422f0d81dd797a2f2",
     "status": "?? .DS_Store\n?? hackertube/.DS_Store\n?? hackertube_core/.DS_Store\n?? openspec/.DS_Store\n?? tests/.DS_Store\n",
     "diff_files_vs_current": []

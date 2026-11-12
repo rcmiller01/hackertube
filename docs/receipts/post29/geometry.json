@@ -1,5 +1,5 @@
 {
-  "hostStylesheet": "/Users/robert/.hermes/hermes-agent/hermes_cli/web_dist/assets/index-CXKdN8QE.css",
+  "hostStylesheet": "<hermes-home>/hermes-agent/hermes_cli/web_dist/assets/index-CXKdN8QE.css",
   "scope": "Production bundle and stylesheet in React fixture with stub SDK/API. No installed dashboard or live provider claim.",
   "viewports": [
     {

@@ -30,7 +30,7 @@
     "paid": 0
   },
   "final_job_count": 3,
-  "hermes_home": "/Users/robert/.hermes/cache/scratch/ht41-profile-a",
+  "hermes_home": "<hermes-home>/cache/scratch/ht41-profile-a",
   "keyless_jobs": [],
   "keyless_refusal": {
     "body": {
@@ -46,9 +46,9 @@
     "metered": 0,
     "paid": 0
   },
-  "plugin_api": "/Users/robert/.hermes/cache/scratch/ht41-profile-a/plugins/hackertube/dashboard/plugin_api.py",
-  "plugin_data_dir": "/Users/robert/.hermes/cache/scratch/ht41-profile-a/plugin-data/hackertube",
-  "plugin_db_module": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+  "plugin_api": "<hermes-home>/cache/scratch/ht41-profile-a/plugins/hackertube/dashboard/plugin_api.py",
+  "plugin_data_dir": "<hermes-home>/cache/scratch/ht41-profile-a/plugin-data/hackertube",
+  "plugin_db_module": "<hermes-home>/hermes-agent/plugins/plugin_storage.py",
   "search_info": {
     "demo_question": "What can I read or listen to by Jane Austen?",
     "disclosure": "Configured sources and the broader web may be searched. Model, search, and provider credits or quota may be used. Browsing is free.",
@@ -66,13 +66,13 @@
   "secret_never_set": true,
   "settings_writer": "hermes_cli.plugins_state.save_plugin_setting",
   "status_default": {
-    "data_root": "/Users/robert/.hermes/cache/scratch/ht41-profile-a/plugin-data/hackertube",
+    "data_root": "<hermes-home>/cache/scratch/ht41-profile-a/plugin-data/hackertube",
     "model_key": "absent",
     "name": "HackerTube",
     "provider": "live"
   },
   "status_stub": {
-    "data_root": "/Users/robert/.hermes/cache/scratch/ht41-profile-a/plugin-data/hackertube",
+    "data_root": "<hermes-home>/cache/scratch/ht41-profile-a/plugin-data/hackertube",
     "model_key": "absent",
     "name": "HackerTube",
     "provider": "stub"

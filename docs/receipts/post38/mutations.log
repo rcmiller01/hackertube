@@ -1,6 +1,6 @@
 hackertube/dashboard/dist/style.css sha256 before: 6dda1f947fb3ec381b6a8defa6bd49fcf00d788684c470fdb65d524cf7e825e6
 tests/browser_net_harness.js sha256 before: 7f313687fe323510895f5ab1fba9d9552eee338a757bf996b557d83bc3a10441
-base test copy written: /Users/robert/Developer/hackertube-post38/tests/.ht38-base.js
+base test copy written: <repo>-post38/tests/.ht38-base.js
 
 === MUTATION: ring rgba(24,24,27,.25) in tests/browser_net_harness.js  (expect red) ===
       ✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280 (611.988125ms)

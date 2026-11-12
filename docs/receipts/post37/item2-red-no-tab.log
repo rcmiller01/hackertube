@@ -17,7 +17,7 @@ test at tests/test_privacy_browser.js:1120:1
   
   false !== true
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-post37/tests/test_privacy_browser.js:1154:14)
+      at TestContext.<anonymous> (<repo>-post37/tests/test_privacy_browser.js:1154:14)
       at runNextTicks (node:internal/process/task_queues:65:5)
       at process.processImmediate (node:internal/timers:541:9)
       at async Test.run (node:internal/test_runner/test:1409:7)

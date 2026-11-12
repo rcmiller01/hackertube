@@ -1,7 +1,7 @@
 {
-  "home": "/Users/robert/.hermes/cache/scratch/p32-cp-1794354407",
-  "page": "/Users/robert/.hermes/cache/scratch/p32-cp-1794354407/plugins/hackertube/dashboard/dist/index.js",
-  "style": "/Users/robert/.hermes/cache/scratch/p32-cp-1794354407/plugins/hackertube/dashboard/dist/style.css",
+  "home": "<hermes-home>/cache/scratch/p32-cp-1794354407",
+  "page": "<hermes-home>/cache/scratch/p32-cp-1794354407/plugins/hackertube/dashboard/dist/index.js",
+  "style": "<hermes-home>/cache/scratch/p32-cp-1794354407/plugins/hackertube/dashboard/dist/style.css",
   "foreignHost": {
     "label": "non-YouTube host",
     "fullCardThumbs": 0,

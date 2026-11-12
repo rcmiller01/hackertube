@@ -4,7 +4,7 @@ not ok 1 - visual F3 saved interests collapse controls; first run stays open
   ---
   duration_ms: 2.172458
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2835:1'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2835:1'
   failureType: 'testCodeFailure'
   error: |-
     Expected values to be strictly equal:
@@ -19,7 +19,7 @@ not ok 1 - visual F3 saved interests collapse controls; first run stays open
   actual: 'HackerTube'
   operator: 'strictEqual'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2840:14)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2840:14)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.start (node:internal/test_runner/test:1262:17)
@@ -30,7 +30,7 @@ not ok 2 - visual F4 F8 F9 F18 cards remove empty art and merge honest metadata
   ---
   duration_ms: 0.671084
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2845:1'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2845:1'
   failureType: 'testCodeFailure'
   error: |-
     Expected values to be strictly equal:
@@ -43,7 +43,7 @@ not ok 2 - visual F4 F8 F9 F18 cards remove empty art and merge honest metadata
   actual: 1
   operator: 'strictEqual'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2849:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2849:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -56,7 +56,7 @@ not ok 3 - visual F3 F15 F21 feed retains full cards and sections use compact ro
   ---
   duration_ms: 0.428167
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2864:1'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2864:1'
   failureType: 'testCodeFailure'
   error: |-
     Expected values to be strictly equal:
@@ -69,7 +69,7 @@ not ok 3 - visual F3 F15 F21 feed retains full cards and sections use compact ro
   actual: 0
   operator: 'strictEqual'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2876:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2876:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -82,7 +82,7 @@ not ok 4 - visual F22 T34 T35 T36 search details and one complete credit disclos
   ---
   duration_ms: 2.778
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2886:1'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2886:1'
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
@@ -95,7 +95,7 @@ not ok 4 - visual F22 T34 T35 T36 search details and one complete credit disclos
   actual: ~
   operator: '=='
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2892:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2892:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -108,7 +108,7 @@ not ok 5 - visual usage count is finite nonnegative consistently: undefined unde
   ---
   duration_ms: 0.113875
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2903:3'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2903:3'
   failureType: 'testCodeFailure'
   error: |-
     The input did not match the regular expression /Provider requests used: unknown\./. Input:
@@ -121,7 +121,7 @@ not ok 5 - visual usage count is finite nonnegative consistently: undefined unde
   actual: 'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: 0.'
   operator: 'match'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2906:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2906:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -134,7 +134,7 @@ not ok 6 - visual usage count is finite nonnegative consistently: object null
   ---
   duration_ms: 0.052333
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2903:3'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2903:3'
   failureType: 'testCodeFailure'
   error: |-
     The input did not match the regular expression /Provider requests used: unknown\./. Input:
@@ -147,7 +147,7 @@ not ok 6 - visual usage count is finite nonnegative consistently: object null
   actual: 'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: 0.'
   operator: 'match'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2906:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2906:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -160,7 +160,7 @@ not ok 7 - visual usage count is finite nonnegative consistently: string 2
   ---
   duration_ms: 0.033916
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2903:3'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2903:3'
   failureType: 'testCodeFailure'
   error: |-
     The input did not match the regular expression /Provider requests used: unknown\./. Input:
@@ -173,7 +173,7 @@ not ok 7 - visual usage count is finite nonnegative consistently: string 2
   actual: 'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: 0.'
   operator: 'match'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2906:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2906:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -186,7 +186,7 @@ not ok 8 - visual usage count is finite nonnegative consistently: boolean true
   ---
   duration_ms: 0.037292
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2903:3'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2903:3'
   failureType: 'testCodeFailure'
   error: |-
     The input did not match the regular expression /Provider requests used: unknown\./. Input:
@@ -199,7 +199,7 @@ not ok 8 - visual usage count is finite nonnegative consistently: boolean true
   actual: 'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: 0.'
   operator: 'match'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2906:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2906:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -212,7 +212,7 @@ not ok 9 - visual usage count is finite nonnegative consistently: number -1
   ---
   duration_ms: 0.048125
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2903:3'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2903:3'
   failureType: 'testCodeFailure'
   error: |-
     The input did not match the regular expression /Provider requests used: unknown\./. Input:
@@ -225,7 +225,7 @@ not ok 9 - visual usage count is finite nonnegative consistently: number -1
   actual: 'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: -1.'
   operator: 'match'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2906:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2906:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -238,7 +238,7 @@ not ok 10 - visual usage count is finite nonnegative consistently: number NaN
   ---
   duration_ms: 0.07575
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2903:3'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2903:3'
   failureType: 'testCodeFailure'
   error: |-
     The input did not match the regular expression /Provider requests used: unknown\./. Input:
@@ -251,7 +251,7 @@ not ok 10 - visual usage count is finite nonnegative consistently: number NaN
   actual: 'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: NaN.'
   operator: 'match'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2906:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2906:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -264,7 +264,7 @@ not ok 11 - visual usage count is finite nonnegative consistently: number Infini
   ---
   duration_ms: 0.045625
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2903:3'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2903:3'
   failureType: 'testCodeFailure'
   error: |-
     The input did not match the regular expression /Provider requests used: unknown\./. Input:
@@ -277,7 +277,7 @@ not ok 11 - visual usage count is finite nonnegative consistently: number Infini
   actual: 'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: Infinity.'
   operator: 'match'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2906:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2906:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -290,7 +290,7 @@ not ok 12 - visual usage count is finite nonnegative consistently: number -Infin
   ---
   duration_ms: 0.036542
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2903:3'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2903:3'
   failureType: 'testCodeFailure'
   error: |-
     The input did not match the regular expression /Provider requests used: unknown\./. Input:
@@ -303,7 +303,7 @@ not ok 12 - visual usage count is finite nonnegative consistently: number -Infin
   actual: 'Work limits for this job: at most ? provider requests, ? results, a ? second work budget. Provider requests used: -Infinity.'
   operator: 'match'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2906:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2906:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -334,7 +334,7 @@ not ok 16 - visual CSS F1 F2 F5 F6 F7 F10 F11 F12 F13 F15 F16 F17 F19 F23 token 
   ---
   duration_ms: 0.181292
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2911:1'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2911:1'
   failureType: 'testCodeFailure'
   error: '.hackertube .ht-search > form'
   code: 'ERR_ASSERTION'
@@ -343,8 +343,8 @@ not ok 16 - visual CSS F1 F2 F5 F6 F7 F10 F11 F12 F13 F15 F16 F17 F19 F23 token 
   actual: -1
   operator: 'notStrictEqual'
   stack: |-
-    rule (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2915:12)
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2918:16)
+    rule (<repo>-visual/tests/test_dashboard_page.js:2915:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2918:16)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -357,7 +357,7 @@ not ok 17 - visual atomic F3 ranking notes are in a closed disclosure
   ---
   duration_ms: 0.255459
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2942:1'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2942:1'
   failureType: 'testCodeFailure'
   error: |-
     The expression evaluated to a falsy value:
@@ -369,7 +369,7 @@ not ok 17 - visual atomic F3 ranking notes are in a closed disclosure
   expected: true
   operator: '=='
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2946:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2946:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -382,7 +382,7 @@ not ok 18 - visual atomic F4 full feed cards omit unavailable artwork
   ---
   duration_ms: 0.151459
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2954:1'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2954:1'
   failureType: 'testCodeFailure'
   error: |-
     Expected values to be strictly equal:
@@ -395,7 +395,7 @@ not ok 18 - visual atomic F4 full feed cards omit unavailable artwork
   actual: 1
   operator: 'strictEqual'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2957:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2957:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -408,7 +408,7 @@ not ok 19 - visual atomic F8 full cards have one metadata line and no book lengt
   ---
   duration_ms: 0.11375
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2962:1'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2962:1'
   failureType: 'testCodeFailure'
   error: |-
     Expected values to be strictly equal:
@@ -421,7 +421,7 @@ not ok 19 - visual atomic F8 full cards have one metadata line and no book lengt
   actual: 0
   operator: 'strictEqual'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2965:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2965:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -434,7 +434,7 @@ not ok 20 - visual atomic F14 Discover heading keeps the original focus target
   ---
   duration_ms: 0.105542
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2971:1'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2971:1'
   failureType: 'testCodeFailure'
   error: |-
     Expected values to be strictly equal:
@@ -449,7 +449,7 @@ not ok 20 - visual atomic F14 Discover heading keeps the original focus target
   actual: 'HackerTube'
   operator: 'strictEqual'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2975:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2975:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -462,7 +462,7 @@ not ok 21 - visual atomic F15 empty browse group renders no heading or placehold
   ---
   duration_ms: 0.323084
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2981:1'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2981:1'
   failureType: 'testCodeFailure'
   error: |-
     Expected values to be strictly equal:
@@ -534,7 +534,7 @@ not ok 21 - visual atomic F15 empty browse group renders no heading or placehold
       2: ~
   operator: 'strictEqual'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2984:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2984:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -547,7 +547,7 @@ not ok 22 - visual atomic F18 omit unknown creator parts without losing known pa
   ---
   duration_ms: 0.047917
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2989:1'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2989:1'
   failureType: 'testCodeFailure'
   error: |-
     Expected values to be strictly equal:
@@ -562,7 +562,7 @@ not ok 22 - visual atomic F18 omit unknown creator parts without losing known pa
   actual: 'Contributor unknown. Show: Show unknown'
   operator: 'strictEqual'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2990:10)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2990:10)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -575,7 +575,7 @@ not ok 23 - visual atomic F21 section matches are compact but the feed is not
   ---
   duration_ms: 0.327375
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2996:1'
+  location: '<repo>-visual/tests/test_dashboard_page.js:2996:1'
   failureType: 'testCodeFailure'
   error: |-
     Expected values to be strictly equal:
@@ -588,7 +588,7 @@ not ok 23 - visual atomic F21 section matches are compact but the feed is not
   actual: 0
   operator: 'strictEqual'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:2999:12)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:2999:12)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -601,7 +601,7 @@ not ok 24 - visual atomic T copy retains approved boundaries and Library wording
   ---
   duration_ms: 0.060417
   type: 'test'
-  location: '/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:3005:1'
+  location: '<repo>-visual/tests/test_dashboard_page.js:3005:1'
   failureType: 'testCodeFailure'
   error: |-
     Expected values to be strictly equal:
@@ -616,7 +616,7 @@ not ok 24 - visual atomic T copy retains approved boundaries and Library wording
   actual: 'Nothing here is ranked for you yet. Add an interest to rank the seeded catalog. Refresh prepared catalog reads the saved catalog again and does not start a search.'
   operator: 'strictEqual'
   stack: |-
-    TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_dashboard_page.js:3006:10)
+    TestContext.<anonymous> (<repo>-visual/tests/test_dashboard_page.js:3006:10)
     Test.runInAsyncScope (node:async_hooks:226:14)
     Test.run (node:internal/test_runner/test:1402:25)
     Test.processPendingSubtests (node:internal/test_runner/test:974:18)

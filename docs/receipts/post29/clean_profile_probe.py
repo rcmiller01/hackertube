@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 HOME = Path(os.environ['HERMES_HOME'])
-sys.path.insert(0, '/Users/robert/.hermes/hermes-agent')
+sys.path.insert(0, '<hermes-home>/hermes-agent')
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from plugins import plugin_storage

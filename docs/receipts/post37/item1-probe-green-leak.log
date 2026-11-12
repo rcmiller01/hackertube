@@ -1,5 +1,5 @@
 # GREEN: the FIXED probe with the SAME forced leak exits nonzero
-$ PYTHONPATH=/Users/robert/.hermes/cache/scratch/ht37-force-leak:/Users/robert/Developer/hackertube-post37/docs/receipts/post35 python -m pytest -p force_leak -p teardown_probe -q -s tests/test_urls.py
+$ PYTHONPATH=<hermes-home>/cache/scratch/ht37-force-leak:<repo>-post37/docs/receipts/post35 python -m pytest -p force_leak -p teardown_probe -q -s tests/test_urls.py
 .[teardown_probe] leaked_after_teardown tests/test_urls.py::test_literal_private_address_does_not_resolve: ['agent', 'agent.secret_scope', 'plugins', 'plugins.plugin_storage', 'hermes_cli', 'hermes_cli.config']
 [teardown_probe] leaked_after_session= ['agent', 'agent.secret_scope', 'plugins', 'plugins.plugin_storage', 'hermes_cli', 'hermes_cli.config']
 

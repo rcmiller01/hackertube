@@ -87,7 +87,7 @@ test at tests/test_dashboard_page.js:2077:3
   
   1 !== 0
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_dashboard_page.js:2093:14)
+      at TestContext.<anonymous> (<repo>/tests/test_dashboard_page.js:2093:14)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
@@ -108,7 +108,7 @@ test at tests/test_dashboard_page.js:2077:3
   
   1 !== 0
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_dashboard_page.js:2093:14)
+      at TestContext.<anonymous> (<repo>/tests/test_dashboard_page.js:2093:14)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)

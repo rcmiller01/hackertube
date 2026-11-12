@@ -18,7 +18,7 @@ test at tests/test_browser_requests.js:113:1
   + ''
   - 'Feed updated from this search.'
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-visual/tests/test_browser_requests.js:218:12)
+      at TestContext.<anonymous> (<repo>-visual/tests/test_browser_requests.js:218:12)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: true,

@@ -2,5 +2,5 @@
   "home": "/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/ht-hermes-install-dabqqsuq",
   "exit_code": 0,
   "stdout": "{\"slot_registered\": true, \"provider\": {\"name\": \"HackerTube\", \"data_root\": \"/var/folders/2n/vgwznpl13k3c0zn019q_vc7m0000gn/T/ht-hermes-install-dabqqsuq/plugin-data/hackertube\", \"provider\": \"hermes\"}, \"search\": {\"provider\": \"hermes\", \"provider_available\": true, \"limits\": {\"max_hits\": 24, \"max_requests\": 12, \"deadline_seconds\": 45}}, \"catalog_count\": 12}\n",
-  "stderr": "hermes: preparing dependencies for this data root (the checkout's updates belong to /Users/robert/.hermes)...\nPreparing the isolated Hermes runtime\u2026\n  \u2192 Installing Python dependencies\u2026\n  \u2713 Installing Python dependencies\n  \u2192 Installing Python dependencies\u2026\n  \u2713 Installing Python dependencies\n"
+  "stderr": "hermes: preparing dependencies for this data root (the checkout's updates belong to <hermes-home>)...\nPreparing the isolated Hermes runtime\u2026\n  \u2192 Installing Python dependencies\u2026\n  \u2713 Installing Python dependencies\n  \u2192 Installing Python dependencies\u2026\n  \u2713 Installing Python dependencies\n"
 }

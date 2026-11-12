@@ -1,5 +1,5 @@
-HERMES_HOME=/Users/robert/.hermes/cache/scratch/p40-cp-1794427535
-chosen profile dir: /Users/robert/.hermes/cache/scratch/p40-cp-1794427535 (created by this run, so fresh by construction)
+HERMES_HOME=<hermes-home>/cache/scratch/p40-cp-1794427535
+chosen profile dir: <hermes-home>/cache/scratch/p40-cp-1794427535 (created by this run, so fresh by construction)
 == enable ==
 enable exit=0
 ✓ Plugin hackertube enabled.
@@ -12,8 +12,8 @@ drwx------@ 17 robert  staff  544 Nov 11 15:05 ..
 == backend probe (fresh profile, source-down failure path) ==
 probe exit=0
 {
-  "home": "/Users/robert/.hermes/cache/scratch/p40-cp-1794427535",
-  "storage": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+  "home": "<hermes-home>/cache/scratch/p40-cp-1794427535",
+  "storage": "<hermes-home>/hermes-agent/plugins/plugin_storage.py",
   "installed_ring_rule": ".hackertube :focus,\n.hackertube :focus-visible {\n  outline: 2px solid var(--color-ring);\n  outline-offset: 2px;\n",
   "source_outage": {
     "sources": 7,
@@ -26,4 +26,4 @@ probe exit=0
     "down_source": "hn"
   }
 }
-CLEAN_PROFILE_DIR=/Users/robert/.hermes/cache/scratch/p40-cp-1794427535
+CLEAN_PROFILE_DIR=<hermes-home>/cache/scratch/p40-cp-1794427535

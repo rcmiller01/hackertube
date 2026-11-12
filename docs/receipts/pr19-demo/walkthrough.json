@@ -3,8 +3,8 @@
   "capture_start_epoch_ms": 1794170497444,
   "capture_duration_ms": 29039,
   "captured_frames": 120,
-  "source_frames_dir": "/Users/robert/Documents/Codex/2026-11-08/hackertube-demo-pr19/frames-complete",
-  "source_recording_metadata": "/Users/robert/Documents/Codex/2026-11-08/hackertube-demo-pr19/recording.json",
+  "source_frames_dir": "<home>/Documents/Codex/2026-11-08/hackertube-demo-pr19/frames-complete",
+  "source_recording_metadata": "<home>/Documents/Codex/2026-11-08/hackertube-demo-pr19/recording.json",
   "steps": [
     {
       "name": "Open installed plugin",

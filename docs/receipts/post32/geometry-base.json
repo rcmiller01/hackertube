@@ -1,11 +1,11 @@
 {
   "label": "base",
   "assets": {
-    "page": "/Users/robert/.hermes/cache/scratch/p32-base/index.js",
-    "style": "/Users/robert/.hermes/cache/scratch/p32-base/style.css"
+    "page": "<hermes-home>/cache/scratch/p32-base/index.js",
+    "style": "<hermes-home>/cache/scratch/p32-base/style.css"
   },
   "scope": "Production bundle and stylesheet in a React fixture with stub SDK components and a stub local API, plus the compiled host stylesheet. Fixture images are served locally for the i.ytimg.com paths; this is not an installed dashboard, not a live-provider receipt, and not a real YouTube image.",
-  "hostStylesheet": "/Users/robert/.hermes/hermes-agent/hermes_cli/web_dist/assets/index-CXKdN8QE.css",
+  "hostStylesheet": "<hermes-home>/hermes-agent/hermes_cli/web_dist/assets/index-CXKdN8QE.css",
   "note": "Metadata from YouTube. Explanations and library actions are HackerTube’s.",
   "viewports": [
     {

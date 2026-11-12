@@ -1,12 +1,12 @@
 {
-  "home": "/Users/robert/.hermes/kanban/workspaces/t_59a26348/round1-clean-profile",
+  "home": "<hermes-home>/kanban/workspaces/t_59a26348/round1-clean-profile",
   "policy_accepted": true,
   "refusal_counts": {
     "free": 0,
     "metered": 0,
     "paid": 0
   },
-  "storage": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+  "storage": "<hermes-home>/hermes-agent/plugins/plugin_storage.py",
   "stub": {
     "counts": {
       "free": 0,

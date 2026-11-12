@@ -10,8 +10,8 @@ import json
 import sys
 from pathlib import Path
 
-REPO = Path("/Users/robert/Developer/hackertube-2.4")
-HERMES = Path("/Users/robert/.hermes/hermes-agent")
+REPO = Path("<repo>-2.4")
+HERMES = Path("<hermes-home>/hermes-agent")
 sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(HERMES))
 

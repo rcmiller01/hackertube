@@ -4,7 +4,7 @@
     "note": true,
     "tap_target_rules": true
   },
-  "home": "/Users/robert/.hermes/cache/scratch/post29-profile",
+  "home": "<hermes-home>/cache/scratch/post29-profile",
   "policy_accepted": true,
   "source_outage": {
     "counts": {
@@ -55,13 +55,13 @@
   },
   "status": {
     "body": {
-      "data_root": "/Users/robert/.hermes/cache/scratch/post29-profile/plugin-data/hackertube",
+      "data_root": "<hermes-home>/cache/scratch/post29-profile/plugin-data/hackertube",
       "name": "HackerTube",
       "provider": "hermes"
     },
     "status_code": 200
   },
-  "storage": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+  "storage": "<hermes-home>/hermes-agent/plugins/plugin_storage.py",
   "stub": {
     "counts": {
       "free": 0,

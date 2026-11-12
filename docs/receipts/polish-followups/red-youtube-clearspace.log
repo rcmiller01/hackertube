@@ -13,7 +13,7 @@
 test at tests/test_privacy_browser.js:36:1
 ✖ YouTube attribution renders without an authenticated image request (316.519708ms)
   AssertionError [ERR_ASSERTION]: keep the icon's existing clear space before the text
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-polish/tests/test_privacy_browser.js:65:12)
+      at TestContext.<anonymous> (<repo>-polish/tests/test_privacy_browser.js:65:12)
       at async Test.run (node:internal/test_runner/test:1404:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: false,

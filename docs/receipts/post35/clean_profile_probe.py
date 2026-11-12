@@ -28,7 +28,7 @@ import time
 from pathlib import Path
 
 HOME = Path(os.environ["HERMES_HOME"])
-sys.path.insert(0, "/Users/robert/.hermes/hermes-agent")
+sys.path.insert(0, "<hermes-home>/hermes-agent")
 sys.path.insert(0, str(HOME / "plugins" / "hackertube"))
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
