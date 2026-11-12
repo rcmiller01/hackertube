@@ -62,6 +62,16 @@ const THUMB16_9_PNG = Buffer.from(
  * dashboard scales rem through the host's own `html` font-size, so its effective
  * radius reads 7.5px at 390px. What matters for the assertion is only that the
  * token resolves to a NON-ZERO radius — that is what makes `"0px"` meaningful. */
+/* The fixture's host CardContent padding line, and the ZERO variant. A ring run
+ * can ask for the zero variant (see startFixture's renderOptions) so the ring is
+ * proven to survive on the plugin's OWN overflow box: at the measured host
+ * padding the ring is clear whatever the plugin's wrapper declares, which is
+ * exactly how reverting the wrapper rule can stay green in a host-padding
+ * fixture. The line is a constant so that a receipt's mutation can swap it and
+ * so the measured value still appears in this file exactly once. */
+const CARD_CONTENT_PADDING = ".ht-card-content { padding: 11.25px 15px; }";
+const CARD_CONTENT_PADDING_ZERO = ".ht-card-content { padding: 0; }";
+
 const HOST_TOKENS_CSS = `:root {
   --radius: 0.5rem;
   --color-border: #d4d4d4;
@@ -77,10 +87,15 @@ const HOST_TOKENS_CSS = `:root {
  * \`z("p-4", className)\`). MEASURED in the real dashboard at 320px, 390px, 768px
  * and 1280px, the compact row's CardContent element computes
  * \`padding: 11.25px 15px\` at the host's 15px root font — vertical 11.25px,
- * inline 15px, not 15px on every side (the host's \`.p-4\` rule is
- * \`padding: calc(calc(.25rem * var(--theme-spacing-mul,1)) * 4)\`, and the
- * element's computed padding is asymmetric, so something in the host's own
- * cascade narrows the block axis). The value is recorded with its provenance in
+ * inline 15px, not 15px on every side. The two axes have two different owners,
+ * and the block axis is the PLUGIN's own rule, not a host one: the host's
+ * \`.p-4\` is a uniform \`padding: calc(calc(.25rem * var(--theme-spacing-mul,1))
+ * * 4)\` (15px inline here), while
+ * \`.hackertube .ht-compact > div { padding-block: .75rem }\` (style.css)
+ * matches the CardContent element — it is a DIRECT child of the compact row's
+ * card — and at the host's 15px root 0.75rem is exactly the measured 11.25px.
+ * The plugin rule out-specifies \`.p-4\` and sets only the block axis, so the
+ * inline value stays the host's 15px. The value is recorded with its provenance in
  * docs/receipts/post40/host-ring-fix.json (\`cardContent.padding\`, plus the
  * rules that matched) and cross-checked against
  * docs/receipts/post39/host-ring.json: the host's compact Watch link sits
@@ -90,7 +105,7 @@ const HOST_TOKENS_CSS = `:root {
  * compact Watch link's ring clear of the inner .hackertube clip at narrow
  * widths, and the fixture does not carry the host card's 1px border (its Card is
  * a plain div), so its clearance is 11px where the host's is 12px. */
-.ht-card-content { padding: 11.25px 15px; }
+${CARD_CONTENT_PADDING}
 /* A dark host theme, in the host's OWN idiom and with the host's own measured
  * values. The dashboard's dark look is its palette (the default "Hermes Teal"
  * theme is a dark teal at every OS scheme), and its dark VARIANTS are keyed on a
@@ -221,7 +236,7 @@ function fixtureItems(count) {
   return items;
 }
 
-async function startFixture(items, privacyOptions = {}) {
+async function startFixture(items, privacyOptions = {}, renderOptions = {}) {
   let agreed = privacyOptions.accepted !== false;
   let rejectDelete = !!privacyOptions.rejectDelete;
   const esbuild = loadNodeModule("esbuild");
@@ -298,6 +313,15 @@ async function startFixture(items, privacyOptions = {}) {
     nodePaths: NODE_MODULE_ROOTS,
   });
   const style = fs.readFileSync(STYLE_PATH);
+  // The host CardContent padding a ring run asks for: the measured host value by
+  // default, or 0 so the ring can only survive on the plugin's own wrapper.
+  let hostCss = HOST_TOKENS_CSS;
+  if (renderOptions.cardPadding === 0) {
+    hostCss = HOST_TOKENS_CSS.split(CARD_CONTENT_PADDING).join(CARD_CONTENT_PADDING_ZERO);
+    if (hostCss === HOST_TOKENS_CSS) {
+      throw new Error("the fixture's host CardContent padding line is missing; cannot zero it");
+    }
+  }
 
   const served = [];
   const sendJson = (response, body) => {
@@ -312,7 +336,7 @@ async function startFixture(items, privacyOptions = {}) {
       record();
       response.writeHead(200, { "content-type": "text/html" });
       response.end(
-        '<!doctype html><html><head><style>' + HOST_TOKENS_CSS + '</style>'
+        '<!doctype html><html><head><style>' + hostCss + '</style>'
           + '<link rel="stylesheet" href="/style.css"></head>'
           + '<body><div id="root"></div><script src="/bundle.js"></script></body></html>',
       );

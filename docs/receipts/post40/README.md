@@ -89,8 +89,20 @@ paddingTop 11.25px  paddingRight 15px  paddingBottom 11.25px  paddingLeft 15px
 element's class list, its parent, and the two rules that matched it
 (`.p-4` — `padding: calc(calc(.25rem * var(--theme-spacing-mul,1)) * 4)` — and the
 universal reset). The block axis is NOT 1rem even though `.p-4` is a uniform
-shorthand and `--theme-spacing-mul` reads `1`; the browser's computed value is
-what places the link, and the inline value is independently confirmed by
+shorthand and `--theme-spacing-mul` reads `1`.
+
+**Correction of record (post-#41):** the block axis is the plugin's OWN rule, not
+a host one. `.hackertube .ht-compact > div { padding-block: .75rem }`
+(`style.css`) matches that element — the CardContent is a DIRECT child of the
+compact row's card — and at the host's 15px root `0.75rem` is exactly the measured
+`11.25px`; the plugin rule out-specifies `.p-4` and sets only the block axis, so
+the inline value stays the host's 15px. The probe below missed it because its
+stylesheet scan ran over the HOST stylesheet only; the paragraph here that called
+it "something in the host's own cascade", and
+`tests/browser_net_harness.js`'s copy of that sentence, were both wrong and are
+corrected in place (this receipt's generated tables are unchanged — the numbers,
+including `11.25px 15px`, do not move). The inline value is independently
+confirmed by
 `docs/receipts/post39/host-ring.json`: the host's compact Watch link sits 16px
 inside the inner `.hackertube`'s left edge at 320/390 — the host card's 1px
 border plus this 15px inline padding. **So the card's suggestion to use 15px on
@@ -234,14 +246,26 @@ token and declares none of its own.
 * No live provider call and no real YouTube image: the fixture fulfils the
   thumbnail request offline, and the real-host run renders the linked Icon with
   the hotlinked URL (the image itself is not fetched by the probe).
-* The real host on this Mac is dark-themed in both `prefers-color-scheme`
-  settings, so the real-host captures are the dark rendering only; the
-  light-surface case and the `.dark`-ancestor case are covered by the fixture.
+* The real-host captures are LIGHT-ONLY and cannot show the ring fix, and the
+  correction is of record: `host-ring-fix.json` and `host-ring-base.json` both
+  record `"dark": false`, and the host's own 15px CardContent padding never
+  clipped the ring, so the before/after captures are byte-identical BY DESIGN.
+  Only the fixture's padding-0 runs show the fix, because only there does the
+  plugin's own wrapper decide whether the ring survives (`fixture-prefix-pad0-*`
+  vs `fixture-fixed-pad0-*`). The light-surface case and the `.dark`-ancestor
+  case are covered by the fixture; the emulateMedia entry is post-#41's.
 * The CardContent block-axis padding is reported as the browser's computed value
-  (`11.25px`); the host rule that narrows it was not identified — the stylesheet
-  scan in the probe found only `.p-4` and the universal reset matching that
-  element, both uniform. The inline value (15px) is confirmed independently by
-  the link's position, and the block value by the element's own computed style.
+  (`11.25px`). The correction is of record: the rule that sets it is the
+  PLUGIN's own `.hackertube .ht-compact > div { padding-block: .75rem }` at the
+  host's 15px root, not a host rule — the stylesheet scan in the probe found only
+  `.p-4` and the universal reset because it scanned the HOST stylesheet. The
+  inline value (15px) is confirmed independently by the link's position, and the
+  block value by the element's own computed style.
+* The painted-fraction rule's threshold is `>= 95%`, and "97%" is the CONTROL
+  ring that has to clear it — 97% is not the threshold. The dark runs enter the
+  scheme through the host's `.dark` ancestor class (post-#41 adds `emulateMedia`
+  entries beside it); the three statements above are made plainly in
+  `docs/receipts/post41/README.md`.
 * The 97%-painted control removes pixel rows with a `clip-path` slit, which is a
   synthetic way to lose a few per-cent of a ring; it is a control for the two
   rules, not a claim that this is how a real ring loses pixels. A half-blended

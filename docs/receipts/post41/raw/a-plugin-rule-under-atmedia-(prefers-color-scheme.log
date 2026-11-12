@@ -1,0 +1,43 @@
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (2639.198958ms)
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (2773.376125ms)
+✔ a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not; a 1px gap fails as coverage (1729.656084ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7182.346666
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:1445:1
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (2639.198958ms)
+  AssertionError [ERR_ASSERTION]: at 320px os-dark the full card's Watch link: every painted pixel of the left ring reaches >= 3:1 (min over painted pixels 1.07:1, ring rgb(11,42,43) on surface rgb(7,48,48) at 43,768; min over every sampled pixel 1.07:1)
+      at assertPaintedRing (/Users/robert/Developer/hackertube-post41/tests/test_privacy_browser.js:1389:12)
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-post41/tests/test_privacy_browser.js:1539:7)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:1599:1
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (2773.376125ms)
+  AssertionError [ERR_ASSERTION]: at 320px os-dark the compact row's Watch link: every painted pixel of the left ring reaches >= 3:1 (min over painted pixels 1.00:1, ring rgb(9,27,28) on surface rgb(4,28,28) at 36,719; min over every sampled pixel 1.00:1)
+      at assertPaintedRing (/Users/robert/Developer/hackertube-post41/tests/test_privacy_browser.js:1389:12)
+      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-post41/tests/test_privacy_browser.js:1656:7)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

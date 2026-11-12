@@ -1,0 +1,244 @@
+{
+  "gap": "clip-path slit, 1 pixel row, offset a quarter pixel",
+  "sides": {
+    "left": {
+      "total": 163,
+      "full": 231,
+      "straightFifty": {
+        "painted": 162,
+        "partial": 1,
+        "total": 163,
+        "paintedFraction": 0.9939,
+        "minOverPainted": 7.919,
+        "minOverEvery": 1.726,
+        "minPixel": {
+          "x": 36,
+          "y": 801,
+          "surface": [
+            255,
+            255,
+            255
+          ],
+          "ring": [
+            81,
+            81,
+            83
+          ],
+          "fraction": 0.753
+        },
+        "partialAt": {
+          "x": 36,
+          "y": 800,
+          "ring": [
+            197,
+            197,
+            197
+          ],
+          "surface": [
+            255,
+            255,
+            255
+          ],
+          "fraction": 0.251
+        }
+      },
+      "fixedDelta": {
+        "painted": 163,
+        "partial": 0,
+        "total": 163,
+        "paintedFraction": 1,
+        "minOverPainted": 1.726,
+        "minOverEvery": 1.726,
+        "minPixel": {
+          "x": 36,
+          "y": 800,
+          "surface": [
+            255,
+            255,
+            255
+          ],
+          "ring": [
+            197,
+            197,
+            197
+          ],
+          "fraction": 0.251
+        },
+        "partialAt": null
+      }
+    },
+    "right": {
+      "total": 163,
+      "full": 231,
+      "straightFifty": {
+        "painted": 163,
+        "partial": 0,
+        "total": 163,
+        "paintedFraction": 1,
+        "minOverPainted": 17.717,
+        "minOverEvery": 17.717,
+        "minPixel": {
+          "x": 259,
+          "y": 719,
+          "surface": [
+            255,
+            255,
+            255
+          ],
+          "ring": [
+            24,
+            24,
+            27
+          ],
+          "fraction": 1
+        },
+        "partialAt": null
+      },
+      "fixedDelta": {
+        "painted": 163,
+        "partial": 0,
+        "total": 163,
+        "paintedFraction": 1,
+        "minOverPainted": 17.717,
+        "minOverEvery": 17.717,
+        "minPixel": {
+          "x": 259,
+          "y": 719,
+          "surface": [
+            255,
+            255,
+            255
+          ],
+          "ring": [
+            24,
+            24,
+            27
+          ],
+          "fraction": 1
+        },
+        "partialAt": null
+      }
+    },
+    "top": {
+      "total": 194,
+      "full": 231,
+      "straightFifty": {
+        "painted": 194,
+        "partial": 0,
+        "total": 194,
+        "paintedFraction": 1,
+        "minOverPainted": 17.717,
+        "minOverEvery": 17.717,
+        "minPixel": {
+          "x": 51,
+          "y": 704,
+          "surface": [
+            255,
+            255,
+            255
+          ],
+          "ring": [
+            24,
+            24,
+            27
+          ],
+          "fraction": 1
+        },
+        "partialAt": null
+      },
+      "fixedDelta": {
+        "painted": 194,
+        "partial": 0,
+        "total": 194,
+        "paintedFraction": 1,
+        "minOverPainted": 17.717,
+        "minOverEvery": 17.717,
+        "minPixel": {
+          "x": 51,
+          "y": 704,
+          "surface": [
+            255,
+            255,
+            255
+          ],
+          "ring": [
+            24,
+            24,
+            27
+          ],
+          "fraction": 1
+        },
+        "partialAt": null
+      }
+    },
+    "bottom": {
+      "total": 194,
+      "full": 231,
+      "straightFifty": {
+        "painted": 194,
+        "partial": 0,
+        "total": 194,
+        "paintedFraction": 1,
+        "minOverPainted": 17.717,
+        "minOverEvery": 17.717,
+        "minPixel": {
+          "x": 51,
+          "y": 896,
+          "surface": [
+            255,
+            255,
+            255
+          ],
+          "ring": [
+            24,
+            24,
+            27
+          ],
+          "fraction": 1
+        },
+        "partialAt": null
+      },
+      "fixedDelta": {
+        "painted": 194,
+        "partial": 0,
+        "total": 194,
+        "paintedFraction": 1,
+        "minOverPainted": 17.717,
+        "minOverEvery": 17.717,
+        "minPixel": {
+          "x": 51,
+          "y": 896,
+          "surface": [
+            255,
+            255,
+            255
+          ],
+          "ring": [
+            24,
+            24,
+            27
+          ],
+          "fraction": 1
+        },
+        "partialAt": null
+      }
+    }
+  },
+  "band": {
+    "y0": 92.78125,
+    "y1": 93.78125
+  },
+  "box": {
+    "left": 39,
+    "right": 256.140625,
+    "top": 707.46875,
+    "bottom": 893.46875
+  },
+  "ring": {
+    "left": 35,
+    "right": 260.140625,
+    "top": 703.46875,
+    "bottom": 897.46875,
+    "spread": 4
+  }
+}
