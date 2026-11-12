@@ -195,7 +195,7 @@ test at tests/test_browser_requests.js:98:1
   
   1 !== 2
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-post38/tests/test_browser_requests.js:116:12)
+      at TestContext.<anonymous> (<repo>-post38/tests/test_browser_requests.js:116:12)
       at runNextTicks (node:internal/process/task_queues:65:5)
       at process.processImmediate (node:internal/timers:541:9)
       at async Test.run (node:internal/test_runner/test:1409:7)

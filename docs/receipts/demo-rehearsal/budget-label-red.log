@@ -19,7 +19,7 @@ test at tests/test_dashboard_page.js:1977:1
   + 'Work limits for this job: at most 2 provider requests, 12 results, a 5 second deadline. Provider requests used: 2.'
   - 'Work limits for this job: at most 2 provider requests, 12 results, a 5 second work budget. Provider requests used: 2. In-flight Hermes calls may finish after this budget; cancellation is not implemented.'
 
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_dashboard_page.js:1981:10)
+      at TestContext.<anonymous> (<repo>/tests/test_dashboard_page.js:1981:10)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)

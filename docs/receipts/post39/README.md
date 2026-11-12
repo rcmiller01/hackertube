@@ -47,7 +47,9 @@ dark-theme finding recorded at the end of this note rather than a failed capture
    fixture's host token block), so the fixture and the dashboard agree about
    where the link sits.
 2. **No side is exempt.** `assertPaintedRing` fails on any side that a clipping
-   ancestor cuts, on any side painted less than 95%, and on any side below 3:1.
+   ancestor cuts, on any side painted less than 95% (100% coverage as of post-#42
+   — every sampled pixel painted, `docs/receipts/post42/README.md`), and on any
+   side below 3:1.
    The old "a cut side may be reported instead of measured" branch and the
    overall ">= 50% painted" allowance are gone: a side that paints nothing is
    either clipped or not drawn, and both are defects.

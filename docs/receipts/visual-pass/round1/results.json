@@ -2,7 +2,7 @@
   {
     "name": "pytest-collect",
     "command": [
-      "/Users/robert/.hermes/cache/scratch/ht-visual-venv/bin/python",
+      "<hermes-home>/cache/scratch/ht-visual-venv/bin/python",
       "-m",
       "pytest",
       "tests",
@@ -15,7 +15,7 @@
   {
     "name": "pytest",
     "command": [
-      "/Users/robert/.hermes/cache/scratch/ht-visual-venv/bin/python",
+      "<hermes-home>/cache/scratch/ht-visual-venv/bin/python",
       "-m",
       "pytest",
       "tests",
@@ -159,7 +159,7 @@
   {
     "name": "bypass-probe",
     "command": [
-      "/Users/robert/.hermes/cache/scratch/ht-visual-venv/bin/python",
+      "<hermes-home>/cache/scratch/ht-visual-venv/bin/python",
       "docs/receipts/requests/bypass_probe.py"
     ],
     "exit_code": 0,
@@ -168,7 +168,7 @@
   {
     "name": "requests-red-against-main",
     "command": [
-      "/Users/robert/.hermes/cache/scratch/ht-visual-venv/bin/python",
+      "<hermes-home>/cache/scratch/ht-visual-venv/bin/python",
       "docs/receipts/requests/red_against_main.py"
     ],
     "exit_code": 0,
@@ -177,7 +177,7 @@
   {
     "name": "requests-probe",
     "command": [
-      "/Users/robert/.hermes/cache/scratch/ht-visual-venv/bin/python",
+      "<hermes-home>/cache/scratch/ht-visual-venv/bin/python",
       "docs/receipts/requests/probe.py"
     ],
     "exit_code": 0,

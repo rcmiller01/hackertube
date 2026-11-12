@@ -1,4 +1,4 @@
-Plugin Doctor: /Users/robert/Developer/hackertube-ytbrand/hackertube
+Plugin Doctor: <repo>-ytbrand/hackertube
   manifest: hackertube 0.2.2 (standalone)
   OK: runtime discovery, manifest parsing, import, and registration passed
   registrations: 0 tool(s), 0 hook(s)

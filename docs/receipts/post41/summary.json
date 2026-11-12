@@ -221,7 +221,7 @@
     }
   },
   "clean_profile": {
-    "home": "/Users/robert/.hermes/cache/scratch/p41-cp-1794436493",
+    "home": "<hermes-home>/cache/scratch/p41-cp-1794436493",
     "ring_rule": ".hackertube :focus,",
     "wrapper_rule": ".hackertube .hackertube {   padding: 0 4px;   margin: 0 -4px;   max-width: none; }",
     "outage": {

@@ -1,6 +1,6 @@
 {
-  "home": "/Users/robert/.hermes/cache/scratch/p33-cp-1794356280",
-  "storage": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+  "home": "<hermes-home>/cache/scratch/p33-cp-1794356280",
+  "storage": "<hermes-home>/hermes-agent/plugins/plugin_storage.py",
   "assets": {
     "note": true,
     "compact_attribution": true,

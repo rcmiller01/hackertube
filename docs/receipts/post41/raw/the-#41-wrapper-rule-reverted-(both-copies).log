@@ -18,8 +18,8 @@ test at tests/test_privacy_browser.js:1599:1
   
   1 !== 0
   
-      at assertPaintedRing (/Users/robert/Developer/hackertube-post41/tests/test_privacy_browser.js:1368:12)
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-post41/tests/test_privacy_browser.js:1656:7)
+      at assertPaintedRing (<repo>-post41/tests/test_privacy_browser.js:1368:12)
+      at TestContext.<anonymous> (<repo>-post41/tests/test_privacy_browser.js:1656:7)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     generatedMessage: false,

@@ -34,10 +34,10 @@ E             + running
 tests/test_search_supervisor.py:180: AssertionError
 =============================== warnings summary ===============================
 tests/test_search_supervisor.py::test_monitor_keeps_the_request_profile_context
-  /Users/robert/Developer/hackertube/.venv/lib/python3.14/site-packages/_pytest/threadexception.py:54: PytestUnhandledThreadExceptionWarning: Exception in thread hackertube-search-supervisor
+  <repo>/.venv/lib/python3.14/site-packages/_pytest/threadexception.py:54: PytestUnhandledThreadExceptionWarning: Exception in thread hackertube-search-supervisor
 
   Traceback (most recent call last):
-    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 176, in _monitor
+    File "<repo>/hackertube/hackertube_core/search_jobs.py", line 176, in _monitor
       if job["state"] == "cancelling":
          ~~~^^^^^^^^^
   TypeError: 'NoneType' object is not subscriptable
@@ -45,16 +45,16 @@ tests/test_search_supervisor.py::test_monitor_keeps_the_request_profile_context
   During handling of the above exception, another exception occurred:
 
   Traceback (most recent call last):
-    File "/Users/robert/.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    File "<hermes-home>/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
       self._context.run(self.run)
       ~~~~~~~~~~~~~~~~~^^^^^^^^^^
-    File "/Users/robert/.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/threading.py", line 1024, in run
+    File "<hermes-home>/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/threading.py", line 1024, in run
       self._target(*self._args, **self._kwargs)
       ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 223, in _monitor
+    File "<repo>/hackertube/hackertube_core/search_jobs.py", line 223, in _monitor
       self._finish(job_id, entry, "failed", "Search worker failed; no late result was accepted.")
       ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    File "/Users/robert/Developer/hackertube/hackertube/hackertube_core/search_jobs.py", line 148, in _finish
+    File "<repo>/hackertube/hackertube_core/search_jobs.py", line 148, in _finish
       if job["state"] not in ACTIVE:
          ~~~^^^^^^^^^
   TypeError: 'NoneType' object is not subscriptable

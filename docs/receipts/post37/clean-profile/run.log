@@ -1,5 +1,5 @@
-HERMES_HOME=/Users/robert/.hermes/cache/scratch/p37-cp-1794411197
-chosen profile dir: /Users/robert/.hermes/cache/scratch/p37-cp-1794411197 (fresh, disposable)
+HERMES_HOME=<hermes-home>/cache/scratch/p37-cp-1794411197
+chosen profile dir: <hermes-home>/cache/scratch/p37-cp-1794411197 (fresh, disposable)
 == enable ==
 enable exit=0
 == backend probe (fresh profile, source-down failure path) ==
@@ -11,7 +11,7 @@ probe exit=0
     "items": 12
   },
   "fresh_profile": {
-    "db_path": "/Users/robert/.hermes/cache/scratch/p37-cp-1794411197/plugin-data/hackertube/profile.db",
+    "db_path": "<hermes-home>/cache/scratch/p37-cp-1794411197/plugin-data/hackertube/profile.db",
     "exists_before": false,
     "exists_after_start_housekeeping": false
   },
@@ -352,4 +352,4 @@ render exit=0
     }
   ]
 }
-CLEAN_PROFILE_DIR=/Users/robert/.hermes/cache/scratch/p37-cp-1794411197
+CLEAN_PROFILE_DIR=<hermes-home>/cache/scratch/p37-cp-1794411197

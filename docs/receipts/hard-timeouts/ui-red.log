@@ -14,7 +14,7 @@
 test at tests/test_dashboard_page.js:2241:1
 ✖ Cancel search can be queued before the supervised job id arrives (2.659584ms)
   AssertionError [ERR_ASSERTION]: running search must offer cancellation
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_dashboard_page.js:2247:12)
+      at TestContext.<anonymous> (<repo>/tests/test_dashboard_page.js:2247:12)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.start (node:internal/test_runner/test:1257:17)
@@ -30,7 +30,7 @@ test at tests/test_dashboard_page.js:2241:1
 test at tests/test_dashboard_page.js:2257:1
 ✖ Cancel search keeps the busy guard until the server confirms termination (0.613042ms)
   TypeError: Cannot read properties of null (reading 'props')
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_dashboard_page.js:2263:71)
+      at TestContext.<anonymous> (<repo>/tests/test_dashboard_page.js:2263:71)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)

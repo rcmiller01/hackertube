@@ -76,8 +76,8 @@ test at tests/test_browser_requests.js:17:1
 ✖ observer catches a rendered artwork request outside the approved inventory (0.630042ms)
   Error: Cannot find module 'esbuild'
   Require stack:
-  - /Users/robert/Developer/hackertube-4.1/tests/browser_net_harness.js
-  - /Users/robert/Developer/hackertube-4.1/tests/test_browser_requests.js
+  - <repo>-4.1/tests/browser_net_harness.js
+  - <repo>-4.1/tests/test_browser_requests.js
       at Module._resolveFilename (node:internal/modules/cjs/loader:1569:15)
       at wrapResolveFilename (node:internal/modules/cjs/loader:1123:27)
       at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1147:10)
@@ -86,18 +86,18 @@ test at tests/test_browser_requests.js:17:1
       at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)
       at Module.require (node:internal/modules/cjs/loader:1679:12)
       at require (node:internal/modules/helpers:196:16)
-      at loadNodeModule (/Users/robert/Developer/hackertube-4.1/tests/browser_net_harness.js:85:10)
-      at startFixture (/Users/robert/Developer/hackertube-4.1/tests/browser_net_harness.js:112:19) {
+      at loadNodeModule (<repo>-4.1/tests/browser_net_harness.js:85:10)
+      at startFixture (<repo>-4.1/tests/browser_net_harness.js:112:19) {
     code: 'MODULE_NOT_FOUND',
-    requireStack: [ '/Users/robert/Developer/hackertube-4.1/tests/browser_net_harness.js', '/Users/robert/Developer/hackertube-4.1/tests/test_browser_requests.js' ]
+    requireStack: [ '<repo>-4.1/tests/browser_net_harness.js', '<repo>-4.1/tests/test_browser_requests.js' ]
   }
 
 test at tests/test_browser_requests.js:27:1
 ✖ FEED04 browser requests include artwork and match independent server/interception counts (0.136042ms)
   Error: Cannot find module 'esbuild'
   Require stack:
-  - /Users/robert/Developer/hackertube-4.1/tests/browser_net_harness.js
-  - /Users/robert/Developer/hackertube-4.1/tests/test_browser_requests.js
+  - <repo>-4.1/tests/browser_net_harness.js
+  - <repo>-4.1/tests/test_browser_requests.js
       at Module._resolveFilename (node:internal/modules/cjs/loader:1569:15)
       at wrapResolveFilename (node:internal/modules/cjs/loader:1123:27)
       at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1147:10)
@@ -106,17 +106,17 @@ test at tests/test_browser_requests.js:27:1
       at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)
       at Module.require (node:internal/modules/cjs/loader:1679:12)
       at require (node:internal/modules/helpers:196:16)
-      at loadNodeModule (/Users/robert/Developer/hackertube-4.1/tests/browser_net_harness.js:85:10)
-      at startFixture (/Users/robert/Developer/hackertube-4.1/tests/browser_net_harness.js:112:19) {
+      at loadNodeModule (<repo>-4.1/tests/browser_net_harness.js:85:10)
+      at startFixture (<repo>-4.1/tests/browser_net_harness.js:112:19) {
     code: 'MODULE_NOT_FOUND',
-    requireStack: [ '/Users/robert/Developer/hackertube-4.1/tests/browser_net_harness.js', '/Users/robert/Developer/hackertube-4.1/tests/test_browser_requests.js' ]
+    requireStack: [ '<repo>-4.1/tests/browser_net_harness.js', '<repo>-4.1/tests/test_browser_requests.js' ]
   }
 
 test at tests/test_dashboard_page.js:1187:1
 ✖ Show more Enter focuses the fifth item heading (0.343583ms)
   Error: Cannot find module 'esbuild'
   Require stack:
-  - /Users/robert/Developer/hackertube-4.1/tests/test_dashboard_page.js
+  - <repo>-4.1/tests/test_dashboard_page.js
       at Module._resolveFilename (node:internal/modules/cjs/loader:1569:15)
       at wrapResolveFilename (node:internal/modules/cjs/loader:1123:27)
       at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1147:10)
@@ -125,8 +125,8 @@ test at tests/test_dashboard_page.js:1187:1
       at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)
       at Module.require (node:internal/modules/cjs/loader:1679:12)
       at require (node:internal/modules/helpers:196:16)
-      at load (/Users/robert/Developer/hackertube-4.1/tests/test_dashboard_page.js:1207:12)
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-4.1/tests/test_dashboard_page.js:1209:19) {
+      at load (<repo>-4.1/tests/test_dashboard_page.js:1207:12)
+      at TestContext.<anonymous> (<repo>-4.1/tests/test_dashboard_page.js:1209:19) {
     code: 'MODULE_NOT_FOUND',
-    requireStack: [ '/Users/robert/Developer/hackertube-4.1/tests/test_dashboard_page.js' ]
+    requireStack: [ '<repo>-4.1/tests/test_dashboard_page.js' ]
   }

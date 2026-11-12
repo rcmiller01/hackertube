@@ -14,7 +14,7 @@
     "picker_width",
     "select_width"
   ],
-  "host_css_path": "/Users/robert/.hermes/hermes-agent/hermes_cli/web_dist/assets/index-CXKdN8QE.css",
+  "host_css_path": "<hermes-home>/hermes-agent/hermes_cli/web_dist/assets/index-CXKdN8QE.css",
   "host_css_sha256": "b108549924729a099113081f9f8883c8c7cb9913964750027af07ca1e4c8f0ac",
   "attempted_requests": [
     "http://127.0.0.1:51445/",

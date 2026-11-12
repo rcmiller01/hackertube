@@ -111,7 +111,7 @@ Validation passed.
 `hermes plugins doctor . --ci`:
 
 ```
-Plugin Doctor: /Users/robert/Developer/hackertube-post32/hackertube
+Plugin Doctor: <repo>-post32/hackertube
   manifest: hackertube 0.2.2 (standalone)
   OK: runtime discovery, manifest parsing, import, and registration passed
   registrations: 0 tool(s), 0 hook(s)

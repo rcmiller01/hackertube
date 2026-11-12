@@ -25,7 +25,7 @@ Derived from [verification.json](verification.json), [jobs](jobs.json), [ffprobe
 
 ## Actual new recording
 
-Video: `/Users/robert/Documents/Codex/2026-11-08/hackertube-demo-pr19/hackertube-pr19-demo.mp4`. SHA-256: `194615b065bd9b9d703982569b2fc4b6133a61c23cba703067eae63086215408`; 945,160 bytes. It is kept locally for review/X attachment, not uploaded or placed in the installable package. The previous 36.25-second video remains historical and is not the current submission attachment.
+Video: `<home>/Documents/Codex/2026-11-08/hackertube-demo-pr19/hackertube-pr19-demo.mp4`. SHA-256: `194615b065bd9b9d703982569b2fc4b6133a61c23cba703067eae63086215408`; 945,160 bytes. It is kept locally for review/X attachment, not uploaded or placed in the installable package. The previous 36.25-second video remains historical and is not the current submission attachment.
 
 The fresh six-step video shows the installed page, prepared catalog, explicit live AI Search, one audiobook Save, its original Apple Books page, and Andrej Karpathy credit. All four result sections were visited. It is silent and uses 120 actual CUA tab screenshots over 29.039 wall seconds (about four captures/second), encoded to H.264 at 20 fps. Original frame timestamps are retained; source-tab dimensions are letterboxed to a common canvas. No generated scene, mock result, sped-up search or removed search wait is included. The encoded duration is 29.25 seconds. We inspected screenshot evidence and representative encoded frames for the six actions. [Walkthrough/evidence map](walkthrough.json) records the scope and the recorder metadata limitation.
 

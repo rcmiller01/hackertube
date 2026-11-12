@@ -1,6 +1,6 @@
 {
-  "home": "/Users/robert/.hermes/cache/scratch/p37-cp-1794411197",
-  "storage": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+  "home": "<hermes-home>/cache/scratch/p37-cp-1794411197",
+  "storage": "<hermes-home>/hermes-agent/plugins/plugin_storage.py",
   "assets": {
     "note": true,
     "compact_attribution": true,
@@ -19,7 +19,7 @@
     "missing_db_guard": true
   },
   "fresh_profile": {
-    "db_path": "/Users/robert/.hermes/cache/scratch/p37-cp-1794411197/plugin-data/hackertube/profile.db",
+    "db_path": "<hermes-home>/cache/scratch/p37-cp-1794411197/plugin-data/hackertube/profile.db",
     "exists_before": false,
     "exists_after_start_housekeeping": false
   },

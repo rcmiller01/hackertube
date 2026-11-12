@@ -121,7 +121,7 @@
 test at tests/test_browser_requests.js:113:1
 ✖ FEED12 two consecutive searches announce the feed update once each, only after the refresh is accepted (966.765208ms)
   AssertionError [ERR_ASSERTION]: no notice is written while the first refresh is still in flight
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_browser_requests.js:185:12)
+      at TestContext.<anonymous> (<repo>-design/tests/test_browser_requests.js:185:12)
       at async Test.run (node:internal/test_runner/test:1404:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
     generatedMessage: false,
@@ -138,7 +138,7 @@ test at tests/test_dashboard_page.js:2698:1
   
   'Feed updated from this search.'
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2710:12)
+      at TestContext.<anonymous> (<repo>-design/tests/test_dashboard_page.js:2710:12)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
@@ -161,7 +161,7 @@ test at tests/test_dashboard_page.js:2724:1
   + 'Feed updated from this search.'
   - ''
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2743:12)
+      at TestContext.<anonymous> (<repo>-design/tests/test_dashboard_page.js:2743:12)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
@@ -182,7 +182,7 @@ test at tests/test_dashboard_page.js:2751:1
   
   'Feed updated from this search.'
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-design/tests/test_dashboard_page.js:2760:12)
+      at TestContext.<anonymous> (<repo>-design/tests/test_dashboard_page.js:2760:12)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)

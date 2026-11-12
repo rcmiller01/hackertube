@@ -1,7 +1,7 @@
 {
-  "home": "/Users/robert/.hermes/cache/scratch/ht32-cp",
-  "page": "/Users/robert/.hermes/cache/scratch/ht32-cp/plugins/hackertube/dashboard/dist/index.js",
-  "style": "/Users/robert/.hermes/cache/scratch/ht32-cp/plugins/hackertube/dashboard/dist/style.css",
+  "home": "<hermes-home>/cache/scratch/ht32-cp",
+  "page": "<hermes-home>/cache/scratch/ht32-cp/plugins/hackertube/dashboard/dist/index.js",
+  "style": "<hermes-home>/cache/scratch/ht32-cp/plugins/hackertube/dashboard/dist/style.css",
   "note": "Jane Austen introduction",
   "thumbnailRemoved": true,
   "iconPresent": true,

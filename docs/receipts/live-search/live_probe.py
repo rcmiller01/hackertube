@@ -1,8 +1,8 @@
 import sys,json,tempfile,sqlite3,contextlib,time,traceback
 from pathlib import Path
-sys.path.insert(0,'/Users/robert/.hermes/hermes-agent')
+sys.path.insert(0,'<hermes-home>/hermes-agent')
 import hermes_bootstrap
-sys.path.insert(0,'/Users/robert/Developer/hackertube/hackertube')
+sys.path.insert(0,'<repo>/hackertube')
 from hermes_cli.plugins import PluginContext, PluginManifest, get_plugin_manager
 from hackertube_core.hermes import register,HermesProvider,web_search
 from hackertube_core.retrieval import SourceRetriever
@@ -12,7 +12,7 @@ from hackertube_core.search import run_search,LIVE_LIMITS
 from hackertube_core import outbound
 # This is an ephemeral native registration in this probe process. No plugin
 # is installed/enabled and no provider configuration is changed on disk.
-ctx=PluginContext(PluginManifest(name='hackertube',path='/Users/robert/Developer/hackertube/hackertube',source='user'),get_plugin_manager())
+ctx=PluginContext(PluginManifest(name='hackertube',path='<repo>/hackertube',source='user'),get_plugin_manager())
 register(ctx)
 try:
     import tools.web_tools  # normal host tool registration, probe setup only

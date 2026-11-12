@@ -13,7 +13,7 @@
 test at tests/test_privacy_browser.js:422:1
 ✖ the full feed card's YouTube mark's visible red area is at least 100px at 390 and 1280 (362.077417ms)
   AssertionError [ERR_ASSERTION]: at 390px the full card draws the icon at ~186px like compact rows (file box 100)
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-post32/tests/test_privacy_browser.js:439:16)
+      at TestContext.<anonymous> (<repo>-post32/tests/test_privacy_browser.js:439:16)
       at async Test.run (node:internal/test_runner/test:1404:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: false,

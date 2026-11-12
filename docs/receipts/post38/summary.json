@@ -138,7 +138,7 @@
     }
   ],
   "clean_profile": {
-    "home": "/Users/robert/.hermes/cache/scratch/p38-cp-1794417509",
+    "home": "<hermes-home>/cache/scratch/p38-cp-1794417509",
     "installed_ring_rule": ".hackertube :focus,\n.hackertube :focus-visible {\n  outline: 2px solid var(--color-ring);\n  outline-offset: 2px;\n",
     "source_outage": {
       "sources": 7,

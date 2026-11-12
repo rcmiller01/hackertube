@@ -6,7 +6,7 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const { startFixture, fixtureItems, loadNodeModule } = require('../../../tests/browser_net_harness');
 const out = __dirname;
-const hostDir = '/Users/robert/.hermes/hermes-agent/hermes_cli/web_dist/assets';
+const hostDir = '<hermes-home>/hermes-agent/hermes_cli/web_dist/assets';
 const hostPath = process.env.HACKERTUBE_HOST_CSS || path.join(hostDir, fs.readdirSync(hostDir).filter(x => /^index-.*\.css$/.test(x))[0]);
 const T28 = 'Metadata from YouTube. Explanations and library actions are HackerTube’s.';
 (async () => {

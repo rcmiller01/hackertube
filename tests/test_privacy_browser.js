@@ -1125,8 +1125,8 @@ test("a compact row's header sits one row gap above the rest of its text at 768 
  *     entry a plugin rule under `@media (prefers-color-scheme: dark)` needs.
  *     `os-dark-ancestor`: both at once.
  *
- * The two rules this drives are: at least 95% of each side painted (with 97% the
- * CONTROL ring that has to clear that threshold, not the threshold itself), and
+ * The two rules this drives are: EVERY sampled pixel of every side painted (a
+ * side passes only at 100% coverage; the full ring is the passing control), and
  * 3:1 on every painted pixel. */
 const RING_RUNS = [320, 390, 768, 1280].flatMap((width) => [
   {width, scheme: "light", padding: "host"},
@@ -1183,13 +1183,17 @@ async function enterScheme(ui, scheme) {
  *   * `minAll` — the same minimum over every sampled pixel, reported only so the
  *                difference is visible in a failure message and in the receipt.
  *
- * A pixel is PAINTED when at least half of it carries the ring: its channel
- * distance from the surface at that point is at least 50% of the strongest the
- * side shows (`full`). A pixel between the 5% and 50% marks is neither the ring
- * nor the clean surface and is counted as `partial` — a COVERAGE finding for the
- * coverage rule, never a contrast reading. (An anti-aliased edge pixel of a 1px
- * gap reads 1.73:1; under the old fixed `delta > 20` painted test it counted as
- * painted, so a coverage defect was reported as a contrast one.)
+ * Three states, not two: FULLY PAINTED (at least 95% of the side's strongest
+ * paint on the pixel — the ring), CLEANLY UNPAINTED (at most 5% — the plain
+ * surface), and PARTLY painted. A partly-painted pixel is neither, and is a
+ * COVERAGE finding — the ring does not line up with the pixel grid or is only
+ * half drawn there — so it must not be reported as a contrast reading.
+ *
+ * The band is 95%, not 50%, and that is measured rather than chosen: a 1px slit
+ * offset half a pixel leaves its two boundary pixels at 50.2% each, and under a
+ * 50% band BOTH count as painted, so a half-pixel gap reads 163/163 and passes
+ * the 100% rule (docs/receipts/post42/gap-probe.log). Every pixel therefore has
+ * to carry essentially the whole ring for the side to count as painted.
  *
  * Also returned: the painted and partly-painted pixel counts (the coverage
  * readings) and — so a side that is clipped away is reported rather than
@@ -1272,13 +1276,12 @@ async function measurePaintedRing(ui, link, before, after, geometry) {
           const ring = [b.data[i], b.data[i+1], b.data[i+2]];
           const held = Math.max(Math.abs(surface[0] - ring[0]), Math.abs(surface[1] - ring[1]), Math.abs(surface[2] - ring[2]));
           const fraction = full > 0 ? held / full : 0;
-          const isPainted = fraction >= 0.5;
-          // Three states, not two: PAINTED (>= 50% of the ring), cleanly
-          // UNPAINTED (<= 5% — the plain surface), and PARTLY painted. A
+          // FULLY painted (>= 95% of the side's strongest paint), cleanly
+          // UNPAINTED (<= 5% — the plain surface), or PARTLY painted. A
           // partly-painted pixel is neither, and is a COVERAGE finding — the
           // ring does not line up with the pixel grid or is only half drawn
           // there — so it must not be reported as a contrast reading.
-          if (isPainted) painted += 1;
+          if (fraction >= 0.95) painted += 1;
           else if (fraction > 0.05) {
             partial += 1;
             const key = fraction.toFixed(2);
@@ -1288,8 +1291,8 @@ async function measurePaintedRing(ui, link, before, after, geometry) {
             }
           }
           const r = ratio(ring, surface);
-          if (r < minAll) { minAll = r; if (!isPainted) unpaintedAt = {x, y, surface, ring, fraction: Number(fraction.toFixed(3))}; }
-          if (isPainted && r < min) { min = r; minAt = {x, y, surface, ring}; }
+          if (r < minAll) { minAll = r; if (fraction < 0.95) unpaintedAt = {x, y, surface, ring, fraction: Number(fraction.toFixed(3))}; }
+          if (fraction >= 0.95 && r < min) { min = r; minAt = {x, y, surface, ring}; }
         }
       }
       out[side] = {painted, partial, partialFractions, total, full, minAt, unpaintedAt, partialAt,
@@ -1337,24 +1340,25 @@ async function measurePaintedRing(ui, link, before, after, geometry) {
 }
 
 /* Assert the painted-pixel ring measurement for one focused Watch link. Every
- * side must be painted along its whole centreline, must reach 3:1 against the
- * surface it is painted over, and must not fall outside a clipping ancestor.
- * There is no aggregate allowance: a ring that paints 60% of its pixels is not
- * 60% of a focus indicator. Nor is there a per-side skip: a side that paints
- * nothing is either clipped by an ancestor or the ring is not drawn at all in
- * that colour, and both are defects.
+ * pixel of every side must be painted, every painted pixel must reach 3:1
+ * against the surface it is painted over, and no side may fall outside a
+ * clipping ancestor.
  *
- * The coverage rule has two halves, because a pixel can fail it in two ways:
+ * The vocabulary, so the rules and their failure messages cannot be confused:
  *
- *   1. COVERAGE — at least 95% of the side's sampled pixels must be painted
- *      (`painted / total >= 0.95`), AND every remaining pixel must be CLEANLY
- *      unpainted (at most 5% of the ring's own strength on it). A pixel that is
- *      partly painted — the anti-aliased edge of a 1px gap is the real case —
- *      is neither the ring nor the clean surface, and is reported here. That is
- *      the difference between a coverage defect and a contrast reading: before
- *      this change the edge pixel counted as painted (any channel delta > 20)
- *      and the side failed at "1.73:1", which is a contrast number for a
- *      coverage defect.
+ *   * PAINTED — a pixel carrying at least 95% of the side's strongest paint;
+ *   * CLEAN — a pixel carrying at most 5% of it, i.e. the plain surface;
+ *   * PARTLY PAINTED — anything between the two, e.g. the anti-aliased edge of a
+ *     1px gap; neither the ring nor the clean surface.
+ *
+ *   1. COVERAGE — EVERY pixel on every side must be painted, with the count in
+ *      the message ("162/163 painted"). There is no painted fraction and no
+ *      per-side skip: a ring that paints 60% of its pixels is not 60% of a focus
+ *      indicator, and a side that paints nothing is either clipped by an
+ *      ancestor or the ring is not drawn at all in that colour, and both are
+ *      defects. An unpainted or PARTLY painted pixel is a COVERAGE defect, never
+ *      a contrast reading: the anti-aliased edge of a 1px gap used to be
+ *      reported as "1.73:1", a contrast number for a coverage defect.
  *   2. CONTRAST — 3:1 on every PAINTED pixel. The minimum is taken over painted
  *      pixels only: an unpainted pixel is 1:1 by definition and belongs to rule
  *      1, so counting it here would make rule 1 unreachable and would report a
@@ -1370,20 +1374,17 @@ function assertPaintedRing(ring, label, scheme) {
       `${label}: no ancestor clips the ${side} ring (cut by ${clippers.map(c => c.name).join(", ")}; ` +
         `${sample.painted}/${sample.total} of the side is painted)`,
     );
-    assert.ok(
-      sample.total > 0 && sample.painted / sample.total >= 0.95,
-      `${label}: at least 95% of the ${side} ring is painted (${sample.painted}/${sample.total} pixels` +
-        `${sample.total ? `, ${(100 * sample.painted / sample.total).toFixed(1)}%` : ""})`,
-    );
     const fractions = Object.entries(sample.partialFractions || {})
       .map(([fraction, count]) => `${count} at ${(100 * Number(fraction)).toFixed(0)}%`).join(", ");
-    assert.equal(
-      sample.partial, 0,
-      `${label}: the ${side} ring is painted on whole pixels — its coverage reading is a paint/clean ` +
-        `split, and ${sample.partial} of ${sample.total} pixels are partly painted` +
-        `${sample.partialAt ? ` (weakest ring rgb(${sample.partialAt.ring.join(",")}) on surface ` +
-          `rgb(${sample.partialAt.surface.join(",")}) at ${sample.partialAt.x},${sample.partialAt.y})` : ""}` +
-        `${fractions ? ` [${fractions}]` : ""}; that is a COVERAGE defect, not a contrast reading`,
+    assert.ok(
+      sample.total > 0 && sample.painted === sample.total,
+      `${label}: every sampled pixel of the ${side} ring is painted (${sample.painted}/${sample.total} painted` +
+        `${sample.total ? `, ${(100 * sample.painted / sample.total).toFixed(1)}%` : ""}` +
+        `${sample.partial ? `; ${sample.partial} of ${sample.total} pixels are partly painted` +
+          `${sample.partialAt ? `, the weakest ring rgb(${sample.partialAt.ring.join(",")}) on surface ` +
+            `rgb(${sample.partialAt.surface.join(",")}) at ${sample.partialAt.x},${sample.partialAt.y}` : ""}` +
+          `${fractions ? ` [${fractions}]` : ""}` : ""}) — a side passes only when 100% of its pixels carry ` +
+        `the ring, so an unpainted or partly-painted pixel is a COVERAGE defect, not a contrast reading`,
     );
     const where = sample.minAt;
     assert.ok(
@@ -1658,40 +1659,35 @@ test("a compact YouTube row's Watch link focus ring reaches 3:1 against the surf
   } finally { await browser.close(); }
 });
 
-/* The >= 95% painted rule has to be REACHABLE, and it has to be the rule that
- * speaks when a ring loses a few per-cent of its pixels. Before this change the
- * 3:1 check took its minimum over EVERY sampled pixel, so one unpainted pixel
- * made a side read 1:1 and the coverage rule could never fire at all: a ring
- * that was 97% painted was reported as "1:1 contrast", and the 95% threshold was
- * dead code. The minimum is now taken over painted pixels only, so the two rules
- * read two different things and both are live.
+/* The coverage rule is 100%: EVERY sampled pixel of every side must be painted,
+ * with no painted fraction left to satisfy. The change is not cosmetic — the
+ * old >= 95% allowance only worked for a gap aligned to the pixel grid, because
+ * a gap whose edges fall between pixel rows leaves partly-painted boundary
+ * pixels (docs/receipts/post42/gap-probe.log: a 1px slit at a .25px offset reads
+ * 161/163 = 98.8%). A gap like that cleared the old fraction on its own, so the
+ * partly-painted half of the old rule was doing all the work while the fraction
+ * looked like the rule that caught it.
  *
- * This control pins all three readings on ONE measurement of a ring that is
- * 96.9% painted on the left stroke. The pixels are removed with a `clip-path`
- * slit cut through the MIDDLE of the focused link, which is the only way to drop
- * a few per-cent of the ring's own pixels without a clipping ANCESTOR — an
- * ancestor clip is caught first, by the cut check, because that check reads
- * geometry and would report the clip.
+ * Each control is one measurement of the compact row's focused Watch link, with
+ * the pixels removed by a `clip-path` slit through the MIDDLE of the link — the
+ * only way to drop ring pixels without a clipping ANCESTOR, because an ancestor
+ * clip is caught first, from geometry, by the cut check.
  *
- *   * 158/163 = 96.9% painted        -> the coverage rule passes,
- *   * min over PAINTED pixels is the ring's own contrast -> the contrast rule passes,
- *   * min over EVERY pixel  = 1.0    -> what the old rule read (it failed here).
+ *   * the FULL ring (no slit)          -> 163/163 painted: the PASSING control;
+ *   * the 5-row slit (158/163, 96.9%)  -> the OLD 97% control, now a FAILING
+ *     coverage case: it was the control that had to clear the 95% threshold;
+ *   * the 12-row slit (151/163)        -> fails at 94% as well;
+ *   * a 1px slit at 0, .25, .5 and .75px offsets -> ALL FOUR fail as coverage.
+ *     At the integer offset the slit removes a whole pixel row (162/163, 99.4%);
+ *     at a fractional offset it splits two rows (161/163 with 2 pixels partly
+ *     painted). Every one of them clears the old 95% fraction, and their painted
+ *     pixels still clear 3:1, so what speaks in every case is the 100% rule.
  *
- * The same slit widened to 94% must FAIL the coverage rule, so the threshold is
- * shown to bite in both directions.
- *
- * The third case is the 1px GAP, and it is the one that used to be MISREPORTED.
- * A 1px slit whose edges fall on a fractional pixel row leaves its two boundary
- * rows partly painted. The old painted test (any channel delta > 20) counted
- * those rows as painted, so the coverage rule never saw the gap and the side was
- * reported as a CONTRAST failure at the partially-painted pixel's ratio
- * (~1.73:1) — a coverage defect wearing a contrast number. Under the >= 50%
- * painted rule the boundary row is neither painted nor clean, and the coverage
- * rule is what speaks. The gap is only one pixel of a 163-pixel side, so its
- * PAINTED fraction (99.4%) clears 95% on its own: the partly-painted half of the
- * coverage rule, not the fraction, is what catches it — which is exactly why the
- * rule has both halves. */
-test("a ring that is 97% painted passes the coverage rule while the old all-pixel minimum would not; a 1px gap fails as coverage", async (t) => {
+ * The 1px gap is also the case that used to be MISREPORTED. Under the fixed
+ * `delta > 20` painted test the anti-aliased boundary rows counted as painted,
+ * so the gap was reported as a CONTRAST failure at the partly-painted pixel's
+ * ratio (~1.73:1) — a coverage defect wearing a contrast number. */
+test("every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage", async (t) => {
   const { THUMB_PNG } = require("./browser_net_harness");
   const browser = await loadNodeModule("playwright").chromium.launch({headless:true});
   try {
@@ -1760,68 +1756,89 @@ test("a ring that is 97% painted passes the coverage rule while the old all-pixe
     return measurePaintedRing(ui, link, unfocused, focused, geometry);
   }
 
-  const green = await measureWithSlit(5);
-  for (const side of ["left"]) {
-    const sample = green.sides[side];
-    const fraction = sample.painted / sample.total;
-    assert.ok(
-      fraction >= 0.95 && fraction < 1,
-      `the 97% control really is partly painted on the ${side} (${sample.painted}/${sample.total} = ${(100 * fraction).toFixed(1)}%)`,
-    );
-    assert.ok(
-      sample.min !== null && sample.min >= 3,
-      `the 97% control's painted pixels still reach 3:1 on the ${side} (min over painted pixels ${sample.min})`,
-    );
-    assert.ok(
-      sample.minAll !== null && sample.minAll < 3,
-      `the old all-pixel minimum reads the unpainted pixels on the ${side} as 1:1 (${sample.minAll})`,
+  // The PASSING control: the whole ring, no slit. Every pixel of every side is
+  // painted, and the same measurement satisfies the contrast rule.
+  const full = await measureWithSlit(0);
+  for (const [side, sample] of Object.entries(full.sides)) {
+    assert.equal(
+      sample.painted, sample.total,
+      `the full ring control paints every pixel of its ${side} side (${sample.painted}/${sample.total})`,
     );
   }
-  // The rules the suite actually ships: the 97%-painted ring passes both.
-  assertPaintedRing(green, "the 97%-painted ring control", "light");
+  assertPaintedRing(full, "the full ring control", "light");
 
-  // And the same defect, wider, must fail the coverage rule — so the 95%
-  // threshold is shown to bite rather than to be satisfied by anything.
-  const red = await measureWithSlit(12);
-  const redFraction = red.sides.left.painted / red.sides.left.total;
+  // The OLD 97% control, which the >= 95% threshold accepted: the same slit,
+  // five whole pixel rows. Its painted pixels still clear 3:1 and its painted
+  // FRACTION still clears 95%, so the coverage rule is the only thing that can
+  // speak here — and it must.
+  const near = await measureWithSlit(5);
+  const nearSide = near.sides.left;
+  const nearFraction = nearSide.painted / nearSide.total;
   assert.ok(
-    redFraction < 0.95,
-    `the 94% control really is under the threshold on the left (${red.sides.left.painted}/${red.sides.left.total} = ${(100 * redFraction).toFixed(1)}%)`,
+    nearFraction >= 0.95 && nearSide.painted < nearSide.total,
+    `the old 97% control is under 100% painted and over the old 95% fraction on the left ` +
+      `(${nearSide.painted}/${nearSide.total} = ${(100 * nearFraction).toFixed(1)}%)`,
+  );
+  assert.ok(
+    nearSide.min !== null && nearSide.min >= 3,
+    `the old 97% control's painted pixels still reach 3:1 on the left (min over painted pixels ${nearSide.min})`,
+  );
+  assert.ok(
+    nearSide.minAll !== null && nearSide.minAll < 3,
+    `the old all-pixel minimum reads the unpainted pixels on the left as 1:1 (${nearSide.minAll})`,
   );
   assert.throws(
-    () => assertPaintedRing(red, "the 94%-painted ring control", "light"),
-    /at least 95% of the left ring is painted/,
-    "a ring under 95% painted fails the coverage rule",
+    () => assertPaintedRing(near, "the 97%-painted ring control", "light"),
+    /every sampled pixel of the left ring is painted \(158\/163 painted/,
+    "the old 97% control now fails the 100% coverage rule",
   );
 
-  // And the 1px gap — the case that used to be reported as a CONTRAST failure.
-  // Its slit's edges fall on a fractional pixel row, so the two rows it touches
-  // are partly painted; the old painted test (any channel delta > 20) counted
-  // both, so the coverage rule never fired and the side failed at the partial
-  // pixel's own ratio. Now the partial row is neither painted nor clean and the
-  // coverage rule speaks.
-  const gap = await measureWithSlit(1, 0.25);
-  const gapSide = gap.sides.left;
+  // And the same defect, wider, fails too — so the rule is shown to bite rather
+  // than to be satisfied by anything under 100%.
+  const under = await measureWithSlit(12);
   assert.ok(
-    gapSide.painted / gapSide.total >= 0.95,
-    `the 1px-gap control's PAINTED fraction clears the 95% threshold on its own ` +
-      `(${gapSide.painted}/${gapSide.total}), so only the partly-painted half of the coverage rule can catch it`,
-  );
-  assert.ok(
-    gapSide.partial > 0,
-    `the 1px-gap control really leaves a partly-painted pixel on the left (${JSON.stringify(gapSide.partialFractions)})`,
-  );
-  assert.ok(
-    gapSide.min !== null && gapSide.min >= 3,
-    `the 1px-gap control's PAINTED pixels still clear 3:1 on the left (min over painted pixels ` +
-      `${gapSide.min}:1, min over every sampled pixel ${gapSide.minAll}:1) — the old rule read the ` +
-      `partly-painted pixel as painted and failed on ITS ratio instead`,
+    under.sides.left.painted < under.sides.left.total,
+    `the 94% control really is under 100% painted on the left ` +
+      `(${under.sides.left.painted}/${under.sides.left.total})`,
   );
   assert.throws(
-    () => assertPaintedRing(gap, "the 1px-gap ring control", "light"),
-    /partly painted/,
-    "a 1px gap fails as a COVERAGE finding, not as a contrast reading",
+    () => assertPaintedRing(under, "the 94%-painted ring control", "light"),
+    /every sampled pixel of the left ring is painted \(151\/163 painted/,
+    "a ring under 100% painted fails the coverage rule",
   );
+
+  // The 1px gap at every offset the card names: on the grid (a whole pixel row
+  // removed) and at .25/.5/.75px (the row split in two). All four clear the old
+  // 95% fraction, and their painted pixels still clear 3:1, so each of them
+  // fails as COVERAGE and not as a fraction or a contrast reading.
+  for (const offset of [0, 0.25, 0.5, 0.75]) {
+    const gap = await measureWithSlit(1, offset);
+    const side = gap.sides.left;
+    const label = `the 1px-gap ring control at a ${offset}px offset`;
+    assert.ok(
+      side.painted / side.total >= 0.95 && side.painted < side.total,
+      `${label}: the PAINTED fraction alone clears the old 95% threshold on the left ` +
+        `(${side.painted}/${side.total} = ${(100 * side.painted / side.total).toFixed(1)}%), so only the ` +
+        `100% rule can catch it`,
+    );
+    assert.ok(
+      offset === 0 ? side.partial === 0 : side.partial > 0,
+      `${label}: the slit sits ${offset === 0 ? "on the pixel grid, so no boundary pixel is split" :
+        "between pixel rows, so its boundary pixels are partly painted"} ` +
+        `(${JSON.stringify(side.partialFractions)})`,
+    );
+    assert.ok(
+      side.min !== null && side.min >= 3,
+      `${label}: the painted pixels still clear 3:1 on the left (min over painted pixels ` +
+        `${side.min}:1, min over every sampled pixel ${side.minAll}:1) — the old rule read the ` +
+        `partly-painted pixel as painted and failed on ITS ratio instead`,
+    );
+    assert.throws(
+      () => assertPaintedRing(gap, label, "light"),
+      /every sampled pixel of the left ring is painted \(1(61|62)\/163 painted/,
+      `${label} fails as a COVERAGE finding, not as a contrast reading`,
+    );
+  }
   } finally { await browser.close(); }
 });
 /* The render-time host check is an EXACT match. A host that only ends with

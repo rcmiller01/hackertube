@@ -30,7 +30,7 @@ const arg = (name, fallback) => {
 };
 const label = arg("--label", "head");
 const shots = args.includes("--shots");
-const hostDir = "/Users/robert/.hermes/hermes-agent/hermes_cli/web_dist/assets";
+const hostDir = "<hermes-home>/hermes-agent/hermes_cli/web_dist/assets";
 const hostPath = process.env.HACKERTUBE_HOST_CSS
   || path.join(hostDir, fs.readdirSync(hostDir).filter(x => /^index-.*\.css$/.test(x))[0]);
 const NOTE = "Metadata from YouTube. Explanations and library actions are HackerTube\u2019s.";

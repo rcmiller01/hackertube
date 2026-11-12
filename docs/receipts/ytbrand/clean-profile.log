@@ -1,6 +1,6 @@
 {
-  "home": "/Users/robert/.hermes/cache/scratch/ht32-cp",
-  "storage": "/Users/robert/.hermes/hermes-agent/plugins/plugin_storage.py",
+  "home": "<hermes-home>/cache/scratch/ht32-cp",
+  "storage": "<hermes-home>/hermes-agent/plugins/plugin_storage.py",
   "assets": {
     "note": true,
     "compact_attribution": true,
@@ -10,7 +10,7 @@
   "policy_accepted": true,
   "status": {
     "name": "HackerTube",
-    "data_root": "/Users/robert/.hermes/cache/scratch/ht32-cp/plugin-data/hackertube",
+    "data_root": "<hermes-home>/cache/scratch/ht32-cp/plugin-data/hackertube",
     "provider": "hermes"
   },
   "catalog": {

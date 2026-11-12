@@ -145,10 +145,10 @@ E       TimeoutError: timed out
 ../../.hermes/tools/python-3.14.9+20261021-darwin-arm64/lib/python3.14/socket.py:298: TimeoutError
 ----------------------------- Captured stderr call -----------------------------
 Traceback (most recent call last):
-  File "/Users/robert/Developer/hackertube/tests/fixtures/search_worker_probe.py", line 60, in <module>
+  File "<repo>/tests/fixtures/search_worker_probe.py", line 60, in <module>
     raise SystemExit(main())
                      ~~~~^^
-  File "/Users/robert/Developer/hackertube/tests/fixtures/search_worker_probe.py", line 19, in main
+  File "<repo>/tests/fixtures/search_worker_probe.py", line 19, in main
     from hackertube_core.search_jobs import SearchSupervisor
 ModuleNotFoundError: No module named 'hackertube_core.search_jobs'
 =========================== short test summary info ============================

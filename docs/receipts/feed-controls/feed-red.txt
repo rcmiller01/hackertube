@@ -19,7 +19,7 @@ test at tests/test_dashboard_page.js:2291:3
 
   'Ranked feed 0No seeded record matches these interests. Coverage is limited to the titles and contributors in this catalog.Open focused search'
 
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_dashboard_page.js:2312:14)
+      at TestContext.<anonymous> (<repo>/tests/test_dashboard_page.js:2312:14)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.start (node:internal/test_runner/test:1257:17)
@@ -38,7 +38,7 @@ test at tests/test_dashboard_page.js:2291:3
 
   'Ranked feed 0No seeded record matches these interests. Coverage is limited to the titles and contributors in this catalog.Open focused search'
 
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_dashboard_page.js:2312:14)
+      at TestContext.<anonymous> (<repo>/tests/test_dashboard_page.js:2312:14)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
@@ -59,7 +59,7 @@ test at tests/test_dashboard_page.js:2291:3
 
   'Ranked feed 0No seeded record matches these interests. Coverage is limited to the titles and contributors in this catalog.Open focused search'
 
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_dashboard_page.js:2312:14)
+      at TestContext.<anonymous> (<repo>/tests/test_dashboard_page.js:2312:14)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
@@ -80,7 +80,7 @@ test at tests/test_dashboard_page.js:2291:3
 
   'Ranked feed 0No seeded record matches these interests. Coverage is limited to the titles and contributors in this catalog.Open focused search'
 
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube/tests/test_dashboard_page.js:2312:14)
+      at TestContext.<anonymous> (<repo>/tests/test_dashboard_page.js:2312:14)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)

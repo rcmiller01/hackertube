@@ -21,7 +21,7 @@ import sys
 from pathlib import Path
 
 HERMES_HOME = Path(os.environ["HERMES_HOME"]).resolve()
-AGENT_HOME = Path("/Users/robert/.hermes/hermes-agent")
+AGENT_HOME = Path("<hermes-home>/hermes-agent")
 PLUGIN_API = HERMES_HOME / "plugins" / "hackertube" / "dashboard" / "plugin_api.py"
 QUESTION = "What can I read or listen to by Jane Austen?"
 

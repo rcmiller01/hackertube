@@ -37,7 +37,7 @@ Inventory at this code commit:
 
 ## Reproduction and environment
 
-Python: `/Users/robert/Developer/hackertube-3.3/.venv/bin/python`,
+Python: `<repo>-3.3/.venv/bin/python`,
 **CPython 3.14.7**. Installed dependencies: pytest 9.2.0, fastapi 0.162.0,
 httpx 0.28.1. Node: **v26.7.0**. Python dependencies can be installed with:
 

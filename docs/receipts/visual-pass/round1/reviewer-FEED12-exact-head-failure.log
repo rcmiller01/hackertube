@@ -18,7 +18,7 @@ test at tests/test_browser_requests.js:127:1
   + ''
   - 'Feed updated from this search.'
   
-      at TestContext.<anonymous> (/Users/robert/.hermes/kanban/workspaces/t_59a26348/candidate/tests/test_browser_requests.js:233:12)
+      at TestContext.<anonymous> (<hermes-home>/kanban/workspaces/t_59a26348/candidate/tests/test_browser_requests.js:233:12)
       at async Test.run (node:internal/test_runner/test:1404:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: true,

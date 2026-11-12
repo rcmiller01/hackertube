@@ -18,8 +18,8 @@
 test at tests/test_dashboard_page.js:2914:1
 ✖ visual CSS F1 F2 F5 F6 F7 F10 F11 F12 F13 F15 F16 F17 F19 F23 token layout contract (1.2515ms)
   AssertionError [ERR_ASSERTION]: .hackertube :is(#videos,#books,#audiobooks) .ht-compact .ht-format
-      at rule (/Users/robert/Developer/hackertube-post30/tests/test_dashboard_page.js:2918:12)
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-post30/tests/test_dashboard_page.js:2932:16)
+      at rule (<repo>-post30/tests/test_dashboard_page.js:2918:12)
+      at TestContext.<anonymous> (<repo>-post30/tests/test_dashboard_page.js:2932:16)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.start (node:internal/test_runner/test:1257:17)
@@ -38,7 +38,7 @@ test at tests/test_dashboard_page.js:3043:1
   
   '.hackertube .ht-compact .ht-format { display: none; }'
   
-      at TestContext.<anonymous> (/Users/robert/Developer/hackertube-post30/tests/test_dashboard_page.js:3047:10)
+      at TestContext.<anonymous> (<repo>-post30/tests/test_dashboard_page.js:3047:10)
       at Test.runInAsyncScope (node:async_hooks:226:14)
       at Test.run (node:internal/test_runner/test:1397:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
