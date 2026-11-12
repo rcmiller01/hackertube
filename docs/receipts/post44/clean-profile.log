@@ -1,0 +1,16 @@
+{
+  "home": "<hermes-home>/cache/scratch/ht44-clean-a1cblxpr",
+  "storage": "<hermes-home>/hermes-agent/plugins/plugin_storage.py",
+  "installed_ring_rule": ".hackertube :focus,\n.hackertube :focus-visible {\n  outline: 2px solid var(--color-ring);\n  outline-offset: 2px;\n",
+  "installed_wrapper_rule": ".hackertube .hackertube {\n  padding: 0 4px;\n  margin: 0 -4px;\n  max-width: none;\n}",
+  "source_outage": {
+    "sources": 7,
+    "items": 0,
+    "counts": {
+      "free": 0,
+      "paid": 0,
+      "metered": 0
+    },
+    "down_source": "hn"
+  }
+}

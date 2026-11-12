@@ -1,0 +1,55 @@
+✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (14986.344583ms)
+✔ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (14018.521083ms)
+✖ every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage (1221.21275ms)
+✖ a fully painted ring over a gradient surface is not read as partly painted (1204.0085ms)
+✖ a two-tone ring from one outline colour over a surface that changes is not read as partly painted (1133.43775ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 2
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 32603.361458
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:1850:1
+✖ every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage (1221.21275ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception: the 1px-gap ring control at a 0px offset fails as a COVERAGE finding, not as a contrast reading
+      at assertCoverageGap (<repo>-post44/tests/test_privacy_browser.js:1962:12)
+      at TestContext.<anonymous> (<repo>-post44/tests/test_privacy_browser.js:2008:7)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:2063:1
+✖ a fully painted ring over a gradient surface is not read as partly painted (1204.0085ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception: a 1px gap over a gradient surface fails as a COVERAGE finding
+      at TestContext.<anonymous> (<repo>-post44/tests/test_privacy_browser.js:2224:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:2255:1
+✖ a two-tone ring from one outline colour over a surface that changes is not read as partly painted (1133.43775ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception: a 1px gap over a two-tone ring fails as a COVERAGE finding
+      at TestContext.<anonymous> (<repo>-post44/tests/test_privacy_browser.js:2383:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }

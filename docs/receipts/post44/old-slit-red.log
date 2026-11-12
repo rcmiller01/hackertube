@@ -1,0 +1,25 @@
+✖ every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage (19665.737834ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19703.2445
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:1850:1
+✖ every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage (19665.737834ms)
+  AssertionError [ERR_ASSERTION]: the 1px-gap ring control at a 0.5px offset at DPR 2: the slit splits its boundary pixels, which are partly painted ({})
+      at TestContext.<anonymous> (<repo>/tests/test_privacy_browser.js:2002:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

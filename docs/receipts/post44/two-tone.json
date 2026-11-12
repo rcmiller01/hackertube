@@ -1,0 +1,183 @@
+{
+  "fixture": "two-tone",
+  "width": 320,
+  "rows": 3,
+  "boxes": {
+    "link": {
+      "left": 39,
+      "top": 707.03125,
+      "right": 256.140625,
+      "bottom": 893.03125,
+      "width": 217.140625,
+      "height": 186
+    },
+    "content": {
+      "left": 24,
+      "top": 472.90625,
+      "right": 296,
+      "bottom": 1121.515625,
+      "width": 272,
+      "height": 648.609375
+    }
+  },
+  "reachedByTab": true,
+  "outline": {
+    "outlineColor": "rgba(112, 112, 112, 0.92)",
+    "outlineStyle": "solid",
+    "outlineWidth": 2,
+    "outlineOffset": 2,
+    "devicePixelRatio": 1,
+    "box": {
+      "left": 39,
+      "right": 256.140625,
+      "top": 707.03125,
+      "bottom": 893.03125
+    }
+  },
+  "sides": {
+    "left": {
+      "total": 163,
+      "surfaces": [
+        "255,255,255"
+      ],
+      "tones": [
+        "123,123,123"
+      ],
+      "referenceFromComputedOutline": {
+        "overBlack": [
+          103,
+          103,
+          103
+        ],
+        "overWhite": [
+          123,
+          123,
+          123
+        ]
+      },
+      "shipped": {
+        "painted": 163,
+        "partial": 0,
+        "total": 163,
+        "minContrast": 4.23
+      },
+      "strongestPixel": {
+        "painted": 163,
+        "partial": 0
+      },
+      "strongestDifference": {
+        "painted": 163,
+        "partial": 0
+      }
+    },
+    "right": {
+      "total": 163,
+      "surfaces": [
+        "0,0,0"
+      ],
+      "tones": [
+        "103,103,103"
+      ],
+      "referenceFromComputedOutline": {
+        "overBlack": [
+          103,
+          103,
+          103
+        ],
+        "overWhite": [
+          123,
+          123,
+          123
+        ]
+      },
+      "shipped": {
+        "painted": 163,
+        "partial": 0,
+        "total": 163,
+        "minContrast": 3.71
+      },
+      "strongestPixel": {
+        "painted": 163,
+        "partial": 0
+      },
+      "strongestDifference": {
+        "painted": 163,
+        "partial": 0
+      }
+    },
+    "top": {
+      "total": 194,
+      "surfaces": [
+        "255,255,255",
+        "0,0,0"
+      ],
+      "tones": [
+        "123,123,123",
+        "103,103,103"
+      ],
+      "referenceFromComputedOutline": {
+        "overBlack": [
+          103,
+          103,
+          103
+        ],
+        "overWhite": [
+          123,
+          123,
+          123
+        ]
+      },
+      "shipped": {
+        "painted": 194,
+        "partial": 0,
+        "total": 194,
+        "minContrast": 3.71
+      },
+      "strongestPixel": {
+        "painted": 38,
+        "partial": 156
+      },
+      "strongestDifference": {
+        "painted": 38,
+        "partial": 156
+      }
+    },
+    "bottom": {
+      "total": 194,
+      "surfaces": [
+        "255,255,255",
+        "0,0,0"
+      ],
+      "tones": [
+        "123,123,123",
+        "103,103,103"
+      ],
+      "referenceFromComputedOutline": {
+        "overBlack": [
+          103,
+          103,
+          103
+        ],
+        "overWhite": [
+          123,
+          123,
+          123
+        ]
+      },
+      "shipped": {
+        "painted": 194,
+        "partial": 0,
+        "total": 194,
+        "minContrast": 3.71
+      },
+      "strongestPixel": {
+        "painted": 38,
+        "partial": 156
+      },
+      "strongestDifference": {
+        "painted": 38,
+        "partial": 156
+      }
+    }
+  }
+}

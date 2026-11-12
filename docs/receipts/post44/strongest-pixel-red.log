@@ -1,0 +1,28 @@
+✖ a two-tone ring from one outline colour over a surface that changes is not read as partly painted (724.579208ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 758.6515
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:2255:1
+✖ a two-tone ring from one outline colour over a surface that changes is not read as partly painted (724.579208ms)
+  AssertionError [ERR_ASSERTION]: the two-tone ring paints every pixel of its top side (38/194, 156 partly painted {"0.84":156})
+
+  38 !== 194
+
+      at TestContext.<anonymous> (<repo>/tests/test_privacy_browser.js:2365:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 38,
+    expected: 194,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

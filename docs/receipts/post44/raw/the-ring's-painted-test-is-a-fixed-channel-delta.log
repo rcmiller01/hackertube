@@ -1,0 +1,29 @@
+✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (19270.904375ms)
+✔ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (14707.079959ms)
+✖ every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage (1509.166084ms)
+✔ a fully painted ring over a gradient surface is not read as partly painted (1101.215458ms)
+✔ a two-tone ring from one outline colour over a surface that changes is not read as partly painted (1199.848917ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 37829.507125
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:1850:1
+✖ every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage (1509.166084ms)
+  AssertionError [ERR_ASSERTION]: the 1px-gap ring control at a 0.25px offset: the slit splits its boundary pixels, which are partly painted ({})
+      at TestContext.<anonymous> (<repo>-post44/tests/test_privacy_browser.js:2002:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

@@ -1,0 +1,46 @@
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (12337.834584ms)
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (12443.320375ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 24817.923042
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:1580:1
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (12337.834584ms)
+  AssertionError [ERR_ASSERTION]: at 390px light dpr-2 the run measures the device pixel ratio it asked for
+
+  1 !== 2
+
+      at TestContext.<anonymous> (<repo>/tests/test_privacy_browser.js:1669:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:1742:1
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (12443.320375ms)
+  AssertionError [ERR_ASSERTION]: at 390px light dpr-2 the compact run measures the device pixel ratio it asked for
+
+  1 !== 2
+
+      at TestContext.<anonymous> (<repo>/tests/test_privacy_browser.js:1799:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

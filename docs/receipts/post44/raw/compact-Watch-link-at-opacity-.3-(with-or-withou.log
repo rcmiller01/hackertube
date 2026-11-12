@@ -1,0 +1,75 @@
+✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (14496.320167ms)
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (628.169917ms)
+✖ every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage (663.486958ms)
+✖ a fully painted ring over a gradient surface is not read as partly painted (602.406666ms)
+✖ a two-tone ring from one outline colour over a surface that changes is not read as partly painted (457.242708ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 1
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16884.144666
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:1742:1
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (628.169917ms)
+  AssertionError [ERR_ASSERTION]: at 320px light the compact row's Watch link: every painted pixel of the left ring reaches >= 3:1 (min over painted pixels 1.98:1, ring rgb(184,184,185) on surface rgb(255,255,255) at 36,719; min over every sampled pixel 1.98:1)
+      at assertPaintedRing (<repo>-post44/tests/test_privacy_browser.js:1524:12)
+      at TestContext.<anonymous> (<repo>-post44/tests/test_privacy_browser.js:1805:7)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:1850:1
+✖ every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage (663.486958ms)
+  AssertionError [ERR_ASSERTION]: the full ring control: every painted pixel of the left ring reaches >= 3:1 (min over painted pixels 1.98:1, ring rgb(184,184,185) on surface rgb(255,255,255) at 36,719; min over every sampled pixel 1.98:1)
+      at assertPaintedRing (<repo>-post44/tests/test_privacy_browser.js:1524:12)
+      at TestContext.<anonymous> (<repo>-post44/tests/test_privacy_browser.js:1982:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:2063:1
+✖ a fully painted ring over a gradient surface is not read as partly painted (602.406666ms)
+  AssertionError [ERR_ASSERTION]: the full ring over the gradient surface: every painted pixel of the left ring reaches >= 3:1 (min over painted pixels 1.97:1, ring rgb(183,183,184) on surface rgb(253,253,253) at 36,721; min over every sampled pixel 1.97:1)
+      at assertPaintedRing (<repo>-post44/tests/test_privacy_browser.js:1524:12)
+      at TestContext.<anonymous> (<repo>-post44/tests/test_privacy_browser.js:2201:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:2255:1
+✖ a two-tone ring from one outline colour over a surface that changes is not read as partly painted (457.242708ms)
+  AssertionError [ERR_ASSERTION]: the full two-tone ring: every painted pixel of the left ring reaches >= 3:1 (min over painted pixels 1.44:1, ring rgb(215,215,215) on surface rgb(255,255,255) at 36,719; min over every sampled pixel 1.44:1)
+      at assertPaintedRing (<repo>-post44/tests/test_privacy_browser.js:1524:12)
+      at TestContext.<anonymous> (<repo>-post44/tests/test_privacy_browser.js:2372:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

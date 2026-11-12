@@ -1,6 +1,6 @@
-"""Red-then-green proof for the ring tests, post-#43 follow-ups.
+"""Red-then-green proof for the ring tests, post-#43/#44 follow-ups.
 
-Each mutation is applied to the files it names, the four ring tests are run, and
+Each mutation is applied to the files it names, the ring tests are run, and
 every source is restored from the in-memory copy (never `git checkout`: the
 branch's own work is uncommitted). The restore is verified by sha256 after every
 mutation, so a killed run cannot leave a mutation in the tree. `node --test` is
@@ -8,6 +8,11 @@ always given a timeout: a FAILING browser test in this file can leave a fixture
 server open and hang the runner.
 
     python3 docs/receipts/post43/mutate_ring.py
+
+The Node binary defaults to the box's `node-26.12.1` (its spec reporter prints
+U+2714/U+2716). Set `HACKERTUBE_NODE_BIN` to run the same set on another Node —
+Node 22's default TAP reporter prints `ok` / `not ok` instead, and `verdicts()`
+reads both, which is what post-#44's Cracked finding asked for.
 
 The set is the post-#42 matrix — alpha, opacity, `color()`, the two overflow
 clips, the `.dark`-only and media-query-only token blocks, the surface-coloured
@@ -23,6 +28,13 @@ card's three:
     over the gradient surface as partly painted (132/194 on the top stroke).
   * **the gradient-surface option is inert** — the fixture itself. Without it the
     ring paints over a flat surface and the gradient test has nothing to measure.
+
+post-#44's Picasso finding adds one more thing the set now covers, without a new
+mutation: the per-pixel reference is the COMPUTED outline colour composited over
+each pixel's own surface, and the "classified against the side's strongest
+difference" mutation below also breaks the two-tone fixture (one outline colour
+over a surface that changes), because that fixture's two ring tones are exactly
+what a single measured reference cannot express.
 
 Two of post-#40/post-#41's mutations are NOT re-run here, and the reason is in
 the receipt:
@@ -61,12 +73,18 @@ REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")
 STYLE = os.path.join(REPO, "hackertube/dashboard/dist/style.css")
 HARNESS = os.path.join(REPO, "tests/browser_net_harness.js")
 TEST = os.path.join(REPO, "tests/test_privacy_browser.js")
-OUT = os.path.dirname(os.path.abspath(__file__))
-PATTERN = "in light and dark|every pixel of every side|gradient surface"
+OUT = os.environ.get("HACKERTUBE_MUTATION_OUT", os.path.dirname(os.path.abspath(__file__)))
+PATTERN = "in light and dark|every pixel of every side|gradient surface|two-tone"
 
+# The Node whose reporter `verdicts()` must read. Set `HACKERTUBE_NODE_BIN` to the
+# bin directory of another Node to run the same set there; `verdicts()` reads both
+# the spec reporter's U+2714/U+2716 and TAP's `ok` / `not ok`, so a Node 22 run
+# records which test caught each mutation instead of an empty map.
+NODE_BIN = os.environ.get("HACKERTUBE_NODE_BIN") \
+    or os.path.expanduser("~/.hermes/tools/node-26.12.1-darwin-arm64/bin")
 NODE_PATH = os.path.expanduser("~/.hermes/cache/scratch/node-modules/node_modules")
 ENV = dict(os.environ,
-           PATH=os.path.expanduser("~/.hermes/tools/node-26.12.1-darwin-arm64/bin") + ":" + os.environ["PATH"],
+           PATH=NODE_BIN + ":" + os.environ["PATH"],
            NODE_PATH=NODE_PATH,
            HACKERTUBE_NODE_MODULES=NODE_PATH,
            PLAYWRIGHT_BROWSERS_PATH=os.path.expanduser("~/.hermes/tools"))
@@ -116,7 +134,7 @@ BAND_RULE = "          if (fraction >= 0.95) painted += 1;"
 COVERAGE_RULE = """    assert.ok(
       sample.total > 0 && sample.painted === sample.total,"""
 DPR_SCALE = "    const at = (value) => value * dpr;"
-CLASSIFY = "          const fraction = denom > 0 ? Math.min(1, held / denom) : 0;"
+CLASSIFY = "          const fraction = denom > 0 ? Math.min(1, held / denom) : (held <= 0 ? 1 : 0);"
 CLASSIFY_OLD = "          const fraction = full > 0 ? held / full : 0;"
 
 MUTATIONS = [
@@ -189,6 +207,7 @@ RING_TEST_NAMES = [
     "a compact YouTube row's Watch link focus ring reaches 3:1",
     "every pixel of every side of the ring must be painted",
     "a fully painted ring over a gradient surface is not read as partly painted",
+    "a two-tone ring from one outline colour over a surface that changes",
 ]
 
 
@@ -205,12 +224,32 @@ def run_tests():
 
 
 def verdicts(output):
-    """Which tests passed, read from node's own summary lines."""
+    """Which tests passed, read from node's own summary lines — in BOTH formats.
+
+    Node's default reporter changed under us: 26.x prints one spec line per test
+    with U+2714 / U+2716, while Node 22 (and `--test-reporter=tap`) prints TAP's
+    `ok N - name` / `not ok N - name`. Only the spec form used to be read, so on
+    Node 22 this map came out EMPTY: the exit code still caught every mutation, but
+    the record could not say which test caught it. A line marked `# SKIP` is a test
+    the name pattern filtered out, not a verdict, so it is skipped rather than
+    counted as a pass.
+    """
     state = {}
     for line in output.splitlines():
+        stripped = line.strip()
+        if "# SKIP" in stripped:
+            continue
+        if stripped.startswith(("\u2714", "\u2716")):
+            passed = stripped[0] == "\u2714"
+        elif stripped.startswith("not ok "):
+            passed = False
+        elif stripped.startswith("ok "):
+            passed = True
+        else:
+            continue
         for name in RING_TEST_NAMES:
-            if line.strip().startswith(("\u2714", "\u2716")) and name in line:
-                state[name] = line.strip()[0] == "\u2714"
+            if name in stripped:
+                state[name] = passed
     return state
 
 
@@ -264,7 +303,8 @@ def main():
         caught = any(value is False for value in green.values()) or code != 0
         errors = [line.strip() for line in output.splitlines() if "AssertionError" in line]
         names = [line.strip() for line in output.splitlines()
-                 if line.strip().startswith("\u2716") and "test failed" not in line]
+                 if (line.strip().startswith("\u2716") or line.strip().startswith("not ok "))
+                 and "test failed" not in line]
         failures = (errors + names)[:6]
         slug = mutation["name"][:48].replace(" ", "-").replace("/", "-").replace("@", "at")
         raw_dir = os.path.join(OUT, "raw")
@@ -301,7 +341,7 @@ def main():
     # on disk, so the hunt's last step is the placeholder rewrite. Bytecode is
     # dropped as well: importing `redact_paths` from inside this tree would
     # otherwise leave a `.pyc` carrying the prefixes it assembles.
-    sys.path.insert(0, OUT)
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     import redact_paths  # noqa: E402  (beside this file)
     redacted = redact_paths.redact()
     dropped = redact_paths.drop_bytecode()
@@ -311,6 +351,9 @@ def main():
     misses = [m["name"] for m in results if not m["caught"]]
     if misses:
         print("NOT caught by these tests: " + ", ".join(misses))
+        return 1
+    if code != 0 or len(green) != len(RING_TEST_NAMES) or not all(green.values()):
+        print("Green control failed or its per-test verdict map is incomplete")
         return 1
     return 0
 

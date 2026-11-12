@@ -1,0 +1,79 @@
+{
+  "pytest": {
+    "collected": 338,
+    "passed": 338,
+    "failed": 0
+  },
+  "node": {
+    "tests": 181,
+    "pass": 181,
+    "fail": 0,
+    "skipped": 0
+  },
+  "feed12": [
+    {
+      "run": 1,
+      "exit": 0
+    },
+    {
+      "run": 2,
+      "exit": 0
+    },
+    {
+      "run": 3,
+      "exit": 0
+    },
+    {
+      "run": 4,
+      "exit": 0
+    },
+    {
+      "run": 5,
+      "exit": 0
+    },
+    {
+      "run": 6,
+      "exit": 0
+    },
+    {
+      "run": 7,
+      "exit": 0
+    },
+    {
+      "run": 8,
+      "exit": 0
+    },
+    {
+      "run": 9,
+      "exit": 0
+    },
+    {
+      "run": 10,
+      "exit": 0
+    }
+  ],
+  "plugin_validate_exit": 0,
+  "plugin_doctor_exit": 0,
+  "clean_profile_probe": {
+    "home": "<hermes-home>/cache/scratch/ht44-clean-a1cblxpr",
+    "storage": "<hermes-home>/hermes-agent/plugins/plugin_storage.py",
+    "installed_ring_rule": ".hackertube :focus,\n.hackertube :focus-visible {\n  outline: 2px solid var(--color-ring);\n  outline-offset: 2px;\n",
+    "installed_wrapper_rule": ".hackertube .hackertube {\n  padding: 0 4px;\n  margin: 0 -4px;\n  max-width: none;\n}",
+    "source_outage": {
+      "sources": 7,
+      "items": 0,
+      "counts": {
+        "free": 0,
+        "paid": 0,
+        "metered": 0
+      },
+      "down_source": "hn"
+    }
+  },
+  "input_sha256": {
+    "tests/test_privacy_browser.js": "e7fe3db8716aede794371e96db8d7148589ae4c8a484bc96180a1d963184fea8",
+    "tests/browser_net_harness.js": "1049a10d0fedf305adc9f4eb8691a8bc980e3497b154fa0d9cb64f89f90978b7",
+    "tests/test_receipt_paths.py": "48b43bf2cd022efe70595c67f19ddf5bd98db0a16e6137bc03e4c118e26153d4",
+    "docs/receipts/post43/mutate_ring.py": "bcebf25b7275e75176b0a6c4494d7b1c7610dd1fc714f9fdf2bec43989690fc1"
+  }
+}

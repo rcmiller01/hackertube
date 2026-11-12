@@ -1,0 +1,45 @@
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (1024.43125ms)
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (1067.937209ms)
+✔ every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage (33023.441916ms)
+✔ a fully painted ring over a gradient surface is not read as partly painted (1485.459208ms)
+✔ a two-tone ring from one outline colour over a surface that changes is not read as partly painted (1148.738791ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 3
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 37787.901833
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:1580:1
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (1024.43125ms)
+  AssertionError [ERR_ASSERTION]: at 320px dark the full card's Watch link: every painted pixel of the left ring reaches >= 3:1 (min over painted pixels 1.02:1, ring rgb(11,46,46) on surface rgb(7,48,48) at 43,768; min over every sampled pixel 1.02:1)
+      at assertPaintedRing (<repo>-post44/tests/test_privacy_browser.js:1524:12)
+      at TestContext.<anonymous> (<repo>-post44/tests/test_privacy_browser.js:1682:7)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:1742:1
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (1067.937209ms)
+  AssertionError [ERR_ASSERTION]: at 320px dark the compact row's Watch link: every painted pixel of the left ring reaches >= 3:1 (min over painted pixels 1.22:1, ring rgb(11,46,46) on surface rgb(4,28,28) at 36,719; min over every sampled pixel 1.22:1)
+      at assertPaintedRing (<repo>-post44/tests/test_privacy_browser.js:1524:12)
+      at TestContext.<anonymous> (<repo>-post44/tests/test_privacy_browser.js:1805:7)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
