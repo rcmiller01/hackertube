@@ -128,6 +128,15 @@ fraction in `assertPaintedRing` was only *documented* as a 95% rule here — the
 fire. That is fixed in the follow-up change, with the measured aggregation and a
 97%-painted control: `docs/receipts/post40`.
 
+**Correction of record (post-#43, 2026-11-11).** Everything #43 changed in this
+file is editorial, and it is dated here so the record stays intact. Statement 2
+above now reads "on any side painted less than 95% (100% coverage as of post-#42 —
+every sampled pixel painted, `docs/receipts/post42/README.md`)" where this revision
+wrote "on any side painted less than 95%". Nothing else in that sentence, and
+nothing else in this receipt, moved. No measurement is re-read either: every count
+here was produced by `ee6b7c4`'s test file against the 95% fraction this receipt
+shipped, which is why the `95%` is left in place and marked rather than rewritten.
+
 ## Clean-profile failure path
 
 `run-clean.sh` on a fresh `HERMES_HOME`: `hermes plugins enable hackertube` exit

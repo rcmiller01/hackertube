@@ -36,10 +36,10 @@ Memory integration, agent/chat entry, refinement, full cancellation/recovery, ad
 
 ## Consolidation performed
 
-- Canonical working directory: `/Users/robert/Developer/hackertube`.
+- Canonical working directory: `<home>/Developer/hackertube`.
 - Working branch: `codex/demo-readiness-consolidation`, starting at the latest fetched origin/main. Local main was not merged or pushed.
 - Removed the four task worktrees `hackertube-2.3`, `hackertube-2.4`, `hackertube-3.3`, and `hackertube-4.1`. All had clean tracked state; their only non-ignored untracked files were Finder `.DS_Store` files. All branch references remain. The older review worktree outside Developer was left alone.
-- Before removal, archived all four complete directories, including ignored environments/caches, and verified **4,069 regular files** byte-for-byte. Also created and verified an all-branches Git bundle. Backup: `/Users/robert/Documents/Codex/2026-11-08/hackertube-consolidation/`. Its `manifest.json` records the archive checksum. The archive and branch bundle together preserve files and history for restoration.
+- Before removal, archived all four complete directories, including ignored environments/caches, and verified **4,069 regular files** byte-for-byte. Also created and verified an all-branches Git bundle. Backup: `<home>/Documents/Codex/2026-11-08/hackertube-consolidation/`. Its `manifest.json` records the archive checksum. The archive and branch bundle together preserve files and history for restoration.
 - Created one Python environment in the canonical directory and verified its suite. Added ignore rules for `.DS_Store`, `.venv/`, `.pytest_cache/`, and `node_modules/`.
 
 ## Code/file simplification recommended

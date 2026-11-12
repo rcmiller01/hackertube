@@ -1,0 +1,29 @@
+..F                                                                      [100%]
+=================================== FAILURES ===================================
+______________ test_no_doc_or_spec_carries_an_absolute_home_path _______________
+
+    def test_no_doc_or_spec_carries_an_absolute_home_path():
+        """The same rule for `docs/` and `openspec/`, which `docs/receipts/` is a part of.
+    
+        The three files this test was widened for are a readiness note, a review
+        record and a change's `verification.md` — each one an evidence document a
+        reader on another box is expected to be able to follow.
+        """
+        problems = []
+        for root in DOC_ROOTS:
+            files = _files(root)
+            floor = ROOT_FLOORS[root]
+            assert len(files) >= floor, (
+                f"only {len(files)} files found under {root} (floor {floor}): the scan is not looking where it thinks it is")
+            for path, hits in _offenders(files):
+                problems.append(f"{path} {hits}")
+>       assert not problems, (
+            f"{len(problems)} file(s) under docs/ or openspec/ carry an absolute home path "
+            f"({' ; '.join(problems[:5])}) — write it as <repo>/, <hermes-home>/ or <home>/ instead")
+E       AssertionError: 3 file(s) under docs/ or openspec/ carry an absolute home path (/private/tmp/ht43-base2-7592/docs/demo-readiness-2026-11-08.md {'Users-prefix': 2} ; /private/tmp/ht43-base2-7592/docs/pr18-review.md {'Users-prefix': 1} ; /private/tmp/ht43-base2-7592/openspec/changes/hackertube-v1/verification.md {'Users-prefix': 11}) — write it as <repo>/, <hermes-home>/ or <home>/ instead
+E       assert not ["/private/tmp/ht43-base2-7592/docs/demo-readiness-2026-11-08.md {'Users-prefix': 2}", "/private/tmp/ht43-base2-7592/d...Users-prefix': 1}", "/private/tmp/ht43-base2-7592/openspec/changes/hackertube-v1/verification.md {'Users-prefix': 11}"]
+
+tests/test_receipt_paths.py:91: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_receipt_paths.py::test_no_doc_or_spec_carries_an_absolute_home_path
+1 failed, 2 passed in 0.18s
