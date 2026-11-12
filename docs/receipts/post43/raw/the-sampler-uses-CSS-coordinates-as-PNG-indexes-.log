@@ -1,0 +1,61 @@
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (9485.358958ms)
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (9284.65375ms)
+✖ every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage (3445.781167ms)
+✔ a fully painted ring over a gradient surface is not read as partly painted (829.01325ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 1
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23085.705417
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:1516:1
+✖ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (9485.358958ms)
+  AssertionError [ERR_ASSERTION]: at 390px light dpr-2 the full card's Watch link: every sampled pixel of the left ring is painted (0/301 painted, 0.0%) — a side passes only when 100% of its pixels carry the ring, so an unpainted or partly-painted pixel is a COVERAGE defect, not a contrast reading
+      at assertPaintedRing (<repo>-post43/tests/test_privacy_browser.js:1449:12)
+      at TestContext.<anonymous> (<repo>-post43/tests/test_privacy_browser.js:1611:7)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:1671:1
+✖ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (9284.65375ms)
+  AssertionError [ERR_ASSERTION]: at 390px light dpr-2 the compact row's Watch link: every sampled pixel of the left ring is painted (0/163 painted, 0.0%) — a side passes only when 100% of its pixels carry the ring, so an unpainted or partly-painted pixel is a COVERAGE defect, not a contrast reading
+      at assertPaintedRing (<repo>-post43/tests/test_privacy_browser.js:1449:12)
+      at TestContext.<anonymous> (<repo>-post43/tests/test_privacy_browser.js:1729:7)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:1770:1
+✖ every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage (3445.781167ms)
+  AssertionError [ERR_ASSERTION]: the full ring control at DPR 1.25 paints every pixel of its left side (0/163)
+  
+  0 !== 163
+  
+      at TestContext.<anonymous> (<repo>-post43/tests/test_privacy_browser.js:1889:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 163,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

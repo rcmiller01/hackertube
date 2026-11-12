@@ -1,0 +1,2240 @@
+{
+  "notch": 0.03,
+  "runs": [
+    {
+      "label": "flat surface, full ring",
+      "dpr": 1,
+      "rows": 0,
+      "offset": 0,
+      "gradient": false,
+      "sides": {
+        "left": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 163,
+          "ring_relative": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.72
+        },
+        "right": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 163,
+          "ring_relative": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.72
+        },
+        "top": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 17.72
+        },
+        "bottom": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 17.72
+        }
+      }
+    },
+    {
+      "label": "flat surface, 1px slit, integer offset",
+      "dpr": 1,
+      "rows": 1,
+      "offset": 0,
+      "gradient": false,
+      "sides": {
+        "left": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 163,
+          "ring_relative": {
+            "painted": 162,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 162,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 162,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.72
+        },
+        "right": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 163,
+          "ring_relative": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.72
+        },
+        "top": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 17.72
+        },
+        "bottom": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 17.72
+        }
+      }
+    },
+    {
+      "label": "flat surface, 1px slit, .25px offset",
+      "dpr": 1,
+      "rows": 1,
+      "offset": 0.25,
+      "gradient": false,
+      "sides": {
+        "left": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 163,
+          "ring_relative": {
+            "painted": 161,
+            "partial": 2,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 161,
+            "partial": 2,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.72
+        },
+        "right": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 163,
+          "ring_relative": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.72
+        },
+        "top": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 17.72
+        },
+        "bottom": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 17.72
+        }
+      }
+    },
+    {
+      "label": "flat surface, 1px slit, .5px offset",
+      "dpr": 1,
+      "rows": 1,
+      "offset": 0.5,
+      "gradient": false,
+      "sides": {
+        "left": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 163,
+          "ring_relative": {
+            "painted": 161,
+            "partial": 2,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 161,
+            "partial": 2,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.72
+        },
+        "right": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 163,
+          "ring_relative": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.72
+        },
+        "top": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 17.72
+        },
+        "bottom": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 17.72
+        }
+      }
+    },
+    {
+      "label": "flat surface, 1px slit, .75px offset",
+      "dpr": 1,
+      "rows": 1,
+      "offset": 0.75,
+      "gradient": false,
+      "sides": {
+        "left": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 163,
+          "ring_relative": {
+            "painted": 161,
+            "partial": 2,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 161,
+            "partial": 2,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.72
+        },
+        "right": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 163,
+          "ring_relative": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.72
+        },
+        "top": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 17.72
+        },
+        "bottom": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 17.72
+        }
+      }
+    },
+    {
+      "label": "flat surface, 2px slit",
+      "dpr": 1,
+      "rows": 2,
+      "offset": 0,
+      "gradient": false,
+      "sides": {
+        "left": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 163,
+          "ring_relative": {
+            "painted": 161,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 161,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 161,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.72
+        },
+        "right": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 163,
+          "ring_relative": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.72
+        },
+        "top": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 17.72
+        },
+        "bottom": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 17.72
+        }
+      }
+    },
+    {
+      "label": "flat surface, 5px slit (the old 97% control)",
+      "dpr": 1,
+      "rows": 5,
+      "offset": 0,
+      "gradient": false,
+      "sides": {
+        "left": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 163,
+          "ring_relative": {
+            "painted": 158,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 158,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 158,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.72
+        },
+        "right": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 163,
+          "ring_relative": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.72
+        },
+        "top": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 17.72
+        },
+        "bottom": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 17.72
+        }
+      }
+    },
+    {
+      "label": "flat surface, 3% notch",
+      "dpr": 1,
+      "rows": 5,
+      "offset": 0,
+      "gradient": false,
+      "sides": {
+        "left": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 163,
+          "ring_relative": {
+            "painted": 158,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 158,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 158,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.72
+        },
+        "right": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 163,
+          "ring_relative": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.72
+        },
+        "top": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 17.72
+        },
+        "bottom": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 17.72
+        }
+      }
+    },
+    {
+      "label": "flat surface, full ring at DPR 1.25",
+      "dpr": 1.25,
+      "rows": 0,
+      "offset": 0,
+      "gradient": false,
+      "sides": {
+        "left": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 203,
+          "ring_relative": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "strongest_difference": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "fixed_delta": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "min_painted_contrast": 17.72
+        },
+        "right": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 203,
+          "ring_relative": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "strongest_difference": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "fixed_delta": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "min_painted_contrast": 17.72
+        },
+        "top": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 243,
+          "ring_relative": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "strongest_difference": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "fixed_delta": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "min_painted_contrast": 17.72
+        },
+        "bottom": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 243,
+          "ring_relative": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "strongest_difference": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "fixed_delta": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "min_painted_contrast": 17.72
+        }
+      }
+    },
+    {
+      "label": "flat surface, 1px slit at DPR 1.25, integer offset",
+      "dpr": 1.25,
+      "rows": 1,
+      "offset": 0,
+      "gradient": false,
+      "sides": {
+        "left": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 203,
+          "ring_relative": {
+            "painted": 201,
+            "partial": 1,
+            "total": 203
+          },
+          "strongest_difference": {
+            "painted": 201,
+            "partial": 1,
+            "total": 203
+          },
+          "fixed_delta": {
+            "painted": 202,
+            "partial": 0,
+            "total": 203
+          },
+          "min_painted_contrast": 17.72
+        },
+        "right": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 203,
+          "ring_relative": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "strongest_difference": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "fixed_delta": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "min_painted_contrast": 17.72
+        },
+        "top": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 243,
+          "ring_relative": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "strongest_difference": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "fixed_delta": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "min_painted_contrast": 17.72
+        },
+        "bottom": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 243,
+          "ring_relative": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "strongest_difference": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "fixed_delta": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "min_painted_contrast": 17.72
+        }
+      }
+    },
+    {
+      "label": "flat surface, 1px slit at DPR 1.25, .5px offset",
+      "dpr": 1.25,
+      "rows": 1,
+      "offset": 0.5,
+      "gradient": false,
+      "sides": {
+        "left": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 203,
+          "ring_relative": {
+            "painted": 201,
+            "partial": 2,
+            "total": 203
+          },
+          "strongest_difference": {
+            "painted": 201,
+            "partial": 2,
+            "total": 203
+          },
+          "fixed_delta": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "min_painted_contrast": 17.72
+        },
+        "right": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 203,
+          "ring_relative": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "strongest_difference": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "fixed_delta": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "min_painted_contrast": 17.72
+        },
+        "top": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 243,
+          "ring_relative": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "strongest_difference": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "fixed_delta": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "min_painted_contrast": 17.72
+        },
+        "bottom": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 243,
+          "ring_relative": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "strongest_difference": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "fixed_delta": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "min_painted_contrast": 17.72
+        }
+      }
+    },
+    {
+      "label": "flat surface, 3% notch at DPR 1.25",
+      "dpr": 1.25,
+      "rows": 5,
+      "offset": 0,
+      "gradient": false,
+      "sides": {
+        "left": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 203,
+          "ring_relative": {
+            "painted": 196,
+            "partial": 2,
+            "total": 203
+          },
+          "strongest_difference": {
+            "painted": 196,
+            "partial": 2,
+            "total": 203
+          },
+          "fixed_delta": {
+            "painted": 198,
+            "partial": 0,
+            "total": 203
+          },
+          "min_painted_contrast": 17.72
+        },
+        "right": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 203,
+          "ring_relative": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "strongest_difference": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "fixed_delta": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "min_painted_contrast": 17.72
+        },
+        "top": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 243,
+          "ring_relative": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "strongest_difference": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "fixed_delta": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "min_painted_contrast": 17.72
+        },
+        "bottom": {
+          "firstSurface": [
+            255,
+            255,
+            255
+          ],
+          "lastSurface": [
+            255,
+            255,
+            255
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 231,
+          "total": 243,
+          "ring_relative": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "strongest_difference": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "fixed_delta": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "min_painted_contrast": 17.72
+        }
+      }
+    },
+    {
+      "label": "gradient surface, full ring",
+      "dpr": 1,
+      "rows": 0,
+      "offset": 0,
+      "gradient": true,
+      "sides": {
+        "left": {
+          "firstSurface": [
+            253,
+            253,
+            253
+          ],
+          "lastSurface": [
+            253,
+            253,
+            253
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 230,
+          "total": 163,
+          "ring_relative": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.42
+        },
+        "right": {
+          "firstSurface": [
+            235,
+            235,
+            235
+          ],
+          "lastSurface": [
+            235,
+            235,
+            235
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 212,
+          "total": 163,
+          "ring_relative": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 14.86
+        },
+        "top": {
+          "firstSurface": [
+            253,
+            253,
+            253
+          ],
+          "lastSurface": [
+            236,
+            236,
+            236
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 229,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 132,
+            "partial": 62,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 15
+        },
+        "bottom": {
+          "firstSurface": [
+            252,
+            252,
+            252
+          ],
+          "lastSurface": [
+            237,
+            237,
+            237
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 229,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 133,
+            "partial": 61,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 15
+        }
+      }
+    },
+    {
+      "label": "gradient surface, 1px slit",
+      "dpr": 1,
+      "rows": 1,
+      "offset": 0,
+      "gradient": true,
+      "sides": {
+        "left": {
+          "firstSurface": [
+            253,
+            253,
+            253
+          ],
+          "lastSurface": [
+            253,
+            253,
+            253
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 230,
+          "total": 163,
+          "ring_relative": {
+            "painted": 162,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 162,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 162,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 17.42
+        },
+        "right": {
+          "firstSurface": [
+            235,
+            235,
+            235
+          ],
+          "lastSurface": [
+            235,
+            235,
+            235
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 212,
+          "total": 163,
+          "ring_relative": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "strongest_difference": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "fixed_delta": {
+            "painted": 163,
+            "partial": 0,
+            "total": 163
+          },
+          "min_painted_contrast": 14.86
+        },
+        "top": {
+          "firstSurface": [
+            253,
+            253,
+            253
+          ],
+          "lastSurface": [
+            236,
+            236,
+            236
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 229,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 132,
+            "partial": 62,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 15
+        },
+        "bottom": {
+          "firstSurface": [
+            252,
+            252,
+            252
+          ],
+          "lastSurface": [
+            237,
+            237,
+            237
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 229,
+          "total": 194,
+          "ring_relative": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "strongest_difference": {
+            "painted": 133,
+            "partial": 61,
+            "total": 194
+          },
+          "fixed_delta": {
+            "painted": 194,
+            "partial": 0,
+            "total": 194
+          },
+          "min_painted_contrast": 15
+        }
+      }
+    },
+    {
+      "label": "gradient surface, full ring at DPR 1.25",
+      "dpr": 1.25,
+      "rows": 0,
+      "offset": 0,
+      "gradient": true,
+      "sides": {
+        "left": {
+          "firstSurface": [
+            254,
+            254,
+            254
+          ],
+          "lastSurface": [
+            254,
+            254,
+            254
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 230,
+          "total": 203,
+          "ring_relative": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "strongest_difference": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "fixed_delta": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "min_painted_contrast": 17.57
+        },
+        "right": {
+          "firstSurface": [
+            236,
+            236,
+            236
+          ],
+          "lastSurface": [
+            236,
+            236,
+            236
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 212,
+          "total": 203,
+          "ring_relative": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "strongest_difference": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "fixed_delta": {
+            "painted": 203,
+            "partial": 0,
+            "total": 203
+          },
+          "min_painted_contrast": 14.86
+        },
+        "top": {
+          "firstSurface": [
+            253,
+            253,
+            253
+          ],
+          "lastSurface": [
+            236,
+            236,
+            236
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 229,
+          "total": 243,
+          "ring_relative": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "strongest_difference": {
+            "painted": 166,
+            "partial": 77,
+            "total": 243
+          },
+          "fixed_delta": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "min_painted_contrast": 15
+        },
+        "bottom": {
+          "firstSurface": [
+            253,
+            253,
+            253
+          ],
+          "lastSurface": [
+            236,
+            236,
+            236
+          ],
+          "ringColour": [
+            24,
+            24,
+            27
+          ],
+          "full": 229,
+          "total": 243,
+          "ring_relative": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "strongest_difference": {
+            "painted": 167,
+            "partial": 76,
+            "total": 243
+          },
+          "fixed_delta": {
+            "painted": 243,
+            "partial": 0,
+            "total": 243
+          },
+          "min_painted_contrast": 15
+        }
+      }
+    }
+  ]
+}

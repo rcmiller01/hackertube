@@ -125,6 +125,13 @@ measured against has moved. The mutation table's failure messages in
 `docs/receipts/post42/README.md` carries the rule as it now ships, with the
 measurement that shows why the fraction could not be kept.
 
+**What #43 changed in this file (dated 2026-11-11).** #43's edits here are this
+note itself, statement 1 (rewritten to state the 95% fraction as this card's own,
+with the shipped 100% rule beside it), and the paragraph in "Item 3" that says the
+97% control still passes under this card's fraction. Every number in those three
+places is unchanged, and the mutation table's verbatim messages are untouched;
+only the rule each is measured against is named, which is what this note is for.
+
 ## Item 4 — the 11.25px is the PLUGIN's own rule (Picasso 4)
 
 `tests/browser_net_harness.js` credited the block-axis padding to "something in

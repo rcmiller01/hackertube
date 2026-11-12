@@ -71,6 +71,35 @@ const THUMB16_9_PNG = Buffer.from(
  * so the measured value still appears in this file exactly once. */
 const CARD_CONTENT_PADDING = ".ht-card-content { padding: 11.25px 15px; }";
 const CARD_CONTENT_PADDING_ZERO = ".ht-card-content { padding: 0; }";
+/* The surface a ring run paints over, as a GRADIENT rather than a flat colour.
+ * A fully painted opaque ring over a gradient was misread as a coverage defect
+ * ("140/163 painted; 23 partly painted") because every pixel was classified
+ * against the side's STRONGEST difference, and a pixel over the lighter end of
+ * the gradient holds less paint than that. `renderOptions.gradientSurface` appends
+ * this block, which paints the compact row's own card content — the box the
+ * compact Watch link's ring is drawn over (measured: the surface behind that ring
+ * is the plain card background, rgb(255,255,255)) — with the gradient the finding
+ * names (#fff to #e8e8e8). The ramp runs ACROSS the content box (90deg) rather
+ * than down it, and that is measured rather than arbitrary:
+ *
+ *   * the compact Watch link sits BELOW the row's header at this width (the three
+ *     parts stack in DOM order below 768px: head, media, rest), so a full-box
+ *     VERTICAL ramp is nearly over by the time the ring is reached — a
+ *     stroke-long slice of it varied only rgb(247,247,247) -> rgb(240,240,240), a
+ *     strongest-difference fraction of 0.973, which is above the 0.95 band and so
+ *     does NOT reproduce the finding;
+ *   * pinning a vertical ramp to the link with a pixel offset or a ramp length
+ *     would hard-code this fixture's own geometry;
+ *   * across the box, the ring's TOP and BOTTOM strokes (193px of the content
+ *     box's 272px, measured at 320px) see rgb(253,253,253) -> rgb(236,236,236),
+ *     a strongest-difference fraction of ~0.93 — under the band, i.e. the
+ *     finding's own shape. The two VERTICAL strokes are uniform on this surface
+ *     and are the passing sides here.
+ *
+ * See `docs/receipts/post43/gap-probe.log` for the measurement. */
+const GRADIENT_SURFACE_CSS = `.ht-card-content {
+  background-image: linear-gradient(90deg, #ffffff, #e8e8e8);
+}`;
 
 const HOST_TOKENS_CSS = `:root {
   --radius: 0.5rem;
@@ -321,6 +350,12 @@ async function startFixture(items, privacyOptions = {}, renderOptions = {}) {
     if (hostCss === HOST_TOKENS_CSS) {
       throw new Error("the fixture's host CardContent padding line is missing; cannot zero it");
     }
+  }
+  // The surface the ring paints over, as the gradient the finding names. The
+  // card content the compact Watch link's ring is drawn over gets the gradient,
+  // so that ring's surface varies along the stroke.
+  if (renderOptions.gradientSurface) {
+    hostCss = hostCss + "\n" + GRADIENT_SURFACE_CSS;
   }
 
   const served = [];

@@ -21,7 +21,7 @@ The regression commit `e2986a7` precedes the runtime fix. With only the final re
 
 Clean original archive: **261 Python tests passed**, **73 JavaScript/browser tests passed**, no JavaScript skips. One existing Starlette/httpx deprecation warning. The original video has SHA-256 `ff380cbb5fea2d50c3978bbffbedb6f4e851ec749059a344f5e9877b4c4e96ce`, matching its receipt. The recorded 36.25-second demo and live-query measurements remain historical evidence for `c691a75`, not a new live-provider run for this fix.
 
-The revised working implementation passes **76 JavaScript/browser tests / 0 failures / 0 skips** and strict OpenSpec. Final exact-commit checks, installation hashes, and disposition are recorded in `docs/receipts/pr18-review/verification.json` after the implementation commit exists. Full original-head and revised logs are kept there or under `/Users/robert/Documents/Codex/2026-11-08/hackertube-pr18-review/`.
+The revised working implementation passes **76 JavaScript/browser tests / 0 failures / 0 skips** and strict OpenSpec. Final exact-commit checks, installation hashes, and disposition are recorded in `docs/receipts/pr18-review/verification.json` after the implementation commit exists. Full original-head and revised logs are kept there or under `<home>/Documents/Codex/2026-11-08/hackertube-pr18-review/`.
 
 Standards: **0 actionable findings**. Specification: **1 P2 finding fixed**. Known in-flight timeout/cancellation, interrupted-job recovery, source-release, public-clone, eligibility/IP, and submission gates remain open as already disclosed; they are not newly closed by this UI change. PR #18 remains draft and unmerged.
 

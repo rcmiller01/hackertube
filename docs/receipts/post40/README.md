@@ -24,6 +24,16 @@ one text-only correction, and the receipts for all of them:
    mutation wrongly, corrected by re-deriving the table at that receipt's own
    head (see "Correction of record" there; every verdict is unchanged).
 
+**Correction of record (post-#43, 2026-11-11).** The changes #43 made to this file
+are editorial and are dated here so the record stays intact: the statement-3
+parenthetical, the section-3 heading and both coverage bullets now point at the
+rule that ships (100% coverage as of post-#42 — every sampled pixel painted,
+`docs/receipts/post42/README.md`) where this revision shipped a 95% painted
+fraction, and the one absolute home path in the clean-profile JSON is written as
+`<hermes-home>/`. No number, verdict or measurement in this receipt moves: every
+count here is `ee6b7c4`'s own and is still correct for the rule it was measured
+against.
+
 ## 1. The ring no longer depends on host padding
 
 The inner `.hackertube` is the clipper: it carries `overflow-x: hidden`, and a

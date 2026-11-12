@@ -1,0 +1,41 @@
+✔ the full card's Watch link and its focus ring stay inside the card, at 320 through 1280, in light and dark (11300.069708ms)
+✔ a compact YouTube row's Watch link focus ring reaches 3:1 against the surface it paints over, in light and dark (10521.394167ms)
+✖ every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage (781.493291ms)
+✖ a fully painted ring over a gradient surface is not read as partly painted (844.590542ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 2
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23485.470917
+
+✖ failing tests:
+
+test at tests/test_privacy_browser.js:1770:1
+✖ every pixel of every side of the ring must be painted: the full ring passes, and a 97% ring or a 1px gap fails as coverage (781.493291ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception: the 1px-gap ring control at a 0px offset fails as a COVERAGE finding, not as a contrast reading
+      at assertCoverageGap (<repo>-post43/tests/test_privacy_browser.js:1874:12)
+      at TestContext.<anonymous> (<repo>-post43/tests/test_privacy_browser.js:1914:7)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/test_privacy_browser.js:1951:1
+✖ a fully painted ring over a gradient surface is not read as partly painted (844.590542ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception: a 1px gap over a gradient surface fails as a COVERAGE finding
+      at TestContext.<anonymous> (<repo>-post43/tests/test_privacy_browser.js:2081:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }
